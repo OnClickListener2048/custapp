@@ -1,0 +1,916 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`快照正确渲染 1`] = `
+<Image
+  accessibilityComponentType={undefined}
+  accessibilityLabel={undefined}
+  accessibilityTraits={undefined}
+  accessible={true}
+  hitSlop={undefined}
+  onLayout={undefined}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  source={1}
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "flexDirection": "column",
+      "height": 1334,
+      "marginBottom": 0,
+      "resizeMode": "cover",
+      "width": 750,
+    }
+  }
+  testID={undefined}
+>
+  <View
+    style={
+      Object {
+        "alignSelf": "stretch",
+        "backgroundColor": "#00000088",
+        "height": 0,
+        "justifyContent": "center",
+        "marginTop": 25,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#ffffff",
+          "textAlign": "center",
+        }
+      }
+    >
+      未检测到网络连接，请确保WIFI或移动网络正常可用。
+    </Text>
+  </View>
+  <Image
+    source={1}
+    style={
+      Array [
+        Object {
+          "alignSelf": "center",
+          "borderColor": "#f9f9f9",
+          "borderWidth": 0,
+          "height": 55,
+          "resizeMode": "contain",
+          "width": 67.5,
+        },
+        Object {
+          "marginTop": 119,
+        },
+      ]
+    }
+  />
+  <View
+    style={
+      Object {
+        "height": 50,
+      }
+    }
+  />
+  <View
+    keyboardVerticalOffset={0}
+    onLayout={[Function]}
+    style={
+      Array [
+        Array [
+          Object {
+            "flex": 1,
+            "justifyContent": "flex-start",
+            "paddingHorizontal": 20,
+            "paddingTop": 0,
+          },
+          Object {
+            "backgroundColor": "white",
+          },
+        ],
+        Object {
+          "paddingBottom": 0,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "height": 40,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "flexDirection": "row",
+          "height": 44,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "alignSelf": "center",
+            "marginBottom": 2,
+            "marginRight": 0,
+            "resizeMode": "contain",
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "borderBottomColor": "#dcdcdc",
+            "borderBottomWidth": 0.5,
+            "flexDirection": "row",
+            "height": 44,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "width": 219,
+          }
+        }
+      >
+        <TextInput
+          keyboardType="numeric"
+          maxLength={11}
+          onChangeText={[Function]}
+          placeholder="手机号码"
+          placeholderTextColor="#c8c8c8"
+          returnKeyType="next"
+          style={
+            Object {
+              "color": "#ef0c35",
+              "flex": 1,
+              "fontSize": 14,
+              "marginLeft": 0,
+              "padding": 0,
+              "width": 219,
+            }
+          }
+          underlineColorAndroid="transparent"
+          value=""
+        />
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "flexDirection": "row",
+          "height": 44,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "alignSelf": "center",
+            "marginBottom": 2,
+            "marginRight": 0,
+            "resizeMode": "contain",
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "borderBottomColor": "#dcdcdc",
+            "borderBottomWidth": 0.5,
+            "flexDirection": "row",
+            "height": 44,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "width": 219,
+          }
+        }
+      >
+        <TextInput
+          editable={false}
+          keyboardType="numeric"
+          maxLength={6}
+          onBlur={[Function]}
+          onChangeText={[Function]}
+          onSubmitEditing={[Function]}
+          placeholder="短信验证码"
+          placeholderTextColor="#c8c8c8"
+          returnKeyType="done"
+          secureTextEntry={false}
+          style={
+            Object {
+              "alignSelf": "center",
+              "color": "#ef0c35",
+              "flex": 1,
+              "fontSize": 14,
+              "height": 30,
+              "marginLeft": 0,
+              "padding": 0,
+              "width": 74,
+            }
+          }
+          underlineColorAndroid="transparent"
+          value=""
+        />
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "backgroundColor": "#c8c8c8",
+              "height": 15,
+              "marginRight": 1,
+              "width": 1,
+            }
+          }
+        />
+        <View
+          accessibilityComponentType={undefined}
+          accessibilityLabel={undefined}
+          accessibilityTraits={undefined}
+          accessible={true}
+          hitSlop={undefined}
+          isTVSelectable={true}
+          onLayout={undefined}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          testID={undefined}
+          tvParallaxProperties={undefined}
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "flex-end",
+                  "height": 44,
+                  "justifyContent": "center",
+                  "width": 70,
+                },
+                Object {
+                  "alignSelf": "flex-end",
+                  "height": 44,
+                  "marginRight": 0,
+                  "width": 70,
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "fontSize": 12,
+                  },
+                  Object {
+                    "alignSelf": "flex-end",
+                    "color": "#ef0c35",
+                  },
+                  Object {
+                    "color": "#c8c8c8",
+                  },
+                ]
+              }
+              textAlign="right"
+            >
+              获取验证码
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "flexDirection": "row",
+            "height": 44,
+            "justifyContent": "center",
+          },
+          Object {
+            "marginTop": 2,
+          },
+        ]
+      }
+    >
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        hitSlop={undefined}
+        isTVSelectable={true}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignSelf": "center",
+            "opacity": 1,
+          }
+        }
+        testID={undefined}
+        tvParallaxProperties={undefined}
+      >
+        <Image
+          source={1}
+          style={
+            Object {
+              "alignSelf": "center",
+              "marginBottom": 2,
+              "marginRight": 0,
+              "resizeMode": "contain",
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderBottomColor": "#dcdcdc",
+              "borderBottomWidth": 0.5,
+              "flexDirection": "row",
+              "height": 44,
+              "justifyContent": "center",
+              "marginLeft": 10,
+              "width": 219,
+            },
+            Object {
+              "borderBottomWidth": 0,
+              "justifyContent": "flex-start",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "alignSelf": "center",
+              "color": "#ef0c35",
+              "fontSize": 12,
+              "marginRight": 1,
+            }
+          }
+        >
+          我已经阅读并同意
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "alignSelf": "center",
+              "color": "#ef0c35",
+              "fontSize": 12,
+              "marginRight": 1,
+              "textDecorationLine": "underline",
+            }
+          }
+        >
+          《噼里啪应用许可协议》
+        </Text>
+      </View>
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "alignSelf": "center",
+            "backgroundColor": "#e6e6e6",
+            "borderRadius": 6,
+            "height": 44,
+            "justifyContent": "center",
+            "margin": 0,
+            "marginTop": 22.5,
+            "width": 250,
+          },
+          Object {
+            "backgroundColor": "#e6e6e6",
+          },
+        ]
+      }
+      testID={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#FFFFFF",
+            "fontSize": 15,
+            "marginBottom": 10,
+            "marginTop": 10,
+            "textAlign": "center",
+          }
+        }
+      >
+        登录
+      </Text>
+    </View>
+  </View>
+</Image>
+`;
+
+exports[`快照正确渲染 2`] = `
+<Image
+  accessibilityComponentType={undefined}
+  accessibilityLabel={undefined}
+  accessibilityTraits={undefined}
+  accessible={true}
+  hitSlop={undefined}
+  mobile="12345678000"
+  onLayout={undefined}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  source={1}
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "flexDirection": "column",
+      "height": 1334,
+      "marginBottom": 0,
+      "resizeMode": "cover",
+      "width": 750,
+    }
+  }
+  testID={undefined}
+>
+  <View
+    style={
+      Object {
+        "alignSelf": "stretch",
+        "backgroundColor": "#00000088",
+        "height": 0,
+        "justifyContent": "center",
+        "marginTop": 25,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#ffffff",
+          "textAlign": "center",
+        }
+      }
+    >
+      未检测到网络连接，请确保WIFI或移动网络正常可用。
+    </Text>
+  </View>
+  <Image
+    source={1}
+    style={
+      Array [
+        Object {
+          "alignSelf": "center",
+          "borderColor": "#f9f9f9",
+          "borderWidth": 0,
+          "height": 55,
+          "resizeMode": "contain",
+          "width": 67.5,
+        },
+        Object {
+          "marginTop": 119,
+        },
+      ]
+    }
+  />
+  <View
+    style={
+      Object {
+        "height": 50,
+      }
+    }
+  />
+  <View
+    keyboardVerticalOffset={0}
+    onLayout={[Function]}
+    style={
+      Array [
+        Array [
+          Object {
+            "flex": 1,
+            "justifyContent": "flex-start",
+            "paddingHorizontal": 20,
+            "paddingTop": 0,
+          },
+          Object {
+            "backgroundColor": "white",
+          },
+        ],
+        Object {
+          "paddingBottom": 0,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "height": 40,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "flexDirection": "row",
+          "height": 44,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "alignSelf": "center",
+            "marginBottom": 2,
+            "marginRight": 0,
+            "resizeMode": "contain",
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "borderBottomColor": "#dcdcdc",
+            "borderBottomWidth": 0.5,
+            "flexDirection": "row",
+            "height": 44,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "width": 219,
+          }
+        }
+      >
+        <TextInput
+          keyboardType="numeric"
+          maxLength={11}
+          onChangeText={[Function]}
+          placeholder="手机号码"
+          placeholderTextColor="#c8c8c8"
+          returnKeyType="next"
+          style={
+            Object {
+              "color": "#ef0c35",
+              "flex": 1,
+              "fontSize": 14,
+              "marginLeft": 0,
+              "padding": 0,
+              "width": 219,
+            }
+          }
+          underlineColorAndroid="transparent"
+          value=""
+        />
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "flexDirection": "row",
+          "height": 44,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "alignSelf": "center",
+            "marginBottom": 2,
+            "marginRight": 0,
+            "resizeMode": "contain",
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "borderBottomColor": "#dcdcdc",
+            "borderBottomWidth": 0.5,
+            "flexDirection": "row",
+            "height": 44,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "width": 219,
+          }
+        }
+      >
+        <TextInput
+          editable={false}
+          keyboardType="numeric"
+          maxLength={6}
+          onBlur={[Function]}
+          onChangeText={[Function]}
+          onSubmitEditing={[Function]}
+          placeholder="短信验证码"
+          placeholderTextColor="#c8c8c8"
+          returnKeyType="done"
+          secureTextEntry={false}
+          style={
+            Object {
+              "alignSelf": "center",
+              "color": "#ef0c35",
+              "flex": 1,
+              "fontSize": 14,
+              "height": 30,
+              "marginLeft": 0,
+              "padding": 0,
+              "width": 74,
+            }
+          }
+          underlineColorAndroid="transparent"
+          value=""
+        />
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "backgroundColor": "#c8c8c8",
+              "height": 15,
+              "marginRight": 1,
+              "width": 1,
+            }
+          }
+        />
+        <View
+          accessibilityComponentType={undefined}
+          accessibilityLabel={undefined}
+          accessibilityTraits={undefined}
+          accessible={true}
+          hitSlop={undefined}
+          isTVSelectable={true}
+          onLayout={undefined}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          testID={undefined}
+          tvParallaxProperties={undefined}
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "flex-end",
+                  "height": 44,
+                  "justifyContent": "center",
+                  "width": 70,
+                },
+                Object {
+                  "alignSelf": "flex-end",
+                  "height": 44,
+                  "marginRight": 0,
+                  "width": 70,
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "fontSize": 12,
+                  },
+                  Object {
+                    "alignSelf": "flex-end",
+                    "color": "#ef0c35",
+                  },
+                  Object {
+                    "color": "#c8c8c8",
+                  },
+                ]
+              }
+              textAlign="right"
+            >
+              获取验证码
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "flexDirection": "row",
+            "height": 44,
+            "justifyContent": "center",
+          },
+          Object {
+            "marginTop": 2,
+          },
+        ]
+      }
+    >
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        hitSlop={undefined}
+        isTVSelectable={true}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignSelf": "center",
+            "opacity": 1,
+          }
+        }
+        testID={undefined}
+        tvParallaxProperties={undefined}
+      >
+        <Image
+          source={1}
+          style={
+            Object {
+              "alignSelf": "center",
+              "marginBottom": 2,
+              "marginRight": 0,
+              "resizeMode": "contain",
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderBottomColor": "#dcdcdc",
+              "borderBottomWidth": 0.5,
+              "flexDirection": "row",
+              "height": 44,
+              "justifyContent": "center",
+              "marginLeft": 10,
+              "width": 219,
+            },
+            Object {
+              "borderBottomWidth": 0,
+              "justifyContent": "flex-start",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "alignSelf": "center",
+              "color": "#ef0c35",
+              "fontSize": 12,
+              "marginRight": 1,
+            }
+          }
+        >
+          我已经阅读并同意
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "alignSelf": "center",
+              "color": "#ef0c35",
+              "fontSize": 12,
+              "marginRight": 1,
+              "textDecorationLine": "underline",
+            }
+          }
+        >
+          《噼里啪应用许可协议》
+        </Text>
+      </View>
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "alignSelf": "center",
+            "backgroundColor": "#e6e6e6",
+            "borderRadius": 6,
+            "height": 44,
+            "justifyContent": "center",
+            "margin": 0,
+            "marginTop": 22.5,
+            "width": 250,
+          },
+          Object {
+            "backgroundColor": "#e6e6e6",
+          },
+        ]
+      }
+      testID={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#FFFFFF",
+            "fontSize": 15,
+            "marginBottom": 10,
+            "marginTop": 10,
+            "textAlign": "center",
+          }
+        }
+      >
+        登录
+      </Text>
+    </View>
+  </View>
+</Image>
+`;

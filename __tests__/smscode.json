@@ -1,0 +1,9 @@
+{
+  "success": false,
+  "code": 500,
+  "msg": "输入4位图形验证码",
+  "data": {
+    "verify": "x-crm.i-counting.cn:8081/app/v0/user/vcode/get",
+    "verifyText": "输入4位图形验证码"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "react-native-sww-activity-indicator",
+        "scope": null,
+        "escapedName": "react-native-sww-activity-indicator",
+        "name": "react-native-sww-activity-indicator",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/beansoft/Documents/git/pilipa/corpapp"
+    ]
+  ],
+  "_from": "react-native-sww-activity-indicator@latest",
+  "_id": "react-native-sww-activity-indicator@1.0.4",
+  "_inCache": true,
+  "_location": "/react-native-sww-activity-indicator",
+  "_nodeVersion": "6.8.0",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/react-native-sww-activity-indicator-1.0.4.tgz_1477281612886_0.0839861617423594"
+  },
+  "_npmUser": {
+    "name": "shiwenwen",
+    "email": "s13731984233@163.com"
+  },
+  "_npmVersion": "3.10.8",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "react-native-sww-activity-indicator",
+    "scope": null,
+    "escapedName": "react-native-sww-activity-indicator",
+    "name": "react-native-sww-activity-indicator",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-sww-activity-indicator/-/react-native-sww-activity-indicator-1.0.4.tgz",
+  "_shasum": "f6f031f6f40d031d7a960e8a9bf15dbb2fc770d8",
+  "_shrinkwrap": null,
+  "_spec": "react-native-sww-activity-indicator",
+  "_where": "/Users/beansoft/Documents/git/pilipa/corpapp",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/shiwenwen/react-native-sww-activity-indicator/issues"
+  },
+  "dependencies": {
+    "react-timer-mixin": "^0.13.3"
+  },
+  "description": "react native ActivityIndicator like component, pure javascript solution",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "f6f031f6f40d031d7a960e8a9bf15dbb2fc770d8",
+    "tarball": "https://registry.npmjs.org/react-native-sww-activity-indicator/-/react-native-sww-activity-indicator-1.0.4.tgz"
+  },
+  "gitHead": "ed052e413dabe1921f78b5957a8f56cc22f61508",
+  "homepage": "https://github.com/shiwenwen/react-native-sww-activity-indicator#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "shiwenwen",
+      "email": "s13731984233@163.com"
+    }
+  ],
+  "name": "react-native-sww-activity-indicator",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiwenwen/react-native-sww-activity-indicator.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.4"
+}
