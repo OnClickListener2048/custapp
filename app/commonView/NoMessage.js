@@ -23,6 +23,7 @@ export default class NoMessage extends Component{
     };
 
     render() {
+        //提交测试
         return(
                <View style={styles.noMessageContainer}>
                     <Image style={styles.noMessageImg}
