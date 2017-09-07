@@ -8,7 +8,16 @@ import registerScreens from './screens';
 registerScreens();
 
 // 主标签
-const tabsMain = [{
+const tabsMain = [
+    {
+        label: '主页',
+        screen: 'MessageCenterPage',
+        icon: require('./img/message.png'),
+        selectedIcon: require('./img/message_red.png'),
+        title: '消息中心',
+        navigatorStyle
+    },
+    {
     label: '消息',
     screen: 'MessageCenterPage',
     icon: require('./img/message.png'),
@@ -16,7 +25,7 @@ const tabsMain = [{
     title: '消息中心',
     navigatorStyle
 }, {
-    label: '应用',
+    label: '服务',
     screen: 'ApplicationCenterPage',
     icon: require('./img/application.png'),
     selectedIcon: require('./img/application_red.png'),
