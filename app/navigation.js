@@ -1,7 +1,6 @@
-
 import {Navigation} from 'react-native-navigation';
 
-import {DEFAULT_NAVIGATOR_STYLE as navigatorStyle, tabsStyle, appStyle } from './config';
+import {DEFAULT_NAVIGATOR_STYLE as navigatorStyle, tabsStyle, appStyle} from './config';
 import registerScreens from './screens';
 
 // screen related book keeping
@@ -18,20 +17,20 @@ const tabsMain = [
         navigatorStyle
     },
     {
-    label: '消息',
-    screen: 'MessageCenterPage',
-    icon: require('./img/message.png'),
-    selectedIcon: require('./img/message_red.png'),
-    title: '消息中心',
-    navigatorStyle
-}, {
-    label: '服务',
-    screen: 'ApplicationCenterPage',
-    icon: require('./img/application.png'),
-    selectedIcon: require('./img/application_red.png'),
-    title: '应用中心',
-    navigatorStyle
-},
+        label: '消息',
+        screen: 'MessageCenterPage',
+        icon: require('./img/message.png'),
+        selectedIcon: require('./img/message_red.png'),
+        title: '消息中心',
+        navigatorStyle
+    }, {
+        label: '服务',
+        screen: 'ApplicationCenterPage',
+        icon: require('./img/application.png'),
+        selectedIcon: require('./img/application_red.png'),
+        title: '应用中心',
+        navigatorStyle
+    },
     {
         label: '我的',
         screen: 'Mine',
