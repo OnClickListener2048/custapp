@@ -9,36 +9,35 @@ registerScreens();
 // 主标签
 const tabsMain = [
     {
-        label: '主页',
-        screen: 'MessageCenterPage',
+        label: '首页',
+        screen: 'HomePage',
         icon: require('./img/message.png'),
         selectedIcon: require('./img/message_red.png'),
-        title: '消息中心',
+        title: '首页',
         navigatorStyle
     },
     {
         label: '消息',
-        screen: 'MessageCenterPage',
+        screen: 'MessagePage',
         icon: require('./img/message.png'),
         selectedIcon: require('./img/message_red.png'),
-        title: '消息中心',
+        title: '消息',
         navigatorStyle
     }, {
         label: '服务',
-        screen: 'ApplicationCenterPage',
-        icon: require('./img/application.png'),
-        selectedIcon: require('./img/application_red.png'),
-        title: '应用中心',
+        screen: 'ServicePage',
+        icon: require('./img/message.png'),
+        selectedIcon: require('./img/message_red.png'),
+        title: '服务',
         navigatorStyle
     },
     {
         label: '我的',
-        screen: 'Mine',
-        icon: require('./img/account.png'),
-        selectedIcon: require('./img/account_red.png'),
+        screen: 'MinePage',
+        icon: require('./img/message.png'),
+        selectedIcon: require('./img/message_red.png'),
         title: '我的',
         navigatorStyle,
-        // navigatorButtons: {}
     }
 ];
 
