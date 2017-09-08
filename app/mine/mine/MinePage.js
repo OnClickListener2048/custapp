@@ -16,7 +16,7 @@ export default class MinePage extends Component {
         )
     }
     login(){
-        // loginJumpSingleton.goToLogin(this.props.navigator);
+        loginJumpSingleton.goToLogin(this.props.navigator);
 
     }
 }

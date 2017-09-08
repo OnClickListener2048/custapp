@@ -36,7 +36,7 @@ export default class LoginJumpSingleton {
             // navigator.push
             Navigation.showModal
             ({
-                screen: 'user.LoginPage',
+                screen: 'LoginPage',
                 backButtonTitle: '', // 返回按钮的文字 (可选)
                 // backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                 overrideBackPress: true, // 覆盖Android返回键
