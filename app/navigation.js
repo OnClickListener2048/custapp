@@ -59,7 +59,7 @@ const tabsMain = [
 export function navToLogin({isReset = false} = {}) {
     Navigation.startSingleScreenApp({
         screen: {
-            screen: 'user.LoginPage',
+            screen: 'LoginPage',
         },
         passProps: {
             isReset,

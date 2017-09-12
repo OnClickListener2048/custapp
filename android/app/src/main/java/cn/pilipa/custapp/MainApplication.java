@@ -20,7 +20,7 @@ import com.tencent.bugly.beta.Beta;
 
 import java.util.Arrays;
 import java.util.List;
-
+import com.theweflex.react.WeChatPackage;
 public class MainApplication extends NavigationApplication {
     // 设置为 true 将不弹出 toast
     private boolean SHUTDOWN_TOAST = true;
@@ -54,7 +54,8 @@ public class MainApplication extends NavigationApplication {
                 new VectorIconsPackage(),
                 new BlurViewPackage(),
                 new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG),
-                new UmengReactPackage()
+                new UmengReactPackage(),
+                new WeChatPackage()
         );
     }
 

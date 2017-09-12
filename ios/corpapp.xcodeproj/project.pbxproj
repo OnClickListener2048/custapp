@@ -43,6 +43,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* corpappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* corpappTests.m */; };
 		35BFB7DB03514790937103A0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B80FA943F36647FB91972A89 /* CoreGraphics.framework */; };
 		3D02EE5B46134FCEA3432D97 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40C8A4E4C39249C3A0FD4352 /* FontAwesome.ttf */; };
+		4C4DE59F1F67E31700FFA149 /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4DE58A1F67E1CC00FFA149 /* libRCTWeChat.a */; };
 		4CB73ED81F429BD70018C00A /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB73ED71F429BD70018C00A /* UMMobClick.framework */; };
 		4CB73EDE1F429BF40018C00A /* UMNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB73EDD1F429BF40018C00A /* UMNative.m */; };
 		4CB73EE01F429D120018C00A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB73EDF1F429D120018C00A /* libsqlite3.tbd */; };
@@ -241,6 +242,20 @@
 			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
 			remoteInfo = "jschelpers-tvOS";
 		};
+		4C4DE5891F67E1CC00FFA149 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C4DE56F1F67E1CC00FFA149 /* RCTWeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 86D238421BD0BB9E00C75D01;
+			remoteInfo = RCTWeChat;
+		};
+		4C4DE58B1F67E1CC00FFA149 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C4DE56F1F67E1CC00FFA149 /* RCTWeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 10D6D7A41F160C250066F0F3;
+			remoteInfo = RCTWeChatTests;
+		};
 		4CE319241F5D6BEC00C8A023 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -412,6 +427,7 @@
 		445F39BCF10344A3B0B679B4 /* libresolv.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		4609ED98B60D46B6BA3770EC /* libRCTBEEPickerManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBEEPickerManager.a; sourceTree = "<group>"; };
 		47E94947C4FD49238EBD9AF5 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
+		4C4DE56F1F67E1CC00FFA149 /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../node_modules/react-native-wechat/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
 		4CB73ED71F429BD70018C00A /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		4CB73EDC1F429BF40018C00A /* UMNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMNative.h; sourceTree = "<group>"; };
 		4CB73EDD1F429BF40018C00A /* UMNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMNative.m; sourceTree = "<group>"; };
@@ -464,6 +480,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C4DE59F1F67E31700FFA149 /* libRCTWeChat.a in Frameworks */,
 				4CB73EE01F429D120018C00A /* libsqlite3.tbd in Frameworks */,
 				4CB73ED81F429BD70018C00A /* UMMobClick.framework in Frameworks */,
 				CC2CC0991F31EB340095871E /* libZTAlertView.a in Frameworks */,
@@ -644,6 +661,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4C4DE5701F67E1CC00FFA149 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C4DE58A1F67E1CC00FFA149 /* libRCTWeChat.a */,
+				4C4DE58C1F67E1CC00FFA149 /* RCTWeChatTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -675,6 +701,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4C4DE56F1F67E1CC00FFA149 /* RCTWeChat.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -1035,6 +1062,10 @@
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 				},
 				{
+					ProductGroup = 4C4DE5701F67E1CC00FFA149 /* Products */;
+					ProjectRef = 4C4DE56F1F67E1CC00FFA149 /* RCTWeChat.xcodeproj */;
+				},
+				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
@@ -1219,6 +1250,20 @@
 			fileType = archive.ar;
 			path = libjschelpers.a;
 			remoteRef = 3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C4DE58A1F67E1CC00FFA149 /* libRCTWeChat.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTWeChat.a;
+			remoteRef = 4C4DE5891F67E1CC00FFA149 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C4DE58C1F67E1CC00FFA149 /* RCTWeChatTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RCTWeChatTests.xctest;
+			remoteRef = 4C4DE58B1F67E1CC00FFA149 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4CE319251F5D6BEC00C8A023 /* libthird-party.a */ = {

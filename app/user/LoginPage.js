@@ -206,10 +206,26 @@ export default class LoginPage extends Component {
                     let msg = e.msg;
                     if(msg !== undefined) {
                         if(!msg.includes("图形验证码")) {
-                            Alert.alert(msg);
+                            Alert.alert('', msg,
+                                [
+                                    {
+                                        text: '确定',
+                                        onPress: () => {
+
+                                        },
+                                    },]
+                                , {isSquare:true},{cancelable: true});
                         }
                     } else {
-                        Alert.alert('短信验证码获取失败' );
+                        Alert.alert('', '短信验证码获取失败',
+                            [
+                                {
+                                    text: '确定',
+                                    onPress: () => {
+
+                                    },
+                                },]
+                            , {isSquare:true},{cancelable: true});
                     }
                     try {
                         if (e.data !== undefined && e.data.verifyText !== null && e.data.verify !== null) {
@@ -285,13 +301,10 @@ export default class LoginPage extends Component {
                                 {
                                     text: '确定',
                                     onPress: () => {
-                                        // this.focusField('vCodeInput');
-                                        // if(!this.refs.vCodeInput.isFocused()) {
-                                        //     this.refs.vCodeInput.focus();
-                                        // }
+
                                     },
                                 },]
-                            , {cancelable: true});
+                            , {isSquare:true},{cancelable: true});
                     }
                     this._doChangeVCode();
                 }
@@ -349,7 +362,7 @@ export default class LoginPage extends Component {
                                 this.focusField('smsCodeInput');
                             },
                         },]
-                    , {cancelable: false});
+                    ,  {isSquare:true},{cancelable: false});
             },
         );
     }
