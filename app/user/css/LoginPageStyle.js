@@ -18,14 +18,14 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         borderColor: "#f9f9f9",
         alignSelf: 'center',
-        width: px2dp(135),
-        height: px2dp(110)
+        width: 180,
+        height: 64
     },
 
     // phone input box
     textInputContainer: {
         height: px2dp(88),
-        // width: SCREEN_WIDTH,
+        width: SCREEN_WIDTH,
         backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent:'center'
@@ -34,14 +34,14 @@ const styles = StyleSheet.create({
     // phone input box
     textInputWrapper: {
         height: px2dp(88),
-        width: px2dp(438),
+        width: 310,
+        marginRight:30,
         borderBottomColor: '#dcdcdc',
         borderBottomWidth: 0.5,
         backgroundColor: 'transparent',
         // position: 'relative',
-        marginLeft: px2dp(20),
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
     },
 
     // 输入框之前的logo图标
@@ -96,11 +96,10 @@ const styles = StyleSheet.create({
     textInput: {
         flex: 1,
         width: px2dp(438),
-        fontSize: 15,
         marginLeft: px2dp(0),
         padding: 0,
         fontSize: px2dp(28),
-        color: '#ef0c35',
+        color: '#6a6a6a',
     },
 
     codeInput: {
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
         marginLeft: px2dp(0),
         padding: 0,
         fontSize: px2dp(28),
-        color: '#ef0c35',
+        color: '#6A6A6A',
         alignSelf: 'center',
     },
 
@@ -170,7 +169,27 @@ const styles = StyleSheet.create({
     bottombtn: {
         fontSize: 15,
         color: '#1DBAF1',
+    },
+    wechart_text:{
+        flexDirection:'row',
+        width: SCREEN_WIDTH,
+        justifyContent:'space-around',
+        marginTop:10
+    },
+    line:{
+        borderBottomColor:'#ececec',
+        borderBottomWidth: 0.5,
+        backgroundColor:'transparent',
+        marginLeft:30,
+        marginRight:30,
+        marginTop:10
+    },
+    wechart_icon:{
+        resizeMode: "contain",
+        alignSelf: 'center',
+        marginHorizontal:10
     }
+
 });
 
 export default styles;

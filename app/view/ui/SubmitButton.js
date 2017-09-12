@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
     buttonView: {
         backgroundColor: '#e6e6e6',
         margin: 0,
-        borderRadius: 6,
+        borderRadius: 22,
         justifyContent: 'center',
         alignSelf: 'center',
         height: px2dp(88),
-        width: px2dp(500),
+        width: px2dp(600),
         marginTop: px2dp(45),
         borderWidth: 0,
     },
@@ -41,11 +41,11 @@ const styles = StyleSheet.create({
     buttonViewEnabled: {
         backgroundColor: '#ef0c35',
         margin: 0,
-        borderRadius: 6,
+        borderRadius: 22,
         justifyContent: 'center',
         alignSelf: 'center',
         height: px2dp(88),
-        width: px2dp(500),
+        width: px2dp(600),
         marginTop: px2dp(45),
         borderWidth: 0,
     },
@@ -53,11 +53,11 @@ const styles = StyleSheet.create({
     buttonEnableView: {
         backgroundColor: '#e6e6e6',
         margin: 0,
-        borderRadius: 6,
+        borderRadius: 22,
         justifyContent: 'center',
         alignSelf: 'center',
         height: px2dp(88),
-        width: px2dp(500),
+        width: px2dp(600),
         marginTop: px2dp(45)
     },
 

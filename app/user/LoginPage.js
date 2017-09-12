@@ -403,7 +403,7 @@ export default class LoginPage extends Component {
     render() {
         return (
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
-                <Image source={require('../img/bg.png')} style={commonStyles.fullScreen}>
+                <Image  style={commonStyles.fullScreen}>
                     {/* 导航栏 */}
                     {/*<CommunalNavBar*/}
                     {/*leftItem={() => this.renderLeftItem()}*/}
@@ -420,24 +420,22 @@ export default class LoginPage extends Component {
                             height: 25
                         }}
                     />
+                    <View style={{height:20}}/>
 
-                    <Image source={require('../img/logo_white.png')}  style={[styles.bzLogo,
+                    <Image source={require('../img/login_icon.png')}  style={[styles.bzLogo,
                         {marginTop: px2dp(this.state.headPad)}]} />
 
-                    <View style={{height: px2dp(100),}}/>
                     <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
                         {backgroundColor: 'white'}]}
                                           keyboardVerticalOffset={0}>
-                        <View style={{height: 40,}}/>
+                        <View style={{height: 60}}/>
                         {/*   手机号 */}
                         <View style={styles.textInputContainer}>
-                            <Image source={ this.state.mobileNotEmpty ? require('../img/account_red.png') :
-                                require('../img/account.png')} style={styles.inputLogo}/>
 
                             <View style={styles.textInputWrapper}>
                                 <TextInput underlineColorAndroid='transparent' maxLength={11}
                                            keyboardType='numeric' value={this.state.mobile}
-                                           placeholderTextColor='#c8c8c8'
+                                           placeholderTextColor='#BABABA'
                                            style={styles.textInput} placeholder='手机号码' returnKeyType='next'
                                            onChangeText={
                                                (mobile) => {
@@ -451,9 +449,6 @@ export default class LoginPage extends Component {
                         {this.state.verifyText !== null && this.state.verifyText.length > 0 &&
 
                         <View style={styles.textInputContainer}>
-                            <Image
-                                source={ require('../img/icon_123.png') }
-                                style={styles.inputLogo}/>
 
                             <View style={styles.textInputWrapper}>
                                 <TextInput underlineColorAndroid='transparent'
@@ -462,8 +457,8 @@ export default class LoginPage extends Component {
                                            value={this.state.vCode}
                                            editable={this.state.mobileValid}
                                            secureTextEntry={false} maxLength={4} keyboardType='default'
-                                           style={styles.codeInput} placeholder={this.state.verifyText}
-                                           placeholderTextColor='#c8c8c8'
+                                           style={styles.codeInput} placeholder='图形验证'
+                                           placeholderTextColor='#BABABA'
                                            returnKeyType='done'
                                            onChangeText={(vCode) => {
                                                this.setState({vCode})
@@ -498,10 +493,6 @@ export default class LoginPage extends Component {
 
                         {/*  短信验证码 */}
                         <View style={styles.textInputContainer}>
-                            <Image
-                                source={ this.state.smsCodeValid ? require('../img/d123_red.png') :
-                                    require('../img/d123.png')}
-                                style={styles.inputLogo}/>
 
                             <View style={styles.textInputWrapper}>
                                 <TextInput underlineColorAndroid='transparent'
@@ -509,8 +500,8 @@ export default class LoginPage extends Component {
                                            ref="smsCodeInput"
                                            editable={this.state.mobileValid && this.state.vCodeServerValid && this.state.timerButtonClicked}
                                            secureTextEntry={false} maxLength={6} keyboardType='numeric'
-                                           style={styles.codeInput} placeholder='短信验证码'
-                                           placeholderTextColor='#c8c8c8'
+                                           style={styles.codeInput} placeholder='短信验证'
+                                           placeholderTextColor='#BABABA'
                                            returnKeyType='done'
                                            onChangeText={(smsCode) => {
                                                this.setState({smsCode})
@@ -541,7 +532,7 @@ export default class LoginPage extends Component {
                                 <TimerButton enable={this.state.mobileValid && this.state.vCodeServerValid }
                                              ref="timerButton"
                                              style={{width: 70, marginRight: 0, height: 44, alignSelf: 'flex-end',}}
-                                             textStyle={{color: '#ef0c35', alignSelf: 'flex-end'}}
+                                             textStyle={{color: '#6A6A6A', alignSelf: 'flex-end'}}
                                              timerCount={80}
                                              onClick={(shouldStartCountting) => {
                                                  shouldStartCountting(true);
@@ -561,28 +552,24 @@ export default class LoginPage extends Component {
                                 console.log('_acceptLic', _acceptLic);
                                 this.setState({acceptLic: _acceptLic});
                             }}>
-                                <Image
-                                    source={ this.state.acceptLic ? require('../img/choose_red.png') :
-                                        require('../img/choose.png')}
-                                    style={styles.inputLogo}/>
                             </TouchableOpacity>
                             <View style={[styles.textInputWrapper,
                                 {justifyContent: 'flex-start', borderBottomWidth: 0}]}>
                                 <Text style={{
-                                    color: ( this.state.acceptLic ? '#ef0c35' : '#c8c8c8'),
+                                    color: ( this.state.acceptLic ? '#BABABA' : '#BABABA'),
                                     alignSelf: 'center',
                                     marginRight: 1,
                                     fontSize: 12
                                 }}
-                                >我已经阅读并同意</Text>
+                                >点击登录即视为同意</Text>
                                 <Text style={{
-                                    color: ( this.state.acceptLic ? '#ef0c35' : '#c8c8c8'),
+                                    color: ( this.state.acceptLic ? '#BABABA' : '#BABABA'),
                                     fontSize: (Platform.OS === 'ios') ? 12: 11,
                                     alignSelf: 'center',
                                     textDecorationLine: 'underline',
                                     marginRight: 1
                                 }}
-                                >《噼里啪应用许可协议》</Text>
+                                >《用户注册和使用协议》</Text>
                             </View>
 
                         </View>
@@ -601,7 +588,20 @@ export default class LoginPage extends Component {
                         text="登录"
                         />
 
+                        <View style={styles.wechart_text}>
+                            <View style={styles.line}/>
+                            <Text style={styles.wechart_icon} >
+                                第三方登录
+                            </Text>
+                            <View style={styles.line}/>
+
+                        </View>
+                        <View style={styles.wechart_text}>
+                            <Image style={styles.wechart_icon} source={require('../img/wechart.png')}/>
+                        </View>
                     </KeyboardAvoidingView>
+
+
 
 
                 </Image>

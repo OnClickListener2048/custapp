@@ -9,7 +9,7 @@ export default StyleSheet.create({
     fullScreen: {
         height: SCREEN_HEIGHT,
         width: SCREEN_WIDTH,
-        resizeMode: 'cover',// cover stretch
+        // resizeMode: 'cover',// cover stretch
         marginBottom: 0,
         // flex: 1, 不能设置Flex, 否则登录页背景图会随着键盘的弹出变形
         backgroundColor: '#FFFFFF',
