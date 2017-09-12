@@ -4,6 +4,7 @@ import './storage/UserInfoStore';
 import './util/LoginJumpSingleton';
 import './util/NetInfoSingleton';
 import './util/UMTool';
+import './util/DeviceInfo';
 
 import {Navigation} from 'react-native-navigation';
 import { Text } from 'react-native';
