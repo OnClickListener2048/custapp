@@ -26,10 +26,7 @@ export default class HomePage extends Component {
             dataSource:[]
         };
     }
-    static navigatorStyle = {
-        navBarHidden: false, // 隐藏默认的顶部导航栏
-        tabBarHidden: true, // 默认隐藏底部标签栏
-    };
+
     componentDidMount(){
         let dataSource = [];
         for (let i = 0; i<homePageData.data.length;i++){

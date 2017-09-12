@@ -34,6 +34,7 @@
     "react-native-sww-activity-indicator": "^1.0.4",
     "react-native-tab-navigator": "^0.3.3",
     "react-native-vector-icons": "^4.1.1",
+    "react-native-wechat": "^1.9.9",
     "realm": "^1.8.2"
   },
   "devDependencies": {

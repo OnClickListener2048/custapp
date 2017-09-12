@@ -25,7 +25,7 @@
 // with npm ver 2. You'll need to "npm install" with npm 3 (see https://github.com/wix/react-native-navigation/issues/1)
 
 #import "UMMobClick/MobClick.h"
-
+#import <React/RCTLinkingManager.h>
 @implementation AppDelegate
 
 static BOOL isProduction = true;  //填写isProdurion  平时测试时为false ，生产时填写 true
@@ -129,4 +129,14 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
   }
   completionHandler();
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+  return [RCTLinkingManager application:application openURL:url
+                      sourceApplication:sourceApplication annotation:annotation];
+}
+
+
+
 @end

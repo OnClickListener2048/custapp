@@ -8,6 +8,10 @@ import {
 } from 'react-native';
 
 export default class HomeDetailPage extends Component {
+    static navigatorStyle = {
+        navBarHidden: false, // 隐藏默认的顶部导航栏
+        tabBarHidden: true, // 默认隐藏底部标签栏
+    };
     render(){
         return(
             <View>
