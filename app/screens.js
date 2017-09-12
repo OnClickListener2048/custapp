@@ -8,7 +8,7 @@ import HomePage from './home/home/HomePage';
 import MessagePage from './message/message/MessagePage';
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
-
+import HomeDetailPage from './home/detail/HomeDetailPage'
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -17,4 +17,7 @@ export default function () {
     reg('MessagePage', () => MessagePage);
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
+    reg('HomeDetailPage', () => HomeDetailPage);
+
+
 }
