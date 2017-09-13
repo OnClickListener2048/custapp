@@ -16,6 +16,7 @@ export default class MinePage extends Component {
         )
     }
     login(){
+
         loginJumpSingleton.goToLogin(this.props.navigator);
         // let scope = 'snsapi_userinfo';
         // let state = 'wechat_sdk_demo';
