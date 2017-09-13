@@ -17,7 +17,7 @@ import com.facebook.react.ReactPackage;
 //import com.tencent.bugly.Bugly;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
-import com.horcrux.svg.SvgPackage;
+
 import java.util.Arrays;
 import java.util.List;
 import com.theweflex.react.WeChatPackage;
@@ -45,7 +45,6 @@ public class MainApplication extends NavigationApplication {
     public List<ReactPackage> createAdditionalReactPackages() {
         return Arrays.<ReactPackage>asList(
                 //new MainReactPackage(),
-            new SvgPackage(),
                 new PLPAlertPackage(),
                 new PickerViewPackage(),
                 new PickerPackage(),

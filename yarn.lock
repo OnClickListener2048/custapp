@@ -3494,6 +3494,10 @@ npmlog@^4.0.2:
     gauge "~2.7.3"
     set-blocking "~2.0.0"
 
+nt-transmit-transparently@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/nt-transmit-transparently/-/nt-transmit-transparently-1.0.7.tgz#345cf3ffda06ba1bd629935bafac9e7820385076"
+
 nth-check@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/nth-check/-/nth-check-1.0.1.tgz#9929acdf628fc2c41098deab82ac580cf149aae4"
@@ -3915,9 +3919,9 @@ react-dom@16.0.0-alpha.12:
     object-assign "^4.1.0"
     prop-types "^15.5.6"
 
-"react-native-alert@github:pilipa-cn/react-native-alert#v1.0.1":
-  version "1.0.1"
-  resolved "https://codeload.github.com/pilipa-cn/react-native-alert/tar.gz/51db293fe8c521d037b664d108879f07c754e350"
+"react-native-alert@github:pilipa-cn/react-native-alert-cust#v1.0.2":
+  version "1.0.2"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-alert-cust/tar.gz/52408dc58e9ab09ad2b0e975ec9ca4e54b1693ed"
 
 react-native-animatable@^1.1.0, react-native-animatable@^1.2.3:
   version "1.2.3"
