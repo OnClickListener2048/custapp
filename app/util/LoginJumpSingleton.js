@@ -31,6 +31,7 @@ export default class LoginJumpSingleton {
                 return;
             }
 
+
             this.isJumpingLogin = true;
 
             // navigator.push

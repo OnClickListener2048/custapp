@@ -23,7 +23,6 @@ import {
 // import ProgressiveInput from 'react-native-progressive-input';
 // 引入外部文件
 import TimerButton from "../view/TimerButton";
-import commonStyles from '../css/styles';
 import styles from './css/LoginPageStyle';
 import px2dp from '../util'
 import Toast from 'react-native-root-toast';
@@ -73,7 +72,6 @@ export default class LoginPage extends Component {
         };
 
         // this.state.mobile = props.mobile;
-
         this._doLogin = this._doLogin.bind(this);
         this._requestSMSCode = this._requestSMSCode.bind(this);
         this._verifyVCode = this._verifyVCode.bind(this);
@@ -86,10 +84,11 @@ export default class LoginPage extends Component {
         this._goWechat=this._goWechat.bind(this);
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+
     }
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        // console.log('ApplicationCenterPage event.type', event.type);
+        console.log('ApplicationCenterPage event.type', event.type);
         console.log('ApplicationCenterPage event', JSON.stringify(event));
         if(event.id==='backPress'){
             BackAndroid.exitApp();
@@ -426,13 +425,13 @@ export default class LoginPage extends Component {
     render() {
         return (
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
-                <Image  style={commonStyles.fullScreen}>
+
                     {/* 导航栏 */}
                     {/*<CommunalNavBar*/}
                     {/*leftItem={() => this.renderLeftItem()}*/}
                     {/*titleItem={() => this.renderTitleItem()}*/}
                     {/*/>*/}
-
+                <View style={{flex:1,backgroundColor:'white'}}>
                     <InternetStatusView
                         textToDisplay="未检测到网络连接，请确保WIFI或移动网络正常可用。"
                         style={{
@@ -624,11 +623,7 @@ export default class LoginPage extends Component {
 
                     </KeyboardAvoidingView>
 
-
-
-
-
-                </Image>
+                </View>
             </TouchableWithoutFeedback>
         );
     }
