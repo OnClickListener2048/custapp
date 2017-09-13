@@ -426,11 +426,11 @@ export default class LoginPage extends Component {
         return (
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
-                    {/* 导航栏 */}
-                    {/*<CommunalNavBar*/}
-                    {/*leftItem={() => this.renderLeftItem()}*/}
-                    {/*titleItem={() => this.renderTitleItem()}*/}
-                    {/*/>*/}
+                {/* 导航栏 */}
+                {/*<CommunalNavBar*/}
+                {/*leftItem={() => this.renderLeftItem()}*/}
+                {/*titleItem={() => this.renderTitleItem()}*/}
+                {/*/>*/}
                 <View style={{flex:1,backgroundColor:'white'}}>
                     <InternetStatusView
                         textToDisplay="未检测到网络连接，请确保WIFI或移动网络正常可用。"
@@ -505,8 +505,8 @@ export default class LoginPage extends Component {
                                 />
 
                                 <TouchableWithoutFeedback onPress={this._doChangeVCode}>
-                                <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
-                                              source={this.state.picURL}     />
+                                    <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
+                                            source={this.state.picURL}     />
                                 </TouchableWithoutFeedback>
 
                             </View>
@@ -597,17 +597,17 @@ export default class LoginPage extends Component {
                         </View>
 
                         {/*<TouchableWithoutFeedback onPress={this._doLogin}>*/}
-                            {/*<View style={[styles.buttonview,*/}
-                                {/*{*/}
-                                    {/*backgroundColor: (*/}
-                                        {/*(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid  ) ? '#ef0c35' : '#e6e6e6')*/}
-                                {/*}]}>*/}
-                                {/*<Text style={styles.logintext}>登录</Text>*/}
-                            {/*</View>*/}
+                        {/*<View style={[styles.buttonview,*/}
+                        {/*{*/}
+                        {/*backgroundColor: (*/}
+                        {/*(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid  ) ? '#ef0c35' : '#e6e6e6')*/}
+                        {/*}]}>*/}
+                        {/*<Text style={styles.logintext}>登录</Text>*/}
+                        {/*</View>*/}
                         {/*</TouchableWithoutFeedback>*/}
 
                         <SubmitButton onPress={this._doLogin} isEnabled={(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid)}
-                        text="登录"
+                                      text="登录"
                         />
                         <View style={styles.wechart_text}>
                             <View style={styles.line}/>
@@ -617,7 +617,7 @@ export default class LoginPage extends Component {
                             <View style={styles.line}/>
 
                         </View>
-                        <TouchableOpacity style={[styles.wechart_text,{marginTop:20}]} onPress={this._goWechat()}>
+                        <TouchableOpacity style={[styles.wechart_text,{marginTop:20}]} onPress={()=>this._goWechat()}>
                             <Image style={[styles.wechart_icon,{justifyContent:'center'}]} source={require('../img/wechart.png')}/>
                         </TouchableOpacity>
 
