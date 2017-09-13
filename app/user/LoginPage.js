@@ -128,6 +128,13 @@ export default class LoginPage extends Component {
 
     }
 
+
+    back(){
+        Navigation.dismissModal({
+            animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+        });
+    }
+
     // 返回
     pop() {
         // 发送通知
@@ -434,11 +441,9 @@ export default class LoginPage extends Component {
                     {/*titleItem={() => this.renderTitleItem()}*/}
                     {/*/>*/}
                 <View style={{flex:1,backgroundColor:'white'}}>
-                    <View style={[styles.login_back,{height:(Platform.OS === 'ios') ?0:40}]}>
-                        <TouchableOpacity  onPress={()=>{this.pop()}}>
-                            <Image style={[styles.wechart_icon,{justifyContent:'center',marginTop:(Platform.OS === 'ios') ?30:10}]} source={require('../img/login_back.png')}/>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity style={{height:100,width:100,marginTop:Platform.OS==='ios'?30:10,marginLeft:15}} onPress={()=>{this.back()}}>
+                        <Image  source={require('../img/login_back.png')}/>
+                    </TouchableOpacity>
                     <InternetStatusView
                         textToDisplay="未检测到网络连接，请确保WIFI或移动网络正常可用。"
                         style={{
