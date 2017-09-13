@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     textInputWrapper: {
         height: px2dp(88),
         width: 310,
-        marginRight:30,
+        marginRight:15,
+        marginLeft:20,
         borderBottomColor: '#dcdcdc',
         borderBottomWidth: 0.5,
         backgroundColor: 'transparent',
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     },
 
     containerKeyboard: {
-        flex: 1, justifyContent: 'flex-start', paddingHorizontal: 20, paddingTop: 0,
+        flex: 1, justifyContent: 'flex-start', paddingTop: 0,
     },
 
     navBarLeftItemStyle: {
@@ -174,20 +175,25 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         width: SCREEN_WIDTH,
         justifyContent:'space-around',
-        marginTop:10
+        marginTop:15,
+        marginLeft:0
+    },
+    wechart_te:{
+        fontSize:12,
+        color:'#c8c8c8',
     },
     line:{
+        width:100,
         borderBottomColor:'#ececec',
-        borderBottomWidth: 0.5,
+        borderBottomWidth:0.5 ,
         backgroundColor:'transparent',
-        marginLeft:30,
-        marginRight:30,
-        marginTop:10
+        marginLeft:10,
+        marginRight:10,
+        marginTop:0
     },
     wechart_icon:{
         resizeMode: "contain",
         alignSelf: 'center',
-        marginHorizontal:10
     }
 
 });

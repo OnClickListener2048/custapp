@@ -34,6 +34,7 @@ import {Navigation} from 'react-native-navigation';
 import {DEBUG, SCREEN_WIDTH} from '../config';
 import Alert from "react-native-alert";
 import SubmitButton from "../view/ui/SubmitButton";
+import * as WeChat from 'react-native-wechat';
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -68,7 +69,7 @@ export default class LoginPage extends Component {
             vCodeServerValid: true,          // 图片验证码服务端有效
             // timerButtonEnable: false, // 倒计时按钮是否可用
             timerButtonClicked: false,//  倒计时按钮是否已点击
-            headPad: 238,// 顶部的默认空白
+            headPad: 160,// 顶部的默认空白
         };
 
         // this.state.mobile = props.mobile;
@@ -82,6 +83,7 @@ export default class LoginPage extends Component {
         this._keyboardDidHide = this._keyboardDidHide.bind(this);
         this._setupDebug = this._setupDebug.bind(this);
         this.updateMobile = this.updateMobile.bind(this);
+        this._goWechat=this._goWechat.bind(this);
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
@@ -92,6 +94,14 @@ export default class LoginPage extends Component {
         if(event.id==='backPress'){
             BackAndroid.exitApp();
         }
+    }
+
+    _goWechat(){
+        let scope = 'snsapi_userinfo';
+        let state = 'wechat_sdk_demo';
+        WeChat.sendAuthRequest(scope,state).then(res=> {
+            console.log(res)
+        })
     }
 
     //debug only
@@ -186,7 +196,7 @@ export default class LoginPage extends Component {
     _keyboardDidHide () {
         console.log('Keyboard Hidden');
         if(SCREEN_WIDTH < 360) {
-            this.setState({headPad: 238});
+            this.setState({headPad: 160});
         }
     }
 
@@ -214,7 +224,7 @@ export default class LoginPage extends Component {
 
                                         },
                                     },]
-                                , {isSquare:true},{cancelable: true});
+                                ,{cancelable: true});
                         }
                     } else {
                         Alert.alert('', '短信验证码获取失败',
@@ -225,7 +235,7 @@ export default class LoginPage extends Component {
 
                                     },
                                 },]
-                            , {isSquare:true},{cancelable: true});
+                            ,{cancelable: true});
                     }
                     try {
                         if (e.data !== undefined && e.data.verifyText !== null && e.data.verify !== null) {
@@ -304,7 +314,7 @@ export default class LoginPage extends Component {
 
                                     },
                                 },]
-                            , {isSquare:true},{cancelable: true});
+                            , {cancelable: true});
                     }
                     this._doChangeVCode();
                 }
@@ -362,7 +372,7 @@ export default class LoginPage extends Component {
                                 this.focusField('smsCodeInput');
                             },
                         },]
-                    ,  {isSquare:true},{cancelable: false});
+                    ,{cancelable: false});
             },
         );
     }
@@ -600,19 +610,20 @@ export default class LoginPage extends Component {
                         <SubmitButton onPress={this._doLogin} isEnabled={(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid)}
                         text="登录"
                         />
-
                         <View style={styles.wechart_text}>
                             <View style={styles.line}/>
-                            <Text style={styles.wechart_icon} >
+                            <Text style={styles.wechart_te} >
                                 第三方登录
                             </Text>
                             <View style={styles.line}/>
 
                         </View>
-                        <View style={styles.wechart_text}>
-                            <Image style={styles.wechart_icon} source={require('../img/wechart.png')}/>
-                        </View>
+                        <TouchableOpacity style={[styles.wechart_text,{marginTop:20}]} onPress={this._goWechat()}>
+                            <Image style={[styles.wechart_icon,{justifyContent:'center'}]} source={require('../img/wechart.png')}/>
+                        </TouchableOpacity>
+
                     </KeyboardAvoidingView>
+
 
 
 
