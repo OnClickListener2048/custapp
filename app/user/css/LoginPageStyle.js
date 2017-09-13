@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     // phone input box
     textInputWrapper: {
         height: px2dp(88),
-        width: 310,
+        width: SCREEN_WIDTH-65,
         marginRight:15,
         marginLeft:20,
         borderBottomColor: '#dcdcdc',
@@ -183,18 +183,26 @@ const styles = StyleSheet.create({
         color:'#c8c8c8',
     },
     line:{
+        height:1,
         width:100,
         borderBottomColor:'#ececec',
         borderBottomWidth:0.5 ,
         backgroundColor:'transparent',
         marginLeft:10,
         marginRight:10,
-        marginTop:0
+        marginTop:5
     },
     wechart_icon:{
         resizeMode: "contain",
         alignSelf: 'center',
-    }
+    },
+    login_back:{
+        height:0,
+        flexDirection:'row',
+        width: SCREEN_WIDTH,
+        marginTop:5,
+        marginLeft:10
+    },
 
 });
 

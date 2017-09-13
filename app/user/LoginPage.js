@@ -68,7 +68,7 @@ export default class LoginPage extends Component {
             vCodeServerValid: true,          // 图片验证码服务端有效
             // timerButtonEnable: false, // 倒计时按钮是否可用
             timerButtonClicked: false,//  倒计时按钮是否已点击
-            headPad: 160,// 顶部的默认空白
+            headPad: 20,// 顶部的默认空白
         };
 
         // this.state.mobile = props.mobile;
@@ -101,6 +101,7 @@ export default class LoginPage extends Component {
         WeChat.sendAuthRequest(scope,state).then(res=> {
             console.log(res)
         })
+
     }
 
     //debug only
@@ -195,7 +196,7 @@ export default class LoginPage extends Component {
     _keyboardDidHide () {
         console.log('Keyboard Hidden');
         if(SCREEN_WIDTH < 360) {
-            this.setState({headPad: 160});
+            this.setState({headPad: 20});
         }
     }
 
@@ -424,6 +425,7 @@ export default class LoginPage extends Component {
 
     render() {
         return (
+
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
                     {/* 导航栏 */}
@@ -432,6 +434,11 @@ export default class LoginPage extends Component {
                     {/*titleItem={() => this.renderTitleItem()}*/}
                     {/*/>*/}
                 <View style={{flex:1,backgroundColor:'white'}}>
+                    <View style={[styles.login_back,{height:(Platform.OS === 'ios') ?0:40}]}>
+                        <TouchableOpacity  onPress={()=>{this.pop()}}>
+                            <Image style={[styles.wechart_icon,{justifyContent:'center',marginTop:(Platform.OS === 'ios') ?30:10}]} source={require('../img/login_back.png')}/>
+                        </TouchableOpacity>
+                    </View>
                     <InternetStatusView
                         textToDisplay="未检测到网络连接，请确保WIFI或移动网络正常可用。"
                         style={{
@@ -442,7 +449,7 @@ export default class LoginPage extends Component {
                             height: 25
                         }}
                     />
-                    <View style={{height:20}}/>
+                    <View style={{height:50}}/>
 
                     <Image source={require('../img/login_icon.png')}  style={[styles.bzLogo,
                         {marginTop: px2dp(this.state.headPad)}]} />
@@ -450,7 +457,7 @@ export default class LoginPage extends Component {
                     <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
                         {backgroundColor: 'white'}]}
                                           keyboardVerticalOffset={0}>
-                        <View style={{height: 60}}/>
+                        <View style={{height: 40}}/>
                         {/*   手机号 */}
                         <View style={styles.textInputContainer}>
 
@@ -616,13 +623,14 @@ export default class LoginPage extends Component {
                             </Text>
                             <View style={styles.line}/>
 
-                        </View>
-                        <TouchableOpacity style={[styles.wechart_text,{marginTop:20}]} onPress={this._goWechat()}>
+                        </View >
+                        <View style={[styles.wechart_text,{marginTop:20}]}>
+                        <TouchableOpacity  onPress={()=>{this._goWechat()}}>
                             <Image style={[styles.wechart_icon,{justifyContent:'center'}]} source={require('../img/wechart.png')}/>
                         </TouchableOpacity>
+                        </View>
 
                     </KeyboardAvoidingView>
-
                 </View>
             </TouchableWithoutFeedback>
         );
