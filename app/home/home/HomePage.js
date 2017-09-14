@@ -13,7 +13,6 @@ import {
     StyleSheet
 } from 'react-native';
 import homePageData from '../../data/HomePage.json'
-import Swiper from 'react-native-swiper';
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
 const itemMargin = 10
@@ -27,7 +26,7 @@ export default class HomePage extends Component {
         };
     }
     static navigatorStyle = {
-        navBarHidden: false, // 隐藏默认的顶部导航栏
+        navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
     componentDidMount(){
@@ -66,7 +65,10 @@ export default class HomePage extends Component {
                     item.item.map((item, i) => {
                         return(
                             <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
-                                <Text style={{width:itemWidth,marginRight:itemMargin,textAlign:'center'}} >{item.subTitle}</Text>
+                                <View style={{width:itemWidth,height:80,marginRight:itemMargin,justifyContent:'center',alignItems:'center'}}>
+                                    <Image source={require('../../img/account_red.png')}/>
+                                    <Text>{item.subTitle}</Text>
+                                </View>
                             </TouchableOpacity>
                         )
                     })
@@ -77,16 +79,21 @@ export default class HomePage extends Component {
     _listFooterComponent(){
         let arr = ['安全','专业','价优','智能','放心','贴心'];
         return(
-            <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-around'}}>
+            <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap'}}>
                 {
                     arr.map((item,index)=>{
                         return (
-                            <View key={index}>
+                            <View key={index} style={{width:deviceWidth/3,height:50,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                                <Image source={require('../../img/account_red.png')}/>
                                 <Text>{item}</Text>
                             </View>
                         )
                     })
                 }
+                <View style={{width:deviceWidth,height:100,justifyContent:'center',alignItems:'center'}}>
+                    <Text>小企业财税管家</Text>
+                    <Text>热线电话：400-107-0110</Text>
+                </View>
             </View>
         )
     }
@@ -98,18 +105,10 @@ export default class HomePage extends Component {
     _listHeaderComponent(){
         let arr = ['注册公司','记账报税','财务报表','企业变更','加盟合作']
         return(
-            <View style={{width:DeviceInfo.width,height:150}}>
-                <Swiper style={styles.wrapper} >
-                    <View style={styles.slide1}>
-                        <Text style={styles.text}>Hello Swiper</Text>
-                    </View>
-                    <View style={styles.slide2}>
-                        <Text style={styles.text}>Beautiful</Text>
-                    </View>
-                    <View style={styles.slide3}>
-                        <Text style={styles.text}>And simple</Text>
-                    </View>
-                </Swiper>
+            <View style={{width:DeviceInfo.width}}>
+                <View style={{width:deviceWidth,height:100,marginTop:20,backgroundColor:'gray'}}>
+                    <Text>我是核名</Text>
+                </View>
                 <View style={{flexDirection:'row',width:deviceWidth,height:50}}>
                     {
                         arr.map((item,i)=>{

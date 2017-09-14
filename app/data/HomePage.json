@@ -22,7 +22,7 @@
           "subTitle":"内资企业"
         },
         {
-          "subTitle":"外额独资企业"
+          "subTitle":"外资独资"
         }
       ]
     },
@@ -30,18 +30,41 @@
       "title":"记账报税",
       "project":[
         {
-          "subTitle":"一般纳税人记账"
+          "subTitle":"一般纳税"
         },
         {
-          "subTitle":"小规模纳税人记账"
-        },
-        {
-          "subTitle":"申请一般纳税人"
+          "subTitle":"小规模纳税"
         }
       ]
     },
     {
-      "title":" 其他服务",
+      "title":" 企业变更",
+      "project":[
+        {
+          "subTitle":"地址变更"
+        },
+        {
+          "subTitle":"法人变更"
+        },
+        {
+          "subTitle":"股权变更"
+        },
+        {
+          "subTitle":"资金变更"
+        },
+        {
+          "subTitle":"名称变更"
+        },
+        {
+          "subTitle":"经营范围"
+        },
+        {
+          "subTitle":"注册类型"
+        }
+      ]
+    },
+    {
+      "title":"其他服务",
       "project":[
         {
           "subTitle":"审计报告"
@@ -60,32 +83,6 @@
         },
         {
           "subTitle":"工商年检"
-        }
-      ]
-    },
-    {
-      "title":"企业变更",
-      "project":[
-        {
-          "subTitle":"企业变更"
-        },
-        {
-          "subTitle":"法人变更"
-        },
-        {
-          "subTitle":"股权变更"
-        },
-        {
-          "subTitle":"资金变更"
-        },
-        {
-          "subTitle":"名称变更"
-        },
-        {
-          "subTitle":"经营范围变更"
-        },
-        {
-          "subTitle":"注册类型变更"
         }
       ]
     }
