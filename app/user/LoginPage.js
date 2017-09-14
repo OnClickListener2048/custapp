@@ -34,6 +34,7 @@ import {DEBUG, SCREEN_WIDTH} from '../config';
 import Alert from "react-native-alert";
 import SubmitButton from "../view/ui/SubmitButton";
 import * as WeChat from 'react-native-wechat';
+import AdapterUI from '../util/AdapterUI'
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -441,7 +442,7 @@ export default class LoginPage extends Component {
                     {/*titleItem={() => this.renderTitleItem()}*/}
                     {/*/>*/}
                 <View style={{flex:1,backgroundColor:'white'}}>
-                    <TouchableOpacity style={{height:100,width:100,marginTop:Platform.OS==='ios'?30:10,marginLeft:15}} onPress={()=>{this.back()}}>
+                    <TouchableOpacity style={{height:30,width:30,marginTop:Platform.OS==='ios'?30:10,marginLeft:15}} onPress={()=>{this.back()}}>
                         <Image  source={require('../img/login_back.png')}/>
                     </TouchableOpacity>
                     <InternetStatusView
@@ -454,7 +455,6 @@ export default class LoginPage extends Component {
                             height: 25
                         }}
                     />
-                    <View style={{height:50}}/>
 
                     <Image source={require('../img/login_icon.png')}  style={[styles.bzLogo,
                         {marginTop: px2dp(this.state.headPad)}]} />

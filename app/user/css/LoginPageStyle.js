@@ -1,9 +1,11 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import px2dp from '../../util'
 const window = Dimensions.get('window');
+import AdapterUI from '../../util/AdapterUI'
 
 export const SCREEN_HEIGHT = window.height;
 export const SCREEN_WIDTH = window.width;
+
 
 const styles = StyleSheet.create({
     container: {
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
     },
     line:{
         height:1,
-        width:100,
+        width:AdapterUI.getWidth(200),
         borderBottomColor:'#ececec',
         borderBottomWidth:0.5 ,
         backgroundColor:'transparent',
