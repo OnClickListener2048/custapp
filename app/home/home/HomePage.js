@@ -98,8 +98,8 @@ export default class HomePage extends Component {
     _listHeaderComponent(){
         let arr = ['注册公司','记账报税','财务报表','企业变更','加盟合作']
         return(
-            <View>
-                <Swiper style={styles.wrapper} showsButtons={true}>
+            <View style={{width:DeviceInfo.width,height:150}}>
+                <Swiper style={styles.wrapper} >
                     <View style={styles.slide1}>
                         <Text style={styles.text}>Hello Swiper</Text>
                     </View>
@@ -133,6 +133,26 @@ export default class HomePage extends Component {
             screen: 'HomeDetailPage',
             backButtonTitle: '返回', // 返回按钮的文字 (可选)
             backButtonHidden: false, // 是否隐藏返回按钮 (可选)
+            passProps:{
+                detailArr:[
+                    {
+                        title:'有限公司',
+                        url:'https://wx.pilipa.cn/register.html?title=1'
+                    },
+                    {
+                        title:'合伙人企业',
+                        url:'https://wx.pilipa.cn/register.html?title=2'
+                    },
+                    {
+                        title:'个人独资',
+                        url:'https://wx.pilipa.cn/register.html?title=3'
+                    },
+                    {
+                        title:'企业分公司注册',
+                        url:'https://wx.pilipa.cn/register.html?title=4'
+                    }
+                ]
+            }
         });
     }
 
