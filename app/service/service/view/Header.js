@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 
 
-const deviceWidth = Dimensions.get('window').width;
-const col = 5
-
-const itemWidth = deviceWidth/col
-const itemHeight = 80
+// const deviceWidth = Dimensions.get('window').width;
+// const col = 5
+//
+// const itemWidth = deviceWidth/col
+// const itemHeight = 80
 export default class Header extends Component {
 
     static defaultProps = {
@@ -34,7 +34,7 @@ export default class Header extends Component {
                     this.props.btnArr.map((item,index)=>{
                         return(
                             <TouchableOpacity activeOpacity={0.8} key={index} onPress = {this.btnClick.bind(this,index)} disabled ={index>this.props.processIndx}>
-                                <Button title={item} selectIndex={this.props.selectIndex} processIndx={this.props.processIndx} index={index}  />
+                                <Button selectIndex={this.props.selectIndex} processIndx={this.props.processIndx} index={index} btnArr={this.props.btnArr} />
                             </TouchableOpacity>
                         )
                     })
@@ -46,11 +46,20 @@ export default class Header extends Component {
 
 class Button extends Component{
 
+
+    constructor(props) {
+        super(props);
+        this.deviceWidth = DeviceInfo.width;
+        this.col = props.btnArr.length
+        this.itemWidth = this.deviceWidth/this.col
+        this.itemHeight = 80
+    }
+
     static defaultProps = {
-        title:'',
         index:0,
         processIndx:0,
-        selectIndex:0
+        selectIndex:0,
+        btnArr:[]
     };
 
     render(){
@@ -83,15 +92,15 @@ class Button extends Component{
         }
 
         return(
-                <View style={{width:itemWidth,height:itemHeight,alignItems:'center',position:'relative'}}>
+                <View style={{width:this.itemWidth,height:this.itemHeight,alignItems:'center',position:'relative'}}>
                     <View style={[{width:30,height:30,borderRadius:15,marginTop:10,justifyContent:'center',alignItems:'center'},backgroundColor]}>
                         <Text style={[textColor]}>
                             {this.props.index+1}
                         </Text>
                     </View>
-                    <View style={[{width:itemWidth-10,height:30,marginTop:10,justifyContent:'center',alignItems:'center'},backgroundColor]}>
+                    <View style={[{width:this.itemWidth-10,height:30,marginTop:10,justifyContent:'center',alignItems:'center'},backgroundColor]}>
                         <Text style={[textColor]}>
-                            {this.props.title}
+                            {this.props.btnArr[this.props.index]}
                         </Text>
                     </View>
                     {this.renderLeftLine()}
@@ -119,7 +128,7 @@ class Button extends Component{
 
         if (this.props.index != 0){
             return(
-                <View style={[{height:4,width:itemWidth/2-15,position:'absolute',left:0,top:25-2},backgroundColor]}/>
+                <View style={[{height:4,width:this.itemWidth/2-15,position:'absolute',left:0,top:25-2},backgroundColor]}/>
             )
         }else{
             return null
@@ -138,9 +147,9 @@ class Button extends Component{
                 backgroundColor:'gray'
             }
         }
-        if (this.props.index != 4){
+        if (this.props.index != this.props.btnArr.length-1){
             return(
-                <View style={[{height:4,width:itemWidth/2-15,position:'absolute',right:0,top:25-2},backgroundColor]}/>
+                <View style={[{height:4,width:this.itemWidth/2-15,position:'absolute',right:0,top:25-2},backgroundColor]}/>
             )
         }else{
             return null
