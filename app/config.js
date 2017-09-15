@@ -44,10 +44,10 @@ export const DEFAULT_NAVIGATOR_STYLE = {
 
 // 底部Tab栏的颜色(react-native-navigation)
 export const tabsStyle = {
-    tabBarBackgroundColor: '#F5F5F5',
-        tabBarButtonColor: '#c8c8c8',
+    tabBarBackgroundColor: '#FFFFFF',
+        tabBarButtonColor: '#CBCBCB',
         tabBarTextFontSize: '8',
-        tabBarSelectedButtonColor: '#ff505c',
+        tabBarSelectedButtonColor: '#333333',
     // navigationBarColor: '#F5F5F5',
     // navBarBackgroundColor: '#F5F5F5',
     // statusBarColor: '#002b4c',
@@ -61,9 +61,9 @@ export const appStyle = {
         navBarTextFontSize: 18, // 顶部导航栏文字大小
         navBarTitleTextCentered: true, // Android 有效, 默认是不居中的标题栏
         navBarBackgroundColor: '#FAFAFA',
-        tabBarBackgroundColor: '#F5F5F5',
-        tabBarButtonColor: '#c8c8c8',
-        tabBarSelectedButtonColor: '#ff505c',
+        tabBarBackgroundColor: '#FFFFFF',
+        tabBarButtonColor: '#CBCBCB',
+        tabBarSelectedButtonColor: '#333333',
         navigationBarColor: '#000000',// 安卓虚拟按键导航背景色
         topBarElevationShadowEnabled: false, // default: true. Disables TopBar elevation shadow on Lolipop and above 启用顶部分割线下方阴影
     // change the background color of the bottom native navigation bar.

@@ -11,31 +11,31 @@ const tabsMain = [
     {
         label: '首页',
         screen: 'HomePage',
-        icon: require('./img/message.png'),
-        selectedIcon: require('./img/message_red.png'),
+        icon: require('./img/home_normal.png'),
+        selectedIcon: require('./img/home_selected.png'),
         title: '首页',
         navigatorStyle
     },
     {
         label: '消息',
         screen: 'MessagePage',
-        icon: require('./img/message.png'),
-        selectedIcon: require('./img/message_red.png'),
+        icon: require('./img/message_normal.png'),
+        selectedIcon: require('./img/message_selected.png'),
         title: '消息',
         navigatorStyle
     }, {
         label: '服务',
         screen: 'ServicePage',
-        icon: require('./img/message.png'),
-        selectedIcon: require('./img/message_red.png'),
+        icon: require('./img/service_normal.png'),
+        selectedIcon: require('./img/service_selected.png'),
         title: '服务',
         navigatorStyle
     },
     {
         label: '我的',
         screen: 'MinePage',
-        icon: require('./img/message.png'),
-        selectedIcon: require('./img/message_red.png'),
+        icon: require('./img/mine_normal.png'),
+        selectedIcon: require('./img/mine_selected.png'),
         title: '我的',
         navigatorStyle,
     }
