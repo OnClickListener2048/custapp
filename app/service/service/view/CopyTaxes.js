@@ -12,7 +12,9 @@ export default class CopyTaxes extends Component {
     render(){
         return(
             <View>
-                <Text>CopyTaxes</Text>
+                <Text>
+                    手里有税控的老板，每月1日开始一定要进行抄税处理或者上报汇总操作！否则无法纳税申报！！！
+                </Text>
             </View>
         )
     }
