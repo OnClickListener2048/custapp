@@ -21,8 +21,8 @@ export default class ServicePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            processIndx:2,
-            selectIndex:2
+            processIndx:4,
+            selectIndex:4
         };
     }
     btnClick(index){

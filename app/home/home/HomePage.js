@@ -15,7 +15,7 @@ import {
 // import homePageData from '../../data/HomePage.json'
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
-const itemMargin = 10
+const itemMargin = 15
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 
 const homePageData = {
@@ -235,7 +235,7 @@ export default class HomePage extends Component {
                         item.item.data.map((item, i) => {
                             return(
                                 <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
-                                    <View style={{width:itemWidth,marginRight:itemMargin,justifyContent:'center',alignItems:'center'}}>
+                                    <View style={{width:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'}}>
                                         <Image resizeMode="contain" style={{marginTop:10, width:25,height:25}} source={item.logo}/>
                                         <Text style={{marginTop:15,marginBottom:10,fontSize:14,color:'#666666'}}>{item.subTitle}</Text>
                                     </View>
@@ -247,7 +247,7 @@ export default class HomePage extends Component {
             )
         }else if(item.item.type == '2'){
             return (
-                <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-around',paddingBottom:20,backgroundColor:'white'}}>
+                <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-around',paddingBottom:20,paddingTop:10,backgroundColor:'white'}}>
                     {
                         item.item.data.map((item, i) => {
                             return(
@@ -361,31 +361,3 @@ export default class HomePage extends Component {
 
 }
 
-const styles = StyleSheet.create({
-    wrapper: {
-        height:100
-    },
-    slide1: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#9DD6EB',
-    },
-    slide2: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#97CAE5',
-    },
-    slide3: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#92BBD9',
-    },
-    text: {
-        color: '#fff',
-        fontSize: 30,
-        fontWeight: 'bold',
-    }
-})
