@@ -25,7 +25,8 @@ export default class CommenCell extends Component {
         rightTextStyle:{},//右侧副标题样式
         underLine:true,//是否有分割线
         underLineStyle:{},//分割线样式自定义
-        style:{}//最外层盒子样式自定义 设置高 背景类似属性
+        style:{},//最外层盒子样式自定义 设置高 背景类似属性
+        rightView:null
     };
 
     render() {
@@ -99,6 +100,7 @@ export default class CommenCell extends Component {
                 <View style = {styles.rightViewStyle}>
                     <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../img/left_button.png')} />
                     <Text style = {[styles.rightTextStyle,this.props.rightTextStyle,{marginRight:10}]}>{this.props.rightText}</Text>
+                    {this.props.rightView}
                 </View>
             );
         }else{
@@ -106,6 +108,7 @@ export default class CommenCell extends Component {
             return(
                 <View style = {styles.rightViewStyle}>
                     <Text style = {[styles.rightTextStyle,this.props.rightTextStyle,{marginRight:14}]}>{this.props.rightText}</Text>
+                    {this.props.rightView}
                 </View>
             );
         }
