@@ -21,5 +21,4 @@ export default function () {
     reg('ServicePage', () => ServicePage);
     reg('HomeDetailPage', () => HomeDetailPage);
     reg('BindPhonePage', () => BindPhonePage);
-
 }

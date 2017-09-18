@@ -13,6 +13,7 @@ import {
     ScrollView
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
+import CommenCell from '../../view/CommenCell'
 export default class MinePage extends Component {
 
     constructor(props) {
@@ -47,41 +48,25 @@ export default class MinePage extends Component {
                         </View>
                         <Image style={styles.left_bu} source={require('../../img/left_button.png')}/>
                     </TouchableOpacity>
-                    <View style={styles.items}>
-                        <Text style={styles.items_text}>
-                            我的订单
-                        </Text>
-                        <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                    </View>
-                    <View style={styles.line}/>
-                    <View style={[styles.items,{marginTop:0}]}>
-                        <Text style={styles.items_text}>
-                            企业信息
-                        </Text>
-                        <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                    </View>
-
-                    <TouchableOpacity onPress={this._goto.bind(this)}>
-                        <View style={styles.items}>
-                            <Text style={styles.items_text}>
-                                账号与安全
-                            </Text>
-                            <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                        </View>
-                    </TouchableOpacity>
-                    <View style={styles.line}/>
-                    <View style={[styles.items,{marginTop:0}]}>
-                        <Text style={styles.items_text}>
-                            设置
-                        </Text>
-                        <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                    </View>
-                    <View style={styles.items}>
-                        <Text style={styles.items_text}>
-                            联系客服
-                        </Text>
-                        <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                    </View>
+                    <CommenCell
+                        leftText="我的订单"
+                        style={{marginTop:9}}
+                    />
+                    <CommenCell
+                        leftText="企业信息"
+                    />
+                    <CommenCell
+                        leftText="账号与安全"
+                        onPress = {this._goto.bind(this)}
+                        style={{marginTop:9}}
+                    />
+                    <CommenCell
+                        leftText="设置"
+                    />
+                    <CommenCell
+                        leftText="联系客服"
+                        style={{marginTop:9}}
+                    />
                 </ScrollView>
             </View>
 
