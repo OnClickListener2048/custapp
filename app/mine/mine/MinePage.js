@@ -7,7 +7,9 @@ import {
     View,
     StyleSheet,
     Image,
-    Text
+    Text,
+    Platform,
+    TouchableOpacity,
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 export default class MinePage extends Component {
@@ -17,6 +19,7 @@ export default class MinePage extends Component {
         this.state = {
             dataSource:[]
         };
+
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -26,7 +29,7 @@ export default class MinePage extends Component {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
-                <View style={styles.login_wrapper}>
+                <TouchableOpacity style={styles.login_wrapper} onPress={this.login.bind(this)}>
                     <View style={{flexDirection:'row'}}>
                     <Image style={styles.head_img} source={require('../../img/head_img.png')}/>
                     <View style={styles.login_title_wrapper}>
@@ -39,7 +42,7 @@ export default class MinePage extends Component {
                     </View>
                     </View>
                     <Image style={styles.left_bu} source={require('../../img/left_button.png')}/>
-                </View>
+                </TouchableOpacity>
                 <View style={styles.items}>
                     <Text style={styles.items_text}>
                         我的订单
@@ -80,6 +83,7 @@ export default class MinePage extends Component {
     login(){
         loginJumpSingleton.goToLogin(this.props.navigator);
     }
+
 }
 
 const styles = StyleSheet.create({
@@ -87,7 +91,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         width:SCREEN_WIDTH,
         paddingHorizontal:20,
-        paddingTop:80,
+        paddingTop:Platform.OS==='ios'?80:60,
         paddingBottom:20,
         backgroundColor:'#FFFFFF',
         justifyContent:'space-between'
