@@ -9,6 +9,8 @@ import MessagePage from './message/message/MessagePage';
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
 import HomeDetailPage from './home/detail/HomeDetailPage'
+import BindPhonePage from './mine/bindPhone/BindPhonePage'
+
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -18,6 +20,6 @@ export default function () {
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
     reg('HomeDetailPage', () => HomeDetailPage);
-
+    reg('BindPhonePage', () => BindPhonePage);
 
 }

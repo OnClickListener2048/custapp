@@ -8,6 +8,7 @@ registerScreens();
 
 // 主标签
 const tabsMain = [
+
     {
         label: '首页',
         screen: 'HomePage',

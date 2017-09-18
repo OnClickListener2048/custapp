@@ -10,6 +10,7 @@ import {
     Text,
     Platform,
     TouchableOpacity,
+    ScrollView
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 export default class MinePage extends Component {
@@ -28,57 +29,71 @@ export default class MinePage extends Component {
 
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
-                <TouchableOpacity style={styles.login_wrapper} onPress={this.login.bind(this)}>
-                    <View style={{flexDirection:'row'}}>
-                    <Image style={styles.head_img} source={require('../../img/head_img.png')}/>
-                    <View style={styles.login_title_wrapper}>
-                        <Text style={styles.login}>
-                            注册/登录
+            <View style={{flex:1,backgroundColor:'#f9f9f9',position:'relative'}}>
+                <View style={{width:DeviceInfo.width,height:DeviceInfo.height/2,backgroundColor:'white',position:'absolute'}}/>
+                <ScrollView
+                    contentContainerStyle={{backgroundColor:'#F9F9F9'}}>
+                    <TouchableOpacity style={styles.login_wrapper} onPress={this.login.bind(this)}>
+                        <View style={{flexDirection:'row'}}>
+                            <Image style={styles.head_img} source={require('../../img/head_img.png')}/>
+                            <View style={styles.login_title_wrapper}>
+                                <Text style={styles.login}>
+                                    注册/登录
+                                </Text>
+                                <Text style={styles.company}>
+                                    请立即注册或登录
+                                </Text>
+                            </View>
+                        </View>
+                        <Image style={styles.left_bu} source={require('../../img/left_button.png')}/>
+                    </TouchableOpacity>
+                    <View style={styles.items}>
+                        <Text style={styles.items_text}>
+                            我的订单
                         </Text>
-                        <Text style={styles.company}>
-                            请立即注册或登录
+                        <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
+                    </View>
+                    <View style={styles.line}/>
+                    <View style={[styles.items,{marginTop:0}]}>
+                        <Text style={styles.items_text}>
+                            企业信息
                         </Text>
+                        <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
                     </View>
+
+                    <TouchableOpacity onPress={this._goto.bind(this)}>
+                        <View style={styles.items}>
+                            <Text style={styles.items_text}>
+                                账号与安全
+                            </Text>
+                            <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
+                        </View>
+                    </TouchableOpacity>
+                    <View style={styles.line}/>
+                    <View style={[styles.items,{marginTop:0}]}>
+                        <Text style={styles.items_text}>
+                            设置
+                        </Text>
+                        <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
                     </View>
-                    <Image style={styles.left_bu} source={require('../../img/left_button.png')}/>
-                </TouchableOpacity>
-                <View style={styles.items}>
-                    <Text style={styles.items_text}>
-                        我的订单
-                    </Text>
-                    <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                </View>
-                <View style={styles.line}/>
-                <View style={[styles.items,{marginTop:0}]}>
-                    <Text style={styles.items_text}>
-                        企业信息
-                    </Text>
-                    <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                </View>
-                <View style={styles.items}>
-                    <Text style={styles.items_text}>
-                        账号与安全
-                    </Text>
-                    <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                </View>
-                <View style={styles.line}/>
-                <View style={[styles.items,{marginTop:0}]}>
-                    <Text style={styles.items_text}>
-                        设置
-                    </Text>
-                    <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                </View>
-                <View style={styles.items}>
-                    <Text style={styles.items_text}>
-                        联系客服
-                    </Text>
-                    <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
-                </View>
-
-
+                    <View style={styles.items}>
+                        <Text style={styles.items_text}>
+                            联系客服
+                        </Text>
+                        <Image style={styles.items_button} source={require('../../img/left_button.png')}/>
+                    </View>
+                </ScrollView>
             </View>
+
         )
+    }
+    _goto(){
+        this.props.navigator.push({
+            screen: 'BindPhonePage',
+            backButtonTitle: '返回', // 返回按钮的文字 (可选)
+            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
+        });
+
     }
     login(){
         loginJumpSingleton.goToLogin(this.props.navigator);
