@@ -31,7 +31,7 @@ export default class MinePage extends Component {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9',position:'relative'}}>
-                <View style={{width:DeviceInfo.width,height:DeviceInfo.height/2,backgroundColor:'white',position:'absolute'}}/>
+                <View style={{width:DeviceInfo.width,height:DeviceInfo.height/3,backgroundColor:'white',position:'absolute'}}/>
                 <ScrollView
                     contentContainerStyle={{backgroundColor:'#F9F9F9'}}>
                     <TouchableOpacity style={styles.login_wrapper} onPress={this.login.bind(this)}>
