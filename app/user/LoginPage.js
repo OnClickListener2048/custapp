@@ -159,11 +159,11 @@ export default class LoginPage extends Component {
             this._setupDebug();
         }
 
-        let {isReset = false } = this.props;// 重置, 清理所有登录信息
-
-        if (isReset) {
-            loginJumpSingleton.reset();
-        }
+        // let {isReset = false } = this.props;// 重置, 清理所有登录信息
+        //
+        // if (isReset) {
+        //     loginJumpSingleton.reset();
+        // }
 
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);

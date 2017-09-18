@@ -215,15 +215,18 @@ export default class HomePage extends Component {
     render(){
 
         return(
-            <SectionList
-                renderItem={this._renderItem.bind(this)}
-                renderSectionHeader={this._renderSectionHeader.bind(this)}
-                sections={this.state.dataSource}
-                stickySectionHeadersEnabled={false}
-                ListHeaderComponent={this._listHeaderComponent.bind(this)}
-                ListFooterComponent={this._listFooterComponent.bind(this)}
-            >
-            </SectionList>
+            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                <SectionList
+                    renderItem={this._renderItem.bind(this)}
+                    renderSectionHeader={this._renderSectionHeader.bind(this)}
+                    sections={this.state.dataSource}
+                    stickySectionHeadersEnabled={false}
+                    ListHeaderComponent={this._listHeaderComponent.bind(this)}
+                    ListFooterComponent={this._listFooterComponent.bind(this)}
+                >
+                </SectionList>
+            </View>
+
         )
     }
     _renderItem (item) {

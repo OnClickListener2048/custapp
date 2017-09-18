@@ -4,7 +4,7 @@
 /**
  修改手机号
  */
-import React from 'react';
+import React, {Component} from 'react';
 
 import {
     Alert,
@@ -29,7 +29,7 @@ import SubmitButton from "../../view/ui/SubmitButton";
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
-export default class BindPhonePage extends BComponent {
+export default class BindPhonePage extends Component {
     static navigatorStyle = {
         tabBarHidden: true, // 隐藏默认的顶部导航栏
         navBarHidden: false, // 隐藏默认的顶部导航栏
@@ -61,6 +61,7 @@ export default class BindPhonePage extends BComponent {
     }
     render(){
         return(
+            <TouchableWithoutFeedback onPress={dismissKeyboard}>
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
                 <Text style={{padding:17,color:'#333333',fontSize:14,width:DeviceInfo.width,textAlign:'center'}}>当前手机号{this.state.phone}</Text>
                 <View style={{width:DeviceInfo.width, padding:14,paddingLeft:30,paddingRight:30,backgroundColor:'#FFFFFF',borderBottomWidth:0.5,borderBottomColor:'#ececec'}}>
@@ -123,7 +124,7 @@ export default class BindPhonePage extends BComponent {
                             enable = {true}
                             ref="timerButton"
                             style={{width:90,marginRight:30}}
-                            textStyle={{fontSize:14,color:'#bababa'}}
+                            textStyle={{fontSize:12,color:'#6A6A6A'}}
                             timerCount={180}
                             onClick={(shouldStartCountting) => {
                                 shouldStartCountting(true);
@@ -143,6 +144,8 @@ export default class BindPhonePage extends BComponent {
                 />
 
             </View>
+            </TouchableWithoutFeedback>
+
         )
     }
 
