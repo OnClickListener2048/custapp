@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         width:SCREEN_WIDTH,
         paddingHorizontal:20,
-        paddingTop:Platform.OS==='ios'?80:60,
+        paddingTop:Platform.OS==='ios'?70:50,
         paddingBottom:20,
         backgroundColor:'#FFFFFF',
         justifyContent:'space-between'
