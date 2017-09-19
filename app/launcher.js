@@ -17,7 +17,6 @@ console.warn('YellowBox is disabled.');
 console.log("NetInfoSingleton", NetInfoSingleton.isConnected);
 wechat.registerApp('wxad8622a788203fa5')
 navToMainTab();
-
 // Navigation.startSingleScreenApp({
 //     screen: {
 //         screen: 'demo/ButtonExample',

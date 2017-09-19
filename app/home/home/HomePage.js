@@ -12,7 +12,7 @@ import {
     Image,
     StyleSheet
 } from 'react-native';
-// import homePageData from '../../data/HomePage.json'
+import SectionHeader from '../../view/SectionHeader'
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
 const itemMargin = 15
@@ -297,13 +297,7 @@ export default class HomePage extends Component {
     }
     _renderSectionHeader(item){
         return(
-            <View style={{backgroundColor:'white'}}>
-                <View style={{width:deviceWidth,height:10,backgroundColor:'#F9F9F9'}}/>
-                <View style={{padding:16,flexDirection:'row',alignItems:'center'}}>
-                    <View style={{height:16,width:3,backgroundColor:'#FFBF17'}}></View>
-                    <Text style={{fontSize:16,color:'#333333',fontWeight:'bold',marginLeft:5}}>{item.section.key}</Text>
-                </View>
-            </View>
+            <SectionHeader style={{marginTop:10}} text ={item.section.key} />
         )
     }
     _listHeaderComponent(){
