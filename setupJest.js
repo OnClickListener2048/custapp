@@ -15,6 +15,13 @@ jest.mock('NetInfo', () => {
 
 jest.mock('react-native-device-info');
 jest.mock('react-native-alert');
+// 微信功能mock
+jest.mock('react-native-wechat', () => {
+    return {
+        registerApp: jest.fn()
+    }
+});
+
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
