@@ -51,30 +51,37 @@ export default class MinePage extends Component {
                     <CommenCell
                         leftText="我的订单"
                         style={{marginTop:9}}
+                        onPress = {this._goto.bind(this,'')}
                     />
                     <CommenCell
                         leftText="企业信息"
+                        onPress = {this._goto.bind(this,'')}
                     />
                     <CommenCell
                         leftText="账号与安全"
-                        onPress = {this._goto.bind(this)}
+                        onPress = {this._goto.bind(this,'BindPhonePage')}
                         style={{marginTop:9}}
                     />
                     <CommenCell
                         leftText="设置"
+                        onPress = {this._goto.bind(this,'')}
                     />
                     <CommenCell
                         leftText="联系客服"
                         style={{marginTop:9}}
+                        onPress = {this._goto.bind(this,'')}
                     />
                 </ScrollView>
             </View>
 
         )
     }
-    _goto(){
+    _goto(screen){
+
+        if(screen == '')return;
+
         this.props.navigator.push({
-            screen: 'BindPhonePage',
+            screen: screen,
             backButtonTitle: '返回', // 返回按钮的文字 (可选)
             backButtonHidden: false, // 是否隐藏返回按钮 (可选)
         });
