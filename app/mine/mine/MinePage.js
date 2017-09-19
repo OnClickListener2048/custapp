@@ -55,7 +55,7 @@ export default class MinePage extends Component {
                     />
                     <CommenCell
                         leftText="企业信息"
-                        onPress = {this._goto.bind(this,'')}
+                        onPress = {this._goto.bind(this,'CompanyInfoPage')}
                     />
                     <CommenCell
                         leftText="账号与安全"
