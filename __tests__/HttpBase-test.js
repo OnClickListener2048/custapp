@@ -1,6 +1,6 @@
+import 'isomorphic-fetch';
 import '../app/http/HTTPBase';
 import HttpDNS from '../app/http/HttpDNS';
-import 'isomorphic-fetch';
 
 it('can fetch httpdns response', async () => {
     let text = await global.HTTPBase.getRaw("http://119.29.29.29/d", {dn:"app.i-counting.cn"});
