@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-// import 'isomorphic-fetch';
+import 'isomorphic-fetch';
 import fetchMock from 'fetch-mock';
 import * as apis from '../app/apis';
 import LoginPage from '../app/user/LoginPage';

@@ -1,9 +1,10 @@
 // import 'react-native';
 import React from 'react';
 import {NetInfo} from 'react-native';
-import {login} from '../account';
+import 'isomorphic-fetch';// 第三方fetch的真实联网实现, 解决 Failed: fetch is not a function
 import fetchMock from 'fetch-mock';
-// import 'isomorphic-fetch';// 第三方fetch的真实联网实现, 解决 Failed: fetch is not a function
+import {login} from '../account';
+
 
 // 空的mock实现 会抛空引用异常
 // jest.mock('NetInfo', () => {
