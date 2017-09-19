@@ -51,13 +51,14 @@ export default class MinePage extends Component {
                     <CommenCell
                         leftText="我的订单"
                         style={{marginTop:9}}
+                        onPress={this._toMyOrder.bind(this)}
                     />
                     <CommenCell
                         leftText="企业信息"
                     />
                     <CommenCell
                         leftText="账号与安全"
-                        onPress = {this._goto.bind(this)}
+                        onPress = {this._toSafe.bind(this)}
                         style={{marginTop:9}}
                     />
                     <CommenCell
@@ -72,13 +73,20 @@ export default class MinePage extends Component {
 
         )
     }
-    _goto(){
+    _toSafe(){
         this.props.navigator.push({
             screen: 'BindPhonePage',
             backButtonTitle: '返回', // 返回按钮的文字 (可选)
             backButtonHidden: false, // 是否隐藏返回按钮 (可选)
         });
 
+    }
+    _toMyOrder(){
+        this.props.navigator.push({
+            screen: 'MyOrderPage',
+            backButtonTitle: '', // 返回按钮的文字 (可选)
+            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
+        });
     }
     login(){
         loginJumpSingleton.goToLogin(this.props.navigator);

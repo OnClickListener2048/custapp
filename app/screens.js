@@ -10,6 +10,7 @@ import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
 import HomeDetailPage from './home/detail/HomeDetailPage'
 import BindPhonePage from './mine/bindPhone/BindPhonePage'
+import MyOrderPage from './mine/myOrder/MyOrderPage'
 
 
 export default function () {
@@ -21,4 +22,5 @@ export default function () {
     reg('ServicePage', () => ServicePage);
     reg('HomeDetailPage', () => HomeDetailPage);
     reg('BindPhonePage', () => BindPhonePage);
+    reg('MyOrderPage', () => MyOrderPage);
 }
