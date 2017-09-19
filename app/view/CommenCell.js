@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     },
 
     rightTextStyle:{
-        fontSize:16,
-        color:'#ababab'
+        fontSize:14,
+        color:'#999999'
     }
 
 });

@@ -11,6 +11,12 @@ import ServicePage from './service/service/ServicePage';
 import HomeDetailPage from './home/detail/HomeDetailPage'
 import BindPhonePage from './mine/bindPhone/BindPhonePage'
 
+import ChangeCompanyPage from './mine/companyInfo/ChangeCompanyPage'
+import CompanyInfoPage from './mine/companyInfo/CompanyInfoPage'
+import CompanySurveyPage from './mine/companyInfo/CompanySurveyPage'
+import LicenceInfoPage from './mine/companyInfo/LicenceInfoPage'
+
+
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -21,4 +27,9 @@ export default function () {
     reg('ServicePage', () => ServicePage);
     reg('HomeDetailPage', () => HomeDetailPage);
     reg('BindPhonePage', () => BindPhonePage);
+    reg('ChangeCompanyPage', () => ChangeCompanyPage);
+    reg('CompanyInfoPage', () => CompanyInfoPage);
+    reg('CompanySurveyPage', () => CompanySurveyPage);
+    reg('LicenceInfoPage', () => LicenceInfoPage);
+
 }
