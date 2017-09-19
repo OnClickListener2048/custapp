@@ -1,12 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`快照正确渲染 1`] = `
-<Image
+<View
   accessibilityComponentType={undefined}
   accessibilityLabel={undefined}
   accessibilityTraits={undefined}
   accessible={true}
   hitSlop={undefined}
+  nativeID={undefined}
   onLayout={undefined}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -14,20 +15,48 @@ exports[`快照正确渲染 1`] = `
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
-  source={1}
   style={
     Object {
-      "backgroundColor": "#FFFFFF",
-      "flexDirection": "column",
-      "height": 1334,
-      "marginBottom": 0,
-      "resizeMode": "cover",
-      "width": 750,
+      "backgroundColor": "white",
+      "flex": 1,
     }
   }
   testID={undefined}
 >
   <View
+    accessibilityComponentType={undefined}
+    accessibilityLabel={undefined}
+    accessibilityTraits={undefined}
+    accessible={true}
+    collapsable={undefined}
+    hitSlop={undefined}
+    isTVSelectable={true}
+    nativeID={undefined}
+    onLayout={undefined}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "height": 30,
+        "marginLeft": 15,
+        "marginTop": 30,
+        "opacity": 1,
+        "width": 30,
+      }
+    }
+    testID={undefined}
+    tvParallaxProperties={undefined}
+  >
+    <Image
+      source={1}
+    />
+  </View>
+  <View
+    collapsable={undefined}
     style={
       Object {
         "alignSelf": "stretch",
@@ -41,10 +70,14 @@ exports[`快照正确渲染 1`] = `
     <Text
       accessible={true}
       allowFontScaling={true}
+      collapsable={undefined}
+      disabled={false}
       ellipsizeMode="tail"
       style={
         Object {
           "color": "#ffffff",
+          "height": 0,
+          "lineHeight": 0,
           "textAlign": "center",
         }
       }
@@ -60,21 +93,14 @@ exports[`快照正确渲染 1`] = `
           "alignSelf": "center",
           "borderColor": "#f9f9f9",
           "borderWidth": 0,
-          "height": 55,
+          "height": 64,
           "resizeMode": "contain",
-          "width": 67.5,
+          "width": 180,
         },
         Object {
-          "marginTop": 119,
+          "marginTop": 10,
         },
       ]
-    }
-  />
-  <View
-    style={
-      Object {
-        "height": 50,
-      }
     }
   />
   <View
@@ -86,7 +112,6 @@ exports[`快照正确渲染 1`] = `
           Object {
             "flex": 1,
             "justifyContent": "flex-start",
-            "paddingHorizontal": 20,
             "paddingTop": 0,
           },
           Object {
@@ -113,20 +138,10 @@ exports[`快照正确渲染 1`] = `
           "flexDirection": "row",
           "height": 44,
           "justifyContent": "center",
+          "width": 750,
         }
       }
     >
-      <Image
-        source={1}
-        style={
-          Object {
-            "alignSelf": "center",
-            "marginBottom": 2,
-            "marginRight": 0,
-            "resizeMode": "contain",
-          }
-        }
-      />
       <View
         style={
           Object {
@@ -135,9 +150,10 @@ exports[`快照正确渲染 1`] = `
             "borderBottomWidth": 0.5,
             "flexDirection": "row",
             "height": 44,
-            "justifyContent": "center",
-            "marginLeft": 10,
-            "width": 219,
+            "justifyContent": "flex-start",
+            "marginLeft": 20,
+            "marginRight": 15,
+            "width": 685,
           }
         }
       >
@@ -146,11 +162,11 @@ exports[`快照正确渲染 1`] = `
           maxLength={11}
           onChangeText={[Function]}
           placeholder="手机号码"
-          placeholderTextColor="#c8c8c8"
+          placeholderTextColor="#BABABA"
           returnKeyType="next"
           style={
             Object {
-              "color": "#ef0c35",
+              "color": "#6a6a6a",
               "flex": 1,
               "fontSize": 14,
               "marginLeft": 0,
@@ -170,20 +186,10 @@ exports[`快照正确渲染 1`] = `
           "flexDirection": "row",
           "height": 44,
           "justifyContent": "center",
+          "width": 750,
         }
       }
     >
-      <Image
-        source={1}
-        style={
-          Object {
-            "alignSelf": "center",
-            "marginBottom": 2,
-            "marginRight": 0,
-            "resizeMode": "contain",
-          }
-        }
-      />
       <View
         style={
           Object {
@@ -192,9 +198,10 @@ exports[`快照正确渲染 1`] = `
             "borderBottomWidth": 0.5,
             "flexDirection": "row",
             "height": 44,
-            "justifyContent": "center",
-            "marginLeft": 10,
-            "width": 219,
+            "justifyContent": "flex-start",
+            "marginLeft": 20,
+            "marginRight": 15,
+            "width": 685,
           }
         }
       >
@@ -205,14 +212,14 @@ exports[`快照正确渲染 1`] = `
           onBlur={[Function]}
           onChangeText={[Function]}
           onSubmitEditing={[Function]}
-          placeholder="短信验证码"
-          placeholderTextColor="#c8c8c8"
+          placeholder="短信验证"
+          placeholderTextColor="#BABABA"
           returnKeyType="done"
           secureTextEntry={false}
           style={
             Object {
               "alignSelf": "center",
-              "color": "#ef0c35",
+              "color": "#6A6A6A",
               "flex": 1,
               "fontSize": 14,
               "height": 30,
@@ -240,8 +247,10 @@ exports[`快照正确渲染 1`] = `
           accessibilityLabel={undefined}
           accessibilityTraits={undefined}
           accessible={true}
+          collapsable={undefined}
           hitSlop={undefined}
           isTVSelectable={true}
+          nativeID={undefined}
           onLayout={undefined}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -278,6 +287,7 @@ exports[`快照正确渲染 1`] = `
             <Text
               accessible={true}
               allowFontScaling={true}
+              disabled={false}
               ellipsizeMode="tail"
               style={
                 Array [
@@ -286,7 +296,7 @@ exports[`快照正确渲染 1`] = `
                   },
                   Object {
                     "alignSelf": "flex-end",
-                    "color": "#ef0c35",
+                    "color": "#6A6A6A",
                   },
                   Object {
                     "color": "#c8c8c8",
@@ -309,6 +319,7 @@ exports[`快照正确渲染 1`] = `
             "flexDirection": "row",
             "height": 44,
             "justifyContent": "center",
+            "width": 750,
           },
           Object {
             "marginTop": 2,
@@ -321,8 +332,10 @@ exports[`快照正确渲染 1`] = `
         accessibilityLabel={undefined}
         accessibilityTraits={undefined}
         accessible={true}
+        collapsable={undefined}
         hitSlop={undefined}
         isTVSelectable={true}
+        nativeID={undefined}
         onLayout={undefined}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -338,19 +351,7 @@ exports[`快照正确渲染 1`] = `
         }
         testID={undefined}
         tvParallaxProperties={undefined}
-      >
-        <Image
-          source={1}
-          style={
-            Object {
-              "alignSelf": "center",
-              "marginBottom": 2,
-              "marginRight": 0,
-              "resizeMode": "contain",
-            }
-          }
-        />
-      </View>
+      />
       <View
         style={
           Array [
@@ -360,9 +361,10 @@ exports[`快照正确渲染 1`] = `
               "borderBottomWidth": 0.5,
               "flexDirection": "row",
               "height": 44,
-              "justifyContent": "center",
-              "marginLeft": 10,
-              "width": 219,
+              "justifyContent": "flex-start",
+              "marginLeft": 20,
+              "marginRight": 15,
+              "width": 685,
             },
             Object {
               "borderBottomWidth": 0,
@@ -374,97 +376,225 @@ exports[`快照正确渲染 1`] = `
         <Text
           accessible={true}
           allowFontScaling={true}
+          disabled={false}
           ellipsizeMode="tail"
           style={
             Object {
               "alignSelf": "center",
-              "color": "#ef0c35",
+              "color": "#BABABA",
               "fontSize": 12,
               "marginRight": 1,
             }
           }
         >
-          我已经阅读并同意
+          点击登录即视为同意
         </Text>
         <Text
           accessible={true}
           allowFontScaling={true}
+          disabled={false}
           ellipsizeMode="tail"
           style={
             Object {
               "alignSelf": "center",
-              "color": "#ef0c35",
+              "color": "#BABABA",
               "fontSize": 12,
               "marginRight": 1,
               "textDecorationLine": "underline",
             }
           }
         >
-          《噼里啪应用许可协议》
+          《用户注册和使用协议》
         </Text>
       </View>
     </View>
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
-      accessible={true}
-      hitSlop={undefined}
-      onLayout={undefined}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
           Object {
+            "alignItems": "center",
+            "alignSelf": "stretch",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "height": 44,
+            "justifyContent": "center",
+            "marginBottom": 10,
+          },
+          Object {
             "alignSelf": "center",
-            "backgroundColor": "#e6e6e6",
-            "borderRadius": 6,
+            "backgroundColor": "#ef0c35",
+            "borderRadius": 22,
+            "borderWidth": 0,
             "height": 44,
             "justifyContent": "center",
             "margin": 0,
             "marginTop": 22.5,
-            "width": 250,
+            "width": 300,
           },
           Object {
+            "alignSelf": "center",
             "backgroundColor": "#e6e6e6",
+            "borderRadius": 22,
+            "borderWidth": 0,
+            "height": 44,
+            "justifyContent": "center",
+            "margin": 0,
+            "marginTop": 22.5,
+            "width": 300,
           },
         ]
       }
-      testID={undefined}
     >
       <Text
         accessible={true}
         allowFontScaling={true}
+        disabled={false}
         ellipsizeMode="tail"
         style={
-          Object {
-            "color": "#FFFFFF",
-            "fontSize": 15,
-            "marginBottom": 10,
-            "marginTop": 10,
-            "textAlign": "center",
-          }
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "flex": 1,
+              "fontSize": 18,
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#FFFFFF",
+              "fontSize": 15,
+              "marginBottom": 10,
+              "marginTop": 10,
+              "textAlign": "center",
+            },
+          ]
         }
       >
         登录
       </Text>
     </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-around",
+          "marginLeft": 0,
+          "marginTop": 15,
+          "width": 750,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "borderBottomColor": "#ececec",
+            "borderBottomWidth": 0.5,
+            "height": 1,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "marginTop": 5,
+            "width": 200,
+          }
+        }
+      />
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        disabled={false}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#c8c8c8",
+            "fontSize": 12,
+          }
+        }
+      >
+        第三方登录
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "borderBottomColor": "#ececec",
+            "borderBottomWidth": 0.5,
+            "height": 1,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "marginTop": 5,
+            "width": 200,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-around",
+            "marginLeft": 0,
+            "marginTop": 15,
+            "width": 750,
+          },
+          Object {
+            "marginTop": 20,
+          },
+        ]
+      }
+    >
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        collapsable={undefined}
+        hitSlop={undefined}
+        isTVSelectable={true}
+        nativeID={undefined}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+        testID={undefined}
+        tvParallaxProperties={undefined}
+      >
+        <Image
+          source={1}
+          style={
+            Array [
+              Object {
+                "alignSelf": "center",
+                "resizeMode": "contain",
+              },
+              Object {
+                "justifyContent": "center",
+              },
+            ]
+          }
+        />
+      </View>
+    </View>
   </View>
-</Image>
+</View>
 `;
 
 exports[`快照正确渲染 2`] = `
-<Image
+<View
   accessibilityComponentType={undefined}
   accessibilityLabel={undefined}
   accessibilityTraits={undefined}
   accessible={true}
   hitSlop={undefined}
   mobile="12345678000"
+  nativeID={undefined}
   onLayout={undefined}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -472,20 +602,48 @@ exports[`快照正确渲染 2`] = `
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
-  source={1}
   style={
     Object {
-      "backgroundColor": "#FFFFFF",
-      "flexDirection": "column",
-      "height": 1334,
-      "marginBottom": 0,
-      "resizeMode": "cover",
-      "width": 750,
+      "backgroundColor": "white",
+      "flex": 1,
     }
   }
   testID={undefined}
 >
   <View
+    accessibilityComponentType={undefined}
+    accessibilityLabel={undefined}
+    accessibilityTraits={undefined}
+    accessible={true}
+    collapsable={undefined}
+    hitSlop={undefined}
+    isTVSelectable={true}
+    nativeID={undefined}
+    onLayout={undefined}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "height": 30,
+        "marginLeft": 15,
+        "marginTop": 30,
+        "opacity": 1,
+        "width": 30,
+      }
+    }
+    testID={undefined}
+    tvParallaxProperties={undefined}
+  >
+    <Image
+      source={1}
+    />
+  </View>
+  <View
+    collapsable={undefined}
     style={
       Object {
         "alignSelf": "stretch",
@@ -499,10 +657,14 @@ exports[`快照正确渲染 2`] = `
     <Text
       accessible={true}
       allowFontScaling={true}
+      collapsable={undefined}
+      disabled={false}
       ellipsizeMode="tail"
       style={
         Object {
           "color": "#ffffff",
+          "height": 0,
+          "lineHeight": 0,
           "textAlign": "center",
         }
       }
@@ -518,21 +680,14 @@ exports[`快照正确渲染 2`] = `
           "alignSelf": "center",
           "borderColor": "#f9f9f9",
           "borderWidth": 0,
-          "height": 55,
+          "height": 64,
           "resizeMode": "contain",
-          "width": 67.5,
+          "width": 180,
         },
         Object {
-          "marginTop": 119,
+          "marginTop": 10,
         },
       ]
-    }
-  />
-  <View
-    style={
-      Object {
-        "height": 50,
-      }
     }
   />
   <View
@@ -544,7 +699,6 @@ exports[`快照正确渲染 2`] = `
           Object {
             "flex": 1,
             "justifyContent": "flex-start",
-            "paddingHorizontal": 20,
             "paddingTop": 0,
           },
           Object {
@@ -571,20 +725,10 @@ exports[`快照正确渲染 2`] = `
           "flexDirection": "row",
           "height": 44,
           "justifyContent": "center",
+          "width": 750,
         }
       }
     >
-      <Image
-        source={1}
-        style={
-          Object {
-            "alignSelf": "center",
-            "marginBottom": 2,
-            "marginRight": 0,
-            "resizeMode": "contain",
-          }
-        }
-      />
       <View
         style={
           Object {
@@ -593,9 +737,10 @@ exports[`快照正确渲染 2`] = `
             "borderBottomWidth": 0.5,
             "flexDirection": "row",
             "height": 44,
-            "justifyContent": "center",
-            "marginLeft": 10,
-            "width": 219,
+            "justifyContent": "flex-start",
+            "marginLeft": 20,
+            "marginRight": 15,
+            "width": 685,
           }
         }
       >
@@ -604,11 +749,11 @@ exports[`快照正确渲染 2`] = `
           maxLength={11}
           onChangeText={[Function]}
           placeholder="手机号码"
-          placeholderTextColor="#c8c8c8"
+          placeholderTextColor="#BABABA"
           returnKeyType="next"
           style={
             Object {
-              "color": "#ef0c35",
+              "color": "#6a6a6a",
               "flex": 1,
               "fontSize": 14,
               "marginLeft": 0,
@@ -628,20 +773,10 @@ exports[`快照正确渲染 2`] = `
           "flexDirection": "row",
           "height": 44,
           "justifyContent": "center",
+          "width": 750,
         }
       }
     >
-      <Image
-        source={1}
-        style={
-          Object {
-            "alignSelf": "center",
-            "marginBottom": 2,
-            "marginRight": 0,
-            "resizeMode": "contain",
-          }
-        }
-      />
       <View
         style={
           Object {
@@ -650,9 +785,10 @@ exports[`快照正确渲染 2`] = `
             "borderBottomWidth": 0.5,
             "flexDirection": "row",
             "height": 44,
-            "justifyContent": "center",
-            "marginLeft": 10,
-            "width": 219,
+            "justifyContent": "flex-start",
+            "marginLeft": 20,
+            "marginRight": 15,
+            "width": 685,
           }
         }
       >
@@ -663,14 +799,14 @@ exports[`快照正确渲染 2`] = `
           onBlur={[Function]}
           onChangeText={[Function]}
           onSubmitEditing={[Function]}
-          placeholder="短信验证码"
-          placeholderTextColor="#c8c8c8"
+          placeholder="短信验证"
+          placeholderTextColor="#BABABA"
           returnKeyType="done"
           secureTextEntry={false}
           style={
             Object {
               "alignSelf": "center",
-              "color": "#ef0c35",
+              "color": "#6A6A6A",
               "flex": 1,
               "fontSize": 14,
               "height": 30,
@@ -698,8 +834,10 @@ exports[`快照正确渲染 2`] = `
           accessibilityLabel={undefined}
           accessibilityTraits={undefined}
           accessible={true}
+          collapsable={undefined}
           hitSlop={undefined}
           isTVSelectable={true}
+          nativeID={undefined}
           onLayout={undefined}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -736,6 +874,7 @@ exports[`快照正确渲染 2`] = `
             <Text
               accessible={true}
               allowFontScaling={true}
+              disabled={false}
               ellipsizeMode="tail"
               style={
                 Array [
@@ -744,7 +883,7 @@ exports[`快照正确渲染 2`] = `
                   },
                   Object {
                     "alignSelf": "flex-end",
-                    "color": "#ef0c35",
+                    "color": "#6A6A6A",
                   },
                   Object {
                     "color": "#c8c8c8",
@@ -767,6 +906,7 @@ exports[`快照正确渲染 2`] = `
             "flexDirection": "row",
             "height": 44,
             "justifyContent": "center",
+            "width": 750,
           },
           Object {
             "marginTop": 2,
@@ -779,8 +919,10 @@ exports[`快照正确渲染 2`] = `
         accessibilityLabel={undefined}
         accessibilityTraits={undefined}
         accessible={true}
+        collapsable={undefined}
         hitSlop={undefined}
         isTVSelectable={true}
+        nativeID={undefined}
         onLayout={undefined}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -796,19 +938,7 @@ exports[`快照正确渲染 2`] = `
         }
         testID={undefined}
         tvParallaxProperties={undefined}
-      >
-        <Image
-          source={1}
-          style={
-            Object {
-              "alignSelf": "center",
-              "marginBottom": 2,
-              "marginRight": 0,
-              "resizeMode": "contain",
-            }
-          }
-        />
-      </View>
+      />
       <View
         style={
           Array [
@@ -818,9 +948,10 @@ exports[`快照正确渲染 2`] = `
               "borderBottomWidth": 0.5,
               "flexDirection": "row",
               "height": 44,
-              "justifyContent": "center",
-              "marginLeft": 10,
-              "width": 219,
+              "justifyContent": "flex-start",
+              "marginLeft": 20,
+              "marginRight": 15,
+              "width": 685,
             },
             Object {
               "borderBottomWidth": 0,
@@ -832,85 +963,212 @@ exports[`快照正确渲染 2`] = `
         <Text
           accessible={true}
           allowFontScaling={true}
+          disabled={false}
           ellipsizeMode="tail"
           style={
             Object {
               "alignSelf": "center",
-              "color": "#ef0c35",
+              "color": "#BABABA",
               "fontSize": 12,
               "marginRight": 1,
             }
           }
         >
-          我已经阅读并同意
+          点击登录即视为同意
         </Text>
         <Text
           accessible={true}
           allowFontScaling={true}
+          disabled={false}
           ellipsizeMode="tail"
           style={
             Object {
               "alignSelf": "center",
-              "color": "#ef0c35",
+              "color": "#BABABA",
               "fontSize": 12,
               "marginRight": 1,
               "textDecorationLine": "underline",
             }
           }
         >
-          《噼里啪应用许可协议》
+          《用户注册和使用协议》
         </Text>
       </View>
     </View>
     <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
-      accessible={true}
-      hitSlop={undefined}
-      onLayout={undefined}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
           Object {
+            "alignItems": "center",
+            "alignSelf": "stretch",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "height": 44,
+            "justifyContent": "center",
+            "marginBottom": 10,
+          },
+          Object {
             "alignSelf": "center",
-            "backgroundColor": "#e6e6e6",
-            "borderRadius": 6,
+            "backgroundColor": "#ef0c35",
+            "borderRadius": 22,
+            "borderWidth": 0,
             "height": 44,
             "justifyContent": "center",
             "margin": 0,
             "marginTop": 22.5,
-            "width": 250,
+            "width": 300,
           },
           Object {
+            "alignSelf": "center",
             "backgroundColor": "#e6e6e6",
+            "borderRadius": 22,
+            "borderWidth": 0,
+            "height": 44,
+            "justifyContent": "center",
+            "margin": 0,
+            "marginTop": 22.5,
+            "width": 300,
           },
         ]
       }
-      testID={undefined}
     >
       <Text
         accessible={true}
         allowFontScaling={true}
+        disabled={false}
         ellipsizeMode="tail"
         style={
-          Object {
-            "color": "#FFFFFF",
-            "fontSize": 15,
-            "marginBottom": 10,
-            "marginTop": 10,
-            "textAlign": "center",
-          }
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "flex": 1,
+              "fontSize": 18,
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#FFFFFF",
+              "fontSize": 15,
+              "marginBottom": 10,
+              "marginTop": 10,
+              "textAlign": "center",
+            },
+          ]
         }
       >
         登录
       </Text>
     </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-around",
+          "marginLeft": 0,
+          "marginTop": 15,
+          "width": 750,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "borderBottomColor": "#ececec",
+            "borderBottomWidth": 0.5,
+            "height": 1,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "marginTop": 5,
+            "width": 200,
+          }
+        }
+      />
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        disabled={false}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#c8c8c8",
+            "fontSize": 12,
+          }
+        }
+      >
+        第三方登录
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "borderBottomColor": "#ececec",
+            "borderBottomWidth": 0.5,
+            "height": 1,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "marginTop": 5,
+            "width": 200,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-around",
+            "marginLeft": 0,
+            "marginTop": 15,
+            "width": 750,
+          },
+          Object {
+            "marginTop": 20,
+          },
+        ]
+      }
+    >
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        collapsable={undefined}
+        hitSlop={undefined}
+        isTVSelectable={true}
+        nativeID={undefined}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+        testID={undefined}
+        tvParallaxProperties={undefined}
+      >
+        <Image
+          source={1}
+          style={
+            Array [
+              Object {
+                "alignSelf": "center",
+                "resizeMode": "contain",
+              },
+              Object {
+                "justifyContent": "center",
+              },
+            ]
+          }
+        />
+      </View>
+    </View>
   </View>
-</Image>
+</View>
 `;
