@@ -331,8 +331,6 @@ export default class HomePage extends Component {
     _goDetail(item){
         this.props.navigator.push({
             screen: 'HomeDetailPage',
-            backButtonTitle: '返回', // 返回按钮的文字 (可选)
-            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
             passProps:{
                 detailArr:[
                     {

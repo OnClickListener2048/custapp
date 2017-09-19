@@ -64,7 +64,7 @@ export default class MinePage extends Component {
                     />
                     <CommenCell
                         leftText="设置"
-                        onPress = {this._goto.bind(this,'')}
+                        onPress = {this._goto.bind(this,'SettingPage')}
                     />
                     <CommenCell
                         leftText="联系客服"
@@ -82,8 +82,6 @@ export default class MinePage extends Component {
 
         this.props.navigator.push({
             screen: screen,
-            backButtonTitle: '返回', // 返回按钮的文字 (可选)
-            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
         });
 
     }

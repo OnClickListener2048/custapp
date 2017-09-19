@@ -16,6 +16,8 @@ import CompanyInfoPage from './mine/companyInfo/CompanyInfoPage'
 import CompanySurveyPage from './mine/companyInfo/CompanySurveyPage'
 import LicenceInfoPage from './mine/companyInfo/LicenceInfoPage'
 
+import SettingPage from './mine/setting/SettingPage'
+import FeedbackPage from './mine/setting/FeedbackPage'
 
 
 export default function () {
@@ -31,5 +33,7 @@ export default function () {
     reg('CompanyInfoPage', () => CompanyInfoPage);
     reg('CompanySurveyPage', () => CompanySurveyPage);
     reg('LicenceInfoPage', () => LicenceInfoPage);
+    reg('SettingPage', () => SettingPage);
+    reg('FeedbackPage', () => FeedbackPage);
 
 }
