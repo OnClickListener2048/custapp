@@ -265,7 +265,6 @@ dependencies {
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-navigation')
     compile project(':react-native-device-info')
-    compile project(':realm')
     compile project(':react-native-vector-icons')
     compile project(':react-native-blur')
     compile fileTree(dir: "libs", include: ["*.jar"])

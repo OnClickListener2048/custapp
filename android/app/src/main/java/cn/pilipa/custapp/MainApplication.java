@@ -10,7 +10,6 @@ import com.reactnativenavigation.NavigationApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 
 import cn.jpush.reactnativejpush.JPushPackage;
-import io.realm.react.RealmReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.facebook.react.ReactPackage;
@@ -50,7 +49,6 @@ public class MainApplication extends NavigationApplication {
                 new PickerPackage(),
                 //new NavigationReactPackage(),
                 new RNDeviceInfo(),
-                new RealmReactPackage(),
                 new VectorIconsPackage(),
                 new BlurViewPackage(),
                 new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG),
