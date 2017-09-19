@@ -31,7 +31,7 @@ export default class MinePage extends Component {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9',position:'relative'}}>
-                <View style={{width:DeviceInfo.width,height:DeviceInfo.height/2,backgroundColor:'white',position:'absolute'}}/>
+                <View style={{width:DeviceInfo.width,height:DeviceInfo.height/3,backgroundColor:'white',position:'absolute'}}/>
                 <ScrollView
                     contentContainerStyle={{backgroundColor:'#F9F9F9'}}>
                     <TouchableOpacity style={styles.login_wrapper} onPress={this.login.bind(this)}>
@@ -51,43 +51,41 @@ export default class MinePage extends Component {
                     <CommenCell
                         leftText="我的订单"
                         style={{marginTop:9}}
-                        onPress={this._toMyOrder.bind(this)}
+                        onPress = {this._goto.bind(this,'MyOrderPage')}
                     />
                     <CommenCell
                         leftText="企业信息"
+                        onPress = {this._goto.bind(this,'CompanyInfoPage')}
                     />
                     <CommenCell
                         leftText="账号与安全"
-                        onPress = {this._toSafe.bind(this)}
+                        onPress = {this._goto.bind(this,'BindPhonePage')}
                         style={{marginTop:9}}
                     />
                     <CommenCell
                         leftText="设置"
+                        onPress = {this._goto.bind(this,'SettingPage')}
                     />
                     <CommenCell
                         leftText="联系客服"
                         style={{marginTop:9}}
+                        onPress = {this._goto.bind(this,'')}
                     />
                 </ScrollView>
             </View>
 
         )
     }
-    _toSafe(){
+    _goto(screen){
+
+        if(screen == '')return;
+
         this.props.navigator.push({
-            screen: 'BindPhonePage',
-            backButtonTitle: '返回', // 返回按钮的文字 (可选)
-            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
+            screen: screen,
         });
 
     }
-    _toMyOrder(){
-        this.props.navigator.push({
-            screen: 'MyOrderPage',
-            backButtonTitle: '', // 返回按钮的文字 (可选)
-            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
-        });
-    }
+
     login(){
         loginJumpSingleton.goToLogin(this.props.navigator);
     }

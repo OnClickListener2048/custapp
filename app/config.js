@@ -8,7 +8,7 @@ console.log('__DEV__开发模式', __DEV__);// 说明: __DEV__ 的值是自动�
 // 参考: https://stackoverflow.com/questions/34315274/react-native-detect-dev-or-production-env
 
 export const DEBUG = __DEV__;
-export const IN_DEBUGGER = DEBUG && !!window.navigator.userAgent;
+// export const IN_DEBUGGER = DEBUG && !!window.navigator.userAgent;
 console.log('DEBUG=', DEBUG);// 说明: __DEV__ 的值是自动设置的, 无需import
 export const RN_VERSION = '1.3.0';
 

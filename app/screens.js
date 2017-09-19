@@ -12,6 +12,14 @@ import HomeDetailPage from './home/detail/HomeDetailPage'
 import BindPhonePage from './mine/bindPhone/BindPhonePage'
 import MyOrderPage from './mine/myOrder/MyOrderPage'
 
+import ChangeCompanyPage from './mine/companyInfo/ChangeCompanyPage'
+import CompanyInfoPage from './mine/companyInfo/CompanyInfoPage'
+import CompanySurveyPage from './mine/companyInfo/CompanySurveyPage'
+import LicenceInfoPage from './mine/companyInfo/LicenceInfoPage'
+
+import SettingPage from './mine/setting/SettingPage'
+import FeedbackPage from './mine/setting/FeedbackPage'
+
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -23,4 +31,11 @@ export default function () {
     reg('HomeDetailPage', () => HomeDetailPage);
     reg('BindPhonePage', () => BindPhonePage);
     reg('MyOrderPage', () => MyOrderPage);
+    reg('ChangeCompanyPage', () => ChangeCompanyPage);
+    reg('CompanyInfoPage', () => CompanyInfoPage);
+    reg('CompanySurveyPage', () => CompanySurveyPage);
+    reg('LicenceInfoPage', () => LicenceInfoPage);
+    reg('SettingPage', () => SettingPage);
+    reg('FeedbackPage', () => FeedbackPage);
+
 }
