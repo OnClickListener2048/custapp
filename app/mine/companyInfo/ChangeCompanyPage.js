@@ -11,7 +11,8 @@ import {
     TouchableOpacity
 } from 'react-native';
 import CommenCell from '../../view/CommenCell'
-export default class ChangeCompanyPage extends Component {
+import BComponent from '../../base/BComponent'
+export default class ChangeCompanyPage extends BComponent {
 
 
     constructor(props) {

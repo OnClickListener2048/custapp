@@ -16,8 +16,9 @@ import {
     PayTaxes,
     SendBill
 } from './view'
+import BComponent from '../../base';
 
-export default class ServicePage extends Component {
+export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,6 +26,10 @@ export default class ServicePage extends Component {
             selectIndex:4
         };
     }
+    static navigatorStyle = {
+        navBarHidden: false, // 隐藏默认的顶部导航栏
+        tabBarHidden: false, // 默认隐藏底部标签栏
+    };
     btnClick(index){
         this.setState({
             selectIndex:index

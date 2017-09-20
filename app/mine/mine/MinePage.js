@@ -14,7 +14,9 @@ import {
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CommenCell from '../../view/CommenCell'
-export default class MinePage extends Component {
+import BComponent from '../../base';
+
+export default class MinePage extends BComponent {
 
     constructor(props) {
         super(props);

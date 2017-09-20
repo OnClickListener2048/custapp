@@ -33,22 +33,27 @@ export default class BComponent extends Component {
 
     constructor(props) {
         super(props);
-
         // 自定义左侧返回按钮
         if(this.props.navigator) {
-            this.props.navigator.setButtons({
-                leftButtons: [
-                    {
-                        title: '', // for a textual button, provide the button title (label)
-                        // buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
-                        buttonFontSize: 18, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
-                        // buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
-                        id: 'goBack',
-                        icon: require('../img/left.png'),
-                    }], // see "Adding buttons to the navigator" below for format (optional)
-                // rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
-                animated: false // does the change have transition animation or does it happen immediately (optional)
-            });
+            console.log(this.props.navigator)
+            if (this.props.testID == 'MessagePage' || this.props.testID == 'HomePage' || this.props.testID == 'ServicePage' || this.props.testID == 'MinePage'){
+
+            }else{
+                this.props.navigator.setButtons({
+                    leftButtons: [
+                        {
+                            title: '', // for a textual button, provide the button title (label)
+                            // buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+                            buttonFontSize: 18, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
+                            // buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
+                            id: 'goBack',
+                            icon: require('../img/left.png'),
+                        }], // see "Adding buttons to the navigator" below for format (optional)
+                    // rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                    animated: false // does the change have transition animation or does it happen immediately (optional)
+                });
+            }
+
 
             this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
         }
@@ -58,6 +63,10 @@ export default class BComponent extends Component {
         this._testRender =  this._testRender.bind(this);
     }
 
+    static navigatorStyle = {
+        navBarHidden: false, // 隐藏默认的顶部导航栏
+        tabBarHidden: true, // 默认隐藏底部标签栏
+    };
     // 子类请继承此方法, 不要忘了调用super.onNavigatorEvent(event);
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         console.log(event);
@@ -88,19 +97,6 @@ export default class BComponent extends Component {
 
     _renderNetWorkView() {
         console.log("父类" + NetInfoSingleton.isConnected);
-
-        // if (!NetInfoSingleton.isConnected) {      // 无网络
-        //     return(
-        //         <TouchableOpacity style={{flex : 1 , backgroundColor:'#FFFFFF'}} onPress={() => { this._noNetWorkPageClick()}}>
-        //
-        //             <View style={{flex : 1 , backgroundColor:'#FFFFFF' }}>
-        //                 <NoMessage
-        //                     textContent='网络错误,点击重新开始'
-        //                     active={require('../img/network_error.png')}/>
-        //             </View>
-        //         </TouchableOpacity>
-        //     );
-        // }
 
         return null;
     }

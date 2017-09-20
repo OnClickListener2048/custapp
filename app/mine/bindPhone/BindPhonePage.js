@@ -29,11 +29,7 @@ import SubmitButton from "../../view/ui/SubmitButton";
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
-export default class BindPhonePage extends Component {
-    static navigatorStyle = {
-        tabBarHidden: true, // 隐藏默认的顶部导航栏
-        navBarHidden: false, // 隐藏默认的顶部导航栏
-    };
+export default class BindPhonePage extends BComponent {
 
     constructor(props) {
         super(props);

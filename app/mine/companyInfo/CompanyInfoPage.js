@@ -9,7 +9,9 @@ import {
     ScrollView
 } from 'react-native';
 import CommenCell from '../../view/CommenCell'
-export default class CompanyInfoPage extends Component {
+import BComponent from '../../base/BComponent'
+
+export default class CompanyInfoPage extends BComponent {
 
     render(){
         return(
@@ -38,6 +40,7 @@ export default class CompanyInfoPage extends Component {
 
         this.props.navigator.push({
             screen: screen,
+
         });
     }
 
