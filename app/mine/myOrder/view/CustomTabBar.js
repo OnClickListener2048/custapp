@@ -1,5 +1,6 @@
-
-
+/**
+ * Created by liufei on 2017/9/19.
+ */
 
 const React = require('react');
 const { ViewPropTypes } = ReactNative = require('react-native');
