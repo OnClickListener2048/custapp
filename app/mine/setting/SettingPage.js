@@ -10,8 +10,25 @@ import {
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
 import SubmitButton from '../../view/ui/SubmitButton'
+import clearManager from 'react-native-clear-cache';
+import Toast from 'react-native-root-toast'
 export default class SettingPage extends Component {
 
+    constructor () {
+        super();
+        this.state = {
+            cacheSize:"",
+            unit:"",
+        }
+    }
+    componentDidMount(){
+        clearManager.getCacheSize((value,unit)=>{
+            this.setState({
+                cacheSize:value, //缓存大小
+                unit:unit  //缓存单位
+            })
+        });
+    }
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
@@ -30,6 +47,8 @@ export default class SettingPage extends Component {
                     <CommentCell
                         leftText = "清楚缓存"
                         style={{marginTop:10}}
+                        rightText = {this.state.cacheSize+this.state.unit}
+                        onPress={this._clear.bind(this)}
                     />
 
                     <SubmitButton
@@ -41,7 +60,19 @@ export default class SettingPage extends Component {
 
         )
     }
+    _clear(){
+        clearManager.runClearCache(()=>{
 
+            Toast.show("清除成功")
+            clearManager.getCacheSize((value,unit)=>{
+                this.setState({
+                    cacheSize:value, //缓存大小
+                    unit:unit  //缓存单位
+                })
+            });
+
+        });
+    }
     _feedback(){
         this.props.navigator.push({
             screen: 'FeedbackPage',

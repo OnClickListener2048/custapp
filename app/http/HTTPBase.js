@@ -230,7 +230,7 @@ HTTPBase.post = async function (url, params= {}, headers= null) {
     let response = await this._fetch(url, {
         method:'POST',
         headers:this._commonHeaders(headers),
-        body:paramsArray,
+        body:formData,
     });
     let end = new Date().getTime();
     console.log( "<====== 耗时 " + (end - start) + "毫秒");

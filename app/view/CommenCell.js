@@ -95,6 +95,7 @@ export default class CommenCell extends Component {
     _renderRightView(){
 
         if(this.props.isClick){
+
             //可以点击
             return(
                 <View style = {styles.rightViewStyle}>
@@ -107,7 +108,7 @@ export default class CommenCell extends Component {
             //不可以点击
             return(
                 <View style = {styles.rightViewStyle}>
-                    <Text style = {[styles.rightTextStyle,this.props.rightTextStyle,{marginRight:14}]}>{this.props.rightText}</Text>
+                    <Text style = {[styles.rightTextStyle,this.props.rightTextStyle]}>{this.props.rightText}</Text>
                     {this.props.rightView}
                 </View>
             );
