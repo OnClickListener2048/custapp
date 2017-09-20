@@ -23,11 +23,11 @@ export default class CompanyInfoPage extends BComponent {
                         leftText="企业概况"
                         rightText="大佳科技"
                         style={{marginTop:10}}
-                        onPress={this._goto.bind(this,'CompanySurveyPage')}
+                        onPress={this._goto.bind(this,'CompanySurveyPage','企业概况')}
                     />
                     <CommenCell
                         leftText="切换公司"
-                        onPress={this._goto.bind(this,'ChangeCompanyPage')}
+                        onPress={this._goto.bind(this,'ChangeCompanyPage','切换公司')}
                     />
                 </ScrollView>
             </View>
@@ -35,11 +35,12 @@ export default class CompanyInfoPage extends BComponent {
         )
     }
 
-    _goto(screen){
+    _goto(screen, title){
         if(screen == '')return;
 
         this.props.navigator.push({
             screen: screen,
+            title:title
 
         });
     }

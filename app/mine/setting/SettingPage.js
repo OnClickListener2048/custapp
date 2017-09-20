@@ -78,6 +78,7 @@ export default class SettingPage extends BComponent {
     _feedback(){
         this.props.navigator.push({
             screen: 'FeedbackPage',
+            title:'意见反馈'
         });
     }
 

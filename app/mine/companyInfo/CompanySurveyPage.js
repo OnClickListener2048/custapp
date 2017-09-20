@@ -136,6 +136,7 @@ export default class CompanySurveyPage extends BComponent {
     _click(){
         this.props.navigator.push({
             screen: 'LicenceInfoPage',
+            title:'证照信息'
 
         });
     }

@@ -34,6 +34,7 @@ export default class OrderStateCell extends Component {
             screen: 'ProgressDetailPage',
             backButtonTitle: '返回', // 返回按钮的文字 (可选)
             backButtonHidden: false, // 是否隐藏返回按钮 (可选)
+            title:'进度详情',
             passProps: {
                 headImg:headImg,
                 orderId:orderId,

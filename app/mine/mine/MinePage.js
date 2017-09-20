@@ -53,20 +53,20 @@ export default class MinePage extends BComponent {
                     <CommenCell
                         leftText="我的订单"
                         style={{marginTop:9}}
-                        onPress = {this._goto.bind(this,'MyOrderPage')}
+                        onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
                     />
                     <CommenCell
                         leftText="企业信息"
-                        onPress = {this._goto.bind(this,'CompanyInfoPage')}
+                        onPress = {this._goto.bind(this,'CompanyInfoPage','企业信息')}
                     />
                     <CommenCell
                         leftText="账号与安全"
-                        onPress = {this._goto.bind(this,'BindPhonePage')}
+                        onPress = {this._goto.bind(this,'BindPhonePage','账号与安全')}
                         style={{marginTop:9}}
                     />
                     <CommenCell
                         leftText="设置"
-                        onPress = {this._goto.bind(this,'SettingPage')}
+                        onPress = {this._goto.bind(this,'SettingPage','设置')}
                     />
                     <CommenCell
                         leftText="联系客服"
@@ -78,12 +78,13 @@ export default class MinePage extends BComponent {
 
         )
     }
-    _goto(screen){
+    _goto(screen, title ){
 
         if(screen == '')return;
 
         this.props.navigator.push({
             screen: screen,
+            title:title
         });
 
     }

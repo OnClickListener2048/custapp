@@ -334,6 +334,7 @@ export default class HomePage extends BComponent {
     _goDetail(item){
         this.props.navigator.push({
             screen: 'HomeDetailPage',
+            title:item.subTitle,
             passProps:{
                 detailArr:[
                     {

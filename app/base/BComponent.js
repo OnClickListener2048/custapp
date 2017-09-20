@@ -35,7 +35,6 @@ export default class BComponent extends Component {
         super(props);
         // 自定义左侧返回按钮
         if(this.props.navigator) {
-            console.log(this.props.navigator)
             if (this.props.testID == 'MessagePage' || this.props.testID == 'HomePage' || this.props.testID == 'ServicePage' || this.props.testID == 'MinePage'){
 
             }else{
@@ -53,8 +52,6 @@ export default class BComponent extends Component {
                     animated: false // does the change have transition animation or does it happen immediately (optional)
                 });
             }
-
-
             this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
         }
 

@@ -83,6 +83,7 @@ export default class MessagePage extends BComponent {
 
         this.props.navigator.push({
             screen: 'SystemMessagePage',
+            title:'系统消息'
         });
 
     }
