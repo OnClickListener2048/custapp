@@ -19,6 +19,7 @@ import LicenceInfoPage from './mine/companyInfo/LicenceInfoPage'
 
 import SettingPage from './mine/setting/SettingPage'
 import FeedbackPage from './mine/setting/FeedbackPage'
+import SystemMessagePage from './message/message/SystemMessagePage';
 
 
 export default function () {
@@ -37,5 +38,7 @@ export default function () {
     reg('LicenceInfoPage', () => LicenceInfoPage);
     reg('SettingPage', () => SettingPage);
     reg('FeedbackPage', () => FeedbackPage);
+    reg('SystemMessagePage', () => SystemMessagePage);
+
 
 }
