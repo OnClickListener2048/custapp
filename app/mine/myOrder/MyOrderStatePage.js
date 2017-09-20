@@ -14,6 +14,7 @@ import {
     ListView,
     RefreshControl
 } from 'react-native';
+import OrderStateCell from "./view/OrderStateCell";
 
 export default class MyOrderStatePage extends Component {
 
@@ -24,6 +25,15 @@ export default class MyOrderStatePage extends Component {
                 rowHasChanged: (row1, row2) => row1 !== row2}),
         }
         this.orderArr=[];
+        this._loadInitData=this._loadInitData.bind(this);
+    }
+
+    componentWillMount(){
+        this._loadInitData();
+    }
+
+    _loadInitData(){
+
     }
 
     render(){
@@ -43,6 +53,15 @@ export default class MyOrderStatePage extends Component {
     }
 
     _renderRow(rowData){
+        return(
+            <OrderStateCell
+                headImg={require('../../img/head_img.png')}
+                orderId='20170920'
+                orderState="待分配"
+                name="注册公司"
+                money="200"
+            />
+        );
 
     }
 }

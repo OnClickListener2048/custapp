@@ -1,7 +1,7 @@
 /**
  * Created by liufei on 2017/9/19.
  */
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 import {
     View,
     StyleSheet,
@@ -16,21 +16,35 @@ import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../../config';
 
 export default class OrderStateCell extends Component {
 
+    constructor(props){
+        super(props)
+    }
+
+    static propTypes = {
+        headImg: PropTypes.number,
+        orderId: PropTypes.string,
+        orderState: PropTypes.string,
+        name: PropTypes.string,//注册公司
+        money: PropTypes.string
+
+    };
+
     render(){
+        const {headImg, orderId,orderState,name,money} = this.props
         return(
         <View style={styles.container} >
             <CommenCell
                 style={{marginTop:10}}
                 isClick={false}
-                leftText="订单号：20170919"
-                rightText="待分配"
+                leftText={"订单号："+orderId}
+                rightText={orderState}
                 rightTextStyle={{color:'#e13238',fontSize:16}}
                 />
             <View style={styles.wrapper1}>
-                <Image style={styles.head_img} source={require('../../../img/head_img.png')}/>
+                <Image style={styles.head_img} source={headImg}/>
                 <View style={styles.wrapper2}>
                     <Text style={styles.company_title}>
-                        注册公司
+                        {name}
                     </Text>
                     <View style={styles.wrapper3}>
                         <Text style={styles.money_te}>
@@ -40,7 +54,7 @@ export default class OrderStateCell extends Component {
                             ¥
                         </Text>
                         <Text style={styles.money}>
-                            200
+                            {money}
                         </Text>
                     </View>
                 </View>
