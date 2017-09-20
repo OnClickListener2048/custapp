@@ -4009,6 +4009,10 @@ react-native-blur@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-2.0.0.tgz#284b3abfb42c2d90924aa15f494ccb88d6055342"
 
+react-native-clear-cache@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-clear-cache/-/react-native-clear-cache-1.0.0.tgz#fb4cde15785f5501ad278339c24adf35d0027b82"
+
 react-native-device-info@^0.10.2:
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.10.2.tgz#350cd68ed43839022ddea0a3a423439f16fa4fba"
@@ -4098,6 +4102,10 @@ react-native-tab-navigator@^0.3.3:
   dependencies:
     immutable "^3.8.1"
     prop-types "^15.5.10"
+
+react-native-ultimate-listview@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-ultimate-listview/-/react-native-ultimate-listview-3.2.2.tgz#682f13db53bcd4c6856b112d6a526a71e1b0fae6"
 
 react-native-vector-icons@^4.1.1:
   version "4.4.0"
