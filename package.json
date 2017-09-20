@@ -19,6 +19,7 @@
     "react-native-alert": "github:pilipa-cn/react-native-alert-cust#v1.0.2",
     "react-native-animatable": "^1.1.0",
     "react-native-blur": "^2.0.0",
+    "react-native-clear-cache": "^1.0.0",
     "react-native-device-info": "^0.10.2",
     "react-native-image-crop-picker": "github:pilipa-cn/react-native-image-crop-picker#v0.14.2",
     "react-native-image-pan-zoom": "^2.0.1",

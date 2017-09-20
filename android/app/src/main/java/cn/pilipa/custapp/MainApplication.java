@@ -16,7 +16,7 @@ import com.facebook.react.ReactPackage;
 //import com.tencent.bugly.Bugly;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
-
+import com.example.qiepeipei.react_native_clear_cache.ClearCachePackage;
 import java.util.Arrays;
 import java.util.List;
 import com.theweflex.react.WeChatPackage;
@@ -53,7 +53,8 @@ public class MainApplication extends NavigationApplication {
                 new BlurViewPackage(),
                 new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG),
                 new UmengReactPackage(),
-                new WeChatPackage()
+                new WeChatPackage(),
+                new ClearCachePackage()
         );
     }
 
