@@ -51,7 +51,7 @@ export default class MinePage extends Component {
                     <CommenCell
                         leftText="我的订单"
                         style={{marginTop:9}}
-                        onPress = {this._goto.bind(this,'')}
+                        onPress = {this._goto.bind(this,'MyOrderPage')}
                     />
                     <CommenCell
                         leftText="企业信息"
@@ -85,6 +85,7 @@ export default class MinePage extends Component {
         });
 
     }
+
     login(){
         loginJumpSingleton.goToLogin(this.props.navigator);
     }
