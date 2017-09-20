@@ -13,6 +13,9 @@ import {
     StyleSheet
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
+
+import BComponent from '../../base';
+
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
 const itemMargin = 15
@@ -185,7 +188,7 @@ const footData = [
     }
 ]
 
-export default class HomePage extends Component {
+export default class HomePage extends BComponent {
 
     constructor(props) {
         super(props);

@@ -19,8 +19,8 @@ import LicenceInfoPage from './mine/companyInfo/LicenceInfoPage'
 
 import SettingPage from './mine/setting/SettingPage'
 import FeedbackPage from './mine/setting/FeedbackPage'
-import SystemMessagePage from './message/message/SystemMessagePage';
 import ProgressDetailPage from './mine/myOrder/ProgressDetailPage'
+import SystemMessagePage from './message/detail/SystemMessagePage';
 
 
 export default function () {
@@ -41,6 +41,5 @@ export default function () {
     reg('FeedbackPage', () => FeedbackPage);
     reg('SystemMessagePage', () => SystemMessagePage);
     reg('ProgressDetailPage', () => ProgressDetailPage);
-
 
 }

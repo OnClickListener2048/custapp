@@ -35,7 +35,7 @@ export default class MinePage extends Component {
             renderTabBar={() => <CustomTabBar/>}
             style={styles.container}
             tabBarUnderlineStyle={styles.lineStyle}//选中时线的样式
-            tabBarActiveTextColor='#FF0000'//选中时线的颜色
+            tabBarActiveTextColor='#E13238'//选中时字体的颜色
             tabBarBackgroundColor='#ececec'//整个tab的背景色
             tabBarInactiveTextColor='#999999'//未选中时字的颜色
             tabBarTextStyle={styles.textStyle}//tab字体的样式
@@ -65,9 +65,11 @@ const styles = StyleSheet.create({
     },
 
     lineStyle: {
-        width:SCREEN_WIDTH/4,
+        alignSelf:'center',
+        width:SCREEN_WIDTH/4-13*2,
         height: 1,
-        backgroundColor: '#FF0000',
+        marginLeft:15,
+        backgroundColor: '#E13238',
     },
 
     textStyle:{

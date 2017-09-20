@@ -11,7 +11,9 @@ import {
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
 import SubmitButton from '../../view/ui/SubmitButton'
-export default class FeedbackPage extends Component {
+import BComponent from '../../base';
+
+export default class FeedbackPage extends BComponent {
 
     render(){
         return(

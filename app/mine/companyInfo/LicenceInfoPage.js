@@ -11,8 +11,9 @@ import {
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
 import SectionHeader from '../../view/SectionHeader'
+import BComponent from '../../base/BComponent'
 
-export default class LicenceInfoPage extends Component {
+export default class LicenceInfoPage extends BComponent {
 
     render(){
         return(
@@ -32,6 +33,7 @@ export default class LicenceInfoPage extends Component {
                         leftText = "年审时间"
                         rightText = "2017-8-12"
                         isClick = {false}
+
                     />
                 </ScrollView>
             </View>

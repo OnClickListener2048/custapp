@@ -12,10 +12,12 @@ import CommentCell from '../../view/CommenCell'
 import SubmitButton from '../../view/ui/SubmitButton'
 import clearManager from 'react-native-clear-cache';
 import Toast from 'react-native-root-toast'
-export default class SettingPage extends Component {
+import BComponent from '../../base';
 
-    constructor () {
-        super();
+export default class SettingPage extends BComponent {
+
+    constructor (props) {
+        super(props);
         this.state = {
             cacheSize:"",
             unit:"",

@@ -12,11 +12,10 @@ import {
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view'
 import WebTab from './WebVIew'
 import Modal from 'react-native-modalbox';
-export default class HomeDetailPage extends Component {
-    static navigatorStyle = {
-        navBarHidden: false, // 隐藏默认的顶部导航栏
-        tabBarHidden: true, // 默认隐藏底部标签栏
-    };
+import BComponent from '../../base';
+
+export default class HomeDetailPage extends BComponent {
+
     static defaultProps = {
         detailArr:[]
     };

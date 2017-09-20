@@ -11,6 +11,7 @@ const {
     Animated,
 } = ReactNative;
 const Button = require('./Button');
+import {TouchableOpacity} from "react-native";
 
 const CustomTabBar = React.createClass({
     propTypes: {
@@ -40,22 +41,34 @@ const CustomTabBar = React.createClass({
     renderTab(name, page, isTabActive, onPressHandler) {
         const { activeTextColor, inactiveTextColor, textStyle, } = this.props;
         const textColor = isTabActive ? activeTextColor : inactiveTextColor;
-        const fontWeight = isTabActive ? 'bold' : 'normal';
-
-        return <Button
-            style={styles.flexOne}
-            key={name}
-            accessible={true}
-            accessibilityLabel={name}
-            accessibilityTraits='button'
-            onPress={() => onPressHandler(page)}
-        >
-            <View style={[styles.tab, this.props.tabStyle, ]}>
-                <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
-                    {name}
-                </Text>
-            </View>
-        </Button>;
+        const fontWeight = isTabActive ? 'normal' : 'normal';
+        return (
+            <TouchableOpacity key={name}
+                              onPress={() => onPressHandler(page)}
+            >
+                <View style={styles.flexOne}>
+                    <View style={[styles.tab, this.props.tabStyle, ]}>
+                        <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
+                            {name}
+                        </Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
+            )
+        // <Button
+        //     style={styles.flexOne}
+        //     key={name}
+        //     accessible={true}
+        //     accessibilityLabel={name}
+        //     accessibilityTraits='button'
+        //     onPress={() => onPressHandler(page)}
+        // >
+        //     <View style={[styles.tab, this.props.tabStyle, ]}>
+        //         <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
+        //             {name}
+        //         </Text>
+        //     </View>
+        // </Button>;
     },
 
     render() {
@@ -63,14 +76,15 @@ const CustomTabBar = React.createClass({
         const numberOfTabs = this.props.tabs.length;
         const tabUnderlineStyle = {
             position: 'absolute',
+            alignSelf:'center',
             width: containerWidth / numberOfTabs,
-            height: 4,
+            height: 1,
             backgroundColor: 'navy',
             bottom: 0,
         };
 
         const left = this.props.scrollValue.interpolate({
-            inputRange: [0, 1, ], outputRange: [0,  containerWidth / numberOfTabs, ],
+            inputRange: [0, 1, ], outputRange: [0,  containerWidth / numberOfTabs+4, ],
         });
         return (
             <View style={[styles.tabs, {backgroundColor: this.props.backgroundColor, }, this.props.style, ]}>
@@ -79,7 +93,8 @@ const CustomTabBar = React.createClass({
                     const renderTab = this.props.renderTab || this.renderTab;
                     return renderTab(name, page, isTabActive, this.props.goToPage);
                 })}
-                <Animated.View style={[tabUnderlineStyle, { left, }, this.props.underlineStyle, ]} />
+
+                    <Animated.View style={[tabUnderlineStyle, { left, }, this.props.underlineStyle, ]} />
             </View>
         );
     },
@@ -99,11 +114,12 @@ const styles = StyleSheet.create({
         height: 50,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        borderWidth: 1,
+        alignItems:'center',
+        borderWidth: 0.5,
         borderTopWidth: 0,
         borderLeftWidth: 0,
         borderRightWidth: 0,
-        borderColor: '#ccc',
+        borderColor: '#f9f9f9',
     },
 });
 

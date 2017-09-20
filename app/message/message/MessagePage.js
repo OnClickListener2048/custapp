@@ -4,16 +4,22 @@
 import React, {Component} from 'react';
 import {
     View,
+    TouchableOpacity
 } from 'react-native';
 import CommonCell from '../../view/CommenCell'
 import UltimateListView from "react-native-ultimate-listview";
 import Swipeout from "react-native-swipeout"
 import * as apis from '../../apis';
+import BComponent from '../../base';
 
-export default class MessagePage extends Component {
+export default class MessagePage extends BComponent {
     constructor(props) {
         super(props);
     }
+    static navigatorStyle = {
+        navBarHidden: false, // 隐藏默认的顶部导航栏
+        tabBarHidden: false, // 默认隐藏底部标签栏
+    };
     // 载入初始化数据
     onFetch = (page = 1, startFetch, abortFetch) => {
         let mesId = ''
@@ -50,26 +56,35 @@ export default class MessagePage extends Component {
                 {
                     text: '删除',
                     backgroundColor:'red',
+                    onPress:this._delete.bind(this,index)
                 }
-            ]}>
-                <CommonCell
-                    leftText={item.title }
-                    rightText={item.date}
-                    onPress={this._goto.bind(this,item.type)}
-                />
+            ]}
+                      autoClose={true}
+            >
+                <TouchableOpacity onPress={this._goto.bind(this)}>
+                    <CommonCell
+                        leftText={item.title }
+                        rightText={item.date}
+                        isClick={false}
+                    />
+                </TouchableOpacity>
+
             </Swipeout>
 
         )
     };
 
-    _goto(type){
-        if(type == 'other'){
-            //系统消息
-            this.props.navigator.push({
-                screen: 'SystemMessagePage',
-            });
-        }else{
-        }
+    _delete(index){
+        let arr = JSON.parse(JSON.stringify(this.listView.getRows()))
+        arr.splice(index,1)
+        this.listView.updateDataSource(arr);
+    }
+    _goto(){
+
+        this.props.navigator.push({
+            screen: 'SystemMessagePage',
+        });
+
     }
     renderPaginationFetchingView = () => {
         return (

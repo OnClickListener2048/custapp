@@ -12,6 +12,7 @@ import {
 
 import CommenCell from '../../view/CommenCell'
 import SectionHeader from '../../view/SectionHeader'
+import BComponent from '../../base/BComponent'
 
 const companyData = [
     {
@@ -62,7 +63,7 @@ const companyData = [
     }
 
 ]
-export default class CompanySurveyPage extends Component {
+export default class CompanySurveyPage extends BComponent {
 
 
     constructor(props) {
@@ -135,6 +136,7 @@ export default class CompanySurveyPage extends Component {
     _click(){
         this.props.navigator.push({
             screen: 'LicenceInfoPage',
+
         });
     }
 
