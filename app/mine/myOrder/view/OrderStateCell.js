@@ -29,6 +29,22 @@ export default class OrderStateCell extends Component {
 
     };
 
+    _toDetail(headImg, orderId,orderState,name,money){
+        console.log(this)
+        this.props.navigator.push({
+            screen: 'ProgressDetailPage',
+            backButtonTitle: '返回', // 返回按钮的文字 (可选)
+            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
+            passProps: {
+                headImg:headImg,
+                orderId:orderId,
+                orderState:orderState,
+                name:name,
+                money:money
+            }
+        });
+    }
+
     render(){
         const {headImg, orderId,orderState,name,money} = this.props
         return(
@@ -66,6 +82,7 @@ export default class OrderStateCell extends Component {
                 rightText="进度详情"
                 rightTextStyle={{color:'#999999',fontSize:14}}
                 leftTextStyle={{color:'#999999',fontSize:14}}
+                onPress={this._toDetail.bind(this,headImg, orderId,orderState,name,money)}
             />
         </View>
         )

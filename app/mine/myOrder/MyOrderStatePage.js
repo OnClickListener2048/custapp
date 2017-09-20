@@ -17,6 +17,7 @@ import {
 import OrderStateCell from "./view/OrderStateCell";
 import UltimateListView from "react-native-ultimate-listview";
 import * as apis from '../../apis';
+import CommonCell from '../../view/CommenCell'
 
 export default class MyOrderStatePage extends Component {
 
@@ -27,7 +28,6 @@ export default class MyOrderStatePage extends Component {
                 rowHasChanged: (row1, row2) => row1 !== row2}),
         }
         this.orderArr=[];
-        this._loadInitData=this._loadInitData.bind(this);
     }
 
     // 载入初始化数据
@@ -61,15 +61,15 @@ export default class MyOrderStatePage extends Component {
 
     renderItem = (item, index, separator) => {
         // alert(JSON.stringify(item))
+        console.log("lalal",this)
         return(
             <OrderStateCell
                 headImg={require('../../img/head_img.png')}
                 orderId={item.msgId}
-                orderState={item.subTitle}
-                name={item.title}
+                orderState={item.title}
+                name={item.subTitle}
                 money="200"
             />
-
 
 
         )

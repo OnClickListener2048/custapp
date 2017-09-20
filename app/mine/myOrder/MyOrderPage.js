@@ -13,7 +13,7 @@ import {
     Text,
     Platform,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
 } from 'react-native';
 
 import  MyOrderStatePage from './MyOrderStatePage'
@@ -28,8 +28,10 @@ export default class MinePage extends Component {
 
     }
 
+
     render(){
         return <ScrollableTabView
+
             renderTabBar={() => <CustomTabBar/>}
             style={styles.container}
             tabBarUnderlineStyle={styles.lineStyle}//选中时线的样式
@@ -37,16 +39,16 @@ export default class MinePage extends Component {
             tabBarBackgroundColor='#ececec'//整个tab的背景色
             tabBarInactiveTextColor='#999999'//未选中时字的颜色
             tabBarTextStyle={styles.textStyle}//tab字体的样式
-            ref={(tabView) => { this.tabView = tabView; }}
+            ref={(scrollTabView) => { this.scrollTabView = scrollTabView; }}
         >
-            {/*<MyOrderStatePage tabLabel='办理中'/>*/}
-            {/*<MyOrderStatePage tabLabel='已完成'/>*/}
-            {/*<MyOrderStatePage tabLabel='已取消'/>*/}
-            {/*<MyOrderStatePage tabLabel='全部'/>*/}
-            <OrderStateCell tabLabel='办理中'/>
-            <OrderStateCell tabLabel='已完成'/>
-            <OrderStateCell tabLabel='已取消'/>
-            <OrderStateCell tabLabel='全部'/>
+            <MyOrderStatePage tabLabel='办理中'
+                              />
+            <MyOrderStatePage tabLabel='已完成'
+                             />
+            <MyOrderStatePage tabLabel='已取消'
+                              />
+            <MyOrderStatePage tabLabel='全部'
+                              />
 
         </ScrollableTabView>
     }
