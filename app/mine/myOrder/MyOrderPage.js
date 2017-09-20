@@ -18,8 +18,9 @@ import {
 
 import  MyOrderStatePage from './MyOrderStatePage'
 import OrderStateCell from "./view/OrderStateCell";
+import BComponent from '../../base/BComponent'
 
-export default class MinePage extends Component {
+export default class MyOrderPage extends BComponent {
 
     constructor(props) {
         super(props);
