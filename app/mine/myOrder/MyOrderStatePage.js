@@ -15,6 +15,8 @@ import {
     RefreshControl
 } from 'react-native';
 import OrderStateCell from "./view/OrderStateCell";
+import UltimateListView from "react-native-ultimate-listview";
+import * as apis from '../../apis';
 
 export default class MyOrderStatePage extends Component {
 
@@ -28,42 +30,73 @@ export default class MyOrderStatePage extends Component {
         this._loadInitData=this._loadInitData.bind(this);
     }
 
-    componentWillMount(){
-        this._loadInitData();
-    }
+    // 载入初始化数据
+    onFetch = (page = 1, startFetch, abortFetch) => {
+        let mesId = ''
 
-    _loadInitData(){
+        if (page >1){
+            let arr = this.listView.getRows()
+            let obj = arr[arr.length-1]
+            mesId = obj.msgId
+        }
+        let pageSize = 10
+        apis.loadMessageData(pageSize,mesId).then(
+            (responseData) => {
 
-    }
+                if(responseData !== null && responseData.data !== null){
+
+                    startFetch(responseData.data,page * pageSize)
+                }else{
+
+                    abortFetch()
+                }
+            },
+            (e) => {
+
+                abortFetch()
+
+            },
+        );
+    };
+
+    renderItem = (item, index, separator) => {
+        // alert(JSON.stringify(item))
+        return(
+            <OrderStateCell
+                headImg={require('../../img/head_img.png')}
+                orderId={item.msgId}
+                orderState={item.subTitle}
+                name={item.title}
+                money="200"
+            />
+
+
+
+        )
+    };
+
+    renderPaginationFetchingView = () => {
+        return (
+            <View></View>
+        );
+    };
 
     render(){
         return(
         <View style={styles.container}>
-            <ListView    style={[{flex : 1 }]}
-                         dataSource={this.state.dataSource}
-                         // onEndReached={this._loadMoreData}
-                         // renderFooter={this.renderFooter}
-                         enableEmptySections={true}
-                         onEndReachedThreshold={10}
-                         renderRow={this._renderRow.bind(this)}
-
+            <UltimateListView
+                ref={(ref) => this.listView = ref}
+                onFetch={this.onFetch}
+                keyExtractor={(item, index) => `${index} - ${item}`}  //this is required when you are using FlatList
+                refreshableMode={DeviceInfo.OS==='ios'?'advanced':'basic'} //basic or advanced
+                item={this.renderItem}  //this takes three params (item, index, separator)
+                paginationFetchingView={this.renderPaginationFetchingView}
             />
         </View>
         )
     }
 
-    _renderRow(rowData){
-        return(
-            <OrderStateCell
-                headImg={require('../../img/head_img.png')}
-                orderId='20170920'
-                orderState="待分配"
-                name="注册公司"
-                money="200"
-            />
-        );
 
-    }
 }
 
 

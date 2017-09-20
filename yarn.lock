@@ -3915,7 +3915,7 @@ qs@~6.4.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
 
-raf@^3.3.2:
+raf@^3.1.0, raf@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.3.2.tgz#0c13be0b5b49b46f76d6669248d527cf2b02fe27"
   dependencies:
@@ -4084,6 +4084,14 @@ react-native-root-toast@^1.1.2:
   dependencies:
     react-timer-mixin "^0.13.3"
 
+react-native-swipeout@^2.2.2:
+  version "2.2.2"
+  resolved "http://registry.npm.taobao.org/react-native-swipeout/download/react-native-swipeout-2.2.2.tgz#65221abbd7992c83ec325625a45496d804eccd9f"
+  dependencies:
+    create-react-class "^15.6.0"
+    prop-types "^15.5.10"
+    react-tween-state "^0.1.5"
+
 react-native-swiper@^1.5.11:
   version "1.5.12"
   resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.12.tgz#fe040e19d936304013f1671dd83f7e25ee3c4d83"
@@ -4234,6 +4242,13 @@ react-transform-hmr@^1.0.4:
   dependencies:
     global "^4.3.0"
     react-proxy "^1.1.7"
+
+react-tween-state@^0.1.5:
+  version "0.1.5"
+  resolved "http://registry.npm.taobao.org/react-tween-state/download/react-tween-state-0.1.5.tgz#e98b066551efb93cb92dd1be14995c2e3deae339"
+  dependencies:
+    raf "^3.1.0"
+    tween-functions "^1.0.1"
 
 react@16.0.0-alpha.12:
   version "16.0.0-alpha.12"
@@ -4969,6 +4984,10 @@ tunnel-agent@^0.6.0:
 tunnel-agent@~0.4.1:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/tunnel-agent/-/tunnel-agent-0.4.3.tgz#6373db76909fe570e08d73583365ed828a74eeeb"
+
+tween-functions@^1.0.1:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/tween-functions/download/tween-functions-1.2.0.tgz#1ae3a50e7c60bb3def774eac707acbca73bbc3ff"
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
