@@ -28,6 +28,8 @@ export default class MyOrderStatePage extends Component {
                 rowHasChanged: (row1, row2) => row1 !== row2}),
         }
         this.orderArr=[];
+        this.pageX = '';
+        this.pageY = ''
     }
 
     // 载入初始化数据
@@ -60,8 +62,7 @@ export default class MyOrderStatePage extends Component {
     };
 
     renderItem = (item, index, separator) => {
-        // alert(JSON.stringify(item))
-        console.log("lalal",this)
+
         return(
             <OrderStateCell
                 headImg={require('../../img/head_img.png')}
@@ -69,6 +70,7 @@ export default class MyOrderStatePage extends Component {
                 orderState={item.title}
                 name={item.subTitle}
                 money="200"
+                {...this.props}
             />
 
 
@@ -91,6 +93,20 @@ export default class MyOrderStatePage extends Component {
                 refreshableMode={DeviceInfo.OS==='ios'?'advanced':'basic'} //basic or advanced
                 item={this.renderItem}  //this takes three params (item, index, separator)
                 paginationFetchingView={this.renderPaginationFetchingView}
+                onTouchStart={(e) => {
+                    this.pageX = e.nativeEvent.pageX;
+                    this.pageY = e.nativeEvent.pageY;
+                }}
+                onTouchMove={(e) => {
+                    if(Math.abs(this.pageY - e.nativeEvent.pageY) > Math.abs(this.pageX - e.nativeEvent.pageX)){
+                        // 下拉
+                        this.props.lockSlide();
+                    } else {
+                        // 左右滑动
+                        this.props.openSlide();
+
+                    }
+                }}
             />
         </View>
         )

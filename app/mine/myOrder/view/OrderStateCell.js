@@ -30,7 +30,6 @@ export default class OrderStateCell extends Component {
     };
 
     _toDetail(headImg, orderId,orderState,name,money){
-        console.log(this)
         this.props.navigator.push({
             screen: 'ProgressDetailPage',
             backButtonTitle: '返回', // 返回按钮的文字 (可选)

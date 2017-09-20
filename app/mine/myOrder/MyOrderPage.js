@@ -29,10 +29,21 @@ export default class MyOrderPage extends BComponent {
 
     }
 
+    _lockSlide(){
+        if (Platform.OS === 'android') {
+            this.scrollTabView.setNativeProps(false);
+        }
+    }
+
+    _openSlide(){
+        if (Platform.OS === 'android'){
+            this.scrollTabView.setNativeProps(true);
+        }
+    }
+
 
     render(){
         return <ScrollableTabView
-
             renderTabBar={() => <CustomTabBar/>}
             style={styles.container}
             tabBarUnderlineStyle={styles.lineStyle}//选中时线的样式
@@ -43,13 +54,25 @@ export default class MyOrderPage extends BComponent {
             ref={(scrollTabView) => { this.scrollTabView = scrollTabView; }}
         >
             <MyOrderStatePage tabLabel='办理中'
+                              lockSlide = {this._lockSlide.bind(this)}
+                              openSlide = {this._openSlide.bind(this)}
+                              {...this.props}
                               />
             <MyOrderStatePage tabLabel='已完成'
-                             />
+                              lockSlide = {this._lockSlide.bind(this)}
+                              openSlide = {this._openSlide.bind(this)}
+                              {...this.props}
+            />
             <MyOrderStatePage tabLabel='已取消'
-                              />
+                              lockSlide = {this._lockSlide.bind(this)}
+                              openSlide = {this._openSlide.bind(this)}
+                              {...this.props}
+            />
             <MyOrderStatePage tabLabel='全部'
-                              />
+                              lockSlide = {this._lockSlide.bind(this)}
+                              openSlide = {this._openSlide.bind(this)}
+                              {...this.props}
+            />
 
         </ScrollableTabView>
     }
