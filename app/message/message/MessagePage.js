@@ -7,48 +7,70 @@ import {
 } from 'react-native';
 import CommonCell from '../../view/CommenCell'
 import UltimateListView from "react-native-ultimate-listview";
+import Swipeout from "react-native-swipeout"
+import * as apis from '../../apis';
+
 export default class MessagePage extends Component {
     constructor(props) {
         super(props);
     }
+    // 载入初始化数据
+    onFetch = (page = 1, startFetch, abortFetch) => {
+        let mesId = ''
 
-    sleep = (time) => new Promise(resolve => setTimeout(() => resolve(), time));
-
-    onFetch = async (page = 1, startFetch, abortFetch) => {
-        try {
-            //This is required to determinate whether the first loading list is all loaded.
-            let pageLimit = 10;
-            let skip = (page - 1) * pageLimit;
-
-            //Generate dummy data
-            let rowData = Array.from({length: pageLimit}, (value, index) => `item -> ${index + skip}`);
-
-            //Simulate the end of the list if there is no more data returned from the server
-            if (page === 10) {
-                rowData = [];
-            }
-
-            //Simulate the network loading in ES7 syntax (async/await)
-            await this.sleep(2000);
-            startFetch(rowData, pageLimit);
-        } catch (err) {
-            abortFetch(); //manually stop the refresh or pagination if it encounters network error
-            console.log(err);
+        if (page >1){
+            let arr = this.listView.getRows()
+            let obj = arr[arr.length-1]
+            mesId = obj.msgId
         }
+        let pageSize = 10
+        apis.loadMessageData(pageSize,mesId).then(
+            (responseData) => {
+
+                if(responseData !== null && responseData.data !== null){
+
+                    startFetch(responseData.data,page * pageSize)
+                }else{
+
+                    abortFetch()
+                }
+            },
+            (e) => {
+
+                abortFetch()
+
+            },
+        );
     };
 
-
-
-
-
     renderItem = (item, index, separator) => {
+       // alert(JSON.stringify(item))
         return(
-            <CommonCell
-                leftText="111"
-            />
+            <Swipeout right={[
+                {
+                    text: '删除',
+                    backgroundColor:'red',
+                }
+            ]}>
+                <CommonCell
+                    leftText={item.title }
+                    rightText={item.date}
+                    onPress={this._goto.bind(this,item.type)}
+                />
+            </Swipeout>
+
         )
     };
 
+    _goto(type){
+        if(type == 'other'){
+            //系统消息
+            this.props.navigator.push({
+                screen: 'SystemMessagePage',
+            });
+        }else{
+        }
+    }
     renderPaginationFetchingView = () => {
         return (
             <View></View>
@@ -61,7 +83,7 @@ export default class MessagePage extends Component {
                     ref={(ref) => this.listView = ref}
                     onFetch={this.onFetch}
                     keyExtractor={(item, index) => `${index} - ${item}`}  //this is required when you are using FlatList
-                    refreshableMode="advanced" //basic or advanced
+                    refreshableMode={DeviceInfo.OS==='ios'?'advanced':'basic'} //basic or advanced
                     item={this.renderItem}  //this takes three params (item, index, separator)
                     paginationFetchingView={this.renderPaginationFetchingView}
                 />
