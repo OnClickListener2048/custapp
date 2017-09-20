@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 
 import  MyOrderStatePage from './MyOrderStatePage'
+import OrderStateCell from "./view/OrderStateCell";
 
 export default class MinePage extends Component {
 
@@ -38,10 +39,14 @@ export default class MinePage extends Component {
             tabBarTextStyle={styles.textStyle}//tab字体的样式
             ref={(tabView) => { this.tabView = tabView; }}
         >
-            <MyOrderStatePage tabLabel='办理中'/>
-            <MyOrderStatePage tabLabel='已完成'/>
-            <MyOrderStatePage tabLabel='已取消'/>
-            <MyOrderStatePage tabLabel='全部'/>
+            {/*<MyOrderStatePage tabLabel='办理中'/>*/}
+            {/*<MyOrderStatePage tabLabel='已完成'/>*/}
+            {/*<MyOrderStatePage tabLabel='已取消'/>*/}
+            {/*<MyOrderStatePage tabLabel='全部'/>*/}
+            <OrderStateCell tabLabel='办理中'/>
+            <OrderStateCell tabLabel='已完成'/>
+            <OrderStateCell tabLabel='已取消'/>
+            <OrderStateCell tabLabel='全部'/>
 
         </ScrollableTabView>
     }
