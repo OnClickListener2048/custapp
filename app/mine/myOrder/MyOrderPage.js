@@ -56,7 +56,7 @@ export default class MyOrderPage extends BComponent {
             <MyOrderStatePage tabLabel='办理中'
                               lockSlide = {this._lockSlide.bind(this)}
                               openSlide = {this._openSlide.bind(this)}
-                              {...this.props}
+                              {...this.props}//把所有属性都传给子页面
                               />
             <MyOrderStatePage tabLabel='已完成'
                               lockSlide = {this._lockSlide.bind(this)}
