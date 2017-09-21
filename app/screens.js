@@ -22,7 +22,6 @@ import FeedbackPage from './mine/setting/FeedbackPage'
 import ProgressDetailPage from './mine/myOrder/ProgressDetailPage'
 import SystemMessagePage from './message/detail/SystemMessagePage';
 
-
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -41,5 +40,6 @@ export default function () {
     reg('FeedbackPage', () => FeedbackPage);
     reg('SystemMessagePage', () => SystemMessagePage);
     reg('ProgressDetailPage', () => ProgressDetailPage);
+
 
 }

@@ -32,7 +32,7 @@ import InternetStatusView from '../modules/react-native-internet-status-view';
 import {Navigation} from 'react-native-navigation';
 import {DEBUG, SCREEN_WIDTH} from '../config';
 import Alert from "react-native-alert";
-import SubmitButton from "../view/ui/SubmitButton";
+import SubmitButton from "../view/SubmitButton";
 import * as WeChat from 'react-native-wechat';
 import AdapterUI from '../util/AdapterUI'
 

@@ -9,7 +9,7 @@ import {
     ScrollView,
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
-import SubmitButton from '../../view/ui/SubmitButton'
+import SubmitButton from '../../view/SubmitButton'
 import clearManager from 'react-native-clear-cache';
 import Toast from 'react-native-root-toast'
 import BComponent from '../../base';

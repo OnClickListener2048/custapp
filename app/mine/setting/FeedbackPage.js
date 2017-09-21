@@ -10,7 +10,7 @@ import {
     TextInput
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
-import SubmitButton from '../../view/ui/SubmitButton'
+import SubmitButton from '../../view/SubmitButton'
 import BComponent from '../../base';
 
 export default class FeedbackPage extends BComponent {

@@ -25,7 +25,7 @@ import TimerButton from "../../view/TimerButton";
 import settingStyles from './css/SettingsPageStyle';
 import BComponent from '../../base';
 import errorText from '../../util/ErrorMsg';
-import SubmitButton from "../../view/ui/SubmitButton";
+import SubmitButton from "../../view/SubmitButton";
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
