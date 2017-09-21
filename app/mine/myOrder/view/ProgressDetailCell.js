@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         resizeMode : "contain",
     },
     line:{
-        height:45,
+        height:43,
         width:0.5,
         borderLeftColor:'#ececec',
         borderLeftWidth:1 ,
@@ -134,23 +134,25 @@ const styles = StyleSheet.create({
         marginLeft:10
     },
     wrapper_d3:{
-        marginLeft:20
+        marginLeft:20,
     },
     done_te:{
         fontSize:16,
-        color:'#E13238'
+        color:'#E13238',
+        marginBottom:5
     },
     done_time_te:{
         fontSize:14,
-        color:'#E13238'
+        color:'#E13238',
     },
     green_te:{
         fontSize:16,
-        color:'#333333'
+        color:'#333333',
+        marginBottom:5
     },
     green_time_te:{
         fontSize:14,
-        color:'#666666'
+        color:'#666666',
     },
     line_green:{
         height:50,
@@ -162,12 +164,14 @@ const styles = StyleSheet.create({
     },
     gray_te:{
         fontSize:16,
-        color:'#999999'
+        color:'#999999',
+        marginBottom:5
     },
     gray_time_te:{
         fontSize:14,
-        color:'#999999'
-    }
+        color:'#999999',
+    },
+
 
 
 
