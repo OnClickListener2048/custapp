@@ -126,7 +126,7 @@ export default class ProgressDetailPage extends BComponent {
             </View>
             <View style={progressStyles.line}/>
             <UltimateListView
-                style={{marginTop:20}}
+                contentContainerStyle={{paddingTop:20}}
                 ref={(ref) => this.listView = ref}
                 onFetch={this.onFetch}
                 keyExtractor={(item, index) => `${index} - ${item}`}  //this is required when you are using FlatList
