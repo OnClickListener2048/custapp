@@ -89,10 +89,7 @@ const styles = StyleSheet.create({
     },
 
     lineStyle: {
-        alignSelf:'center',
-        width:SCREEN_WIDTH/4-13*2,
-        height: 1,
-        marginLeft:15,
+        // height: 1,
         backgroundColor: '#E13238',
     },
 
