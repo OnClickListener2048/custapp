@@ -148,7 +148,8 @@ const styles = StyleSheet.create({
     green_te:{
         fontSize:16,
         color:'#333333',
-        marginBottom:5
+        marginBottom:5,
+        lineHeight:17
     },
     green_time_te:{
         fontSize:14,
@@ -165,7 +166,8 @@ const styles = StyleSheet.create({
     gray_te:{
         fontSize:16,
         color:'#999999',
-        marginBottom:5
+        marginBottom:5,
+        lineHeight:17
     },
     gray_time_te:{
         fontSize:14,
