@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import CommenCell from "../../../view/CommenCell";
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../../config';
+import styles from '../css/OrderStateCellStyle'
 
 export default class OrderStateCell extends Component {
 
@@ -32,8 +33,6 @@ export default class OrderStateCell extends Component {
     _toDetail(headImg, orderId,orderState,name,money){
         this.props.navigator.push({
             screen: 'ProgressDetailPage',
-            backButtonTitle: '返回', // 返回按钮的文字 (可选)
-            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
             title:'进度详情',
             passProps: {
                 headImg:headImg,
@@ -76,63 +75,24 @@ export default class OrderStateCell extends Component {
                 </View>
 
             </View>
-            <CommenCell
-                style={{marginTop:10}}
-                leftText="2017-9-19 11:31"
-                rightText="进度详情"
-                rightTextStyle={{color:'#999999',fontSize:14}}
-                leftTextStyle={{color:'#999999',fontSize:14}}
-                onPress={this._toDetail.bind(this,headImg, orderId,orderState,name,money)}
-            />
+            <TouchableOpacity style={styles.wrapper4} onPress={this._toDetail.bind(this,headImg, orderId,orderState,name,money)}>
+                <Text style={{color:'#999999',fontSize:14}}>
+                    2017-9-19 11:31
+                </Text>
+                <View style={styles.wrapper5}>
+                    <Text style={{color:'#999999',fontSize:14}}>
+                        进度详情
+                    </Text>
+                    <Image style={styles.right_img}
+                           source={require('../../../img/left_button.png')}/>
+
+                </View>
+            </TouchableOpacity>
+
         </View>
         )
     }
 
 }
 
-const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:'#F9F9F9'
-    },
-    wrapper1:{
-        flexDirection:'row',
-        width:SCREEN_WIDTH,
-        marginLeft:14,
-        marginTop:12
-    },
-    head_img:{
-        resizeMode: "contain",
-    },
-    wrapper2:{
-       marginLeft:8,
-        marginTop:5
-    },
-    company_title:{
-        fontSize:18,
-        color:'#333333'
-    },
-    wrapper3:{
-        flexDirection:'row',
-        marginTop:10
 
-    },
-    money_te:{
-        fontSize:14,
-        color:'#999999',
-        marginTop:3
-    },
-    money_symbol:{
-        fontSize:14,
-        color:'#E13238',
-        marginTop:3
-    },
-    money:{
-        fontSize:18,
-        color:'#E13238'
-
-    }
-
-
-
-});
