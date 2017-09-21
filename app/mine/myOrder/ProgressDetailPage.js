@@ -2,7 +2,6 @@
  * Created by liufei on 2017/9/19.
  */
 import React, {Component} from 'react';
-import OrderStateCell from './view/OrderStateCell'
 import BComponent from '../../base/BComponent'
 import styles from './css/OrderStateCellStyle'
 import {
@@ -15,6 +14,7 @@ import {
     ScrollView
 } from 'react-native';
 import CommenCell from '../../view/CommenCell'
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 
 export default class ProgressDetailPage extends BComponent {
 
@@ -54,11 +54,22 @@ export default class ProgressDetailPage extends BComponent {
                     进度详情
                 </Text>
                 <Image style={[styles.right_img,{marginRight:10}]}
-                       source={require('../../img/left_button.png')}/>
+                       source={require('../../img/detailp.png')}/>
             </View>
-
+            <View style={progressStyles.line}/>
         </View>
 
         );
     }
 }
+
+const progressStyles = StyleSheet.create({
+    line:{
+        height:1,
+        width:SCREEN_WIDTH,
+        borderBottomColor:'#ececec',
+        borderBottomWidth:1 ,
+        backgroundColor:'transparent'
+    },
+
+});
