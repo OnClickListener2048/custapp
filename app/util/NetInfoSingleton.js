@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 let instance = null;
-
+import Toast from 'react-native-root-toast'
 /**
  * 网络状态单例.
  */
@@ -34,7 +34,9 @@ export default class NetInfoSingleton {
 
     _updateConnectionStatus(isConnected) {
         console.log('NetInfoSingleton: _updateConnectionStatus isConnected=', isConnected);
-
+        if(!isConnected){
+            // Toast.show('暂无网络')
+        }
         this.isConnected = isConnected;
     }
 

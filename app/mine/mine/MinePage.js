@@ -10,7 +10,8 @@ import {
     Text,
     Platform,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Linking
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CommenCell from '../../view/CommenCell'
@@ -71,12 +72,15 @@ export default class MinePage extends BComponent {
                     <CommenCell
                         leftText="联系客服"
                         style={{marginTop:9}}
-                        onPress = {this._goto.bind(this,'')}
+                        onPress = {this._call.bind(this,'')}
                     />
                 </ScrollView>
             </View>
 
         )
+    }
+    _call(){
+        Linking.openURL('tel:18519107704')
     }
     _goto(screen, title ){
 

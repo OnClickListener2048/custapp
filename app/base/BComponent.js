@@ -20,7 +20,6 @@ import {
     BackAndroid,
     ToastAndroid,
 } from 'react-native';
-import NoMessage from '../commonView/NoMessage';
 import Toast from 'react-native-root-toast';
 import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
 
@@ -55,9 +54,6 @@ export default class BComponent extends Component {
             this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
         }
 
-        this._noNetWorkPageClick = this._noNetWorkPageClick.bind(this);
-        this._renderNetWorkView = this._renderNetWorkView.bind(this);
-        this._testRender =  this._testRender.bind(this);
     }
 
     static navigatorStyle = {
@@ -76,25 +72,4 @@ export default class BComponent extends Component {
         }
     }
 
-    _noNetWorkPageClick(){
-
-    }
-
-    _testRender() {
-        console.log('_testRender()');
-
-        return (<TouchableOpacity onPress={() => { Toast.show("commonView click")}}>
-
-            <View style={{flex : 1 , backgroundColor:'#00FF00',
-                position: 'absolute', width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}>
-                <Text>登录</Text>
-            </View>
-        </TouchableOpacity>);
-    }
-
-    _renderNetWorkView() {
-        console.log("父类" + NetInfoSingleton.isConnected);
-
-        return null;
-    }
 }

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {View, Text, StyleSheet, TouchableNativeFeedback, Platform} from 'react-native';
 import Button from 'apsl-react-native-button';
-import px2dp from '../../util/index';
+import px2dp from '../util/index';
 
 // 登陆页等的底部动作按钮
 export default class SubmitButton extends Component {
