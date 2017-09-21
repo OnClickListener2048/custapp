@@ -1,17 +1,12 @@
-/**
- * Created by liufei on 2017/9/19.
- */
-
 const React = require('react');
-const { ViewPropTypes } = ReactNative = require('react-native');
+const ReactNative = require('react-native');
 const {
     StyleSheet,
     Text,
     View,
     Animated,
+    TouchableOpacity
 } = ReactNative;
-const Button = require('./Button');
-import {TouchableOpacity} from "react-native";
 
 const CustomTabBar = React.createClass({
     propTypes: {
@@ -22,9 +17,9 @@ const CustomTabBar = React.createClass({
         activeTextColor: React.PropTypes.string,
         inactiveTextColor: React.PropTypes.string,
         textStyle: Text.propTypes.style,
-        tabStyle: ViewPropTypes.style,
+        tabStyle: View.propTypes.style,
         renderTab: React.PropTypes.func,
-        underlineStyle: ViewPropTypes.style,
+        underlineStyle: View.propTypes.style,
     },
 
     getDefaultProps() {
@@ -41,34 +36,19 @@ const CustomTabBar = React.createClass({
     renderTab(name, page, isTabActive, onPressHandler) {
         const { activeTextColor, inactiveTextColor, textStyle, } = this.props;
         const textColor = isTabActive ? activeTextColor : inactiveTextColor;
-        const fontWeight = isTabActive ? 'normal' : 'normal';
-        return (
-            <TouchableOpacity key={name}
-                              onPress={() => onPressHandler(page)}
-            >
-                <View style={styles.flexOne}>
-                    <View style={[styles.tab, this.props.tabStyle, ]}>
-                        <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
-                            {name}
-                        </Text>
-                    </View>
-                </View>
-            </TouchableOpacity>
-            )
-        // <Button
-        //     style={styles.flexOne}
-        //     key={name}
-        //     accessible={true}
-        //     accessibilityLabel={name}
-        //     accessibilityTraits='button'
-        //     onPress={() => onPressHandler(page)}
-        // >
-        //     <View style={[styles.tab, this.props.tabStyle, ]}>
-        //         <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
-        //             {name}
-        //         </Text>
-        //     </View>
-        // </Button>;
+        const fontWeight = isTabActive ? 'bold' : 'normal';
+
+        return <TouchableOpacity
+            style={styles.flexOne}
+            key={name}
+            onPress={() => onPressHandler(page)}
+        >
+            <View style={[styles.tab, this.props.tabStyle, ]}>
+                <Text style={[{color: textColor, }, textStyle, ]}>
+                    {name}
+                </Text>
+            </View>
+        </TouchableOpacity>;
     },
 
     render() {
@@ -76,15 +56,17 @@ const CustomTabBar = React.createClass({
         const numberOfTabs = this.props.tabs.length;
         const tabUnderlineStyle = {
             position: 'absolute',
-            alignSelf:'center',
             width: containerWidth / numberOfTabs,
             height: 1,
             backgroundColor: 'navy',
             bottom: 0,
+            paddingLeft:15,
+            paddingRight:15
         };
 
+
         const left = this.props.scrollValue.interpolate({
-            inputRange: [0, 1, ], outputRange: [0,  containerWidth / numberOfTabs+4, ],
+            inputRange: [0, 1, ], outputRange: [0,  containerWidth / numberOfTabs, ],
         });
         return (
             <View style={[styles.tabs, {backgroundColor: this.props.backgroundColor, }, this.props.style, ]}>
@@ -93,8 +75,9 @@ const CustomTabBar = React.createClass({
                     const renderTab = this.props.renderTab || this.renderTab;
                     return renderTab(name, page, isTabActive, this.props.goToPage);
                 })}
-
-                    <Animated.View style={[tabUnderlineStyle, { left, }, this.props.underlineStyle, ]} />
+                <Animated.View style={[tabUnderlineStyle, { left, }, this.props.underlineStyle, {backgroundColor:'transparent'}]} >
+                    <Animated.View style={{backgroundColor:'red',flex:1,height:1}}/>
+                </Animated.View>
             </View>
         );
     },
@@ -111,15 +94,10 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tabs: {
-        height: 50,
+        height: 40,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        alignItems:'center',
-        borderWidth: 0.5,
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderColor: '#f9f9f9',
+
     },
 });
 

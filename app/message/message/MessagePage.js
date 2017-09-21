@@ -13,6 +13,8 @@ import Swipeout from "react-native-swipeout"
 import * as apis from '../../apis';
 import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
+import SActivityIndicator from '../../modules/react-native-sww-activity-indicator';
+
 export default class MessagePage extends BComponent {
     constructor(props) {
         super(props);
