@@ -93,7 +93,7 @@ export default class MyOrderStatePage extends Component {
                 refreshableMode={DeviceInfo.OS==='ios'?'advanced':'basic'} //basic or advanced
                 item={this.renderItem}  //this takes three params (item, index, separator)
                 paginationFetchingView={this.renderPaginationFetchingView}
-                onTouchStart={(e) => {
+                onTouchStart={(e) => {                   ////解决ScrollableTabView和listView的滑动冲突
                     this.pageX = e.nativeEvent.pageX;
                     this.pageY = e.nativeEvent.pageY;
                 }}

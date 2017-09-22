@@ -54,7 +54,7 @@ export default class MyOrderPage extends BComponent {
             ref={(scrollTabView) => { this.scrollTabView = scrollTabView; }}
         >
             <MyOrderStatePage tabLabel='办理中'
-                              lockSlide = {this._lockSlide.bind(this)}
+                              lockSlide = {this._lockSlide.bind(this)} //解决ScrollableTabView和listView的滑动冲突
                               openSlide = {this._openSlide.bind(this)}
                               {...this.props}//把所有属性都传给子页面
                               />
