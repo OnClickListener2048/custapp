@@ -187,7 +187,7 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
-
+import HudView from '../../view/HudView'
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -227,7 +227,9 @@ export default class HomePage extends BComponent {
                     ListHeaderComponent={this._listHeaderComponent.bind(this)}
                     ListFooterComponent={this._listFooterComponent.bind(this)}
                 >
+
                 </SectionList>
+
             </View>
 
         )
