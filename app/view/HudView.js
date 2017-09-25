@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 
-import {View, Animated, Easing, StyleSheet} from 'react-native';
+import {View, Animated, Easing, StyleSheet,Text} from 'react-native';
 
 const styles = StyleSheet.create({
     mainContainer: {
@@ -179,15 +179,21 @@ class HudView extends Component {
     }
 
     _renderDefaultSpinnerComponent() {
-        return <FontAwesome name="circle-o-notch" size={this.props.iconSize} color={this.props.iconColor}/>;
+        return <FontAwesome name="circle-o-notch" size={this.props.iconSize} color={this.props.iconColor}/>
     }
 
     _renderDefaultSuccessComponent() {
-        return <FontAwesome name="check" size={this.props.iconSize} color={this.props.iconColor}/>;
+        return <View style={{alignItems:'center'}}>
+            <FontAwesome name="check" size={this.props.iconSize} color={this.props.iconColor}/>
+            <Text style={{color:'white',marginTop:5}}>加载成功</Text>
+        </View>;
     }
 
     _renderDefaultErrorComponent() {
-        return <FontAwesome name="exclamation-triangle" size={this.props.iconSize} color={this.props.iconColor}/>;
+        return <View style={{alignItems:'center'}}>
+            <FontAwesome name="exclamation-triangle" size={this.props.iconSize} color={this.props.iconColor}/>
+            <Text style={{color:'white',marginTop:5}}>加载失败</Text>
+        </View>
     }
 
     _showHud(icon, rotate, hideOnCompletion) {

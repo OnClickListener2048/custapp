@@ -15,5 +15,5 @@ Text.defaultProps.allowFontScaling=false;// 全部禁用字体缩放
 console.disableYellowBox = false;
 console.warn('YellowBox is disabled.');
 console.log("NetInfoSingleton", NetInfoSingleton.isConnected);
-wechat.registerApp('wxad8622a788203fa5')
+wechat.registerApp('wx16da5000356a9497')
 navToMainTab();

@@ -31,7 +31,7 @@
 			<string>wexin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxad8622a788203fa5</string>
+				<string>wx16da5000356a9497</string>
 			</array>
 		</dict>
 		<dict>
@@ -41,7 +41,7 @@
 			<string>wechat</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxad8622a788203fa5</string>
+				<string>wx16da5000356a9497</string>
 			</array>
 		</dict>
 	</array>

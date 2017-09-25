@@ -229,7 +229,6 @@ export default class HomePage extends BComponent {
                 >
 
                 </SectionList>
-
             </View>
 
         )
