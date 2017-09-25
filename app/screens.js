@@ -22,6 +22,13 @@ import FeedbackPage from './mine/setting/FeedbackPage'
 import ProgressDetailPage from './mine/myOrder/ProgressDetailPage'
 import SystemMessagePage from './message/detail/SystemMessagePage';
 
+import CashFlowPage from './service/serviceDetail/CashFlowPage'
+import AccountsReceivablePage from './service/serviceDetail/AccountsReceivablePage'
+import AccountsPayablePage from './service/serviceDetail/AccountsPayablePage'
+import ProfitStatementPage from './service/serviceDetail/ProfitStatementPage'
+import TaxFormPage from './service/serviceDetail/TaxFormPage'
+
+
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -40,6 +47,13 @@ export default function () {
     reg('FeedbackPage', () => FeedbackPage);
     reg('SystemMessagePage', () => SystemMessagePage);
     reg('ProgressDetailPage', () => ProgressDetailPage);
+    reg('CashFlowPage', () => CashFlowPage);
+    reg('AccountsReceivablePage', () => AccountsReceivablePage);
+    reg('AccountsPayablePage', () => AccountsPayablePage);
+    reg('ProfitStatementPage', () => ProfitStatementPage);
+    reg('TaxFormPage', () => TaxFormPage);
+
+
 
 
 }

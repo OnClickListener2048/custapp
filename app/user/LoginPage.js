@@ -100,7 +100,10 @@ export default class LoginPage extends Component {
         let scope = 'snsapi_userinfo';
         let state = 'wechat_sdk_demo';
         WeChat.sendAuthRequest(scope,state).then(res=> {
-            console.log(res)
+            alert(JSON.stringify(res))
+            fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
+
+            })
         })
 
     }
