@@ -27,6 +27,7 @@
     "react-native-modalbox": "^1.4.2",
     "react-native-navigation": "github:pilipa-cn/react-native-navigation#1.1.135",
     "react-native-parabolic": "^1.1.1",
+    "react-native-pathjs-charts": "0.0.31",
     "react-native-picker": "github:pilipa-cn/react-native-picker",
     "react-native-pull": "^2.0.2",
     "react-native-root-toast": "^1.1.2",

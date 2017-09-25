@@ -44,6 +44,7 @@ public class MainApplication extends NavigationApplication {
     public List<ReactPackage> createAdditionalReactPackages() {
         return Arrays.<ReactPackage>asList(
                 //new MainReactPackage(),
+            new SvgPackage(),
                 new PLPAlertPackage(),
                 new PickerViewPackage(),
                 new PickerPackage(),
