@@ -1,10 +1,12 @@
 /**
- * Created by zhuangzihao on 2017/9/8.
+ * Created by liufei on 2017/9/25.
  */
 import React, {Component} from 'react';
 import {
     View,
     Text,
+    StyleSheet,
+    Image
 
 } from 'react-native';
 
@@ -17,34 +19,40 @@ import {
     SendBill
 } from './view'
 import BComponent from '../../base';
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 
 export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            processIndx:4,
-            selectIndex:4
+
         };
     }
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
-    btnClick(index){
-        this.setState({
-            selectIndex:index
-        })
-    }
+
     render(){
         return(
             <View style={{flex:1,backgroundColor:'white'}}>
-                <Header btnClick={this.btnClick.bind(this)} processIndx={this.state.processIndx} selectIndex={this.state.selectIndex} />
+                <Image style={{resizeMode : "contain"}} source={require('../../img/service_demo_bg.png')}/>
+                <View style={styles.wrapper1}>
+                    <View style={[styles.line,{width:30}]}/>
+                    <Text style={{fontSize:24,color:'#e13238',marginHorizontal:10}}>
+                        本月进度
+                    </Text>
+                    <View style={[styles.line,{width:30}]}/>
+                </View>
+
+
+
                 {this.renderBody()}
             </View>
         )
     }
-    renderBody(){
-        switch (this.state.selectIndex){
+    renderBody(index){
+        switch (index){
             case 0:
                 return <CopyTaxes />
                 break
@@ -63,3 +71,22 @@ export default class ServicePage extends BComponent {
         }
     }
 }
+
+const styles = StyleSheet.create({
+    wrapper1:{
+        width:SCREEN_WIDTH,
+        flexDirection:'row',
+        marginTop:30,
+        alignItems:'center',
+        justifyContent:'center'
+
+    },
+    line:{
+        height:1,
+        width:SCREEN_WIDTH,
+        borderBottomColor:'#e13238',
+        borderBottomWidth:1 ,
+        backgroundColor:'transparent'
+    },
+
+});
