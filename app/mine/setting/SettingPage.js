@@ -38,6 +38,7 @@ export default class SettingPage extends BComponent {
                     <CommentCell
                         leftText = "关于我们"
                         style={{marginTop:10}}
+                        onPress={this._aboutUs.bind(this)}
                     />
                     <CommentCell
                         leftText = "意见反馈"
@@ -47,14 +48,14 @@ export default class SettingPage extends BComponent {
                         leftText = "服务条款"
                     />
                     <CommentCell
-                        leftText = "清楚缓存"
+                        leftText = "清除缓存"
                         style={{marginTop:10}}
                         rightText = {this.state.cacheSize+this.state.unit}
                         onPress={this._clear.bind(this)}
                     />
 
                     <SubmitButton
-                        text='退出登录'
+                        text='退出'
                         isEnabled = {true}
                     />
                 </ScrollView>
@@ -73,6 +74,12 @@ export default class SettingPage extends BComponent {
                 })
             });
 
+        });
+    }
+    _aboutUs(){
+        this.props.navigator.push({
+            screen: 'AboutUsPage',
+            title:'关于我们'
         });
     }
     _feedback(){

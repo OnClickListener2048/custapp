@@ -76,7 +76,7 @@ const CustomTabBar = React.createClass({
                     return renderTab(name, page, isTabActive, this.props.goToPage);
                 })}
                 <Animated.View style={[tabUnderlineStyle, { left, }, this.props.underlineStyle, {backgroundColor:'transparent'}]} >
-                    <Animated.View style={{backgroundColor:'red',flex:1,height:1}}/> //间接更改线的长度
+                    <Animated.View style={{backgroundColor:'red',flex:1,height:1}}/>
                 </Animated.View>
             </View>
         );
