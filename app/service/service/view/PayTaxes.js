@@ -5,7 +5,8 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
-    Dimensions
+    Dimensions,
+    TouchableOpacity
 } from 'react-native';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -22,13 +23,22 @@ export default class PayTaxes extends Component {
                 {
                     arr.map((item,index)=>{
                         return(
-                            <View key={index} style={{marginLeft:itemMargin,marginTop:20,width:itemWidth,height:80,backgroundColor:'red'}}>
-                                <Text>{item}</Text>
-                            </View>
+                            <TouchableOpacity key={index} onPress={()=>{this._goto()}}>
+                                <View  style={{marginLeft:itemMargin,marginTop:20,width:itemWidth,height:80,backgroundColor:'red'}}>
+                                    <Text>{item}</Text>
+                                </View>
+                            </TouchableOpacity>
                         )
                     })
                 }
             </View>
         )
+    }
+
+    _goto(){
+        this.props.navigator.push({
+            screen: 'TaxFormPage',
+            title:'纳税表',
+        })
     }
 }

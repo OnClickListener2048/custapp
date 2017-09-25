@@ -10,14 +10,6 @@ registerScreens();
 const tabsMain = [
     {
         label: '首页',
-        screen: 'TaxFormPage',
-        icon: require('./img/home_normal.png'),
-        selectedIcon: require('./img/home_selected.png'),
-        title: '首页',
-        navigatorStyle
-    },
-    {
-        label: '首页',
         screen: 'HomePage',
         icon: require('./img/home_normal.png'),
         selectedIcon: require('./img/home_selected.png'),

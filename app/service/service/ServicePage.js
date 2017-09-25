@@ -125,19 +125,19 @@ export default class ServicePage extends BComponent {
     _renderBody(index){
         switch (index){
             case 1:
-                return <CopyTaxes />
+                return <CopyTaxes {...this.props}/>
                 break;
             case 2:
-                return <SendBill />
+                return <SendBill {...this.props} />
                 break;
             case 3:
-                return <AccountingTreatment />
+                return <AccountingTreatment {...this.props} />
                 break;
             case 4:
-                return <PayTaxes />
+                return <PayTaxes {...this.props} />
                 break;
             case 5:
-                return <ClearCard />
+                return <ClearCard {...this.props} />
                 break;
         }
     }

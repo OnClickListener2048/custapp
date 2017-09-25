@@ -5,7 +5,8 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
-    Dimensions
+    Dimensions,
+    TouchableOpacity
 } from 'react-native';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -22,13 +23,48 @@ export default class AccountingTreatment extends Component {
                 {
                     arr.map((item,index)=>{
                         return(
-                            <View key={index} style={{marginLeft:itemMargin,marginTop:20,width:itemWidth,height:80,backgroundColor:'red'}}>
-                                <Text>{item}</Text>
-                            </View>
+                            <TouchableOpacity key={index} onPress={()=>this._goto(index)}>
+                                <View  style={{marginLeft:itemMargin,marginTop:20,width:itemWidth,height:80,backgroundColor:'red'}}>
+                                    <Text>{item}</Text>
+                                </View>
+                            </TouchableOpacity>
+
                         )
                     })
                 }
             </View>
         )
+    }
+
+    _goto(index){
+        switch (index){
+            case 0:
+                this.props.navigator.push({
+                    screen: 'CashFlowPage',
+                    title:'现金流',
+                })
+                break;
+            case 1:
+                this.props.navigator.push({
+                    screen: 'ProfitStatementPage',
+                    title:'利润表',
+                })
+                break;
+            case 2:
+                this.props.navigator.push({
+                    screen: 'AccountsReceivablePage',
+                    title:'应收账款',
+                })
+                break;
+            case 3:
+                this.props.navigator.push({
+                    screen: 'AccountsPayablePage',
+                    title:'应付账款',
+                })
+                break;
+            default:
+                break;
+        }
+
     }
 }
