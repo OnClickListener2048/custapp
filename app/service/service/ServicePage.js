@@ -22,6 +22,8 @@ import {
 } from './view'
 import BComponent from '../../base';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
+import HeaderView from '../view/HeaderView'
+
 
 export default class ServicePage extends BComponent {
     constructor(props) {
@@ -35,7 +37,7 @@ export default class ServicePage extends BComponent {
             num:1
 
         };
-        this.isDemo=true;//是否是显示数据
+        this.isDemo=false;//是否是显示数据
         this._renderBody=this._renderBody.bind(this);
         this.setChoose=this.setChoose.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
@@ -49,7 +51,15 @@ export default class ServicePage extends BComponent {
         return(
             <View style={{flex:1,position:'relative'}}>
             <ScrollView style={{flex:1,backgroundColor:'#FFFFFF'}}>
-                <Image style={{resizeMode : "contain"}} source={require('../../img/service_demo_bg.png')}/>
+                <HeaderView
+                    hasTop={true}
+                    topDes="本月利润"
+                    topNum="¥30,000.00"
+                    leftDes="收入"
+                    leftNum="¥30,000.00"
+                    rightDes="支出"
+                    rightNum="¥30,000.00"
+                />
                 <View style={styles.wrapper1}>
                     <View style={[styles.line,{width:30}]}/>
                     <Text style={{fontSize:24,color:'#e13238',marginHorizontal:10}}>
