@@ -448,16 +448,16 @@ export default class LoginPage extends Component {
                     <TouchableOpacity style={{height:30,width:30,marginTop:Platform.OS==='ios'?30:10,marginLeft:15}} onPress={()=>{this.back()}}>
                         <Image  source={require('../img/login_back.png')}/>
                     </TouchableOpacity>
-                    <InternetStatusView
-                        textToDisplay="未检测到网络连接，请确保WIFI或移动网络正常可用。"
-                        style={{
-                            justifyContent: 'center',
-                            alignSelf: 'stretch',
-                            backgroundColor: '#00000088',
-                            marginTop: px2dp(50),
-                            height: 25
-                        }}
-                    />
+                    {/*<InternetStatusView*/}
+                        {/*textToDisplay="未检测到网络连接，请确保WIFI或移动网络正常可用。"*/}
+                        {/*style={{*/}
+                            {/*justifyContent: 'center',*/}
+                            {/*alignSelf: 'stretch',*/}
+                            {/*backgroundColor: '#00000088',*/}
+                            {/*marginTop: px2dp(50),*/}
+                            {/*height: 25*/}
+                        {/*}}*/}
+                    {/*/>*/}
 
                     <Image source={require('../img/login_icon.png')}  style={[styles.bzLogo,
                         {marginTop: px2dp(this.state.headPad)}]} />
