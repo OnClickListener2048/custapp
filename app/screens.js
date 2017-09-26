@@ -5,6 +5,8 @@ import { Navigation } from 'react-native-navigation';
 import LoginPage from './user/LoginPage';
 
 import HomePage from './home/home/HomePage';
+import VerifyNamePage from './home/VerifyName/VerifyNamePage';
+import VerifyResultPage from './home/VerifyName/VerifyResultPage';
 import MessagePage from './message/message/MessagePage';
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
@@ -34,6 +36,8 @@ export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
     reg('HomePage', () => HomePage);
+    reg('VerifyNamePage', () => VerifyNamePage);
+    reg('VerifyResultPage', () => VerifyResultPage);
     reg('MessagePage', () => MessagePage);
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
