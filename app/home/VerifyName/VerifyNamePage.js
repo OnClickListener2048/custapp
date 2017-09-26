@@ -83,10 +83,10 @@ export default class HomePage extends BComponent {
             <ScrollView style={{flex:1,backgroundColor:'#FFFFFF',
                 flexDirection: 'column'}}>
                 <View style={{width:DeviceInfo.width}}>
-                    <Image source={require('../../img/name_bg.png')} style={{width:deviceWidth,justifyContent:'center',
+                    <Image source={require('../../img/verify_name.png')} style={{width:deviceWidth,justifyContent:'center',
                         alignItems:'center',marginTop:DeviceInfo.OS==='ios'?20:0}}>
-                        <Text style={{backgroundColor:'transparent',fontSize:24,color:'white',fontWeight:'bold'}}>公司名称查询</Text>
-                        <Text style={{backgroundColor:'transparent',fontSize:24,color:'white',fontWeight:'bold'}}>提升工商注册通过率</Text>
+                        {/*<Text style={{backgroundColor:'transparent',fontSize:24,color:'white',fontWeight:'bold'}}>公司名称查询</Text>*/}
+                        {/*<Text style={{backgroundColor:'transparent',fontSize:24,color:'white',fontWeight:'bold'}}>提升工商注册通过率</Text>*/}
                     </Image>
                 </View>
                 {this.renderInput('companyName','请输入要注册的公司名称','')}
