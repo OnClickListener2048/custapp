@@ -9,7 +9,9 @@ export default class TextInputView extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { content: this.props.content,
+        this.state = {
+            contentType:this.props.contentType,
+            content: this.props.content,
         textName:this.props.textName,
             textEditable:this.props.textEditable};
 
@@ -17,10 +19,13 @@ export default class TextInputView extends Component {
 
     static propTypes = {
         //style: PropTypes.object,
+        contentType:PropTypes.string,
         textName: PropTypes.string,
         content:PropTypes.string,
         textEditable:PropTypes.bool,
     };
+
+
 
     render(){
         return(
@@ -34,6 +39,7 @@ export default class TextInputView extends Component {
                                    style={styles.textInput} placeholder={this.props.textName} returnKeyType='next'
                                    onChangeText={
                                        (legalPerson) => {
+                                           this.props.callback(this.props.contentType,legalPerson);
                                            this.setState({content:legalPerson});
                                        }
                                    }/>
