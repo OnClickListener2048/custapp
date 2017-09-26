@@ -35,6 +35,7 @@ export default class ServicePage extends BComponent {
             num:1
 
         };
+        this.isDemo=true;//是否是显示数据
         this._renderBody=this._renderBody.bind(this);
         this.setChoose=this.setChoose.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
@@ -100,7 +101,7 @@ export default class ServicePage extends BComponent {
                 </View>
                 {this._renderBody(this.state.num)}
             </ScrollView>
-                {/*{this._renderDemo()}*/}
+                {this._renderDemo(this.isDemo)}
 
             </View>
 
@@ -148,18 +149,30 @@ export default class ServicePage extends BComponent {
         }
     }
 
-    _renderDemo(){
-        return(
-            <View style={{position:'absolute',bottom:0,left:0,width:DeviceInfo.width,height:160,backgroundColor:'rgba(00, 00, 00, 0.5)' ,justifyContent:'center',alignItems:'center'}}>
-               <Image style={styles.service_demo_img} source={require('../../img/service_demo_img.png')}/>
-                <Text style={[styles.demo_te,{marginTop:20}]}>
-                    以上为功能演示
-                </Text>
-                <Text style={[styles.demo_te,{marginTop:10}]}>
-                    您目前还没有公司购买相关服务！
-                </Text>
-            </View>
-        );
+    _renderDemo(isDemo){
+        if(isDemo) {
+            return (
+                <View style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    width: DeviceInfo.width,
+                    height: 160,
+                    backgroundColor: 'rgba(00, 00, 00, 0.5)',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+                      pointerEvents='none'>
+                    <Image style={styles.service_demo_img} source={require('../../img/service_demo_img.png')}/>
+                    <Text style={[styles.demo_te, {marginTop: 20}]}>
+                        以上为功能演示
+                    </Text>
+                    <Text style={[styles.demo_te, {marginTop: 10}]}>
+                        您目前还没有公司购买相关服务！
+                    </Text>
+                </View>
+            );
+        }
     }
 }
 
