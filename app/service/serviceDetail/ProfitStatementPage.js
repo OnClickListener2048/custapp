@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 import BComponent from '../../base';
+import HeaderView from '../view/HeaderView'
+import ChooseTimerModal from '../../view/ChooseTimerModal'
+
 const data = [
     {
         month:'12'
@@ -59,7 +62,15 @@ export default class ProfitStatementPage extends BComponent {
     _listHeaderComponent(){
         return(
             <View style={{width:DeviceInfo.width}}>
-                <Image source={require('../../img/service_bg.png')}/>
+                <HeaderView
+                    hasTop={true}
+                    topDes="本月利润"
+                    topNum="¥30,000.00"
+                    leftDes="收入"
+                    leftNum="¥30,000.00"
+                    rightDes="支出"
+                    rightNum="¥30,000.00"
+                />
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应付账款明细"/>
             </View>
         )
@@ -74,6 +85,8 @@ export default class ProfitStatementPage extends BComponent {
                     renderItem={this._renderItem.bind(this)}
                     ListHeaderComponent={this._listHeaderComponent.bind(this)}
                 />
+                <ChooseTimerModal />
+
             </View>
         )
     }

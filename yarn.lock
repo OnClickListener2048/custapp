@@ -4050,6 +4050,10 @@ react-native-pathjs-charts@0.0.31:
     paths-js "^0.4.5"
     react-native-svg "~5.4.0"
 
+"react-native-picker-android@git@github.com:jrwm/react-native-picker-android.git":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-picker-android/-/react-native-picker-android-1.0.3.tgz#1607843bce510d35a28522511994d3cfced344dd"
+
 "react-native-picker@github:pilipa-cn/react-native-picker":
   version "4.0.19"
   resolved "https://codeload.github.com/pilipa-cn/react-native-picker/tar.gz/d13016309f862e4692c5a901e3554d41945b4cb1"

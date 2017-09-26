@@ -14,6 +14,7 @@ import BComponent from '../../base';
 import SectionHeader from '../../view/SectionHeader'
 import ServiceCell from './view/ServiceCell'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
+import HeaderView from '../view/HeaderView'
 const MockData = [
     {
         title: '库存现金',
@@ -66,11 +67,17 @@ export default class CashFlowPage extends BComponent {
     _listHeaderComponent(){
         return(
             <View style={{width:DeviceInfo.width}}>
-                <Image source={require('../../img/service_bg.png')}/>
+                <HeaderView
+                    hasTop={true}
+                    topDes="本月利润"
+                    topNum="¥30,000.00"
+                    leftDes="收入"
+                    leftNum="¥30,000.00"
+                    rightDes="支出"
+                    rightNum="¥30,000.00"
+                />
 
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="现金流明细"/>
-
-
             </View>
         )
     }
@@ -78,6 +85,7 @@ export default class CashFlowPage extends BComponent {
     render() {
         return (
             <View style={{backgroundColor:'#f9f9f9',flex:1}}>
+
                 <ExpanableList
                     ListHeaderComponent = {this._listHeaderComponent.bind(this)}
                     dataSource={MockData}
@@ -86,10 +94,14 @@ export default class CashFlowPage extends BComponent {
                     renderRow={this._renderRow.bind(this)}
                     renderSectionHeaderX={this._renderSection.bind(this)}
                     openOptions={[0]}
+
                 />
-                <ChooseTimerModal/>
+                <ChooseTimerModal callback={this.callback.bind(this)}/>
             </View>
 
         );
+    }
+    callback(year,month){
+
     }
 }

@@ -1,6 +1,5 @@
-/**
- * Created by zhuangzihao on 2017/9/26.
- */
+'use strict';
+
 import React, {Component, PropTypes} from 'react';
 import {
     StyleSheet,
@@ -79,8 +78,6 @@ export default class PickerAndroid extends Component{
             child.props.value === props.selectedValue && ( selectedIndex = index );
             items.push({value: child.props.value, label: child.props.label});
         });
-        //fix issue#https://github.com/beefe/react-native-picker/issues/51
-        this.index = selectedIndex;
         return {
             selectedIndex,
             items,
@@ -208,7 +205,9 @@ export default class PickerAndroid extends Component{
         //but PickerIOS only passed value, so we set label to be the second argument
         //add by zooble @2015-12-10
         var curItem = this.state.items[this.index];
-        this.state.onValueChange && this.state.onValueChange(curItem.value, curItem.label);
+        if (curItem && this.state.onValueChange) {
+            this.state.onValueChange(curItem.value, curItem.label);
+        }
     }
 
     render(){
@@ -270,7 +269,8 @@ let styles = StyleSheet.create({
     },
     up: {
         height: 90,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        backgroundColor: 'transparent',
     },
     upView: {
         justifyContent: 'flex-start',
@@ -292,7 +292,8 @@ let styles = StyleSheet.create({
         overflow: 'hidden',
         borderColor: '#aaa',
         borderTopWidth: 1/ratio,
-        borderBottomWidth: 1/ratio
+        borderBottomWidth: 1/ratio,
+        backgroundColor: 'transparent',
     },
     middleView: {
         height: 40,
@@ -310,12 +311,14 @@ let styles = StyleSheet.create({
     },
     down: {
         height: 90,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        backgroundColor: 'transparent',
     },
     downView: {
         overflow: 'hidden',
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'transparent',
     },
     downText: {
         paddingTop: 0,

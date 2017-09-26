@@ -14,6 +14,9 @@ import ExpanableList from '../../view/ExpanableList'
 import BComponent from '../../base';
 import SectionHeader from '../../view/SectionHeader'
 import ServiceCell from './view/ServiceCell'
+import HeaderView from '../view/HeaderView'
+import ChooseTimerModal from '../../view/ChooseTimerModal'
+
 const MockData = [
     {
         title: '应收账款',
@@ -59,7 +62,15 @@ export default class AccountsReceivablePage extends BComponent {
     _listHeaderComponent(){
         return(
             <View style={{width:DeviceInfo.width}}>
-                <Image source={require('../../img/service_bg.png')}/>
+                <HeaderView
+                    hasTop={false}
+                    topDes="本月利润"
+                    topNum="¥30,000.00"
+                    leftDes="收入"
+                    leftNum="¥30,000.00"
+                    rightDes="支出"
+                    rightNum="¥30,000.00"
+                />
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应收账款明细"/>
             </View>
         )
@@ -76,6 +87,8 @@ export default class AccountsReceivablePage extends BComponent {
                     renderSectionHeaderX={this._renderSection.bind(this)}
                     openOptions={[0]}
                 />
+                <ChooseTimerModal />
+
             </View>
 
         );
