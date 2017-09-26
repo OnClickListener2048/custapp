@@ -11,6 +11,8 @@ import {
 import SectionHeader from '../../view/SectionHeader'
 import BComponent from '../../base';
 import HeaderView from '../view/HeaderView'
+import ChooseTimerModal from '../../view/ChooseTimerModal'
+
 const data = [
     {
         month:'12'
@@ -83,6 +85,8 @@ export default class ProfitStatementPage extends BComponent {
                     renderItem={this._renderItem.bind(this)}
                     ListHeaderComponent={this._listHeaderComponent.bind(this)}
                 />
+                <ChooseTimerModal />
+
             </View>
         )
     }

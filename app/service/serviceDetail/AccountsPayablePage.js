@@ -12,6 +12,8 @@ import BComponent from '../../base';
 import SectionHeader from '../../view/SectionHeader'
 import ServiceCell from './view/ServiceCell'
 import HeaderView from '../view/HeaderView'
+import ChooseTimerModal from '../../view/ChooseTimerModal'
+
 const MockData = [
     {
         title: '应付账款',
@@ -82,6 +84,8 @@ export default class AccountsPayablePage extends BComponent {
                     renderSectionHeaderX={this._renderSection.bind(this)}
                     openOptions={[0]}
                 />
+                <ChooseTimerModal />
+
             </View>
 
         );

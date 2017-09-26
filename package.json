@@ -38,7 +38,7 @@
     "react-native-tab-navigator": "^0.3.3",
     "react-native-ultimate-listview": "^3.2.2",
     "react-native-vector-icons": "^4.1.1",
-    "react-native-wechat": "^1.9.9"
+    "react-native-wechat": "^1.9.9",
   },
   "devDependencies": {
     "babel-jest": "*",
