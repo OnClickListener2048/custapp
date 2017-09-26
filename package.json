@@ -21,6 +21,7 @@
     "react-native-blur": "^2.0.0",
     "react-native-clear-cache": "^1.0.0",
     "react-native-device-info": "^0.10.2",
+    "react-native-http": "github:pilipa-cn/react-native-http",
     "react-native-image-crop-picker": "github:pilipa-cn/react-native-image-crop-picker#v0.14.2",
     "react-native-image-pan-zoom": "^2.0.1",
     "react-native-modal-datetime-picker": "github:pilipa-cn/react-native-modal-datetime-picker#v4.8.0-pilipa",
@@ -38,7 +39,7 @@
     "react-native-tab-navigator": "^0.3.3",
     "react-native-ultimate-listview": "^3.2.2",
     "react-native-vector-icons": "^4.1.1",
-    "react-native-wechat": "^1.9.9",
+    "react-native-wechat": "^1.9.9"
   },
   "devDependencies": {
     "babel-jest": "*",
