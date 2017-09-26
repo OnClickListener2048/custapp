@@ -10,7 +10,7 @@ import {
     StyleSheet,
     Platform
 } from 'react-native';
-
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 
 export default class HeaderView extends Component {
 
@@ -31,10 +31,10 @@ export default class HeaderView extends Component {
 
 
     render(){
-        const {leftDes,leftNum,rightDes,rightNum} = this.props
+        const {hasTop,leftDes,leftNum,rightDes,rightNum} = this.props
         return(
             <Image style={styles.wrapper}
-                   source={require('../../img/service_bg.png')}>
+                   source={hasTop?require('../../img/service_bg.png'):require('../../img/service_receive_bg.png')}>
                 {this._renderTop()}
                 <View style={styles.wrapper2}>
                     <View style={styles.wrapper3}>
@@ -54,8 +54,6 @@ export default class HeaderView extends Component {
                         </Text>
                     </View>
                 </View>
-
-
             </Image>
         )
     }
@@ -100,7 +98,11 @@ const styles = StyleSheet.create({
     wrapper2:{
         flexDirection:'row',
         justifyContent:'space-between',
-        marginHorizontal:20
+        marginHorizontal:20,
+        position:'absolute',
+        bottom:20,
+        left:0,
+        width:SCREEN_WIDTH-40
     },
     wrapper3:{
         justifyContent:'center',
