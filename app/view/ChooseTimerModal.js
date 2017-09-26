@@ -7,19 +7,29 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    Animated
+    Animated,
+    PickerIOS,
+    Platform
 } from 'react-native';
+import PickerAndroid from './PickerAndroid';
 
+let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
+let PickerItem = Picker.Item;
 export default class ChooseTimerModal extends Component {
     constructor(props) {
         super(props);
+        let today = new Date();//获得当前日期
         this.state = {
             isShow:false,
             maskTouchDisabled : true,
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            year:today.getFullYear(),
+            month:today.getMonth() + 1,
         }
         this.heightValue= new Animated.Value(0)
         this.fadeAnim= new Animated.Value(0)
+
+
 
 
     }
@@ -27,20 +37,73 @@ export default class ChooseTimerModal extends Component {
 
         const height = this.heightValue.interpolate({
             inputRange: [0, 1],
-            outputRange: [-10, 200]
+            outputRange: [-250, 0]
         })
 
         return(
             <View style={[{position:'absolute',top:0,left:0,right:0},this.state.isShow?{bottom:0}:{}]}>
                 {this._maskView()}
-                <TouchableOpacity onPress={()=>{this._showTimer()}}>
-                    <View style={{width:DeviceInfo.width,backgroundColor:'transparent',flexDirection:'row',padding:15,paddingLeft:24,paddingRight:24}}>
-                        <Text style={{fontSize:20,color:'white'}}>8月</Text>
-                        <Text style={{color:'white',fontSize:14,alignSelf:'flex-end'}}>2017</Text>
+                <Animated.View style={[{backgroundColor:'white',width:DeviceInfo.width,height:250,position:'absolute',paddingTop:50,flexDirection:'row'},{top:height}]}>
+                    <View style={{width:DeviceInfo.width/2}}>
+                        <Picker>
+                            <PickerItem
+                                key='1'
+                                value='1'
+                                label='1'
+                            />
+                            <PickerItem
+                                key='2'
+                                value='2'
+                                label='2'
+                            />
+                            <PickerItem
+                                key='3'
+                                value='3'
+                                label='3'
+                            />
+                        </Picker>
+                    </View>
+                    <View style={{width:DeviceInfo.width/2}}>
+                        <Picker>
+                            <PickerItem
+                                key='1'
+                                value='1'
+                                label='1'
+                            />
+                            <PickerItem
+                                key='2'
+                                value='2'
+                                label='2'
+                            />
+                            <PickerItem
+                                key='3'
+                                value='3'
+                                label='3'
+                            />
+                            <PickerItem
+                                key='4'
+                                value='4'
+                                label='4'
+                            />
+                            <PickerItem
+                                key='5'
+                                value='5'
+                                label='5'
+                            />
+                            <PickerItem
+                                key='6'
+                                value='6'
+                                label='6'
+                            />
+                        </Picker>
+                    </View>
+                </Animated.View>
+                <TouchableOpacity activeOpacity={1} onPress={()=>{this._showTimer()}}>
+                    <View style={[{width:DeviceInfo.width,flexDirection:'row',padding:15,paddingLeft:24,paddingRight:24},this.state.isShow?{backgroundColor:'white'}:{backgroundColor:'transparent'}]}>
+                        <Text style={[{fontSize:20},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.month}月</Text>
+                        <Text style={[{fontSize:14,alignSelf:'flex-end'},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.year}</Text>
                     </View>
                 </TouchableOpacity>
-                <Animated.View style={[{backgroundColor:'white',width:DeviceInfo.width},{height}]}>
-                </Animated.View>
             </View>
 
 
@@ -96,23 +159,22 @@ export default class ChooseTimerModal extends Component {
     }
     close(){
 
-
-        this.setState({
-            maskTouchDisabled: true,
-            pointerEvents: 'none',
-            isShow:false
-        },()=>{
-            Animated.spring(this.heightValue, {
+        Animated.spring(this.heightValue, {
+            toValue: 0,
+            duration: 250,
+        }).start()
+        Animated.timing(
+            this.fadeAnim,
+            {
                 toValue: 0,
-                duration: 250,
-            }).start()
-            Animated.timing(
-                this.fadeAnim,
-                {
-                    toValue: 0,
-                    duration: 250
-                }
-            ).start();
+                duration: 250
+            }
+        ).start(()=>{
+            this.setState({
+                maskTouchDisabled: true,
+                pointerEvents: 'none',
+                isShow:false
+            })
         });
     }
 }

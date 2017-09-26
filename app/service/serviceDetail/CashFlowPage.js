@@ -69,6 +69,8 @@ export default class CashFlowPage extends BComponent {
                 <Image source={require('../../img/service_bg.png')}/>
 
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="现金流明细"/>
+
+
             </View>
         )
     }
