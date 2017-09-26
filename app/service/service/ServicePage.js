@@ -23,6 +23,7 @@ import {
 import BComponent from '../../base';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import HeaderView from '../view/HeaderView'
+import ChooseTimerModal from '../../view/ChooseTimerModal'
 
 
 export default class ServicePage extends BComponent {
@@ -112,6 +113,8 @@ export default class ServicePage extends BComponent {
                 {this._renderBody(this.state.num)}
             </ScrollView>
                 {this._renderDemo(this.isDemo)}
+                <ChooseTimerModal />
+
 
             </View>
 
