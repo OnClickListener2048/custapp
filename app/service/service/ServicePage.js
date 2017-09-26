@@ -71,43 +71,54 @@ export default class ServicePage extends BComponent {
 
                 <View style={styles.wrapper2}>
                     <TouchableWithoutFeedback onPress={()=>{this.setChoose(1)}} >
+                        <View>
                     <Image style={styles.service_gray_bg} source={this.state.isChoose1 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
                         <Text style={this.state.isChoose1 ?styles.te_white : styles.te_black}>
                             01
                         </Text>
                     </Image>
+                        </View>
                     </TouchableWithoutFeedback>
+
                     <View style={[styles.line,{width:54,borderBottomColor:this.state.isChoose1?'#e13238':'#f0f0f0'}]}/>
                     <TouchableWithoutFeedback onPress={()=>{this.setChoose(2)}} >
+                        <View>
                         <Image style={styles.service_gray_bg} source={this.state.isChoose2 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
                             <Text style={this.state.isChoose2 ?styles.te_white : styles.te_black}>
                                 02
                             </Text>
                         </Image>
+                        </View>
                     </TouchableWithoutFeedback>
                     <View style={[styles.line,{width:54,borderBottomColor:this.state.isChoose2?'#e13238':'#f0f0f0'}]}/>
                     <TouchableWithoutFeedback onPress={()=>{this.setChoose(3)}} >
+                        <View>
                         <Image style={styles.service_gray_bg} source={this.state.isChoose3 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
                             <Text style={this.state.isChoose3 ?styles.te_white : styles.te_black}>
                                 03
                             </Text>
                         </Image>
+                        </View>
                     </TouchableWithoutFeedback>
                     <View style={[styles.line,{width:54,borderBottomColor:this.state.isChoose3?'#e13238':'#f0f0f0'}]}/>
                     <TouchableWithoutFeedback onPress={()=>{this.setChoose(4)}} >
+                        <View>
                         <Image style={styles.service_gray_bg} source={this.state.isChoose4 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
                             <Text style={this.state.isChoose4 ?styles.te_white : styles.te_black}>
                                 04
                             </Text>
                         </Image>
+                        </View>
                     </TouchableWithoutFeedback>
                     <View style={[styles.line,{width:54,borderBottomColor:this.state.isChoose4?'#e13238':'#f0f0f0'}]}/>
                     <TouchableWithoutFeedback onPress={()=>{this.setChoose(5)}} >
+                        <View>
                         <Image style={styles.service_gray_bg} source={this.state.isChoose5 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
                             <Text style={this.state.isChoose5 ?styles.te_white : styles.te_black}>
                                 05
                             </Text>
                         </Image>
+                        </View>
                     </TouchableWithoutFeedback>
                 </View>
                 {this._renderBody(this.state.num)}
