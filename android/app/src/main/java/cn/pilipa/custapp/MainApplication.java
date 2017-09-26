@@ -8,7 +8,7 @@ import com.beefe.picker.PickerViewPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-
+import com.horcrux.svg.SvgPackage;
 import cn.jpush.reactnativejpush.JPushPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.cmcewen.blurview.BlurViewPackage;

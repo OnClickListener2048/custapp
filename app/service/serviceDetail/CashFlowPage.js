@@ -5,12 +5,15 @@ import React  from 'react';
 import {
     View,
     Text,
-    Image
+    Image,
+    TouchableOpacity,
+    Animated
 } from 'react-native';
 import ExpanableList from '../../view/ExpanableList'
 import BComponent from '../../base';
 import SectionHeader from '../../view/SectionHeader'
 import ServiceCell from './view/ServiceCell'
+import ChooseTimerModal from '../../view/ChooseTimerModal'
 const MockData = [
     {
         title: '库存现金',
@@ -39,6 +42,13 @@ const MockData = [
 ]
 export default class CashFlowPage extends BComponent {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+    }
+
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
@@ -57,10 +67,12 @@ export default class CashFlowPage extends BComponent {
         return(
             <View style={{width:DeviceInfo.width}}>
                 <Image source={require('../../img/service_bg.png')}/>
+
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="现金流明细"/>
             </View>
         )
     }
+
     render() {
         return (
             <View style={{backgroundColor:'#f9f9f9',flex:1}}>
@@ -73,6 +85,7 @@ export default class CashFlowPage extends BComponent {
                     renderSectionHeaderX={this._renderSection.bind(this)}
                     openOptions={[0]}
                 />
+                <ChooseTimerModal/>
             </View>
 
         );

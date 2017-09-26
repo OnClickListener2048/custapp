@@ -309,7 +309,7 @@ export default class HomePage extends BComponent {
                 <Image source={require('../../img/name_bg.png')} style={{width:deviceWidth,justifyContent:'center',
                     alignItems:'center',marginTop:DeviceInfo.OS==='ios'?20:0}}>
                     <Text style={{backgroundColor:'transparent',fontSize:16,color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>
-                    <View style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>
+                    <View  style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>
                         <Text style={{color:'white',fontSize:16}}>免费核名</Text>
                     </View>
                 </Image>
