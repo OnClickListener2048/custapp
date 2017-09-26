@@ -86,10 +86,14 @@ export default class CashFlowPage extends BComponent {
                     renderRow={this._renderRow.bind(this)}
                     renderSectionHeaderX={this._renderSection.bind(this)}
                     openOptions={[0]}
+
                 />
-                <ChooseTimerModal/>
+                <ChooseTimerModal callback={this.callback.bind(this)}/>
             </View>
 
         );
+    }
+    callback(year,month){
+
     }
 }
