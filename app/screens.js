@@ -6,8 +6,11 @@ import LoginPage from './user/LoginPage';
 
 import HomePage from './home/home/HomePage';
 import VerifyNamePage from './home/VerifyName/VerifyNamePage';
-import VerifyResultPage from './home/VerifyName/VerifyResultPage';
+import PersonalDataPage from './mine/mine/PersonalDataPage';
 import MessagePage from './message/message/MessagePage';
+import VerifyResultPage from './home/VerifyName/VerifyResultPage';
+
+
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
 import HomeDetailPage from './home/detail/HomeDetailPage'
@@ -38,6 +41,7 @@ export default function () {
     reg('HomePage', () => HomePage);
     reg('VerifyNamePage', () => VerifyNamePage);
     reg('VerifyResultPage', () => VerifyResultPage);
+    reg('PersonalDataPage', () => PersonalDataPage);
     reg('MessagePage', () => MessagePage);
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
@@ -58,7 +62,7 @@ export default function () {
     reg('AccountsPayablePage', () => AccountsPayablePage);
     reg('ProfitStatementPage', () => ProfitStatementPage);
     reg('TaxFormPage', () => TaxFormPage);
-
+    reg('VerifyResultPage', () => VerifyResultPage);
 
 
 
