@@ -330,6 +330,16 @@ export default class HomePage extends BComponent {
 
         )
     }
+
+
+
+    _goVerifyResultPage(){
+
+        this.props.navigator.push({
+            screen: 'VerifyResultPage',
+            title:'核名结果',
+        });
+    }
     _goDetail(item){
         this.props.navigator.push({
             screen: 'HomeDetailPage',
