@@ -5,16 +5,12 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
-    Dimensions,
     Image,
     TouchableOpacity,
     StyleSheet
 } from 'react-native';
 
-const deviceWidth = Dimensions.get('window').width;
-const col = 3
-const itemMargin = 30
-const itemWidth = (deviceWidth - itemMargin*(col+1))/col
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../../config';
 
 export default class AccountingTreatment extends Component {
 
@@ -37,7 +33,7 @@ export default class AccountingTreatment extends Component {
                    </Image>
                    </TouchableOpacity>
                    <TouchableOpacity onPress={()=>{this._goto(1)}}>
-                   <Image style={[styles.img,{marginLeft:30}]} source={require('../../../img/service_profit_img.png')}>
+                   <Image style={[styles.img,{marginLeft:20}]} source={require('../../../img/service_profit_img.png')}>
                        <Text style={styles.text}>
                            利润表
                        </Text>
@@ -53,7 +49,7 @@ export default class AccountingTreatment extends Component {
                         </Image>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>{this._goto(3)}}>
-                        <Image style={[styles.img,{marginLeft:30}]} source={require('../../../img/service_cope_img.png')}>
+                        <Image style={[styles.img,{marginLeft:20}]} source={require('../../../img/service_cope_img.png')}>
                             <Text style={styles.text}>
                                 应付账款
                             </Text>
@@ -100,7 +96,8 @@ export default class AccountingTreatment extends Component {
 const styles = StyleSheet.create({
     wrapper:{
        marginHorizontal:20,
-        marginTop:30
+        marginTop:30,
+        marginBottom:10
 
     },
     wrapper1:{
@@ -108,9 +105,10 @@ const styles = StyleSheet.create({
 
     },
     img:{
-        resizeMode:'contain',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        width:(SCREEN_WIDTH-20-40)/2,
+        resizeMode:'contain'
     },
     text:{
         alignItems:'center',
