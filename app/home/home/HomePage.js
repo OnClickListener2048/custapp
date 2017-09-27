@@ -187,6 +187,8 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
+import Picker from 'react-native-picker';
+import area from '../../../picker_demo/area.json';
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -200,6 +202,7 @@ export default class HomePage extends BComponent {
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
     componentDidMount(){
+
         let dataSource = [];
         for (let i = 0; i<homePageData.data.length;i++){
             let section = {};
@@ -213,6 +216,44 @@ export default class HomePage extends BComponent {
         this.setState({
             dataSource:dataSource
         })
+
+
+    }
+    _showPicker(){
+
+        Picker.init({
+            pickerData: this._createAreaData(),
+            selectedValue: ['北京', '北京', '朝阳区'],
+            onPickerConfirm: pickedValue => {
+                console.log('area', pickedValue);
+            },
+            onPickerCancel: pickedValue => {
+                console.log('area', pickedValue);
+            },
+            onPickerSelect: pickedValue => {
+                //Picker.select(['山东', '青岛', '黄岛区'])
+                console.log('area', pickedValue);
+            }
+        });
+        Picker.show();
+
+    }
+    _createAreaData() {
+        let data = [];
+        let len = area.length;
+        for(let i=0;i<len;i++){
+            let city = [];
+            for(let j=0,cityLen=area[i]['city'].length;j<cityLen;j++){
+                let _city = {};
+                _city[area[i]['city'][j]['name']] = area[i]['city'][j]['area'];
+                city.push(_city);
+            }
+
+            let _data = {};
+            _data[area[i]['name']] = city;
+            data.push(_data);
+        }
+        return data;
     }
     render(){
 
@@ -304,9 +345,15 @@ export default class HomePage extends BComponent {
     }
     _listHeaderComponent(){
         return(
-            <View style={{width:DeviceInfo.width}}>
+            <View style={{width:DeviceInfo.width,paddingTop:DeviceInfo.OS==='ios'?20:0}}>
+                <View style={{width:DeviceInfo.width,padding:6,paddingLeft:15}}>
+                    <TouchableOpacity style={{flexDirection:'row',alignItems:'center',}} onPress={()=>this._showPicker()}>
+                        <Text style={{fontSize:16,color:'#333333'}}>北京</Text>
+                        <Image source={require('../../img/arrow_down.png')}/>
+                    </TouchableOpacity>
+                </View>
                 <Image source={require('../../img/name_bg.png')} style={{width:deviceWidth,justifyContent:'center',
-                    alignItems:'center',marginTop:DeviceInfo.OS==='ios'?20:0}}>
+                    alignItems:'center'}}>
                     <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>
                     <TouchableOpacity   onPress={this._goVerifyName.bind(this)} style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>
                         <Text style={{color:'white',fontSize:setSpText(16)}}>免费核名</Text>

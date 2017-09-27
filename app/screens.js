@@ -34,6 +34,7 @@ import AccountsPayablePage from './service/serviceDetail/AccountsPayablePage'
 import ProfitStatementPage from './service/serviceDetail/ProfitStatementPage'
 import TaxFormPage from './service/serviceDetail/TaxFormPage'
 
+import Notification from './view/NotificationView'
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -63,6 +64,8 @@ export default function () {
     reg('ProfitStatementPage', () => ProfitStatementPage);
     reg('TaxFormPage', () => TaxFormPage);
     reg('VerifyResultPage', () => VerifyResultPage);
+    reg('Notification', () => Notification);
+
 
 
 

@@ -8,7 +8,7 @@ import {
     Animated,
     Easing
 } from 'react-native';
-
+import { Navigation } from 'react-native-navigation';
 let instance = null;
 import Toast from 'react-native-root-toast'
 /**
@@ -35,7 +35,10 @@ export default class NetInfoSingleton {
     _updateConnectionStatus(isConnected) {
         console.log('NetInfoSingleton: _updateConnectionStatus isConnected=', isConnected);
         if(!isConnected){
-            // Toast.show('暂无网络')
+            Navigation.showInAppNotification({
+                screen: "Notification", // unique ID registered with Navigation.registerScreen
+                autoDismissTimerSec: 2 // auto dismiss notification in seconds
+            });
         }
         this.isConnected = isConnected;
     }
