@@ -20,6 +20,7 @@
 import {
     Dimensions,
     PixelRatio,
+    Platform
 } from 'react-native';
 
 
@@ -39,8 +40,16 @@ const scale = Math.min(deviceHeight / h2, deviceWidth / w2);   //获取缩放比
  * return number dp
  */
 export function setSpText(size: number) {
-    size = Math.round((size * scale + 0.5) * pixelRatio / fontScale);
-    return size / defaultPixel;
+
+
+    if(deviceWidth<360){
+        size = Math.round((size * scale + 0.5) * pixelRatio / fontScale);
+
+        return size / defaultPixel;
+
+    }
+
+    return size
 }
 
 export function scaleSize(size: number) {
