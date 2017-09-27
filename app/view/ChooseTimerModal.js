@@ -133,19 +133,19 @@ export default class ChooseTimerModal extends Component {
                 {
                     this.props.isChangeHeader?<TouchableOpacity activeOpacity={1} onPress={()=>{this._showTimer()}}>
                         <View style={[{width:DeviceInfo.width,flexDirection:'row',padding:15,paddingLeft:24,paddingRight:24,
-                            justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:0.5},this.state.isShow?{backgroundColor:'white'}:{backgroundColor:'transparent'}]}>
+                            justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:DeviceInfo.onePR},this.state.isShow?{backgroundColor:'white'}:{backgroundColor:'transparent'}]}>
                             <View style={{flexDirection:'row'}}>
-                                <Text style={[{fontSize:20},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.monthSelected}月</Text>
-                                <Text style={[{fontSize:14,alignSelf:'flex-end'},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.yearSelected}</Text>
+                                <Text style={[{fontSize:setSpText(20)},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.monthSelected}月</Text>
+                                <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end'},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.yearSelected}</Text>
                             </View>
                             <Image source={this.state.isShow?require('../img/today_black.png'):require('../img/today_white.png')}/>
                         </View>
                     </TouchableOpacity>:<TouchableOpacity activeOpacity={1} onPress={()=>{this._showTimer()}}>
                         <View style={[{width:DeviceInfo.width,flexDirection:'row',padding:15,paddingLeft:24,paddingRight:24,
-                            justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:0.5,backgroundColor:'transparent'}]}>
+                            justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:DeviceInfo.onePR,backgroundColor:'transparent'}]}>
                             <View style={{flexDirection:'row'}}>
-                                <Text style={[{fontSize:20,color:'#999999'}]}>{this.state.monthSelected}月</Text>
-                                <Text style={[{fontSize:14,alignSelf:'flex-end',color:'#999999'}]}>{this.state.yearSelected}</Text>
+                                <Text style={[{fontSize:setSpText(20),color:'#999999'}]}>{this.state.monthSelected}月</Text>
+                                <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end',color:'#999999'}]}>{this.state.yearSelected}</Text>
                             </View>
                             <Image source={require('../img/today_black.png')}/>
                         </View>
