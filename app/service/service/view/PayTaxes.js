@@ -5,16 +5,12 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
-    Dimensions,
     TouchableOpacity,
     StyleSheet,
     Image
 } from 'react-native';
 
-const deviceWidth = Dimensions.get('window').width;
-const col = 3
-const itemMargin = 30
-const itemWidth = (deviceWidth - itemMargin*(col+1))/col
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../../config';
 
 export default class PayTaxes extends Component {
 
@@ -61,7 +57,8 @@ const styles = StyleSheet.create({
     img:{
         resizeMode:'contain',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        width:(SCREEN_WIDTH-30-40)/2,
     },
     text:{
         alignItems:'center',

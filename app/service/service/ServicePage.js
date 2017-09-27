@@ -80,7 +80,7 @@ export default class ServicePage extends BComponent {
                         </View>
                     </TouchableWithoutFeedback>
 
-                    <View style={[styles.line,{width:54,borderBottomColor:this.state.isChoose1?'#e13238':'#f0f0f0'}]}/>
+                    <View style={[styles.line,{borderBottomColor:this.state.isChoose1?'#e13238':'#f0f0f0'}]}/>
                     <TouchableWithoutFeedback onPress={()=>{this.setChoose(2)}} >
                         <View>
                         <Image style={styles.service_gray_bg} source={this.state.isChoose2 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
@@ -90,7 +90,7 @@ export default class ServicePage extends BComponent {
                         </Image>
                         </View>
                     </TouchableWithoutFeedback>
-                    <View style={[styles.line,{width:54,borderBottomColor:this.state.isChoose2?'#e13238':'#f0f0f0'}]}/>
+                    <View style={[styles.line,{borderBottomColor:this.state.isChoose2?'#e13238':'#f0f0f0'}]}/>
                     <TouchableWithoutFeedback onPress={()=>{this.setChoose(3)}} >
                         <View>
                         <Image style={styles.service_gray_bg} source={this.state.isChoose3 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
@@ -100,7 +100,7 @@ export default class ServicePage extends BComponent {
                         </Image>
                         </View>
                     </TouchableWithoutFeedback>
-                    <View style={[styles.line,{width:54,borderBottomColor:this.state.isChoose3?'#e13238':'#f0f0f0'}]}/>
+                    <View style={[styles.line,{borderBottomColor:this.state.isChoose3?'#e13238':'#f0f0f0'}]}/>
                     <TouchableWithoutFeedback onPress={()=>{this.setChoose(4)}} >
                         <View>
                         <Image style={styles.service_gray_bg} source={this.state.isChoose4 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
@@ -110,7 +110,7 @@ export default class ServicePage extends BComponent {
                         </Image>
                         </View>
                     </TouchableWithoutFeedback>
-                    <View style={[styles.line,{width:54,borderBottomColor:this.state.isChoose4?'#e13238':'#f0f0f0'}]}/>
+                    <View style={[styles.line,{borderBottomColor:this.state.isChoose4?'#e13238':'#f0f0f0'}]}/>
                     <TouchableWithoutFeedback onPress={()=>{this.setChoose(5)}} >
                         <View>
                         <Image style={styles.service_gray_bg} source={this.state.isChoose5 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     },
     line:{
         height:1,
-        width:SCREEN_WIDTH,
+        width:(SCREEN_WIDTH-62.5-40)/5,
         borderBottomColor:'#e13238',
         borderBottomWidth:1 ,
         backgroundColor:'transparent'

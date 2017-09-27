@@ -35,7 +35,7 @@ export default class CommenCell extends Component {
         if(this.props.underLine){
             underlineStyle = {
                 borderBottomColor:'#ececec',
-                borderBottomWidth:0.5,
+                borderBottomWidth:DeviceInfo.onePR,
             }
         }
 

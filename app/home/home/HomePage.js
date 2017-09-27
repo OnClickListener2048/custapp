@@ -15,10 +15,10 @@ import {
 import SectionHeader from '../../view/SectionHeader'
 
 import BComponent from '../../base';
-
+import {scaleSize} from  '../../util/ScreenUtil'
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
-const itemMargin = 15
+const itemMargin = scaleSize(15)
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 
 const homePageData = {
@@ -187,7 +187,6 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
-import HudView from '../../view/HudView'
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -243,7 +242,7 @@ export default class HomePage extends BComponent {
                                 <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
                                     <View style={{width:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'}}>
                                         <Image resizeMode="contain" style={{marginTop:10, width:25,height:25}} source={item.logo}/>
-                                        <Text style={{marginTop:15,marginBottom:10,fontSize:14,color:'#666666'}}>{item.subTitle}</Text>
+                                        <Text style={{marginTop:15,marginBottom:10,fontSize:setSpText(14),color:'#666666'}}>{item.subTitle}</Text>
                                     </View>
                                 </TouchableOpacity>
                             )
@@ -259,7 +258,7 @@ export default class HomePage extends BComponent {
                             return(
                                 <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
                                     <Image resizeMode="contain" style={{justifyContent:'center',alignItems:'center'}} source={item.logo}>
-                                        <Text style={{backgroundColor:'transparent',fontSize:16,color:'white',fontWeight:'bold'}}>{item.subTitle}</Text>
+                                        <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>{item.subTitle}</Text>
                                     </Image>
                                 </TouchableOpacity>
                             )
@@ -284,13 +283,13 @@ export default class HomePage extends BComponent {
                             return (
                                 <View key={index} style={[{width:deviceWidth/3,flexDirection:'row',padding:10,justifyContent:'center',alignItems:'center'},index<3?{borderBottomWidth:1.5,borderBottomColor:'#f9f9f9'}:{},index%3<2?{borderRightWidth:1.5,borderRightColor:'#f9f9f9'}:{}]}>
                                     <Image source={item.logo}/>
-                                    <Text style={{fontSize:14, color:'#333333',marginLeft:10}}>{item.title}</Text>
+                                    <Text style={{fontSize:setSpText(14), color:'#333333',marginLeft:10}}>{item.title}</Text>
                                 </View>
                             )
                         })
                     }
                     <View style={{width:deviceWidth,justifyContent:'center',alignItems:'center',padding:30,backgroundColor:'#F9F9F9'}}>
-                        <Text style={{color:'#F9990A',fontSize:18}}>小企业财税管家</Text>
+                        <Text style={{color:'#F9990A',fontSize:setSpText(18)}}>小企业财税管家</Text>
                         <Text style={{fontSize:12,color:'#999999',marginTop:5}}>热线电话：400-107-0110</Text>
                     </View>
                 </View>
@@ -308,9 +307,9 @@ export default class HomePage extends BComponent {
             <View style={{width:DeviceInfo.width}}>
                 <Image source={require('../../img/name_bg.png')} style={{width:deviceWidth,justifyContent:'center',
                     alignItems:'center',marginTop:DeviceInfo.OS==='ios'?20:0}}>
-                    <Text style={{backgroundColor:'transparent',fontSize:16,color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>
+                    <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>
                     <TouchableOpacity   onPress={this._goVerifyName.bind(this)} style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>
-                        <Text style={{color:'white',fontSize:16}}>免费核名</Text>
+                        <Text style={{color:'white',fontSize:setSpText(16)}}>免费核名</Text>
                     </TouchableOpacity>
                 </Image>
                 <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white'}}>
@@ -320,7 +319,7 @@ export default class HomePage extends BComponent {
                                 <TouchableOpacity key={i} style={{flex:1}}>
                                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                                         <Image style={{marginTop:20}} source={item.logo }/>
-                                        <Text  style={{marginTop:10,fontSize:12,color:'#666666',marginBottom:20}}>{item.title}</Text>
+                                        <Text  style={{marginTop:10,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
                                     </View>
                                 </TouchableOpacity>
                             )
