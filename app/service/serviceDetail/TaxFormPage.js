@@ -108,4 +108,5 @@ export default class TaxFormPage extends BComponent {
             </View>
         )
     }
+
 }

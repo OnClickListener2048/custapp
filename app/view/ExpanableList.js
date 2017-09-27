@@ -37,6 +37,7 @@ class ExpanableList extends Component {
         headerOnPress: PropTypes.func,
         isOpen: PropTypes.bool,
         openOptions: PropTypes.array,
+        headerClickCallBack: PropTypes.func
     };
 
     static defaultProps = {
@@ -59,6 +60,8 @@ class ExpanableList extends Component {
         }
 
         LayoutAnimation.easeInEaseOut();
+
+        this.props.headerClickCallBack && this.props.headerClickCallBack(i)
     };
 
     _renderItem = ({ item, index }) => { // eslint-disable-line
