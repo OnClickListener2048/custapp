@@ -6,6 +6,7 @@ import LoginPage from './user/LoginPage';
 
 import HomePage from './home/home/HomePage';
 import VerifyNamePage from './home/VerifyName/VerifyNamePage';
+import PersonalDataPage from './mine/mine/PersonalDataPage';
 import MessagePage from './message/message/MessagePage';
 import VerifyResultPage from './home/VerifyName/VerifyResultPage';
 
@@ -40,6 +41,7 @@ export default function () {
     reg('HomePage', () => HomePage);
     reg('VerifyNamePage', () => VerifyNamePage);
     reg('VerifyResultPage', () => VerifyResultPage);
+    reg('PersonalDataPage', () => PersonalDataPage);
     reg('MessagePage', () => MessagePage);
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
