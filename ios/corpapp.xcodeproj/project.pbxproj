@@ -70,7 +70,6 @@
 		B3FA13E95A5646C39C757110 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AB272067FB42379DF185B7 /* libz.tbd */; };
 		C30E55D7A85A41C5AB2173BA /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F41427D626C48109F82DDCD /* libc++.tbd */; };
 		C34FFE0F7FA54338BE920DCF /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79C240DBF0264B06B811EAE2 /* libRNSVG.a */; };
-		C4B0F63434064270A0ABC252 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47E94947C4FD49238EBD9AF5 /* libRealmReact.a */; };
 		C4D18E200218412399140025 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3534C717D8834B7B9A192786 /* SimpleLineIcons.ttf */; };
 		CB74B2B9FECC43B7A3545F60 /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4609ED98B60D46B6BA3770EC /* libRCTBEEPickerManager.a */; };
 		CC2CC0991F31EB340095871E /* libZTAlertView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC304DCD1F31EAAB0061CB00 /* libZTAlertView.a */; };
@@ -520,7 +519,6 @@
 				113F564D53C8426DBADB98F8 /* libRNBlur.a in Frameworks */,
 				83162E071EFCC58A0031CA7A /* QBImagePicker.framework in Frameworks */,
 				F29D7CC2925A4496B1913BCB /* libRNVectorIcons.a in Frameworks */,
-				C4B0F63434064270A0ABC252 /* libRealmReact.a in Frameworks */,
 				C30E55D7A85A41C5AB2173BA /* libc++.tbd in Frameworks */,
 				B3FA13E95A5646C39C757110 /* libz.tbd in Frameworks */,
 				F8CB077A3BC241A7AEA78783 /* libRNDeviceInfo.a in Frameworks */,
