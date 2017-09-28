@@ -865,6 +865,7 @@
 				9F5B65A9E8AA44BEAC6307E9 /* libRCTJPushModule.a */,
 				CA3C5CECE05A4F17A69B0972 /* libimageCropPicker.a */,
 				4609ED98B60D46B6BA3770EC /* libRCTBEEPickerManager.a */,
+				79C240DBF0264B06B811EAE2 /* libRNSVG.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
