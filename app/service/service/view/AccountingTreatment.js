@@ -27,35 +27,35 @@ export default class AccountingTreatment extends Component {
             <View style={styles.wrapper}>
 
                    <TouchableOpacity onPress={()=>{this._goto(0)}}>
-                   <ImageBackground style={styles.img} source={require('../../../img/service_cash_img.png')}>
+                   <Image style={styles.img} source={require('../../../img/service_cash_img.png')}>
                        <Text style={styles.text}>
                            现金流
                        </Text>
-                   </ImageBackground>
+                   </Image>
                    </TouchableOpacity>
 
                    <TouchableOpacity  onPress={()=>{this._goto(1)}}>
-                   <ImageBackground style={[styles.img]} source={require('../../../img/service_profit_img.png')}>
+                   <Image style={[styles.img]} source={require('../../../img/service_profit_img.png')}>
                        <Text style={styles.text}>
                            利润表
                        </Text>
-                   </ImageBackground>
+                   </Image>
                    </TouchableOpacity>
 
                     <TouchableOpacity style={{marginTop:10}} onPress={()=>{this._goto(2)}}>
-                        <ImageBackground style={styles.img} source={require('../../../img/service_receive_img.png')}>
+                        <Image style={styles.img} source={require('../../../img/service_receive_img.png')}>
                             <Text style={styles.text}>
                                 应收账款
                             </Text>
-                        </ImageBackground>
+                        </Image>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={{marginTop:10}}  onPress={()=>{this._goto(3)}}>
-                        <ImageBackground style={[styles.img]} source={require('../../../img/service_cope_img.png')}>
+                        <Image style={[styles.img]} source={require('../../../img/service_cope_img.png')}>
                             <Text style={styles.text}>
                                 应付账款
                             </Text>
-                        </ImageBackground>
+                        </Image>
                     </TouchableOpacity>
             </View>
         )
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         width:(SCREEN_WIDTH-20-40)/2,
-
         height:(SCREEN_WIDTH-20-40)*0.5/2,
+        resizeMode:'contain'
     },
     text:{
 

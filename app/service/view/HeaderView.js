@@ -34,7 +34,7 @@ export default class HeaderView extends Component {
     render(){
         const {hasTop,leftDes,leftNum,rightDes,rightNum} = this.props
         return(
-            <ImageBackground style={styles.wrapper}
+            <Image style={styles.wrapper}
                    source={hasTop?require('../../img/service_bg.png'):require('../../img/service_receive_bg.png')}>
                 {this._renderTop()}
                 <View style={styles.wrapper2}>
@@ -55,7 +55,7 @@ export default class HeaderView extends Component {
                         </Text>
                     </View>
                 </View>
-            </ImageBackground>
+            </Image>
         )
     }
 
@@ -79,7 +79,6 @@ export default class HeaderView extends Component {
 const styles = StyleSheet.create({
     wrapper:{
         width:SCREEN_WIDTH,
-        height:SCREEN_WIDTH*0.56
 
     },
     wrapper1:{

@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
         resizeMode:'contain',
         justifyContent:'center',
         alignItems:'center',
-        width:(SCREEN_WIDTH-30-40)/2,
+        width:(SCREEN_WIDTH-20-40)/2,
+        height:(SCREEN_WIDTH-20-40)*0.5/2,
     },
     text:{
         alignItems:'center',
