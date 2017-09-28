@@ -379,9 +379,9 @@ export default class HomePage extends BComponent {
                         item.item.data.map((item, i) => {
                             return(
                                 <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
-                                    <ImageBackground resizeMode="contain" style={{justifyContent:'center',alignItems:'center',width:136,height:64,marginTop:10}} source={item.logo}>
+                                    <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,marginTop:10}} source={item.logo}>
                                         <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>{item.subTitle}</Text>
-                                    </ImageBackground>
+                                    </Image>
                                 </TouchableOpacity>
                             )
                         })
@@ -433,13 +433,13 @@ export default class HomePage extends BComponent {
                         <Image source={require('../../img/arrow_down.png')}/>
                     </TouchableOpacity>
                 </View>
-                <ImageBackground source={require('../../img/name_bg.png')} style={{width:deviceWidth,height:deviceWidth*0.33,justifyContent:'center',
+                <Image resizeMode="cover" source={require('../../img/name_bg.png')} style={{width:deviceWidth,justifyContent:'center',
                     alignItems:'center'}}>
                     <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>
                     <TouchableOpacity   onPress={this._goVerifyName.bind(this)} style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>
                         <Text style={{color:'white',fontSize:setSpText(16)}}>免费核名</Text>
                     </TouchableOpacity>
-                </ImageBackground>
+                </Image>
                 <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white'}}>
                     {
                         headerData.map((item,i)=>{

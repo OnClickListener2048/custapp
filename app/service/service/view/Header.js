@@ -18,12 +18,12 @@ const itemHeight = 80
 export default class Header extends Component {
 
     static defaultProps = {
-        selectIndex:2,
+        selectIndex:0,
         btnArr:['抄税','发票数据','财务处理','申报纳税','清卡']
     };
 
     btnClick(index){
-        this.props.btnClick(index)
+        this.props.btnClick&& this.props.btnClick(index)
     }
 
     render(){
@@ -77,12 +77,12 @@ class Button extends Component{
         return(
             <View style={{width:itemWidth,height:itemHeight,alignItems:'center',position:'relative'}}>
                 <View style={[{width:25,height:25,borderRadius:12.5,marginTop:10,justifyContent:'center',alignItems:'center',backgroundColor:'#F0F0F0'},backgroundColor]}>
-                    <Text style={[numColor,{fontSize:12}]}>
+                    <Text style={[numColor,{fontSize:setSpText(12)}]}>
                         0{this.props.index+1}
                     </Text>
                 </View>
                 <View style={[{width:itemWidth-10,height:30,marginTop:10,justifyContent:'center',alignItems:'center'}]}>
-                    <Text style={[textColor,{fontSize:14}]}>
+                    <Text style={[textColor,{fontSize:setSpText(14)}]}>
                         {this.props.title}
                     </Text>
                 </View>

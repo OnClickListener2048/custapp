@@ -31,23 +31,23 @@ export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            isChoose1:true,
-            isChoose2:false,
-            isChoose3:false,
-            isChoose4:false,
-            isChoose5:false,
-            num:1
+
+            selectIndex:0
 
         };
         this.isDemo=false;//是否是显示数据
         this._renderBody=this._renderBody.bind(this);
-        this.setChoose=this.setChoose.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
     }
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
+    btnClick(index){
+        this.setState({
+            selectIndex:index
+        })
+    }
 
     render(){
         return(
@@ -70,79 +70,8 @@ export default class ServicePage extends BComponent {
                     </Text>
                     <View style={[styles.line,{width:30}]}/>
                 </View>
-                <View style={styles.wrapper3}>
-                <View style={styles.wrapper2}>
-                    <TouchableWithoutFeedback onPress={()=>{this.setChoose(1)}} >
-                        <View >
-                    <ImageBackground style={styles.service_gray_bg} source={this.state.isChoose1 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
-                        <Text style={this.state.isChoose1 ?styles.te_white : styles.te_black}>
-                            01
-                        </Text>
-                    </ImageBackground>
-                        </View>
-                    </TouchableWithoutFeedback>
-
-                    <View style={[styles.line,{borderBottomColor:this.state.isChoose1?'#e13238':'#f0f0f0'}]}/>
-                    <TouchableWithoutFeedback onPress={()=>{this.setChoose(2)}} >
-                        <View>
-                        <ImageBackground style={styles.service_gray_bg} source={this.state.isChoose2 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
-                            <Text style={this.state.isChoose2 ?styles.te_white : styles.te_black}>
-                                02
-                            </Text>
-                        </ImageBackground>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <View style={[styles.line,{borderBottomColor:this.state.isChoose2?'#e13238':'#f0f0f0'}]}/>
-                    <TouchableWithoutFeedback onPress={()=>{this.setChoose(3)}} >
-                        <View >
-                        <ImageBackground style={styles.service_gray_bg} source={this.state.isChoose3 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
-                            <Text style={this.state.isChoose3 ?styles.te_white : styles.te_black}>
-                                03
-                            </Text>
-                        </ImageBackground>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <View style={[styles.line,{borderBottomColor:this.state.isChoose3?'#e13238':'#f0f0f0'}]}/>
-                    <TouchableWithoutFeedback onPress={()=>{this.setChoose(4)}} >
-                        <View >
-                        <ImageBackground style={styles.service_gray_bg} source={this.state.isChoose4 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
-                            <Text style={this.state.isChoose4 ?styles.te_white : styles.te_black}>
-                                04
-                            </Text>
-                        </ImageBackground>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <View style={[styles.line,{borderBottomColor:this.state.isChoose4?'#e13238':'#f0f0f0'}]}/>
-                    <TouchableWithoutFeedback onPress={()=>{this.setChoose(5)}} >
-                        <View >
-                        <ImageBackground style={styles.service_gray_bg} source={this.state.isChoose5 ?require('../../img/service_red_bg.png') : require('../../img/service_gray_bg.png')}>
-                            <Text style={this.state.isChoose5 ?styles.te_white : styles.te_black}>
-                                05
-                            </Text>
-                        </ImageBackground>
-                        </View>
-                    </TouchableWithoutFeedback>
-                </View>
-                    <View style={styles.wrapper4}>
-                        <Text style={{fontSize:14,color:this.state.isChoose1?'#e13238':'#999999'}}>
-                            抄税
-                        </Text>
-                        <Text style={{fontSize:14,color:this.state.isChoose2?'#e13238':'#999999',marginLeft:(SCREEN_WIDTH-232-20)/4+6,marginRight:(SCREEN_WIDTH-232-20)/4-6}}>
-                            发送票据
-                        </Text>
-                        <Text style={{fontSize:14,color:this.state.isChoose3?'#e13238':'#999999'}}>
-                            财务处理
-                        </Text>
-                        <Text style={{fontSize:14,color:this.state.isChoose4?'#e13238':'#999999',marginLeft:(SCREEN_WIDTH-232-20)/4-5,marginRight:(SCREEN_WIDTH-232-20)/4+5}}>
-                            申报纳税
-                        </Text>
-                        <Text style={{fontSize:14,color:this.state.isChoose5?'#e13238':'#999999'}}>
-                            清卡
-                        </Text>
-                    </View>
-                </View>
-
-                {this._renderBody(this.state.num)}
+                <Header btnClick={this.btnClick.bind(this)} selectIndex={this.state.selectIndex} />
+                {this._renderBody(this.state.selectIndex)}
             </ScrollView>
                 {this._renderDemo(this.isDemo)}
                 <ChooseTimerModal />
@@ -153,42 +82,23 @@ export default class ServicePage extends BComponent {
         )
     }
 
-    setChoose(index){
-        switch (index){
-            case 1:
-                this.setState({isChoose1:true,num:1,isChoose2:false,isChoose3:false,isChoose4:false,isChoose5:false});
-                break;
-            case 2:
-                this.setState({isChoose1:false,num:2,isChoose2:true,isChoose3:false,isChoose4:false,isChoose5:false});
-                break;
-            case 3:
-                this.setState({isChoose1:false,num:3,isChoose2:false,isChoose3:true,isChoose4:false,isChoose5:false});
-                break;
-            case 4:
-                this.setState({isChoose1:false,num:4,isChoose2:false,isChoose3:false,isChoose4:true,isChoose5:false});
-                break;
-            case 5:
-                this.setState({isChoose1:false,num:5,isChoose2:false,isChoose3:false,isChoose4:false,isChoose5:true});
-                break;
-        }
-    }
 
 
     _renderBody(index){
         switch (index){
-            case 1:
+            case 0:
                 return <CopyTaxes {...this.props}/>//抄税
                 break;
-            case 2:
+            case 1:
                 return <SendBill {...this.props} />//发送票据
                 break;
-            case 3:
+            case 2:
                 return <AccountingTreatment {...this.props} />//财务处理
                 break;
-            case 4:
+            case 3:
                 return <PayTaxes {...this.props} />//申报纳税
                 break;
-            case 5:
+            case 4:
                 return <ClearCard {...this.props} />//清卡
                 break;
         }
