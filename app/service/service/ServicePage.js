@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         marginTop:30,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        marginBottom:20
 
     },
     wrapper2:{
@@ -162,7 +163,6 @@ const styles = StyleSheet.create({
         borderBottomColor:'#e13238',
         borderBottomWidth:1 ,
         backgroundColor:'transparent',
-        marginTop:10
     },
     service_gray_bg:{
         width:26,
