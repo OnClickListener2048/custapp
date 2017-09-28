@@ -1,8 +1,8 @@
 /**
  * 通用请求的封装
  */
-import {API_BASE_URL} from '../config';
-import '../http/HTTPBase';
+import {API_BASE_URL, UAA_DOMAIN_URL} from '../config';
+import HTTPBase from '../http/HTTPBase';
 
 export async function postApi(uri, params = {}, headers = {}) {
     return HTTPBase.postEx(API_BASE_URL + uri, params, headers);
