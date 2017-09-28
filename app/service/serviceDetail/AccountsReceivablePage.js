@@ -44,7 +44,12 @@ const MockData = [
     }
 ]
 export default class AccountsReceivablePage extends BComponent {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            openOptions:[0]
+        };
+    }
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
@@ -55,7 +60,7 @@ export default class AccountsReceivablePage extends BComponent {
     _renderSection (section, sectionId) {
         let dic = MockData[sectionId]
         return(
-            <ServiceCell title={dic.title} titleStyle={{color:'#E13238'}} item1_money={dic.item1_money} item2_money={dic.item2_money}/>
+            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.title} titleStyle={{color:'#E13238'}} item1_money={dic.item1_money} item2_money={dic.item2_money}/>
 
         )
     };
@@ -85,12 +90,18 @@ export default class AccountsReceivablePage extends BComponent {
                     memberKey="member"
                     renderRow={this._renderRow.bind(this)}
                     renderSectionHeaderX={this._renderSection.bind(this)}
-                    openOptions={[0]}
+                    openOptions={this.state.openOptions}
+                    headerClickCallBack={(index)=>this._headerClickCallBack(index)}
                 />
                 <ChooseTimerModal />
 
             </View>
 
         );
+    }
+    _headerClickCallBack(index){
+        let openOptions =this.state.openOptions
+        openOptions[index]=!openOptions[index]
+        this.setState({openOptions})
     }
 }

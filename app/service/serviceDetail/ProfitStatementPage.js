@@ -97,22 +97,22 @@ class Cell extends Component{
     render(){
         return(
             <View style={[{width:DeviceInfo.width,height:85,backgroundColor:'white',paddingLeft:13,flexDirection:'row',alignItems:'center'},this.props.item.index==0?{marginTop:0}:{marginTop:10}]}>
-                <View style={[{width:35,height:85,justifyContent:'center',alignItems:'center'},this.props.item.index%2==0?{backgroundColor:'#EB5B47'}:{backgroundColor:'#F8863F'}]}>
-                    <Text style={{fontSize:16,color:'white'}}>{this.props.item.item.month}</Text>
-                    <Text style={{fontSize:16,color:'white',marginTop:5}}>月</Text>
+                <View style={[{width:30,height:85,justifyContent:'center',alignItems:'center'},this.props.item.index%2==0?{backgroundColor:'#EB5B47'}:{backgroundColor:'#F8863F'}]}>
+                    <Text style={{fontSize:setSpText(16),color:'white'}}>{this.props.item.item.month}</Text>
+                    <Text style={{fontSize:setSpText(16),color:'white',marginTop:5}}>月</Text>
                 </View>
-                <View style={{width:(DeviceInfo.width-48)/2,height:45,borderRightWidth:0.5,borderRightColor:'#dcdcdc',justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{fontSize:14,color:'#999999'}}>利润</Text>
-                    <Text style={{color:'#E13238',fontSize:20,marginTop:5}}>30,000.00</Text>
+                <View style={{flex:1,borderRightWidth:0.5,borderRightColor:'#dcdcdc',justifyContent:'center',alignItems:'center'}}>
+                    <Text style={{fontSize:setSpText(14),color:'#999999'}}>利润</Text>
+                    <Text style={{color:'#E13238',fontSize:setSpText(20),marginTop:5}}>30,000.00</Text>
                 </View>
-                <View style={{width:(DeviceInfo.width-48)/2,height:45,justifyContent:'space-between',alignItems:'center'}}>
+                <View style={{flex:1,justifyContent:'space-between',alignItems:'center'}}>
                     <View style={{flexDirection:'row',alignItems:'center',}}>
-                        <Text style={{fontSize:14,color:'#999999'}}>期初</Text>
-                        <Text style={{fontSize:16,color:'#333333',marginLeft:9}}>¥30,500.45</Text>
+                        <Text style={{fontSize:setSpText(14),color:'#999999'}}>期初</Text>
+                        <Text style={{fontSize:setSpText(16),color:'#333333',marginLeft:9}}>¥30,500.45</Text>
                     </View>
                     <View style={{flexDirection:'row',alignItems:'center', }}>
-                        <Text style={{fontSize:14,color:'#999999'}}>期末</Text>
-                        <Text style={{fontSize:16,color:'#333333',marginLeft:9}}>¥60,050.46</Text>
+                        <Text style={{fontSize:setSpText(14),color:'#999999'}}>期末</Text>
+                        <Text style={{fontSize:setSpText(16),color:'#333333',marginLeft:9}}>¥60,050.46</Text>
                     </View>
                 </View>
 

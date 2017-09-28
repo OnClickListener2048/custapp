@@ -14,7 +14,7 @@ import {
 export default class DefaultView extends Component {
 
     static defaultProps = {
-        type:'',// no-data 无数据 no-net无网 error加载失败
+        type:'',// no-data 无数据 no-net无网 error加载失败 loading加载中
         image:null,
         text:'',
         onPress:function () {
@@ -24,18 +24,27 @@ export default class DefaultView extends Component {
 
     render(){
         return(
-            <View style={[styles.container,{width:DeviceInfo.width, height:DeviceInfo.OS==='ios'?DeviceInfo.height-108:DeviceInfo.height-88}]}>
+            <View style={[styles.container,{width:DeviceInfo.width, height:DeviceInfo.OS==='ios'?DeviceInfo.height-44-64:DeviceInfo.height-88}]}>
                 {this.renderImageAndText()}
             </View>
         )
     }
-    renderImageAndText(){
-        if (this.props.type == 'no-data'){
+    renderImageAndText() {
+        if(this.props.type == 'loading'){
+            //加载中
+            return(
+                <View style={styles.box} >
+                    <Image source={require('../img/loading.png')}/>
+                    <Text style={{fontSize:18,color:'#999999',marginTop:50}}>玩命加载中~</Text>
+                </View>
+            )
+        }else if (this.props.type == 'no-data'){
             //无数据
             return(
                 <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>
                     <Image source={require('../img/no_message.png')}/>
-                    <Text style={styles.text}>暂无消息</Text>
+                    <Text style={{fontSize:15,color:'#999999',marginTop:50}}>暂时没有查到相关数据,请过些时日再查看</Text>
+                    <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>
                 </TouchableOpacity>
             )
         }else if(this.props.type == 'no-net'){
@@ -43,16 +52,23 @@ export default class DefaultView extends Component {
             return(
                 <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>
                     <Image source={require('../img/network_error.png')}/>
-                    <Text style={styles.text}>网络错误,点击重新开始</Text>
+                    <Text style={{fontSize:18,color:'#999999',marginTop:50}}>网络请求失败</Text>
+                    <Text style={{fontSize:18,color:'#999999',marginTop:5}}>请检查您的网络</Text>
                 </TouchableOpacity>
             )
         }else if (this.props.type == 'error'){
             //服务器错误
             return(
-                <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>
-                    <Image source={require('../img/load_failed.png')}/>
-                    <Text style={styles.text}>加载失败，点击重试</Text>
-                </TouchableOpacity>
+                <View style={styles.box} onPress={()=>this.props.onPress()}>
+                    <Image source={require('../img/no_message.png')}/>
+                    <Text style={{fontSize:18,color:'#999999',marginTop:50}}>网络请求失败</Text>
+                    <Text style={{fontSize:18,color:'#999999',marginTop:5}}>请检查您的网络</Text>
+                    <TouchableOpacity onPress={()=>this.props.onPress()}>
+                        <View style={{width:DeviceInfo.width-50,height:50,borderRadius:25,backgroundColor:'#E8E8E8',marginTop:35,justifyContent:'center',alignItems:'center'}}>
+                            <Text style={{color:'white',fontSize:18}}>重新加载</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             )
         }else{
             //自定义
@@ -80,6 +96,7 @@ const styles = StyleSheet.create({
         color:'#969696',
     },
     box:{
-        alignItems:'center'
+        alignItems:'center',
+        marginTop:-64
     }
 });

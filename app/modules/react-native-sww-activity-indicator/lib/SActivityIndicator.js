@@ -159,8 +159,8 @@ class ActivityIndicatorContent extends Component{
 const styles = StyleSheet.create({
   background:{
     backgroundColor:'rgba(0,0,0,0.05)',
-    justifyContent:'center',
-    alignItems:'center',
+    // justifyContent:'center',
+    // alignItems:'center',
     position:'absolute',
     width:width,
     height:height,

@@ -94,7 +94,11 @@ export default class MinePage extends BComponent {
     }
 
     login(){
-        loginJumpSingleton.goToLogin(this.props.navigator);
+        // loginJumpSingleton.goToLogin(this.props.navigator);
+        this.props.navigator.push({
+            screen: 'PersonalDataPage',
+            title:'个人资料',
+        });
     }
 
 }

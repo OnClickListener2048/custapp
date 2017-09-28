@@ -13,8 +13,12 @@ import Swipeout from "react-native-swipeout"
 import * as apis from '../../apis';
 import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
-import SActivityIndicator from '../../modules/react-native-sww-activity-indicator';
-
+const data = [
+    {
+        title:'系统消息',
+        date:'2017-3-10'
+    },
+]
 export default class MessagePage extends BComponent {
     constructor(props) {
         super(props);

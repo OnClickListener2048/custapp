@@ -11,6 +11,7 @@ import {
 import { Pie } from 'react-native-pathjs-charts'
 import BComponent from '../../base';
 import CommonCell from '../../view/CommenCell'
+import ChooseTimerModal from '../../view/ChooseTimerModal'
 
 const data =[{
     title:'增值税',
@@ -49,7 +50,7 @@ export default class TaxFormPage extends BComponent {
         ]
         return(
             <View style={{width:DeviceInfo.width,backgroundColor:'white'}}>
-                <View style={{width:DeviceInfo.width,height:260,marginTop:30,alignItems:'center'}}>
+                <View style={{width:DeviceInfo.width,height:260,marginTop:70,alignItems:'center'}}>
                     <View style={{width:260,height:260,position:'relative'}}>
                         <Pie data={data}
                              options={options}
@@ -102,7 +103,10 @@ export default class TaxFormPage extends BComponent {
                     data={data}
                     keyExtractor = {(item, index) => index}
                 />
+                <ChooseTimerModal isChangeHeader={false}/>
+
             </View>
         )
     }
+
 }

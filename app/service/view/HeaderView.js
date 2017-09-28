@@ -7,6 +7,7 @@ import {
     View,
     Text,
     Image,
+    ImageBackground,
     StyleSheet,
     Platform
 } from 'react-native';
@@ -77,7 +78,8 @@ export default class HeaderView extends Component {
 
 const styles = StyleSheet.create({
     wrapper:{
-        resizeMode:'contain'
+        width:SCREEN_WIDTH,
+
     },
     wrapper1:{
         marginTop:65,
