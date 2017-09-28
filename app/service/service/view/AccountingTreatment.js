@@ -7,8 +7,8 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    StyleSheet,
-    ImageBackground
+    ImageBackground,
+    StyleSheet
 } from 'react-native';
 
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../../config';
@@ -25,6 +25,7 @@ export default class AccountingTreatment extends Component {
 
         return(
             <View style={styles.wrapper}>
+
                    <TouchableOpacity onPress={()=>{this._goto(0)}}>
                    <ImageBackground style={styles.img} source={require('../../../img/service_cash_img.png')}>
                        <Text style={styles.text}>
@@ -32,6 +33,7 @@ export default class AccountingTreatment extends Component {
                        </Text>
                    </ImageBackground>
                    </TouchableOpacity>
+
                    <TouchableOpacity  onPress={()=>{this._goto(1)}}>
                    <ImageBackground style={[styles.img]} source={require('../../../img/service_profit_img.png')}>
                        <Text style={styles.text}>
@@ -39,6 +41,7 @@ export default class AccountingTreatment extends Component {
                        </Text>
                    </ImageBackground>
                    </TouchableOpacity>
+
                     <TouchableOpacity style={{marginTop:10}} onPress={()=>{this._goto(2)}}>
                         <ImageBackground style={styles.img} source={require('../../../img/service_receive_img.png')}>
                             <Text style={styles.text}>
@@ -46,6 +49,7 @@ export default class AccountingTreatment extends Component {
                             </Text>
                         </ImageBackground>
                     </TouchableOpacity>
+
                     <TouchableOpacity style={{marginTop:10}}  onPress={()=>{this._goto(3)}}>
                         <ImageBackground style={[styles.img]} source={require('../../../img/service_cope_img.png')}>
                             <Text style={styles.text}>
@@ -92,6 +96,7 @@ export default class AccountingTreatment extends Component {
 
 const styles = StyleSheet.create({
     wrapper:{
+
        marginHorizontal:20,
         marginTop:30,
         marginBottom:10,
@@ -104,6 +109,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         width:(SCREEN_WIDTH-20-40)/2,
+
         height:(SCREEN_WIDTH-20-40)*0.5/2,
     },
     text:{
