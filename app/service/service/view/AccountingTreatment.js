@@ -7,7 +7,8 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    ImageBackground
 } from 'react-native';
 
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../../config';
@@ -24,38 +25,34 @@ export default class AccountingTreatment extends Component {
 
         return(
             <View style={styles.wrapper}>
-               <View style={styles.wrapper1}>
                    <TouchableOpacity onPress={()=>{this._goto(0)}}>
-                   <Image style={styles.img} source={require('../../../img/service_cash_img.png')}>
+                   <ImageBackground style={styles.img} source={require('../../../img/service_cash_img.png')}>
                        <Text style={styles.text}>
                            现金流
                        </Text>
-                   </Image>
+                   </ImageBackground>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={()=>{this._goto(1)}}>
-                   <Image style={[styles.img,{marginLeft:20}]} source={require('../../../img/service_profit_img.png')}>
+                   <TouchableOpacity  onPress={()=>{this._goto(1)}}>
+                   <ImageBackground style={[styles.img]} source={require('../../../img/service_profit_img.png')}>
                        <Text style={styles.text}>
                            利润表
                        </Text>
-                   </Image>
+                   </ImageBackground>
                    </TouchableOpacity>
-               </View>
-                <View style={[styles.wrapper1,{marginTop:20}]}>
-                    <TouchableOpacity onPress={()=>{this._goto(2)}}>
-                        <Image style={styles.img} source={require('../../../img/service_receive_img.png')}>
+                    <TouchableOpacity style={{marginTop:10}} onPress={()=>{this._goto(2)}}>
+                        <ImageBackground style={styles.img} source={require('../../../img/service_receive_img.png')}>
                             <Text style={styles.text}>
                                 应收账款
                             </Text>
-                        </Image>
+                        </ImageBackground>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>{this._goto(3)}}>
-                        <Image style={[styles.img,{marginLeft:20}]} source={require('../../../img/service_cope_img.png')}>
+                    <TouchableOpacity style={{marginTop:10}}  onPress={()=>{this._goto(3)}}>
+                        <ImageBackground style={[styles.img]} source={require('../../../img/service_cope_img.png')}>
                             <Text style={styles.text}>
                                 应付账款
                             </Text>
-                        </Image>
+                        </ImageBackground>
                     </TouchableOpacity>
-                </View>
             </View>
         )
     }
@@ -97,22 +94,20 @@ const styles = StyleSheet.create({
     wrapper:{
        marginHorizontal:20,
         marginTop:30,
-        marginBottom:10
-
-    },
-    wrapper1:{
+        marginBottom:10,
         flexDirection:'row',
-
+        justifyContent:'space-between',
+        flexWrap:'wrap',
     },
+
     img:{
         justifyContent:'center',
         alignItems:'center',
         width:(SCREEN_WIDTH-20-40)/2,
-        resizeMode:'contain'
+        height:(SCREEN_WIDTH-20-40)*0.5/2,
     },
     text:{
-        alignItems:'center',
-        justifyContent:'center',
+
         backgroundColor:'transparent',
         fontSize:24,
         color:"#ffffff"
