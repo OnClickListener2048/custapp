@@ -10,7 +10,10 @@ import {
     Dimensions,
     TouchableOpacity,
     Image,
-    StyleSheet
+    StyleSheet,
+    Animated,
+    Platform,
+    ImageBackground
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 
@@ -68,7 +71,8 @@ const homePageData = {
                 {
                     "subTitle":"小规模纳税",
                     "logo":require('../../img/bg_blue.png')
-                }
+                },
+
             ]
         },
         {
@@ -194,7 +198,10 @@ export default class HomePage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource:[]
+            dataSource:[],
+            fadeAnim: new Animated.Value(0),
+            maskTouchDisabled : true,
+            pointerEvents: 'none'
         };
     }
     static navigatorStyle = {
@@ -219,25 +226,98 @@ export default class HomePage extends BComponent {
 
 
     }
+    //ios添加mask背景
+    _showMask(){
+        let _this = this
+        Animated.timing(
+            this.state.fadeAnim,
+            {
+                toValue: 1,
+            }
+        ).start(()=>{
+            _this.setState({
+                maskTouchDisabled: false,
+                pointerEvents: 'auto'
+            });
+        });
+    }
+    //iOS关闭Mask背景
+    _clostMask(){
+        Animated.timing(
+            this.state.fadeAnim,
+            {
+                toValue: 0,
+                duration: 160
+            }
+        ).start(()=>{
+            this.setState({
+                maskTouchDisabled: true,
+                pointerEvents: 'none'
+            });
+        });
+    }
+    //展示选择器
     _showPicker(){
+
+        if(Platform.OS === 'ios'){
+            this._showMask()
+        }
 
         Picker.init({
             pickerData: this._createAreaData(),
             selectedValue: ['北京', '北京', '朝阳区'],
-            onPickerConfirm: pickedValue => {
-                console.log('area', pickedValue);
+            pickerConfirmBtnText:'确定',
+            pickerCancelBtnText:'取消',
+            pickerTitleText:'请选择城市',
+            pickerBg:[255, 255, 255, 1],
+            onPickerConfirm: data => {
+                if(Platform.OS === 'ios'){
+                    this._clostMask()
+                }
             },
-            onPickerCancel: pickedValue => {
-                console.log('area', pickedValue);
+            onPickerCancel: data => {
+                if(Platform.OS === 'ios'){
+                    this._clostMask()
+                }
             },
-            onPickerSelect: pickedValue => {
-                //Picker.select(['山东', '青岛', '黄岛区'])
-                console.log('area', pickedValue);
+            onPickerSelect: data => {
+                console.log(data);
             }
         });
         Picker.show();
-
     }
+    //iosmask背景点击事件
+    _onPress(){
+        this._clostMask()
+        Picker.hide()
+    }
+    //iOS情况下返回一个mask
+    _maskView() {
+        return(
+            <Animated.View style={{
+                opacity: this.state.fadeAnim,
+                backgroundColor: 'rgba(0,0,0,0.3)',
+                position:'absolute',
+                // flex:1,
+                top:0,
+                bottom:0,
+                right:0,
+                left:0
+            }}
+                           pointerEvents={this.state.pointerEvents}
+            >
+                <TouchableOpacity
+                    disabled = {this.state.maskTouchDisabled}
+                    activeOpacity={1}
+                    onPress={() => this._onPress()}
+                    style={{flex:1}}>
+                    <View style={{flex:1}}>
+                    </View>
+                </TouchableOpacity>
+            </Animated.View>
+        )
+    }
+    //创造picker数据源
     _createAreaData() {
         let data = [];
         let len = area.length;
@@ -268,6 +348,7 @@ export default class HomePage extends BComponent {
                     ListFooterComponent={this._listFooterComponent.bind(this)}
                 >
                 </SectionList>
+                {Platform.OS==='ios'?this._maskView():null}
             </View>
 
         )
@@ -293,14 +374,14 @@ export default class HomePage extends BComponent {
             )
         }else if(item.item.type == '2'){
             return (
-                <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-around',paddingBottom:20,paddingTop:10,backgroundColor:'white'}}>
+                <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',paddingBottom:20,backgroundColor:'white'}}>
                     {
                         item.item.data.map((item, i) => {
                             return(
                                 <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
-                                    <Image resizeMode="contain" style={{justifyContent:'center',alignItems:'center'}} source={item.logo}>
+                                    <ImageBackground resizeMode="contain" style={{justifyContent:'center',alignItems:'center',width:136,height:64,marginTop:10}} source={item.logo}>
                                         <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>{item.subTitle}</Text>
-                                    </Image>
+                                    </ImageBackground>
                                 </TouchableOpacity>
                             )
                         })
@@ -352,13 +433,13 @@ export default class HomePage extends BComponent {
                         <Image source={require('../../img/arrow_down.png')}/>
                     </TouchableOpacity>
                 </View>
-                <Image source={require('../../img/name_bg.png')} style={{width:deviceWidth,justifyContent:'center',
+                <ImageBackground source={require('../../img/name_bg.png')} style={{width:deviceWidth,height:deviceWidth*0.33,justifyContent:'center',
                     alignItems:'center'}}>
                     <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>
                     <TouchableOpacity   onPress={this._goVerifyName.bind(this)} style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>
                         <Text style={{color:'white',fontSize:setSpText(16)}}>免费核名</Text>
                     </TouchableOpacity>
-                </Image>
+                </ImageBackground>
                 <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white'}}>
                     {
                         headerData.map((item,i)=>{
