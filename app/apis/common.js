@@ -16,3 +16,7 @@ export async function postApi(uri, params = {}, headers = {}) {
 export async function getApi(uri, params = {}, headers = {}) {
     return HTTPBase.getEx(API_BASE_URL + uri, params, headers);
 }
+
+export async function getApiUAA(uri, params = {}, headers = {}) {
+    return HTTPBase.getRaw(UAA_DOMAIN_URL + uri, params, headers);
+}
