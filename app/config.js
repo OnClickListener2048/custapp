@@ -19,13 +19,13 @@ export const SCREEN_HEIGHT = height;
 // 线上API服务器接口地址 app.i-counting.cn
 export let SCHEME = 'https';
 
-export let DOMAIN_API = 'app.i-counting.cn';
+export let DOMAIN_API = 'x-www.i-counting.cn/';
 export let UAA_DOMAIN_URL = 'https://id.i-counting.cn/';
 if(DEBUG) {// 测试环境变量, 上线时应删除
     SCHEME = 'https';
     // DOMAIN_API = '192.168.100.234:8081';
     // DOMAIN_API = 'app.i-counting.cn';
-    DOMAIN_API = 'x-crm.i-counting.cn';
+    DOMAIN_API = 'x-www.i-counting.cn/';
     UAA_DOMAIN_URL = 'https://x-id.i-counting.cn/';
 }
 

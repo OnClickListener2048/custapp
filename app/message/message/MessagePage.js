@@ -42,25 +42,26 @@ export default class MessagePage extends BComponent {
             mesId = obj.msgId
         }
         let pageSize = 10
-        apis.loadMessageData(pageSize,mesId).then(
-            (responseData) => {
-                if((responseData !== null && responseData.data !== null)){
-                    startFetch(responseData.data,page * pageSize)
-
-                }else{
-                    abortFetch()
-                    this.setState({
-                        fetchState:'error'
-                    })
-                }
-            },
-            (e) => {
-                abortFetch()
-                this.setState({
-                    fetchState:'error'
-                })
-            },
-        );
+        abortFetch([],page * pageSize)
+        // apis.loadMessageData(pageSize,mesId).then(
+        //     (responseData) => {
+        //         if((responseData !== null && responseData.data !== null)){
+        //             startFetch(responseData.data,page * pageSize)
+        //
+        //         }else{
+        //             abortFetch()
+        //             this.setState({
+        //                 fetchState:'error'
+        //             })
+        //         }
+        //     },
+        //     (e) => {
+        //         abortFetch()
+        //         this.setState({
+        //             fetchState:'error'
+        //         })
+        //     },
+        // );
     };
 
     renderItem = (item, index, separator) => {
