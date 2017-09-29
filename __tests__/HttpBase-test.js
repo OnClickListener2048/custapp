@@ -22,7 +22,7 @@ it('get test', async () => {
         },
         (e) => {
 
-            console.log('error1111',e)
+            console.log('出错了',e)
 
         },
     );
