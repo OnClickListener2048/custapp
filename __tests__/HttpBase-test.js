@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import '../app/http/HTTPBase';
 import HttpDNS from '../app/http/HttpDNS';
+import * as apis from '../app/apis';
 
 it('can fetch httpdns response', async () => {
     let text = await global.HTTPBase.getRaw("http://119.29.29.29/d", {dn:"app.i-counting.cn"});
@@ -11,3 +12,19 @@ it('httpdns parseDNS correct', async () => {
     let text = await HttpDNS.parseDNS("app.i-counting.cn");
     expect(text).toEqual("47.94.123.10");
 });
+
+it('get test', async () => {
+    apis.loadHomeData().then(
+        (responseData) => {
+
+            console.log('responseData',responseData)
+
+        },
+        (e) => {
+
+            console.log('error1111',e)
+
+        },
+    );
+});
+
