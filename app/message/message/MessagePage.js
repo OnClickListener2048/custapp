@@ -42,7 +42,7 @@ export default class MessagePage extends BComponent {
             let obj = arr[arr.length-1]
             mesId = obj.msgId
         }
-        let pageSize = 10
+        let pageSize = 2;
         abortFetch([],page * pageSize)
         apis.loadMessageData(pageSize,page).then(
             (responseData) => {
@@ -51,7 +51,7 @@ export default class MessagePage extends BComponent {
                 if((responseData !== null && responseData.data !== null)){
 
                     console.log('messageresponseDataData',responseData)
-                    startFetch(responseData.data,page * pageSize)
+                    startFetch(responseData.list,page * pageSize)
 
                 }else{
                     abortFetch()

@@ -4,3 +4,4 @@
 export * from './account';
 export * from './message';
 export * from './home'
+export * from './verifyName'

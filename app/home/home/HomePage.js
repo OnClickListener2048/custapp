@@ -209,21 +209,8 @@ export default class HomePage extends BComponent {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
-    componentDidMount(){
+    componentWillMount(){
 
-        let dataSource = [];
-        for (let i = 0; i<homePageData.data.length;i++){
-            let section = {};
-            section.key = homePageData.data[i].title;
-            section.data = [{data:homePageData.data[i].project,type:homePageData.data[i].type}];
-            for(let j=0;j<section.data.length;j++){
-                section.data[j].key = j
-            }
-            dataSource[i] = section
-        }
-        this.setState({
-            dataSource:dataSource
-        })
 
         apis.loadHomeData().then(
             (responseData) => {

@@ -25,6 +25,10 @@ export default class HomePage extends BComponent {
             companyNameNotEmpty: false,
             phoneNumNotEmpty: false,
             MessageNameNotEmpty: false,
+
+            companyName: '',
+            phoneNum: '',
+            MessageName: '',
         }
         this._doVerfiyResult = this._doVerfiyResult.bind(this);
         this._isNotEmpty = this._isNotEmpty.bind(this);
@@ -41,19 +45,30 @@ export default class HomePage extends BComponent {
             if(content.length===0){
                 this.setState({companyNameNotEmpty:false});
             }else{
-                this.setState({companyNameNotEmpty:true});
+                this.setState({
+                    companyNameNotEmpty:true,
+                    companyName:content
+                });
+
             }
         }else if(contentType==='phoneNum'){
             if(content.length===0){
                 this.setState({phoneNumNotEmpty:false});
             }else{
-                this.setState({phoneNumNotEmpty:true});
+                this.setState({
+                    phoneNumNotEmpty:true,
+                    phoneNum:content
+                });
             }
         }else if(contentType==='MessageName'){
             if(content.length===0){
                 this.setState({MessageNameNotEmpty:false});
             }else{
-                this.setState({MessageNameNotEmpty:true});
+                this.setState({
+                    MessageNameNotEmpty:true,
+                    MessageName:content
+                });
+
             }
         }
     }
@@ -71,10 +86,31 @@ export default class HomePage extends BComponent {
 
     }
 
+    renderPhoneInput(textType,textName,textContent){
+        return(
+            <TextInputView
+                callback={this._isNotEmpty}
+                contentType={textType}
+                textName={textName}
+                content={textContent}
+                keyboardType="number-pad"
+                textEditable={true}/>
+        )
+
+    }
+
+
+
+
     _doVerfiyResult(){
         this.props.navigator.push({
             screen: 'VerifyResultPage',
             title:'免费核名',
+            passProps: {
+                keyword:this.state.companyName,
+                mobile : this.state.phoneNum,
+                vcode : this.state.MessageName,
+            }
         });
     }
 
@@ -90,7 +126,7 @@ export default class HomePage extends BComponent {
                     </Image>
                 </View>
                 {this.renderInput('companyName','请输入要注册的公司名称','')}
-                {this.renderInput('phoneNum','请输入手机号','')}
+                {this.renderPhoneInput('phoneNum','请输入手机号','')}
                 {this.renderInput('MessageName','请输入联系人姓名','')}
                 <SubmitButton onPress={this._doVerfiyResult} isEnabled={(this.state.companyNameNotEmpty&&this.state.phoneNumNotEmpty&&
                     this.state.MessageNameNotEmpty)}
@@ -100,3 +136,5 @@ export default class HomePage extends BComponent {
         )
     }
 }
+
+
