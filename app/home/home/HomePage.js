@@ -16,6 +16,7 @@ import {
     ImageBackground
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
+import * as apis from '../../apis';
 
 import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
@@ -223,6 +224,20 @@ export default class HomePage extends BComponent {
         this.setState({
             dataSource:dataSource
         })
+
+        apis.loadHomeData().then(
+            (responseData) => {
+
+                console.log('responseData',responseData)
+
+            },
+            (e) => {
+
+                console.log('error1111',e)
+
+            },
+        );
+
 
 
     }
