@@ -46,11 +46,11 @@ export default class HttpAdapterCustApp extends HttpAdapter {
 
     // 通用的处理响应报文的业务方法
     async handleResponse(responseJson): Object {
-        if(responseJson !== undefined && responseJson.hasOwnProperty('success') &&
+        if(responseJson !== undefined  &&
             responseJson.hasOwnProperty('code')) {
-            if (responseJson.success === true && responseJson.code === 200) {
+            if ( responseJson.code === 0) {
                 return responseJson;
-            } else if (responseJson.success === false && responseJson.code === 40000003) {
+            } else if ( responseJson.code === 40000003) {
                 // Token无效时自动跳转到登录页
                 DeviceEventEmitter.emit('goLoginPage', true);
                 return Promise.reject(responseJson);
