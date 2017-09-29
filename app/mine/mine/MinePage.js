@@ -16,6 +16,7 @@ import {
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
+import Alert from "react-native-alert";
 
 export default class MinePage extends BComponent {
 
@@ -94,11 +95,25 @@ export default class MinePage extends BComponent {
     }
 
     login(){
-        // loginJumpSingleton.goToLogin(this.props.navigator);
-        this.props.navigator.push({
-            screen: 'PersonalDataPage',
-            title:'个人资料',
-        });
+        Alert.alert('请选择', '点确定进登录页, 取消进个人资料页', [
+            {
+                text: "取消",
+                onPress: ()=>{
+                    this.props.navigator.push({
+                        screen: 'PersonalDataPage',
+                        title:'个人资料',
+                    });
+                }
+            }
+            ,
+            {
+                text: "确定",
+                onPress: ()=>{
+                    loginJumpSingleton.goToLogin(this.props.navigator);
+                }
+            }
+        ]);
+
     }
 
 }
@@ -160,4 +175,4 @@ const styles = StyleSheet.create({
         backgroundColor:'transparent'
     },
 
-})
+});
