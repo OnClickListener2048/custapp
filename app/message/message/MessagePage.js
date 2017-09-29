@@ -31,10 +31,11 @@ export default class MessagePage extends BComponent {
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
 
+
     // 载入初始化数据
     onFetch = (page = 1, startFetch, abortFetch) => {
 
-        let mesId = ''
+        let mesId = 1
 
         if (page >1){
             let arr = this.listView.getRows()
@@ -43,25 +44,32 @@ export default class MessagePage extends BComponent {
         }
         let pageSize = 10
         abortFetch([],page * pageSize)
-        // apis.loadMessageData(pageSize,mesId).then(
-        //     (responseData) => {
-        //         if((responseData !== null && responseData.data !== null)){
-        //             startFetch(responseData.data,page * pageSize)
-        //
-        //         }else{
-        //             abortFetch()
-        //             this.setState({
-        //                 fetchState:'error'
-        //             })
-        //         }
-        //     },
-        //     (e) => {
-        //         abortFetch()
-        //         this.setState({
-        //             fetchState:'error'
-        //         })
-        //     },
-        // );
+        apis.loadMessageData(pageSize,page).then(
+            (responseData) => {
+
+
+                if((responseData !== null && responseData.data !== null)){
+
+                    console.log('messageresponseDataData',responseData)
+                    startFetch(responseData.data,page * pageSize)
+
+                }else{
+                    abortFetch()
+                    this.setState({
+                        fetchState:'error'
+                    })
+                }
+            },
+            (e) => {
+
+                console.log('messageresponseDataError',e)
+
+                abortFetch()
+                this.setState({
+                    fetchState:'error'
+                })
+            },
+        );
     };
 
     renderItem = (item, index, separator) => {
