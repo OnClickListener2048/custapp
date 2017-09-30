@@ -1,7 +1,20 @@
 /**
  * 用户相关接口
  */
-import {postApi} from './common';
+import {postApi, getApiUAA} from './common';
+import {WECHAT_APP_ID} from '../config' ;
+// 获取微信验证码
+
+/**
+ * 1、通过微信的app_id获取微信的授权码code
+ 2、取得微信的授权码后，将授权码传给UAA后端作验证处理
+ * @param app_id
+ * @param code
+ * @returns {Promise}
+ */
+export function wechatCallback( code = '') {
+    return getApiUAA('/ua/wechat/callback', {app_id:WECHAT_APP_ID, code});
+}
 
 // 登陆
 export function login( phone = '', smsCode = '') {

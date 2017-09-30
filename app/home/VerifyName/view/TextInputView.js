@@ -12,7 +12,8 @@ export default class TextInputView extends Component {
         this.state = {
             contentType:this.props.contentType,
             content: this.props.content,
-        textName:this.props.textName,
+            textName:this.props.textName,
+            keyboardType:this.props.keyboardType,
             textEditable:this.props.textEditable};
 
     }
@@ -22,6 +23,7 @@ export default class TextInputView extends Component {
         contentType:PropTypes.string,
         textName: PropTypes.string,
         content:PropTypes.string,
+        keyboardType:PropTypes.string,
         textEditable:PropTypes.bool,
     };
 
@@ -36,6 +38,7 @@ export default class TextInputView extends Component {
                         <TextInput underlineColorAndroid='transparent'
                                    value={this.state.content}
                                    editable={this.props.textEditable}
+                                   keyboardType={this.props.keyboardType}
                                    style={styles.textInput} placeholder={this.props.textName} returnKeyType='next'
                                    onChangeText={
                                        (legalPerson) => {

@@ -99,7 +99,8 @@ export default class HomePage extends BComponent {
     }
     loadData(type = '0'){
         this.refs.hudView.showSpinner()
-        apis.loadHomeData(type).then(
+
+        apis.loadHomeData().then(
             (responseData) => {
                 this.refs.hudView.hide()
 
