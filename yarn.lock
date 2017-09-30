@@ -4098,9 +4098,9 @@ react-native-device-info@^0.10.2:
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.10.2.tgz#350cd68ed43839022ddea0a3a423439f16fa4fba"
 
-"react-native-http@github:pilipa-cn/react-native-http#v1.0.0":
-  version "1.0.0"
-  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/2f244b558c88d6c8572d20199aa62d89ac9c048d"
+"react-native-http@github:pilipa-cn/react-native-http#v1.0.1":
+  version "1.0.1"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/43044fa7c5037f6decb01cdd561c0cc3332b4346"
 
 "react-native-image-crop-picker@github:pilipa-cn/react-native-image-crop-picker#v0.14.2":
   version "0.14.2"

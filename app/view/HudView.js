@@ -1,6 +1,3 @@
-/**
- * Created by zhuangzihao on 2017/9/22.
- */
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -14,7 +11,7 @@ import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 
-import {View, Animated, Easing, StyleSheet,Text} from 'react-native';
+import {View, Animated, Easing, StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
     mainContainer: {
@@ -179,21 +176,15 @@ class HudView extends Component {
     }
 
     _renderDefaultSpinnerComponent() {
-        return <FontAwesome name="circle-o-notch" size={this.props.iconSize} color={this.props.iconColor}/>
+        return <FontAwesome name="circle-o-notch" size={this.props.iconSize} color={this.props.iconColor}/>;
     }
 
     _renderDefaultSuccessComponent() {
-        return <View style={{alignItems:'center'}}>
-            <FontAwesome name="check" size={this.props.iconSize} color={this.props.iconColor}/>
-            <Text style={{color:'white',marginTop:5}}>加载成功</Text>
-        </View>;
+        return <FontAwesome name="check" size={this.props.iconSize} color={this.props.iconColor}/>;
     }
 
     _renderDefaultErrorComponent() {
-        return <View style={{alignItems:'center'}}>
-            <FontAwesome name="exclamation-triangle" size={this.props.iconSize} color={this.props.iconColor}/>
-            <Text style={{color:'white',marginTop:5}}>加载失败</Text>
-        </View>
+        return <FontAwesome name="exclamation-triangle" size={this.props.iconSize} color={this.props.iconColor}/>;
     }
 
     _showHud(icon, rotate, hideOnCompletion) {
@@ -271,7 +262,7 @@ class HudView extends Component {
 
     render() {
         return (
-            <View {...this.props} style={[styles.mainContainer,this._getContainerStyles()]}>
+            <View {...this.props} pointerEvents="none" style={[this._getContainerStyles(),styles.mainContainer]}>
                 {this.props.children}
                 {this._renderHud()}
             </View>

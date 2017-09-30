@@ -12,27 +12,65 @@ import { Pie } from 'react-native-pathjs-charts'
 import BComponent from '../../base';
 import CommonCell from '../../view/CommenCell'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
-
-const data =[{
-    title:'增值税',
-    population: 30500.45,
-    text:'¥30,500.45'
-}, {
-    title:'城市建设税',
-    population: 2000.00,
-    text:'¥2,000.00'
-}, {
-    title:'教育费附加',
-    population: 1100.00,
-    text:'¥1,100.00'
-}, {
-    title:'印花税',
-    population: 900.00,
-    text:'¥900.00'
-}]
+import * as apis from '../../apis';
 
 export default class TaxFormPage extends BComponent {
 
+    constructor(props){
+        super(props)
+        this.state={
+            total:'- -',//本月累计
+            data :[]
+        }
+
+    }
+
+    componentDidMount() {
+        this.loadData('1','2017-09')
+    }
+    loadData(companyid = '1',date=''){
+        apis.loadTaxForm(companyid,date).then(
+            (responseData) => {
+
+                if(responseData.code == 0){
+                    let arr = [{
+                        title:'增值税',
+                        population: 0,
+                        text:''
+                    }, {
+                        title:'城市建设税',
+                        population: 0,
+                        text:''
+                    }, {
+                        title:'教育费附加',
+                        population: 0,
+                        text:''
+                    }, {
+                        title:'印花税',
+                        population: 0,
+                        text:''
+                    }]
+                    arr[0].text = '¥'+ responseData.vat
+                    arr[1].text = '¥'+ responseData.uct
+                    arr[2].text = '¥'+ responseData.edu
+                    arr[3].text = '¥'+responseData.stamp
+
+                    arr[0].population = parseFloat(responseData.vat.replace(/[,¥]/g,""))
+                    arr[1].population = parseFloat(responseData.uct.replace(/[,¥]/g,""))
+                    arr[2].population = parseFloat(responseData.edu.replace(/[,¥]/g,""))
+                    arr[3].population = parseFloat(responseData.stamp.replace(/[,¥]/g,""))
+
+                    this.setState({
+                        total:responseData.total,
+                        data:arr
+                    })
+                }
+            },
+            (e) => {
+                console.log('error',e)
+            },
+        );
+    }
 
     _listHeaderComponent(){
         let options = {
@@ -52,7 +90,7 @@ export default class TaxFormPage extends BComponent {
             <View style={{width:DeviceInfo.width,backgroundColor:'white'}}>
                 <View style={{width:DeviceInfo.width,height:260,marginTop:70,alignItems:'center'}}>
                     <View style={{width:260,height:260,position:'relative'}}>
-                        <Pie data={data}
+                        <Pie data={this.state.data}
                              options={options}
                              accessorKey="population"
                              pallete={
@@ -67,13 +105,13 @@ export default class TaxFormPage extends BComponent {
                         />
                         <View style={{width:130,height:130,position:'absolute',top:65,left:65,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{fontSize:18,color:'#333333'}}>本月累计</Text>
-                            <Text style={{fontSize:20,color:'#EA4931',fontWeight:'bold'}}>¥12,000.00</Text>
+                            <Text style={{fontSize:20,color:'#EA4931',fontWeight:'bold'}}>¥{this.state.total}</Text>
                         </View>
                     </View>
                 </View>
                 <View style={{flexDirection:'row',width:DeviceInfo.width,justifyContent:'space-around',marginTop:37,marginBottom:10}}>
                     {
-                        data.map((item,index)=>{
+                        this.state.data.map((item,index)=>{
                             return(
                                 <View  key={index} style={{flexDirection:'row',alignItems:'center'}}>
                                     <View style={{width:10,height:10,borderRadius:10,backgroundColor:colorArr[index]}}></View>
@@ -100,7 +138,7 @@ export default class TaxFormPage extends BComponent {
                 <FlatList
                     renderItem={this._renderItem.bind(this)}
                     ListHeaderComponent={this._listHeaderComponent.bind(this)}
-                    data={data}
+                    data={this.state.data}
                     keyExtractor = {(item, index) => index}
                 />
                 <ChooseTimerModal isChangeHeader={false}/>

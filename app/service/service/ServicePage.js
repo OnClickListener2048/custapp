@@ -26,13 +26,18 @@ import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import HeaderView from '../view/HeaderView'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 
+import * as apis from '../../apis';
 
 export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
 
-            selectIndex:0
+            selectIndex:0,
+            profit:'- -',//本月利润
+            income:'- -',//本月收入
+            expenditure:'- -',//本月支出
+            is_demo:'- -'//是否演示数据
 
         };
         this.isDemo=false;//是否是显示数据
@@ -49,41 +54,61 @@ export default class ServicePage extends BComponent {
         })
     }
 
+    componentDidMount() {
+
+        this.loadData('1','2017-09')
+
+    }
+    loadData(companyid = '1',date=''){
+
+        apis.loadServiceData(companyid,date).then(
+            (responseData) => {
+
+                if(responseData.code == 0){
+
+                    this.setState({
+                        is_demo:responseData.is_demo,
+                        profit:responseData.profit,
+                        income:responseData.income,
+                        expenditure:responseData.expenditure,
+                    })
+                }
+            },
+            (e) => {
+                console.log('error',e)
+            },
+        );
+    }
     render(){
         return(
             <View style={{flex:1,position:'relative'}}>
-            <ScrollView style={{flex:1,backgroundColor:'#FFFFFF'}}>
-                <HeaderView
-                    hasTop={true}
-                    topDes="本月利润"
-                    topNum="¥30,000.00"
-                    leftDes="收入"
-                    leftNum="¥30,000.00"
-                    rightDes="支出"
-                    rightNum="¥30,000.00"
-                />
+                <ScrollView style={{flex:1,backgroundColor:'#FFFFFF'}}>
+                    <HeaderView
+                        hasTop={true}
+                        topDes="本月利润"
+                        topNum={'¥'+this.state.profit}
+                        leftDes="收入"
+                        leftNum={'¥'+this.state.income}
+                        rightDes="支出"
+                        rightNum={'¥'+this.state.expenditure}
+                    />
 
-                <View style={styles.wrapper1}>
-                    <View style={[styles.line,{width:30}]}/>
-                    <Text style={{fontSize:24,color:'#e13238',marginHorizontal:10}}>
-                        本月进度
-                    </Text>
-                    <View style={[styles.line,{width:30}]}/>
-                </View>
-                <Header btnClick={this.btnClick.bind(this)} selectIndex={this.state.selectIndex} />
-                {this._renderBody(this.state.selectIndex)}
-            </ScrollView>
+                    <View style={styles.wrapper1}>
+                        <View style={[styles.line,{width:30}]}/>
+                        <Text style={{fontSize:24,color:'#e13238',marginHorizontal:10}}>
+                            本月进度
+                        </Text>
+                        <View style={[styles.line,{width:30}]}/>
+                    </View>
+                    <Header btnClick={this.btnClick.bind(this)} selectIndex={this.state.selectIndex} />
+                    {this._renderBody(this.state.selectIndex)}
+                </ScrollView>
                 {this._renderDemo(this.isDemo)}
                 <ChooseTimerModal />
-
-
             </View>
 
         )
     }
-
-
-
     _renderBody(index){
         switch (index){
             case 0:
