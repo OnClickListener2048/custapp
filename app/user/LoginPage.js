@@ -106,14 +106,14 @@ export default class LoginPage extends Component {
             // fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
             //
             // })
-            apis.wechatCallback(res.code).then(
-                responseData => {
-                    console.log('UAA responseData', responseData)
-                },
-                e => {
-                    console.log('出错了', e);
-                },
-            );
+            // apis.wechatCallback(res.code).then(
+            //     responseData => {
+            //         console.log('UAA responseData', responseData)
+            //     },
+            //     e => {
+            //         console.log('出错了', e);
+            //     },
+            // );
         })
 
     }

@@ -16,6 +16,11 @@ export function wechatCallback( code = '') {
     return getApiUAA('/ua/wechat/callback', {app_id:WECHAT_APP_ID, code});
 }
 
+// TODO
+export function wechatToken( code = '') {
+    return getApiUAA('/ua/oauth/token', {app_id:WECHAT_APP_ID, code});
+}
+
 // 登陆
 export function login( phone = '', smsCode = '') {
   return postApi('/app/v0/user/login/phone', {phone, smsCode});
