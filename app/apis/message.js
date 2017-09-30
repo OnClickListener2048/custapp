@@ -7,7 +7,7 @@ export function loadMessageData(count = 10, page = 1) {
 }
 
 
-export function loadMessageReaded( msgId = '') {
+export function deleteMessageItem( msgId = '') {
     return postApi('/app/v0/message/markRead', {msgId});
 }
 

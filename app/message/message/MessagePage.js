@@ -35,14 +35,8 @@ export default class MessagePage extends BComponent {
     // 载入初始化数据
     onFetch = (page = 1, startFetch, abortFetch) => {
 
-        let mesId = 1
 
-        if (page >1){
-            let arr = this.listView.getRows()
-            let obj = arr[arr.length-1]
-            mesId = obj.msgId
-        }
-        let pageSize = 2;
+        let pageSize = 10;
         abortFetch([],page * pageSize)
         apis.loadMessageData(pageSize,page).then(
             (responseData) => {
@@ -79,7 +73,7 @@ export default class MessagePage extends BComponent {
                 {
                     text: '删除',
                     backgroundColor:'red',
-                    onPress:this._delete.bind(this,index)
+                    onPress:this._delete.bind(this,index,item)
                 }
             ]}
                       autoClose={true}
@@ -97,7 +91,7 @@ export default class MessagePage extends BComponent {
         )
     };
 
-    _delete(index){
+    _delete(index,item){
         let arr = JSON.parse(JSON.stringify(this.listView.getRows()))
         arr.splice(index,1)
         this.listView.updateDataSource(arr);

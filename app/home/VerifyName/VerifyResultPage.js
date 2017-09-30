@@ -71,15 +71,9 @@ export default class VerifyResultPage extends BComponent {
     // 载入初始化数据
     onFetch = (page = 1, startFetch, abortFetch) => {
 
-        let mesId = ''
 
-        if (page >1){
-            let arr = this.listView.getRows()
-            let obj = arr[arr.length-1]
-            mesId = obj.msgId
-        }
         let pageSize = 10
-        apis.loadVerifyCompaniesList(this.state.keyword,pageSize,mesId).then(
+        apis.loadVerifyCompaniesList(this.state.keyword,page,pageSize).then(
             (responseData) => {
                 if((responseData !== null && responseData.data !== null)){
                     startFetch(responseData.list,page * pageSize)
