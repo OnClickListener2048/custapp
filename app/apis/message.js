@@ -7,8 +7,8 @@ export function loadMessageData(count = 10, page = 1) {
 }
 
 
-export function deleteMessageItem( msgId = '') {
-    return postApi('/app/v0/message/markRead', {msgId});
+export function deleteMessageItem( id = '') {
+    return postApi('/api/mock/messages', {id});
 }
 
 // 获取所有未读消息数

@@ -10,7 +10,7 @@ import {
     Text
 } from 'react-native';
 import CommonCell from '../../view/CommenCell'
-import UltimateListView from "react-native-ultimate-listview";
+import RefreshListView, {RefreshState} from '../../view/RefreshListView'
 import * as apis from '../../apis';
 import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
@@ -25,8 +25,13 @@ export default class VerifyResultPage extends BComponent {
             keyword: this.props.keyword,  //注册公司名称
             mobile: this.props.mobile,   //手机号
             vcode: this.props.vcode,    //验证码
+            refreshState: RefreshState.Idle,
+            dataList: [],
 
         }
+
+        this.page =1
+
     }
 
 
@@ -51,6 +56,7 @@ export default class VerifyResultPage extends BComponent {
                     this.setState({
                         fetchState:'checkRisk'
                     })
+                    this.loadData(this.page)
                 }
 
             },
@@ -68,45 +74,64 @@ export default class VerifyResultPage extends BComponent {
     }
 
 
-    // 载入初始化数据
-    onFetch = (page = 1, startFetch, abortFetch) => {
+    loadData(page=1){
 
+        if(page>1){
+            this.setState({refreshState: RefreshState.FooterRefreshing})
+        }
 
-        let pageSize = 10
-        apis.loadVerifyCompaniesList(this.state.keyword,page,pageSize).then(
+        apis.loadVerifyCompaniesList(this.state.keyword,page,'10').then(
             (responseData) => {
-                if((responseData !== null && responseData.data !== null)){
-                    startFetch(responseData.list,page * pageSize)
+
+
+                if((responseData !== null && responseData.list !== null)){
+
+
+
+                    let newList = responseData.list
+
+                    let dataList = page == 1 ? newList : [...this.state.dataList, ...newList]
+                    this.setState({
+                        dataList: dataList,
+                        refreshState:newList.length < 10 ? RefreshState.NoMoreData : RefreshState.Idle,
+                    })
 
                 }else{
-                    abortFetch()
-                    this.setState({
-                        fetchState:'error'
-                    })
+                    this.setState({refreshState: RefreshState.Failure})
                 }
+
             },
             (e) => {
-                abortFetch()
-                this.setState({
-                    fetchState:'error'
-                })
+                this.setState({refreshState: RefreshState.Failure})
             },
         );
-    };
+    }
 
-    renderItem = (item, index, separator) => {
+    onFooterRefresh = () => {
+        this.page++
+        this.loadData(this.page)
+    }
+
+
+
+
+    renderItem = (info) => {
         // alert(JSON.stringify(item))
         return(
 
                 <TouchableOpacity onPress={this._goto.bind(this)}>
                     <CommonCell
-                        leftText={item }
+                        centerText={info.item }
                         isClick={false}
                     />
                 </TouchableOpacity>
 
         )
     };
+
+
+
+
 
     renderHeader = () => {
         // alert(JSON.stringify(item))
@@ -127,11 +152,6 @@ export default class VerifyResultPage extends BComponent {
     };
 
 
-    _delete(index){
-        let arr = JSON.parse(JSON.stringify(this.listView.getRows()))
-        arr.splice(index,1)
-        this.listView.updateDataSource(arr);
-    }
     _goto(){
 
         this.props.navigator.push({
@@ -191,24 +211,24 @@ export default class VerifyResultPage extends BComponent {
             </View>
 
 
-            <UltimateListView style={{flex:1,backgroundColor:'#f9f9f9'}}
-                contentContainerStyle={{marginTop:0}}
-                ref={(ref) => this.listView = ref}
-                              header={this.renderHeader}
-                onFetch={this.onFetch}
-                keyExtractor={(item, index) => `${index} - ${item}`}  //this is required when you are using FlatList
-                refreshable={false}
-                //refreshableMode={DeviceInfo.OS==='ios'?'advanced':'basic'} //basic or advanced
-                item={this.renderItem}  //this takes three params (item, index, separator)
-                paginationFetchingView={this.renderPaginationFetchingView}
-                emptyView={this.emptyView}
+            <RefreshListView
+                data={this.state.dataList}
+                keyExtractor = {(item, index) => index}
+                renderItem={this.renderItem.bind(this)}
+                refreshState={this.state.refreshState}
+                onFooterRefresh={this.onFooterRefresh}
+                onHeaderRefresh={null}
+                renderHeader={this.renderHeader}
+
             />
+
+
         </View>
 
 
         )
     }
-//f9f9f9
+
     renderSuccess(){
         return(
 

@@ -21,6 +21,9 @@ export default class CommenCell extends Component {
         leftTextStyle:{},//左侧文字样式
         leftImgStyle:{},//左侧图片样式
         leftIcon:null,//左侧图片  本地图片传require（），网络图片传字符串
+
+        centerTextStyle:{}, //中间文字样式
+        centerText:'',//中间文字内容
         rightText:'',//右侧副标题内容
         rightTextStyle:{},//右侧副标题样式
         underLine:true,//是否有分割线
@@ -45,6 +48,7 @@ export default class CommenCell extends Component {
                 <TouchableOpacity onPress = {() => {this.props.onPress()}} >
                     <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
                         {this._renderLeftView()}
+                        {this._renderCenterView()}
                         {this._renderRightView()}
                     </View>
                 </TouchableOpacity>
@@ -54,11 +58,13 @@ export default class CommenCell extends Component {
             return(
                 <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
                     {this._renderLeftView()}
+                    {this._renderCenterView()}
                     {this._renderRightView()}
                 </View>
             );
         }
     }
+
     _renderLeftView(){
 
         if(this.props.leftIcon == null){
@@ -88,6 +94,17 @@ export default class CommenCell extends Component {
 
 
         }
+
+
+    }
+
+    _renderCenterView(){
+
+            return(
+                <View style = {styles.centerViewStyle}>
+                    <Text style = {[styles.centerTextStyle,this.props.centerTextStyle]}>{this.props.centerText}</Text>
+                </View>
+            );
 
 
     }
@@ -142,6 +159,13 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
 
+    centerViewStyle:{
+        // 主轴的方向
+        flexDirection:'row',
+        // 侧轴居中
+        alignItems:'center',
+    },
+
     rightViewStyle:{
         flexDirection:'row-reverse',
         // 侧轴居中
@@ -156,6 +180,11 @@ const styles = StyleSheet.create({
         fontSize:16,
         color:'#333333'
     },
+    centerTextStyle:{
+        fontSize:16,
+        color:'#333333'
+    },
+
     rightImgStyle:{ // 左边的图片
 
         // 圆角

@@ -23,6 +23,8 @@ type Props = {
     refreshState: number,
     onHeaderRefresh: (refreshState: number) => void,
     onFooterRefresh?: (refreshState: number) => void,
+    renderHeader?: (View) => void,
+
     data: Array<any>,
 
     footerContainerStyle?: any,
@@ -85,6 +87,9 @@ class RefreshListView extends PureComponent {
         return (refreshState == RefreshState.Idle)
     }
 
+
+
+
     render() {
         log('[RefreshListView]  render')
 
@@ -92,9 +97,12 @@ class RefreshListView extends PureComponent {
             <FlatList
                 ref={this.props.listRef}
                 onEndReached={this.onEndReached}
+                ListHeaderComponent = {this.props.renderHeader}
                 onRefresh={this.onHeaderRefresh}
                 refreshing={this.props.refreshState == RefreshState.HeaderRefreshing}
                 ListFooterComponent={this.renderFooter}
+
+
                 {...this.props}
             />
         )

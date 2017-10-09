@@ -100,20 +100,30 @@ export default class LoginPage extends Component {
         let scope = 'snsapi_userinfo';
         let state = 'wechat_sdk_demo';
         WeChat.sendAuthRequest(scope, state).then(res => {
-            alert(JSON.stringify(res))
+            Alert.alert(JSON.stringify(res))
             console.log(JSON.stringify(res));
             // {"code":"071Na2zw1jxpWb0Q1kzw1Al0zw1Na2zh","state":"wechat_sdk_demo","appid":"wx16da5000356a9497","errCode":0,"type":"SendAuth.Resp"}
             // fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
             //
             // })
-            // apis.wechatCallback(res.code).then(
-            //     responseData => {
-            //         console.log('UAA responseData', responseData)
-            //     },
-            //     e => {
-            //         console.log('出错了', e);
-            //     },
-            // );
+            apis.wechatToken(res.code).then(
+                responseData => {
+                    console.log('wechat token responseData', responseData);
+                    Alert.alert(responseData);
+                    if(responseData.code === 0 && responseData.access_token !== undefined) {
+                        UserInfoStore.setUserToken(responseData.access_token).then(
+                            v => {
+                                // this.readUserInfo();// TODO 获取用户信息
+                                this.back();
+                            },
+                            e => console.log(e.message)
+                        );
+                    }
+                },
+                e => {
+                    console.log('出错了', e);
+                },
+            );
         })
 
     }

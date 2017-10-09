@@ -6,7 +6,7 @@
 import {
     AsyncStorage,
 } from 'react-native';
-var Preferences = {
+const Preferences = {
 
     get: async function (key) {
         try {

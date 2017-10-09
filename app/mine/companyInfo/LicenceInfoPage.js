@@ -25,7 +25,7 @@ export default class LicenceInfoPage extends BComponent {
 
     componentDidMount() {
         Image.getSize(this.props.licenceinfo.img, (width, height) => {
-            height = 204 * height / width; //按照屏幕宽度进行等比缩放
+            height = (DeviceInfo.width-16) * height / width; //按照屏幕宽度进行等比缩放
             this.setState({
                 imgheight:height,
             })
@@ -36,9 +36,9 @@ export default class LicenceInfoPage extends BComponent {
         return(
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
                 <ScrollView>
-                    <View style={{width:DeviceInfo.width,alignItems:'center',justifyContent:'center',height:(DeviceInfo.width)/2}}>
+                    <View style={{width:DeviceInfo.width,alignItems:'center',justifyContent:'center',height:this.state.imgheight+16}}>
                     <ImageLoad
-                        style={{width:204,height:this.state.imgheight}}
+                        style={{width:DeviceInfo.width-16,height:this.state.imgheight}}
                         loadingStyle={{ size: 'small', color: 'black' }}
                         source={{ uri:this.props.licenceinfo.img+"" }}
                         placeholderSource={require('../../img/name_bg.png')}/>
