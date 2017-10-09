@@ -6,6 +6,7 @@ import './util/NetInfoSingleton';
 import './util/UMTool';
 import './util/DeviceInfo';
 import './util/ScreenUtil'
+import './modules/react-native-sww-activity-indicator'
 
 import {Navigation} from 'react-native-navigation';
 import { Text ,NetInfo,Dimensions} from 'react-native';

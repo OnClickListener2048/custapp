@@ -29,11 +29,14 @@ export default class AccountsReceivablePage extends BComponent {
 
 
     componentDidMount() {
-        this.loadData('1','2017-09')
+        this.loadData('1',this.props.year+'-'+this.props.month)
     }
     loadData(companyid = '1',date='',type='2'){
+        let loading = SActivityIndicator.show(true, "加载中...");
+
         apis.loadAccounts(companyid,date,type).then(
             (responseData) => {
+                SActivityIndicator.hide(loading);
 
                 if(responseData.code == 0){
 
@@ -45,6 +48,7 @@ export default class AccountsReceivablePage extends BComponent {
                 }
             },
             (e) => {
+                SActivityIndicator.hide(loading);
                 console.log('error',e)
             },
         );
@@ -90,11 +94,15 @@ export default class AccountsReceivablePage extends BComponent {
                     renderSectionHeaderX={this._renderSection.bind(this)}
                     headerClickCallBack={(index)=>this._headerClickCallBack(index)}
                 />
-                <ChooseTimerModal />
+                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
 
             </View>
 
         );
+    }
+    _callback(year,month){
+        this.loadData('1',year+'-'+month)
+        this.props.callback && this.props.callback(year,month,true)
     }
     _headerClickCallBack(index){
         let openOptions =this.state.openOptions

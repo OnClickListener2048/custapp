@@ -20,7 +20,9 @@ export default class ChooseTimerModal extends Component {
 
     static defaultProps = {
         callback:null,//
-        isChangeHeader:true
+        isChangeHeader:true,
+        yearSelected:'',
+        monthSelected:''
     };
     constructor(props) {
         super(props);
@@ -29,10 +31,10 @@ export default class ChooseTimerModal extends Component {
             isShow:false,
             maskTouchDisabled : true,
             pointerEvents: 'none',
-            year:today.getFullYear().toString(),
-            month:(today.getMonth() + 1).toString(),
-            yearSelected:today.getFullYear().toString(),
-            monthSelected:(today.getMonth() + 1).toString()
+            year:props.yearSelected=='' ? today.getFullYear().toString() : props.yearSelected,
+            month:props.monthSelected=='' ? (today.getMonth() + 1).toString() : props.monthSelected,
+            yearSelected:props.yearSelected=='' ? today.getFullYear().toString() : props.yearSelected,
+            monthSelected:props.monthSelected=='' ? (today.getMonth() + 1).toString() : props.monthSelected
         }
         this.heightValue= new Animated.Value(0)
         this.fadeAnim= new Animated.Value(0)
@@ -51,17 +53,14 @@ export default class ChooseTimerModal extends Component {
             '12'
         ]
         this.yearArr=[]
-        for (let i = 2000;i<=this.state.year;i++){
+        for (let i = 2010;i<=today.getFullYear();i++){
             this.yearArr.push(i.toString())
         }
         this.nowMonthArr=[]
-        for (let j=1 ;j<=this.state.month;j++){
+        for (let j=1 ;j<=(today.getMonth() + 1);j++){
             this.nowMonthArr.push(j.toString())
         }
         this.year=today.getFullYear().toString()
-
-
-
     }
     render(){
 
