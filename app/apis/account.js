@@ -1,8 +1,12 @@
 /**
  * 用户相关接口
  */
-import {postApi, getApiUAA} from './common';
+import {postApi, postRawApi, getApiUAA} from './common';
 import {WECHAT_APP_ID} from '../config' ;
+import {
+    Platform, DeviceEventEmitter
+} from 'react-native';
+
 // 获取微信验证码
 
 /**
@@ -13,12 +17,12 @@ import {WECHAT_APP_ID} from '../config' ;
  * @returns {Promise}
  */
 export function wechatCallback( code = '') {
-    return getApiUAA('/ua/wechat/callback', {app_id:WECHAT_APP_ID, code});
+    return postRawApi('/ua/wechat/callback', { code});//app_id:WECHAT_APP_ID,
 }
 
 // TODO
 export function wechatToken( code = '') {
-    return getApiUAA('/ua/oauth/token', {app_id:WECHAT_APP_ID, code});
+    return postRawApi('/api/v1/auth/token?code=' + code, {} , {platform:'app', 'client': Platform.OS});//app_id:WECHAT_APP_ID,
 }
 
 // 登陆
