@@ -21,29 +21,62 @@ export default class VerifyResultPage extends BComponent {
     constructor(props) {
         super(props);
         this.state={
-            fetchState:'no-data'
+            fetchState:'no-data', //'checkRisk' ; 'checkSuccess'
+            keyword: this.props.keyword,  //注册公司名称
+            mobile: this.props.mobile,   //手机号
+            vcode: this.props.vcode,    //验证码
+
         }
     }
+
+
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
 
+    componentDidMount(){
+
+        apis.loadVerifyResultData(this.state.keyword,this.state.mobile,this.state.vcode).then(
+            (responseData) => {
+
+                console.log('VerifyNewresponseData',responseData)
+
+                if (responseData.isvalid === '1'){
+                    this.setState({
+                        fetchState:'checkSuccess'
+                    })
+                }else {
+
+                    this.setState({
+                        fetchState:'checkRisk'
+                    })
+                }
+
+            },
+            (e) => {
+
+                console.log('VerifyNewerror1111',e)
+
+                this.setState({
+                    fetchState:'error'
+                })
+
+            },
+        );
+
+    }
+
+
     // 载入初始化数据
     onFetch = (page = 1, startFetch, abortFetch) => {
 
-        let mesId = ''
 
-        if (page >1){
-            let arr = this.listView.getRows()
-            let obj = arr[arr.length-1]
-            mesId = obj.msgId
-        }
         let pageSize = 10
-        apis.loadMessageData(pageSize,mesId).then(
+        apis.loadVerifyCompaniesList(this.state.keyword,page,pageSize).then(
             (responseData) => {
                 if((responseData !== null && responseData.data !== null)){
-                    startFetch(responseData.data,page * pageSize)
+                    startFetch(responseData.list,page * pageSize)
 
                 }else{
                     abortFetch()
@@ -67,8 +100,7 @@ export default class VerifyResultPage extends BComponent {
 
                 <TouchableOpacity onPress={this._goto.bind(this)}>
                     <CommonCell
-                        leftText={item.title }
-                        rightText={item.date}
+                        leftText={item }
                         isClick={false}
                     />
                 </TouchableOpacity>
@@ -213,8 +245,9 @@ export default class VerifyResultPage extends BComponent {
     render() {
         return (
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                {this.renderRisk()}
-                {/*{this.renderSuccess()}*/}
+                {this.state.fetchState === 'checkRisk' && this.renderRisk()}
+                {this.state.fetchState === 'checkSuccess' && this.renderSuccess()}
+
 
             </View>
         );

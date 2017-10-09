@@ -46,7 +46,7 @@ export default class LoginPage extends Component {
 
     // usage: this.focusField('smsCodeInput');
     focusField = (nextField) => {
-        if(this.refs[nextField] !== undefined && !this.refs[nextField].isFocused()) {
+        if (this.refs[nextField] !== undefined && !this.refs[nextField].isFocused()) {
             this.refs[nextField].focus();
         }
     };
@@ -62,7 +62,7 @@ export default class LoginPage extends Component {
             smsCodeValid: false,          // 短信验证码有效
             acceptLic: true,// 同意许可协议
             picURLStr: '',// 图片验证码原始地址
-            picURL: {uri: ''} ,// 图片验证码地址
+            picURL: {uri: ''},// 图片验证码地址
             verifyText: '',// 图片验证码提示语
             vCode: '',         // 图片验证码
             vCodeInputValid: false,          // 图片验证码输入有效
@@ -82,7 +82,7 @@ export default class LoginPage extends Component {
         this._keyboardDidHide = this._keyboardDidHide.bind(this);
         this._setupDebug = this._setupDebug.bind(this);
         this.updateMobile = this.updateMobile.bind(this);
-        this._goWechat=this._goWechat.bind(this);
+        this._goWechat = this._goWechat.bind(this);
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
@@ -91,20 +91,29 @@ export default class LoginPage extends Component {
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         console.log('ApplicationCenterPage event.type', event.type);
         console.log('ApplicationCenterPage event', JSON.stringify(event));
-        if(event.id==='backPress'){
+        if (event.id === 'backPress') {
             BackAndroid.exitApp();
         }
     }
 
-    _goWechat(){
+    _goWechat() {
         let scope = 'snsapi_userinfo';
         let state = 'wechat_sdk_demo';
-        WeChat.sendAuthRequest(scope,state).then(res=> {
+        WeChat.sendAuthRequest(scope, state).then(res => {
             alert(JSON.stringify(res))
             console.log(JSON.stringify(res));
-            fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
-
-            })
+            // {"code":"071Na2zw1jxpWb0Q1kzw1Al0zw1Na2zh","state":"wechat_sdk_demo","appid":"wx16da5000356a9497","errCode":0,"type":"SendAuth.Resp"}
+            // fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
+            //
+            // })
+            // apis.wechatCallback(res.code).then(
+            //     responseData => {
+            //         console.log('UAA responseData', responseData)
+            //     },
+            //     e => {
+            //         console.log('出错了', e);
+            //     },
+            // );
         })
 
     }
@@ -134,7 +143,7 @@ export default class LoginPage extends Component {
     }
 
 
-    back(){
+    back() {
         Navigation.dismissModal({
             animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
         });
@@ -159,7 +168,7 @@ export default class LoginPage extends Component {
     componentWillMount() {
         // 发送通知
         DeviceEventEmitter.emit('isHiddenTabBar', true);
-        if(DEBUG) {
+        if (DEBUG) {
             this._setupDebug();
         }
 
@@ -197,17 +206,17 @@ export default class LoginPage extends Component {
     }
 
     // 小屏键盘显示适配
-    _keyboardDidShow () {
+    _keyboardDidShow() {
         console.log('Keyboard Shown SCREEN_WIDTH=', SCREEN_WIDTH);
-        if(SCREEN_WIDTH <= 360) {// 屏幕小于5寸
+        if (SCREEN_WIDTH <= 360) {// 屏幕小于5寸
             this.setState({headPad: 0});
         }
     }
 
     // 小屏键盘显示适配
-    _keyboardDidHide () {
+    _keyboardDidHide() {
         console.log('Keyboard Hidden');
-        if(SCREEN_WIDTH < 360) {
+        if (SCREEN_WIDTH < 360) {
             this.setState({headPad: 20});
         }
     }
@@ -226,8 +235,8 @@ export default class LoginPage extends Component {
                 }, (e) => {
                     console.log("短信验证码获取失败" + JSON.stringify(e));
                     let msg = e.msg;
-                    if(msg !== undefined) {
-                        if(!msg.includes("图形验证码")) {
+                    if (msg !== undefined) {
+                        if (!msg.includes("图形验证码")) {
                             Alert.alert('', msg,
                                 [
                                     {
@@ -236,7 +245,7 @@ export default class LoginPage extends Component {
 
                                         },
                                     },]
-                                ,{cancelable: true});
+                                , {cancelable: true});
                         }
                     } else {
                         Alert.alert('', '短信验证码获取失败',
@@ -247,7 +256,7 @@ export default class LoginPage extends Component {
 
                                     },
                                 },]
-                            ,{cancelable: true});
+                            , {cancelable: true});
                     }
                     try {
                         if (e.data !== undefined && e.data.verifyText !== null && e.data.verify !== null) {
@@ -273,7 +282,7 @@ export default class LoginPage extends Component {
                             }
                             this.setState({timerButtonClicked: false});
                         }
-                    } catch(e) {
+                    } catch (e) {
                         console.log("验证码异常*******", e);
                         // 重置允许获取验证码
                         if (this.refs.timerButton.state.counting) {
@@ -317,7 +326,7 @@ export default class LoginPage extends Component {
                     //     msg = e.message;
                     // }
 
-                    if(msg !== undefined) {
+                    if (msg !== undefined) {
                         Alert.alert('', msg,
                             [
                                 {
@@ -337,7 +346,7 @@ export default class LoginPage extends Component {
     _doChangeVCode() {
         // 刷新验证码
         let picURLStr = this.state.picURLStr;
-        if(picURLStr !== null && picURLStr.length > 0) {
+        if (picURLStr !== null && picURLStr.length > 0) {
             let picStr = "https://" + picURLStr + "?phone=" + this.state.mobile + "&t=" + new Date().getTime();
             console.log('***** 请求图片', picStr);
             let picURL = {uri: picStr};
@@ -384,7 +393,7 @@ export default class LoginPage extends Component {
                                 this.focusField('smsCodeInput');
                             },
                         },]
-                    ,{cancelable: false});
+                    , {cancelable: false});
             },
         );
     }
@@ -395,14 +404,14 @@ export default class LoginPage extends Component {
         apis.userInfo().then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
-                console.log("用户信息读取成功返回:" , JSON.stringify(responseData));
+                console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 // Toast.show('用户信息读取成功返回' +  JSON.stringify(responseData));
-                if(responseData !== null && responseData.data !== null) {
+                if (responseData !== null && responseData.data !== null) {
                     UserInfoStore.setLastUserPhone(responseData.data.phone);
 
                     UserInfoStore.setUserInfo(responseData.data).then(// 保存成功后再跳转
                         (user) => {
-                            console.log("OK ===> Main:" );
+                            console.log("OK ===> Main:");
                             this.pop();
                         },
                         (e) => {
@@ -412,12 +421,12 @@ export default class LoginPage extends Component {
                     );
 
                 } else {
-                    console.log("OK ===> LoginPage:" );
+                    console.log("OK ===> LoginPage:");
                 }
             },
             (e) => {
                 SActivityIndicator.hide(loading);
-                console.log("用户信息读取错误返回:" , e);
+                console.log("用户信息读取错误返回:", e);
             },
         );
     }
@@ -440,28 +449,32 @@ export default class LoginPage extends Component {
 
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
-                    {/* 导航栏 */}
-                    {/*<CommunalNavBar*/}
-                    {/*leftItem={() => this.renderLeftItem()}*/}
-                    {/*titleItem={() => this.renderTitleItem()}*/}
-                    {/*/>*/}
-                <View style={{flex:1,backgroundColor:'white'}}>
-                    <TouchableOpacity style={{height:30,width:30,marginTop:Platform.OS==='ios'?30:10,marginLeft:15}} onPress={()=>{this.back()}}>
-                        <Image  source={require('../img/login_back.png')}/>
+                {/* 导航栏 */}
+                {/*<CommunalNavBar*/}
+                {/*leftItem={() => this.renderLeftItem()}*/}
+                {/*titleItem={() => this.renderTitleItem()}*/}
+                {/*/>*/}
+                <View style={{flex: 1, backgroundColor: 'white'}}>
+                    <TouchableOpacity
+                        style={{height: 30, width: 30, marginTop: Platform.OS === 'ios' ? 30 : 10, marginLeft: 15}}
+                        onPress={() => {
+                            this.back()
+                        }}>
+                        <Image source={require('../img/login_back.png')}/>
                     </TouchableOpacity>
                     {/*<InternetStatusView*/}
-                        {/*textToDisplay="未检测到网络连接，请确保WIFI或移动网络正常可用。"*/}
-                        {/*style={{*/}
-                            {/*justifyContent: 'center',*/}
-                            {/*alignSelf: 'stretch',*/}
-                            {/*backgroundColor: '#00000088',*/}
-                            {/*marginTop: px2dp(50),*/}
-                            {/*height: 25*/}
-                        {/*}}*/}
+                    {/*textToDisplay="未检测到网络连接，请确保WIFI或移动网络正常可用。"*/}
+                    {/*style={{*/}
+                    {/*justifyContent: 'center',*/}
+                    {/*alignSelf: 'stretch',*/}
+                    {/*backgroundColor: '#00000088',*/}
+                    {/*marginTop: px2dp(50),*/}
+                    {/*height: 25*/}
+                    {/*}}*/}
                     {/*/>*/}
 
-                    <Image source={require('../img/login_icon.png')}  style={[styles.bzLogo,
-                        {marginTop: px2dp(this.state.headPad)}]} />
+                    <Image source={require('../img/login_icon.png')} style={[styles.bzLogo,
+                        {marginTop: px2dp(this.state.headPad)}]}/>
 
                     <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
                         {backgroundColor: 'white'}]}
@@ -502,14 +515,14 @@ export default class LoginPage extends Component {
                                                this.setState({vCode})
                                                let vCodeInputValid = (vCode.length === 4);
                                                this.setState({vCode, vCodeInputValid});
-                                               if(vCodeInputValid) {
+                                               if (vCodeInputValid) {
                                                    dismissKeyboard();
                                                }
                                            }}
 
                                            onBlur={() => {
                                                dismissKeyboard();
-                                               if(this.state.vCodeInputValid&& !this.state.vCodeServerValid) {
+                                               if (this.state.vCodeInputValid && !this.state.vCodeServerValid) {
                                                    this._verifyVCode();
                                                }
                                            }}
@@ -521,8 +534,8 @@ export default class LoginPage extends Component {
                                 />
 
                                 <TouchableWithoutFeedback onPress={this._doChangeVCode}>
-                                <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
-                                              source={this.state.picURL}     />
+                                    <Image style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
+                                           source={this.state.picURL}/>
                                 </TouchableWithoutFeedback>
 
                             </View>
@@ -545,7 +558,7 @@ export default class LoginPage extends Component {
                                                this.setState({smsCode})
                                                let smsCodeValid = (smsCode.length === 6);
                                                this.setState({smsCode, smsCodeValid});
-                                               if(smsCodeValid) {
+                                               if (smsCodeValid) {
                                                    dismissKeyboard();
                                                }
                                            }}
@@ -567,7 +580,7 @@ export default class LoginPage extends Component {
                                     marginRight: 1
                                 }}/>
 
-                                <TimerButton enable={this.state.mobileValid && this.state.vCodeServerValid }
+                                <TimerButton enable={this.state.mobileValid && this.state.vCodeServerValid}
                                              ref="timerButton"
                                              style={{width: 70, marginRight: 0, height: 44, alignSelf: 'flex-end',}}
                                              textStyle={{color: '#6A6A6A', alignSelf: 'flex-end'}}
@@ -584,7 +597,7 @@ export default class LoginPage extends Component {
                         <View style={[styles.textInputContainer,
                             {marginTop: 2}]}>
                             <TouchableOpacity
-                                style={{alignSelf: 'center'}} onPress={ () => {
+                                style={{alignSelf: 'center'}} onPress={() => {
                                 dismissKeyboard();
                                 let _acceptLic = !this.state.acceptLic;
                                 console.log('_acceptLic', _acceptLic);
@@ -602,7 +615,7 @@ export default class LoginPage extends Component {
                                 >点击登录即视为同意</Text>
                                 <Text style={{
                                     color: ( this.state.acceptLic ? '#BABABA' : '#BABABA'),
-                                    fontSize: (Platform.OS === 'ios') ? 12: 11,
+                                    fontSize: (Platform.OS === 'ios') ? 12 : 11,
                                     alignSelf: 'center',
                                     textDecorationLine: 'underline',
                                     marginRight: 1
@@ -613,31 +626,35 @@ export default class LoginPage extends Component {
                         </View>
 
                         {/*<TouchableWithoutFeedback onPress={this._doLogin}>*/}
-                            {/*<View style={[styles.buttonview,*/}
-                                {/*{*/}
-                                    {/*backgroundColor: (*/}
-                                        {/*(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid  ) ? '#ef0c35' : '#e6e6e6')*/}
-                                {/*}]}>*/}
-                                {/*<Text style={styles.logintext}>登录</Text>*/}
-                            {/*</View>*/}
+                        {/*<View style={[styles.buttonview,*/}
+                        {/*{*/}
+                        {/*backgroundColor: (*/}
+                        {/*(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid  ) ? '#ef0c35' : '#e6e6e6')*/}
+                        {/*}]}>*/}
+                        {/*<Text style={styles.logintext}>登录</Text>*/}
+                        {/*</View>*/}
                         {/*</TouchableWithoutFeedback>*/}
 
-                        <SubmitButton onPress={this._doLogin} isEnabled={(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid)}
-                        text="登录"
+                        <SubmitButton onPress={this._doLogin}
+                                      isEnabled={(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid)}
+                                      text="登录"
                         />
                         <View style={styles.wechart_text}>
                             <View style={styles.line}/>
-                            <Text style={styles.wechart_te} >
+                            <Text style={styles.wechart_te}>
                                 第三方登录
                             </Text>
                             <View style={styles.line}/>
 
-                        </View >
-                        <View style={[styles.wechart_text,{marginTop:20}]}>
-                        <TouchableOpacity  onPress={()=>{this._goWechat()}}>
+                        </View>
+                        <View style={[styles.wechart_text, {marginTop: 20}]}>
+                            <TouchableOpacity onPress={() => {
+                                this._goWechat()
+                            }}>
 
-                            <Image style={[styles.wechart_icon,{justifyContent:'center'}]} source={require('../img/wechart.png')}/>
-                        </TouchableOpacity>
+                                <Image style={[styles.wechart_icon, {justifyContent: 'center'}]}
+                                       source={require('../img/wechart.png')}/>
+                            </TouchableOpacity>
                         </View>
 
                     </KeyboardAvoidingView>

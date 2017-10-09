@@ -25,123 +25,8 @@ const col = 4
 const itemMargin = scaleSize(15)
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 
-const homePageData = {
-    "data": [
-        {
-            "title":"注册公司",
-            "type":"1",
-            "project":[
-                {
-                    "subTitle":"有限公司",
-                    "logo":require('../../img/company.png')
-                },
-                {
-                    "subTitle":"合伙企业",
-                    "logo":require('../../img/Partner.png')
-                },
-                {
-                    "subTitle":"个人独资",
-                    "logo":require('../../img/person.png')
-                },
-                {
-                    "subTitle":"企业分公司",
-                    "logo":require('../../img/address.png')
-                },
-                {
-                    "subTitle":"公司地址",
-                    "logo":require('../../img/companyAddress.png')
-                },
-                {
-                    "subTitle":"内资企业",
-                    "logo":require('../../img/conpanyRegister.png')
-                },
-                {
-                    "subTitle":"外资独资",
-                    "logo":require('../../img/conpanRegister2.png')
-                }
-            ]
-        },
-        {
-            "title":"记账报税",
-            "type":"2",
-            "project":[
-                {
-                    "subTitle":"一般纳税",
-                    "logo":require('../../img/bg_orange.png')
-                },
-                {
-                    "subTitle":"小规模纳税",
-                    "logo":require('../../img/bg_blue.png')
-                },
+import HudView from '../../view/HudView'
 
-            ]
-        },
-        {
-            "title":" 企业变更",
-            "type":"1",
-            "project":[
-                {
-                    "subTitle":"地址变更",
-                    "logo":require('../../img/changeAddress.png')
-                },
-                {
-                    "subTitle":"法人变更",
-                    "logo":require('../../img/legal.png')
-                },
-                {
-                    "subTitle":"股权变更",
-                    "logo":require('../../img/stock.png')
-                },
-                {
-                    "subTitle":"资金变更",
-                    "logo":require('../../img/capital.png')
-                },
-                {
-                    "subTitle":"名称变更",
-                    "logo":require('../../img/card.png')
-                },
-                {
-                    "subTitle":"经营范围",
-                    "logo":require('../../img/Management.png')
-                },
-                {
-                    "subTitle":"注册类型",
-                    "logo":require('../../img/manager.png')
-                }
-            ]
-        },
-        {
-            "title":"其他服务",
-            "type":"1",
-            "project":[
-                {
-                    "subTitle":"审计报告",
-                    "logo":require('../../img/examine.png')
-                },
-                {
-                    "subTitle":"残保金",
-                    "logo":require('../../img/disability.png')
-                },
-                {
-                    "subTitle":"财会上门",
-                    "logo":require('../../img/updoor.png')
-                },
-                {
-                    "subTitle":"汇算清缴",
-                    "logo":require('../../img/rate.png')
-                },
-                {
-                    "subTitle":"社保开户",
-                    "logo":require('../../img/social.png')
-                },
-                {
-                    "subTitle":"工商年检",
-                    "logo":require('../../img/Business.png')
-                }
-            ]
-        }
-    ]
-}
 
 const headerData = [
     {
@@ -210,36 +95,37 @@ export default class HomePage extends BComponent {
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
     componentDidMount(){
-
-        let dataSource = [];
-        for (let i = 0; i<homePageData.data.length;i++){
-            let section = {};
-            section.key = homePageData.data[i].title;
-            section.data = [{data:homePageData.data[i].project,type:homePageData.data[i].type}];
-            for(let j=0;j<section.data.length;j++){
-                section.data[j].key = j
-            }
-            dataSource[i] = section
-        }
-        this.setState({
-            dataSource:dataSource
-        })
+        this.loadData()
+    }
+    loadData(type = '0'){
+        this.refs.hudView.showSpinner()
 
         apis.loadHomeData().then(
             (responseData) => {
+                this.refs.hudView.hide()
 
-                console.log('responseData',responseData)
-
+                if(responseData.code == 0){
+                    let dataSource = [];
+                    for (let i = 0; i<responseData.list.length;i++){
+                        let section = {};
+                        section.key = responseData.list[i].title;
+                        section.data = [{data:responseData.list[i].products,type:responseData.list[i].viewtype}];
+                        for(let j=0;j<section.data.length;j++){
+                            section.data[j].key = j
+                        }
+                        dataSource[i] = section
+                    }
+                    this.setState({
+                        dataSource:dataSource
+                    })
+                }
             },
             (e) => {
-
-                console.log('error1111',e)
+                this.refs.hudView.hide()
+                console.log('error',e)
 
             },
         );
-
-
-
     }
     //ios添加mask背景
     _showMask(){
@@ -363,6 +249,7 @@ export default class HomePage extends BComponent {
                     ListFooterComponent={this._listFooterComponent.bind(this)}
                 >
                 </SectionList>
+                <HudView ref="hudView" />
                 {Platform.OS==='ios'?this._maskView():null}
             </View>
 
@@ -378,8 +265,8 @@ export default class HomePage extends BComponent {
                             return(
                                 <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
                                     <View style={{width:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'}}>
-                                        <Image resizeMode="contain" style={{marginTop:10, width:25,height:25}} source={item.logo}/>
-                                        <Text style={{marginTop:15,marginBottom:10,fontSize:setSpText(14),color:'#666666'}}>{item.subTitle}</Text>
+                                        <Image resizeMode="contain" style={{marginTop:10, width:25,height:25}} source={{uri:item.icon}}/>
+                                        <Text style={{marginTop:15,marginBottom:10,fontSize:setSpText(14),color:'#666666'}}>{item.name}</Text>
                                     </View>
                                 </TouchableOpacity>
                             )
@@ -394,8 +281,8 @@ export default class HomePage extends BComponent {
                         item.item.data.map((item, i) => {
                             return(
                                 <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
-                                    <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,marginTop:10}} source={item.logo}>
-                                        <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>{item.subTitle}</Text>
+                                    <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,height:68,marginTop:10}} source={{uri:item.icon}}>
+                                        <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>{item.name}</Text>
                                     </Image>
                                 </TouchableOpacity>
                             )
