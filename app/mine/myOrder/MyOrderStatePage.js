@@ -22,41 +22,25 @@ export default class MyOrderStatePage extends Component {
 
     constructor(props){
         super(props)
-
-        this.data=[];
         this.pageX = '';
         this.pageY = ''
     }
 
-
-
-    componentWillMount() {
-        apis.loadOrderListData().then(
-            (responseData) => {
-
-                this.data=responseData.list;
-                console.log('data222222',data)
-
-            },
-            (e) => {
-
-                console.log('error222222',e)
-
-            },
-        );
+    static defaultProps = {
+        sourceData: [],
     }
 
 
-
     renderItem = (item, index, separator) => {
+        console.log('item222222',item)
 
         return(
             <OrderStateCell
                 headImg={require('../../img/head_img.png')}
-                orderId={item.order_no}
-                orderState={item.status_desc}
+                orderId={item.item.order_no}
+                orderState={item.item.status_desc}
                 name='注册公司'
-                money={item.amount}
+                money={item.item.amount}
                 {...this.props}
             />
 
@@ -71,11 +55,12 @@ export default class MyOrderStatePage extends Component {
     };
 
     render(){
+        const {sourceData} = this.props
         return(
         <View style={styles.container}>
             <FlatList
                 ref={(ref) => this.listView = ref}
-                data={this.data}
+                data={sourceData}
 
                 renderItem={this.renderItem}  //this takes three params (item, index, separator)
 
