@@ -24,10 +24,6 @@ const deviceWidth = Dimensions.get('window').width;
 const col = 4
 const itemMargin = scaleSize(15)
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
-
-import HudView from '../../view/HudView'
-
-
 const headerData = [
     {
         'title':'注册公司',
@@ -50,7 +46,6 @@ const headerData = [
         "logo":require('../../img/registerConpany1.png')
     }
 ]
-
 const footData = [
     {
         'title':'安全',
@@ -79,6 +74,7 @@ const footData = [
 ]
 import Picker from 'react-native-picker';
 import area from '../../../picker_demo/area.json';
+
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -98,11 +94,11 @@ export default class HomePage extends BComponent {
         this.loadData()
     }
     loadData(type = '0'){
-        this.refs.hudView.showSpinner()
 
+        let loading = SActivityIndicator.show(true, "加载中...");
         apis.loadHomeData().then(
             (responseData) => {
-                this.refs.hudView.hide()
+                SActivityIndicator.hide(loading);
 
                 if(responseData.code == 0){
                     let dataSource = [];
@@ -121,7 +117,7 @@ export default class HomePage extends BComponent {
                 }
             },
             (e) => {
-                this.refs.hudView.hide()
+                SActivityIndicator.hide(loading);
                 console.log('error',e)
 
             },
@@ -249,7 +245,6 @@ export default class HomePage extends BComponent {
                     ListFooterComponent={this._listFooterComponent.bind(this)}
                 >
                 </SectionList>
-                <HudView ref="hudView" />
                 {Platform.OS==='ios'?this._maskView():null}
             </View>
 

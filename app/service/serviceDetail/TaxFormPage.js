@@ -24,14 +24,14 @@ export default class TaxFormPage extends BComponent {
         }
 
     }
-
     componentDidMount() {
-        this.loadData('1','2017-09')
+        this.loadData('1',this.props.year+'-'+this.props.month)
     }
     loadData(companyid = '1',date=''){
+        let loading = SActivityIndicator.show(true, "加载中...");
         apis.loadTaxForm(companyid,date).then(
             (responseData) => {
-
+                SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
                     let arr = [{
                         title:'增值税',
@@ -67,6 +67,7 @@ export default class TaxFormPage extends BComponent {
                 }
             },
             (e) => {
+                SActivityIndicator.hide(loading);
                 console.log('error',e)
             },
         );
@@ -141,10 +142,13 @@ export default class TaxFormPage extends BComponent {
                     data={this.state.data}
                     keyExtractor = {(item, index) => index}
                 />
-                <ChooseTimerModal isChangeHeader={false}/>
-
+                <ChooseTimerModal isChangeHeader={false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
         )
+    }
+    _callback(year,month){
+        this.loadData('1',year+'-'+month)
+        this.props.callback && this.props.callback(year,month,true)
     }
 
 }

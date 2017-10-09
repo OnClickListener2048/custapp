@@ -25,24 +25,26 @@ import BComponent from '../../base';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import HeaderView from '../view/HeaderView'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
-
 import * as apis from '../../apis';
 
 export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
+        let today = new Date()
         this.state = {
-
             selectIndex:0,
             profit:'- -',//本月利润
             income:'- -',//本月收入
             expenditure:'- -',//本月支出
-            is_demo:'- -'//是否演示数据
+            is_demo:'- -',//是否演示数据,
+            year:today.getFullYear().toString(),
+            month:(today.getMonth() + 1).toString()
 
         };
         this.isDemo=false;//是否是显示数据
         this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
+
     }
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
@@ -56,14 +58,15 @@ export default class ServicePage extends BComponent {
 
     componentDidMount() {
 
-        this.loadData('1','2017-09')
+        this.loadData('1',this.state.year+'-'+this.state.month)
 
     }
     loadData(companyid = '1',date=''){
+        let loading = SActivityIndicator.show(true, "加载中...");
 
         apis.loadServiceData(companyid,date).then(
             (responseData) => {
-
+                SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
 
                     this.setState({
@@ -75,6 +78,7 @@ export default class ServicePage extends BComponent {
                 }
             },
             (e) => {
+                SActivityIndicator.hide(loading);
                 console.log('error',e)
             },
         );
@@ -104,27 +108,44 @@ export default class ServicePage extends BComponent {
                     {this._renderBody(this.state.selectIndex)}
                 </ScrollView>
                 {this._renderDemo(this.isDemo)}
-                <ChooseTimerModal />
+                <ChooseTimerModal ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
             </View>
 
         )
     }
+    _callback(year,month,isRefresh=false){
+
+        let _this = this
+        _this.loadData('1',year+'-'+month)
+        _this.setState({
+            year,
+            month
+        },function () {
+            if(isRefresh){
+                _this.refs.ChooseTimerModal.setState({
+                    yearSelected:year,
+                    monthSelected:month
+                })
+            }
+        })
+
+    }
     _renderBody(index){
         switch (index){
             case 0:
-                return <CopyTaxes {...this.props}/>//抄税
+                return <CopyTaxes />//抄税
                 break;
             case 1:
-                return <SendBill {...this.props} />//发送票据
+                return <SendBill />//发送票据
                 break;
             case 2:
-                return <AccountingTreatment {...this.props} />//财务处理
+                return <AccountingTreatment callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} />//财务处理
                 break;
             case 3:
-                return <PayTaxes {...this.props} />//申报纳税
+                return <PayTaxes callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} />//申报纳税
                 break;
             case 4:
-                return <ClearCard {...this.props} />//清卡
+                return <ClearCard/>//清卡
                 break;
         }
     }

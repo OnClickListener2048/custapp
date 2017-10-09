@@ -30,7 +30,6 @@ export default class MessagePage extends BComponent {
             refreshState: RefreshState.Idle,
         }
         this.page =1
-        {(this: any).keyExtractor = this.keyExtractor.bind(this)}
     }
 
     componentDidMount() {
@@ -66,7 +65,7 @@ export default class MessagePage extends BComponent {
                     let dataList = page == 1 ? newList : [...this.state.dataList, ...newList]
                     this.setState({
                         dataList: dataList,
-                        refreshState:responseData.list > 50 ? RefreshState.NoMoreData : RefreshState.Idle,
+                        refreshState:dataList.length > 50 ? RefreshState.NoMoreData : RefreshState.Idle,
                     })
 
                 }else{
@@ -117,15 +116,13 @@ export default class MessagePage extends BComponent {
         });
 
     }
-    keyExtractor = (item: any, index: number) => {
-        return index
-    }
+
     render() {
         return (
             <View style={styles.container}>
                 <RefreshListView
                     data={this.state.dataList}
-                    keyExtractor={this.keyExtractor}
+                    keyExtractor = {(item, index) => index}
                     renderItem={this.renderCell.bind(this)}
                     refreshState={this.state.refreshState}
                     onHeaderRefresh={this.onHeaderRefresh}

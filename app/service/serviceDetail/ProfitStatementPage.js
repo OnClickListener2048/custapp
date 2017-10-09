@@ -25,12 +25,14 @@ export default class ProfitStatementPage extends BComponent {
         };
     }
     componentDidMount() {
-        this.loadData('1','2017-09')
+        this.loadData('1',this.props.year+'-'+this.props.month)
     }
     loadData(companyid = '1',date=''){
+        let loading = SActivityIndicator.show(true, "加载中...");
+
         apis.loadProfit(companyid,date).then(
             (responseData) => {
-                console.log('responseData',responseData)
+                SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
 
                     this.setState({
@@ -44,6 +46,7 @@ export default class ProfitStatementPage extends BComponent {
                 }
             },
             (e) => {
+                SActivityIndicator.hide(loading);
                 console.log('error',e)
             },
         );
@@ -82,10 +85,14 @@ export default class ProfitStatementPage extends BComponent {
                     renderItem={this._renderItem.bind(this)}
                     ListHeaderComponent={this._listHeaderComponent.bind(this)}
                 />
-                <ChooseTimerModal />
+                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
 
             </View>
         )
+    }
+    _callback(year,month){
+        this.loadData('1',year+'-'+month)
+        this.props.callback && this.props.callback(year,month,true)
     }
 }
 
