@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:'#F9F9F9'
     },
+    container1:{
+        backgroundColor:'#FFFFFF'
+    },
     wrapper1:{
         flexDirection:'row',
         width:SCREEN_WIDTH,
