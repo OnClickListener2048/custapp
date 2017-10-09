@@ -141,7 +141,7 @@ export default class ChooseTimerModal extends Component {
                         </View>
                     </TouchableOpacity>:<TouchableOpacity activeOpacity={1} onPress={()=>{this._showTimer()}}>
                         <View style={[{width:DeviceInfo.width,flexDirection:'row',padding:15,paddingLeft:24,paddingRight:24,
-                            justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:DeviceInfo.onePR,backgroundColor:'transparent'}]}>
+                            justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:DeviceInfo.onePR},this.state.isShow?{backgroundColor:'white'}:{backgroundColor:'transparent'}]}>
                             <View style={{flexDirection:'row'}}>
                                 <Text style={[{fontSize:setSpText(20),color:'#999999'}]}>{this.state.monthSelected}月</Text>
                                 <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end',color:'#999999'}]}>{this.state.yearSelected}</Text>

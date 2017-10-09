@@ -74,7 +74,7 @@ const footData = [
 ]
 import Picker from 'react-native-picker';
 import area from '../../../picker_demo/area.json';
-
+import DefaultView from '../../view/DefaultView'
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -83,7 +83,8 @@ export default class HomePage extends BComponent {
             dataSource:[],
             fadeAnim: new Animated.Value(0),
             maskTouchDisabled : true,
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            loadState:'loading'
         };
     }
     static navigatorStyle = {
@@ -111,14 +112,36 @@ export default class HomePage extends BComponent {
                         }
                         dataSource[i] = section
                     }
+                    if(responseData.list.length == 0){
+                        this.setState({
+                            dataSource:dataSource,
+                            loadState:'no-data'
+                        })
+                    }else{
+                        this.setState({
+                            dataSource:dataSource,
+                            loadState:'success'
+                        })
+                    }
+
+                }else{
                     this.setState({
-                        dataSource:dataSource
+                        loadState:'error'
                     })
+
                 }
             },
             (e) => {
                 SActivityIndicator.hide(loading);
-                console.log('error',e)
+                if(!NetInfoSingleton.isConnected) {
+                    this.setState({
+                        loadState:'no-net'
+                    })
+                }else{
+                    this.setState({
+                        loadState:'error'
+                    })
+                }
 
             },
         );
@@ -234,21 +257,30 @@ export default class HomePage extends BComponent {
     }
     render(){
 
-        return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                <SectionList
-                    renderItem={this._renderItem.bind(this)}
-                    renderSectionHeader={this._renderSectionHeader.bind(this)}
-                    sections={this.state.dataSource}
-                    stickySectionHeadersEnabled={false}
-                    ListHeaderComponent={this._listHeaderComponent.bind(this)}
-                    ListFooterComponent={this._listFooterComponent.bind(this)}
-                >
-                </SectionList>
-                {Platform.OS==='ios'?this._maskView():null}
-            </View>
+        if(this.state.loadState == 'success'){
 
-        )
+            return(
+                <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                    <SectionList
+                        renderItem={this._renderItem.bind(this)}
+                        renderSectionHeader={this._renderSectionHeader.bind(this)}
+                        sections={this.state.dataSource}
+                        stickySectionHeadersEnabled={false}
+                        ListHeaderComponent={this._listHeaderComponent.bind(this)}
+                        ListFooterComponent={this._listFooterComponent.bind(this)}
+                    >
+                    </SectionList>
+                    {Platform.OS==='ios'?this._maskView():null}
+                </View>
+
+            )
+
+        }else {
+            return(
+                <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
+            )
+        }
+
     }
     _renderItem (item) {
 
