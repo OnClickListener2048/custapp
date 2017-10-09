@@ -31,11 +31,14 @@ export default class CashFlowPage extends BComponent {
     }
 
     componentDidMount() {
-        this.loadData('1','2017-09')
+        this.loadData('1',this.props.year+'-'+this.props.month)
     }
     loadData(companyid = '1',date=''){
+        let loading = SActivityIndicator.show(true, "加载中...");
+
         apis.loadCashFlow(companyid,date).then(
             (responseData) => {
+                SActivityIndicator.hide(loading);
 
                 if(responseData.code == 0){
 
@@ -48,6 +51,8 @@ export default class CashFlowPage extends BComponent {
                 }
             },
             (e) => {
+                SActivityIndicator.hide(loading);
+
                 console.log('error',e)
             },
         );
@@ -101,17 +106,18 @@ export default class CashFlowPage extends BComponent {
                     headerClickCallBack={(index)=>this._headerClickCallBack(index)}
 
                 />
-                <ChooseTimerModal callback={this.callback.bind(this)}/>
+                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
 
         );
+    }
+    _callback(year,month){
+        this.loadData('1',year+'-'+month)
+        this.props.callback && this.props.callback(year,month,true)
     }
     _headerClickCallBack(index){
         let openOptions =this.state.openOptions
         openOptions[index]=!openOptions[index]
         this.setState({openOptions})
-    }
-    callback(year,month){
-
     }
 }

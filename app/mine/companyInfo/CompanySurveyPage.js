@@ -13,7 +13,6 @@ import {
 import CommenCell from '../../view/CommenCell'
 import SectionHeader from '../../view/SectionHeader'
 import BComponent from '../../base/BComponent'
-import SActivityIndicator from '../../modules/react-native-sww-activity-indicator/index';
 import * as apis from '../../apis/index';
 import Toast from 'react-native-root-toast';
 

@@ -67,24 +67,44 @@ export default class AccountingTreatment extends Component {
                 this.props.navigator.push({
                     screen: 'CashFlowPage',
                     title:'现金流',
+                    passProps:{
+                        year:this.props.year,
+                        month:this.props.month,
+                        callback:this.props.callback
+                    }
                 })
                 break;
             case 1:
                 this.props.navigator.push({
                     screen: 'ProfitStatementPage',
                     title:'利润表',
+                    passProps:{
+                        year:this.props.year,
+                        month:this.props.month,
+                        callback:this.props.callback
+                    }
                 })
                 break;
             case 2:
                 this.props.navigator.push({
                     screen: 'AccountsReceivablePage',
                     title:'应收账款',
+                    passProps:{
+                        year:this.props.year,
+                        month:this.props.month,
+                        callback:this.props.callback
+                    }
                 })
                 break;
             case 3:
                 this.props.navigator.push({
                     screen: 'AccountsPayablePage',
                     title:'应付账款',
+                    passProps:{
+                        year:this.props.year,
+                        month:this.props.month,
+                        callback:this.props.callback
+                    }
                 })
                 break;
             default:

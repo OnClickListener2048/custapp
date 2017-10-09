@@ -40,6 +40,11 @@ export default class PayTaxes extends Component {
         this.props.navigator.push({
             screen: 'TaxFormPage',
             title:'纳税表',
+            passProps:{
+                year:this.props.year,
+                month:this.props.month,
+                callback:this.props.callback
+            }
         })
     }
 }

@@ -3,6 +3,10 @@
  */
 import {getApi} from './common';
 
+export function loadVerifyCode(mobile = '',type = '5') {
+    return getApi('/api/mock/verificode/send',{mobile,type});
+}
+
 export function loadVerifyResultData(keyword = '',mobile = '',vcode = '') {
     return getApi('/api/mock/companies/check',{keyword,mobile,vcode});
 }

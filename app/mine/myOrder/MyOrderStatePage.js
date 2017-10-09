@@ -15,8 +15,6 @@ import {
     FlatList
 } from 'react-native';
 import OrderStateCell from "./view/OrderStateCell";
-import * as apis from '../../apis';
-import CommonCell from '../../view/CommenCell'
 
 export default class MyOrderStatePage extends Component {
 
@@ -36,23 +34,15 @@ export default class MyOrderStatePage extends Component {
 
         return(
             <OrderStateCell
-                headImg={require('../../img/head_img.png')}
                 orderId={item.item.order_no}
                 orderState={item.item.status_desc}
-                name='注册公司'
                 money={item.item.amount}
+                time={item.item.order_time}
                 {...this.props}
             />
-
-
         )
     };
 
-    renderPaginationFetchingView = () => {
-        return (
-            <View></View>
-        );
-    };
 
     render(){
         const {sourceData} = this.props

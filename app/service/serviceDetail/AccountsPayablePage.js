@@ -29,12 +29,14 @@ export default class AccountsPayablePage extends BComponent {
 
 
     componentDidMount() {
-        this.loadData('1','2017-09')
+        this.loadData('1',this.props.year+'-'+this.props.month)
     }
     loadData(companyid = '1',date='',type='1'){
+        let loading = SActivityIndicator.show(true, "加载中...");
+
         apis.loadAccounts(companyid,date,type).then(
             (responseData) => {
-
+                SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
 
                     this.setState({
@@ -45,6 +47,7 @@ export default class AccountsPayablePage extends BComponent {
                 }
             },
             (e) => {
+                SActivityIndicator.hide(loading);
                 console.log('error',e)
             },
         );
@@ -78,6 +81,7 @@ export default class AccountsPayablePage extends BComponent {
         )
     }
     render() {
+        console.log('lalala',this.props.year)
         return (
             <View style={{backgroundColor:'#f9f9f9',flex:1}}>
                 <ExpanableList
@@ -90,11 +94,17 @@ export default class AccountsPayablePage extends BComponent {
                     headerClickCallBack={(index)=>this._headerClickCallBack(index)}
                     openOptions={this.state.openOptions}
                 />
-                <ChooseTimerModal />
+                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)} />
 
             </View>
 
         );
+    }
+    _callback(year,month){
+
+        this.loadData('1',year+'-'+month)
+        this.props.callback && this.props.callback(year,month,true)
+
     }
     _headerClickCallBack(index){
         let openOptions =this.state.openOptions
