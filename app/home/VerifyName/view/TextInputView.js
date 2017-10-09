@@ -39,7 +39,7 @@ export default class TextInputView extends Component {
                                    value={this.state.content}
                                    editable={this.props.textEditable}
                                    keyboardType={this.props.keyboardType}
-                                   style={styles.textInput} placeholder={this.props.textName} returnKeyType='next'
+                                   style={styles.textInput} placeholder={this.props.textName} placeholderTextColor={'#999999'} returnKeyType='next'
                                    onChangeText={
                                        (legalPerson) => {
                                            this.props.callback(this.props.contentType,legalPerson);
