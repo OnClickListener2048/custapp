@@ -11,6 +11,10 @@ export function loadVerifyCompaniesList(keyword = '',page = 1,count = 10) {
     return getApi('/api/mock/companies/search',{keyword,page,count});
 }
 
+export function loadVerifyCompanyInfo(mobile='') {
+    return getApi('/api/mock/companies',{mobile});
+}
+
 
 
 

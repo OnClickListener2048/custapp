@@ -13,6 +13,9 @@ import {
 import CommenCell from '../../view/CommenCell'
 import SectionHeader from '../../view/SectionHeader'
 import BComponent from '../../base/BComponent'
+import SActivityIndicator from '../../modules/react-native-sww-activity-indicator/index';
+import * as apis from '../../apis/index';
+import Toast from 'react-native-root-toast';
 
 const companyData = [
     {
@@ -77,19 +80,87 @@ export default class CompanySurveyPage extends BComponent {
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
     componentDidMount(){
-        let dataSource = [];
-        for (let i = 0; i<companyData.length;i++){
-            let section = {};
-            section.key = companyData[i].title;
-            section.data = companyData[i].dataArr;
-            for(let j=0;j<section.data.length;j++){
-                section.data[j].key = j
-            }
-            dataSource[i] = section
-        }
-        this.setState({
-            dataSource:dataSource
-        })
+        this._onLoadMessageInfo();
+    }
+
+    //企业详情接口数据请求
+    _onLoadMessageInfo(){
+        let loading = SActivityIndicator.show(true, "加载中...");
+        apis.loadVerifyCompanyInfo('18088888888').then(
+
+            (responseData) => {
+                SActivityIndicator.hide(loading);
+
+                if(responseData !== null && responseData.data !== null) {
+
+                    const companyData = [
+                        {
+                            title:'基本信息',
+                            type:'1',
+                            dataArr:[
+                                {
+                                    title:'纳税信用等级',
+                                    subTitle:responseData.data.tax_credit_rating,
+                                },
+                                {
+                                    title:'纳税人状态',
+                                    subTitle:responseData.data.tax_status,
+                                },
+                                {
+                                    title:'纳税类型',
+                                    subTitle:responseData.data.tax_type,
+                                },
+                                {
+                                    title:'公司地址',
+                                    subTitle:responseData.data.address,
+                                },
+                                {
+                                    title:'电话',
+                                    subTitle:responseData.data.tel,
+                                },
+                                {
+                                    title:'开户银行',
+                                    subTitle:responseData.data.bank,
+                                },
+                                {
+                                    title:'银行账号',
+                                    subTitle:responseData.data.bank_card,
+                                },
+                            ]
+                        },
+                        {
+                            title:'证照信息',
+                            type:'2',
+                            dataArr:responseData.data.license,
+                        }
+
+                    ]
+
+                    let dataSource = [];
+                    for (let i = 0; i<companyData.length;i++){
+                        let section = {};
+                        section.key = companyData[i].title;
+                        section.data = companyData[i].dataArr;
+                        for(let j=0;j<section.data.length;j++){
+                            section.data[j].key = j
+                        }
+                        dataSource[i] = section
+                    }
+
+
+                    this.setState({
+                        dataSource:dataSource
+                        // dataSource:responseData.data
+                    })
+
+                }
+            },
+            (e) => {
+                SActivityIndicator.hide(loading);
+
+                Toast.show(errorText( e ));
+            },
+        );
     }
 
     render(){
@@ -111,8 +182,8 @@ export default class CompanySurveyPage extends BComponent {
         if (item.item.subTitle == undefined){
             return(
                 <CommenCell
-                    leftText={item.item.title}
-                    onPress = {this._click.bind(this)}
+                    leftText={item.item.name}
+                    onPress = {this._click.bind(this,item.item,item.item.name)}
                 />
             )
         }else{
@@ -133,10 +204,13 @@ export default class CompanySurveyPage extends BComponent {
         )
     }
 
-    _click(){
+    _click(licenceinfo,name){
         this.props.navigator.push({
             screen: 'LicenceInfoPage',
-            title:'证照信息'
+            title:name,
+            passProps: {
+                licenceinfo:licenceinfo,
+            }
 
         });
     }

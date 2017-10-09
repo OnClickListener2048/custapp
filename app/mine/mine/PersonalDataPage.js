@@ -69,7 +69,7 @@ export default class HomePage extends BComponent {
                         微信号
                     </Text>
                     <Text style={styles.textContentStyle}>
-                        133333333333
+                        yangyangyang
                     </Text>
                 </View>
 
