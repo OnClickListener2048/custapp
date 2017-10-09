@@ -11,11 +11,10 @@ import {
     Platform,
     TouchableOpacity,
     ScrollView,
-    ListView,
-    RefreshControl
+    RefreshControl,
+    FlatList
 } from 'react-native';
 import OrderStateCell from "./view/OrderStateCell";
-import UltimateListView from "react-native-ultimate-listview";
 import * as apis from '../../apis';
 import CommonCell from '../../view/CommenCell'
 
@@ -23,53 +22,41 @@ export default class MyOrderStatePage extends Component {
 
     constructor(props){
         super(props)
-        this.state={
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2}),
-        }
-        this.orderArr=[];
+
+        this.data=[];
         this.pageX = '';
         this.pageY = ''
     }
 
-    // 载入初始化数据
-    onFetch = (page = 1, startFetch, abortFetch) => {
-        let mesId = ''
 
-        if (page >1){
-            let arr = this.listView.getRows()
-            let obj = arr[arr.length-1]
-            mesId = obj.msgId
-        }
-        let pageSize = 10
-        apis.loadMessageData(pageSize,mesId).then(
+
+    componentWillMount() {
+        apis.loadOrderListData().then(
             (responseData) => {
 
-                if(responseData !== null && responseData.data !== null){
+                this.data=responseData.list;
+                console.log('data222222',data)
 
-                    startFetch(responseData.data,page * pageSize)
-                }else{
-
-                    abortFetch()
-                }
             },
             (e) => {
 
-                abortFetch()
+                console.log('error222222',e)
 
             },
         );
-    };
+    }
+
+
 
     renderItem = (item, index, separator) => {
 
         return(
             <OrderStateCell
                 headImg={require('../../img/head_img.png')}
-                orderId={item.msgId}
-                orderState={item.title}
-                name={item.subTitle}
-                money="200"
+                orderId={item.order_no}
+                orderState={item.status_desc}
+                name='注册公司'
+                money={item.amount}
                 {...this.props}
             />
 
@@ -86,14 +73,14 @@ export default class MyOrderStatePage extends Component {
     render(){
         return(
         <View style={styles.container}>
-            <UltimateListView
+            <FlatList
                 ref={(ref) => this.listView = ref}
-                onFetch={this.onFetch}
-                keyExtractor={(item, index) => `${index} - ${item}`}  //this is required when you are using FlatList
-                refreshableMode={DeviceInfo.OS==='ios'?'advanced':'basic'} //basic or advanced
-                item={this.renderItem}  //this takes three params (item, index, separator)
-                paginationFetchingView={this.renderPaginationFetchingView}
-                onTouchStart={(e) => {                   ////解决ScrollableTabView和listView的滑动冲突
+                data={this.data}
+
+                renderItem={this.renderItem}  //this takes three params (item, index, separator)
+
+                //解决ScrollableTabView和listView的滑动冲突
+                onTouchStart={(e) => {
                     this.pageX = e.nativeEvent.pageX;
                     this.pageY = e.nativeEvent.pageY;
                 }}

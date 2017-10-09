@@ -19,6 +19,7 @@ import {
 import  MyOrderStatePage from './MyOrderStatePage'
 import OrderStateCell from "./view/OrderStateCell";
 import BComponent from '../../base/BComponent'
+import * as apis from '../../apis';
 
 export default class MyOrderPage extends BComponent {
 
@@ -53,17 +54,17 @@ export default class MyOrderPage extends BComponent {
             tabBarTextStyle={styles.textStyle}//tab字体的样式
             ref={(scrollTabView) => { this.scrollTabView = scrollTabView; }}
         >
-            <MyOrderStatePage tabLabel='办理中'
+            <MyOrderStatePage tabLabel='进行中'
                               lockSlide = {this._lockSlide.bind(this)} //解决ScrollableTabView和listView的滑动冲突
                               openSlide = {this._openSlide.bind(this)}
                               {...this.props}//把所有属性都传给子页面
                               />
-            <MyOrderStatePage tabLabel='已完成'
+            <MyOrderStatePage tabLabel='挂起'
                               lockSlide = {this._lockSlide.bind(this)}
                               openSlide = {this._openSlide.bind(this)}
                               {...this.props}
             />
-            <MyOrderStatePage tabLabel='已取消'
+            <MyOrderStatePage tabLabel='已结束'
                               lockSlide = {this._lockSlide.bind(this)}
                               openSlide = {this._openSlide.bind(this)}
                               {...this.props}
