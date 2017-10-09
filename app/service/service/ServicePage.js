@@ -85,8 +85,8 @@ export default class ServicePage extends BComponent {
     }
     render(){
         return(
-            <View style={{flex:1,position:'relative'}}>
-                <ScrollView style={{flex:1,backgroundColor:'#FFFFFF'}}>
+            <View style={{flex:1,backgroundColor:'#ffffff'}}>
+                <ScrollView >
                     <HeaderView
                         hasTop={true}
                         topDes="本月利润"

@@ -123,7 +123,7 @@ export default class ChooseTimerModal extends Component {
                             </Picker>
                         </View>
                     </View>
-                    <View style={{width:DeviceInfo.width,height:50,justifyContent:'space-between',flexDirection:'row',padding:24}}>
+                    <View style={{width:DeviceInfo.width,height:50,justifyContent:'space-between',flexDirection:'row',alignItems:'center',paddingLeft:24,paddingRight:24}}>
                         <TouchableOpacity onPress={()=>(this._cancle())}><Text style={{fontSize:16,color:'#333333'}}>取消</Text></TouchableOpacity>
                         <TouchableOpacity onPress={()=>{this._ok()}}><Text style={{fontSize:16,color:'#E13238'}}>确定</Text></TouchableOpacity>
                     </View>
@@ -174,7 +174,7 @@ export default class ChooseTimerModal extends Component {
                 opacity: this.fadeAnim,
                 backgroundColor: 'rgba(0,0,0,0.3)',
                 position:'absolute',
-                top:100,
+                top:0,
                 bottom:0,
                 right:0,
                 left:0,
