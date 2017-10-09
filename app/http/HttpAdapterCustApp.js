@@ -7,9 +7,22 @@ import {HttpAdapter} from "react-native-http";
 
 export default class HttpAdapterCustApp extends HttpAdapter {
     // 自定义头信息
-    modifyHeaders (headers) : Object {
+    async modifyHeaders (headers) : Object {
         let finalHeaders = new Headers();
-        finalHeaders.append('userAgent', 'corpapp'); // TODO 登录时的头信息, userAgent
+        finalHeaders.append('userAgent', 'custapp'); // TODO 登录时的头信息, userAgent
+        finalHeaders.append('platform', 'app');
+        finalHeaders.append('client', 'ios'); //Platform.OS);
+        try {
+            let token = await UserInfoStore.getUserToken();
+            console.log('modifyParams token', token);
+            if (token !== null){
+                finalHeaders.append('access_token', token);
+            } else {
+                finalHeaders.append('access_token', '0');// 给一个空token
+            }
+        } catch (error) {
+        }
+
         if(headers) {
             // 获取 headers 内所有的 key
             let headersKeyArray = Object.keys(headers);
@@ -23,16 +36,16 @@ export default class HttpAdapterCustApp extends HttpAdapter {
     async modifyParams(params): Object {
         let paramsArray = {};
 
-        try {
-            let token = await UserInfoStore.getUserToken();
-            console.log('modifyParams token', token);
-            if (token !== null){
-                paramsArray.token = token;
-            } else {
-                paramsArray.token = '0';// 给一个空token
-            }
-        } catch (error) {
-        }
+        // try {
+        //     let token = await UserInfoStore.getUserToken();
+        //     console.log('modifyParams token', token);
+        //     if (token !== null){
+        //         paramsArray.token = token;
+        //     } else {
+        //         paramsArray.token = '0';// 给一个空token
+        //     }
+        // } catch (error) {
+        // }
 
         paramsArray.version = DeviceInfo.getVersion();
         paramsArray.deviceType = Platform.OS;
