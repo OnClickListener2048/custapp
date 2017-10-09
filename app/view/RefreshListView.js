@@ -31,6 +31,7 @@ type Props = {
     footerTextStyle?: any,
 
     listRef?: any,
+    isHeaderRefresh: Boolean
 }
 
 type State = {}
@@ -49,7 +50,6 @@ class RefreshListView extends PureComponent {
 
     onHeaderRefresh = () => {
         log('[RefreshListView]  onHeaderRefresh')
-
         if (this.shouldStartHeaderRefreshing()) {
             log('[RefreshListView]  onHeaderRefresh')
             this.props.onHeaderRefresh(RefreshState.HeaderRefreshing)
@@ -98,7 +98,7 @@ class RefreshListView extends PureComponent {
                 ref={this.props.listRef}
                 onEndReached={this.onEndReached}
                 ListHeaderComponent = {this.props.renderHeader}
-                onRefresh={this.onHeaderRefresh}
+                onRefresh={(this.props.isHeaderRefresh || this.props.isHeaderRefresh == undefined)?this.onHeaderRefresh:null}
                 refreshing={this.props.refreshState == RefreshState.HeaderRefreshing}
                 ListFooterComponent={this.renderFooter}
 
