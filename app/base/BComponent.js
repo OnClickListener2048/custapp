@@ -62,7 +62,7 @@ export default class BComponent extends Component {
     };
     // 子类请继承此方法, 不要忘了调用super.onNavigatorEvent(event);
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        console.log(event);
+        // console.log(event);
         if (event.type === 'NavBarButtonPress') {
             let { id } = event;
             console.log('id=', id);
