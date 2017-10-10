@@ -110,11 +110,15 @@ export default class LoginPage extends Component {
                 responseData => {
                     console.log('wechat token responseData', responseData);
                     Alert.alert(responseData);
-                    if(responseData.code === 0 && responseData.access_token !== undefined) {
-                        UserInfoStore.setUserToken(responseData.access_token).then(
+                    let result = JSON.parse(responseData);
+                    if(result.code === 0 && result.access_token !== undefined) {
+                        console.log('save access_token');
+
+                        UserInfoStore.setUserToken(result.access_token).then(
                             v => {
                                 // this.readUserInfo();// TODO 获取用户信息
-                                this.back();
+
+                                this.pop();
                             },
                             e => console.log(e.message)
                         );
