@@ -109,7 +109,7 @@ export default class HomePage extends BComponent {
                 isRefreshing:true
             })
         }
-        apis.loadHomeData().then(
+        apis.loadHomeData(type).then(
             (responseData) => {
 
                 if(responseData.code == 0){
@@ -343,7 +343,7 @@ export default class HomePage extends BComponent {
                     {
                         item.item.data.map((item, i) => {
                             return(
-                                <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
+                                <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
                                     <View style={{width:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'}}>
                                         <Image resizeMode="contain" style={{marginTop:10, width:25,height:25}} source={{uri:item.icon}}/>
                                         <Text style={{marginTop:15,marginBottom:10,fontSize:setSpText(14),color:'#666666'}}>{item.name}</Text>
@@ -360,7 +360,7 @@ export default class HomePage extends BComponent {
                     {
                         item.item.data.map((item, i) => {
                             return(
-                                <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
+                                <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
                                     <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,height:68,marginTop:10}} source={{uri:item.icon}}>
                                         <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>{item.name}</Text>
                                     </Image>
@@ -426,7 +426,7 @@ export default class HomePage extends BComponent {
                     {
                         headerData.map((item,i)=>{
                             return(
-                                <TouchableOpacity key={i} style={{flex:1}}>
+                                <TouchableOpacity key={i} style={{flex:1}} onPress={()=>this._goColumnDetail(i,item)}>
                                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                                         <Image style={{marginTop:20}} source={item.logo }/>
                                         <Text  style={{marginTop:10,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
@@ -450,31 +450,66 @@ export default class HomePage extends BComponent {
             title:'核名结果',
         });
     }
-    _goDetail(item){
+    _goProductDetail(item){
         this.props.navigator.push({
-            screen: 'HomeDetailPage',
-            title:item.subTitle,
+            screen: 'ProductDetailPage',
+            title:item.name,
             passProps:{
-                detailArr:[
-                    {
-                        title:'有限公司',
-                        url:'https://wx.pilipa.cn/register.html?title=1'
-                    },
-                    {
-                        title:'合伙人企业',
-                        url:'https://wx.pilipa.cn/register.html?title=2'
-                    },
-                    {
-                        title:'个人独资',
-                        url:'https://wx.pilipa.cn/register.html?title=3'
-                    },
-                    {
-                        title:'企业分公司注册',
-                        url:'https://wx.pilipa.cn/register.html?title=4'
-                    }
-                ]
+                item
             }
         });
+    }
+    _goColumnDetail(index,item){
+        switch (index){
+            case 0:
+            {
+                this.props.navigator.push({
+                    screen: 'ColumnDetailPage',
+                    title:item.title,
+                    passProps:{
+                        type:1
+                    }
+                });
+            }
+                break
+            case 1:
+            {
+                this.props.navigator.push({
+                    screen: 'ColumnDetailPage',
+                    title:item.title,
+                    passProps:{
+                        type:2
+                    }
+                });
+            }
+                break
+            case 2:
+            {
+                this.props.navigator.switchToTab({
+                    tabIndex: 2
+                });
+            }
+                break
+            case 3:
+            {
+                this.props.navigator.push({
+                    screen: 'ColumnDetailPage',
+                    title:item.title,
+                    passProps:{
+                        type:3
+                    }
+                });
+            }
+                break
+            case 4:
+            {
+
+            }
+                break
+            default:
+                break
+        }
+        
     }
     _goVerifyName(){
         this.props.navigator.push({
