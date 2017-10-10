@@ -59,7 +59,8 @@ export default class FeedbackPage extends BComponent {
                             fontSize: 14,
                             padding: 5,
                             borderColor: '#999999',
-                            borderWidth: 0.5,
+                            borderWidth: 1,
+                            // borderWidth 为0.5时会出现边框很粗的bug
                             textAlignVertical: 'top'
                         }} underlineColorAndroid='transparent' multiline={true} placeholder="请输入反馈内容促进我们为您更好的服务"/>
                     </View>

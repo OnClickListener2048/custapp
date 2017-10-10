@@ -28,12 +28,27 @@ export default class MessagePage extends BComponent {
         this.state = {
             dataList: [],
             refreshState: RefreshState.Idle,
+            initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
         }
         this.page =1
+
+
+
     }
 
     componentDidMount() {
-        this.onHeaderRefresh()
+        if(!NetInfoSingleton.isConnected) {
+            this.setState({
+                initStatus:'no-net'
+            })
+        }else{
+            this.setState({
+                initStatus:'loading'
+            })
+            this.onHeaderRefresh()
+
+        }
+
     }
 
     onHeaderRefresh = () => {
@@ -48,7 +63,11 @@ export default class MessagePage extends BComponent {
 
     loadData(page=1,pageSize=15){
 
-        if(page==1){
+        if(!NetInfoSingleton.isConnected) {
+           return;
+        }
+
+        if(page===1){
             this.setState({refreshState: RefreshState.HeaderRefreshing})
 
         }else{
@@ -60,6 +79,7 @@ export default class MessagePage extends BComponent {
 
                 if(responseData.code == 0){
 
+
                     let newList = responseData.list
 
                     let dataList = page == 1 ? newList : [...this.state.dataList, ...newList]
@@ -68,11 +88,35 @@ export default class MessagePage extends BComponent {
                         refreshState:dataList.length > 50 ? RefreshState.NoMoreData : RefreshState.Idle,
                     })
 
+                    if (page === 1 && this.state.dataList.length === 0){
+
+                        this.setState({
+                            initStatus:'no-data'
+                        })
+
+                    }else if (this.state.initStatus !== 'initSucess'){
+                        this.setState({
+                            initStatus:'initSucess'
+                        })
+                    }
+
                 }else{
+
+                    if (this.state.dataList.length === 0){
+                        this.setState({
+                            initStatus:'error'
+                        })
+                    }
                     this.setState({refreshState: RefreshState.Failure})
                 }
             },
             (e) => {
+                if (this.state.dataList.length === 0){
+                    this.setState({
+                        initStatus:'error'
+                    })
+                }
+
                 this.setState({refreshState: RefreshState.Failure})
             },
         );
@@ -84,7 +128,7 @@ export default class MessagePage extends BComponent {
                 {
                     text: '删除',
                     backgroundColor:'red',
-                    onPress:this._delete.bind(this,info.index,info)
+                    onPress:this._delete.bind(this,info.index,info.item)
                 }
             ]}
                       autoClose={true}
@@ -102,11 +146,37 @@ export default class MessagePage extends BComponent {
         )
     }
     _delete(index,item){
-        let arr = JSON.parse(JSON.stringify(this.state.dataList))
-        arr.splice(index,1)
-        this.setState({
-            dataList:arr
-        })
+
+        console.log(item + "rrrr" +item._id)
+
+        apis.deleteMessageItem(item._id).then(
+            (responseData) => {
+
+                if(responseData.code == 0){
+
+                    let arr = JSON.parse(JSON.stringify(this.state.dataList))
+                    arr.splice(index,1)
+                    this.setState({
+                        dataList:arr
+                    })
+
+                    if (this.state.dataList.length === 0){
+                        this.setState({
+                            initStatus:'no-data'
+                        })
+                    }
+
+                }else{
+                }
+            },
+            (e) => {
+
+            },
+        );
+
+
+
+
     }
     _goto(){
 
@@ -117,22 +187,29 @@ export default class MessagePage extends BComponent {
 
     }
 
+
+
     render() {
-        return (
-            <View style={styles.container}>
-                <RefreshListView
-                    data={this.state.dataList}
-                    keyExtractor = {(item, index) => index}
-                    renderItem={this.renderCell.bind(this)}
-                    refreshState={this.state.refreshState}
-                    onHeaderRefresh={this.onHeaderRefresh}
-                    onFooterRefresh={this.onFooterRefresh}
-                />
-            </View>
-        )
+        if(this.state.initStatus === 'initSucess') {
+            return (
+                <View style={styles.container}>
+                    <RefreshListView
+                        data={this.state.dataList}
+                        keyExtractor = {(item, index) => index}
+                        renderItem={this.renderCell.bind(this)}
+                        refreshState={this.state.refreshState}
+                        onHeaderRefresh={this.onHeaderRefresh}
+                        onFooterRefresh={this.onFooterRefresh}
+                    />
+                </View>
+            )
+        }else {
+            return(
+                <DefaultView onPress={()=>this.onHeaderRefresh()} type ={this.state.initStatus}/>
+            )
+        }
+
     }
-
-
 
 }
 
