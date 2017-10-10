@@ -3,7 +3,6 @@
  */
 import React, {Component} from 'react';
 import BComponent from '../../base/BComponent'
-import styles from './css/OrderStateCellStyle'
 import {
     View,
     StyleSheet,
@@ -11,130 +10,118 @@ import {
     Text,
     Platform,
     TouchableOpacity,
+    FlatList,
     ScrollView
 } from 'react-native';
-import CommenCell from '../../view/CommenCell'
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
-import UltimateListView from "react-native-ultimate-listview";
 import * as apis from '../../apis';
-import OrderStateCell from "./view/OrderStateCell";
 import ProgressDetailCell from "./view/ProgressDetailCell";
 
 export default class ProgressDetailPage extends BComponent {
 
     constructor(props){
         super(props)
+        this.state={
+            sourceData:[],//进度列表数据源
+            statusW:0,//最外层状态
+            status_desc:'',//状态描述
+            amount:'',//金额
+        }
+        this.childState='';//判断显示样式 6显示红色 已完成
+        this.status='';//子任务状态，1执行中，2已结束
+
     }
 
 
-// 载入初始化数据
-    onFetch = (page = 1, startFetch, abortFetch) => {
-        let mesId = ''
-
-        if (page >1){
-            let arr = this.listView.getRows()
-            let obj = arr[arr.length-1]
-            mesId = obj.msgId
-        }
-        let pageSize = 10
-        apis.loadMessageData(pageSize,mesId).then(
+    componentDidMount() {
+        apis.loadOrderDetailData(this.props.orderId).then(
             (responseData) => {
-
-                if(responseData !== null && responseData.data !== null){
-
-                    startFetch(responseData.data,page * pageSize)
-                }else{
-
-                    abortFetch()
+                if(responseData.code==0 && responseData.data!==null){
+                    console.log('走了吗吗吗',responseData.data)
+                    var sourceData=responseData.data.schedule;
+                    var statusW=responseData.data.status;
+                    var status_desc=responseData.data.status_desc;
+                    var amount=responseData.data.amount;
+                    this.setState({
+                        sourceData:sourceData,
+                        statusW:statusW,
+                        status_desc:status_desc,
+                        amount:amount
+                    })
                 }
             },
             (e) => {
-
-                abortFetch()
-
+                console.log('error555555',e)
             },
         );
-    };
+    }
+
 
     renderItem = (item, index, separator) => {
-        var state;
-        if(index==0){
-            state='done'
-        }else {
-            var intt= parseInt(item.msgId);
-            if(intt>400){
-               state='green'
-            }else{
-                state='gray'
-            }
+
+        if(index==0&&this.state.statusW==6){
+            this.childState='done'
+        }else if(item.item.status==1){
+            this.childState='green'
+
+        }else if(item.item.status==2){
+            this.childState='gray'
+        }
+        if(item.item.status==1){
+            this.status='执行中'
+        }else if(item.item.status==2){
+            this.status='已结束'
         }
 
         return(
-            <ProgressDetailCell
-                state={state}
-            />
-
-
-        )
-    };
-
-    renderPaginationFetchingView = () => {
-        return (
-            <View></View>
+        <ProgressDetailCell
+            state={this.childState}
+            name={item.item.name}
+            start={item.item.start}
+            end={item.item.end}
+            operator={item.item.operator}
+            status={this.status}
+        />
         );
     };
-
 
 
     render(){
         return(
 
         <View style={styles.container} >
-            <CommenCell
-                style={{marginTop:10}}
-                isClick={false}
-                leftText={"订单号："+this.props.orderId}
-                rightText={this.props.orderState}
-                rightTextStyle={{color:'#e13238',fontSize:16}}
-            />
+            <View style={styles.wrapper3}>
             <View style={styles.wrapper1}>
-                <Image style={styles.head_img} source={this.props.headImg}/>
-                <View style={styles.wrapper2}>
-                    <Text style={styles.company_title}>
-                        {this.props.name}
-                    </Text>
-                    <View style={styles.wrapper3}>
-                        <Text style={styles.money_te}>
-                            金额：
-                        </Text>
-                        <Text style={styles.money_symbol}>
-                            ¥
-                        </Text>
-                        <Text style={styles.money}>
-                            {this.props.money}
-                        </Text>
-                    </View>
-                </View>
-
+                <Text style={styles.orderstateTe}>
+                    订单状态
+                </Text>
+                <Text style={styles.orderstate}>
+                    {this.state.status_desc}
+                </Text>
             </View>
-            <View style={styles.wrapper4} >
+            <View style={[styles.wrapper1,{marginTop:15}]}>
+                <Text style={styles.orderstateTe}>
+                    订单号:{this.props.orderId}
+                </Text>
+                <Text style={styles.money}>
+                    {this.state.amount}
+                </Text>
+            </View>
+            </View>
+
+            <View style={styles.wrapper2} >
                 <Text style={{color:'#333333',fontSize:16}}>
                     进度详情
                 </Text>
-                <Image style={[styles.right_img,{marginRight:10}]}
-                       source={require('../../img/detailp.png')}/>
             </View>
-            <View style={progressStyles.line}/>
-            <UltimateListView
-                contentContainerStyle={{paddingTop:20}}
+            <View style={styles.line}/>
+            <View style={{height:30,backgroundColor:'#FFFFFF'}}/>
+            <FlatList
+                style={styles.list}
                 ref={(ref) => this.listView = ref}
-                onFetch={this.onFetch}
-                keyExtractor={(item, index) => `${index} - ${item}`}  //this is required when you are using FlatList
-                refreshableMode={DeviceInfo.OS==='ios'?'advanced':'basic'} //basic or advanced
-                item={this.renderItem}  //this takes three params (item, index, separator)
-                paginationFetchingView={this.renderPaginationFetchingView}
+                data={this.state.sourceData}
+                renderItem={this.renderItem}  //this takes three params (item, index, separator)
             />
-
         </View>
 
 
@@ -142,13 +129,50 @@ export default class ProgressDetailPage extends BComponent {
     }
 }
 
-const progressStyles = StyleSheet.create({
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        backgroundColor:'#F9F9F9',
+    },
     line:{
-        height:1,
+        height:0.25,
         width:SCREEN_WIDTH,
         borderBottomColor:'#ececec',
         borderBottomWidth:1 ,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
     },
+    wrapper1:{
+        paddingLeft:15,
+        paddingRight:15,
+        alignItems:'center',
+        backgroundColor:'#FFFFFF',
+        flexDirection:'row',
+        justifyContent:'space-between'
+    },
+    orderstateTe:{
+        fontSize:16,
+        color:'#333333'
+    },
+    money:{
+        fontSize:14,
+        color:'#E13238'
+    },
+    wrapper2:{
+        paddingLeft:15,
+        marginTop:10,
+        backgroundColor:'#FFFFFF',
+        paddingBottom:20,
+        paddingTop:20
+    },
+    wrapper3:{
+        backgroundColor:'#FFFFFF',
+        marginTop:10,
+        paddingTop:20,
+        paddingBottom:20
+    },
+    list:{
+        backgroundColor:'#ffffff',
+
+    }
 
 });
