@@ -28,3 +28,15 @@ it('get test', async () => {
     );
 });
 
+it('wechatToken test', async () => {
+    apis.wechatToken('0').then(
+        responseData => {
+            console.log('UAA responseData', responseData);
+            // Toast.show(responseData);
+        },
+        e => {
+            console.log('出错了', e);
+        }
+    );
+});
+

@@ -10,7 +10,7 @@ import {
     Text
 } from 'react-native';
 import CommonCell from '../../view/CommenCell'
-import UltimateListView from "react-native-ultimate-listview";
+import RefreshListView, {RefreshState} from '../../view/RefreshListView'
 import * as apis from '../../apis';
 import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
@@ -21,12 +21,19 @@ export default class VerifyResultPage extends BComponent {
     constructor(props) {
         super(props);
         this.state={
-            fetchState:'no-data', //'checkRisk' ; 'checkSuccess'
+            fetchState:'', //'checkRisk' ; 'checkSuccess' ;
+            dataStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
+
             keyword: this.props.keyword,  //注册公司名称
             mobile: this.props.mobile,   //手机号
             vcode: this.props.vcode,    //验证码
+            refreshState: RefreshState.Idle,
+            dataList: [],
 
         }
+
+        this.page =1
+
     }
 
 
@@ -36,7 +43,20 @@ export default class VerifyResultPage extends BComponent {
     };
 
     componentDidMount(){
+        this.setState({
+            dataStatus:'loading'
+        })
+        this.loadResultData()
 
+    }
+
+    loadResultData(){
+        if(!NetInfoSingleton.isConnected) {
+            this.setState({
+                dataStatus:'no-net'
+            })
+            return;
+        }
         apis.loadVerifyResultData(this.state.keyword,this.state.mobile,this.state.vcode).then(
             (responseData) => {
 
@@ -44,13 +64,16 @@ export default class VerifyResultPage extends BComponent {
 
                 if (responseData.isvalid === '1'){
                     this.setState({
-                        fetchState:'checkSuccess'
+                        fetchState:'checkSuccess',
+                        dataStatus:'initSucess'
+
                     })
                 }else {
 
                     this.setState({
                         fetchState:'checkRisk'
                     })
+                    this.loadData(this.page)
                 }
 
             },
@@ -59,48 +82,75 @@ export default class VerifyResultPage extends BComponent {
                 console.log('VerifyNewerror1111',e)
 
                 this.setState({
-                    fetchState:'error'
+                    dataStatus:'error'
                 })
 
             },
         );
-
     }
 
+    loadData(page=1){
 
-    // 载入初始化数据
-    onFetch = (page = 1, startFetch, abortFetch) => {
+        if(page>1){
+            this.setState({refreshState: RefreshState.FooterRefreshing})
+        }
 
-
-        let pageSize = 10
-        apis.loadVerifyCompaniesList(this.state.keyword,page,pageSize).then(
+        apis.loadVerifyCompaniesList(this.state.keyword,page,'10').then(
             (responseData) => {
-                if((responseData !== null && responseData.data !== null)){
-                    startFetch(responseData.list,page * pageSize)
 
-                }else{
-                    abortFetch()
+
+                if((responseData !== null && responseData.list !== null)){
+
+
+
+                    let newList = responseData.list
+
+                    let dataList = page == 1 ? newList : [...this.state.dataList, ...newList]
                     this.setState({
-                        fetchState:'error'
+                        dataList: dataList,
+                        refreshState:newList.length < 10 ? RefreshState.NoMoreData : RefreshState.Idle,
+                    })
+                    if (this.state.dataStatus !== 'initSucess' && page === 1){
+                        this.setState({
+                            dataStatus:'initSucess'
+                        })
+                    }
+                }else{
+                    this.setState({refreshState: RefreshState.Failure})
+                    if (this.state.dataList.length === 0){
+                        this.setState({
+                            dataStatus:'error'
+                        })
+                    }
+                }
+
+            },
+            (e) => {
+                this.setState({refreshState: RefreshState.Failure})
+                if (this.state.dataList.length === 0){
+                    this.setState({
+                        dataStatus:'error'
                     })
                 }
             },
-            (e) => {
-                abortFetch()
-                this.setState({
-                    fetchState:'error'
-                })
-            },
         );
-    };
+    }
 
-    renderItem = (item, index, separator) => {
+    onFooterRefresh = () => {
+        this.page++
+        this.loadData(this.page)
+    }
+
+
+
+
+    renderItem = (info) => {
         // alert(JSON.stringify(item))
         return(
 
                 <TouchableOpacity onPress={this._goto.bind(this)}>
                     <CommonCell
-                        leftText={item }
+                        centerText={info.item }
                         isClick={false}
                     />
                 </TouchableOpacity>
@@ -108,8 +158,11 @@ export default class VerifyResultPage extends BComponent {
         )
     };
 
+
+
+
+
     renderHeader = () => {
-        // alert(JSON.stringify(item))
         return(
 
             <View style={{height: 56, width:deviceWidth,backgroundColor:'#f9f9f9',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
@@ -127,11 +180,6 @@ export default class VerifyResultPage extends BComponent {
     };
 
 
-    _delete(index){
-        let arr = JSON.parse(JSON.stringify(this.listView.getRows()))
-        arr.splice(index,1)
-        this.listView.updateDataSource(arr);
-    }
     _goto(){
 
         this.props.navigator.push({
@@ -140,20 +188,7 @@ export default class VerifyResultPage extends BComponent {
         });
 
     }
-    renderPaginationFetchingView = () => {
 
-        if(!NetInfoSingleton.isConnected){
-            return (
-                <DefaultView type='no-net' onPress={this.refresh.bind(this)}/>
-            );
-        }else{
-            return (
-                <DefaultView type={this.state.fetchState} onPress={this.refresh.bind(this)}/>
-            );
-        }
-        //第一次请求是占位图
-
-    };
     emptyView = () =>{
         //第一次请求没数据的空页面
         return(
@@ -176,7 +211,7 @@ export default class VerifyResultPage extends BComponent {
                 <Text
                     textAlign='left'
                     numberOfLines={1}
-                    style={[{fontSize: 16, marginLeft :2 , color : '#999999'}] }>爱康鼎</Text>
+                    style={[{fontSize: 16, marginLeft :2 , color : '#999999'}] }>{this.state.keyword}</Text>
             </View>
 
 
@@ -191,24 +226,22 @@ export default class VerifyResultPage extends BComponent {
             </View>
 
 
-            <UltimateListView style={{flex:1,backgroundColor:'#f9f9f9'}}
-                contentContainerStyle={{marginTop:0}}
-                ref={(ref) => this.listView = ref}
-                              header={this.renderHeader}
-                onFetch={this.onFetch}
-                keyExtractor={(item, index) => `${index} - ${item}`}  //this is required when you are using FlatList
-                refreshable={false}
-                //refreshableMode={DeviceInfo.OS==='ios'?'advanced':'basic'} //basic or advanced
-                item={this.renderItem}  //this takes three params (item, index, separator)
-                paginationFetchingView={this.renderPaginationFetchingView}
-                emptyView={this.emptyView}
+            <RefreshListView
+                data={this.state.dataList}
+                keyExtractor = {(item, index) => index}
+                renderItem={this.renderItem.bind(this)}
+                refreshState={this.state.refreshState}
+                onFooterRefresh={this.onFooterRefresh}
+                isHeaderRefresh={false}
+                renderHeader={this.renderHeader}
             />
+
         </View>
 
 
         )
     }
-//f9f9f9
+
     renderSuccess(){
         return(
 
@@ -221,7 +254,7 @@ export default class VerifyResultPage extends BComponent {
                     <Text
                         textAlign='left'
                         numberOfLines={1}
-                        style={[{fontSize: 16, marginLeft :2 , color : '#999999'}] }>爱康鼎</Text>
+                        style={[{fontSize: 16, marginLeft :2 , color : '#999999'}] }>{this.state.keyword}</Text>
                 </View>
 
 
@@ -243,14 +276,21 @@ export default class VerifyResultPage extends BComponent {
     }
 
     render() {
-        return (
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                {this.state.fetchState === 'checkRisk' && this.renderRisk()}
-                {this.state.fetchState === 'checkSuccess' && this.renderSuccess()}
+
+        if(this.state.dataStatus === 'initSucess') {
+            return (
+                <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                    {this.state.fetchState === 'checkRisk' && this.renderRisk()}
+                    {this.state.fetchState === 'checkSuccess' && this.renderSuccess()}
+                </View>
+            );
+        }else {
+            return(
+                <DefaultView onPress={()=>this.loadResultData()} type ={this.state.dataStatus}/>
+            )
+        }
 
 
-            </View>
-        );
     }
 
 

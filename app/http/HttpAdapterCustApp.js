@@ -7,9 +7,20 @@ import {HttpAdapter} from "react-native-http";
 
 export default class HttpAdapterCustApp extends HttpAdapter {
     // 自定义头信息
-    modifyHeaders (headers) : Object {
+    async modifyHeaders (headers) : Object {
         let finalHeaders = new Headers();
-        finalHeaders.append('userAgent', 'corpapp'); // TODO 登录时的头信息, userAgent
+        finalHeaders.append('userAgent', 'custapp'); // TODO 登录时的头信息, userAgent
+        finalHeaders.append('platform', 'app');
+        finalHeaders.append('client', 'ios'); //Platform.OS);
+        try {
+            let token = await UserInfoStore.getUserToken();
+            console.log('modifyParams token', token);
+            if (token !== null){
+                finalHeaders.append('access_token', token);
+            }
+        } catch (error) {
+        }
+
         if(headers) {
             // 获取 headers 内所有的 key
             let headersKeyArray = Object.keys(headers);
@@ -23,20 +34,20 @@ export default class HttpAdapterCustApp extends HttpAdapter {
     async modifyParams(params): Object {
         let paramsArray = {};
 
-        try {
-            let token = await UserInfoStore.getUserToken();
-            console.log('modifyParams token', token);
-            if (token !== null){
-                paramsArray.token = token;
-            } else {
-                paramsArray.token = '0';// 给一个空token
-            }
-        } catch (error) {
-        }
+        // try {
+        //     let token = await UserInfoStore.getUserToken();
+        //     console.log('modifyParams token', token);
+        //     if (token !== null){
+        //         paramsArray.token = token;
+        //     } else {
+        //         paramsArray.token = '0';// 给一个空token
+        //     }
+        // } catch (error) {
+        // }
 
         paramsArray.version = DeviceInfo.getVersion();
-        paramsArray.deviceType = Platform.OS;
-        paramsArray.deviceId = DeviceInfo.getUniqueID();
+        // paramsArray.deviceType = Platform.OS;
+        // paramsArray.deviceId = DeviceInfo.getUniqueID();
         // 获取 params 内所有的 key
         let paramsKeyArray = Object.keys(params);
         // 通过 forEach 方法拿到数组中每个元素,将元素与参数的值进行拼接处理,并且放入 paramsArray 中

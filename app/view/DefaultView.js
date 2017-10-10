@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#f9f9f9',
         justifyContent:'center',
         alignItems:'center',
+        flex:1
 
     },
     text: {

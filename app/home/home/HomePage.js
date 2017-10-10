@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 import * as apis from '../../apis';
+import Toast from 'react-native-root-toast'
 
 import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
@@ -74,7 +75,7 @@ const footData = [
 ]
 import Picker from 'react-native-picker';
 import area from '../../../picker_demo/area.json';
-
+import DefaultView from '../../view/DefaultView'
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -83,7 +84,10 @@ export default class HomePage extends BComponent {
             dataSource:[],
             fadeAnim: new Animated.Value(0),
             maskTouchDisabled : true,
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            loadState:'loading',
+            isRefreshing:false,
+            isFirstRefresh:true
         };
     }
     static navigatorStyle = {
@@ -94,13 +98,22 @@ export default class HomePage extends BComponent {
         this.loadData()
     }
     loadData(type = '0'){
+        let loading
+        if(this.state.isFirstRefresh){
+            //第一次加载显示菊花loading
+            loading = SActivityIndicator.show(true, "加载中...");
 
-        let loading = SActivityIndicator.show(true, "加载中...");
-        apis.loadHomeData().then(
+        }else{
+            //显示下拉loading
+            this.setState({
+                isRefreshing:true
+            })
+        }
+        apis.loadHomeData(type).then(
             (responseData) => {
-                SActivityIndicator.hide(loading);
 
                 if(responseData.code == 0){
+                    //成功后处理数据
                     let dataSource = [];
                     for (let i = 0; i<responseData.list.length;i++){
                         let section = {};
@@ -111,15 +124,73 @@ export default class HomePage extends BComponent {
                         }
                         dataSource[i] = section
                     }
-                    this.setState({
-                        dataSource:dataSource
-                    })
+                    //修改状态亲爱
+                    if(this.state.isFirstRefresh){
+                        //第一次加载
+                        SActivityIndicator.hide(loading);
+                        if(responseData.list.length == 0){
+                            //没数据
+                            this.setState({
+                                loadState:'no-data',
+                            })
+                        }else{
+                            //成功
+                            this.setState({
+                                dataSource:dataSource,
+                                loadState:'success',
+                                isFirstRefresh:false
+                            })
+                        }
+                    }else{
+                        //不是第一次加载
+                        if(responseData.list.length == 0){
+                            //没数据
+                            this.setState({
+                                isRefreshing:false
+                            })
+                        }else{
+                            //成功
+                            this.setState({
+                                dataSource:dataSource,
+                                isRefreshing:false
+                            })
+                        }
+                    }
+
+                }else{
+                    //加载失败
+                    if(this.state.isFirstRefresh){
+                        //第一次加载
+                        SActivityIndicator.hide(loading);
+                        this.setState({
+                            loadState:'error',
+                        })
+                    }else{
+                        //不是第一次加载
+                        this.setState({
+                            isRefreshing:false
+                        })
+                    }
+                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
+
                 }
             },
             (e) => {
-                SActivityIndicator.hide(loading);
-                console.log('error',e)
+                Toast.show('加载失败！');
 
+                //加载失败
+                if(this.state.isFirstRefresh){
+                    //第一次加载
+                    SActivityIndicator.hide(loading);
+                    this.setState({
+                        loadState:NetInfoSingleton.isConnected?'error':'no-net',
+                    })
+                }else{
+                    //不是第一次加载
+                    this.setState({
+                        isRefreshing:false
+                    })
+                }
             },
         );
     }
@@ -234,21 +305,35 @@ export default class HomePage extends BComponent {
     }
     render(){
 
-        return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                <SectionList
-                    renderItem={this._renderItem.bind(this)}
-                    renderSectionHeader={this._renderSectionHeader.bind(this)}
-                    sections={this.state.dataSource}
-                    stickySectionHeadersEnabled={false}
-                    ListHeaderComponent={this._listHeaderComponent.bind(this)}
-                    ListFooterComponent={this._listFooterComponent.bind(this)}
-                >
-                </SectionList>
-                {Platform.OS==='ios'?this._maskView():null}
-            </View>
+        if(this.state.loadState == 'success'){
 
-        )
+            return(
+                <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                    <SectionList
+                        renderItem={this._renderItem.bind(this)}
+                        renderSectionHeader={this._renderSectionHeader.bind(this)}
+                        sections={this.state.dataSource}
+                        stickySectionHeadersEnabled={false}
+                        ListHeaderComponent={this._listHeaderComponent.bind(this)}
+                        ListFooterComponent={this._listFooterComponent.bind(this)}
+                        onRefresh={this._onRefresh.bind(this)}
+                        refreshing={this.state.isRefreshing}
+                    >
+                    </SectionList>
+                    {Platform.OS==='ios'?this._maskView():null}
+                </View>
+
+            )
+
+        }else {
+            return(
+                <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
+            )
+        }
+
+    }
+    _onRefresh(){
+        this.loadData()
     }
     _renderItem (item) {
 
@@ -258,7 +343,7 @@ export default class HomePage extends BComponent {
                     {
                         item.item.data.map((item, i) => {
                             return(
-                                <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
+                                <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
                                     <View style={{width:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'}}>
                                         <Image resizeMode="contain" style={{marginTop:10, width:25,height:25}} source={{uri:item.icon}}/>
                                         <Text style={{marginTop:15,marginBottom:10,fontSize:setSpText(14),color:'#666666'}}>{item.name}</Text>
@@ -275,7 +360,7 @@ export default class HomePage extends BComponent {
                     {
                         item.item.data.map((item, i) => {
                             return(
-                                <TouchableOpacity key={i} onPress={this._goDetail.bind(this,item)}>
+                                <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
                                     <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,height:68,marginTop:10}} source={{uri:item.icon}}>
                                         <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>{item.name}</Text>
                                     </Image>
@@ -341,7 +426,7 @@ export default class HomePage extends BComponent {
                     {
                         headerData.map((item,i)=>{
                             return(
-                                <TouchableOpacity key={i} style={{flex:1}}>
+                                <TouchableOpacity key={i} style={{flex:1}} onPress={()=>this._goColumnDetail(i,item)}>
                                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                                         <Image style={{marginTop:20}} source={item.logo }/>
                                         <Text  style={{marginTop:10,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
@@ -365,31 +450,66 @@ export default class HomePage extends BComponent {
             title:'核名结果',
         });
     }
-    _goDetail(item){
+    _goProductDetail(item){
         this.props.navigator.push({
-            screen: 'HomeDetailPage',
-            title:item.subTitle,
+            screen: 'ProductDetailPage',
+            title:item.name,
             passProps:{
-                detailArr:[
-                    {
-                        title:'有限公司',
-                        url:'https://wx.pilipa.cn/register.html?title=1'
-                    },
-                    {
-                        title:'合伙人企业',
-                        url:'https://wx.pilipa.cn/register.html?title=2'
-                    },
-                    {
-                        title:'个人独资',
-                        url:'https://wx.pilipa.cn/register.html?title=3'
-                    },
-                    {
-                        title:'企业分公司注册',
-                        url:'https://wx.pilipa.cn/register.html?title=4'
-                    }
-                ]
+                item
             }
         });
+    }
+    _goColumnDetail(index,item){
+        switch (index){
+            case 0:
+            {
+                this.props.navigator.push({
+                    screen: 'ColumnDetailPage',
+                    title:item.title,
+                    passProps:{
+                        type:1
+                    }
+                });
+            }
+                break
+            case 1:
+            {
+                this.props.navigator.push({
+                    screen: 'ColumnDetailPage',
+                    title:item.title,
+                    passProps:{
+                        type:2
+                    }
+                });
+            }
+                break
+            case 2:
+            {
+                this.props.navigator.switchToTab({
+                    tabIndex: 2
+                });
+            }
+                break
+            case 3:
+            {
+                this.props.navigator.push({
+                    screen: 'ColumnDetailPage',
+                    title:item.title,
+                    passProps:{
+                        type:3
+                    }
+                });
+            }
+                break
+            case 4:
+            {
+
+            }
+                break
+            default:
+                break
+        }
+        
     }
     _goVerifyName(){
         this.props.navigator.push({

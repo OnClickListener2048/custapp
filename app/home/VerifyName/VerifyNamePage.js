@@ -74,8 +74,6 @@ export default class HomePage extends BComponent {
                     // Toast.show('测试环境短信验证码 ' + responseData.msg,
                     //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
                 }, (e) => {
-                    console.log("短信验证码获取失败" + JSON.stringify(e));
-                    let msg = e.msg;
                     Alert.alert('短信验证码获取失败' );
                 }
             );

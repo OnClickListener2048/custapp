@@ -7,7 +7,8 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    Animated
+    Animated,
+    InteractionManager
 } from 'react-native';
 import ExpanableList from '../../view/ExpanableList'
 import BComponent from '../../base';
@@ -16,6 +17,7 @@ import ServiceCell from './view/ServiceCell'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import HeaderView from '../view/HeaderView'
 import * as apis from '../../apis';
+import Toast from 'react-native-root-toast'
 
 export default class CashFlowPage extends BComponent {
 
@@ -26,15 +28,27 @@ export default class CashFlowPage extends BComponent {
             balance:'- -',
             balance_start:'- -',
             balance_end:'- -',
-            dataSource:[]
+            dataSource:[],
+            isRefreshing:false,
+            year:props.year,
+            month:props.month
         };
     }
 
     componentDidMount() {
-        this.loadData('1',this.props.year+'-'+this.props.month)
+        InteractionManager.runAfterInteractions(() => {
+            this.loadData('1',this.state.year+'-'+this.state.month)
+        });
     }
-    loadData(companyid = '1',date=''){
-        let loading = SActivityIndicator.show(true, "加载中...");
+    loadData(companyid = '1',date='',isPull=false){
+        let loading
+        if(isPull){
+            this.setState({
+                isRefreshing:true
+            })
+        }else{
+            loading = SActivityIndicator.show(true, "加载中...");
+        }
 
         apis.loadCashFlow(companyid,date).then(
             (responseData) => {
@@ -47,18 +61,27 @@ export default class CashFlowPage extends BComponent {
                         balance_start:responseData.balance_start,
                         balance_end:responseData.balance_end,
                         dataSource:responseData.list,
+                        isRefreshing:false
                     })
+                }else{
+                    this.setState({
+                        isRefreshing:false
+                    })
+                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
             (e) => {
                 SActivityIndicator.hide(loading);
-
-                console.log('error',e)
+                this.setState({
+                    isRefreshing:false
+                })
+                Toast.show('加载失败！')
             },
         );
     }
-
-
+    _onRefresh(){
+        this.loadData('1',this.state.year+'-'+this.state.month,true)
+    }
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
@@ -94,7 +117,6 @@ export default class CashFlowPage extends BComponent {
     render() {
         return (
             <View style={{backgroundColor:'#f9f9f9',flex:1}}>
-
                 <ExpanableList
                     ListHeaderComponent = {this._listHeaderComponent.bind(this)}
                     dataSource={this.state.dataSource}
@@ -104,7 +126,8 @@ export default class CashFlowPage extends BComponent {
                     renderSectionHeaderX={this._renderSection.bind(this)}
                     openOptions={this.state.openOptions}
                     headerClickCallBack={(index)=>this._headerClickCallBack(index)}
-
+                    onRefresh={this._onRefresh.bind(this)}
+                    refreshing={this.state.isRefreshing}
                 />
                 <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
@@ -112,8 +135,15 @@ export default class CashFlowPage extends BComponent {
         );
     }
     _callback(year,month){
-        this.loadData('1',year+'-'+month)
-        this.props.callback && this.props.callback(year,month,true)
+        InteractionManager.runAfterInteractions(() => {
+            this.loadData('1',year+'-'+month)
+            this.props.callback && this.props.callback(year,month,true)
+            this.setState({
+                year,
+                month
+            })
+        });
+
     }
     _headerClickCallBack(index){
         let openOptions =this.state.openOptions

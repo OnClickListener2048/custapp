@@ -6,12 +6,11 @@ import {
     View,
     Text,
     StyleSheet,
-    Image,
-    TouchableWithoutFeedback,
     ScrollView,
-    ImageBackground
-
+    RefreshControl,
+    InteractionManager
 } from 'react-native';
+import Toast from 'react-native-root-toast'
 
 import {
     Header,
@@ -26,7 +25,6 @@ import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import HeaderView from '../view/HeaderView'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
-
 export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
@@ -38,7 +36,8 @@ export default class ServicePage extends BComponent {
             expenditure:'- -',//本月支出
             is_demo:'- -',//是否演示数据,
             year:today.getFullYear().toString(),
-            month:(today.getMonth() + 1).toString()
+            month:(today.getMonth() + 1).toString(),
+            isRefreshing:false
 
         };
         this.isDemo=false;//是否是显示数据
@@ -59,11 +58,16 @@ export default class ServicePage extends BComponent {
     componentDidMount() {
 
         this.loadData('1',this.state.year+'-'+this.state.month)
-
     }
-    loadData(companyid = '1',date=''){
-        let loading = SActivityIndicator.show(true, "加载中...");
-
+    loadData(companyid = '1',date='',isPull=false){
+        let loading
+        if(isPull){
+            this.setState({
+                isRefreshing:true
+            })
+        }else{
+            loading = SActivityIndicator.show(true, "加载中...");
+        }
         apis.loadServiceData(companyid,date).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
@@ -74,19 +78,39 @@ export default class ServicePage extends BComponent {
                         profit:responseData.profit,
                         income:responseData.income,
                         expenditure:responseData.expenditure,
+                        isRefreshing:false
                     })
+                }else{
+                    this.setState({
+                        isRefreshing:false
+                    })
+                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
             (e) => {
                 SActivityIndicator.hide(loading);
-                console.log('error',e)
+                this.setState({
+                    isRefreshing:false
+                })
+                Toast.show('加载失败！')
             },
         );
     }
+    _onRefresh(){
+        this.loadData('1',this.state.year+'-'+this.state.month,true)
+
+    }
     render(){
         return(
-            <View style={{flex:1,position:'relative'}}>
-                <ScrollView style={{flex:1,backgroundColor:'#FFFFFF'}}>
+            <View style={{flex:1,backgroundColor:'#ffffff'}}>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            onRefresh={this._onRefresh.bind(this)}
+                        />
+                    }
+                >
                     <HeaderView
                         hasTop={true}
                         topDes="本月利润"
@@ -116,18 +140,21 @@ export default class ServicePage extends BComponent {
     _callback(year,month,isRefresh=false){
 
         let _this = this
-        _this.loadData('1',year+'-'+month)
-        _this.setState({
-            year,
-            month
-        },function () {
-            if(isRefresh){
-                _this.refs.ChooseTimerModal.setState({
-                    yearSelected:year,
-                    monthSelected:month
-                })
-            }
-        })
+        InteractionManager.runAfterInteractions(() => {
+            _this.loadData('1',year+'-'+month)
+            _this.setState({
+                year,
+                month
+            },function () {
+                if(isRefresh){
+                    _this.refs.ChooseTimerModal.setState({
+                        yearSelected:year,
+                        monthSelected:month
+                    })
+                }
+            })
+        });
+
 
     }
     _renderBody(index){
