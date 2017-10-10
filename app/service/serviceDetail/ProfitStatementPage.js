@@ -6,13 +6,15 @@ import {
     View,
     Text,
     FlatList,
-    Image
+    Image,
+    InteractionManager
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 import BComponent from '../../base';
 import HeaderView from '../view/HeaderView'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
+import Toast from 'react-native-root-toast'
 
 export default class ProfitStatementPage extends BComponent {
     constructor(props) {
@@ -21,14 +23,26 @@ export default class ProfitStatementPage extends BComponent {
             profit:'- -',
             income:'- -',
             expenditure:'- -',
-            dataSource:[]
+            dataSource:[],
+            isRefreshing:false,
+            year:props.year,
+            month:props.month
         };
     }
     componentDidMount() {
-        this.loadData('1',this.props.year+'-'+this.props.month)
+        InteractionManager.runAfterInteractions(() => {
+            this.loadData('1',this.state.year+'-'+this.state.month)
+        });
     }
-    loadData(companyid = '1',date=''){
-        let loading = SActivityIndicator.show(true, "加载中...");
+    loadData(companyid = '1',date='',isPull=false){
+        let loading
+        if(isPull){
+            this.setState({
+                isRefreshing:true
+            })
+        }else{
+            loading = SActivityIndicator.show(true, "加载中...");
+        }
 
         apis.loadProfit(companyid,date).then(
             (responseData) => {
@@ -39,19 +53,29 @@ export default class ProfitStatementPage extends BComponent {
                         profit:responseData.profit,
                         income:responseData.income,
                         expenditure:responseData.expenditure,
-                        dataSource:responseData.list
+                        dataSource:responseData.list,
+                        isRefreshing:false
                     })
 
-
+                }else{
+                    this.setState({
+                        isRefreshing:false
+                    })
+                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
             (e) => {
                 SActivityIndicator.hide(loading);
-                console.log('error',e)
+                this.setState({
+                    isRefreshing:false
+                })
+                Toast.show('加载失败！')
             },
         );
     }
-
+    _onRefresh(){
+        this.loadData('1',this.state.year+'-'+this.state.month,true)
+    }
 
     _renderItem(item){
         return(
@@ -84,6 +108,8 @@ export default class ProfitStatementPage extends BComponent {
                     keyExtractor = {(item, index) => index}
                     renderItem={this._renderItem.bind(this)}
                     ListHeaderComponent={this._listHeaderComponent.bind(this)}
+                    onRefresh={this._onRefresh.bind(this)}
+                    refreshing={this.state.isRefreshing}
                 />
                 <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
 
@@ -91,8 +117,15 @@ export default class ProfitStatementPage extends BComponent {
         )
     }
     _callback(year,month){
-        this.loadData('1',year+'-'+month)
-        this.props.callback && this.props.callback(year,month,true)
+        InteractionManager.runAfterInteractions(() => {
+            this.loadData('1',year+'-'+month)
+            this.props.callback && this.props.callback(year,month,true)
+            this.setState({
+                year,
+                month
+            })
+        });
+
     }
 }
 

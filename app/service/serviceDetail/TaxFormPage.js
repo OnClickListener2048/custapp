@@ -6,13 +6,15 @@ import {
     View,
     Text,
     ScrollView,
-    FlatList
+    FlatList,
+    InteractionManager
 } from 'react-native';
 import { Pie } from 'react-native-pathjs-charts'
 import BComponent from '../../base';
 import CommonCell from '../../view/CommenCell'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
+import Toast from 'react-native-root-toast'
 
 export default class TaxFormPage extends BComponent {
 
@@ -20,36 +22,48 @@ export default class TaxFormPage extends BComponent {
         super(props)
         this.state={
             total:'- -',//本月累计
-            data :[]
+            data :[{
+                title:'增值税',
+                population: 0,
+                text:'- -'
+            }, {
+                title:'城市建设税',
+                population: 0,
+                text:'- -'
+            }, {
+                title:'教育费附加',
+                population: 0,
+                text:'- -'
+            }, {
+                title:'印花税',
+                population: 0,
+                text:'- -'
+            }],
+            isRefreshing:false,
+            year:props.year,
+            month:props.month
         }
 
     }
     componentDidMount() {
-        this.loadData('1',this.props.year+'-'+this.props.month)
+        InteractionManager.runAfterInteractions(() => {
+            this.loadData('1',this.state.year+'-'+this.state.month)
+        });
     }
-    loadData(companyid = '1',date=''){
-        let loading = SActivityIndicator.show(true, "加载中...");
+    loadData(companyid = '1',date='',isPull=false){
+        let loading
+        if(isPull){
+            this.setState({
+                isRefreshing:true
+            })
+        }else{
+            loading = SActivityIndicator.show(true, "加载中...");
+        }
         apis.loadTaxForm(companyid,date).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
-                    let arr = [{
-                        title:'增值税',
-                        population: 0,
-                        text:''
-                    }, {
-                        title:'城市建设税',
-                        population: 0,
-                        text:''
-                    }, {
-                        title:'教育费附加',
-                        population: 0,
-                        text:''
-                    }, {
-                        title:'印花税',
-                        population: 0,
-                        text:''
-                    }]
+                    let arr = this.state.data
                     arr[0].text = '¥'+ responseData.vat
                     arr[1].text = '¥'+ responseData.uct
                     arr[2].text = '¥'+ responseData.edu
@@ -62,17 +76,28 @@ export default class TaxFormPage extends BComponent {
 
                     this.setState({
                         total:responseData.total,
-                        data:arr
+                        data:arr,
+                        isRefreshing:false
                     })
+                }else{
+                    this.setState({
+                        isRefreshing:false
+                    })
+                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
             (e) => {
                 SActivityIndicator.hide(loading);
-                console.log('error',e)
+                this.setState({
+                    isRefreshing:false
+                })
+                Toast.show('加载失败！')
             },
         );
     }
-
+    _onRefresh(){
+        this.loadData('1',this.state.year+'-'+this.state.month,true)
+    }
     _listHeaderComponent(){
         let options = {
             width: 260,
@@ -141,14 +166,22 @@ export default class TaxFormPage extends BComponent {
                     ListHeaderComponent={this._listHeaderComponent.bind(this)}
                     data={this.state.data}
                     keyExtractor = {(item, index) => index}
+                    onRefresh={this._onRefresh.bind(this)}
+                    refreshing={this.state.isRefreshing}
                 />
                 <ChooseTimerModal isChangeHeader={false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
         )
     }
     _callback(year,month){
-        this.loadData('1',year+'-'+month)
-        this.props.callback && this.props.callback(year,month,true)
+        InteractionManager.runAfterInteractions(() => {
+            this.loadData('1',year+'-'+month)
+            this.props.callback && this.props.callback(year,month,true)
+            this.setState({
+                year,
+                month
+            })
+        });
     }
 
 }

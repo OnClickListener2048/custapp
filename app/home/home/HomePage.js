@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 import * as apis from '../../apis';
+import Toast from 'react-native-root-toast'
 
 import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
@@ -84,7 +85,9 @@ export default class HomePage extends BComponent {
             fadeAnim: new Animated.Value(0),
             maskTouchDisabled : true,
             pointerEvents: 'none',
-            loadState:'loading'
+            loadState:'loading',
+            isRefreshing:false,
+            isFirstRefresh:true
         };
     }
     static navigatorStyle = {
@@ -95,13 +98,22 @@ export default class HomePage extends BComponent {
         this.loadData()
     }
     loadData(type = '0'){
+        let loading
+        if(this.state.isFirstRefresh){
+            //第一次加载显示菊花loading
+            loading = SActivityIndicator.show(true, "加载中...");
 
-        let loading = SActivityIndicator.show(true, "加载中...");
+        }else{
+            //显示下拉loading
+            this.setState({
+                isRefreshing:true
+            })
+        }
         apis.loadHomeData().then(
             (responseData) => {
-                SActivityIndicator.hide(loading);
 
                 if(responseData.code == 0){
+                    //成功后处理数据
                     let dataSource = [];
                     for (let i = 0; i<responseData.list.length;i++){
                         let section = {};
@@ -112,37 +124,73 @@ export default class HomePage extends BComponent {
                         }
                         dataSource[i] = section
                     }
-                    if(responseData.list.length == 0){
-                        this.setState({
-                            dataSource:dataSource,
-                            loadState:'no-data'
-                        })
+                    //修改状态亲爱
+                    if(this.state.isFirstRefresh){
+                        //第一次加载
+                        SActivityIndicator.hide(loading);
+                        if(responseData.list.length == 0){
+                            //没数据
+                            this.setState({
+                                loadState:'no-data',
+                            })
+                        }else{
+                            //成功
+                            this.setState({
+                                dataSource:dataSource,
+                                loadState:'success',
+                                isFirstRefresh:false
+                            })
+                        }
                     }else{
-                        this.setState({
-                            dataSource:dataSource,
-                            loadState:'success'
-                        })
+                        //不是第一次加载
+                        if(responseData.list.length == 0){
+                            //没数据
+                            this.setState({
+                                isRefreshing:false
+                            })
+                        }else{
+                            //成功
+                            this.setState({
+                                dataSource:dataSource,
+                                isRefreshing:false
+                            })
+                        }
                     }
 
                 }else{
-                    this.setState({
-                        loadState:'error'
-                    })
+                    //加载失败
+                    if(this.state.isFirstRefresh){
+                        //第一次加载
+                        SActivityIndicator.hide(loading);
+                        this.setState({
+                            loadState:'error',
+                        })
+                    }else{
+                        //不是第一次加载
+                        this.setState({
+                            isRefreshing:false
+                        })
+                    }
+                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
 
                 }
             },
             (e) => {
-                SActivityIndicator.hide(loading);
-                if(!NetInfoSingleton.isConnected) {
+                Toast.show('加载失败！');
+
+                //加载失败
+                if(this.state.isFirstRefresh){
+                    //第一次加载
+                    SActivityIndicator.hide(loading);
                     this.setState({
-                        loadState:'no-net'
+                        loadState:NetInfoSingleton.isConnected?'error':'no-net',
                     })
                 }else{
+                    //不是第一次加载
                     this.setState({
-                        loadState:'error'
+                        isRefreshing:false
                     })
                 }
-
             },
         );
     }
@@ -268,6 +316,8 @@ export default class HomePage extends BComponent {
                         stickySectionHeadersEnabled={false}
                         ListHeaderComponent={this._listHeaderComponent.bind(this)}
                         ListFooterComponent={this._listFooterComponent.bind(this)}
+                        onRefresh={this._onRefresh.bind(this)}
+                        refreshing={this.state.isRefreshing}
                     >
                     </SectionList>
                     {Platform.OS==='ios'?this._maskView():null}
@@ -281,6 +331,9 @@ export default class HomePage extends BComponent {
             )
         }
 
+    }
+    _onRefresh(){
+        this.loadData()
     }
     _renderItem (item) {
 

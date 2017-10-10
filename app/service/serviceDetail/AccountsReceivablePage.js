@@ -5,7 +5,8 @@ import React  from 'react';
 import {
     View,
     Text,
-    Image
+    Image,
+    InteractionManager
 } from 'react-native';
 import ExpanableList from '../../view/ExpanableList'
 import BComponent from '../../base';
@@ -14,6 +15,7 @@ import ServiceCell from './view/ServiceCell'
 import HeaderView from '../view/HeaderView'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
+import Toast from 'react-native-root-toast'
 
 
 export default class AccountsReceivablePage extends BComponent {
@@ -23,17 +25,28 @@ export default class AccountsReceivablePage extends BComponent {
             openOptions:[],
             dataSource:[],
             start_account:'- -',
-            end_account:'- -'
+            end_account:'- -',
+            isRefreshing:false,
+            year:props.year,
+            month:props.month
         };
     }
 
 
     componentDidMount() {
-        this.loadData('1',this.props.year+'-'+this.props.month)
+        InteractionManager.runAfterInteractions(() => {
+            this.loadData('1',this.state.year+'-'+this.state.month,'2')
+        });
     }
-    loadData(companyid = '1',date='',type='2'){
-        let loading = SActivityIndicator.show(true, "加载中...");
-
+    loadData(companyid = '1',date='',type='2',isPull=false){
+        let loading
+        if(isPull){
+            this.setState({
+                isRefreshing:true
+            })
+        }else{
+            loading = SActivityIndicator.show(true, "加载中...");
+        }
         apis.loadAccounts(companyid,date,type).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
@@ -43,15 +56,27 @@ export default class AccountsReceivablePage extends BComponent {
                     this.setState({
                         dataSource:responseData.list,
                         start_account:responseData.start_account,
-                        end_account:responseData.end_account
+                        end_account:responseData.end_account,
+                        isRefreshing:false
                     })
+                }else{
+                    this.setState({
+                        isRefreshing:false
+                    })
+                    Toast.show(responseData.msg?responseData.msg:'加载失败!')
                 }
             },
             (e) => {
                 SActivityIndicator.hide(loading);
-                console.log('error',e)
+                this.setState({
+                    isRefreshing:false
+                })
+                Toast.show('加载失败！')
             },
         );
+    }
+    _onRefresh(){
+        this.loadData('1',this.state.year+'-'+this.state.month,'2',true)
     }
     _renderRow (rowItem, rowId, sectionId) {
 
@@ -93,6 +118,8 @@ export default class AccountsReceivablePage extends BComponent {
                     openOptions={this.state.openOptions}
                     renderSectionHeaderX={this._renderSection.bind(this)}
                     headerClickCallBack={(index)=>this._headerClickCallBack(index)}
+                    onRefresh={this._onRefresh.bind(this)}
+                    refreshing={this.state.isRefreshing}
                 />
                 <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
 
@@ -101,8 +128,15 @@ export default class AccountsReceivablePage extends BComponent {
         );
     }
     _callback(year,month){
-        this.loadData('1',year+'-'+month)
-        this.props.callback && this.props.callback(year,month,true)
+
+        InteractionManager.runAfterInteractions(() => {
+            this.loadData('1',year+'-'+month,'2')
+            this.props.callback && this.props.callback(year,month,true)
+            this.setState({
+                year,
+                month
+            })
+        });
     }
     _headerClickCallBack(index){
         let openOptions =this.state.openOptions
