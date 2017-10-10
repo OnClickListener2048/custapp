@@ -219,9 +219,7 @@ export default class VerifyResultPage extends BComponent {
                 onFooterRefresh={this.onFooterRefresh}
                 onHeaderRefresh={null}
                 renderHeader={this.renderHeader}
-
             />
-
 
         </View>
 

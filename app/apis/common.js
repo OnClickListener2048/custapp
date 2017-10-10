@@ -20,3 +20,11 @@ export async function getApi(uri, params = {}, headers = {}) {
 export async function getApiUAA(uri, params = {}, headers = {}) {
     return HTTPBase.getRaw(UAA_DOMAIN_URL + uri, params, headers);
 }
+
+export async function deleteApi(uri, params = {}, headers = {}) {
+    return HTTPBase.deleteEx(API_BASE_URL + uri, params, headers);
+}
+
+export async function deleteApiUAA(uri, params = {}, headers = {}) {
+    return HTTPBase.deleteRaw(UAA_DOMAIN_URL + uri, params, headers);
+}

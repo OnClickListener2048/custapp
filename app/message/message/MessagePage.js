@@ -84,7 +84,7 @@ export default class MessagePage extends BComponent {
                 {
                     text: '删除',
                     backgroundColor:'red',
-                    onPress:this._delete.bind(this,info.index,info)
+                    onPress:this._delete.bind(this,info.index,info.item)
                 }
             ]}
                       autoClose={true}
@@ -102,11 +102,33 @@ export default class MessagePage extends BComponent {
         )
     }
     _delete(index,item){
-        let arr = JSON.parse(JSON.stringify(this.state.dataList))
-        arr.splice(index,1)
-        this.setState({
-            dataList:arr
-        })
+
+        console.log(item + "rrrr" +item._id)
+
+        apis.deleteMessageItem(item._id).then(
+            (responseData) => {
+
+                if(responseData.code == 0){
+
+                    let arr = JSON.parse(JSON.stringify(this.state.dataList))
+                    arr.splice(index,1)
+                    this.setState({
+                        dataList:arr
+                    })
+
+                }else{
+                    alert('1' + responseData.code)
+                }
+            },
+            (e) => {
+                alert('2')
+
+            },
+        );
+
+
+
+
     }
     _goto(){
 
