@@ -21,7 +21,9 @@ export default class VerifyResultPage extends BComponent {
     constructor(props) {
         super(props);
         this.state={
-            fetchState:'no-data', //'checkRisk' ; 'checkSuccess'
+            fetchState:'', //'checkRisk' ; 'checkSuccess' ;
+            dataStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
+
             keyword: this.props.keyword,  //注册公司名称
             mobile: this.props.mobile,   //手机号
             vcode: this.props.vcode,    //验证码
@@ -41,7 +43,20 @@ export default class VerifyResultPage extends BComponent {
     };
 
     componentDidMount(){
+        this.setState({
+            dataStatus:'loading'
+        })
+        this.loadResultData()
 
+    }
+
+    loadResultData(){
+        if(!NetInfoSingleton.isConnected) {
+            this.setState({
+                dataStatus:'no-net'
+            })
+            return;
+        }
         apis.loadVerifyResultData(this.state.keyword,this.state.mobile,this.state.vcode).then(
             (responseData) => {
 
@@ -49,7 +64,9 @@ export default class VerifyResultPage extends BComponent {
 
                 if (responseData.isvalid === '1'){
                     this.setState({
-                        fetchState:'checkSuccess'
+                        fetchState:'checkSuccess',
+                        dataStatus:'initSucess'
+
                     })
                 }else {
 
@@ -65,14 +82,12 @@ export default class VerifyResultPage extends BComponent {
                 console.log('VerifyNewerror1111',e)
 
                 this.setState({
-                    fetchState:'error'
+                    dataStatus:'error'
                 })
 
             },
         );
-
     }
-
 
     loadData(page=1){
 
@@ -95,14 +110,28 @@ export default class VerifyResultPage extends BComponent {
                         dataList: dataList,
                         refreshState:newList.length < 10 ? RefreshState.NoMoreData : RefreshState.Idle,
                     })
-
+                    if (this.state.dataStatus !== 'initSucess' && page === 1){
+                        this.setState({
+                            dataStatus:'initSucess'
+                        })
+                    }
                 }else{
                     this.setState({refreshState: RefreshState.Failure})
+                    if (this.state.dataList.length === 0){
+                        this.setState({
+                            dataStatus:'error'
+                        })
+                    }
                 }
 
             },
             (e) => {
                 this.setState({refreshState: RefreshState.Failure})
+                if (this.state.dataList.length === 0){
+                    this.setState({
+                        dataStatus:'error'
+                    })
+                }
             },
         );
     }
@@ -134,7 +163,6 @@ export default class VerifyResultPage extends BComponent {
 
 
     renderHeader = () => {
-        // alert(JSON.stringify(item))
         return(
 
             <View style={{height: 56, width:deviceWidth,backgroundColor:'#f9f9f9',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
@@ -160,20 +188,7 @@ export default class VerifyResultPage extends BComponent {
         });
 
     }
-    renderPaginationFetchingView = () => {
 
-        if(!NetInfoSingleton.isConnected){
-            return (
-                <DefaultView type='no-net' onPress={this.refresh.bind(this)}/>
-            );
-        }else{
-            return (
-                <DefaultView type={this.state.fetchState} onPress={this.refresh.bind(this)}/>
-            );
-        }
-        //第一次请求是占位图
-
-    };
     emptyView = () =>{
         //第一次请求没数据的空页面
         return(
@@ -196,7 +211,7 @@ export default class VerifyResultPage extends BComponent {
                 <Text
                     textAlign='left'
                     numberOfLines={1}
-                    style={[{fontSize: 16, marginLeft :2 , color : '#999999'}] }>爱康鼎</Text>
+                    style={[{fontSize: 16, marginLeft :2 , color : '#999999'}] }>{this.state.keyword}</Text>
             </View>
 
 
@@ -217,7 +232,7 @@ export default class VerifyResultPage extends BComponent {
                 renderItem={this.renderItem.bind(this)}
                 refreshState={this.state.refreshState}
                 onFooterRefresh={this.onFooterRefresh}
-                onHeaderRefresh={null}
+                isHeaderRefresh={false}
                 renderHeader={this.renderHeader}
             />
 
@@ -239,7 +254,7 @@ export default class VerifyResultPage extends BComponent {
                     <Text
                         textAlign='left'
                         numberOfLines={1}
-                        style={[{fontSize: 16, marginLeft :2 , color : '#999999'}] }>爱康鼎</Text>
+                        style={[{fontSize: 16, marginLeft :2 , color : '#999999'}] }>{this.state.keyword}</Text>
                 </View>
 
 
@@ -261,14 +276,21 @@ export default class VerifyResultPage extends BComponent {
     }
 
     render() {
-        return (
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                {this.state.fetchState === 'checkRisk' && this.renderRisk()}
-                {this.state.fetchState === 'checkSuccess' && this.renderSuccess()}
+
+        if(this.state.dataStatus === 'initSucess') {
+            return (
+                <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                    {this.state.fetchState === 'checkRisk' && this.renderRisk()}
+                    {this.state.fetchState === 'checkSuccess' && this.renderSuccess()}
+                </View>
+            );
+        }else {
+            return(
+                <DefaultView onPress={()=>this.loadResultData()} type ={this.state.dataStatus}/>
+            )
+        }
 
 
-            </View>
-        );
     }
 
 

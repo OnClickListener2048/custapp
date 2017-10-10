@@ -79,6 +79,7 @@ export default class MessagePage extends BComponent {
 
                 if(responseData.code == 0){
 
+
                     let newList = responseData.list
 
                     let dataList = page == 1 ? newList : [...this.state.dataList, ...newList]
