@@ -16,6 +16,7 @@ import {
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import * as apis from '../../apis';
 import ProgressDetailCell from "./view/ProgressDetailCell";
+import DefaultView from '../../view/DefaultView';
 
 export default class ProgressDetailPage extends BComponent {
 
@@ -26,32 +27,50 @@ export default class ProgressDetailPage extends BComponent {
             statusW:0,//最外层状态
             status_desc:'',//状态描述
             amount:'',//金额
+            loadState:'loading'
         }
         this.childState='';//判断显示样式 6显示红色 已完成
         this.status='';//子任务状态，1执行中，2已结束
-
+        this.loadData=this.loadData.bind(this);
     }
 
 
     componentDidMount() {
+        this.loadData();
+    }
+
+    loadData(){
+        var loading = SActivityIndicator.show(true, "加载中...");
         apis.loadOrderDetailData(this.props.orderId).then(
             (responseData) => {
-                if(responseData.code==0 && responseData.data!==null){
-                    console.log('走了吗吗吗',responseData.data)
-                    var sourceData=responseData.data.schedule;
-                    var statusW=responseData.data.status;
-                    var status_desc=responseData.data.status_desc;
-                    var amount=responseData.data.amount;
-                    this.setState({
-                        sourceData:sourceData,
-                        statusW:statusW,
-                        status_desc:status_desc,
-                        amount:amount
-                    })
+                SActivityIndicator.hide(loading);
+                if(responseData.code==0){
+                    if(responseData.data!=null) {
+                        console.log('走了吗吗吗', responseData.data)
+                        var sourceData = responseData.data.schedule;
+                        var statusW = responseData.data.status;
+                        var status_desc = responseData.data.status_desc;
+                        var amount = responseData.data.amount;
+                        this.setState({
+                            sourceData: sourceData,
+                            statusW: statusW,
+                            status_desc: status_desc,
+                            amount: amount,
+                            loadState: 'success'
+                        })
+                    }else{
+                        this.setState({
+                            loadState: 'no-data'
+                        })
+                    }
                 }
             },
             (e) => {
-                console.log('error555555',e)
+                SActivityIndicator.hide(loading);
+                this.setState({
+                    loadState:NetInfoSingleton.isConnected?'error':'no-net',
+                })
+                console.log('error',e)
             },
         );
     }
@@ -90,46 +109,49 @@ export default class ProgressDetailPage extends BComponent {
 
 
     render(){
-        return(
+        if(this.state.loadState == 'success') {
+            return (
+                <View style={styles.container}>
+                    <View style={styles.wrapper3}>
+                        <View style={styles.wrapper1}>
+                            <Text style={styles.orderstateTe}>
+                                订单状态
+                            </Text>
+                            <Text style={styles.orderstate}>
+                                {this.state.status_desc}
+                            </Text>
+                        </View>
+                        <View style={[styles.wrapper1, {marginTop: 15}]}>
+                            <Text style={styles.orderstateTe}>
+                                订单号:{this.props.orderId}
+                            </Text>
+                            <Text style={styles.money}>
+                                {this.state.amount}
+                            </Text>
+                        </View>
+                    </View>
 
-        <View style={styles.container} >
-            <View style={styles.wrapper3}>
-            <View style={styles.wrapper1}>
-                <Text style={styles.orderstateTe}>
-                    订单状态
-                </Text>
-                <Text style={styles.orderstate}>
-                    {this.state.status_desc}
-                </Text>
-            </View>
-            <View style={[styles.wrapper1,{marginTop:15}]}>
-                <Text style={styles.orderstateTe}>
-                    订单号:{this.props.orderId}
-                </Text>
-                <Text style={styles.money}>
-                    {this.state.amount}
-                </Text>
-            </View>
-            </View>
-
-            <View style={styles.wrapper2} >
-                <Text style={{color:'#333333',fontSize:16}}>
-                    进度详情
-                </Text>
-            </View>
-            <View style={styles.line}/>
-            <View style={{height:30,backgroundColor:'#FFFFFF'}}/>
-            <FlatList
-                style={styles.list}
-                ref={(ref) => this.listView = ref}
-                data={this.state.sourceData}
-                renderItem={this.renderItem}
-                keyExtractor={this._keyExtractor}
-            />
-        </View>
-
-
-        );
+                    <View style={styles.wrapper2}>
+                        <Text style={{color: '#333333', fontSize: 16}}>
+                            进度详情
+                        </Text>
+                    </View>
+                    <View style={styles.line}/>
+                    <View style={{height: 30, backgroundColor: '#FFFFFF'}}/>
+                    <FlatList
+                        style={styles.list}
+                        ref={(ref) => this.listView = ref}
+                        data={this.state.sourceData}
+                        renderItem={this.renderItem}
+                        keyExtractor={this._keyExtractor}
+                    />
+                </View>
+            )
+        }else{
+            return(
+                <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
+            )
+        };
     }
 }
 
@@ -176,7 +198,6 @@ const styles = StyleSheet.create({
     },
     list:{
         backgroundColor:'#ffffff',
-
     }
 
 });
