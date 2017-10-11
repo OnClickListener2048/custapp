@@ -133,7 +133,7 @@ export default class MessagePage extends BComponent {
             ]}
                       autoClose={true}
             >
-                <TouchableOpacity onPress={this._goto.bind(this)}>
+                <TouchableOpacity onPress={this._goto.bind(this,info.item)}>
                     <CommonCell
                         leftText={info.item.title == undefined?info.item.name:info.item.title }
                         rightText={info.item.date}
@@ -178,11 +178,14 @@ export default class MessagePage extends BComponent {
 
 
     }
-    _goto(){
+    _goto(item){
 
         this.props.navigator.push({
             screen: 'SystemMessagePage',
-            title:'系统消息'
+            title:'消息详情',
+            passProps:{
+                item
+            }
         });
 
     }
