@@ -195,7 +195,6 @@ const styles = StyleSheet.create({
         marginTop:5
     },
     wechart_icon:{
-        resizeMode: "contain",
         alignSelf: 'center',
     },
     login_back:{

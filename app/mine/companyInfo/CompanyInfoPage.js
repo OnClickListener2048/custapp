@@ -25,10 +25,10 @@ export default class CompanyInfoPage extends BComponent {
                         style={{marginTop:10}}
                         onPress={this._goto.bind(this,'CompanySurveyPage','企业概况')}
                     />
-                    <CommenCell
-                        leftText="切换公司"
-                        onPress={this._goto.bind(this,'ChangeCompanyPage','切换公司')}
-                    />
+                    {/*<CommenCell*/}
+                        {/*leftText="切换公司"*/}
+                        {/*onPress={this._goto.bind(this,'ChangeCompanyPage','切换公司')}*/}
+                    {/*/>*/}
                 </ScrollView>
             </View>
 

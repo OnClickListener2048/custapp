@@ -133,7 +133,7 @@ export default class MessagePage extends BComponent {
             ]}
                       autoClose={true}
             >
-                <TouchableOpacity onPress={this._goto.bind(this)}>
+                <TouchableOpacity onPress={this._goto.bind(this,info.item)}>
                     <CommonCell
                         leftText={info.item.title == undefined?info.item.name:info.item.title }
                         rightText={info.item.date}
@@ -178,11 +178,14 @@ export default class MessagePage extends BComponent {
 
 
     }
-    _goto(){
+    _goto(item){
 
         this.props.navigator.push({
             screen: 'SystemMessagePage',
-            title:'系统消息'
+            title:'消息详情',
+            passProps:{
+                item
+            }
         });
 
     }
@@ -200,6 +203,7 @@ export default class MessagePage extends BComponent {
                         refreshState={this.state.refreshState}
                         onHeaderRefresh={this.onHeaderRefresh}
                         onFooterRefresh={this.onFooterRefresh}
+                        contentContainerStyle={{paddingTop:20,backgroundColor:'#f9f9f9'}}
                     />
                 </View>
             )
@@ -216,7 +220,8 @@ export default class MessagePage extends BComponent {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Platform.OS == 'ios' ? 20 : 0,
+        // marginTop: Platform.OS == 'ios' ? 20 : 0,
+        backgroundColor:'#f9f9f9'
     },
     title: {
         fontSize: 18,
