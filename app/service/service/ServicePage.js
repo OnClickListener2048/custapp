@@ -9,7 +9,8 @@ import {
     ScrollView,
     RefreshControl,
     InteractionManager,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import Toast from 'react-native-root-toast'
 
@@ -43,6 +44,7 @@ export default class ServicePage extends BComponent {
         };
         this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
+        this.goBuy=this.goBuy.bind(this);
 
     }
     static navigatorStyle = {
@@ -177,28 +179,54 @@ export default class ServicePage extends BComponent {
         }
     }
 
+    goBuy(){
+        this.props.navigator.switchToTab({
+            tabIndex: 0
+        });
+    }
+
     _renderDemo(isDemo){
         if(isDemo==1) {
             return (
+                <View>
                 <View style={{
                     position: 'absolute',
                     bottom: 0,
                     left: 0,
                     width: DeviceInfo.width,
-                    height: 160,
+                    height: 190,
                     backgroundColor: 'rgba(00, 00, 00, 0.5)',
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
                 }}
-                      pointerEvents='none'>
-                    <Image style={styles.service_demo_img} source={require('../../img/service_demo_img.png')}/>
-                    <Text style={[styles.demo_te, {marginTop: 20}]}>
-                        以上为功能演示
-                    </Text>
-                    <Text style={[styles.demo_te, {marginTop: 10}]}>
-                        您目前还没有公司购买相关服务！
-                    </Text>
+                      pointerEvents='none'
+                >
+                    <Image style={styles.service_demo_img}
+                           source={require('../../img/service_demo_img.png')}
+                           >
+                    </Image>
+                    {/*<TouchableOpacity>*/}
+                        {/*<Image style={{resizeMode : "contain",marginTop:-50}} source={require('../../img/service_demo_buy.png')}/>*/}
+                    {/*</TouchableOpacity>*/}
                 </View>
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        width: DeviceInfo.width,
+                        height: 40,
+                        backgroundColor: 'transparent',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                          pointerEvents='box-none'
+                    >
+                        <TouchableOpacity onPress={()=>this.goBuy()}>
+                        <Image style={{resizeMode : "contain",marginBottom:40}} source={require('../../img/service_demo_buy.png')}/>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
             );
         }
     }
@@ -259,12 +287,10 @@ const styles = StyleSheet.create({
 
     },
     service_demo_img:{
-        resizeMode : "contain"
+        resizeMode : "contain",
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    demo_te:{
-        fontSize:18,
-        color:'#ffffff'
-    }
 
 
 
