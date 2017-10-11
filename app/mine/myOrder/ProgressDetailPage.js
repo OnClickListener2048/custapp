@@ -57,9 +57,10 @@ export default class ProgressDetailPage extends BComponent {
     }
 
 
-    renderItem = (item, index, separator) => {
+    renderItem = (item) => {
+        console.log('statusW=======',this.state.statusW)
 
-        if(index==0&&this.state.statusW==6){
+        if(item.index==0&&this.state.statusW==6){
             this.childState='done'
         }else if(item.item.status==1){
             this.childState='green'
@@ -84,6 +85,8 @@ export default class ProgressDetailPage extends BComponent {
         />
         );
     };
+
+    _keyExtractor= (item, index) => index;
 
 
     render(){
@@ -120,7 +123,8 @@ export default class ProgressDetailPage extends BComponent {
                 style={styles.list}
                 ref={(ref) => this.listView = ref}
                 data={this.state.sourceData}
-                renderItem={this.renderItem}  //this takes three params (item, index, separator)
+                renderItem={this.renderItem}
+                keyExtractor={this._keyExtractor}
             />
         </View>
 

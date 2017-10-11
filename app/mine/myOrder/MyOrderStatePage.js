@@ -29,7 +29,7 @@ export default class MyOrderStatePage extends Component {
     }
 
 
-    renderItem = (item, index, separator) => {
+    renderItem = (item) => {
         console.log('item222222',item)
 
         return(
@@ -43,6 +43,7 @@ export default class MyOrderStatePage extends Component {
         )
     };
 
+    _keyExtractor = (item, index) => index;//唯一不同的index作为key
 
     render(){
         const {sourceData} = this.props
@@ -52,7 +53,8 @@ export default class MyOrderStatePage extends Component {
                 ref={(ref) => this.listView = ref}
                 data={sourceData}
 
-                renderItem={this.renderItem}  //this takes three params (item, index, separator)
+                renderItem={this.renderItem}
+                keyExtractor={this._keyExtractor}//为每个item添加唯一的key
 
                 //解决ScrollableTabView和listView的滑动冲突
                 onTouchStart={(e) => {

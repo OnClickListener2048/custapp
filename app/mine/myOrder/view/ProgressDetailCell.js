@@ -27,7 +27,7 @@ export default class ProgressDetailCell extends Component {
         start:PropTypes.string,//开始时间
         end:PropTypes.string,//结束时间
         operator:PropTypes.string,//操作员
-        status:PropTypes.number//状态
+        status:PropTypes.string//状态
     };
 
 
