@@ -55,36 +55,6 @@ exports[`快照正确渲染 1`] = `
       source={1}
     />
   </View>
-  <View
-    collapsable={undefined}
-    style={
-      Object {
-        "alignSelf": "stretch",
-        "backgroundColor": "#00000088",
-        "height": 0,
-        "justifyContent": "center",
-        "marginTop": 25,
-      }
-    }
-  >
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      collapsable={undefined}
-      disabled={false}
-      ellipsizeMode="tail"
-      style={
-        Object {
-          "color": "#ffffff",
-          "height": 0,
-          "lineHeight": 0,
-          "textAlign": "center",
-        }
-      }
-    >
-      未检测到网络连接，请确保WIFI或移动网络正常可用。
-    </Text>
-  </View>
   <Image
     source={1}
     style={
@@ -641,36 +611,6 @@ exports[`快照正确渲染 2`] = `
     <Image
       source={1}
     />
-  </View>
-  <View
-    collapsable={undefined}
-    style={
-      Object {
-        "alignSelf": "stretch",
-        "backgroundColor": "#00000088",
-        "height": 0,
-        "justifyContent": "center",
-        "marginTop": 25,
-      }
-    }
-  >
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      collapsable={undefined}
-      disabled={false}
-      ellipsizeMode="tail"
-      style={
-        Object {
-          "color": "#ffffff",
-          "height": 0,
-          "lineHeight": 0,
-          "textAlign": "center",
-        }
-      }
-    >
-      未检测到网络连接，请确保WIFI或移动网络正常可用。
-    </Text>
   </View>
   <Image
     source={1}

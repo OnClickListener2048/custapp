@@ -61,7 +61,7 @@ test('mock function 的模拟实现', () => {
 });
 
 test('account api', async () => {
-    fetchMock.post('*', JSON.parse('{"success":true,"code":200,"msg":null,"data":null, "jest": true}'));
-    let response = await login("13810397064", "123456");
-    console.log(response);
+    fetchMock.post('*', JSON.parse('{"success":true,"code":0,"msg":null,"data":null, "jest": true}'));
+    // let response = await login("13810397064", "123456");
+    // console.log(response);
 });
