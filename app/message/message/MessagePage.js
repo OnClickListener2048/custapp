@@ -82,10 +82,10 @@ export default class MessagePage extends BComponent {
 
                     let newList = responseData.list
 
-                    let dataList = page == 1 ? newList : [...this.state.dataList, ...newList]
+                    let dataList = page === 1 ? newList : [...this.state.dataList, ...newList]
                     this.setState({
                         dataList: dataList,
-                        refreshState:responseData.list.length==0 ? RefreshState.NoMoreData : RefreshState.Idle,
+                        refreshState:responseData.list.length < pageSize ? RefreshState.NoMoreData : RefreshState.Idle,
                     })
 
                     if (page === 1 && this.state.dataList.length === 0){

@@ -124,7 +124,7 @@ export default class HomePage extends BComponent {
                         }
                         dataSource[i] = section
                     }
-                    //修改状态亲爱
+                    //修改状态
                     if(this.state.isFirstRefresh){
                         //第一次加载
                         SActivityIndicator.hide(loading);

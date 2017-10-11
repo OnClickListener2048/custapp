@@ -12,7 +12,11 @@ export default class HomeDetailPage extends Component {
     render(){
         return(
             <WebView
-                source={{url:this.props.url}}
+                source={{uri:this.props.url}}
+                bounces={false}
+                domStorageEnabled={true}
+                javaScriptEnabled={true}
+                startInLoadingState={true}
             />
         )
     }
