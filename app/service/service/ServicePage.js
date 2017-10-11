@@ -8,7 +8,8 @@ import {
     StyleSheet,
     ScrollView,
     RefreshControl,
-    InteractionManager
+    InteractionManager,
+    Image
 } from 'react-native';
 import Toast from 'react-native-root-toast'
 
@@ -34,13 +35,12 @@ export default class ServicePage extends BComponent {
             profit:'- -',//本月利润
             income:'- -',//本月收入
             expenditure:'- -',//本月支出
-            is_demo:'- -',//是否演示数据,
+            is_demo:1,//是否演示数据,
             year:today.getFullYear().toString(),
             month:(today.getMonth() + 1).toString(),
             isRefreshing:false
 
         };
-        this.isDemo=false;//是否是显示数据
         this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
 
@@ -131,7 +131,7 @@ export default class ServicePage extends BComponent {
                     <Header btnClick={this.btnClick.bind(this)} selectIndex={this.state.selectIndex} />
                     {this._renderBody(this.state.selectIndex)}
                 </ScrollView>
-                {this._renderDemo(this.isDemo)}
+                {this._renderDemo(this.state.is_demo)}
                 <ChooseTimerModal ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
             </View>
 
@@ -178,7 +178,7 @@ export default class ServicePage extends BComponent {
     }
 
     _renderDemo(isDemo){
-        if(isDemo) {
+        if(isDemo==1) {
             return (
                 <View style={{
                     position: 'absolute',
