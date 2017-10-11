@@ -34,6 +34,7 @@ import Alert from "react-native-alert";
 import SubmitButton from "../view/SubmitButton";
 import * as WeChat from 'react-native-wechat';
 import AdapterUI from '../util/AdapterUI'
+import SubmitButtonWithIcon from "../view/SubmitButtonWithIcon";
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -99,16 +100,17 @@ export default class LoginPage extends Component {
         let scope = 'snsapi_userinfo';
         let state = 'wechat_sdk_demo';
         WeChat.sendAuthRequest(scope, state).then(res => {
-            Alert.alert(JSON.stringify(res))
             console.log(JSON.stringify(res));
             // {"code":"071Na2zw1jxpWb0Q1kzw1Al0zw1Na2zh","state":"wechat_sdk_demo","appid":"wx16da5000356a9497","errCode":0,"type":"SendAuth.Resp"}
             // fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
             //
             // })
+            // if(res === null || res.code !== 0) {
+            //
+            // }
             apis.wechatToken(res.code).then(
                 responseData => {
                     console.log('wechat token responseData', responseData);
-                    Alert.alert(responseData);
                     let result = JSON.parse(responseData);
                     if(result.code === 0 && result.access_token !== undefined) {
                         console.log('save access_token');
@@ -119,6 +121,8 @@ export default class LoginPage extends Component {
                             },
                             e => console.log(e.message)
                         );
+                    } else {
+                        Alert.alert(responseData);//result.msg
                     }
                 },
                 e => {
@@ -491,150 +495,9 @@ export default class LoginPage extends Component {
                         {backgroundColor: 'white'}]}
                                           keyboardVerticalOffset={0}>
                         <View style={{height: 40}}/>
-                        {/*   手机号 */}
-                        <View style={styles.textInputContainer}>
 
-                            <View style={styles.textInputWrapper}>
-                                <TextInput underlineColorAndroid='transparent' maxLength={11}
-                                           keyboardType='numeric' value={this.state.mobile}
-                                           placeholderTextColor='#BABABA'
-                                           style={styles.textInput} placeholder='手机号码' returnKeyType='next'
-                                           onChangeText={
-                                               (mobile) => {
-                                                   this.updateMobile(mobile);
-                                               }
-                                           }/>
-                            </View>
-                        </View>
-
-                        {/*  图片验证码 */}
-                        {this.state.verifyText !== null && this.state.verifyText.length > 0 &&
-
-                        <View style={styles.textInputContainer}>
-
-                            <View style={styles.textInputWrapper}>
-                                <TextInput underlineColorAndroid='transparent'
-                                           ref="vCodeInput"
-                                           autoCorrect={false}
-                                           value={this.state.vCode}
-                                           editable={this.state.mobileValid}
-                                           secureTextEntry={false} maxLength={4} keyboardType='default'
-                                           style={styles.codeInput} placeholder='图形验证'
-                                           placeholderTextColor='#BABABA'
-                                           returnKeyType='done'
-                                           onChangeText={(vCode) => {
-                                               this.setState({vCode})
-                                               let vCodeInputValid = (vCode.length === 4);
-                                               this.setState({vCode, vCodeInputValid});
-                                               if (vCodeInputValid) {
-                                                   dismissKeyboard();
-                                               }
-                                           }}
-
-                                           onBlur={() => {
-                                               dismissKeyboard();
-                                               if (this.state.vCodeInputValid && !this.state.vCodeServerValid) {
-                                                   this._verifyVCode();
-                                               }
-                                           }}
-
-                                           onSubmitEditing={() => {
-                                               dismissKeyboard();
-                                               //this._verifyVCode();
-                                           }}
-                                />
-
-                                <TouchableWithoutFeedback onPress={this._doChangeVCode}>
-                                    <Image style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
-                                           source={this.state.picURL}/>
-                                </TouchableWithoutFeedback>
-
-                            </View>
-                        </View>
-                        }
-
-                        {/*  短信验证码 */}
-                        <View style={styles.textInputContainer}>
-
-                            <View style={styles.textInputWrapper}>
-                                <TextInput underlineColorAndroid='transparent'
-                                           value={this.state.smsCode}
-                                           ref="smsCodeInput"
-                                           editable={this.state.mobileValid && this.state.vCodeServerValid && this.state.timerButtonClicked}
-                                           secureTextEntry={false} maxLength={6} keyboardType='numeric'
-                                           style={styles.codeInput} placeholder='短信验证'
-                                           placeholderTextColor='#BABABA'
-                                           returnKeyType='done'
-                                           onChangeText={(smsCode) => {
-                                               this.setState({smsCode})
-                                               let smsCodeValid = (smsCode.length === 6);
-                                               this.setState({smsCode, smsCodeValid});
-                                               if (smsCodeValid) {
-                                                   dismissKeyboard();
-                                               }
-                                           }}
-
-                                           onBlur={() => {
-                                               dismissKeyboard();
-                                           }}
-
-                                           onSubmitEditing={() => {
-                                               dismissKeyboard();
-                                           }}
-                                />
-
-                                <View style={{
-                                    height: 15,
-                                    width: 1,
-                                    backgroundColor: '#c8c8c8',
-                                    alignSelf: 'center',
-                                    marginRight: 1
-                                }}/>
-
-                                <TimerButton enable={this.state.mobileValid && this.state.vCodeServerValid}
-                                             ref="timerButton"
-                                             style={{width: 70, marginRight: 0, height: 44, alignSelf: 'flex-end',}}
-                                             textStyle={{color: '#6A6A6A', alignSelf: 'flex-end'}}
-                                             timerCount={80}
-                                             onClick={(shouldStartCountting) => {
-                                                 shouldStartCountting(true);
-                                                 this.setState({timerButtonClicked: true});
-                                                 this._requestSMSCode(shouldStartCountting);
-                                             }}/>
-                            </View>
-                        </View>
-
-                        {/*  协议 */}
-                        <View style={[styles.textInputContainer,
-                            {marginTop: 2}]}>
-                            <TouchableOpacity
-                                style={{alignSelf: 'center'}} onPress={() => {
-                                dismissKeyboard();
-                                let _acceptLic = !this.state.acceptLic;
-                                console.log('_acceptLic', _acceptLic);
-                                this.setState({acceptLic: _acceptLic});
-                            }}>
-                            </TouchableOpacity>
-                            <View style={[styles.textInputWrapper,
-                                {justifyContent: 'flex-start', borderBottomWidth: 0}]}>
-                                <Text style={{
-                                    color: ( this.state.acceptLic ? '#BABABA' : '#BABABA'),
-                                    alignSelf: 'center',
-                                    marginRight: 1,
-                                    fontSize: 12
-                                }}
-                                >点击登录即视为同意</Text>
-                                <Text style={{
-                                    color: ( this.state.acceptLic ? '#BABABA' : '#BABABA'),
-                                    fontSize: (Platform.OS === 'ios') ? 12 : 11,
-                                    alignSelf: 'center',
-                                    textDecorationLine: 'underline',
-                                    marginRight: 1
-                                }}
-                                >《用户注册和使用协议》</Text>
-                            </View>
-
-                        </View>
+                        <Image style={[styles.wechart_icon, {justifyContent: 'center'}]}
+                               source={require('../img/cloud.png')}/>
 
                         {/*<TouchableWithoutFeedback onPress={this._doLogin}>*/}
                         {/*<View style={[styles.buttonview,*/}
@@ -646,27 +509,11 @@ export default class LoginPage extends Component {
                         {/*</View>*/}
                         {/*</TouchableWithoutFeedback>*/}
 
-                        <SubmitButton onPress={this._doLogin}
-                                      isEnabled={(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid)}
-                                      text="登录"
+                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={ {marginTop: 100}}
+                                      isEnabled={true}
+                                      text="微信登录"
                         />
-                        <View style={styles.wechart_text}>
-                            <View style={styles.line}/>
-                            <Text style={styles.wechart_te}>
-                                第三方登录
-                            </Text>
-                            <View style={styles.line}/>
 
-                        </View>
-                        <View style={[styles.wechart_text, {marginTop: 20}]}>
-                            <TouchableOpacity onPress={() => {
-                                this._goWechat()
-                            }}>
-
-                                <Image style={[styles.wechart_icon, {justifyContent: 'center'}]}
-                                       source={require('../img/wechart.png')}/>
-                            </TouchableOpacity>
-                        </View>
 
                     </KeyboardAvoidingView>
                 </View>
