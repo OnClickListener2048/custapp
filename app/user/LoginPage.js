@@ -26,7 +26,6 @@ import TimerButton from "../view/TimerButton";
 import styles from './css/LoginPageStyle';
 import px2dp from '../util'
 import Toast from 'react-native-root-toast';
-import SActivityIndicator from '../modules/react-native-sww-activity-indicator';
 import * as apis from '../apis';
 import InternetStatusView from '../modules/react-native-internet-status-view';
 import {Navigation} from 'react-native-navigation';
@@ -116,9 +115,7 @@ export default class LoginPage extends Component {
 
                         UserInfoStore.setUserToken(result.access_token).then(
                             v => {
-                                // this.readUserInfo();// TODO 获取用户信息
-
-                                this.pop();
+                                this.readUserInfo();// TODO 获取用户信息
                             },
                             e => console.log(e.message)
                         );
@@ -419,7 +416,7 @@ export default class LoginPage extends Component {
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
-                // Toast.show('用户信息读取成功返回' +  JSON.stringify(responseData));
+                Toast.show('用户信息读取成功返回' +  JSON.stringify(responseData));
                 if (responseData !== null && responseData.data !== null) {
                     UserInfoStore.setLastUserPhone(responseData.data.phone);
 

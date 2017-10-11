@@ -15,7 +15,7 @@ import {
     FlatList
 } from 'react-native';
 import OrderStateCell from "./view/OrderStateCell";
-
+import DefaultView from '../../view/DefaultView'
 export default class MyOrderStatePage extends Component {
 
     constructor(props){
@@ -29,7 +29,7 @@ export default class MyOrderStatePage extends Component {
     }
 
 
-    renderItem = (item, index, separator) => {
+    renderItem = (item) => {
         console.log('item222222',item)
 
         return(
@@ -43,35 +43,45 @@ export default class MyOrderStatePage extends Component {
         )
     };
 
+    _keyExtractor = (item, index) => index;//唯一不同的index作为key
 
     render(){
         const {sourceData} = this.props
-        return(
-        <View style={styles.container}>
-            <FlatList
-                ref={(ref) => this.listView = ref}
-                data={sourceData}
+        console.log('sourceData========',sourceData)
 
-                renderItem={this.renderItem}  //this takes three params (item, index, separator)
+        if(sourceData.length!=0) {
+            return (
+                <View style={styles.container}>
+                    <FlatList
+                        ref={(ref) => this.listView = ref}
+                        data={sourceData}
 
-                //解决ScrollableTabView和listView的滑动冲突
-                onTouchStart={(e) => {
-                    this.pageX = e.nativeEvent.pageX;
-                    this.pageY = e.nativeEvent.pageY;
-                }}
-                onTouchMove={(e) => {
-                    if(Math.abs(this.pageY - e.nativeEvent.pageY) > Math.abs(this.pageX - e.nativeEvent.pageX)){
-                        // 下拉
-                        this.props.lockSlide();
-                    } else {
-                        // 左右滑动
-                        this.props.openSlide();
+                        renderItem={this.renderItem}
+                        keyExtractor={this._keyExtractor}//为每个item添加唯一的key
 
-                    }
-                }}
-            />
-        </View>
-        )
+                        //解决ScrollableTabView和listView的滑动冲突
+                        onTouchStart={(e) => {
+                            this.pageX = e.nativeEvent.pageX;
+                            this.pageY = e.nativeEvent.pageY;
+                        }}
+                        onTouchMove={(e) => {
+                            if (Math.abs(this.pageY - e.nativeEvent.pageY) > Math.abs(this.pageX - e.nativeEvent.pageX)) {
+                                // 下拉
+                                this.props.lockSlide();
+                            } else {
+                                // 左右滑动
+                                this.props.openSlide();
+
+                            }
+                        }}
+                    />
+                </View>
+            )
+        }else{
+            return(
+                <DefaultView type ='no-data'/>
+            )
+        }
     }
 
 

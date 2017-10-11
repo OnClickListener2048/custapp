@@ -22,36 +22,44 @@ export default class ProgressDetailCell extends Component {
     }
 
     static propTypes = {
-        state: PropTypes.string,
+        state: PropTypes.string,//显示状态
+        name:PropTypes.string,//子任务名称
+        start:PropTypes.string,//开始时间
+        end:PropTypes.string,//结束时间
+        operator:PropTypes.string,//操作员
+        status:PropTypes.string//状态
     };
 
 
     render(){
-        const {state} = this.props
+        const {state,name,start,end,operator,status} = this.props
         return(
             <View style={styles.container}>
-                {this._renderDiffItem(state)}
+                {this._renderDiffItem(state,name,start,end,operator,status)}
             </View>
         )
     }
 
-    _renderDiffItem(state){
+    _renderDiffItem(state,name,start,end,operator,status){
 
         if(state=='done'){
             return(
-                <View style={[styles.wrapper_d1,{marginLeft:55}]}>
+                <View style={[styles.wrapper_d1,{marginLeft:20}]}>
                     <View>
                         <Image
-                            style={[styles.done_img,{marginLeft:6}]}
+                            style={[styles.done_img,{marginLeft:9}]}
                             source={require('../../../img/done.png')}/>
                         <View style={[styles.line,{marginLeft:16}]}/>
                     </View>
                     <View style={[styles.wrapper_d3,{marginLeft:15}]}>
                         <Text style={styles.done_te}>
-                            已完成
+                            {name}
                         </Text>
                         <Text style={styles.done_time_te}>
-                            2017-9-12 14:30
+                            处理人：{operator} 已完成
+                        </Text>
+                        <Text style={[styles.time,{marginTop:10}]}>
+                            {start}-{end}
                         </Text>
 
                     </View>
@@ -63,40 +71,46 @@ export default class ProgressDetailCell extends Component {
 
         }else if(state=='green'){
             return(
-            <View style={styles.wrapper_d1}>
-                <View >
-                    <Image
-                        style={styles.done_img}
-                        source={require('../../../img/green.png')}/>
-                    <View style={styles.line_green}/>
-                </View>
-                <View style={styles.wrapper_d3}>
-                    <Text style={styles.green_te}>
-                        领取资料
-                    </Text>
-                    <Text style={styles.green_time_te}>
-                        2017-9-12 14:30
-                    </Text>
+                <View style={[styles.wrapper_d1,{marginLeft:20}]}>
+                    <View>
+                        <Image
+                            style={[styles.done_img,{marginLeft:9}]}
+                            source={require('../../../img/green.png')}/>
+                        <View style={[styles.line,{marginLeft:16}]}/>
+                    </View>
+                    <View style={[styles.wrapper_d3,{marginLeft:15}]}>
+                        <Text style={styles.done_te}>
+                            {name}
+                        </Text>
+                        <Text style={styles.done_time_te}>
+                            处理人：{operator} {status}
+                        </Text>
+                        <Text style={[styles.time,{marginTop:10}]}>
+                            {start}-{end}
+                        </Text>
 
+                    </View>
                 </View>
-            </View>
             )
 
         }else if(state=='gray'){
             return(
-                <View style={styles.wrapper_d1}>
-                    <View >
+                <View style={[styles.wrapper_d1,{marginLeft:20}]}>
+                    <View>
                         <Image
-                            style={styles.done_img}
+                            style={[styles.done_img,{marginLeft:9}]}
                             source={require('../../../img/gray.png')}/>
-                        <View style={styles.line_green}/>
+                        <View style={[styles.line,{marginLeft:16}]}/>
                     </View>
-                    <View style={styles.wrapper_d3}>
+                    <View style={[styles.wrapper_d3,{marginLeft:15}]}>
                         <Text style={styles.gray_te}>
-                            网上申请
+                            {name}
                         </Text>
-                        <Text style={styles.gray_time_te}>
-                            2017-9-12 14:30
+                        <Text style={styles.gray_te}>
+                            处理人：{operator} {status}
+                        </Text>
+                        <Text style={[styles.time,{marginTop:10}]}>
+                            {start}-{end}
                         </Text>
 
                     </View>
@@ -114,7 +128,7 @@ export default class ProgressDetailCell extends Component {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'#F9F9F9'
+        backgroundColor:'#FFFFFF'
     },
     wrapper_d1:{
         width:SCREEN_WIDTH,
@@ -126,7 +140,7 @@ const styles = StyleSheet.create({
         resizeMode : "contain",
     },
     line:{
-        height:43,
+        height:80,
         width:0.5,
         borderLeftColor:'#ececec',
         borderLeftWidth:1 ,
@@ -138,12 +152,12 @@ const styles = StyleSheet.create({
     },
     done_te:{
         fontSize:16,
-        color:'#E13238',
+        color:'#333333',
         marginBottom:5
     },
     done_time_te:{
-        fontSize:14,
-        color:'#E13238',
+        fontSize:16,
+        color:'#333333',
     },
     green_te:{
         fontSize:16,
@@ -173,6 +187,10 @@ const styles = StyleSheet.create({
         fontSize:14,
         color:'#999999',
     },
+    time:{
+        fontSize:12,
+        color:'#999999'
+    }
 
 
 

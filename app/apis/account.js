@@ -1,7 +1,8 @@
 /**
  * 用户相关接口
+ * 绑定手机号的API在UAA中定义: https://tower.im/projects/c9a5ffff111d411990d752cefa1493fb/docs/dc94ebe6acc845ff97ddf2d877c65377/
  */
-import {postApi, postRawApi, getApiUAA} from './common';
+import {postApi, getApi, postRawApi, getApiUAA} from './common';
 import {WECHAT_APP_ID} from '../config' ;
 import {
     Platform, DeviceEventEmitter
@@ -47,7 +48,7 @@ export function sendFeedback({message = '', userName = ''}) {
 
 // 用户信息
 export function userInfo() {
-  return postApi('/app/v0/user/info');
+  return getApi('/api/v1/user/me');
 }
 
 // 退出登陆
