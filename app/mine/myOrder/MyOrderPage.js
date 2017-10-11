@@ -34,7 +34,7 @@ export default class MyOrderPage extends BComponent {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         apis.loadOrderListData().then(
             (responseData) => {
                 if(responseData.code == 0) {

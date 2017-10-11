@@ -14,6 +14,10 @@ import VerifyResultPage from './home/VerifyName/VerifyResultPage';
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
 import HomeDetailPage from './home/detail/HomeDetailPage'
+import ProductDetailPage from './home/detail/ProductDetailPage'
+import ColumnDetailPage from './home/detail/ColumnDetailPage'
+
+
 import BindPhonePage from './mine/bindPhone/BindPhonePage'
 import MyOrderPage from './mine/myOrder/MyOrderPage'
 
@@ -65,8 +69,6 @@ export default function () {
     reg('TaxFormPage', () => TaxFormPage);
     reg('VerifyResultPage', () => VerifyResultPage);
     reg('Notification', () => Notification);
-
-
-
-
+    reg('ProductDetailPage', () => ProductDetailPage);
+    reg('ColumnDetailPage', () => ColumnDetailPage);
 }

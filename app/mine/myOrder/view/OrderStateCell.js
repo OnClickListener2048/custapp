@@ -11,8 +11,6 @@ import {
     TouchableOpacity,
     ScrollView
 } from 'react-native';
-import CommenCell from "../../../view/CommenCell";
-import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../../config';
 
 export default class OrderStateCell extends Component {
 
@@ -24,19 +22,17 @@ export default class OrderStateCell extends Component {
         orderId: PropTypes.string,
         orderState: PropTypes.string,
         time: PropTypes.string,
-        money: PropTypes.string
+        money: PropTypes.string,
 
     };
 
-    _toDetail(orderId,orderState,time,money){
+    _toDetail(orderId){
         this.props.navigator.push({
             screen: 'ProgressDetailPage',
             title:'进度详情',
             passProps: {
                 orderId:orderId,
-                orderState:orderState,
-                time:time,
-                money:money
+
             }
         });
     }
@@ -65,7 +61,7 @@ export default class OrderStateCell extends Component {
                 <Text style={styles.time}>
                     {time}
                 </Text>
-                <TouchableOpacity onPress={this._toDetail.bind(this)}>
+                <TouchableOpacity onPress={this._toDetail.bind(this,orderId)}>
                 <Image style={styles.img}
                        source={require('../../../img/myorder_progress.png')}>
                     <Text style={styles.progressTe}>
