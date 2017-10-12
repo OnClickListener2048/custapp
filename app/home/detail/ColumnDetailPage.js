@@ -10,7 +10,9 @@ import {
     TouchableOpacity,
     InteractionManager,
     StyleSheet,
-    Linking
+    Linking,
+    PanResponder,
+    Animated
 } from 'react-native';
 import WebTab from './WebVIew'
 import BComponent from '../../base';
@@ -34,6 +36,9 @@ export default class ColumnDetailPage extends BComponent {
             itemSelected:{},
             loadState:'loading',
         };
+
+        this.marginTopValue= new Animated.Value(0)
+
     }
     static defaultProps = {
         type:'1', //1注册公司 2记账报税 3企业变更
@@ -44,10 +49,37 @@ export default class ColumnDetailPage extends BComponent {
             this.loadData(this.props.type)
         });
     }
-    componentWillMount(){
-        // this._panResponder = PanResponder.create({
-        //
-        // })
+    componentWillMount() {
+        this._panResponder = PanResponder.create({
+            // 要求成为响应者：
+            onStartShouldSetPanResponder: (evt, gestureState) => true,
+
+            onPanResponderGrant: (e, gestureState) => {
+
+                this.pageX = e.nativeEvent.pageX;
+                this.pageY = e.nativeEvent.pageY;
+            },
+            onPanResponderMove: (e, gestureState) => {
+
+                if (Math.abs(this.pageY - e.nativeEvent.pageY) > Math.abs(this.pageX - e.nativeEvent.pageX)) {
+                    // 上下滑动
+                    if(this.pageY>e.nativeEvent.pageY){
+                        //向上滑动
+                        Animated.spring(this.marginTopValue, {
+                            toValue: 1,
+                            duration: 250,
+                        }).start()
+                    }else{
+                        //向下滑动
+                        Animated.spring(this.marginTopValue, {
+                            toValue: 0,
+                            duration: 250,
+                        }).start()
+                    }
+                }
+            },
+
+        });
     }
     loadData(type = '0'){
         let loading = SActivityIndicator.show(true, "加载中...");
@@ -96,11 +128,15 @@ export default class ColumnDetailPage extends BComponent {
     }
 
     render(){
+        const marginTop = this.marginTopValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, -DeviceInfo.width*0.4+20]
+        })
         if(this.state.loadState == 'success'){
             return(
-                <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                    <View style={{backgroundColor:'#f9f9f9',paddingBottom:10,paddingTop:10}}>
-                        <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.state.itemSelected.img}}/>
+                <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#f9f9f9'}} >
+                    <Animated.View  style={{backgroundColor:'#f9f9f9',paddingBottom:10,paddingTop:10,marginTop}}>
+                        <Image  style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.state.itemSelected.img}}/>
                         <View style={{backgroundColor:'white', marginTop:-13,marginLeft:10,marginRight:10,paddingTop:10,paddingBottom:20,flexDirection:'row',flexWrap:'wrap',borderRadius:3}}>
                             {
                                 this.state.dataArr.map((item,index)=>{
@@ -124,8 +160,8 @@ export default class ColumnDetailPage extends BComponent {
                                 })
                             }
                         </View>
-                    </View>
-                    <WebTab url={this.state.itemSelected.desc_url}/>
+                    </Animated.View>
+                    <WebTab url={this.state.itemSelected.desc_url} />
                     <View style={styles.tabViewContainer}>
                         <TouchableOpacity
                             style={{flexDirection: 'row',height:50,width:(SCREEN_WIDTH - 4)/2}}

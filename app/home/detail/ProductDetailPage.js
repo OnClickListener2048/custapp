@@ -11,7 +11,8 @@ import {
     Platform,
     TouchableOpacity,
     TouchableWithoutFeedback,
-
+    PanResponder,
+    Animated,
     Linking,
     StyleSheet,
     TextInput
@@ -30,11 +31,43 @@ export default class ProductDetailPage extends BComponent {
         this.state = {
             isShowModal:false,
         };
+        this.marginTopValue= new Animated.Value(0)
     }
     static defaultProps = {
         item:{}
     };
+    componentWillMount() {
+        this._panResponder = PanResponder.create({
+            // 要求成为响应者：
+            onStartShouldSetPanResponder: (evt, gestureState) => true,
 
+            onPanResponderGrant: (e, gestureState) => {
+
+                this.pageX = e.nativeEvent.pageX;
+                this.pageY = e.nativeEvent.pageY;
+            },
+            onPanResponderMove: (e, gestureState) => {
+
+                if (Math.abs(this.pageY - e.nativeEvent.pageY) > Math.abs(this.pageX - e.nativeEvent.pageX)) {
+                    // 上下滑动
+                    if(this.pageY>e.nativeEvent.pageY){
+                        //向上滑动
+                        Animated.spring(this.marginTopValue, {
+                            toValue: 1,
+                            duration: 250,
+                        }).start()
+                    }else{
+                        //向下滑动
+                        Animated.spring(this.marginTopValue, {
+                            toValue: 0,
+                            duration: 250,
+                        }).start()
+                    }
+                }
+            },
+
+        });
+    }
     callPhone(){
         Linking.openURL('tel:13522807924')
     }
@@ -49,10 +82,15 @@ export default class ProductDetailPage extends BComponent {
 
     // #E13238
     render(){
+        const marginTop = this.marginTopValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, -DeviceInfo.width*0.4]
+        })
         return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-
-                <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.props.item.img}}/>
+            <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                <Animated.View style={{marginTop}}>
+                    <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.props.item.img}}/>
+                </Animated.View>
                 <WebTab url={this.props.item.desc_url}/>
                 <View style={styles.tabViewContainer}>
                     <TouchableOpacity
