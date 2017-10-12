@@ -96,7 +96,7 @@ export default class ColumnDetailPage extends BComponent {
     render(){
         if(this.state.loadState == 'success'){
             return(
-                <View style={{flex:1}}>
+                <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
                     <View style={{backgroundColor:'#f9f9f9',paddingBottom:10,paddingTop:10}}>
                         <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.state.itemSelected.img}}/>
                         <View style={{backgroundColor:'white', marginTop:-13,marginLeft:10,marginRight:10,paddingTop:10,paddingBottom:20,flexDirection:'row',flexWrap:'wrap',borderRadius:3}}>

@@ -31,7 +31,7 @@ export default class ProductDetailPage extends BComponent {
     // #E13238
     render(){
         return(
-            <View style={{flex:1}}>
+            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
                 <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.props.item.img}}/>
                 <WebTab url={this.props.item.desc_url}/>
                 <View style={styles.tabViewContainer}>

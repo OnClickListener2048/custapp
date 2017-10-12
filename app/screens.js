@@ -13,7 +13,6 @@ import VerifyResultPage from './home/VerifyName/VerifyResultPage';
 
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
-import HomeDetailPage from './home/detail/HomeDetailPage'
 import ProductDetailPage from './home/detail/ProductDetailPage'
 import ColumnDetailPage from './home/detail/ColumnDetailPage'
 
@@ -50,7 +49,6 @@ export default function () {
     reg('MessagePage', () => MessagePage);
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
-    reg('HomeDetailPage', () => HomeDetailPage);
     reg('BindPhonePage', () => BindPhonePage);
     reg('MyOrderPage', () => MyOrderPage);
     reg('ChangeCompanyPage', () => ChangeCompanyPage);
