@@ -39,7 +39,7 @@ import ProfitStatementPage from './service/serviceDetail/ProfitStatementPage'
 import TaxFormPage from './service/serviceDetail/TaxFormPage'
 
 import Notification from './view/NotificationView'
-
+import NoNetTipPage from './view/NoNetTipPage'
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -71,4 +71,5 @@ export default function () {
     reg('Notification', () => Notification);
     reg('ProductDetailPage', () => ProductDetailPage);
     reg('ColumnDetailPage', () => ColumnDetailPage);
+    reg('NoNetTipPage', () => NoNetTipPage);
 }
