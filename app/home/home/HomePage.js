@@ -73,8 +73,6 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
-import Picker from 'react-native-picker';
-import area from '../../../picker_demo/area.json';
 import DefaultView from '../../view/DefaultView'
 export default class HomePage extends BComponent {
 
@@ -82,9 +80,6 @@ export default class HomePage extends BComponent {
         super(props);
         this.state = {
             dataSource:[],
-            fadeAnim: new Animated.Value(0),
-            maskTouchDisabled : true,
-            pointerEvents: 'none',
             loadState:'loading',
             isRefreshing:false,
             isFirstRefresh:true
@@ -194,115 +189,7 @@ export default class HomePage extends BComponent {
             },
         );
     }
-    //ios添加mask背景
-    _showMask(){
-        let _this = this
-        Animated.timing(
-            this.state.fadeAnim,
-            {
-                toValue: 1,
-            }
-        ).start(()=>{
-            _this.setState({
-                maskTouchDisabled: false,
-                pointerEvents: 'auto'
-            });
-        });
-    }
-    //iOS关闭Mask背景
-    _clostMask(){
-        Animated.timing(
-            this.state.fadeAnim,
-            {
-                toValue: 0,
-                duration: 160
-            }
-        ).start(()=>{
-            this.setState({
-                maskTouchDisabled: true,
-                pointerEvents: 'none'
-            });
-        });
-    }
-    //展示选择器
-    _showPicker(){
 
-        if(Platform.OS === 'ios'){
-            this._showMask()
-        }
-
-        Picker.init({
-            pickerData: this._createAreaData(),
-            selectedValue: ['北京', '北京', '朝阳区'],
-            pickerConfirmBtnText:'确定',
-            pickerCancelBtnText:'取消',
-            pickerTitleText:'请选择城市',
-            pickerBg:[255, 255, 255, 1],
-            onPickerConfirm: data => {
-                if(Platform.OS === 'ios'){
-                    this._clostMask()
-                }
-            },
-            onPickerCancel: data => {
-                if(Platform.OS === 'ios'){
-                    this._clostMask()
-                }
-            },
-            onPickerSelect: data => {
-                console.log(data);
-            }
-        });
-        Picker.show();
-    }
-    //iosmask背景点击事件
-    _onPress(){
-        this._clostMask()
-        Picker.hide()
-    }
-    //iOS情况下返回一个mask
-    _maskView() {
-        return(
-            <Animated.View style={{
-                opacity: this.state.fadeAnim,
-                backgroundColor: 'rgba(0,0,0,0.3)',
-                position:'absolute',
-                // flex:1,
-                top:0,
-                bottom:0,
-                right:0,
-                left:0
-            }}
-                           pointerEvents={this.state.pointerEvents}
-            >
-                <TouchableOpacity
-                    disabled = {this.state.maskTouchDisabled}
-                    activeOpacity={1}
-                    onPress={() => this._onPress()}
-                    style={{flex:1}}>
-                    <View style={{flex:1}}>
-                    </View>
-                </TouchableOpacity>
-            </Animated.View>
-        )
-    }
-    //创造picker数据源
-    _createAreaData() {
-        let data = [];
-        let len = area.length;
-        for(let i=0;i<len;i++){
-            let city = [];
-            for(let j=0,cityLen=area[i]['city'].length;j<cityLen;j++){
-                let _city = {};
-                _city[area[i]['city'][j]['name']] = area[i]['city'][j]['area'];
-                city.push(_city);
-            }
-
-            let _data = {};
-            _data[area[i]['name']] = city;
-            data.push(_data);
-        }
-        return data;
-    }
     render(){
 
         if(this.state.loadState == 'success'){
@@ -320,7 +207,6 @@ export default class HomePage extends BComponent {
                         refreshing={this.state.isRefreshing}
                     >
                     </SectionList>
-                    {Platform.OS==='ios'?this._maskView():null}
                 </View>
 
             )
@@ -408,13 +294,7 @@ export default class HomePage extends BComponent {
     }
     _listHeaderComponent(){
         return(
-            <View style={{width:DeviceInfo.width,paddingTop:DeviceInfo.OS==='ios'?20:0}}>
-                <View style={{width:DeviceInfo.width,padding:6,paddingLeft:15}}>
-                    <TouchableOpacity style={{flexDirection:'row',alignItems:'center',}} onPress={()=>this._showPicker()}>
-                        <Text style={{fontSize:16,color:'#333333'}}>北京</Text>
-                        <Image source={require('../../img/arrow_down.png')}/>
-                    </TouchableOpacity>
-                </View>
+            <View style={{width:DeviceInfo.width}}>
                 <Image resizeMode="cover" source={require('../../img/name_bg.png')} style={{width:deviceWidth,justifyContent:'center',
                     alignItems:'center'}}>
                     <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>

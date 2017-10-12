@@ -13,7 +13,6 @@ import VerifyResultPage from './home/VerifyName/VerifyResultPage';
 
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
-import HomeDetailPage from './home/detail/HomeDetailPage'
 import ProductDetailPage from './home/detail/ProductDetailPage'
 import ColumnDetailPage from './home/detail/ColumnDetailPage'
 
@@ -39,7 +38,7 @@ import ProfitStatementPage from './service/serviceDetail/ProfitStatementPage'
 import TaxFormPage from './service/serviceDetail/TaxFormPage'
 
 import Notification from './view/NotificationView'
-
+import NoNetTipPage from './view/NoNetTipPage'
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -50,7 +49,6 @@ export default function () {
     reg('MessagePage', () => MessagePage);
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
-    reg('HomeDetailPage', () => HomeDetailPage);
     reg('BindPhonePage', () => BindPhonePage);
     reg('MyOrderPage', () => MyOrderPage);
     reg('ChangeCompanyPage', () => ChangeCompanyPage);
@@ -71,4 +69,5 @@ export default function () {
     reg('Notification', () => Notification);
     reg('ProductDetailPage', () => ProductDetailPage);
     reg('ColumnDetailPage', () => ColumnDetailPage);
+    reg('NoNetTipPage', () => NoNetTipPage);
 }
