@@ -97,12 +97,6 @@ export default class ProductDetailPage extends BComponent {
         this.setState({isShowkeyBoard: false});
     }
 
-
-    onBackClick(){
-        Keyboard.dismiss();
-
-    }
-
     callPhone(){
         Linking.openURL('tel:13522807924')
     }
@@ -149,7 +143,7 @@ export default class ProductDetailPage extends BComponent {
                     </TouchableOpacity>
                 </View>
 
-                <Modal onBackClick={()=>this.onBackClick()} backdropPressToClose={!this.state.isShowkeyBoard}
+                <Modal onBackClick={()=>Keyboard.dismiss()} backdropPressToClose={!this.state.isShowkeyBoard}
                     style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
                     position={"center"} ref={"modal3"}>
                     <TouchableWithoutFeedback onPress={dismissKeyboard}>
