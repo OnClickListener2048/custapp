@@ -22,7 +22,7 @@ import {
 import WebTab from './WebVIew'
 import BComponent from '../../base';
 const window = Dimensions.get('window');
-import Modal from 'react-native-modalbox';
+import Modal from '../../view/Modalbox';
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
 export const SCREEN_HEIGHT = window.height;
@@ -37,7 +37,6 @@ export default class ProductDetailPage extends BComponent {
         this.marginTopValue= new Animated.Value(0)
         this._keyboardDidShow = this._keyboardDidShow.bind(this);
         this._keyboardDidHide = this._keyboardDidHide.bind(this);
-        this.dismissKeyBoard = this.dismissKeyBoard.bind(this);
     }
     static defaultProps = {
         item:{}
@@ -73,10 +72,8 @@ export default class ProductDetailPage extends BComponent {
             },
 
         });
-    // 发送通知
-
-
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+        // 发送通知
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     }
 
@@ -92,33 +89,19 @@ export default class ProductDetailPage extends BComponent {
     // 小屏键盘显示适配
     _keyboardDidShow() {
         this.setState({isShowkeyBoard: true});
-
     }
 
     // 小屏键盘显示适配
     _keyboardDidHide() {
-        alert('hide')
 
         this.setState({isShowkeyBoard: false});
-
-
-
-
     }
 
-    dismissKeyBoard(){
-        if (this.state.isShowkeyBoard){
 
-            dismissKeyboard
-
-        }else {
-
-            this.refs.modal3.close()
-
-        }
+    onBackClick(){
+        Keyboard.dismiss();
 
     }
-
 
     callPhone(){
         Linking.openURL('tel:13522807924')
@@ -166,7 +149,7 @@ export default class ProductDetailPage extends BComponent {
                     </TouchableOpacity>
                 </View>
 
-                <Modal onClosed = {this.dismissKeyBoard} backdropPressToClose = {!this.state.isShowkeyBoard}
+                <Modal onBackClick={()=>this.onBackClick()} backdropPressToClose={!this.state.isShowkeyBoard}
                     style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
                     position={"center"} ref={"modal3"}>
                     <TouchableWithoutFeedback onPress={dismissKeyboard}>
