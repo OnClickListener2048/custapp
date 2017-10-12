@@ -419,12 +419,15 @@ export default class LoginPage extends Component {
         apis.userInfo().then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
+                /*
+                {"code":0,"user":{"username":"8018b38a-1836-44ab-a0c9-9cf00a623e50","nickname":"Changjiong.Liu","email":null,"name":"Changjiong.Liu","mobilePhone":null,"sex":"1","avatar":"http://wx.qlogo.cn/mmopen/vi_32/ajNVdqHZLLDtt0ic4ia8rpMribw4y8JeobBuhu3hdibFJOjU4FxXLkSC28Jbg46K4LbPaGEXoLhOetGBFzx1baadPg/0","roles":["USER_INFO"]}}
+                */
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 Toast.show('用户信息读取成功返回' +  JSON.stringify(responseData));
-                if (responseData !== null && responseData.data !== null) {
-                    UserInfoStore.setLastUserPhone(responseData.data.phone);
+                if (responseData !== null && responseData.user !== null) {
+                    UserInfoStore.setLastUserPhone(responseData.user.mobilePhone);
 
-                    UserInfoStore.setUserInfo(responseData.data).then(// 保存成功后再跳转
+                    UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
                         (user) => {
                             console.log("OK ===> Main:");
                             this.pop();
