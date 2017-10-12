@@ -205,9 +205,6 @@ export default class ServicePage extends BComponent {
                            source={require('../../img/service_demo_img.png')}
                            >
                     </Image>
-                    {/*<TouchableOpacity>*/}
-                        {/*<Image style={{resizeMode : "contain",marginTop:-50}} source={require('../../img/service_demo_buy.png')}/>*/}
-                    {/*</TouchableOpacity>*/}
                 </View>
                     <View style={{
                         position: 'absolute',
@@ -290,6 +287,7 @@ const styles = StyleSheet.create({
         resizeMode : "contain",
         justifyContent: 'center',
         alignItems: 'center',
+        width:SCREEN_WIDTH-16
     },
 
 
