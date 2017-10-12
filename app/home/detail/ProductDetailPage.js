@@ -13,6 +13,8 @@ import {
     TouchableWithoutFeedback,
     PanResponder,
     Animated,
+    Keyboard,
+    KeyboardAvoidingView,
     Linking,
     StyleSheet,
     TextInput
@@ -29,9 +31,13 @@ export default class ProductDetailPage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            isShowModal:false,
+            isShowkeyBoard:false,
+
         };
         this.marginTopValue= new Animated.Value(0)
+        this._keyboardDidShow = this._keyboardDidShow.bind(this);
+        this._keyboardDidHide = this._keyboardDidHide.bind(this);
+        this.dismissKeyBoard = this.dismissKeyBoard.bind(this);
     }
     static defaultProps = {
         item:{}
@@ -67,7 +73,53 @@ export default class ProductDetailPage extends BComponent {
             },
 
         });
+    // 发送通知
+
+
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     }
+
+
+
+    componentWillUnmount() {
+        // 发送通知
+
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
+    // 小屏键盘显示适配
+    _keyboardDidShow() {
+        this.setState({isShowkeyBoard: true});
+
+    }
+
+    // 小屏键盘显示适配
+    _keyboardDidHide() {
+        alert('hide')
+
+        this.setState({isShowkeyBoard: false});
+
+
+
+
+    }
+
+    dismissKeyBoard(){
+        if (this.state.isShowkeyBoard){
+
+            dismissKeyboard
+
+        }else {
+
+            this.refs.modal3.close()
+
+        }
+
+    }
+
+
     callPhone(){
         Linking.openURL('tel:13522807924')
     }
@@ -114,15 +166,18 @@ export default class ProductDetailPage extends BComponent {
                     </TouchableOpacity>
                 </View>
 
-                <Modal
-                    style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: 0}}
+                <Modal onClosed = {this.dismissKeyBoard} backdropPressToClose = {!this.state.isShowkeyBoard}
+                    style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
                     position={"center"} ref={"modal3"}>
+                    <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
-                    <View  style={[{height: 479 - 20, width: SCREEN_WIDTH - 76, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
+                    <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
+                        <View  style={[{height: 479 - 20, width: SCREEN_WIDTH - 76,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
+
                         <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]} placeholder='服务区域'/>
                         <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]} placeholder='您的称呼'/>
                         <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]} placeholder='联系电话'/>
-                        <TextInput underlineColorAndroid='transparent' multiline={true} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:180}]} placeholder='请在此输入留言内容,我们会尽快与您联系。'/>
+                        <TextInput underlineColorAndroid='transparent' multiline={true} ref={"content"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 140 : 180}]} placeholder='请在此输入留言内容,我们会尽快与您联系。'/>
                         <TouchableOpacity
                             style={styles.submitBtnTouchContainer}
                             onPress={() => {
@@ -132,7 +187,12 @@ export default class ProductDetailPage extends BComponent {
                                 <Text style={styles.textContainer}>{'我要咨询'}</Text>
                             </View>
                         </TouchableOpacity>
-                    </View>
+
+                        </View>
+
+                    </KeyboardAvoidingView>
+                    </TouchableWithoutFeedback>
+
                 </Modal>
             </View>
 
