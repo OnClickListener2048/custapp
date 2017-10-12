@@ -8,7 +8,9 @@ import {
     Image,
     Dimensions,
     TouchableOpacity,
-    InteractionManager
+    InteractionManager,
+    StyleSheet
+
 } from 'react-native';
 import WebTab from './WebVIew'
 import BComponent from '../../base';
@@ -20,6 +22,10 @@ const col = 4
 const mag = 10
 const boxWidth = Dimensions.get('window').width - 20
 const itemWidth = (boxWidth-(col+1)*mag)/col
+
+const window = Dimensions.get('window');
+export const SCREEN_HEIGHT = window.height;
+export const SCREEN_WIDTH = window.width;
 export default class ColumnDetailPage extends BComponent {
     constructor(props) {
         super(props);
@@ -80,6 +86,13 @@ export default class ColumnDetailPage extends BComponent {
         );
 
     }
+
+    callPhone(){
+    }
+    onlineMessage(){
+        //在线留言
+    }
+
     render(){
         if(this.state.loadState == 'success'){
             return(
@@ -111,6 +124,27 @@ export default class ColumnDetailPage extends BComponent {
                         </View>
                     </View>
                     <WebTab url={this.state.itemSelected.desc_url}/>
+                    <View style={styles.tabViewContainer}>
+                        <TouchableOpacity
+                            style={{flexDirection: 'row',height:50,width:(SCREEN_WIDTH - 4)/2}}
+                            onPress={() => {
+                                this.callPhone()
+                            }}>
+                            <View style={{flexDirection: 'row',justifyContent:'center',flex:1,alignItems:'center',backgroundColor:'#E13238'}}>
+                                <Text style={{fontSize:16,textAlign:'center',color:'#ffffff'}}>{'免费咨询'}</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={{flexDirection: 'row',height:50,width:(SCREEN_WIDTH - 4)/2}}
+                            onPress={() => {
+                                this.onlineMessage()
+                            }}>
+                            <View  style={{flexDirection: 'row',justifyContent:'center',flex:1,alignItems:'center',backgroundColor:'#E19F0E'}}>
+                                <Text style={{fontSize:16,textAlign:'center',color:'#ffffff'}}>{'在线留言'}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             )
         }else{
@@ -129,3 +163,20 @@ export default class ColumnDetailPage extends BComponent {
     }
 
 }
+
+
+
+const styles = StyleSheet.create({
+
+
+    tabViewContainer: {
+        height: 50,
+        width: SCREEN_WIDTH,
+        backgroundColor: '#FFFFFF',
+        justifyContent:'space-between',
+        flexDirection: 'row',
+    },
+
+
+
+});

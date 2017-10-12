@@ -16,7 +16,7 @@ export default class HttpAdapterCustApp extends HttpAdapter {
             let token = await UserInfoStore.getUserToken();
             console.log('modifyParams token', token);
             if (token !== null){
-                finalHeaders.append('access_token', token);
+                finalHeaders.append('Authorization', 'Bearer ' +  token);
             }
         } catch (error) {
         }
