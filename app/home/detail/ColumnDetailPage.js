@@ -9,8 +9,8 @@ import {
     Dimensions,
     TouchableOpacity,
     InteractionManager,
-    StyleSheet
-
+    StyleSheet,
+    Linking
 } from 'react-native';
 import WebTab from './WebVIew'
 import BComponent from '../../base';
@@ -88,6 +88,8 @@ export default class ColumnDetailPage extends BComponent {
     }
 
     callPhone(){
+        Linking.openURL('tel:13522807924')
+
     }
     onlineMessage(){
         //在线留言
@@ -176,7 +178,23 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         flexDirection: 'row',
     },
+    btnTouchContainer: {
+        flexDirection: 'row',
+        height:50,
+        width:(SCREEN_WIDTH - 4)/2
+    },
 
+    btnContainer: {
+        flexDirection: 'row',
+        justifyContent:'center',
+        flex:1,
+        alignItems:'center'
+    },
+    textContainer: {
+        fontSize:16,
+        textAlign:'center',
+        color:'#ffffff'
+    },
 
 
 });
