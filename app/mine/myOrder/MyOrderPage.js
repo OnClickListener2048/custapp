@@ -40,7 +40,7 @@ export default class MyOrderPage extends BComponent {
 
     loadData(){
         var loading = SActivityIndicator.show(true, "加载中...");
-        apis.loadOrderListData().then(
+        apis.loadOrderListData('1').then(
             (responseData) => {
                 if(responseData.code == 0) {
                     SActivityIndicator.hide(loading);

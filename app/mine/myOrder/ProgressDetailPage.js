@@ -25,8 +25,6 @@ export default class ProgressDetailPage extends BComponent {
         this.state={
             sourceData:[],//进度列表数据源
             statusW:0,//最外层状态
-            status_desc:'',//状态描述
-            amount:'',//金额
             loadState:'loading'
         }
         this.childState='';//判断显示样式 6显示红色 已完成
@@ -41,7 +39,7 @@ export default class ProgressDetailPage extends BComponent {
 
     loadData(){
         var loading = SActivityIndicator.show(true, "加载中...");
-        apis.loadOrderDetailData(this.props.orderId).then(
+        apis.loadOrderDetailData(this.props.id).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code==0){
@@ -49,13 +47,9 @@ export default class ProgressDetailPage extends BComponent {
                         console.log('走了吗吗吗', responseData.data)
                         var sourceData = responseData.data.schedule;
                         var statusW = responseData.data.status;
-                        var status_desc = responseData.data.status_desc;
-                        var amount = responseData.data.amount;
                         this.setState({
                             sourceData: sourceData,
                             statusW: statusW,
-                            status_desc: status_desc,
-                            amount: amount,
                             loadState: 'success'
                         })
                     }else{
@@ -81,7 +75,7 @@ export default class ProgressDetailPage extends BComponent {
 
         if(item.index==0&&this.state.statusW==6){
             this.childState='done'
-        }else if(item.item.status==1){
+        }else if(item.item.status==1||item.item.status==3){
             this.childState='green'
 
         }else if(item.item.status==2){
@@ -91,6 +85,8 @@ export default class ProgressDetailPage extends BComponent {
             this.status='执行中'
         }else if(item.item.status==2){
             this.status='已结束'
+        }else if(item.item.status==3){
+            this.status='已取消'
         }
 
         return(
@@ -118,7 +114,7 @@ export default class ProgressDetailPage extends BComponent {
                                 订单状态
                             </Text>
                             <Text style={styles.orderstate}>
-                                {this.state.status_desc}
+                                {this.props.orderState}
                             </Text>
                         </View>
                         <View style={[styles.wrapper1, {marginTop: 15}]}>
@@ -126,7 +122,7 @@ export default class ProgressDetailPage extends BComponent {
                                 订单号:{this.props.orderId}
                             </Text>
                             <Text style={styles.money}>
-                                {this.state.amount}
+                                {this.props.money}
                             </Text>
                         </View>
                     </View>
