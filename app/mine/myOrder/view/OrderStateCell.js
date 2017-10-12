@@ -19,26 +19,29 @@ export default class OrderStateCell extends Component {
     }
 
     static propTypes = {
-        orderId: PropTypes.string,
+        orderId: PropTypes.string,//订单号
         orderState: PropTypes.string,
         time: PropTypes.string,
         money: PropTypes.string,
+        id:PropTypes.string
 
     };
 
-    _toDetail(orderId){
+    _toDetail(orderId,orderState,money,id){
         this.props.navigator.push({
             screen: 'ProgressDetailPage',
             title:'进度详情',
             passProps: {
                 orderId:orderId,
-
+                orderState:orderState,
+                money:money,
+                id:id
             }
         });
     }
 
     render(){
-        const {orderId,orderState,time,money} = this.props
+        const {orderId,orderState,time,money,id} = this.props
         return(
         <View style={styles.container} >
             <View style={styles.wrapper1}>
@@ -61,7 +64,7 @@ export default class OrderStateCell extends Component {
                 <Text style={styles.time}>
                     {time}
                 </Text>
-                <TouchableOpacity onPress={this._toDetail.bind(this,orderId)}>
+                <TouchableOpacity onPress={this._toDetail.bind(this,orderId,orderState,money,id)}>
                 <Image style={styles.img}
                        source={require('../../../img/myorder_progress.png')}>
                     <Text style={styles.progressTe}>
