@@ -47,13 +47,15 @@ export default class SActivityIndicator extends Component{
     static hide(AIV){
         if (AIV instanceof RootSiblings) {
 
-            AIV.update(<ActivityIndicatorContent
-                animated={SActivityIndicator.animated}
-                message={SActivityIndicator.message}
-                isHide={true}
-            />)
+            setTimeout(()=>{
+                AIV.update(<ActivityIndicatorContent
+                    animated={SActivityIndicator.animated}
+                    message={SActivityIndicator.message}
+                    isHide={true}
+                />)
 
-            AIV.destroy();
+                AIV.destroy();
+            },500)
         }
     }
 

@@ -205,6 +205,7 @@ export default class HomePage extends BComponent {
                         ListFooterComponent={this._listFooterComponent.bind(this)}
                         onRefresh={this._onRefresh.bind(this)}
                         refreshing={this.state.isRefreshing}
+                        removeClippedSubviews={false}
                     >
                     </SectionList>
                 </View>

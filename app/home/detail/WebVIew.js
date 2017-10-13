@@ -14,8 +14,6 @@ export default class HomeDetailPage extends Component {
             <WebView
                 source={{uri:this.props.url}}
                 bounces={false}
-                domStorageEnabled={true}
-                javaScriptEnabled={true}
                 startInLoadingState={true}
             />
         )

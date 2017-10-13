@@ -86,7 +86,7 @@ export default class ServicePage extends BComponent {
                     this.setState({
                         isRefreshing:false
                     })
-                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
+                    // Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
             (e) => {
@@ -94,7 +94,7 @@ export default class ServicePage extends BComponent {
                 this.setState({
                     isRefreshing:false
                 })
-                Toast.show('加载失败！')
+                // Toast.show('加载失败！')
             },
         );
     }
