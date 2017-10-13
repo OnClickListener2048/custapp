@@ -22,7 +22,28 @@ export default class HomePage extends BComponent {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this.state = {
+            userName: '-',     // 用户名
+            phone: '', //手机号
+            avatar: require('../../img/head_img.png'),// 头像
+            // avatar: {uri: 'http://wx.qlogo.cn/mmopen/vi_32/ajNVdqHZLLDtt0ic4ia8rpMribw4y8JeobBuhu3hdibFJOjU4FxXLkSC28Jbg46K4LbPaGEXoLhOetGBFzx1baadPg/0'},// 头像
+        };
+    }
 
+    componentWillMount() {
+        UserInfoStore.getUserInfo().then(
+            (user) => {
+                if (user !== null) {
+                    this.setState({userName: user.name, phone: user.mobilePhone});
+                    if(user.avatar !== null) {
+                        this.setState({avatar: {uri:user.avatar}});
+                    }
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
     }
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
@@ -36,14 +57,14 @@ export default class HomePage extends BComponent {
                     <Text style={styles.textstyle}>
                         头像
                     </Text>
-                    <Image source={require('../../img/head_img.png')} style={styles.imageCircle}/>
+                    <Image source={this.state.avatar} style={styles.imageCircle}/>
                 </View>
                 <View style={styles.contentlist}>
                     <Text style={styles.textstyle}>
                         手机号
                     </Text>
                     <Text style={styles.textContentStyle}>
-                        13333333333
+                        {this.state.phone}
                     </Text>
                 </View>
                 <View style={{height:0.5,backgroundColor:'#ECECEC'}}/>
@@ -69,7 +90,7 @@ export default class HomePage extends BComponent {
                         微信号
                     </Text>
                     <Text style={styles.textContentStyle}>
-                        yangyangyang
+                        {this.state.userName}
                     </Text>
                 </View>
 
