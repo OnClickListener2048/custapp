@@ -425,7 +425,12 @@ export default class LoginPage extends Component {
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 Toast.show('用户信息读取成功返回' +  JSON.stringify(responseData));
                 if (responseData !== null && responseData.user !== null) {
-                    UserInfoStore.setLastUserPhone(responseData.user.mobilePhone);
+                    if(responseData.user.mobilePhone !== null) {
+                        UserInfoStore.setLastUserPhone(responseData.user.mobilePhone);
+                    } else {
+                        UserInfoStore.removeLastUserPhone();
+                    }
+
 
                     UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
                         (user) => {

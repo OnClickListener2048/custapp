@@ -16,11 +16,12 @@ import {
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
+import styles from '../../user/css/LoginPageStyle';
 import px2dp from '../../util/index'
 import Toast from 'react-native-root-toast';
 import {SCREEN_WIDTH as width} from '../../config';
 import SActivityIndicator from '../../modules/react-native-sww-activity-indicator';
-import * as apis from '../../apis/setting';
+import * as apis from '../../apis/account';
 import TimerButton from "../../view/TimerButton";
 import settingStyles from './css/SettingsPageStyle';
 import BComponent from '../../base';
@@ -39,15 +40,21 @@ export default class BindPhonePage extends BComponent {
             newMobileValid:false,
             smsCode:'',
             smsCodeValid:false,
-            timerButtonClicked:false
+            timerButtonClicked:false,
+            verifyText: '请输入图片验证码',// 图片验证码提示语
+            vCode: '',         // 图片验证码
+            picURL: require('../../img/head_img.png'),// 图片验证码
         };
+
+        this._doChangeVCode = this._doChangeVCode.bind(this);
     }
 
     componentWillMount() {
         UserInfoStore.getUserInfo().then(
             (user) => {
                 if (user !== null) {
-                    this.setState({ phone: user.phone});
+                    this.setState({ phone: user.mobilePhone});
+
                 }
             },
             (e) => {
@@ -55,6 +62,24 @@ export default class BindPhonePage extends BComponent {
             },
         );
     }
+
+    componentDidMount() {
+        this._doChangeVCode();
+    }
+
+    _doChangeVCode() {
+        //this.state.phone
+        apis.getVerifyVCodeImage('13810397064', 1).then(
+            data => {
+                let picURL = { uri: 'data:image/jpeg;base64,' + data.img };
+                this.setState({picURL, vCode: '', vCodeInputValid: false});
+            },
+            e => {
+
+            }
+        );
+    }
+
     render(){
         return(
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
@@ -91,6 +116,49 @@ export default class BindPhonePage extends BComponent {
                                }
                     />
                 </View>
+
+                <View style={styles.textInputContainer}>
+
+                    <View style={styles.textInputWrapper}>
+                        <TextInput underlineColorAndroid='transparent'
+                                   ref="vCodeInput"
+                                   autoCorrect={false}
+                                   value={this.state.vCode}
+                                   editable={this.state.mobileValid}
+                                   secureTextEntry={false} maxLength={4} keyboardType='default'
+                                   style={styles.codeInput} placeholder={this.state.verifyText}
+                                   placeholderTextColor='#c8c8c8'
+                                   returnKeyType='done'
+                                   onChangeText={(vCode) => {
+                                       this.setState({vCode})
+                                       let vCodeInputValid = (vCode.length === 4);
+                                       this.setState({vCode, vCodeInputValid});
+                                       if(vCodeInputValid) {
+                                           dismissKeyboard();
+                                       }
+                                   }}
+
+                                   onBlur={() => {
+                                       dismissKeyboard();
+                                       if(this.state.vCodeInputValid&& !this.state.vCodeServerValid) {
+                                           this._verifyVCode();
+                                       }
+                                   }}
+
+                                   onSubmitEditing={() => {
+                                       dismissKeyboard();
+                                       //this._verifyVCode();
+                                   }}
+                        />
+
+                        <TouchableWithoutFeedback onPress={this._doChangeVCode}>
+                            <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
+                                    source={this.state.picURL}     />
+                        </TouchableWithoutFeedback>
+
+                    </View>
+                </View>
+
                 <View style={{flexDirection:'row',width:DeviceInfo.width,backgroundColor:'#FFFFFF',alignItems:'center'}}>
                     <View style={{width:DeviceInfo.width/2,padding:14,paddingLeft:30,paddingRight:30}}>
                         <TextInput
@@ -115,6 +183,40 @@ export default class BindPhonePage extends BComponent {
                             }}
                         />
                     </View>
+
+                    <TextInput underlineColorAndroid='transparent'
+                               ref="vCodeInput"
+                               autoCorrect={false}
+                               value={this.state.vCode}
+                               editable={this.state.mobileValid}
+                               secureTextEntry={false} maxLength={4} keyboardType='default'
+                               style={styles.codeInput} placeholder={this.state.verifyText}
+                               placeholderTextColor='#c8c8c8'
+                               returnKeyType='done'
+                               onChangeText={(vCode) => {
+                                   this.setState({vCode})
+                                   let vCodeInputValid = (vCode.length === 4);
+                                   this.setState({vCode, vCodeInputValid});
+                                   if(vCodeInputValid) {
+                                       dismissKeyboard();
+                                   }
+                               }}
+
+                               onBlur={() => {
+                                   dismissKeyboard();
+                                   if(this.state.vCodeInputValid&& !this.state.vCodeServerValid) {
+                                       this._verifyVCode();
+                                   }
+                               }}
+
+                               onSubmitEditing={() => {
+                                   dismissKeyboard();
+                                   //this._verifyVCode();
+                               }}
+                    />
+
+
+
                     <View style={{flexDirection:'row-reverse',alignItems:'center',width:DeviceInfo.width/2}}>
                         <TimerButton
                             enable = {true}

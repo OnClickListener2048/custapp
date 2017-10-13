@@ -40,3 +40,25 @@ it('wechatToken test', async () => {
     );
 });
 
+
+it('getVerifyVCodeImage test', async () => {
+    apis.getVerifyVCodeImage('13810397064', 1).then(
+        data => {
+            let picURL = { uri: 'data:image/jpeg;base64,' + response.img };
+        },
+        e => {
+
+        }
+    );
+});
+
+it('发送手机验证码 test', async () => {
+    apis.sendVerifyCode('13810397064', 1, 'wpgg').then(
+        data => {
+            console.log(data);
+        },
+        e => {
+
+        }
+    );
+});

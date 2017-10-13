@@ -31,14 +31,29 @@ export function login( phone = '', smsCode = '') {
   return postApi('/app/v0/user/login/phone', {phone, smsCode});
 }
 
-// 短信验证码
-export async function sendVerifyCode(phone = '', verifyCode = '') {
-    return await postApi('/app/v0/user/smscode/get', {phone, verifyCode});
+// 发送手机验证码并校验图形验证码
+export async function sendVerifyCode(mobile = '', type = '1', imgcode = '') {
+    return await postApi('/api/v1/verificodes/sms?mobile='+mobile+'&type='+type+'&imgcode='+imgcode, {});
 }
 
-// 校验图形验证码
-export async function sendVerifyVCode(phone = '', vcode = '') {
-    return await postApi('/app/v0/user/vcode/verify', {phone, vcode});
+// 绑定关联新手机号
+export async function editPhoneBind(mobile = '', smscode = '') {
+    return await postApi('/api/v1/user/binding', {mobile, smscode});
+}
+
+/**
+ * 获取图形验证码
+ *
+ mobile(*): 手机号
+ type(*): 1绑定手机号 5企业核名
+ Response
+ code
+ msg
+ img 图形验证码 图片base64位编码
+ * @returns {Promise.<*>}
+ */
+export async function getVerifyVCodeImage(mobile = '', type = '1') {
+    return await postApi('/api/v1/verificodes/image?mobile='+mobile+'&type='+type, {});
 }
 
 // 问题反馈
