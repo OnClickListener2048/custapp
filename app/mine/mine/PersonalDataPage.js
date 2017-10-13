@@ -64,7 +64,7 @@ export default class HomePage extends BComponent {
                         手机号
                     </Text>
                     <Text style={styles.textContentStyle}>
-                        13333333333
+                        {this.state.phone}
                     </Text>
                 </View>
                 <View style={{height:0.5,backgroundColor:'#ECECEC'}}/>

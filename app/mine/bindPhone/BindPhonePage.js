@@ -19,7 +19,7 @@ import {
 import styles from '../../user/css/LoginPageStyle';
 import px2dp from '../../util/index'
 import Toast from 'react-native-root-toast';
-import {SCREEN_WIDTH as width} from '../../config';
+import {SCREEN_WIDTH} from '../../config';
 import SActivityIndicator from '../../modules/react-native-sww-activity-indicator';
 import * as apis from '../../apis/account';
 import TimerButton from "../../view/TimerButton";
@@ -35,18 +35,19 @@ export default class BindPhonePage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            phone:'',
-            newMobile:'',
-            newMobileValid:false,
-            smsCode:'',
-            smsCodeValid:false,
-            timerButtonClicked:false,
+            phone:'13810397064',// 现在手机号
+            newMobile:'', // 新手机号
+            newMobileValid:false, // 新手机号有效
+            smsCode: '',         // 短信验证码
+            smsCodeValid: false,          // 短信验证码有效
+            timerButtonClicked:false,//  倒计时按钮是否已点击
             verifyText: '请输入图片验证码',// 图片验证码提示语
             vCode: '',         // 图片验证码
             picURL: require('../../img/head_img.png'),// 图片验证码
         };
 
         this._doChangeVCode = this._doChangeVCode.bind(this);
+        this._verifyVCode = this._verifyVCode.bind(this);
     }
 
     componentWillMount() {
@@ -67,6 +68,7 @@ export default class BindPhonePage extends BComponent {
         this._doChangeVCode();
     }
 
+    // 刷新验证码
     _doChangeVCode() {
         //this.state.phone
         apis.getVerifyVCodeImage('13810397064', 1).then(
@@ -80,12 +82,63 @@ export default class BindPhonePage extends BComponent {
         );
     }
 
+    // 验证图形码
+    _verifyVCode() {
+        console.log('_verifyVCode');
+        if (this.state.mobileValid) {
+            // apis.sendVerifyVCode(this.state.mobile, this.state.vCodeInputValid ? this.state.vCode : null).then(
+            //     (responseData) => {
+            //         Toast.show('图形验证码已验证');
+            //         this.setState({vCodeServerValid: true});
+            //         // this.setState({verifyText : null});
+            //         // 重置允许获取验证码
+            //         if (this.refs.timerButton.state.counting) {
+            //             this.refs.timerButton.reset();
+            //         }
+            //         this.setState({timerButtonClicked: false});
+            //
+            //         // this.focusField('smsCodeInput');
+            //         // if(!this.refs.smsCodeInput.isFocused()) {
+            //         //     this.refs.smsCodeInput.focus();
+            //         // }
+            //     }, (e) => {
+            //         console.log('_verifyVCode error:' + e.message);
+            //         // 重置允许获取验证码
+            //         if (this.refs.timerButton.state.counting) {
+            //             this.refs.timerButton.reset();
+            //         }
+            //         this.setState({timerButtonClicked: false});
+            //         let msg = '请输入正确的验证字符或手机号';//e.msg;
+            //         // if(msg === undefined) {
+            //         //     msg = e.message;
+            //         // }
+            //
+            //         if(msg !== undefined) {
+            //             Alert.alert('', msg,
+            //                 [
+            //                     {
+            //                         text: '确定',
+            //                         onPress: () => {
+            //                             // this.focusField('vCodeInput');
+            //                             // if(!this.refs.vCodeInput.isFocused()) {
+            //                             //     this.refs.vCodeInput.focus();
+            //                             // }
+            //                         },
+            //                     },]
+            //                 , {cancelable: true});
+            //         }
+            //         this._doChangeVCode();
+            //     }
+            // );
+        }
+    }
+
     render(){
         return(
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
-                <Text style={{padding:17,color:'#333333',fontSize:14,width:DeviceInfo.width,textAlign:'center'}}>当前手机号{this.state.phone}</Text>
-                <View style={{width:DeviceInfo.width, padding:14,paddingLeft:30,paddingRight:30,backgroundColor:'#FFFFFF',borderBottomWidth:0.5,borderBottomColor:'#ececec'}}>
+                <Text style={{padding:17,color:'#333333',fontSize:14,width:SCREEN_WIDTH,textAlign:'center'}}>当前手机号{this.state.phone}</Text>
+                <View style={{width:SCREEN_WIDTH, padding:14,paddingLeft:30,paddingRight:30,backgroundColor:'#FFFFFF',borderBottomWidth:0.5,borderBottomColor:'#ececec'}}>
                     <TextInput style={{fontSize:14,padding:0}}
                                placeholder="请输入新手机号"
                                underlineColorAndroid='transparent'
@@ -117,16 +170,17 @@ export default class BindPhonePage extends BComponent {
                     />
                 </View>
 
+                {/*  图片验证码 */}
                 <View style={styles.textInputContainer}>
-
-                    <View style={styles.textInputWrapper}>
+                    <View style={[styles.textInputWrapper,{width:SCREEN_WIDTH, marginLeft:15, padding:14, paddingLeft:30,paddingRight:30, }]}>
                         <TextInput underlineColorAndroid='transparent'
                                    ref="vCodeInput"
                                    autoCorrect={false}
                                    value={this.state.vCode}
                                    editable={this.state.mobileValid}
                                    secureTextEntry={false} maxLength={4} keyboardType='default'
-                                   style={styles.codeInput} placeholder={this.state.verifyText}
+                                   style={[styles.codeInput,{paddingLeft:0, }]}
+                                   placeholder={this.state.verifyText}
                                    placeholderTextColor='#c8c8c8'
                                    returnKeyType='done'
                                    onChangeText={(vCode) => {
@@ -138,35 +192,25 @@ export default class BindPhonePage extends BComponent {
                                        }
                                    }}
 
-                                   onBlur={() => {
-                                       dismissKeyboard();
-                                       if(this.state.vCodeInputValid&& !this.state.vCodeServerValid) {
-                                           this._verifyVCode();
-                                       }
-                                   }}
-
-                                   onSubmitEditing={() => {
-                                       dismissKeyboard();
-                                       //this._verifyVCode();
-                                   }}
                         />
 
                         <TouchableWithoutFeedback onPress={this._doChangeVCode}>
                             <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
-                                    source={this.state.picURL}     />
+                                    source={this.state.picURL} />
                         </TouchableWithoutFeedback>
 
                     </View>
                 </View>
 
+                {/*  短信验证码 */}
                 <View style={{flexDirection:'row',width:DeviceInfo.width,backgroundColor:'#FFFFFF',alignItems:'center'}}>
-                    <View style={{width:DeviceInfo.width/2,padding:14,paddingLeft:30,paddingRight:30}}>
+                    <View style={{width:SCREEN_WIDTH/2,padding:14,paddingLeft:30,paddingRight:30}}>
                         <TextInput
                             style={{fontSize:14,padding:0}}
                             placeholder="请输入验证码"
                             underlineColorAndroid='transparent'
                             value={this.state.smsCode}
-                            editable={this.state.timerButtonClicked}
+                            editable={this.state.timerButtonClicked && this.state.vCodeInputValid}
                             secureTextEntry={false}
                             maxLength={6}
                             keyboardType='numeric'
@@ -284,7 +328,7 @@ export default class BindPhonePage extends BComponent {
 
     _requestSMSCode(shouldStartCountting) {
         console.log('_requestSMSCode shouldStartCountting', shouldStartCountting);
-        apis.sendVerifyCode(this.state.phone).then(
+        apis.sendVerifyCode(this.state.phone, 1, this.state.vCode).then(
             (responseData) => {
                 Toast.show('短信验证码已发送');
                 // Toast.show('测试环境短信验证码:' + responseData.msg);
