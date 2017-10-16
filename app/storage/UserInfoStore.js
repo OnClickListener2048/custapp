@@ -9,6 +9,20 @@ let UserInfoStore = {};
 let KEY_JPUSH_ID = "KEY_JPUSH_ID";
 let LAST_USER_PHONE = "LAST_USER_PHONE";// 上次登陆后的用户手机号
 
+// 返回是否已登陆
+UserInfoStore.isLogined = async function (): boolean {
+   let user = await UserInfoStore.getUserInfo();
+   if(user === null) {
+       return false;
+   } else {
+       if(user.avatar !== null) {
+           return true;
+       }
+   }
+
+   return false;
+};
+
 UserInfoStore.getUserInfo = async function (): Object {
     let value = await Preferences.get(KEY_USER_INFO);
     if (value !== null) {
@@ -20,15 +34,15 @@ UserInfoStore.getUserInfo = async function (): Object {
 
 UserInfoStore.setUserInfo = async function (value: Object) {
     return Preferences.set(KEY_USER_INFO, JSON.stringify(value));
-}
+};
 
 UserInfoStore.removeUserInfo = async function () {
     return Preferences.remove(KEY_USER_INFO);
-}
+};
 
 UserInfoStore.getUserToken = async function () {
     return await Preferences.get(KEY_USER_TOKEN);
-}
+};
 
 UserInfoStore.setUserToken = async function (value: string) {
     return Preferences.set(KEY_USER_TOKEN, value);
@@ -36,7 +50,7 @@ UserInfoStore.setUserToken = async function (value: string) {
 
 UserInfoStore.removeUserToken = async function () {
     return Preferences.remove(KEY_USER_TOKEN);
-}
+};
 
 UserInfoStore.getLastUserPhone = async function (): Object {
     return await Preferences.get(LAST_USER_PHONE);
@@ -48,11 +62,11 @@ UserInfoStore.setLastUserPhone = async function (value: string) {
 
 UserInfoStore.removeLastUserPhone = async function () {
     return Preferences.remove(LAST_USER_PHONE);
-}
+};
 
 UserInfoStore.getJPushID = async function () {
     return await Preferences.get(KEY_JPUSH_ID);
-}
+};
 
 UserInfoStore.setJPushID = async function (value: string) {
     return Preferences.set(KEY_JPUSH_ID, value);

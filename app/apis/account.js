@@ -38,7 +38,7 @@ export async function sendVerifyCode(mobile = '', type = '1', imgcode = '') {
 
 // 绑定关联新手机号
 export async function editPhoneBind(mobile = '', smscode = '') {
-    return await postApi('/api/v1/user/binding', {mobile, smscode});
+    return await postApi('/api/v1/user/binding?mobile='+mobile+'&smscode='+smscode);
 }
 
 /**
