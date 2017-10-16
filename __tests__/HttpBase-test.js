@@ -53,7 +53,7 @@ it('getVerifyVCodeImage test', async () => {
 });
 
 it('发送手机验证码 test', async () => {
-    apis.sendVerifyCode('13810397064', 1, 'wpgg').then(
+    apis.sendVerifyCode('13810397064', 1, 'g2vg').then(
         data => {
             console.log(data);
         },

@@ -20,7 +20,7 @@ import styles from '../../user/css/LoginPageStyle';
 import px2dp from '../../util/index'
 import Toast from 'react-native-root-toast';
 import {SCREEN_WIDTH} from '../../config';
-import SActivityIndicator from '../../modules/react-native-sww-activity-indicator';
+import '../../modules/react-native-sww-activity-indicator';
 import * as apis from '../../apis/account';
 import TimerButton from "../../view/TimerButton";
 import settingStyles from './css/SettingsPageStyle';
@@ -35,7 +35,7 @@ export default class BindPhonePage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            phone:'13810397064',// 现在手机号
+            phone:'',// 现在手机号
             newMobile:'', // 新手机号
             newMobileValid:false, // 新手机号有效
             smsCode: '',         // 短信验证码
@@ -43,7 +43,8 @@ export default class BindPhonePage extends BComponent {
             timerButtonClicked:false,//  倒计时按钮是否已点击
             verifyText: '请输入图片验证码',// 图片验证码提示语
             vCode: '',         // 图片验证码
-            picURL: require('../../img/head_img.png'),// 图片验证码
+            picURL: null,// 图片验证码
+            vCodeInputValid: false,
         };
 
         this._doChangeVCode = this._doChangeVCode.bind(this);
@@ -65,13 +66,13 @@ export default class BindPhonePage extends BComponent {
     }
 
     componentDidMount() {
-        this._doChangeVCode();
+
     }
 
     // 刷新验证码
     _doChangeVCode() {
         //this.state.phone
-        apis.getVerifyVCodeImage('13810397064', 1).then(
+        apis.getVerifyVCodeImage(this.state.newMobile, 1).then(
             data => {
                 let picURL = { uri: 'data:image/jpeg;base64,' + data.img };
                 this.setState({picURL, vCode: '', vCodeInputValid: false});
@@ -86,50 +87,50 @@ export default class BindPhonePage extends BComponent {
     _verifyVCode() {
         console.log('_verifyVCode');
         if (this.state.mobileValid) {
-            // apis.sendVerifyVCode(this.state.mobile, this.state.vCodeInputValid ? this.state.vCode : null).then(
-            //     (responseData) => {
-            //         Toast.show('图形验证码已验证');
-            //         this.setState({vCodeServerValid: true});
-            //         // this.setState({verifyText : null});
-            //         // 重置允许获取验证码
-            //         if (this.refs.timerButton.state.counting) {
-            //             this.refs.timerButton.reset();
-            //         }
-            //         this.setState({timerButtonClicked: false});
-            //
-            //         // this.focusField('smsCodeInput');
-            //         // if(!this.refs.smsCodeInput.isFocused()) {
-            //         //     this.refs.smsCodeInput.focus();
-            //         // }
-            //     }, (e) => {
-            //         console.log('_verifyVCode error:' + e.message);
-            //         // 重置允许获取验证码
-            //         if (this.refs.timerButton.state.counting) {
-            //             this.refs.timerButton.reset();
-            //         }
-            //         this.setState({timerButtonClicked: false});
-            //         let msg = '请输入正确的验证字符或手机号';//e.msg;
-            //         // if(msg === undefined) {
-            //         //     msg = e.message;
-            //         // }
-            //
-            //         if(msg !== undefined) {
-            //             Alert.alert('', msg,
-            //                 [
-            //                     {
-            //                         text: '确定',
-            //                         onPress: () => {
-            //                             // this.focusField('vCodeInput');
-            //                             // if(!this.refs.vCodeInput.isFocused()) {
-            //                             //     this.refs.vCodeInput.focus();
-            //                             // }
-            //                         },
-            //                     },]
-            //                 , {cancelable: true});
-            //         }
-            //         this._doChangeVCode();
-            //     }
-            // );
+            apis.sendVerifyCode(this.state.mobile, '1', this.state.vCodeInputValid ? this.state.vCode : null).then(
+                (responseData) => {
+                    Toast.show('短信验证码已发送');
+                    this.setState({vCodeServerValid: true});
+                    // this.setState({verifyText : null});
+                    // 重置允许获取验证码
+                    if (this.refs.timerButton.state.counting) {
+                        this.refs.timerButton.reset();
+                    }
+                    this.setState({timerButtonClicked: false});
+
+                    // this.focusField('smsCodeInput');
+                    // if(!this.refs.smsCodeInput.isFocused()) {
+                    //     this.refs.smsCodeInput.focus();
+                    // }
+                }, (e) => {
+                    console.log('_verifyVCode error:' + e.message);
+                    // 重置允许获取验证码
+                    if (this.refs.timerButton.state.counting) {
+                        this.refs.timerButton.reset();
+                    }
+                    this.setState({timerButtonClicked: false});
+                    let msg = '请输入正确的验证字符或手机号';//e.msg;
+                    // if(msg === undefined) {
+                    //     msg = e.message;
+                    // }
+
+                    if(msg !== undefined) {
+                        Alert.alert('', msg,
+                            [
+                                {
+                                    text: '确定',
+                                    onPress: () => {
+                                        // this.focusField('vCodeInput');
+                                        // if(!this.refs.vCodeInput.isFocused()) {
+                                        //     this.refs.vCodeInput.focus();
+                                        // }
+                                    },
+                                },]
+                            , {cancelable: true});
+                    }
+                    this._doChangeVCode();
+                }
+            );
         }
     }
 
@@ -164,6 +165,10 @@ export default class BindPhonePage extends BComponent {
                                            newMobileValid = false;
                                        }
 
+                                       if(newMobileValid) {
+                                           this._doChangeVCode();
+                                       }
+
                                        this.setState({newMobile, newMobileValid});
                                    }
                                }
@@ -172,7 +177,8 @@ export default class BindPhonePage extends BComponent {
 
                 {/*  图片验证码 */}
                 <View style={styles.textInputContainer}>
-                    <View style={[styles.textInputWrapper,{width:SCREEN_WIDTH, marginLeft:15, padding:14, paddingLeft:30,paddingRight:30, }]}>
+                    <View style={{flexDirection: 'row',
+                        justifyContent:'center',width:SCREEN_WIDTH, padding:14,paddingLeft:30,paddingRight:30,backgroundColor:'#FFFFFF',borderBottomWidth:0.5,borderBottomColor:'#ececec'}}>
                         <TextInput underlineColorAndroid='transparent'
                                    ref="vCodeInput"
                                    autoCorrect={false}
@@ -248,9 +254,9 @@ export default class BindPhonePage extends BComponent {
 
                                onBlur={() => {
                                    dismissKeyboard();
-                                   if(this.state.vCodeInputValid&& !this.state.vCodeServerValid) {
-                                       this._verifyVCode();
-                                   }
+                                   // if(this.state.vCodeInputValid&& !this.state.vCodeServerValid) {
+                                   //     this._verifyVCode();
+                                   // }
                                }}
 
                                onSubmitEditing={() => {
@@ -267,7 +273,7 @@ export default class BindPhonePage extends BComponent {
                             ref="timerButton"
                             style={{width:90,marginRight:30}}
                             textStyle={{fontSize:12,color:'#6A6A6A'}}
-                            timerCount={180}
+                            timerCount={5}
                             onClick={(shouldStartCountting) => {
                                 shouldStartCountting(true);
                                 this.setState({timerButtonClicked: true});
@@ -328,16 +334,18 @@ export default class BindPhonePage extends BComponent {
 
     _requestSMSCode(shouldStartCountting) {
         console.log('_requestSMSCode shouldStartCountting', shouldStartCountting);
-        apis.sendVerifyCode(this.state.phone, 1, this.state.vCode).then(
-            (responseData) => {
-                Toast.show('短信验证码已发送');
-                // Toast.show('测试环境短信验证码:' + responseData.msg);
-                // Toast.show('测试环境短信验证码 ' + responseData.msg,
-                //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
-            }, (e) => {
-                Toast.show(errorText( e ));
-            }
-        );
+        if (this.state.newMobileValid && this.state.vCodeInputValid) {
+            apis.sendVerifyCode(this.state.newMobile, 1, this.state.vCode).then(
+                (responseData) => {
+                    Toast.show('短信验证码已发送');
+                    // Toast.show('测试环境短信验证码:' + responseData.msg);
+                    // Toast.show('测试环境短信验证码 ' + responseData.msg,
+                    //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
+                }, (e) => {
+                    Toast.show(errorText(e));
+                }
+            );
+        }
     }
 
 

@@ -22,15 +22,64 @@ export default class MinePage extends BComponent {
 
     constructor(props) {
         super(props);
-        this.state = {
-            dataSource:[]
-        };
 
+        this.initPage = this.initPage.bind(this);
+        this.reset = this.reset.bind(this);
+        this.reset();
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
+
+    // 子类请继承此方法, 不要忘了调用super.onNavigatorEvent(event);
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        console.log(event.id);//willAppear
+        if (event.id === 'willAppear') {
+            this.initPage();
+        }
+    }
+
+    reset() {
+        this.state = {
+            phone: '注册/登录', //手机号
+            avatar: require('../../img/head_img.png'),// 头像
+            company: '请立即注册或登录',//公司名称
+            logined: false,// 是否已登陆
+        };
+    }
+
+    // 准备加载组件
+    componentWillMount() {
+        this.initPage();
+    }
+
+    initPage() {
+        UserInfoStore.getUserInfo().then(
+            (user) => {
+                if (user !== null) {
+                    this.setState({userName: user.name, phone: user.mobilePhone});
+                    this.setState({company: '测试公司请修改'});
+
+                    if(user.avatar !== null) {
+                        console.log('MinePage', user.avatar);
+                        this.setState({avatar: {uri:user.avatar}});
+                    }
+                } else {
+                    this.reset();
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+                this.reset();
+            },
+        );
+
+        UserInfoStore.isLogined().then(
+            logined => { this.setState({logined:logined});},
+            e => {console.log("读取登陆状态错误:", e);}
+        );
+    }
 
     render(){
         return(
@@ -40,13 +89,13 @@ export default class MinePage extends BComponent {
                     contentContainerStyle={{backgroundColor:'#F9F9F9'}}>
                     <TouchableOpacity style={styles.login_wrapper} onPress={this.login.bind(this)}>
                         <View style={{flexDirection:'row'}}>
-                            <Image style={styles.head_img} source={require('../../img/head_img.png')}/>
+                            <Image style={styles.head_img} source={this.state.avatar}/>
                             <View style={styles.login_title_wrapper}>
                                 <Text style={styles.login}>
-                                    注册/登录
+                                    {this.state.phone || this.state.userName}
                                 </Text>
                                 <Text style={styles.company}>
-                                    请立即注册或登录
+                                    {this.state.company}
                                 </Text>
                             </View>
                         </View>
@@ -95,25 +144,14 @@ export default class MinePage extends BComponent {
     }
 
     login(){
-        Alert.alert('请选择', '点确定进登录页, 取消进个人资料页', [
-            {
-                text: "取消",
-                onPress: ()=>{
-                    this.props.navigator.push({
-                        screen: 'PersonalDataPage',
-                        title:'个人资料',
-                    });
-                }
-            }
-            ,
-            {
-                text: "确定",
-                onPress: ()=>{
-                    loginJumpSingleton.goToLogin(this.props.navigator);
-                }
-            }
-        ]);
-
+        if(this.state.logined) {
+            this.props.navigator.push({
+                screen: 'PersonalDataPage',
+                title:'个人资料',
+            });
+        } else {
+            loginJumpSingleton.goToLogin(this.props.navigator);
+        }
     }
 
 }
@@ -131,6 +169,9 @@ const styles = StyleSheet.create({
 
     head_img:{
         resizeMode: "contain",
+        width:60,
+        height:60,
+        borderRadius: 30,
     },
     login_title_wrapper:{
         marginTop:13,
