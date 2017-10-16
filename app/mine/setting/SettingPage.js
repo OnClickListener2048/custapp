@@ -22,6 +22,7 @@ export default class SettingPage extends BComponent {
         this.state = {
             cacheSize:"",
             unit:"",
+            logined: false,// 是否已登陆
         }
     }
     componentDidMount(){
@@ -31,6 +32,11 @@ export default class SettingPage extends BComponent {
                 unit:unit  //缓存单位
             })
         });
+
+        UserInfoStore.isLogined().then(
+            logined => { this.setState({logined:logined});},
+            e => {console.log("读取登陆状态错误:", e);}
+        );
     }
     render(){
         return(
@@ -58,7 +64,7 @@ export default class SettingPage extends BComponent {
                     <SubmitButton
                         onPress={ this._doLogout.bind(this) }
                         text='退出'
-                        isEnabled = {true}
+                        isEnabled = {this.state.logined}
                     />
                 </ScrollView>
             </View>

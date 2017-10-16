@@ -17,6 +17,7 @@ import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
+import Toast from 'react-native-root-toast';
 
 export default class MinePage extends BComponent {
 
@@ -134,7 +135,16 @@ export default class MinePage extends BComponent {
     }
     _goto(screen, title ){
 
-        if(screen == '')return;
+        // 未登录不能跳转的页面
+        if(!this.state.logined) {
+            if(screen === 'BindPhonePage' || screen === 'MyOrderPage' || screen === 'CompanyInfoPage' ) {
+                Toast.show("请先登录")
+                return;
+            }
+        }
+
+
+        if(screen === '')return;
 
         this.props.navigator.push({
             screen: screen,
