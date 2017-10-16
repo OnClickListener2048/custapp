@@ -336,6 +336,7 @@ export default class HomePage extends BComponent {
             screen: 'ProductDetailPage',
             title:item.name,
             passProps:{
+                navigatorTitle : item.name,
                 item
             }
         });
