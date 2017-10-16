@@ -38,7 +38,7 @@ export default class ProductDetailPage extends BComponent {
             area:'',  //服务区域
             name:'', //姓名
             message:'', //提交意见消息
-            navigatorTitle:this.props.navigatorTitle,          //步骤 ID
+            navigatorTitle:this.props.navigatorTitle,          //标题名称
 
         };
         this.marginTopValue= new Animated.Value(0)
@@ -48,14 +48,11 @@ export default class ProductDetailPage extends BComponent {
         this.updateArea = this.updateArea.bind(this);
         this.updateName = this.updateName.bind(this);
         this.updateMmessage = this.updateMmessage.bind(this);
-
-
-
     }
     static defaultProps = {
         item:{}
+    };
 
-};
     componentWillMount() {
         this._panResponder = PanResponder.create({
             // 要求成为响应者：
@@ -112,13 +109,7 @@ export default class ProductDetailPage extends BComponent {
         this.setState({isShowkeyBoard: false});
     }
 
-    callPhone(){
-        Linking.openURL('tel:13522807924')
-    }
-    onlineMessage(){
-    //在线留言
-        this.refs.modal3.open()
-    }
+
 
     submitMessage(){
 
@@ -136,10 +127,11 @@ export default class ProductDetailPage extends BComponent {
             return;
         }
 
-
-        apis.submitFeedBack('1',this.state.navigatorTitle,this.state.area,this.state.name,this.state.mobile,this.state.message).then(
+        apis.submitFeedBack(this.state.navigatorTitle,this.state.area,this.state.name,this.state.mobile,this.state.message).then(
             (responseData) => {
-                Toast.show('提交成功'+ responseData);
+                Toast.show('提交成功');
+                this.refs.modal3.close()
+
 
                 // Toast.show('测试环境短信验证码:' + responseData.msg);
                 // Toast.show('测试环境短信验证码 ' + responseData.msg,
@@ -148,6 +140,13 @@ export default class ProductDetailPage extends BComponent {
                 Toast.show('提交失败'+ e);
             }
         );
+    }
+    callPhone(){
+        Linking.openURL('tel:13522807924')
+    }
+    onlineMessage(){
+        //在线留言
+        this.refs.modal3.open()
     }
 
     updateMobile(mobile) {

@@ -45,6 +45,7 @@ export default class ColumnDetailPage extends BComponent {
             itemSelected:{},
             loadState:'loading',
 
+            navigatorTitle:this.props.navigatorTitle,          //标题名称
 
             isShowkeyBoard:false,
             mobile: '',     // 手机号
@@ -122,9 +123,9 @@ export default class ColumnDetailPage extends BComponent {
 
     // 小屏键盘显示适配
     _keyboardDidHide() {
-
         this.setState({isShowkeyBoard: false});
     }
+
     loadData(type = '0'){
         let loading = SActivityIndicator.show(true, "加载中...");
 
@@ -164,16 +165,6 @@ export default class ColumnDetailPage extends BComponent {
 
     }
 
-
-    change(index) {
-        if (this.state.dataArr[index]._id != this.state.itemSelected._id) {
-            this.setState({
-                itemSelected:this.state.dataArr[index]
-            })
-        }
-    }
-
-
     submitMessage(){
 
         if (this.state.area.length === 0){
@@ -190,19 +181,25 @@ export default class ColumnDetailPage extends BComponent {
             return;
         }
 
-
-        apis.submitFeedBack('1',this.state.itemSelected.name,this.state.area,this.state.name,this.state.mobile,this.state.message).then(
+        //这里this.state.navigatorTitle 具体看产品到底要什么
+        apis.submitFeedBack(this.state.navigatorTitle,this.state.area,this.state.name,this.state.mobile,this.state.message).then(
             (responseData) => {
-                Toast.show('提交成功'+ responseData);
-
-                // Toast.show('测试环境短信验证码:' + responseData.msg);
-                // Toast.show('测试环境短信验证码 ' + responseData.msg,
-                //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
+                Toast.show('提交成功');
+                this.refs.modal3.close()
             }, (e) => {
                 Toast.show('提交失败'+ e);
             }
         );
     }
+
+    change(index) {
+        if (this.state.dataArr[index]._id != this.state.itemSelected._id) {
+            this.setState({
+                itemSelected:this.state.dataArr[index]
+            })
+        }
+    }
+
 
     callPhone(){
         Linking.openURL('tel:13522807924')

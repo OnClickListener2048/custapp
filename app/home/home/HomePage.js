@@ -349,6 +349,7 @@ export default class HomePage extends BComponent {
                     screen: 'ColumnDetailPage',
                     title:item.title,
                     passProps:{
+                        navigatorTitle : item.title,
                         type:1
                     }
                 });
@@ -360,6 +361,7 @@ export default class HomePage extends BComponent {
                     screen: 'ColumnDetailPage',
                     title:item.title,
                     passProps:{
+                        navigatorTitle : item.title,
                         type:2
                     }
                 });
@@ -378,6 +380,7 @@ export default class HomePage extends BComponent {
                     screen: 'ColumnDetailPage',
                     title:item.title,
                     passProps:{
+                        navigatorTitle : item.title,
                         type:3
                     }
                 });
