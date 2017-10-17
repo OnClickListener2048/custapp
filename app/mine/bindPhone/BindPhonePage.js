@@ -49,6 +49,7 @@ export default class BindPhonePage extends BComponent {
 
         this._doChangeVCode = this._doChangeVCode.bind(this);
         this._verifyVCode = this._verifyVCode.bind(this);
+        this.readUserInfo = this.readUserInfo.bind(this);
     }
 
     componentWillMount() {
@@ -70,17 +71,18 @@ export default class BindPhonePage extends BComponent {
     }
 
     // 刷新验证码
-    _doChangeVCode() {
-        //this.state.phone
-        apis.getVerifyVCodeImage(this.state.newMobile, 1).then(
-            data => {
-                let picURL = { uri: 'data:image/jpeg;base64,' + data.img };
-                this.setState({picURL, vCode: '', vCodeInputValid: false});
-            },
-            e => {
+    _doChangeVCode(newMobile) {
+        if(newMobile.length === 11) {
+            apis.getVerifyVCodeImage(newMobile, 1).then(
+                data => {
+                    let picURL = { uri: 'data:image/jpeg;base64,' + data.img };
+                    this.setState({picURL, vCode: '', vCodeInputValid: false});
+                },
+                e => {
 
-            }
-        );
+                }
+            );
+        }
     }
 
     // 验证图形码
@@ -164,12 +166,12 @@ export default class BindPhonePage extends BComponent {
                                                });
                                            newMobileValid = false;
                                        }
+                                       this.setState({newMobile, newMobileValid});
 
                                        if(newMobileValid) {
-                                           this._doChangeVCode();
+                                           this._doChangeVCode(newMobile);
                                        }
 
-                                       this.setState({newMobile, newMobileValid});
                                    }
                                }
                     />
@@ -297,12 +299,46 @@ export default class BindPhonePage extends BComponent {
         )
     }
 
+    // 读取用户信息
+    readUserInfo() {
+        apis.userInfo().then(
+            (responseData) => {
+                console.log("用户信息读取成功返回:", JSON.stringify(responseData));
+                if (responseData !== null && responseData.user !== null) {
+                    if(responseData.user.mobilePhone !== null) {
+                        UserInfoStore.setLastUserPhone(responseData.user.mobilePhone);
+                    } else {
+                        UserInfoStore.removeLastUserPhone();
+                    }
 
+
+                    UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
+                        (user) => {
+                            console.log("OK ===> Main:");
+                        },
+                        (e) => {
+                            console.log("用户信息保存错误:", e);
+                        },
+                    );
+
+                } else {
+                    console.log("OK ===> LoginPage:");
+                }
+            },
+            (e) => {
+                console.log("用户信息读取错误返回:", e);
+                Toast.show('用户信息读取错误' +  JSON.stringify(e));
+            },
+        );
+    }
+
+    // 修改绑定手机号
     _doSubmit() {
         let loading = SActivityIndicator.show(true, "");
         apis.editPhoneBind(this.state.newMobile, this.state.smsCode).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
+                this.readUserInfo();
                 Alert.alert('', '绑定成功',
                     [
                         {

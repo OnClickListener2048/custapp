@@ -8,7 +8,7 @@ import './Preferences';
 let UserInfoStore = {};
 let KEY_JPUSH_ID = "KEY_JPUSH_ID";
 let LAST_USER_PHONE = "LAST_USER_PHONE";// 上次登陆后的用户手机号
-
+const KEY_COMPANY_INFO = "KEY_COMPANY_INFO";// 公司信息
 // 返回是否已登陆
 UserInfoStore.isLogined = async function (): boolean {
    let user = await UserInfoStore.getUserInfo();
@@ -70,6 +70,18 @@ UserInfoStore.getJPushID = async function () {
 
 UserInfoStore.setJPushID = async function (value: string) {
     return Preferences.set(KEY_JPUSH_ID, value);
+};
+
+UserInfoStore.getCompany = async function () {
+    return await Preferences.get(KEY_COMPANY_INFO);
+};
+
+UserInfoStore.setCompany = async function (value: string) {
+    return Preferences.set(KEY_COMPANY_INFO, value);
+};
+
+UserInfoStore.removeCompany = async function () {
+    return Preferences.remove(KEY_COMPANY_INFO);
 };
 
 global.UserInfoStore = UserInfoStore;// 全局可用

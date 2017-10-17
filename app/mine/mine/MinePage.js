@@ -178,7 +178,6 @@ const styles = StyleSheet.create({
     },
 
     head_img:{
-        resizeMode: "contain",
         width:60,
         height:60,
         borderRadius: 30,
