@@ -60,7 +60,7 @@ export default class MinePage extends BComponent {
             (user) => {
                 if (user !== null) {
                     this.setState({userName: user.name, phone: user.mobilePhone});
-                    this.setState({company: '测试公司请修改'});
+                    this.setState({company: ''});
 
                     if(user.avatar !== null) {
                         console.log('MinePage', user.avatar);

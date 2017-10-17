@@ -73,7 +73,7 @@ export default class HomePage extends BComponent {
                         公司名称
                     </Text>
                     <Text style={styles.textContentStyle}>
-                        大佳科技
+
                     </Text>
                 </View>
                 <View style={styles.contentlist}>
@@ -81,7 +81,7 @@ export default class HomePage extends BComponent {
                         联系人
                     </Text>
                     <Text style={styles.textContentStyle}>
-                        崔先生
+
                     </Text>
                 </View>
                 <View style={{height:0.5,backgroundColor:'#ECECEC'}}/>
