@@ -211,7 +211,7 @@ export default class ServicePage extends BComponent {
                         bottom: 0,
                         left: 0,
                         width: DeviceInfo.width,
-                        height: 40,
+                        height: 100,
                         backgroundColor: 'transparent',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -219,7 +219,7 @@ export default class ServicePage extends BComponent {
                           pointerEvents='box-none'
                     >
                         <TouchableOpacity onPress={()=>this.goBuy()}>
-                        <Image style={{resizeMode : "contain",marginBottom:40}} source={require('../../img/service_demo_buy.png')}/>
+                        <Image style={{resizeMode : "contain",marginTop:15}} source={require('../../img/service_demo_buy.png')}/>
                         </TouchableOpacity>
                     </View>
                 </View>
