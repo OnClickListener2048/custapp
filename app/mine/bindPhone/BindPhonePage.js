@@ -70,17 +70,18 @@ export default class BindPhonePage extends BComponent {
     }
 
     // 刷新验证码
-    _doChangeVCode() {
-        //this.state.phone
-        apis.getVerifyVCodeImage(this.state.newMobile, 1).then(
-            data => {
-                let picURL = { uri: 'data:image/jpeg;base64,' + data.img };
-                this.setState({picURL, vCode: '', vCodeInputValid: false});
-            },
-            e => {
+    _doChangeVCode(newMobile) {
+        if(newMobile.length === 11) {
+            apis.getVerifyVCodeImage(newMobile, 1).then(
+                data => {
+                    let picURL = { uri: 'data:image/jpeg;base64,' + data.img };
+                    this.setState({picURL, vCode: '', vCodeInputValid: false});
+                },
+                e => {
 
-            }
-        );
+                }
+            );
+        }
     }
 
     // 验证图形码
@@ -164,12 +165,12 @@ export default class BindPhonePage extends BComponent {
                                                });
                                            newMobileValid = false;
                                        }
+                                       this.setState({newMobile, newMobileValid});
 
                                        if(newMobileValid) {
-                                           this._doChangeVCode();
+                                           this._doChangeVCode(newMobile);
                                        }
 
-                                       this.setState({newMobile, newMobileValid});
                                    }
                                }
                     />

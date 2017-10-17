@@ -5,4 +5,4 @@ echo make android bundle
 rm -f android/app/build/outputs/apk/*.apk
 echo Building APK
 rm -rf node_modules/jpush-react-native/android/build
-cd android && ./gradlew assembleRelease
+cd android && ./gradlew assemble
