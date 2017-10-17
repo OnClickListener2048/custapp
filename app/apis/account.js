@@ -8,18 +8,7 @@ import {
     Platform, DeviceEventEmitter
 } from 'react-native';
 
-// 获取微信验证码
 
-/**
- * 1、通过微信的app_id获取微信的授权码code
- 2、取得微信的授权码后，将授权码传给UAA后端作验证处理
- * @param app_id
- * @param code
- * @returns {Promise}
- */
-export function wechatCallback( code = '') {
-    return postRawApi('/ua/wechat/callback', { code});//app_id:WECHAT_APP_ID,
-}
 
 // TODO
 export function wechatToken( code = '') {
@@ -33,12 +22,12 @@ export function login( phone = '', smsCode = '') {
 
 // 发送手机验证码并校验图形验证码
 export async function sendVerifyCode(mobile = '', type = '1', imgcode = '') {
-    return await postApi('/api/v1/verificodes/sms?mobile='+mobile+'&type='+type+'&imgcode='+imgcode, {});
+    return postApi('/api/v1/verificodes/sms?mobile='+mobile+'&type='+type+'&imgcode='+imgcode, {});
 }
 
 // 绑定关联新手机号
 export async function editPhoneBind(mobile = '', smscode = '') {
-    return await putEx('/api/v1/user/binding?mobile='+mobile+'&smscode='+smscode);
+    return putEx('/api/v1/user/binding?mobile='+mobile+'&smscode='+smscode);
 }
 
 /**
@@ -53,7 +42,14 @@ export async function editPhoneBind(mobile = '', smscode = '') {
  * @returns {Promise.<*>}
  */
 export async function getVerifyVCodeImage(mobile = '', type = '1') {
-    return await postApi('/api/v1/verificodes/image?mobile='+mobile+'&type='+type, {});
+    return postApi('/api/v1/verificodes/image?mobile='+mobile+'&type='+type, {});
+}
+
+/**
+ * 获取公司信息
+ */
+export async function getCompany(mobile = '') {
+    return getApi('/api/v1/companies', {mobile});
 }
 
 // 问题反馈

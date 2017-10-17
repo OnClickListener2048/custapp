@@ -76,4 +76,5 @@ export const appStyle = {
     // change the background color of the bottom native navigation bar.
         // statusBarColor: '#000000',
         // tabFontFamily: 'BioRhyme-Bold',
+    forceTitlesDisplay: true // Android only. If true - Show all bottom tab labels. If false - only the selected tab's label is visible.
 }

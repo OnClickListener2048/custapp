@@ -315,11 +315,9 @@ export default class BindPhonePage extends BComponent {
                     UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
                         (user) => {
                             console.log("OK ===> Main:");
-                            this.pop();
                         },
                         (e) => {
                             console.log("用户信息保存错误:", e);
-                            this.pop();
                         },
                     );
 

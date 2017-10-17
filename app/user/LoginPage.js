@@ -426,6 +426,29 @@ export default class LoginPage extends Component {
                 if (responseData !== null && responseData.user !== null) {
                     if(responseData.user.mobilePhone !== null) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone);
+                        apis.getCompany(responseData.user.mobilePhone).then(
+                            (responseData) => {
+                                console.log("公司信息读取成功返回:", JSON.stringify(responseData));
+                                if (responseData !== null && responseData.data !== null) {
+
+                                    UserInfoStore.setCompany(responseData.data).then(
+                                        (user) => {
+                                            console.log("OK ===> Main:");
+                                        },
+                                        (e) => {
+                                            console.log("公司信息保存错误:", e);
+                                        },
+                                    );
+
+                                } else {
+
+                                }
+                            },
+                            (e) => {
+                                console.log("公司信息读取错误返回:", e);
+                                Toast.show('公司信息读取错误' +  JSON.stringify(e));
+                            },
+                        );
                     } else {
                         UserInfoStore.removeLastUserPhone();
                     }
@@ -452,6 +475,8 @@ export default class LoginPage extends Component {
                 Toast.show('用户信息读取错误' +  JSON.stringify(e));
             },
         );
+
+
     }
 
     updateMobile(mobile) {
