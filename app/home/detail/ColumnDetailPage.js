@@ -238,7 +238,7 @@ export default class ColumnDetailPage extends BComponent {
             return(
                 <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#f9f9f9'}} >
                     <Animated.View  style={{backgroundColor:'#f9f9f9',paddingBottom:10,paddingTop:10,marginTop}}>
-                        <Image  style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.state.itemSelected.img}}/>
+                        <Image  style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.state.itemSelected.cover}}/>
                         <View style={{backgroundColor:'white', marginTop:-13,marginLeft:10,marginRight:10,paddingTop:10,paddingBottom:20,flexDirection:'row',flexWrap:'wrap',borderRadius:3}}>
                             {
                                 this.state.dataArr.map((item,index)=>{
@@ -263,7 +263,7 @@ export default class ColumnDetailPage extends BComponent {
                             }
                         </View>
                     </Animated.View>
-                    <WebTab url={this.state.itemSelected.desc_url} />
+                    <WebTab url={this.state.itemSelected.url} />
                     <View style={styles.tabViewContainer}>
                         <TouchableOpacity
                             style={{flexDirection: 'row',height:50,width:(SCREEN_WIDTH - 4)/2}}

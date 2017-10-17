@@ -5,5 +5,5 @@ import {getApi} from './common';
 
 export function loadHomeData(type = '0') {
     //v1
-    return getApi('/api/mock/columns',{type});
+    return getApi('/api/v1/columns',{type});
 }

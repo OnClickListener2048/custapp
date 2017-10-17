@@ -113,7 +113,7 @@ export default class HomePage extends BComponent {
                         let section = {};
                         section.key = responseData.list[i].title;
                         //showtype
-                        section.data = [{data:responseData.list[i].products,type:responseData.list[i].viewtype}];
+                        section.data = [{data:responseData.list[i].products,type:responseData.list[i].showtype}];
                         for(let j=0;j<section.data.length;j++){
                             section.data[j].key = j
                         }

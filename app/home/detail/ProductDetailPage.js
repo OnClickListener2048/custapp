@@ -177,9 +177,9 @@ export default class ProductDetailPage extends BComponent {
         return(
             <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#f9f9f9'}}>
                 <Animated.View style={{marginTop}}>
-                    <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.props.item.img}}/>
+                    <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.props.item.cover}}/>
                 </Animated.View>
-                <WebTab url={this.props.item.desc_url}/>
+                <WebTab url={this.props.item.url}/>
                 <View style={styles.tabViewContainer}>
                     <TouchableOpacity
                         style={styles.btnTouchContainer}
