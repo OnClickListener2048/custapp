@@ -8,6 +8,10 @@ export async function postApi(uri, params = {}, headers = {}) {
     return HTTPBase.postEx(API_BASE_URL + uri, params, headers);
 }
 
+export async function putEx(uri, params = {}, headers = {}) {
+    return HTTPBase.putEx(API_BASE_URL + uri, params, headers);
+}
+
 // 返回原始的response对象, 不进行任何解析.
 export async function postRawApi(uri, params = {}, headers = {}) {
     return HTTPBase.postRaw(API_BASE_URL + uri, params, headers);

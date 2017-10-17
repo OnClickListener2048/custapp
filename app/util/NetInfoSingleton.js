@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 let instance = null;
-import Toast from 'react-native-root-toast'
+
 /**
  * 网络状态单例.
  */
@@ -21,10 +21,10 @@ export default class NetInfoSingleton {
         if (!instance) {
             instance = this;
 
-            NetInfo.isConnected.fetch().done((isConnected) => {
-                this.isConnected = isConnected;
-                console.log('NetInfoSingleton: fetch isConnected=', isConnected);
-            })
+            NetInfo.isConnected.fetch().done((_isConnected) => {
+                this.isConnected = _isConnected;
+                console.log('NetInfoSingleton: fetch isConnected=', _isConnected);
+            });
 
             this._updateConnectionStatus = this._updateConnectionStatus.bind(this);
             NetInfo.isConnected.addEventListener('change', this._updateConnectionStatus);

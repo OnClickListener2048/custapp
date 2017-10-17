@@ -34,7 +34,7 @@ export default class BComponent extends Component {
         super(props);
         // 自定义左侧返回按钮
         if(this.props.navigator) {
-            if (this.props.testID == 'MessagePage' || this.props.testID == 'HomePage' || this.props.testID == 'ServicePage' || this.props.testID == 'MinePage'){
+            if (this.props.testID === 'MessagePage' || this.props.testID === 'HomePage' || this.props.testID === 'ServicePage' || this.props.testID === 'MinePage'){
 
             }else{
                 this.props.navigator.setButtons({
@@ -62,7 +62,7 @@ export default class BComponent extends Component {
     };
     // 子类请继承此方法, 不要忘了调用super.onNavigatorEvent(event);
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        // console.log(event);
+        // console.log(event.id);//willAppear
         if (event.type === 'NavBarButtonPress') {
             let { id } = event;
             console.log('id=', id);

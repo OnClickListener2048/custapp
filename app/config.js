@@ -24,12 +24,12 @@ export let WECHAT_APP_ID = 'wx16da5000356a9497';// 微信APP ID
 export let DOMAIN_API = 'x-www.i-counting.cn';
 export let UAA_DOMAIN_URL = 'https://id.i-counting.cn';
 if(DEBUG) {// 测试环境变量, 上线时应删除
+
     SCHEME = 'https';
-    // DOMAIN_API = '192.168.100.234:8081';
-    // DOMAIN_API = 'app.i-counting.cn';
     DOMAIN_API = 'x-www.i-counting.cn';
     UAA_DOMAIN_URL = 'https://x-id.i-counting.cn';
 
+    //单
     // SCHEME = 'http';
     // DOMAIN_API = '192.168.200.150:3000';
 }
@@ -76,4 +76,5 @@ export const appStyle = {
     // change the background color of the bottom native navigation bar.
         // statusBarColor: '#000000',
         // tabFontFamily: 'BioRhyme-Bold',
+    forceTitlesDisplay: true // Android only. If true - Show all bottom tab labels. If false - only the selected tab's label is visible.
 }

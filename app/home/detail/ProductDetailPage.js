@@ -24,6 +24,8 @@ import BComponent from '../../base';
 const window = Dimensions.get('window');
 import Modal from '../../view/Modalbox';
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
+import * as apis from '../../apis';
+import Toast from 'react-native-root-toast'
 
 export const SCREEN_HEIGHT = window.height;
 export const SCREEN_WIDTH = window.width;
@@ -32,15 +34,25 @@ export default class ProductDetailPage extends BComponent {
         super(props);
         this.state = {
             isShowkeyBoard:false,
+            mobile: '',     // 手机号
+            area:'',  //服务区域
+            name:'', //姓名
+            message:'', //提交意见消息
+            navigatorTitle:this.props.navigatorTitle,          //标题名称
 
         };
         this.marginTopValue= new Animated.Value(0)
         this._keyboardDidShow = this._keyboardDidShow.bind(this);
         this._keyboardDidHide = this._keyboardDidHide.bind(this);
+        this.updateMobile = this.updateMobile.bind(this);
+        this.updateArea = this.updateArea.bind(this);
+        this.updateName = this.updateName.bind(this);
+        this.updateMmessage = this.updateMmessage.bind(this);
     }
     static defaultProps = {
         item:{}
     };
+
     componentWillMount() {
         this._panResponder = PanResponder.create({
             // 要求成为响应者：
@@ -97,17 +109,64 @@ export default class ProductDetailPage extends BComponent {
         this.setState({isShowkeyBoard: false});
     }
 
+
+
+    submitMessage(){
+
+        if (this.state.area.length === 0){
+            Toast.show('请输入服务范围');
+            return;
+        }else if (this.state.name.length === 0){
+            Toast.show('请输入您的称呼');
+            return;
+        }else if (this.state.mobile.length === 0){
+            Toast.show('请输入联系电话');
+            return;
+        }else if (this.state.message.length === 0){
+            Toast.show('请输入留言内容');
+            return;
+        }
+
+        apis.submitFeedBack(this.state.navigatorTitle,this.state.area,this.state.name,this.state.mobile,this.state.message).then(
+            (responseData) => {
+                Toast.show('提交成功');
+                this.refs.modal3.close()
+
+
+                // Toast.show('测试环境短信验证码:' + responseData.msg);
+                // Toast.show('测试环境短信验证码 ' + responseData.msg,
+                //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
+            }, (e) => {
+                Toast.show('提交失败'+ e);
+            }
+        );
+    }
     callPhone(){
         Linking.openURL('tel:13522807924')
     }
     onlineMessage(){
-    //在线留言
+        //在线留言
         this.refs.modal3.open()
     }
 
-    submitMessage(){
+    updateMobile(mobile) {
 
+        this.setState({mobile});
     }
+    updateArea(area) {
+
+        this.setState({area});
+    }
+
+    updateName(name) {
+
+        this.setState({name});
+    }
+
+    updateMmessage(message) {
+        this.setState({message});
+    }
+
 
     // #E13238
     render(){
@@ -118,9 +177,9 @@ export default class ProductDetailPage extends BComponent {
         return(
             <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#f9f9f9'}}>
                 <Animated.View style={{marginTop}}>
-                    <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.props.item.img}}/>
+                    <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.props.item.cover}}/>
                 </Animated.View>
-                <WebTab url={this.props.item.desc_url}/>
+                <WebTab url={this.props.item.url}/>
                 <View style={styles.tabViewContainer}>
                     <TouchableOpacity
                         style={styles.btnTouchContainer}
@@ -151,10 +210,38 @@ export default class ProductDetailPage extends BComponent {
                     <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
                         <View  style={[{height: 479 - 20, width: SCREEN_WIDTH - 76,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
 
-                        <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]} placeholder='服务区域'/>
-                        <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]} placeholder='您的称呼'/>
-                        <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]} placeholder='联系电话'/>
-                        <TextInput underlineColorAndroid='transparent' multiline={true} ref={"content"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 140 : 180}]} placeholder='请在此输入留言内容,我们会尽快与您联系。'/>
+                        <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]}
+                                   placeholder='服务区域'
+                                   onChangeText={
+                                       (area) => {
+                                           this.updateArea(area);
+                                       }
+                                   }
+                        />
+                        <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
+                                   placeholder='您的称呼'
+                                   onChangeText={
+                                       (name) => {
+                                           this.updateName(name);
+                                       }
+                                   }
+                        />
+                        <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
+                                   placeholder='联系电话'
+                                   onChangeText={
+                                       (mobile) => {
+                                           this.updateMobile(mobile);
+                                       }
+                                   }
+                        />
+                        <TextInput underlineColorAndroid='transparent' multiline={true} ref={"content"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 140 : 180}]}
+                                   placeholder='请在此输入留言内容,我们会尽快与您联系。'
+                                   onChangeText={
+                                       (message) => {
+                                           this.updateMmessage(message);
+                                       }
+                                   }
+                        />
                         <TouchableOpacity
                             style={styles.submitBtnTouchContainer}
                             onPress={() => {

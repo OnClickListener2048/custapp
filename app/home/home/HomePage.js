@@ -106,14 +106,14 @@ export default class HomePage extends BComponent {
         }
         apis.loadHomeData(type).then(
             (responseData) => {
-
                 if(responseData.code == 0){
                     //成功后处理数据
                     let dataSource = [];
                     for (let i = 0; i<responseData.list.length;i++){
                         let section = {};
                         section.key = responseData.list[i].title;
-                        section.data = [{data:responseData.list[i].products,type:responseData.list[i].viewtype}];
+                        //showtype
+                        section.data = [{data:responseData.list[i].products,type:responseData.list[i].showtype}];
                         for(let j=0;j<section.data.length;j++){
                             section.data[j].key = j
                         }
@@ -336,6 +336,7 @@ export default class HomePage extends BComponent {
             screen: 'ProductDetailPage',
             title:item.name,
             passProps:{
+                navigatorTitle : item.name,
                 item
             }
         });
@@ -348,6 +349,7 @@ export default class HomePage extends BComponent {
                     screen: 'ColumnDetailPage',
                     title:item.title,
                     passProps:{
+                        navigatorTitle : item.title,
                         type:1
                     }
                 });
@@ -359,6 +361,7 @@ export default class HomePage extends BComponent {
                     screen: 'ColumnDetailPage',
                     title:item.title,
                     passProps:{
+                        navigatorTitle : item.title,
                         type:2
                     }
                 });
@@ -377,6 +380,7 @@ export default class HomePage extends BComponent {
                     screen: 'ColumnDetailPage',
                     title:item.title,
                     passProps:{
+                        navigatorTitle : item.title,
                         type:3
                     }
                 });
@@ -384,6 +388,13 @@ export default class HomePage extends BComponent {
                 break
             case 4:
             {
+                this.props.navigator.push({
+                    screen: 'WebViewPage',
+                    title:'加盟合作',
+                    passProps:{
+                        url:'https://www.baidu.com'
+                    }
+                });
 
             }
                 break
