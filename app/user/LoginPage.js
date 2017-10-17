@@ -423,7 +423,6 @@ export default class LoginPage extends Component {
                 {"code":0,"user":{"username":"8018b38a-1836-44ab-a0c9-9cf00a623e50","nickname":"Changjiong.Liu","email":null,"name":"Changjiong.Liu","mobilePhone":null,"sex":"1","avatar":"http://wx.qlogo.cn/mmopen/vi_32/ajNVdqHZLLDtt0ic4ia8rpMribw4y8JeobBuhu3hdibFJOjU4FxXLkSC28Jbg46K4LbPaGEXoLhOetGBFzx1baadPg/0","roles":["USER_INFO"]}}
                 */
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
-                Toast.show('用户信息读取成功返回' +  JSON.stringify(responseData));
                 if (responseData !== null && responseData.user !== null) {
                     if(responseData.user.mobilePhone !== null) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone);
@@ -450,6 +449,7 @@ export default class LoginPage extends Component {
             (e) => {
                 SActivityIndicator.hide(loading);
                 console.log("用户信息读取错误返回:", e);
+                Toast.show('用户信息读取错误' +  JSON.stringify(e));
             },
         );
     }

@@ -23,7 +23,7 @@ export function wechatCallback( code = '') {
 
 // TODO
 export function wechatToken( code = '') {
-    return postRawApi('/api/v1/auth/token?code=' + code, {} , {platform:'app', 'client': Platform.OS});//app_id:WECHAT_APP_ID,
+    return postRawApi('/api/v1/auth/token?code=' + code, {platform:'app'} , {platform:'app', 'client': Platform.OS});//app_id:WECHAT_APP_ID,
 }
 
 // 登陆
