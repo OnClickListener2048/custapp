@@ -166,12 +166,12 @@ export default class HomePage extends BComponent {
                             isRefreshing:false
                         })
                     }
-                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
+                    // Toast.show(responseData.msg?responseData.msg:'加载失败！')
 
                 }
             },
             (e) => {
-                Toast.show('加载失败！');
+                // Toast.show('加载失败！');
 
                 //加载失败
                 if(this.state.isFirstRefresh){
