@@ -71,7 +71,8 @@ export default class CompanySurveyPage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource:[]
+            dataSource:[],
+            phone:null,
         };
     }
     static navigatorStyle = {
@@ -79,13 +80,26 @@ export default class CompanySurveyPage extends BComponent {
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
     componentDidMount(){
+        UserInfoStore.getLastUserPhone().then(
+            (mobile) => {
+                if (mobile !== null) {
+                    this.setState({
+                        phone: mobile,     // 手机号
+                    });
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
+
         this._onLoadMessageInfo();
     }
 
     //企业详情接口数据请求
     _onLoadMessageInfo(){
         let loading = SActivityIndicator.show(true, "加载中...");
-        apis.loadVerifyCompanyInfo('18088888888').then(
+        apis.loadVerifyCompanyInfo(this.state.phone).then(
 
             (responseData) => {
                 SActivityIndicator.hide(loading);
