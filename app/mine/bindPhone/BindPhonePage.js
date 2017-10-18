@@ -202,7 +202,7 @@ export default class BindPhonePage extends BComponent {
 
                         />
 
-                        <TouchableWithoutFeedback onPress={this._doChangeVCode}>
+                        <TouchableWithoutFeedback onPress={ () => { this._doChangeVCode(this.state.newMobile) }}>
                             <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
                                     source={this.state.picURL} />
                         </TouchableWithoutFeedback>

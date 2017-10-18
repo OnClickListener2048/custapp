@@ -17,85 +17,95 @@ import Alert from "react-native-alert";
 
 export default class SettingPage extends BComponent {
 
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
-            cacheSize:"",
-            unit:"",
+            cacheSize: "",
+            unit: "",
             logined: false,// 是否已登陆
         }
     }
-    componentDidMount(){
-        clearManager.getCacheSize((value,unit)=>{
+
+    componentDidMount() {
+        clearManager.getCacheSize((value, unit) => {
             this.setState({
-                cacheSize:value, //缓存大小
-                unit:unit  //缓存单位
+                cacheSize: value, //缓存大小
+                unit: unit  //缓存单位
             })
         });
 
         UserInfoStore.isLogined().then(
-            logined => { this.setState({logined:logined});},
-            e => {console.log("读取登陆状态错误:", e);}
+            logined => {
+                this.setState({logined: logined});
+            },
+            e => {
+                console.log("读取登陆状态错误:", e);
+            }
         );
     }
-    render(){
-        return(
-            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
+
+    render() {
+        return (
+            <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
                 <ScrollView>
                     <CommentCell
-                        leftText = "关于我们"
-                        style={{marginTop:10}}
+                        leftText="关于我们"
+                        style={{marginTop: 10}}
                         onPress={this._aboutUs.bind(this)}
                     />
                     <CommentCell
-                        leftText = "意见反馈"
+                        leftText="意见反馈"
                         onPress={this._feedback.bind(this)}
                     />
                     <CommentCell
-                        leftText = "服务条款"
+                        leftText="服务条款"
                     />
                     <CommentCell
-                        leftText = "清除缓存"
-                        style={{marginTop:10}}
-                        rightText = {this.state.cacheSize+this.state.unit}
+                        leftText="清除缓存"
+                        style={{marginTop: 10}}
+                        rightText={this.state.cacheSize + this.state.unit}
                         onPress={this._clear.bind(this)}
                     />
 
                     <SubmitButton
-                        onPress={ this._doLogout.bind(this) }
+                        onPress={this._doLogout.bind(this)}
                         text='退出'
-                        isEnabled = {this.state.logined}
+                        isEnabled={this.state.logined}
                     />
                 </ScrollView>
             </View>
 
         )
     }
-    _clear(){
-        clearManager.runClearCache(()=>{
+
+    _clear() {
+        clearManager.runClearCache(() => {
 
             Toast.show("清除成功")
-            clearManager.getCacheSize((value,unit)=>{
+            clearManager.getCacheSize((value, unit) => {
                 this.setState({
-                    cacheSize:value, //缓存大小
-                    unit:unit  //缓存单位
+                    cacheSize: value, //缓存大小
+                    unit: unit  //缓存单位
                 })
             });
 
         });
     }
-    _aboutUs(){
+
+    _aboutUs() {
         this.props.navigator.push({
             screen: 'AboutUsPage',
-            title:'关于我们'
+            title: '关于我们'
         });
     }
-    _feedback(){
+
+    _feedback() {
         this.props.navigator.push({
             screen: 'FeedbackPage',
-            title:'意见反馈'
+            title: '意见反馈'
         });
     }
+
     // 登出
     _doLogout() {
         Alert.alert('确定退出', '',
@@ -104,15 +114,24 @@ export default class SettingPage extends BComponent {
                 {
                     text: '确定',
                     onPress: () => {
-
                         UserInfoStore.removeUserInfo().then(
                             v => {
-                                if (this.props.navigator) {
-                                    console.log("popToRoot");
-                                    this.props.navigator.popToRoot();
-                                }
+                                UserInfoStore.removeCompany().then(
+                                    v => {
+                                        if (this.props.navigator) {
+                                            console.log("popToRoot");
+                                            this.props.navigator.popToRoot();
+                                        }
+                                    },
+                                    e => {
+                                        if (this.props.navigator) {
+                                            console.log("popToRoot");
+                                            this.props.navigator.popToRoot();
+                                        }
+                                    }
+                                );
                             },
-                            e =>  {
+                            e => {
                                 if (this.props.navigator) {
                                     console.log("popToRoot");
                                     this.props.navigator.popToRoot();
