@@ -94,6 +94,10 @@ export default class LoginPage extends Component {
         if (event.id === 'backPress') {
             BackAndroid.exitApp();
         }
+
+        if (event.id === 'willAppear') {
+            UserInfoStore.removeUserInfo().then();
+        }
     }
 
     _goWechat() {
@@ -450,15 +454,19 @@ export default class LoginPage extends Component {
                             },
                         );
                     } else {
+                        // 没有手机号, 强制转往绑定手机页面
                         UserInfoStore.removeLastUserPhone().then();
                         UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
                             (user) => {
                                 console.log("用户信息保存OK");
-                                this.pop();
+                                this.props.navigator.push({
+                                    screen: 'BindPhonePage',
+                                    title:'账号与安全'
+                                });
                             },
                             (e) => {
                                 console.log("用户信息保存错误:", e);
-                                this.pop();
+                                // this.pop();
                             },
                         );
                     }
