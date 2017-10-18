@@ -57,6 +57,7 @@ export default class MinePage extends BComponent {
 
     // 准备加载组件
     componentWillMount() {
+        this.initPage();
     }
 
     initPage() {
