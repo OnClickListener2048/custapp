@@ -73,7 +73,7 @@ export default class LoginPage extends Component {
         };
 
         // this.state.mobile = props.mobile;
-        this._doLogin = this._doLogin.bind(this);
+
         this._requestSMSCode = this._requestSMSCode.bind(this);
         this._verifyVCode = this._verifyVCode.bind(this);
         this._doChangeVCode = this._doChangeVCode.bind(this);
@@ -126,7 +126,7 @@ export default class LoginPage extends Component {
                             e => console.log(e.message)
                         );
                     } else {
-                        Alert.alert(responseData);//result.msg
+                        Alert.alert(result.msg);
                     }
                 },
                 e => {
@@ -373,49 +373,6 @@ export default class LoginPage extends Component {
         }
     }
 
-    _doLogin() {
-        if (!(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid && this.state.vCodeServerValid)) {
-            // Toast.show('请输入正确的手机号, 验证码并同意许可协议.');
-            return;
-        }
-        let loading = SActivityIndicator.show(true, "登录中");
-        UMTool.onEvent("login");
-        apis.login(this.state.mobile, this.state.smsCode).then(
-            (responseData) => {
-                SActivityIndicator.hide(loading);
-                console.log("登录成功返回:", responseData);
-                if (responseData !== null && responseData.data !== null && responseData.data.token) {
-                    UserInfoStore.setUserToken(responseData.data.token).then(
-                        v => {
-                            // this.readUserInfo();
-                            // 到载入页
-                            //     navToBootstrap();
-                            this.readUserInfo();
-                        },
-                        e => console.log(e.message)
-                    );
-                }
-            },
-            (e) => {
-                SActivityIndicator.hide(loading);
-                this._doChangeVCode();
-                let errMsg = e.msg;
-                if (errMsg === undefined) {
-                    errMsg = '请输入正确的验证码或手机号码';
-                }
-                Alert.alert('', errMsg,
-                    [
-                        {
-                            text: '确定',
-                            onPress: () => {
-                                this.setState({smsCode: '', smsCodeValid: false});
-                                this.focusField('smsCodeInput');
-                            },
-                        },]
-                    , {cancelable: false});
-            },
-        );
-    }
 
     // 读取用户信息
     readUserInfo() {
