@@ -23,10 +23,15 @@ export default class MinePage extends BComponent {
 
     constructor(props) {
         super(props);
+        this.state = {
+            phone: '注册/登录', //手机号
+            avatar: require('../../img/head_img.png'),// 头像
+            company: '请立即注册或登录',//公司名称
+            logined: false,// 是否已登陆
+        };
 
         this.initPage = this.initPage.bind(this);
         this.reset = this.reset.bind(this);
-        this.reset();
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -35,61 +40,72 @@ export default class MinePage extends BComponent {
 
     // 子类请继承此方法, 不要忘了调用super.onNavigatorEvent(event);
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        console.log(event.id);//willAppear
+        console.log('MinePage', event.id);//willAppear
         if (event.id === 'willAppear') {
             this.initPage();
         }
     }
 
     reset() {
-        this.state = {
+        this.setState({
             phone: '注册/登录', //手机号
             avatar: require('../../img/head_img.png'),// 头像
             company: '请立即注册或登录',//公司名称
             logined: false,// 是否已登陆
-        };
+        });
     }
 
     // 准备加载组件
     componentWillMount() {
-        this.initPage();
     }
 
     initPage() {
-        UserInfoStore.getUserInfo().then(
-            (user) => {
-                if (user !== null) {
-                    this.setState({userName: user.name, phone: user.mobilePhone});
-
-                    if(user.avatar !== null) {
-                        console.log('MinePage', user.avatar);
-                        this.setState({avatar: {uri:user.avatar}});
-                    }
-                } else {
-                    this.reset();
-                }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-                this.reset();
-            },
-        );
-
-        UserInfoStore.getCompany().then(
-            (company) => {
-                console.log('company', company);
-                if (company && company.name) {
-                    this.setState({company: company.name});
-                }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
-        );
-
+        console.log('MinePage', 'initPage');
         UserInfoStore.isLogined().then(
-            logined => { this.setState({logined:logined});},
-            e => {console.log("读取登陆状态错误:", e);}
+            logined => {
+                    console.log('MinePage logined', logined);
+                    this.setState({logined:logined});
+                    if(!logined) {
+                        this.reset();
+                    } else {
+                        UserInfoStore.getUserInfo().then(
+                            (user) => {
+                                if (user !== null) {
+                                    this.setState({userName: user.name, phone: user.mobilePhone});
+
+                                    if(user.avatar !== null) {
+                                        console.log('MinePage', user.avatar);
+                                        this.setState({avatar: {uri:user.avatar}});
+                                    }
+                                } else {
+                                    this.reset();
+                                }
+                            },
+                            (e) => {
+                                console.log("读取信息错误:", e);
+                                this.reset();
+                            },
+                        );
+
+                        UserInfoStore.getCompany().then(
+                            (company) => {
+                                console.log('company', company);
+                                if (company && company.name) {
+                                    this.setState({company: company.name});
+                                } else {
+                                    this.setState({company: ''});
+                                }
+                            },
+                            (e) => {
+                                console.log("读取信息错误:", e);
+                            },
+                        );
+                    }
+                },
+            e => {
+                console.log("读取登陆状态错误:", e);
+                this.reset();
+            }
         );
     }
 
