@@ -73,11 +73,17 @@ UserInfoStore.setJPushID = async function (value: string) {
 };
 
 UserInfoStore.getCompany = async function () {
-    return await Preferences.get(KEY_COMPANY_INFO);
+    // return await Preferences.get(KEY_COMPANY_INFO);
+    let value = await Preferences.get(KEY_COMPANY_INFO);
+    if (value !== null) {
+        console.log('getCompany', value);
+        return JSON.parse(value);
+    }
+    return value;
 };
 
-UserInfoStore.setCompany = async function (value: string) {
-    return Preferences.set(KEY_COMPANY_INFO, value);
+UserInfoStore.setCompany = async function (value: object) {
+    return Preferences.set(KEY_COMPANY_INFO, JSON.stringify(value));
 };
 
 UserInfoStore.removeCompany = async function () {
