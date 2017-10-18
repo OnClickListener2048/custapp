@@ -24,19 +24,19 @@ export default class TaxFormPage extends BComponent {
             total:'- -',//本月累计
             data :[{
                 title:'增值税',
-                population: 0,
-                text:'- -'
+                population: 10,
+                text:'- -',
             }, {
                 title:'城市建设税',
-                population: 0,
+                population: 10,
                 text:'- -'
             }, {
                 title:'教育费附加',
-                population: 0,
+                population: 10,
                 text:'- -'
             }, {
                 title:'印花税',
-                population: 0,
+                population: 10,
                 text:'- -'
             }],
             isRefreshing:false,
