@@ -15,6 +15,7 @@ const col = 5
 
 const itemWidth = deviceWidth/col
 const itemHeight = 80
+const circleWidth = 30
 export default class Header extends Component {
 
     static defaultProps = {
@@ -76,7 +77,7 @@ class Button extends Component{
         }
         return(
             <View style={{width:itemWidth,height:itemHeight,alignItems:'center',position:'relative'}}>
-                <View style={[{width:25,height:25,borderRadius:12.5,marginTop:10,justifyContent:'center',alignItems:'center',backgroundColor:'#F0F0F0'},backgroundColor]}>
+                <View style={[{width:circleWidth,height:circleWidth,borderRadius:circleWidth/2,marginTop:10,justifyContent:'center',alignItems:'center',backgroundColor:'#F0F0F0'},backgroundColor]}>
                     <Text style={[numColor,{fontSize:setSpText(12)}]}>
                         0{this.props.index+1}
                     </Text>
@@ -104,7 +105,7 @@ class Button extends Component{
 
         if (this.props.index != 0){
             return(
-                <View style={[{height:1,width:itemWidth/2-12.5,position:'absolute',left:0,top:22,backgroundColor:'#F0F0F0'},backgroundColor]}/>
+                <View style={[{height:1,width:itemWidth/2-(circleWidth/2),position:'absolute',left:0,top:circleWidth/2+10,backgroundColor:'#F0F0F0'},backgroundColor]}/>
             )
         }else{
             return null
@@ -119,7 +120,7 @@ class Button extends Component{
         }
         if (this.props.index != 4){
             return(
-                <View style={[{height:1,width:itemWidth/2-12.5,position:'absolute',right:0,top:22,backgroundColor:'#F0F0F0'},backgroundColor]}/>
+                <View style={[{height:1,width:itemWidth/2-(circleWidth/2),position:'absolute',right:0,top:circleWidth/2+10,backgroundColor:'#F0F0F0'},backgroundColor]}/>
             )
         }else{
             return null

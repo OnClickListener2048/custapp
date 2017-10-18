@@ -31,10 +31,10 @@ export default class ProfitStatementPage extends BComponent {
     }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData('1',this.state.year+'-'+this.state.month)
+            this.loadData(this.state.year+'-'+this.state.month)
         });
     }
-    loadData(companyid = '1',date='',isPull=false){
+    loadData(date='',isPull=false){
         let loading
         if(isPull){
             this.setState({
@@ -44,7 +44,7 @@ export default class ProfitStatementPage extends BComponent {
             loading = SActivityIndicator.show(true, "加载中...");
         }
 
-        apis.loadProfit(companyid,date).then(
+        apis.loadProfit(this.props.companyid,date).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
@@ -74,7 +74,7 @@ export default class ProfitStatementPage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData('1',this.state.year+'-'+this.state.month,true)
+        this.loadData(this.state.year+'-'+this.state.month,true)
     }
 
     _renderItem(item){
@@ -118,7 +118,7 @@ export default class ProfitStatementPage extends BComponent {
     }
     _callback(year,month){
         InteractionManager.runAfterInteractions(() => {
-            this.loadData('1',year+'-'+month)
+            this.loadData(year+'-'+month)
             this.props.callback && this.props.callback(year,month,true)
             this.setState({
                 year,
