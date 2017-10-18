@@ -423,17 +423,17 @@ export default class LoginPage extends Component {
                 {"code":0,"user":{"username":"8018b38a-1836-44ab-a0c9-9cf00a623e50","nickname":"Changjiong.Liu","email":null,"name":"Changjiong.Liu","mobilePhone":null,"sex":"1","avatar":"http://wx.qlogo.cn/mmopen/vi_32/ajNVdqHZLLDtt0ic4ia8rpMribw4y8JeobBuhu3hdibFJOjU4FxXLkSC28Jbg46K4LbPaGEXoLhOetGBFzx1baadPg/0","roles":["USER_INFO"]}}
                 */
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
-                if (responseData !== null && responseData.user !== null) {
-                    if(responseData.user.mobilePhone !== null) {
+                if (responseData !== undefined && responseData.user !== undefined) {
+                    if(responseData.user.mobilePhone !== undefined) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone);
                         apis.getCompany(responseData.user.mobilePhone).then(
-                            (responseData) => {
-                                console.log("公司信息读取成功返回:", JSON.stringify(responseData));
-                                if (responseData !== null && responseData.data !== null) {
-
-                                    UserInfoStore.setCompany(responseData.data).then(
+                            (companyInfo) => {
+                                console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
+                                if (companyInfo !== undefined && companyInfo.data !== undefined) {
+                                    console.log("公司信息保存中...." , companyInfo.data);
+                                    UserInfoStore.setCompany(companyInfo.data).then(
                                         (user) => {
-                                            console.log("OK ===> Main:");
+                                            console.log("公司信息保存成功");
                                         },
                                         (e) => {
                                             console.log("公司信息保存错误:", e);
@@ -456,7 +456,7 @@ export default class LoginPage extends Component {
 
                     UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
                         (user) => {
-                            console.log("OK ===> Main:");
+                            console.log("用户信息保存OK");
                             this.pop();
                         },
                         (e) => {
