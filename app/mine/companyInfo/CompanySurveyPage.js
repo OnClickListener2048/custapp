@@ -86,6 +86,8 @@ export default class CompanySurveyPage extends BComponent {
                     this.setState({
                         phone: mobile,     // 手机号
                     });
+                    this._onLoadMessageInfo(mobile);
+
                 }
             },
             (e) => {
@@ -93,13 +95,12 @@ export default class CompanySurveyPage extends BComponent {
             },
         );
 
-        this._onLoadMessageInfo();
     }
 
     //企业详情接口数据请求
-    _onLoadMessageInfo(){
+    _onLoadMessageInfo(phone){
         let loading = SActivityIndicator.show(true, "加载中...");
-        apis.loadVerifyCompanyInfo(this.state.phone).then(
+        apis.loadVerifyCompanyInfo(phone).then(
 
             (responseData) => {
                 SActivityIndicator.hide(loading);
