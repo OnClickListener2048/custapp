@@ -59,9 +59,26 @@ export default class ServicePage extends BComponent {
 
     componentDidMount() {
 
-        this.loadData('1',this.state.year+'-'+this.state.month)
+        this.initData()
+
     }
-    loadData(companyid = '1',date='',isPull=false){
+    initData(){
+        UserInfoStore.getCompany().then(
+            (company) => {
+                console.log('company', company);
+                if (company && company.id) {
+                    this.companyid = company.id
+                }
+                this.loadData(this.state.year+'-'+this.state.month)
+
+            },
+            (e) => {
+                this.loadData(this.state.year+'-'+this.state.month)
+            },
+        );
+    }
+    loadData(date='',isPull=false){
+
         let loading
         if(isPull){
             this.setState({
@@ -70,7 +87,8 @@ export default class ServicePage extends BComponent {
         }else{
             loading = SActivityIndicator.show(true, "加载中...");
         }
-        apis.loadServiceData(companyid,date).then(
+
+        apis.loadServiceData(this.companyid,date).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
@@ -99,7 +117,7 @@ export default class ServicePage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData('1',this.state.year+'-'+this.state.month,true)
+        this.loadData(this.state.year+'-'+this.state.month,true)
 
     }
     render(){
@@ -143,7 +161,7 @@ export default class ServicePage extends BComponent {
 
         let _this = this
         InteractionManager.runAfterInteractions(() => {
-            _this.loadData('1',year+'-'+month)
+            _this.loadData(year+'-'+month)
             _this.setState({
                 year,
                 month
@@ -168,10 +186,10 @@ export default class ServicePage extends BComponent {
                 return <SendBill />//发送票据
                 break;
             case 2:
-                return <AccountingTreatment callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} />//财务处理
+                return <AccountingTreatment callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} />//财务处理
                 break;
             case 3:
-                return <PayTaxes callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} />//申报纳税
+                return <PayTaxes callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid}/>//申报纳税
                 break;
             case 4:
                 return <ClearCard/>//清卡

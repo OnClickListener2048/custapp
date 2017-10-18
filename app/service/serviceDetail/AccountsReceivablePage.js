@@ -35,10 +35,10 @@ export default class AccountsReceivablePage extends BComponent {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData('1',this.state.year+'-'+this.state.month,'2')
+            this.loadData(this.state.year+'-'+this.state.month,'2')
         });
     }
-    loadData(companyid = '1',date='',type='2',isPull=false){
+    loadData(date='',type='2',isPull=false){
         let loading
         if(isPull){
             this.setState({
@@ -47,7 +47,7 @@ export default class AccountsReceivablePage extends BComponent {
         }else{
             loading = SActivityIndicator.show(true, "加载中...");
         }
-        apis.loadAccounts(companyid,date,type).then(
+        apis.loadAccounts(this.props.companyid,date,type).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
@@ -76,7 +76,7 @@ export default class AccountsReceivablePage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData('1',this.state.year+'-'+this.state.month,'2',true)
+        this.loadData(this.state.year+'-'+this.state.month,'2',true)
     }
     _renderRow (rowItem, rowId, sectionId) {
 
@@ -130,7 +130,7 @@ export default class AccountsReceivablePage extends BComponent {
     _callback(year,month){
 
         InteractionManager.runAfterInteractions(() => {
-            this.loadData('1',year+'-'+month,'2')
+            this.loadData(year+'-'+month,'2')
             this.props.callback && this.props.callback(year,month,true)
             this.setState({
                 year,

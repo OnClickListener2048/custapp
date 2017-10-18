@@ -37,10 +37,10 @@ export default class CashFlowPage extends BComponent {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData('1',this.state.year+'-'+this.state.month)
+            this.loadData(this.state.year+'-'+this.state.month)
         });
     }
-    loadData(companyid = '1',date='',isPull=false){
+    loadData(date='',isPull=false){
         let loading
         if(isPull){
             this.setState({
@@ -50,7 +50,7 @@ export default class CashFlowPage extends BComponent {
             loading = SActivityIndicator.show(true, "加载中...");
         }
 
-        apis.loadCashFlow(companyid,date).then(
+        apis.loadCashFlow(this.props.companyid,date).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
@@ -80,7 +80,7 @@ export default class CashFlowPage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData('1',this.state.year+'-'+this.state.month,true)
+        this.loadData(this.state.year+'-'+this.state.month,true)
     }
     _renderRow (rowItem, rowId, sectionId) {
 
@@ -101,7 +101,7 @@ export default class CashFlowPage extends BComponent {
             <View style={{width:DeviceInfo.width}}>
                 <HeaderView
                     hasTop={true}
-                    topDes="本月结余"
+                    topDes="净流动资金"
                     topNum={'¥'+this.state.balance}
                     leftDes="期初"
                     leftNum={'¥'+this.state.balance_start}
@@ -136,7 +136,7 @@ export default class CashFlowPage extends BComponent {
     }
     _callback(year,month){
         InteractionManager.runAfterInteractions(() => {
-            this.loadData('1',year+'-'+month)
+            this.loadData(year+'-'+month)
             this.props.callback && this.props.callback(year,month,true)
             this.setState({
                 year,

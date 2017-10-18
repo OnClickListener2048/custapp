@@ -47,10 +47,10 @@ export default class TaxFormPage extends BComponent {
     }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData('1',this.state.year+'-'+this.state.month)
+            this.loadData(this.state.year+'-'+this.state.month)
         });
     }
-    loadData(companyid = '1',date='',isPull=false){
+    loadData(date='',isPull=false){
         let loading
         if(isPull){
             this.setState({
@@ -59,7 +59,7 @@ export default class TaxFormPage extends BComponent {
         }else{
             loading = SActivityIndicator.show(true, "加载中...");
         }
-        apis.loadTaxForm(companyid,date).then(
+        apis.loadTaxForm(this.props.companyid,date).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
@@ -96,7 +96,7 @@ export default class TaxFormPage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData('1',this.state.year+'-'+this.state.month,true)
+        this.loadData(this.state.year+'-'+this.state.month,true)
     }
     _listHeaderComponent(){
         let options = {
@@ -180,7 +180,7 @@ export default class TaxFormPage extends BComponent {
     }
     _callback(year,month){
         InteractionManager.runAfterInteractions(() => {
-            this.loadData('1',year+'-'+month)
+            this.loadData(year+'-'+month)
             this.props.callback && this.props.callback(year,month,true)
             this.setState({
                 year,

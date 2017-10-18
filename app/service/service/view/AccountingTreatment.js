@@ -70,7 +70,8 @@ export default class AccountingTreatment extends Component {
                     passProps:{
                         year:this.props.year,
                         month:this.props.month,
-                        callback:this.props.callback
+                        callback:this.props.callback,
+                        companyid:this.props.companyid
                     }
                 })
                 break;
