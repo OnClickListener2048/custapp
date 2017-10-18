@@ -275,7 +275,7 @@ export default class BindPhonePage extends BComponent {
                             ref="timerButton"
                             style={{width:90,marginRight:30}}
                             textStyle={{fontSize:12,color:'#6A6A6A'}}
-                            timerCount={5}
+                            timerCount={60}
                             onClick={(shouldStartCountting) => {
                                 shouldStartCountting(true);
                                 this.setState({timerButtonClicked: true});
