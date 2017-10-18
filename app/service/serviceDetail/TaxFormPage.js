@@ -105,6 +105,11 @@ export default class TaxFormPage extends BComponent {
             color: '#2980B9',
             r: 100,
             R: 130,
+            animate: {
+                type: 'oneByOne',
+                duration: 2000,
+                fillTransition: 3
+            },
         }
         let colorArr=[
             '#EA4931',
