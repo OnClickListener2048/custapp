@@ -60,7 +60,6 @@ export default class MinePage extends BComponent {
             (user) => {
                 if (user !== null) {
                     this.setState({userName: user.name, phone: user.mobilePhone});
-                    this.setState({company: ''});
 
                     if(user.avatar !== null) {
                         console.log('MinePage', user.avatar);
@@ -73,6 +72,18 @@ export default class MinePage extends BComponent {
             (e) => {
                 console.log("读取信息错误:", e);
                 this.reset();
+            },
+        );
+
+        UserInfoStore.getCompany().then(
+            (company) => {
+                console.log('company', company);
+                if (company && company.name) {
+                    this.setState({company: company.name});
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
             },
         );
 
