@@ -26,23 +26,55 @@ export default class HomePage extends BComponent {
             userName: '-',     // 用户名
             phone: '', //手机号
             avatar: require('../../img/head_img.png'),// 头像
-            // avatar: {uri: 'http://wx.qlogo.cn/mmopen/vi_32/ajNVdqHZLLDtt0ic4ia8rpMribw4y8JeobBuhu3hdibFJOjU4FxXLkSC28Jbg46K4LbPaGEXoLhOetGBFzx1baadPg/0'},// 头像
         };
     }
 
     componentWillMount() {
-        UserInfoStore.getUserInfo().then(
-            (user) => {
-                if (user !== null) {
-                    this.setState({userName: user.name, phone: user.mobilePhone});
-                    if(user.avatar !== null) {
-                        this.setState({avatar: {uri:user.avatar}});
-                    }
+        UserInfoStore.isLogined().then(
+            logined => {
+                console.log('MinePage logined', logined);
+                this.setState({logined:logined});
+                if(!logined) {
+                    this.reset();
+                } else {
+                    UserInfoStore.getUserInfo().then(
+                        (user) => {
+                            if (user !== null) {
+                                this.setState({userName: user.name, phone: user.mobilePhone});
+
+                                if(user.avatar !== null) {
+                                    console.log('MinePage', user.avatar);
+                                    this.setState({avatar: {uri:user.avatar}});
+                                }
+                            } else {
+                                this.reset();
+                            }
+                        },
+                        (e) => {
+                            console.log("读取信息错误:", e);
+                            this.reset();
+                        },
+                    );
+
+                    UserInfoStore.getCompany().then(
+                        (company) => {
+                            console.log('company', company);
+                            if (company && company.name) {
+                                this.setState({company: company.name});
+                            } else {
+                                this.setState({company: ''});
+                            }
+                        },
+                        (e) => {
+                            console.log("读取信息错误:", e);
+                        },
+                    );
                 }
             },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
+            e => {
+                console.log("读取登陆状态错误:", e);
+                this.reset();
+            }
         );
     }
 
@@ -73,7 +105,7 @@ export default class HomePage extends BComponent {
                         公司名称
                     </Text>
                     <Text style={styles.textContentStyle}>
-
+                        {this.state.company}
                     </Text>
                 </View>
                 <View style={styles.contentlist}>
