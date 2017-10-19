@@ -150,8 +150,7 @@ export default class CompanySurveyPage extends BComponent {
         )
     }
     _renderItem (item) {
-
-        if (item.type == 1){
+        if (item.item.title === undefined){
             return(
                 <CommenCell
                     leftText={item.item.name}
