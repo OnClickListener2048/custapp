@@ -37,17 +37,18 @@ export default class MessagePage extends BComponent {
     }
 
     componentDidMount() {
-        if(!NetInfoSingleton.isConnected) {
-            this.setState({
-                initStatus:'no-net'
-            })
-        }else{
-            this.setState({
-                initStatus:'loading'
-            })
-            this.onHeaderRefresh()
-
-        }
+        //打开即可
+        // if(!NetInfoSingleton.isConnected) {
+        //     this.setState({
+        //         initStatus:'no-net'
+        //     })
+        // }else{
+        //     this.setState({
+        //         initStatus:'loading'
+        //     })
+        //     this.onHeaderRefresh()
+        //
+        // }
 
     }
 
@@ -193,25 +194,31 @@ export default class MessagePage extends BComponent {
 
 
     render() {
-        if(this.state.initStatus === 'initSucess') {
-            return (
-                <View style={styles.container}>
-                    <RefreshListView
-                        data={this.state.dataList}
-                        keyExtractor = {(item, index) => index}
-                        renderItem={this.renderCell.bind(this)}
-                        refreshState={this.state.refreshState}
-                        onHeaderRefresh={this.onHeaderRefresh}
-                        onFooterRefresh={this.onFooterRefresh}
-                        contentContainerStyle={{paddingTop:20,backgroundColor:'#f9f9f9'}}
-                    />
-                </View>
-            )
-        }else {
-            return(
-                <DefaultView onPress={()=>this.onHeaderRefresh()} type ={this.state.initStatus}/>
-            )
-        }
+
+        return(
+            <DefaultView onPress={()=>this.onHeaderRefresh()} type ={'no-MessageData'}/>
+        )
+        //打开即可
+
+        // if(this.state.initStatus === 'initSucess') {
+        //     return (
+        //         <View style={styles.container}>
+        //             <RefreshListView
+        //                 data={this.state.dataList}
+        //                 keyExtractor = {(item, index) => index}
+        //                 renderItem={this.renderCell.bind(this)}
+        //                 refreshState={this.state.refreshState}
+        //                 onHeaderRefresh={this.onHeaderRefresh}
+        //                 onFooterRefresh={this.onFooterRefresh}
+        //                 contentContainerStyle={{paddingTop:20,backgroundColor:'#f9f9f9'}}
+        //             />
+        //         </View>
+        //     )
+        // }else {
+        //     return(
+        //         <DefaultView onPress={()=>this.onHeaderRefresh()} type ={this.state.initStatus}/>
+        //     )
+        // }
 
     }
 
