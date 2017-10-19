@@ -32,20 +32,39 @@ export default class MyOrderPage extends BComponent {
             loadState:'loading'
         };
         this.loadData=this.loadData.bind(this);
+        this.initData=this.initData.bind(this);
     }
 
     componentDidMount() {
-        this.loadData()
+        this.initData()
+    }
+
+    initData(){
+        UserInfoStore.getCompany().then(
+            (company) => {
+                console.log('company', company);
+                if (company && company.id) {
+                    this.companyid = company.id
+                }else{
+                    this.companyid = undefined
+                }
+                this.loadData()
+
+            },
+            (e) => {
+                this.loadData()
+            },
+        );
     }
 
     loadData(){
         var loading = SActivityIndicator.show(true, "加载中...");
-        apis.loadOrderListData('1').then(
+        apis.loadOrderListData(this.companyid).then(
             (responseData) => {
                 if(responseData.code == 0) {
                     SActivityIndicator.hide(loading);
                     var data = responseData.list;
-                    if(data!=null){
+                    if(data!=null&&data!=[]){
                         var hang=[];
                         var done=[];
                         var doing=[];
