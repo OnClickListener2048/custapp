@@ -6,7 +6,7 @@ import {
     Text,
     NetInfo,
     Animated,
-    Easing
+    Platform
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 let instance = null;
@@ -21,10 +21,13 @@ export default class NetInfoSingleton {
         if (!instance) {
             instance = this;
 
-            NetInfo.isConnected.fetch().done((_isConnected) => {
-                this.isConnected = _isConnected;
-                console.log('NetInfoSingleton: fetch isConnected=', _isConnected);
-            });
+            // 避免安卓经常首次fetch返回false导致显示网络不连接的BUG
+            if(Platform.OS === 'ios') {
+                NetInfo.isConnected.fetch().done((_isConnected) => {
+                    this.isConnected = _isConnected;
+                    console.log('NetInfoSingleton: fetch isConnected=', _isConnected);
+                });
+            }
 
             this._updateConnectionStatus = this._updateConnectionStatus.bind(this);
             NetInfo.isConnected.addEventListener('change', this._updateConnectionStatus);
