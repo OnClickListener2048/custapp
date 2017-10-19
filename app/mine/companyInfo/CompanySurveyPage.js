@@ -1,6 +1,7 @@
 /**
- * Created by zhuangzihao on 2017/9/19.
+ * Created by jiaxueting on 2017/10/19.
  */
+
 import React, {Component} from 'react';
 import {
     View,
@@ -16,55 +17,6 @@ import BComponent from '../../base/BComponent'
 import * as apis from '../../apis/index';
 import Toast from 'react-native-root-toast';
 
-const companyData = [
-    {
-        title:'基本信息',
-        type:'1',
-        dataArr:[
-            {
-                title:'纳税信用等级',
-                subTitle:'A级'
-            },
-            {
-                title:'纳税人状态',
-                subTitle:'正常'
-            },
-            {
-                title:'纳税类型',
-                subTitle:'小规模纳税人'
-            },
-            {
-                title:'公司地址',
-                subTitle:'北京市海淀区魏公村23号'
-            },
-            {
-                title:'电话',
-                subTitle:'13666666666'
-            },
-            {
-                title:'开户银行',
-                subTitle:'中国建设银行魏公村支行'
-            },
-            {
-                title:'银行账号',
-                subTitle:'11001100110011001100'
-            },
-        ]
-    },
-    {
-        title:'证照信息',
-        type:'2',
-        dataArr:[
-            {
-                title:'组织机构代码正本',
-            },
-            {
-                title:'企业法人营业执照副本',
-            }
-        ]
-    }
-
-]
 export default class CompanySurveyPage extends BComponent {
 
 
@@ -105,7 +57,7 @@ export default class CompanySurveyPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
-                if(responseData !== null && responseData.data !== null) {
+                if(responseData !== null && responseData.data !== null &&responseData.data !== '') {
 
                     const companyData = [
                         {
@@ -145,7 +97,7 @@ export default class CompanySurveyPage extends BComponent {
                         {
                             title:'证照信息',
                             type:'2',
-                            dataArr:responseData.data.license,
+                            dataArr:responseData.data.license===undefined?[]:responseData.data.license,
                         }
 
                     ]
@@ -155,9 +107,15 @@ export default class CompanySurveyPage extends BComponent {
                         let section = {};
                         section.key = companyData[i].title;
                         section.data = companyData[i].dataArr;
-                        for(let j=0;j<section.data.length;j++){
-                            section.data[j].key = j
+
+                        if(companyData[i].dataArr!==undefined){
+                            console.log("企业信息数据="+companyData[i].dataArr);
+
+                            for(let j=0;j<section.data.length;j++){
+                                section.data[j].key = j
+                            }
                         }
+
                         dataSource[i] = section
                     }
 
@@ -193,7 +151,7 @@ export default class CompanySurveyPage extends BComponent {
     }
     _renderItem (item) {
 
-        if (item.item.subTitle == undefined){
+        if (item.type == 1){
             return(
                 <CommenCell
                     leftText={item.item.name}
@@ -234,8 +192,8 @@ export default class CompanySurveyPage extends BComponent {
 class OtherCell extends Component {
 
     static defaultProps = {
-        title:'我是标题',//是标题
-        subTitle:'我是副标题'//副标题
+        title:'',//是标题
+        subTitle:' '//副标题
     };
 
     render(){
