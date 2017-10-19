@@ -348,6 +348,10 @@ export default class BindPhonePage extends BComponent {
                                 Navigation.dismissAllModals({
                                     animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
                                 });
+                                if (this.props.navigator) {
+                                    console.log("PhoneBind popToRoot");
+                                    this.props.navigator.popToRoot();
+                                }
                             },
                         },]
                     , {cancelable: false});
