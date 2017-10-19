@@ -137,7 +137,7 @@ export default class MinePage extends BComponent {
                     />
                     <CommenCell
                         leftText="企业信息"
-                        onPress = {this._goto.bind(this,'CompanyInfoPage','企业信息')}
+                        onPress = {this._goto.bind(this,'CompanySurveyPage','企业概况')}
                     />
                     <CommenCell
                         leftText="账号与安全"
@@ -165,7 +165,7 @@ export default class MinePage extends BComponent {
 
         // 未登录不能跳转的页面
         if(!this.state.logined) {
-            if(screen === 'BindPhonePage' || screen === 'MyOrderPage' || screen === 'CompanyInfoPage' ) {
+            if(screen === 'BindPhonePage' || screen === 'MyOrderPage' || screen === 'CompanySurveyPage' ) {
                 Toast.show("请先登录")
                 return;
             }
