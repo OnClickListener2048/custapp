@@ -7,6 +7,7 @@
     "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
     "start": "(adb reverse tcp:8081 tcp:8081 || true) && node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "test": "jest",
+    "iosDevPack" : "cd ios/PPAutoPackageScript && echo 4 | ./LocalPackage.sh",
     "android": "cd android && gradle assembleRelease",
     "buildAndroidApk": "react-native bundle --platform android --entry-file index.android.js --reset-cache --bundle-output android/app/src/main/assets/index.android.bundle --dev false --assets-dest android/app/src/main/res/&&cd android&&gradle assembleRelease"
   },
