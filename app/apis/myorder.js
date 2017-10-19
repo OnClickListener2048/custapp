@@ -4,8 +4,8 @@
 
 import {getApi} from './common';
 
-export function loadOrderListData(companyid='1') {
-    return getApi('/api/mock/orders',{companyid});
+export function loadOrderListData(companyid='') {
+    return getApi('/api/v1/orders',{companyid});
 }
 
 export function loadOrderDetailData(orderno='') {
