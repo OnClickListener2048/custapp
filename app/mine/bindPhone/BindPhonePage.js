@@ -344,7 +344,7 @@ export default class BindPhonePage extends BComponent {
                         {
                             text: '确定',
                             onPress: () => {
-                                this.props.navigator.pop();
+                                this.props.navigator.popToRoot();
                             },
                         },]
                     , {cancelable: false});
