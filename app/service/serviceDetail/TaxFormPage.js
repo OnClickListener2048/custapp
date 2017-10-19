@@ -63,19 +63,20 @@ export default class TaxFormPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
+                    let dic = responseData.data
                     let arr = this.state.data
-                    arr[0].text = '¥'+ responseData.vat
-                    arr[1].text = '¥'+ responseData.uct
-                    arr[2].text = '¥'+ responseData.edu
-                    arr[3].text = '¥'+responseData.stamp
+                    arr[0].text = '¥'+ dic.vat
+                    arr[1].text = '¥'+ dic.uct
+                    arr[2].text = '¥'+ dic.edu
+                    arr[3].text = '¥'+dic.stamp
 
-                    arr[0].population = parseFloat(responseData.vat.replace(/[,¥]/g,""))
-                    arr[1].population = parseFloat(responseData.uct.replace(/[,¥]/g,""))
-                    arr[2].population = parseFloat(responseData.edu.replace(/[,¥]/g,""))
-                    arr[3].population = parseFloat(responseData.stamp.replace(/[,¥]/g,""))
+                    arr[0].population = parseFloat(dic.vat.replace(/[,¥]/g,""))
+                    arr[1].population = parseFloat(dic.uct.replace(/[,¥]/g,""))
+                    arr[2].population = parseFloat(dic.edu.replace(/[,¥]/g,""))
+                    arr[3].population = parseFloat(dic.stamp.replace(/[,¥]/g,""))
 
                     this.setState({
-                        total:responseData.total,
+                        total:dic.total,
                         data:arr,
                         isRefreshing:false
                     })
