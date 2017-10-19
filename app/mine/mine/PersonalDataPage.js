@@ -108,15 +108,6 @@ export default class HomePage extends BComponent {
                         {this.state.company}
                     </Text>
                 </View>
-                {/*<View style={styles.contentlist}>*/}
-                    {/*<Text style={styles.textstyle}>*/}
-                        {/*联系人*/}
-                    {/*</Text>*/}
-                    {/*<Text style={styles.textContentStyle}>*/}
-
-                    {/*</Text>*/}
-                {/*</View>*/}
-                {/*<View style={{height:0.5,backgroundColor:'#ECECEC'}}/>*/}
                 <View style={[styles.contentlist]}>
                     <Text style={styles.textstyle}>
                         微信号

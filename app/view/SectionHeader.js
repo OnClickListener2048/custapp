@@ -18,19 +18,12 @@ export default class SectionHeader extends Component {
         leftViewStyle:{}
     };
     render(){
-        // if(this.props.text!==''){
             return(
                 <View style={[{padding:16,flexDirection:'row',alignItems:'center',backgroundColor:'white'},this.props.style]}>
                     <View style={[{height:16,width:3,backgroundColor:'#FFBF17'},this.props.leftViewStyle]}></View>
                     <Text style={[{fontSize:setSpText(16),color:'#333333',fontWeight:'bold',marginLeft:5},this.props.textStyle]}>{this.props.text}</Text>
                 </View>
             )
-        // }else{
-        //     return(
-        //         <View>
-        //         </View>
-        //     )
-        // }
 
     }
 }

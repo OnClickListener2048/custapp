@@ -76,8 +76,7 @@ export default class CompanySurveyPage extends BComponent {
                     let dataSource = [];
                     for (let i = 0; i<companyData.length;i++){
                         let section = {};
-                        // if(companyData[i].dataArr.length!==0)
-                            section.key = companyData[i].title;
+                        section.key = companyData[i].title;
                         section.data = companyData[i].dataArr;
 
                         if(companyData[i].dataArr!==undefined){
