@@ -70,9 +70,6 @@ export default class HomePage extends BComponent {
                 (responseData) => {
                     Toast.show('短信验证码已发送'+ responseData);
 
-                    // Toast.show('测试环境短信验证码:' + responseData.msg);
-                    // Toast.show('测试环境短信验证码 ' + responseData.msg,
-                    //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
                 }, (e) => {
                     Toast.show('短信验证码获取失败'+ e);
 

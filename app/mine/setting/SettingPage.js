@@ -28,10 +28,17 @@ export default class SettingPage extends BComponent {
 
     componentDidMount() {
         clearManager.getCacheSize((value, unit) => {
-            this.setState({
-                cacheSize: value, //缓存大小
-                unit: unit  //缓存单位
-            })
+            if(unit == 'B'){
+                this.setState({
+                    cacheSize: '', //缓存大小
+                    unit: ''  //缓存单位
+                })
+            }else{
+                this.setState({
+                    cacheSize: value, //缓存大小
+                    unit: unit  //缓存单位
+                })
+            }
         });
 
         UserInfoStore.isLogined().then(
@@ -82,12 +89,10 @@ export default class SettingPage extends BComponent {
         clearManager.runClearCache(() => {
 
             Toast.show("清除成功")
-            clearManager.getCacheSize((value, unit) => {
-                this.setState({
-                    cacheSize: value, //缓存大小
-                    unit: unit  //缓存单位
-                })
-            });
+            this.setState({
+                cacheSize: '', //缓存大小
+                unit: ''  //缓存单位
+            })
 
         });
     }

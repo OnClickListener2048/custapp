@@ -134,7 +134,7 @@ export default class ColumnDetailPage extends BComponent {
                 SActivityIndicator.hide(loading);
 
                 if(responseData.code == 0 ){
-                    if(responseData.list.length>0){
+                    if(responseData.list.length>0 && responseData.list[0].products.length>0){
                         this.setState({
                             dataArr:responseData.list[0].products,
                             itemSelected:responseData.list[0].products[0],
