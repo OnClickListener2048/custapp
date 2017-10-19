@@ -64,7 +64,7 @@ export default class MyOrderPage extends BComponent {
                 if(responseData.code == 0) {
                     SActivityIndicator.hide(loading);
                     var data = responseData.list;
-                    if(data!=null){
+                    if(data!=null&&data!=[]){
                         var hang=[];
                         var done=[];
                         var doing=[];
