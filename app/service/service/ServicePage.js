@@ -68,6 +68,8 @@ export default class ServicePage extends BComponent {
                 console.log('company', company);
                 if (company && company.id) {
                     this.companyid = company.id
+                }else{
+                    this.companyid = undefined
                 }
                 this.loadData(this.state.year+'-'+this.state.month)
 
