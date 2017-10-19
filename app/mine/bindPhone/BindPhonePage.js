@@ -27,6 +27,7 @@ import settingStyles from './css/SettingsPageStyle';
 import BComponent from '../../base';
 import errorText from '../../util/ErrorMsg';
 import SubmitButton from "../../view/SubmitButton";
+import {Navigation} from 'react-native-navigation';
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -344,7 +345,9 @@ export default class BindPhonePage extends BComponent {
                         {
                             text: '确定',
                             onPress: () => {
-                                this.props.navigator.popToRoot();
+                                Navigation.dismissAllModals({
+                                    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+                                });
                             },
                         },]
                     , {cancelable: false});
