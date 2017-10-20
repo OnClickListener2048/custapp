@@ -100,24 +100,21 @@ export default class HomePage extends BComponent {
                     </Text>
                 </View>
                 <View style={{height:0.5,backgroundColor:'#ECECEC'}}/>
-                <View style={[styles.contentlist,{marginTop:0}]}>
-                    <Text style={styles.textstyle}>
+                <View style={{width:deviceWidth,
+                    height:50.5,
+                    backgroundColor:'white',
+                    alignItems:'center',
+                    justifyContent:'center'}}>
+                <View style={[styles.contentlist,{marginTop:0,width:deviceWidth-30}]}>
+                    <Text style={[styles.textstyle,{marginLeft:0}]}>
                         公司名称
                     </Text>
                     <Text style={styles.textContentStyle}>
                         {this.state.company}
                     </Text>
+                    </View>
                 </View>
-                <View style={styles.contentlist}>
-                    <Text style={styles.textstyle}>
-                        联系人
-                    </Text>
-                    <Text style={styles.textContentStyle}>
-
-                    </Text>
-                </View>
-                <View style={{height:0.5,backgroundColor:'#ECECEC'}}/>
-                <View style={[styles.contentlist,{marginTop:0}]}>
+                <View style={[styles.contentlist]}>
                     <Text style={styles.textstyle}>
                         微信号
                     </Text>
@@ -151,8 +148,10 @@ const styles = StyleSheet.create({
         fontSize:16,
         color:'#333333',
         marginLeft:15,
+        marginRight:5,
     },
     textContentStyle:{
+        width:deviceWidth-30-16*4,
         fontSize:16,
         color:'#999999',
         marginRight:15,

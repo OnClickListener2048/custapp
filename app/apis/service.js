@@ -34,6 +34,6 @@ export function loadAccounts(companyid,date='',type='1') {
 export function loadTaxForm(companyid,date='') {
     let params = companyid?{companyid,date}:{date}
 
-    return getApi('/api/mock/services/tax',params);
+    return getApi('/api/v1/services/tax',params);
 }
 

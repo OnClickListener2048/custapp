@@ -63,36 +63,7 @@ export default class CompanySurveyPage extends BComponent {
                         {
                             title:'基本信息',
                             type:'1',
-                            dataArr:[
-                                {
-                                    title:'纳税信用等级',
-                                    subTitle:responseData.data.tax_credit_rating,
-                                },
-                                {
-                                    title:'纳税人状态',
-                                    subTitle:responseData.data.tax_status,
-                                },
-                                {
-                                    title:'纳税类型',
-                                    subTitle:responseData.data.tax_type,
-                                },
-                                {
-                                    title:'公司地址',
-                                    subTitle:responseData.data.address,
-                                },
-                                {
-                                    title:'电话',
-                                    subTitle:responseData.data.tel,
-                                },
-                                {
-                                    title:'开户银行',
-                                    subTitle:responseData.data.bank,
-                                },
-                                {
-                                    title:'银行账号',
-                                    subTitle:responseData.data.bank_card,
-                                },
-                            ]
+                            dataArr:responseData.data.infos===undefined?[]:responseData.data.infos,
                         },
                         {
                             title:'证照信息',
@@ -150,7 +121,7 @@ export default class CompanySurveyPage extends BComponent {
         )
     }
     _renderItem (item) {
-        if (item.item.title === undefined){
+        if (item.item.value === undefined){
             return(
                 <CommenCell
                     leftText={item.item.name}
@@ -160,8 +131,8 @@ export default class CompanySurveyPage extends BComponent {
         }else{
             return(
                 <OtherCell
-                    title={item.item.title}
-                    subTitle={item.item.subTitle}
+                    title={item.item.name}
+                    subTitle={item.item.value}
                 />
             )
         }
