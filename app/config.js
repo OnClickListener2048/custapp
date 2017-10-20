@@ -30,8 +30,8 @@ if(DEBUG) {// 测试环境变量, 上线时应删除
     UAA_DOMAIN_URL = 'https://x-id.i-counting.cn';
 
     //单
-    // SCHEME = 'http';
-    // DOMAIN_API = '192.168.200.150:3000';
+    SCHEME = 'http';
+    DOMAIN_API = '192.168.200.150:3000';
 }
 
 export let API_BASE_URL = `${SCHEME}://${DOMAIN_API}`;// API服务基础地址

@@ -17,7 +17,8 @@ import ProductDetailPage from './home/detail/ProductDetailPage'
 import ColumnDetailPage from './home/detail/ColumnDetailPage'
 
 
-import BindPhonePage from './mine/bindPhone/BindPhonePage'
+// import BindPhonePage from './mine/bindPhone/BindPhonePage'
+import BindPhonePage from './user/FirstBindPhonePage'
 import MyOrderPage from './mine/myOrder/MyOrderPage'
 
 import ChangeCompanyPage from './mine/companyInfo/ChangeCompanyPage'
