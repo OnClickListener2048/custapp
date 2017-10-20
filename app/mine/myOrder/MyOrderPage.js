@@ -53,6 +53,7 @@ export default class MyOrderPage extends BComponent {
             },
             (e) => {
                 this.loadData()
+                console.log(e)
             },
         );
     }
