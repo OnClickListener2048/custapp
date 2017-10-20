@@ -44,22 +44,20 @@ export default class LicenceInfoPage extends BComponent {
                         placeholderSource={require('../../img/name_bg.png')}/>
                     </View>
                     {/*<Image style={{width:DeviceInfo.width}} source={require('../../img/name_bg.png')}/>*/}
-                    <SectionHeader
-                        title='证件照信息'
-                        text={this.props.licenceinfo.name}
-                    />
-                    <CommentCell
-                        leftText = "证照有效期止"
-                        rightText = {this.props.licenceinfo.valid_time}
-                        style={{marginTop:10}}
-                        isClick = {false}
-                    />
-                    {/*<CommentCell*/}
-                        {/*leftText = "年审时间"*/}
-                        {/*rightText = "2017-8-12"*/}
-                        {/*isClick = {false}*/}
-
-                    {/*/>*/}
+                    {this.props.licenceinfo.valid_time !== '' && this.props.licenceinfo.valid_time !== undefined &&
+                    <View>
+                        <SectionHeader
+                            title='证件照信息'
+                            text={this.props.licenceinfo.name}
+                        />
+                        < CommentCell
+                            leftText = "证照有效期止"
+                            rightText = {this.props.licenceinfo.valid_time}
+                            style={{marginTop:10}}
+                            isClick = {false}
+                            />
+                    </View>
+                    }
                 </ScrollView>
             </View>
 
