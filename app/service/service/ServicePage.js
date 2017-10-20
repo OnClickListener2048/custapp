@@ -39,12 +39,13 @@ export default class ServicePage extends BComponent {
             is_demo:1,//是否演示数据,
             year:today.getFullYear().toString(),
             month:(today.getMonth() + 1).toString(),
-            isRefreshing:false
+            isRefreshing:false,
+            isClose:false
 
         };
         this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
-        this.goBuy=this.goBuy.bind(this);
+        this.toClose=this.toClose.bind(this);
 
     }
     static navigatorStyle = {
@@ -199,14 +200,16 @@ export default class ServicePage extends BComponent {
         }
     }
 
-    goBuy(){
-        this.props.navigator.switchToTab({
-            tabIndex: 0
-        });
+    toClose(){
+        this.setState(
+            {
+                isClose:true
+            }
+        )
     }
 
     _renderDemo(isDemo){
-        if(isDemo==1) {
+        if(isDemo==1&&!this.state.isClose) {
             return (
                 <View>
                 <View style={{
@@ -215,7 +218,7 @@ export default class ServicePage extends BComponent {
                     left: 0,
                     width: DeviceInfo.width,
                     height: 190,
-                    backgroundColor: 'rgba(00, 00, 00, 0.5)',
+                    backgroundColor: 'rgba(00, 00, 00, 0.8)',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}
@@ -238,8 +241,8 @@ export default class ServicePage extends BComponent {
                     }}
                           pointerEvents='box-none'
                     >
-                        <TouchableOpacity onPress={()=>this.goBuy()}>
-                        <Image style={{resizeMode : "contain",marginTop:15}} source={require('../../img/service_demo_buy.png')}/>
+                        <TouchableOpacity onPress={()=>this.toClose()}>
+                        <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/service_demo_close.png')}/>
                         </TouchableOpacity>
                     </View>
                 </View>

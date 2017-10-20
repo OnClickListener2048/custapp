@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
     },
     login_title_wrapper:{
+        width:SCREEN_WIDTH-30-70-22,
         marginTop:13,
         marginLeft:10
     },
