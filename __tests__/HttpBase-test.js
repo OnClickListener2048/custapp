@@ -62,3 +62,15 @@ it('发送手机验证码 test', async () => {
         }
     );
 });
+
+
+it('feed test', async () => {
+    apis.submitFeedBack('注册公司', '北京','名字','13522807924', 'g2vg').then(
+        data => {
+
+        },
+        e => {
+
+        }
+    );
+});
