@@ -22,6 +22,7 @@ export default class HeaderView extends Component {
 
     static defaultProps = {
         hasTop:true,//是否有顶部的view
+        hasBottom:true,//是否有底部view
         topDes:'',//顶部文字描述
         topNum:'',//顶部数值
         leftDes:'',//左边文字描述
@@ -32,11 +33,20 @@ export default class HeaderView extends Component {
 
 
     render(){
-        const {hasTop,leftDes,leftNum,rightDes,rightNum} = this.props
+        const {hasTop,hasBottom} = this.props
         return(
             <Image style={styles.wrapper}
-                   source={hasTop?require('../../img/service_bg.png'):require('../../img/service_receive_bg.png')}>
+                   source={hasTop&&hasBottom?require('../../img/service_bg.png'):require('../../img/service_receive_bg.png')}>
                 {this._renderTop()}
+                {this._renderBottom()}
+            </Image>
+        )
+    }
+    _renderBottom(){
+        const {leftDes,leftNum,rightDes,rightNum,hasBottom} = this.props
+
+        if(hasBottom){
+            return(
                 <View style={styles.wrapper2}>
                     <View style={styles.wrapper3}>
                         <Text style={styles.te3}>
@@ -55,10 +65,9 @@ export default class HeaderView extends Component {
                         </Text>
                     </View>
                 </View>
-            </Image>
-        )
+            )
+        }
     }
-
     _renderTop(){
         const {hasTop, topDes,topNum} = this.props
         if(hasTop) {

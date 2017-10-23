@@ -108,14 +108,13 @@ export default class HomePage extends BComponent {
             (responseData) => {
                 if(responseData.code == 0){
                     //成功后处理数据
-                    console.log('responseData----',responseData)
                     let dataSource = [];
                     for (let i = 0; i<responseData.list.length;i++){
                         let section = {};
                         section.title = responseData.list[i].name;
                         section.key = i;
                         //showtype
-                        section.data = [{data:responseData.list[i].products,type:responseData.list[i].showtype}];
+                        section.data = [{data:responseData.list[i].products,type:responseData.list[i].showtype?responseData.list[i].showtype:'1'}];
                         for(let j=0;j<section.data.length;j++){
                             section.data[j].key = j
                         }
@@ -334,6 +333,7 @@ export default class HomePage extends BComponent {
         });
     }
     _goProductDetail(item){
+        UMTool.onEvent(item.eventsid)
         this.props.navigator.push({
             screen: 'ProductDetailPage',
             title:item.name,

@@ -91,8 +91,8 @@ export default class MinePage extends BComponent {
                         UserInfoStore.getCompany().then(
                             (company) => {
                                 console.log('company', company);
-                                if (company && company.name) {
-                                    this.setState({company: company.name});
+                                if (company && company.infos && company.infos[0] && company.infos[0].value) {
+                                    this.setState({company: company.infos[0].value});
                                 } else {
                                     this.setState({company: ''});
                                 }
@@ -165,7 +165,7 @@ export default class MinePage extends BComponent {
 
         // 未登录不能跳转的页面
         if(!this.state.logined) {
-            if(screen === 'MyOrderPage' || screen === 'CompanySurveyPage' || screen === 'AccountAndSecurity') {
+            if(screen === 'BindPhonePage' || screen === 'MyOrderPage' ||screen === 'CompanySurveyPage' || screen === 'AccountAndSecurity') {
                 Toast.show("请先登录")
                 return;
             }

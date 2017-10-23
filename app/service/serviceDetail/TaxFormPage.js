@@ -15,6 +15,8 @@ import CommonCell from '../../view/CommenCell'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
+import HeaderView from '../view/HeaderView'
+import SectionHeader from '../../view/SectionHeader'
 
 export default class TaxFormPage extends BComponent {
 
@@ -22,23 +24,7 @@ export default class TaxFormPage extends BComponent {
         super(props)
         this.state={
             total:'- -',//本月累计
-            data :[{
-                title:'增值税',
-                population: 10,
-                text:'- -',
-            }, {
-                title:'城市建设税',
-                population: 10,
-                text:'- -'
-            }, {
-                title:'教育费附加',
-                population: 10,
-                text:'- -'
-            }, {
-                title:'印花税',
-                population: 10,
-                text:'- -'
-            }],
+            data:[],
             isRefreshing:false,
             year:props.year,
             month:props.month
@@ -63,21 +49,10 @@ export default class TaxFormPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
-                    let dic = responseData.data
-                    let arr = this.state.data
-                    arr[0].text = '¥'+ dic.vat
-                    arr[1].text = '¥'+ dic.uct
-                    arr[2].text = '¥'+ dic.edu
-                    arr[3].text = '¥'+dic.stamp
-
-                    arr[0].population = parseFloat(dic.vat.replace(/[,¥]/g,""))
-                    arr[1].population = parseFloat(dic.uct.replace(/[,¥]/g,""))
-                    arr[2].population = parseFloat(dic.edu.replace(/[,¥]/g,""))
-                    arr[3].population = parseFloat(dic.stamp.replace(/[,¥]/g,""))
 
                     this.setState({
-                        total:dic.total,
-                        data:arr,
+                        total:responseData.data.total?responseData.data.total:'- -',
+                        data:responseData.data.list?responseData.data.list:[],
                         isRefreshing:false
                     })
                 }else{
@@ -100,69 +75,98 @@ export default class TaxFormPage extends BComponent {
         this.loadData(this.state.year+'-'+this.state.month,true)
     }
     _listHeaderComponent(){
-        let options = {
-            width: 260,
-            height: 260,
-            color: '#2980B9',
-            r: 100,
-            R: 130,
-            animate: {
-                type: 'oneByOne',
-                duration: 2000,
-                fillTransition: 3
-            },
-        }
-        let colorArr=[
-            '#EA4931',
-            '#FFAE00',
-            '#4287FF',
-            '#00C3B0'
-        ]
-        return(
-            <View style={{width:DeviceInfo.width,backgroundColor:'white'}}>
-                <View style={{width:DeviceInfo.width,height:260,marginTop:70,alignItems:'center'}}>
-                    <View style={{width:260,height:260,position:'relative'}}>
-                        <Pie data={this.state.data}
-                             options={options}
-                             accessorKey="population"
-                             pallete={
-                                 [
-                                     {'r':234,'g':73,'b':49},
-                                     {'r':255,'g':174,'b':0},
-                                     {'r':66,'g':135,'b':255},
-                                     {'r':0,'g':195,'b':176},
-                                 ]
-                             }
+        return (
+            <View style={{width:DeviceInfo.width}}>
+                <HeaderView
+                    hasTop={true}
+                    hasBottom={false}
+                    topDes="本月累计"
+                    topNum={this.state.total}
+                    leftDes=""
+                    leftNum=""
+                    rightDes=""
+                    rightNum=""
+                />
+                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="纳税表明细"/>
 
-                        />
-                        <View style={{width:130,height:130,position:'absolute',top:65,left:65,justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{fontSize:18,color:'#333333'}}>本月累计</Text>
-                            <Text style={{fontSize:20,color:'#EA4931',fontWeight:'bold'}}>¥{this.state.total}</Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={{flexDirection:'row',width:DeviceInfo.width,justifyContent:'space-around',marginTop:37,marginBottom:10}}>
-                    {
-                        this.state.data.map((item,index)=>{
-                            return(
-                                <View  key={index} style={{flexDirection:'row',alignItems:'center'}}>
-                                    <View style={{width:10,height:10,borderRadius:10,backgroundColor:colorArr[index]}}></View>
-                                    <Text style={{fontSize:12,color:'#999999',marginLeft:5}}>{item.title}</Text>
-                                </View>
-                            )
-                        })
-                    }
-                </View>
             </View>
         )
     }
 
+    // _listHeaderComponent(){
+    //     let options = {
+    //         width: 260,
+    //         height: 260,
+    //         color: '#2980B9',
+    //         r: 100,
+    //         R: 130,
+    //         animate: {
+    //             type: 'oneByOne',
+    //             duration: 2000,
+    //             fillTransition: 3
+    //         },
+    //         label:{color:''}
+    //
+    //     }
+    //     let colorArr=[
+    //         '#EA4931',
+    //         '#FFAE00',
+    //         '#4287FF',
+    //         '#00C3B0'
+    //     ]
+    //     return(
+    //         <View style={{width:DeviceInfo.width,backgroundColor:'white'}}>
+    //             <View style={{width:DeviceInfo.width,height:260,marginTop:70,alignItems:'center'}}>
+    //                 <View style={{width:260,height:260,position:'relative'}}>
+    //                     <Pie data={this.state.data}
+    //                          options={options}
+    //                          accessorKey="population"
+    //                          pallete={
+    //                              [
+    //                                  {'r':234,'g':73,'b':49},
+    //                                  {'r':255,'g':174,'b':0},
+    //                                  {'r':66,'g':135,'b':255},
+    //                                  {'r':0,'g':195,'b':176},
+    //                              ]
+    //                          }
+    //
+    //                     />
+    //                     <View style={{width:130,height:130,position:'absolute',top:65,left:65,justifyContent:'center',alignItems:'center'}}>
+    //                         <Text style={{fontSize:18,color:'#333333'}}>本月累计</Text>
+    //                         <Text style={{fontSize:20,color:'#EA4931',fontWeight:'bold'}}>{this.state.total}</Text>
+    //                     </View>
+    //                 </View>
+    //             </View>
+    //             <View style={{flexDirection:'row',width:DeviceInfo.width,justifyContent:'space-around',marginTop:37,marginBottom:10}}>
+    //                 {
+    //                     this.state.data.map((item,index)=>{
+    //                         return(
+    //                             <View  key={index} style={{flexDirection:'row',alignItems:'center'}}>
+    //                                 <View style={{width:10,height:10,borderRadius:10,backgroundColor:colorArr[index]}}></View>
+    //                                 <Text style={{fontSize:12,color:'#999999',marginLeft:5}}>{item.name}</Text>
+    //                             </View>
+    //                         )
+    //                     })
+    //                 }
+    //             </View>
+    //         </View>
+    //     )
+    // }
+
     _renderItem(item){
         return(
-            <CommonCell leftText={item.item.title} rightText={item.item.text} isClick={false}/>
+            <CommonCell leftText={item.item.name} rightText={item.item.amount} isClick={false}/>
         )
     }
-
+    _listEmptyComponent(){
+        let headerHeight = 48+64+DeviceInfo.width*0.42+20
+        return(
+            <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
+                <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据,请过些时日再查看</Text>
+                <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>
+            </View>
+        )
+    }
     render(){
 
         return(
@@ -174,8 +178,9 @@ export default class TaxFormPage extends BComponent {
                     keyExtractor = {(item, index) => index}
                     onRefresh={this._onRefresh.bind(this)}
                     refreshing={this.state.isRefreshing}
+                    ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
-                <ChooseTimerModal isChangeHeader={false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
         )
     }

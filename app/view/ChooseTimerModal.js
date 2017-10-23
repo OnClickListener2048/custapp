@@ -136,6 +136,7 @@ export default class ChooseTimerModal extends Component {
                             <View style={{flexDirection:'row'}}>
                                 <Text style={[{fontSize:setSpText(20)},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.monthSelected}月</Text>
                                 <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end'},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.yearSelected}</Text>
+                                <Image style={{alignSelf:'flex-end',margin:3}} source={require('../img/triangle.png')}/>
                             </View>
                             <Image source={this.state.isShow?require('../img/today_black.png'):require('../img/today_white.png')}/>
                         </View>
