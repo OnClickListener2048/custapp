@@ -94,7 +94,7 @@ export default class FirstBindPhonePage extends BComponent {
                     this.setState({picURL, vCode: '', vCodeInputValid: false});
                 },
                 e => {
-
+                    Toast.show('图形验证码获取失败, 请稍候再试');
                 }
             );
         }

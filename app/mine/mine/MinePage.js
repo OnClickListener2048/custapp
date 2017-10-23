@@ -141,7 +141,7 @@ export default class MinePage extends BComponent {
                     />
                     <CommenCell
                         leftText="账号与安全"
-                        onPress = {this._goto.bind(this,'BindPhonePage','账号与安全')}
+                        onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
                         style={{marginTop:9}}
                     />
                     <CommenCell

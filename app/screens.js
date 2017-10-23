@@ -42,6 +42,7 @@ import Notification from './view/NotificationView'
 import NoNetTipPage from './view/NoNetTipPage'
 
 import WebViewPage from './view/WebViewPage'
+import AccountAndSecurity from "./mine/bindPhone/AccountAndSecurity";
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -75,4 +76,5 @@ export default function () {
     reg('ColumnDetailPage', () => ColumnDetailPage);
     reg('NoNetTipPage', () => NoNetTipPage);
     reg('WebViewPage', () => WebViewPage);
+    reg('AccountAndSecurity', () => AccountAndSecurity);
 }
