@@ -91,8 +91,8 @@ export default class MinePage extends BComponent {
                         UserInfoStore.getCompany().then(
                             (company) => {
                                 console.log('company', company);
-                                if (company && company.name) {
-                                    this.setState({company: company.name});
+                                if (company && company.infos && company.infos[0] && company.infos[0].value) {
+                                    this.setState({company: company.infos[0].value});
                                 } else {
                                     this.setState({company: ''});
                                 }

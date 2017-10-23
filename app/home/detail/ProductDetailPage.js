@@ -125,17 +125,19 @@ export default class ProductDetailPage extends BComponent {
         }else if (this.state.message.length === 0){
             Toast.show('请输入留言内容');
             return;
+        }else {
+            let  mobileStr = this.state.mobile.replace(/[^\d]/g, '');// 过滤非数字输入
+            let mobileValid = mobileStr.length > 0 && (mobileStr.match(/^([0-9]{11})?$/)) !== null;
+            if (!mobileValid){
+                Toast.show('请输入正确的联系电话');
+                return;
+            }
         }
 
         apis.submitFeedBack(this.state.navigatorTitle,this.state.area,this.state.name,this.state.mobile,this.state.message).then(
             (responseData) => {
                 Toast.show('提交成功');
                 this.refs.modal3.close()
-
-
-                // Toast.show('测试环境短信验证码:' + responseData.msg);
-                // Toast.show('测试环境短信验证码 ' + responseData.msg,
-                //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
             }, (e) => {
                 Toast.show('提交失败'+ e);
             }
@@ -228,6 +230,7 @@ export default class ProductDetailPage extends BComponent {
                         />
                         <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
                                    placeholder='联系电话'
+                                   keyboardType={'number-pad'}
                                    onChangeText={
                                        (mobile) => {
                                            this.updateMobile(mobile);
