@@ -179,6 +179,15 @@ export default class ColumnDetailPage extends BComponent {
         }else if (this.state.message.length === 0){
             Toast.show('请输入留言内容');
             return;
+        }else {
+            let  mobileStr = this.state.mobile.replace(/[^\d]/g, '');// 过滤非数字输入
+            let mobileValid = mobileStr.length > 0 && (mobileStr.match(/^([0-9]{11})?$/)) !== null;
+            if (!mobileValid){
+                Toast.show('请输入正确的联系电话');
+                return;
+
+            }
+
         }
 
         //这里this.state.navigatorTitle 具体看产品到底要什么
@@ -311,6 +320,7 @@ export default class ColumnDetailPage extends BComponent {
                                     />
                                     <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
                                                placeholder='联系电话'
+                                               keyboardType={'number-pad'}
                                                onChangeText={
                                                    (mobile) => {
                                                        this.updateMobile(mobile);
