@@ -110,7 +110,7 @@ export default class ProfitStatementPage extends BComponent {
     }
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+            <View style={{flex:1,backgroundColor:'#f9f9f9',paddingBottom:10}}>
                 <FlatList
                     data={this.state.dataSource}
                     keyExtractor = {(item, index) => index}
