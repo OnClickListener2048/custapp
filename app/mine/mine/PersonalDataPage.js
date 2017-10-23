@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
         marginRight:5,
     },
     textContentStyle:{
-        width:deviceWidth-30-16*4,
         fontSize:16,
         color:'#999999',
         marginRight:15,

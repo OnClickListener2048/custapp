@@ -16,6 +16,7 @@ import SectionHeader from '../../view/SectionHeader'
 import BComponent from '../../base/BComponent'
 import * as apis from '../../apis/index';
 import Toast from 'react-native-root-toast';
+import DefaultView from "../../view/DefaultView";
 
 export default class CompanySurveyPage extends BComponent {
 
@@ -25,6 +26,7 @@ export default class CompanySurveyPage extends BComponent {
         this.state = {
             dataSource:[],
             phone:null,
+            loadState:'loading'
         };
     }
     static navigatorStyle = {
@@ -39,6 +41,7 @@ export default class CompanySurveyPage extends BComponent {
                         phone: mobile,     // 手机号
                     });
                     this._onLoadMessageInfo(mobile);
+                    // this._onLoadMessageInfo('13167547423');13810397064长炯
 
                 }
             },
@@ -57,7 +60,7 @@ export default class CompanySurveyPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
-                if(responseData !== null && responseData.data !== null &&responseData.data !== '') {
+                if(responseData.code == 0) {
 
                     const companyData = [
                         {
@@ -95,30 +98,59 @@ export default class CompanySurveyPage extends BComponent {
                         dataSource:dataSource
                         // dataSource:responseData.data
                     })
+                        //修改状态
+                        SActivityIndicator.hide(loading);
+                        if( responseData.data === null ||responseData.data === ''){
+                            //没数据
+                            this.setState({
+                                loadState:'no-data',
+                            })
+                        }else{
+                            //成功
+                            this.setState({
+                                dataSource:dataSource,
+                                loadState:'success'
+                            })
+                        }
+                }else{
+                    //加载失败
+                    SActivityIndicator.hide(loading);
+                    this.setState({
+                        loadState:'error',
+                    })
+                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
 
                 }
             },
             (e) => {
+                //加载失败
                 SActivityIndicator.hide(loading);
-
-                Toast.show(errorText( e ));
+                this.setState({
+                    loadState:NetInfoSingleton.isConnected?'error':'no-net',
+                })
             },
         );
     }
 
     render(){
-        return(
-            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
-                <SectionList
-                    renderItem={this._renderItem.bind(this)}
-                    renderSectionHeader={this._renderSectionHeader.bind(this)}
-                    sections={this.state.dataSource}
-                    stickySectionHeadersEnabled={false}
-                >
-                </SectionList>
-            </View>
+        if(this.state.loadState == 'success') {
+            return (
+                <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+                    <SectionList
+                        renderItem={this._renderItem.bind(this)}
+                        renderSectionHeader={this._renderSectionHeader.bind(this)}
+                        sections={this.state.dataSource}
+                        stickySectionHeadersEnabled={false}
+                    >
+                    </SectionList>
+                </View>
 
-        )
+            )
+        }else {
+            return(
+                <DefaultView onPress={()=>this._onLoadMessageInfo(this.state.phone)} type ={this.state.loadState}/>
+            )
+        }
     }
     _renderItem (item) {
         if (item.item.value === undefined){
