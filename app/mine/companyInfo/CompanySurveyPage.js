@@ -39,6 +39,7 @@ export default class CompanySurveyPage extends BComponent {
                         phone: mobile,     // 手机号
                     });
                     this._onLoadMessageInfo(mobile);
+                    // this._onLoadMessageInfo('13167547423');
 
                 }
             },
