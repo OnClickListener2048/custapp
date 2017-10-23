@@ -98,9 +98,9 @@ export default class ServicePage extends BComponent {
 
                     this.setState({
                         is_demo:responseData.is_demo,
-                        profit:responseData.profit,
-                        income:responseData.income,
-                        expenditure:responseData.expenditure,
+                        profit:responseData.profit?responseData.profit:'- -',
+                        income:responseData.income?responseData.income:'- -',
+                        expenditure:responseData.expenditure?responseData.expenditure:'- -',
                         isRefreshing:false
                     })
                 }else{
@@ -137,11 +137,11 @@ export default class ServicePage extends BComponent {
                     <HeaderView
                         hasTop={true}
                         topDes="本月利润"
-                        topNum={'¥'+this.state.profit}
+                        topNum={this.state.profit}
                         leftDes="收入"
-                        leftNum={'¥'+this.state.income}
+                        leftNum={this.state.income}
                         rightDes="支出"
-                        rightNum={'¥'+this.state.expenditure}
+                        rightNum={this.state.expenditure}
                     />
 
                     <View style={styles.wrapper1}>

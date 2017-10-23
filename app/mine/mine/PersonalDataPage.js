@@ -33,8 +33,8 @@ export default class HomePage extends BComponent {
         UserInfoStore.isLogined().then(
             logined => {
                 console.log('MinePage logined', logined);
-                this.setState({logined:logined});
-                if(!logined) {
+                this.setState({logined: logined});
+                if (!logined) {
                     this.reset();
                 } else {
                     UserInfoStore.getUserInfo().then(
@@ -42,9 +42,9 @@ export default class HomePage extends BComponent {
                             if (user !== null) {
                                 this.setState({userName: user.name, phone: user.mobilePhone});
 
-                                if(user.avatar !== null) {
+                                if (user.avatar !== null) {
                                     console.log('MinePage', user.avatar);
-                                    this.setState({avatar: {uri:user.avatar}});
+                                    this.setState({avatar: {uri: user.avatar}});
                                 }
                             } else {
                                 this.reset();
@@ -59,8 +59,8 @@ export default class HomePage extends BComponent {
                     UserInfoStore.getCompany().then(
                         (company) => {
                             console.log('company', company);
-                            if (company && company.name) {
-                                this.setState({company: company.name});
+                            if (company && company.infos && company.infos[0] && company.infos[0].value) {
+                                this.setState({company: company.infos[0].value});
                             } else {
                                 this.setState({company: ''});
                             }
@@ -82,8 +82,8 @@ export default class HomePage extends BComponent {
         super.onNavigatorEvent(event);
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <ScrollView style={styles.container}>
                 <View style={styles.headportrait}>
                     <Text style={styles.textstyle}>
@@ -91,6 +91,7 @@ export default class HomePage extends BComponent {
                     </Text>
                     <Image source={this.state.avatar} style={styles.imageCircle}/>
                 </View>
+
                 <View style={styles.contentlist}>
                     <Text style={styles.textstyle}>
                         手机号
@@ -99,21 +100,26 @@ export default class HomePage extends BComponent {
                         {this.state.phone}
                     </Text>
                 </View>
-                <View style={{height:0.5,backgroundColor:'#ECECEC'}}/>
-                <View style={{width:deviceWidth,
-                    height:50.5,
-                    backgroundColor:'white',
-                    alignItems:'center',
-                    justifyContent:'center'}}>
-                <View style={[styles.contentlist,{marginTop:0,width:deviceWidth-30}]}>
-                    <Text style={[styles.textstyle,{marginLeft:0}]}>
-                        公司名称
-                    </Text>
-                    <Text style={styles.textContentStyle}>
-                        {this.state.company}
-                    </Text>
+
+                <View style={{height: 0.5, backgroundColor: '#ECECEC'}}/>
+
+                <View style={{
+                    width: deviceWidth,
+                    height: 50.5,
+                    backgroundColor: 'white',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <View style={[styles.contentlist, {marginTop: 0}]}>
+                        <Text style={styles.textstyle}>
+                            公司名称
+                        </Text>
+                        <Text style={styles.textContentStyle}>
+                            {this.state.company}
+                        </Text>
                     </View>
                 </View>
+
                 <View style={[styles.contentlist]}>
                     <Text style={styles.textstyle}>
                         微信号
@@ -135,39 +141,39 @@ const styles = StyleSheet.create({
         backgroundColor: '#F9F9F9',
         flexDirection: 'column'
     },
-    headportrait:{
-        height:96,
-        width:deviceWidth,
-        backgroundColor:'white',
-        marginTop:10,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between'
+    headportrait: {
+        height: 96,
+        width: deviceWidth,
+        backgroundColor: 'white',
+        marginTop: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
-    textstyle:{
-        fontSize:16,
-        color:'#333333',
-        marginLeft:15,
-        marginRight:5,
+    textstyle: {
+        fontSize: 16,
+        color: '#333333',
+        marginLeft: 15,
+        marginRight: 5,
     },
-    textContentStyle:{
-        fontSize:16,
-        color:'#999999',
-        marginRight:15,
+    textContentStyle: {
+        fontSize: 16,
+        color: '#999999',
+        marginRight: 15,
     },
-    contentlist:{
-        height:50.5,
-        width:deviceWidth,
-        backgroundColor:'white',
-        marginTop:10,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between'
+    contentlist: {
+        height: 50.5,
+        width: deviceWidth,
+        backgroundColor: 'white',
+        marginTop: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
-    imageCircle:{
-        width:60,
-        height:60,
-        marginRight:15,
+    imageCircle: {
+        width: 60,
+        height: 60,
+        marginRight: 15,
         borderRadius: 30,
     },
 });

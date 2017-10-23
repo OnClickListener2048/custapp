@@ -19,7 +19,6 @@ export function loadCashFlow(companyid ,date='') {
 //利润表
 export function loadProfit(companyid,date='') {
     let params = companyid?{companyid,date}:{date}
-
     return getApi('/api/v1/services/profit',params);
 }
 

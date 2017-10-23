@@ -57,10 +57,10 @@ export default class CashFlowPage extends BComponent {
                 if(responseData.code == 0){
 
                     this.setState({
-                        balance:responseData.balance,
-                        balance_start:responseData.balance_start,
-                        balance_end:responseData.balance_end,
-                        dataSource:responseData.list,
+                        balance:responseData.data.balance?responseData.data.balance:'- -',
+                        balance_start:responseData.data.balance_start?responseData.data.balance_start:'- -',
+                        balance_end:responseData.data.balance_end?responseData.data.balance_end:'- -',
+                        dataSource:responseData.data.list?responseData.data.list:[],
                         isRefreshing:false
                     })
                 }else{
@@ -85,14 +85,14 @@ export default class CashFlowPage extends BComponent {
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
-            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_money={'¥'+rowItem.start} item2_money={'¥'+rowItem.end}/>
+            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_money={rowItem.start} item2_money={rowItem.end}/>
         )
 
     };
     _renderSection (section, sectionId) {
         let dic = this.state.dataSource[sectionId]
         return(
-            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_money={'¥'+dic.start} item2_money={'¥'+dic.end}/>
+            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_money={dic.start} item2_money={dic.end}/>
 
         )
     };
@@ -102,18 +102,26 @@ export default class CashFlowPage extends BComponent {
                 <HeaderView
                     hasTop={true}
                     topDes="净流动资金"
-                    topNum={'¥'+this.state.balance}
+                    topNum={this.state.balance}
                     leftDes="期初"
-                    leftNum={'¥'+this.state.balance_start}
+                    leftNum={this.state.balance_start}
                     rightDes="期末"
-                    rightNum={'¥'+this.state.balance_end}
+                    rightNum={this.state.balance_end}
                 />
 
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="现金流明细"/>
             </View>
         )
     }
-
+    _listEmptyComponent(){
+        let headerHeight = 48+64+DeviceInfo.width*0.56+20
+        return(
+            <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
+                <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据,请过些时日再查看</Text>
+                <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>
+            </View>
+        )
+    }
     render() {
         return (
             <View style={{backgroundColor:'#f9f9f9',flex:1}}>
@@ -128,6 +136,7 @@ export default class CashFlowPage extends BComponent {
                     headerClickCallBack={(index)=>this._headerClickCallBack(index)}
                     onRefresh={this._onRefresh.bind(this)}
                     refreshing={this.state.isRefreshing}
+                    ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
                 <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>

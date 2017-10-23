@@ -55,7 +55,7 @@ export default class SActivityIndicator extends Component{
                 />)
 
                 AIV.destroy();
-            },500)
+            },200)
         }
     }
 

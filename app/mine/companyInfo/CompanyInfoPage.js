@@ -11,6 +11,7 @@ import {
 import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base/BComponent'
 
+// Deprecated
 export default class CompanyInfoPage extends BComponent {
 
     constructor(props) {
