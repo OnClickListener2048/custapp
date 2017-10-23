@@ -33,6 +33,13 @@ const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方
 
 export default class BindPhonePage extends BComponent {
 
+    // usage: this.focusField('smsCodeInput');
+    focusField = (nextField) => {
+        if (this.refs[nextField] !== undefined && !this.refs[nextField].isFocused()) {
+            this.refs[nextField].focus();
+        }
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -68,7 +75,6 @@ export default class BindPhonePage extends BComponent {
     }
 
     componentDidMount() {
-
     }
 
     // 刷新验证码
@@ -135,169 +141,6 @@ export default class BindPhonePage extends BComponent {
                 }
             );
         }
-    }
-
-    render(){
-        return(
-            <TouchableWithoutFeedback onPress={dismissKeyboard}>
-            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
-                <Text style={{padding:17,color:'#333333',fontSize:14,width:SCREEN_WIDTH,textAlign:'center'}}>当前手机号{this.state.phone}</Text>
-                <View style={{width:SCREEN_WIDTH, padding:14,paddingLeft:30,paddingRight:30,backgroundColor:'#FFFFFF',borderBottomWidth:0.5,borderBottomColor:'#ececec'}}>
-                    <TextInput style={{fontSize:14,padding:0}}
-                               placeholder="请输入新手机号"
-                               underlineColorAndroid='transparent'
-                               maxLength={11}
-                               keyboardType='numeric'
-                               returnKeyType='next'
-                               onChangeText={
-                                   (newMobile) => {
-                                       // 如果手机号改了, 马上就重置获取验证码?
-                                       if (!this.refs.timerButton.state.counting) {
-                                           this.refs.timerButton.reset();
-                                       }
-                                       this.setState({timerButtonClicked: false});
-                                       newMobile = newMobile.replace(/[^\d]/g, '');// 过滤非数字输入
-                                       let newMobileValid = newMobile.length > 0 && (newMobile.match(/^([0-9]{11})?$/)) !== null;
-                                       if (newMobile === this.state.phone) {
-                                           Toast.show('对不起, 不能输入当前登录用户的手机号进行绑定 ',
-                                               {
-                                                   position: Toast.positions.CENTER,
-                                                   duration: Toast.durations.LONG,
-                                                   backgroundColor: 'black'
-                                               });
-                                           newMobileValid = false;
-                                       }
-                                       this.setState({newMobile, newMobileValid});
-
-                                       if(newMobileValid) {
-                                           this._doChangeVCode(newMobile);
-                                       }
-
-                                   }
-                               }
-                    />
-                </View>
-
-                {/*  图片验证码 */}
-                <View style={styles.textInputContainer}>
-                    <View style={{flexDirection: 'row',
-                        justifyContent:'center',width:SCREEN_WIDTH, padding:14,paddingLeft:30,paddingRight:30,backgroundColor:'#FFFFFF',borderBottomWidth:0.5,borderBottomColor:'#ececec'}}>
-                        <TextInput underlineColorAndroid='transparent'
-                                   ref="vCodeInput"
-                                   autoCorrect={false}
-                                   value={this.state.vCode}
-                                   editable={this.state.mobileValid}
-                                   secureTextEntry={false} maxLength={4} keyboardType='default'
-                                   style={[styles.codeInput,{paddingLeft:0, }]}
-                                   placeholder={this.state.verifyText}
-                                   placeholderTextColor='#c8c8c8'
-                                   returnKeyType='done'
-                                   onChangeText={(vCode) => {
-                                       this.setState({vCode})
-                                       let vCodeInputValid = (vCode.length === 4);
-                                       this.setState({vCode, vCodeInputValid});
-                                       if(vCodeInputValid) {
-                                           dismissKeyboard();
-                                       }
-                                   }}
-
-                        />
-
-                        <TouchableWithoutFeedback onPress={ () => { this._doChangeVCode(this.state.newMobile) }}>
-                            <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
-                                    source={this.state.picURL} />
-                        </TouchableWithoutFeedback>
-
-                    </View>
-                </View>
-
-                {/*  短信验证码 */}
-                <View style={{flexDirection:'row',width:DeviceInfo.width,backgroundColor:'#FFFFFF',alignItems:'center'}}>
-                    <View style={{width:SCREEN_WIDTH/2,padding:14,paddingLeft:30,paddingRight:30}}>
-                        <TextInput
-                            style={{fontSize:14,padding:0}}
-                            placeholder="请输入验证码"
-                            underlineColorAndroid='transparent'
-                            value={this.state.smsCode}
-                            editable={this.state.timerButtonClicked && this.state.vCodeInputValid}
-                            secureTextEntry={false}
-                            maxLength={6}
-                            keyboardType='numeric'
-                            returnKeyType='done'
-                            onChangeText={(smsCode) => {
-                                this.setState({smsCode})
-                                let smsCodeValid = (smsCode.length === 6);
-                                this.setState({smsCodeValid})
-                            }
-                            }
-
-                            onSubmitEditing={() => {
-                                dismissKeyboard();
-                            }}
-                        />
-                    </View>
-
-                    <TextInput underlineColorAndroid='transparent'
-                               ref="vCodeInput"
-                               autoCorrect={false}
-                               value={this.state.vCode}
-                               editable={this.state.mobileValid}
-                               secureTextEntry={false} maxLength={4} keyboardType='default'
-                               style={styles.codeInput} placeholder={this.state.verifyText}
-                               placeholderTextColor='#c8c8c8'
-                               returnKeyType='done'
-                               onChangeText={(vCode) => {
-                                   this.setState({vCode})
-                                   let vCodeInputValid = (vCode.length === 4);
-                                   this.setState({vCode, vCodeInputValid});
-                                   if(vCodeInputValid) {
-                                       dismissKeyboard();
-                                   }
-                               }}
-
-                               onBlur={() => {
-                                   dismissKeyboard();
-                                   // if(this.state.vCodeInputValid&& !this.state.vCodeServerValid) {
-                                   //     this._verifyVCode();
-                                   // }
-                               }}
-
-                               onSubmitEditing={() => {
-                                   dismissKeyboard();
-                                   //this._verifyVCode();
-                               }}
-                    />
-
-
-
-                    <View style={{flexDirection:'row-reverse',alignItems:'center',width:DeviceInfo.width/2}}>
-                        <TimerButton
-                            enable = {true}
-                            ref="timerButton"
-                            style={{width:90,marginRight:30}}
-                            textStyle={{fontSize:12,color:'#6A6A6A'}}
-                            timerCount={60}
-                            onClick={(shouldStartCountting) => {
-                                shouldStartCountting(true);
-                                this.setState({timerButtonClicked: true});
-                                this._requestSMSCode(shouldStartCountting);
-                            }}
-                        />
-                        <View style={{width:1,height:17,backgroundColor:'#ececec'}}/>
-                    </View>
-
-                </View>
-                <View style={{height:40}}/>
-                <SubmitButton
-                    text='立即绑定'
-                    onPress={() => {this._doSubmit()}}
-                    isEnabled = {this.state.newMobileValid && this.state.smsCodeValid}
-                />
-
-            </View>
-            </TouchableWithoutFeedback>
-
-        )
     }
 
     // 读取用户信息
@@ -375,6 +218,7 @@ export default class BindPhonePage extends BComponent {
     }
 
 
+    // 请求短信验证码
     _requestSMSCode(shouldStartCountting) {
         console.log('_requestSMSCode shouldStartCountting', shouldStartCountting);
         if (this.state.newMobileValid && this.state.vCodeInputValid) {
@@ -391,6 +235,137 @@ export default class BindPhonePage extends BComponent {
         }
     }
 
+    render(){
+        return(
+            <TouchableWithoutFeedback onPress={dismissKeyboard}>
+            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
+                <Text style={{padding:17,color:'#333333',fontSize:14,width:SCREEN_WIDTH,textAlign:'center'}}>当前手机号{this.state.phone}</Text>
+                <View style={{width:SCREEN_WIDTH, padding:14,paddingLeft:30,paddingRight:30,backgroundColor:'#FFFFFF',borderBottomWidth:0.5,borderBottomColor:'#ececec'}}>
+                    <TextInput style={{fontSize:14,padding:0}}
+                               placeholder="请输入新手机号"
+                               underlineColorAndroid='transparent'
+                               maxLength={11}
+                               keyboardType='numeric'
+                               returnKeyType='next'
+                               onChangeText={
+                                   (newMobile) => {
+                                       // 如果手机号改了, 马上就重置获取验证码?
+                                       if (!this.refs.timerButton.state.counting) {
+                                           this.refs.timerButton.reset();
+                                       }
+                                       this.setState({timerButtonClicked: false});
+                                       newMobile = newMobile.replace(/[^\d]/g, '');// 过滤非数字输入
+                                       let newMobileValid = newMobile.length > 0 && (newMobile.match(/^([0-9]{11})?$/)) !== null;
+                                       if (newMobile === this.state.phone) {
+                                           Toast.show('对不起, 不能输入当前登录用户的手机号进行绑定 ',
+                                               {
+                                                   position: Toast.positions.CENTER,
+                                                   duration: Toast.durations.LONG,
+                                                   backgroundColor: 'black'
+                                               });
+                                           newMobileValid = false;
+                                       }
+                                       this.setState({newMobile, newMobileValid});
+
+                                       if(newMobileValid) {
+                                           this._doChangeVCode(newMobile);
+                                       }
+                                   }
+                               }
+                    />
+                </View>
+
+                {/*  图片验证码 */}
+                <View style={styles.textInputContainer}>
+                    <View style={{flexDirection: 'row',
+                        justifyContent:'center',width:SCREEN_WIDTH, padding:14,paddingLeft:30,paddingRight:30,backgroundColor:'#FFFFFF',borderBottomWidth:0.5,borderBottomColor:'#ececec'}}>
+                        <TextInput underlineColorAndroid='transparent'
+                                   ref="vCodeInput"
+                                   autoCorrect={false}
+                                   value={this.state.vCode}
+                                   editable={this.state.newMobileValid}
+                                   secureTextEntry={false} maxLength={4} keyboardType='default'
+                                   style={[styles.codeInput,{paddingLeft:0, }]}
+                                   placeholder={this.state.verifyText}
+                                   placeholderTextColor='#c8c8c8'
+                                   returnKeyType='done'
+                                   onChangeText={(vCode) => {
+                                       this.setState({vCode})
+                                       let vCodeInputValid = (vCode.length === 4);
+                                       this.setState({vCode, vCodeInputValid});
+                                       if(vCodeInputValid) {
+                                           dismissKeyboard();
+                                       }
+                                   }}
+
+                        />
+
+                        <TouchableWithoutFeedback onPress={ () => { this._doChangeVCode(this.state.newMobile) }}>
+                            <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
+                                    source={this.state.picURL} />
+                        </TouchableWithoutFeedback>
+
+                    </View>
+                </View>
+
+                {/*  短信验证码 */}
+                <View style={{flexDirection:'row',width:DeviceInfo.width,backgroundColor:'#FFFFFF',alignItems:'center'}}>
+                    <View style={{width:SCREEN_WIDTH/2,padding:14,paddingLeft:30,paddingRight:30}}>
+                        <TextInput
+                            style={{fontSize:14,padding:0}}
+                            placeholder="请输入验证码"
+                            underlineColorAndroid='transparent'
+                            value={this.state.smsCode}
+                            editable={this.state.timerButtonClicked && this.state.vCodeInputValid}
+                            secureTextEntry={false}
+                            maxLength={6}
+                            keyboardType='numeric'
+                            returnKeyType='done'
+                            onChangeText={(smsCode) => {
+                                this.setState({smsCode})
+                                let smsCodeValid = (smsCode.length === 6);
+                                this.setState({smsCodeValid})
+                            }
+                            }
+
+                            onSubmitEditing={() => {
+                                dismissKeyboard();
+                            }}
+                        />
+                    </View>
+
+
+                    <View style={{flexDirection:'row-reverse',alignItems:'center',width:DeviceInfo.width/2}}>
+                        <TimerButton
+                            enable = {true}
+                            ref="timerButton"
+                            style={{width:90,marginRight:30}}
+                            textStyle={{fontSize:12,color:'#6A6A6A'}}
+                            timerCount={60}
+                            onClick={(shouldStartCountting) => {
+                                if (this.state.newMobileValid && this.state.vCodeInputValid) {
+                                    shouldStartCountting(true);
+                                    this.setState({timerButtonClicked: true});
+                                    this._requestSMSCode(shouldStartCountting);
+                                } else {
+                                    this.refs.timerButton.reset();
+                                }
+                            }}
+                        />
+                        <View style={{width:1,height:17,backgroundColor:'#ececec'}}/>
+                    </View>
+
+                </View>
+                <View style={{height:40}}/>
+                <SubmitButton
+                    text='立即绑定'
+                    onPress={() => {this._doSubmit()}}
+                    isEnabled = {this.state.newMobileValid && this.state.smsCodeValid}
+                />
+
+            </View>
+            </TouchableWithoutFeedback>
+        )
+    }
 
 }
-

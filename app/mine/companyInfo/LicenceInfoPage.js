@@ -25,7 +25,9 @@ export default class LicenceInfoPage extends BComponent {
 
     componentDidMount() {
         Image.getSize(this.props.licenceinfo.img, (width, height) => {
+            console.log("图片高度1==="+height);
             height = (DeviceInfo.width-16) * height / width; //按照屏幕宽度进行等比缩放
+            console.log("图片高度2==="+height);
             this.setState({
                 imgheight:height,
             })
@@ -36,12 +38,14 @@ export default class LicenceInfoPage extends BComponent {
         return(
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
                 <ScrollView>
-                    <View style={{width:DeviceInfo.width,alignItems:'center',justifyContent:'center',height:this.state.imgheight+16}}>
+                    <View style={{width:DeviceInfo.width,backgroundColor:'#F9F9F9',alignItems:'center',justifyContent:'center',
+                        height:this.state.imgheight===0||this.state.imgheight===null?(DeviceInfo.width+16)/2:this.state.imgheight+16}}>
                     <ImageLoad
-                        style={{width:DeviceInfo.width-16,height:this.state.imgheight}}
+                        placeholderStyle={{width:DeviceInfo.width-16,height:this.state.imgheight}}
+                        style={{backgroundColor:'#F9F9F9',width:DeviceInfo.width-16,height:(DeviceInfo.width-16)/2}}
                         loadingStyle={{ size: 'small', color: 'black' }}
                         source={{ uri:this.props.licenceinfo.img+"" }}
-                        placeholderSource={require('../../img/name_bg.png')}/>
+                    />
                     </View>
                     {/*<Image style={{width:DeviceInfo.width}} source={require('../../img/name_bg.png')}/>*/}
                     {this.props.licenceinfo.valid_time !== '' && this.props.licenceinfo.valid_time !== undefined &&
@@ -50,7 +54,7 @@ export default class LicenceInfoPage extends BComponent {
                             title='证件照信息'
                             text={this.props.licenceinfo.name}
                         />
-                        < CommentCell
+                        <CommentCell
                             leftText = "证照有效期止"
                             rightText = {this.props.licenceinfo.valid_time}
                             style={{marginTop:10}}
