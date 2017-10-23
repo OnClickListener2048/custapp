@@ -22,7 +22,7 @@ import TimerButton from "../view/TimerButton";
 import styles from './css/LoginPageStyle';
 import px2dp from '../util'
 import Toast from 'react-native-root-toast';
-import SActivityIndicator from '../modules/react-native-sww-activity-indicator';
+import '../modules/react-native-sww-activity-indicator';
 import * as apis from '../apis';
 import InternetStatusView from '../modules/react-native-internet-status-view';
 import {Navigation} from 'react-native-navigation';
@@ -32,6 +32,7 @@ import SubmitButton from "../view/SubmitButton";
 import * as WeChat from 'react-native-wechat';
 import AdapterUI from '../util/AdapterUI'
 import BComponent from "../base/BComponent";
+import errorText from '../util/ErrorMsg';
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -367,15 +368,15 @@ export default class FirstBindPhonePage extends BComponent {
                                 <TextInput underlineColorAndroid='transparent'
                                            value={this.state.smsCode}
                                            ref="smsCodeInput"
-                                           editable={this.state.mobileValid && this.state.vCodeServerValid && this.state.timerButtonClicked}
+                                           editable={this.state.timerButtonClicked && this.state.vCodeInputValid}
                                            secureTextEntry={false} maxLength={6} keyboardType='numeric'
                                            style={styles.codeInput} placeholder='短信验证'
                                            placeholderTextColor='#BABABA'
                                            returnKeyType='done'
                                            onChangeText={(smsCode) => {
-                                               this.setState({smsCode})
+                                               this.setState({smsCode});
                                                let smsCodeValid = (smsCode.length === 6);
-                                               this.setState({smsCode, smsCodeValid});
+                                               this.setState({smsCodeValid});
                                                if (smsCodeValid) {
                                                    dismissKeyboard();
                                                }
@@ -398,11 +399,11 @@ export default class FirstBindPhonePage extends BComponent {
                                     marginRight: 1
                                 }}/>
 
-                                <TimerButton enable={this.state.mobileValid && this.state.vCodeServerValid}
+                                <TimerButton enable={this.state.newMobileValid && this.state.vCodeInputValid}
                                              ref="timerButton"
                                              style={{width: 70, marginRight: 0, height: 44, alignSelf: 'flex-end',}}
                                              textStyle={{color: '#6A6A6A', alignSelf: 'flex-end'}}
-                                             timerCount={80}
+                                             timerCount={60}
                                              onClick={(shouldStartCountting) => {
                                                  if (this.state.newMobileValid && this.state.vCodeInputValid) {
                                                      shouldStartCountting(true);
