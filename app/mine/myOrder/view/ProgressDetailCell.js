@@ -41,6 +41,7 @@ export default class ProgressDetailCell extends Component {
     }
 
     _renderDiffItem(state,name,start,end,operator,status){
+        operator=operator==''?'进行中':operator
 
         if(state=='done'){
             return(
@@ -56,10 +57,10 @@ export default class ProgressDetailCell extends Component {
                             {name}
                         </Text>
                         <Text style={styles.done_time_te}>
-                            处理人：{operator} 已完成
+                            处理人：{operator}  状态：已完成
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
-                            {start}-{end}
+                            起{start}   止{end}
                         </Text>
 
                     </View>
@@ -83,10 +84,10 @@ export default class ProgressDetailCell extends Component {
                             {name}
                         </Text>
                         <Text style={styles.done_time_te}>
-                            处理人：{operator} {status}
+                            处理人：{operator}  状态：{status}
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
-                            {start}-{end}
+                            起{start}   止{end}
                         </Text>
 
                     </View>
@@ -107,10 +108,10 @@ export default class ProgressDetailCell extends Component {
                             {name}
                         </Text>
                         <Text style={styles.gray_te}>
-                            处理人：{operator} {status}
+                            处理人：{operator}  状态：{status}
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
-                            {start}-{end}
+                            起{start}   止{end}
                         </Text>
 
                     </View>

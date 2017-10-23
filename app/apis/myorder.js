@@ -8,6 +8,6 @@ export function loadOrderListData(companyid='') {
     return getApi('/api/v1/orders',{companyid});
 }
 
-export function loadOrderDetailData(orderno='') {
-    return getApi('/api/v1/orders/'+{orderno});
+export function loadOrderDetailData(id='') {
+    return getApi('/api/v1/orders/'+id);
 }
