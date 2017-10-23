@@ -54,9 +54,9 @@ export default class AccountsReceivablePage extends BComponent {
                 if(responseData.code == 0){
 
                     this.setState({
-                        dataSource:responseData.list,
-                        start_account:responseData.start_account,
-                        end_account:responseData.end_account,
+                        dataSource:responseData.list?responseData.list:[],
+                        start_account:responseData.start_account?responseData.start_account:'- -',
+                        end_account:responseData.end_account?responseData.end_account:'- -',
                         isRefreshing:false
                     })
                 }else{
@@ -81,14 +81,14 @@ export default class AccountsReceivablePage extends BComponent {
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
-            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_name="收入" item2_name="支出" item1_money={'¥'+rowItem.start} item2_money={'¥'+rowItem.end}/>
+            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_name="收入" item2_name="支出" item1_money={rowItem.start} item2_money={rowItem.end}/>
         )
 
     };
     _renderSection (section, sectionId) {
         let dic = this.state.dataSource[sectionId]
         return(
-            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="收入" item2_name="支出" item1_money={'¥'+dic.start} item2_money={'¥'+dic.end}/>
+            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="收入" item2_name="支出" item1_money={dic.start} item2_money={dic.end}/>
 
         )
     };
@@ -98,11 +98,20 @@ export default class AccountsReceivablePage extends BComponent {
                 <HeaderView
                     hasTop={false}
                     leftDes="收入"
-                    leftNum={"¥"+this.state.start_account}
+                    leftNum={this.state.start_account}
                     rightDes="支出"
-                    rightNum={"¥"+this.state.end_account}
+                    rightNum={this.state.end_account}
                 />
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应付账款明细"/>
+            </View>
+        )
+    }
+    _listEmptyComponent(){
+        let headerHeight = 48+64+DeviceInfo.width*0.42+20
+        return(
+            <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
+                <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据,请过些时日再查看</Text>
+                <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>
             </View>
         )
     }
@@ -120,6 +129,7 @@ export default class AccountsReceivablePage extends BComponent {
                     headerClickCallBack={(index)=>this._headerClickCallBack(index)}
                     onRefresh={this._onRefresh.bind(this)}
                     refreshing={this.state.isRefreshing}
+                    ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
                 <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
 
