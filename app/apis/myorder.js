@@ -9,5 +9,5 @@ export function loadOrderListData(companyid='') {
 }
 
 export function loadOrderDetailData(orderno='') {
-    return getApi('/api/mock/orders/'+{orderno});
+    return getApi('/api/v1/orders/'+{orderno});
 }
