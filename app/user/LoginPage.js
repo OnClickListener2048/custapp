@@ -420,8 +420,8 @@ export default class LoginPage extends Component {
                             (user) => {
                                 console.log("用户信息保存OK");
                                 this.props.navigator.push({
-                                    screen: 'BindPhonePage',
-                                    title:'账号与安全'
+                                    screen: 'FirstBindPhonePage',
+                                    title:''
                                 });
                             },
                             (e) => {

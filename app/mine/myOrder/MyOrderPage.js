@@ -59,52 +59,59 @@ export default class MyOrderPage extends BComponent {
     }
 
     loadData(){
-        var loading = SActivityIndicator.show(true, "加载中...");
-        apis.loadOrderListData(this.companyid).then(
-            (responseData) => {
-                if(responseData.code == 0) {
-                    SActivityIndicator.hide(loading);
-                    var data = responseData.list;
-                    if(data!=null&&data!=[]){
-                        var hang=[];
-                        var done=[];
-                        var doing=[];
-                        for (let i = 0; i<data.length;i++){
-                            if(data[i].status==5) {
-                                hang.push(data[i]);
-                            }else if(data[i].status==6){
-                                done.push(data[i]);
-                            }else {
-                                doing.push(data[i])
+
+        if(this.companyid!=null&&this.companyid!=undefined) {
+            var loading = SActivityIndicator.show(true, "加载中...");
+            apis.loadOrderListData(this.companyid).then(
+                (responseData) => {
+                    if (responseData.code == 0) {
+                        SActivityIndicator.hide(loading);
+                        var data = responseData.list;
+                        if (data != null && data != []) {
+                            var hang = [];
+                            var done = [];
+                            var doing = [];
+                            for (let i = 0; i < data.length; i++) {
+                                if (data[i].status == 5) {
+                                    hang.push(data[i]);
+                                } else if (data[i].status == 6) {
+                                    done.push(data[i]);
+                                } else {
+                                    doing.push(data[i])
+                                }
                             }
+                            this.setState({
+                                    data: data,
+                                    doing: doing,
+                                    hang: hang,
+                                    done: done,
+                                    loadState: 'success'
+                                }
+                            );
+                        } else {
+                            this.setState({
+                                    loadState: 'no-data'
+                                }
+                            );
                         }
-                        this.setState({
-                                data:data,
-                                doing:doing,
-                                hang:hang,
-                                done:done,
-                                loadState:'success'
-                            }
-                        );
-                    }else{
-                        this.setState({
-                                loadState:'no-data'
-                            }
-                        );
+
+
                     }
+                },
+                (e) => {
+                    SActivityIndicator.hide(loading);
+                    this.setState({
+                        loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
+                    })
+                    console.log('error', e)
 
-
-                }
-            },
-            (e) => {
-                SActivityIndicator.hide(loading);
-                this.setState({
-                    loadState:NetInfoSingleton.isConnected?'error':'no-net',
-                })
-                console.log('error',e)
-
-            },
-        );
+                },
+            );
+        }else{
+            this.setState({
+                loadState: 'no-net',
+            })
+        }
     }
 
 

@@ -9,6 +9,7 @@ import {
     SectionList,
     Dimensions,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Image,
     TextInput,
     StyleSheet
@@ -40,11 +41,17 @@ export default class HomePage extends BComponent {
             // timerButtonEnable: false, // 倒计时按钮是否可用
             timerButtonClicked: false,//  倒计时按钮是否已点击
 
+            verifyText: '请输入图片验证码',// 图片验证码提示语
+            vCode: '',         // 图片验证码
+            picURL: null,// 图片验证码
+            vCodeInputValid: false,
+
             smsCode: '',         // 短信验证码
             smsCodeValid: false,          // 短信验证码有效
             mobileValid: false,   // 手机号有效
 
         }
+        this._doChangeVCode = this._doChangeVCode.bind(this);
         this._doVerfiyResult = this._doVerfiyResult.bind(this);
         this._isNotEmpty = this._isNotEmpty.bind(this);
         this._requestSMSCode = this._requestSMSCode.bind(this);
@@ -56,6 +63,12 @@ export default class HomePage extends BComponent {
         super.onNavigatorEvent(event);
     }
 
+    componentWillMount() {
+        // 如果存在this.timer，则使用clearTimeout清空。
+        // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
+        this._doChangeVCode();
+    }
+
     componentWillUnmount() {
         // 如果存在this.timer，则使用clearTimeout清空。
         // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
@@ -64,15 +77,18 @@ export default class HomePage extends BComponent {
 
     // 请求短信验证码
     _requestSMSCode(shouldStartCountting) {
-        console.log('_requestSMSCode');
+        console.log('_requestSMSCode shouldStartCountting1111', shouldStartCountting);
         if (this.state.mobileValid) {
-            apis.loadVerifyCode(this.state.mobile).then(
+            apis.sendVerifyCode(this.state.mobile, 5, this.state.vCode,'12234563283').then(
                 (responseData) => {
-                    Toast.show('短信验证码已发送'+ responseData);
-
+                    Toast.show('短信验证码已发送');
+                    // Toast.show('测试环境短信验证码:' + responseData.msg);
+                    // Toast.show('测试环境短信验证码 ' + responseData.msg,
+                    //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
                 }, (e) => {
-                    Toast.show('短信验证码获取失败'+ e);
 
+                    Toast.show('短信验证码发送失败');
+                    // Toast.show(errorText(e));
                 }
             );
         }
@@ -117,6 +133,20 @@ export default class HomePage extends BComponent {
                 });
             }
         }
+    }
+
+    // 刷新验证码
+    _doChangeVCode() {
+            apis.getVerifyVCodeImage('12234563283', 5).then(
+                data => {
+                    let picURL = { uri: 'data:image/jpeg;base64,' + data.img };
+                    this.setState({picURL, vCode: '', vCodeInputValid: false});
+                },
+                e => {
+                    Toast.show('图形验证码获取失败, 请稍候再试');
+                }
+            );
+
     }
 
     //输入框子组件
@@ -172,7 +202,37 @@ export default class HomePage extends BComponent {
                 {this.renderInput('companyName','请输入要注册的公司名称','')}
                 {this.renderPhoneInput('phoneNum','请输入手机号','')}
 
+                {/*  图片验证码 */}
 
+                <View style={styles.textInputContainer}>
+
+                    <View style={[styles.textInputWrapper,{ borderBottomColor: '#dcdcdc',
+                        borderBottomWidth: 0.5,}]}>
+                        <TextInput underlineColorAndroid='transparent'
+                                   ref="vCodeInput"
+                                   autoCorrect={false}
+                                   value={this.state.vCode}
+                                   editable={this.state.mobileValid}
+                                   secureTextEntry={false} maxLength={4} keyboardType='default'
+                                   style={styles.codeInput} placeholder='图形验证'
+                                   placeholderTextColor='#BABABA'
+                                   returnKeyType='done'
+                                   onChangeText={(vCode) => {
+                                       let vCodeInputValid = (vCode.length === 4);
+                                       this.setState({vCode, vCodeInputValid});
+                                       if(vCodeInputValid) {
+                                           dismissKeyboard();
+                                       }
+                                   }}
+                        />
+
+                        <TouchableWithoutFeedback onPress={ () => { this._doChangeVCode() }}>
+                            <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
+                                    source={this.state.picURL} />
+                        </TouchableWithoutFeedback>
+
+                    </View>
+                </View>
 
                 {/*  短信验证码 */}
                 <View style={styles.textInputContainer}>
@@ -185,7 +245,7 @@ export default class HomePage extends BComponent {
                                    editable={this.state.mobileValid && this.state.timerButtonClicked}
                                    secureTextEntry={false} maxLength={6} keyboardType='numeric'
                                    style={styles.codeInput} placeholder='短信验证码'
-                                   placeholderTextColor='#999999'
+                                   placeholderTextColor='#BABABA'
                                    returnKeyType='done'
                                    onChangeText={(smsCode) => {
                                        this.setState({smsCode})
@@ -215,7 +275,7 @@ export default class HomePage extends BComponent {
 
                         <TimerButton enable={this.state.mobileValid }
                                      ref="timerButton"
-                                     disableColor={"#c8c8c8"}
+                                     disableColor={"#BABABA"}
                                      style={{width: 94, marginRight: 0, height: 44, alignSelf: 'flex-end',}}
                                      textStyle={{color: '#333333',alignSelf: 'flex-end'}}
                                      timerCount={80}
