@@ -18,14 +18,14 @@ export default class OrderStateCell extends Component {
         super(props)
     }
 
-    static propTypes = {
-        orderId: PropTypes.string,//订单号
-        orderState: PropTypes.string,
-        time: PropTypes.string,
-        money: PropTypes.string,
-        id:PropTypes.string
-
-    };
+    // static propTypes = {
+    //     orderId: PropTypes.string,//订单号
+    //     orderState: PropTypes.string,
+    //     time: PropTypes.string,
+    //     money: PropTypes.number,
+    //     id:PropTypes.number
+    //
+    // };
 
     _toDetail(orderId,orderState,money,id){
         this.props.navigator.push({

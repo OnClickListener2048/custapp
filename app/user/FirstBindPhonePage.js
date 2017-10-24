@@ -338,13 +338,12 @@ export default class FirstBindPhonePage extends BComponent {
                                            ref="vCodeInput"
                                            autoCorrect={false}
                                            value={this.state.vCode}
-                                           editable={this.state.mobileValid}
+                                           editable={this.state.newMobileValid}
                                            secureTextEntry={false} maxLength={4} keyboardType='default'
                                            style={styles.codeInput} placeholder='图形验证'
                                            placeholderTextColor='#BABABA'
                                            returnKeyType='done'
                                            onChangeText={(vCode) => {
-                                               this.setState({vCode})
                                                let vCodeInputValid = (vCode.length === 4);
                                                this.setState({vCode, vCodeInputValid});
                                                if(vCodeInputValid) {
