@@ -17,8 +17,8 @@ import ProductDetailPage from './home/detail/ProductDetailPage'
 import ColumnDetailPage from './home/detail/ColumnDetailPage'
 
 
-// import BindPhonePage from './mine/bindPhone/BindPhonePage'
-import BindPhonePage from './user/FirstBindPhonePage'
+import BindPhonePage from './mine/bindPhone/BindPhonePage'
+import FirstBindPhonePage from './user/FirstBindPhonePage'
 import MyOrderPage from './mine/myOrder/MyOrderPage'
 
 import ChangeCompanyPage from './mine/companyInfo/ChangeCompanyPage'
@@ -54,6 +54,7 @@ export default function () {
     reg('MessagePage', () => MessagePage);
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
+    reg('FirstBindPhonePage', () => FirstBindPhonePage);
     reg('BindPhonePage', () => BindPhonePage);
     reg('MyOrderPage', () => MyOrderPage);
     reg('ChangeCompanyPage', () => ChangeCompanyPage);

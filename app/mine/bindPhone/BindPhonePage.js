@@ -7,7 +7,6 @@
 import React, {Component} from 'react';
 
 import {
-    Alert,
     DeviceEventEmitter,
     Image,
     StyleSheet,
@@ -28,6 +27,8 @@ import BComponent from '../../base';
 import errorText from '../../util/ErrorMsg';
 import SubmitButton from "../../view/SubmitButton";
 import {Navigation} from 'react-native-navigation';
+import Alert from "react-native-alert";
+import random from "../../util/random";
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -53,6 +54,7 @@ export default class BindPhonePage extends BComponent {
             vCode: '',         // 图片验证码
             picURL: null,// 图片验证码
             vCodeInputValid: false,
+            device:random(11) // 随机
         };
 
         this._doChangeVCode = this._doChangeVCode.bind(this);
@@ -300,7 +302,7 @@ export default class BindPhonePage extends BComponent {
                             <TextInput underlineColorAndroid='transparent'
                                        ref="vCodeInput"
                                        autoCorrect={false}
-                                       value={this.state.vCode}
+
                                        editable={this.state.newMobileValid}
                                        secureTextEntry={false} maxLength={4} keyboardType='default'
                                        style={[styles.codeInput, {paddingLeft: 0,}]}
@@ -308,7 +310,6 @@ export default class BindPhonePage extends BComponent {
                                        placeholderTextColor='#c8c8c8'
                                        returnKeyType='done'
                                        onChangeText={(vCode) => {
-                                           this.setState({vCode})
                                            let vCodeInputValid = (vCode.length === 4);
                                            this.setState({vCode, vCodeInputValid});
                                            if (vCodeInputValid) {

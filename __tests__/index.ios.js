@@ -4,6 +4,7 @@ import React from 'react';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
+import random from "../app/util/random";
 
 jest.mock('NetInfo', () => {
     return {
@@ -23,4 +24,7 @@ it('renders correctly', () => {
   //   <Index />
   // );
   // console.log(tree);
+
+
+    console.log(random(11));
 });
