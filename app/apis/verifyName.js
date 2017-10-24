@@ -3,9 +3,6 @@
  */
 import {getApi} from './common';
 
-export function loadVerifyCode(mobile = '',type = '5') {
-    return getApi('/api/vo/verificode/send',{mobile,type});
-}
 
 export function loadVerifyResultData(keyword = '',mobile = '',vcode = '') {
     return getApi('/api/v1/companies/check',{keyword,mobile,vcode});
@@ -24,3 +21,15 @@ export function loadVerifyCompanyInfo(mobile='') {
 
 
 
+/**
+ *
+ * export function loadVerifyResultData(keyword = '',mobile = '',vcode = '') {
+    return getApi('/api/v1/companies/check',{keyword,mobile,vcode});
+}
+
+
+
+ * export function loadVerifyResultData(keyword = '',mobile = '',vcode = '') {
+    return getApi('/api/v1/companies/check?keyword='+keyword+'&mobile='+mobile+'&vcode='+vcode);
+}
+ */

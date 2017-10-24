@@ -62,7 +62,7 @@ export default class VerifyResultPage extends BComponent {
 
                 console.log('VerifyNewresponseData',responseData)
 
-                if (responseData.isvalid === '1'){
+                if (responseData.isvalid == 1){
                     this.setState({
                         fetchState:'checkSuccess',
                         dataStatus:'initSucess'
@@ -88,12 +88,59 @@ export default class VerifyResultPage extends BComponent {
             },
         );
     }
+    /*
+    * 分页
+    *  loadData(page=1){
+
+     if(page>1){
+     this.setState({refreshState: RefreshState.FooterRefreshing})
+     }
+
+     apis.loadVerifyCompaniesList(this.state.keyword,page,'10').then(
+     (responseData) => {
+
+
+     if((responseData !== null && responseData.list !== null)){
+
+
+
+     let newList = responseData.list
+
+     let dataList = page == 1 ? newList : [...this.state.dataList, ...newList]
+     this.setState({
+     dataList: dataList,
+     refreshState:newList.length < 10 ? RefreshState.NoMoreData : RefreshState.Idle,
+     })
+     if (this.state.dataStatus !== 'initSucess' && page === 1){
+     this.setState({
+     dataStatus:'initSucess'
+     })
+     }
+     }else{
+     this.setState({refreshState: RefreshState.Failure})
+     if (this.state.dataList.length === 0){
+     this.setState({
+     dataStatus:'error'
+     })
+     }
+     }
+
+     },
+     (e) => {
+     this.setState({refreshState: RefreshState.Failure})
+     if (this.state.dataList.length === 0){
+     this.setState({
+     dataStatus:'error'
+     })
+     }
+     },
+     );
+     }
+    * */
 
     loadData(page=1){
 
-        if(page>1){
-            this.setState({refreshState: RefreshState.FooterRefreshing})
-        }
+        console.log('请求核名公司信息')
 
         apis.loadVerifyCompaniesList(this.state.keyword,page,'10').then(
             (responseData) => {
@@ -103,35 +150,32 @@ export default class VerifyResultPage extends BComponent {
 
 
 
-                    let newList = responseData.list
+                    let newList = responseData.list;
 
-                    let dataList = page == 1 ? newList : [...this.state.dataList, ...newList]
+                    let dataList =  newList;
                     this.setState({
                         dataList: dataList,
-                        refreshState:newList.length < 10 ? RefreshState.NoMoreData : RefreshState.Idle,
+                        refreshState: RefreshState.NoMoreData,
                     })
-                    if (this.state.dataStatus !== 'initSucess' && page === 1){
                         this.setState({
                             dataStatus:'initSucess'
                         })
-                    }
+
                 }else{
                     this.setState({refreshState: RefreshState.Failure})
-                    if (this.state.dataList.length === 0){
                         this.setState({
                             dataStatus:'error'
                         })
-                    }
+
                 }
 
             },
             (e) => {
                 this.setState({refreshState: RefreshState.Failure})
-                if (this.state.dataList.length === 0){
                     this.setState({
                         dataStatus:'error'
                     })
-                }
+
             },
         );
     }
@@ -150,7 +194,7 @@ export default class VerifyResultPage extends BComponent {
 
                 <TouchableOpacity onPress={this._goto.bind(this)}>
                     <CommonCell
-                        centerText={info.item }
+                        centerText={info.item.name }
                         isClick={false}
                     />
                 </TouchableOpacity>
@@ -231,7 +275,7 @@ export default class VerifyResultPage extends BComponent {
                 keyExtractor = {(item, index) => index}
                 renderItem={this.renderItem.bind(this)}
                 refreshState={this.state.refreshState}
-                onFooterRefresh={this.onFooterRefresh}
+                //onFooterRefresh={this.onFooterRefresh}
                 isHeaderRefresh={false}
                 renderHeader={this.renderHeader}
             />
