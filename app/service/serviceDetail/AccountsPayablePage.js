@@ -108,7 +108,7 @@ export default class AccountsPayablePage extends BComponent {
         )
     }
     _listEmptyComponent(){
-        let headerHeight = 48+64+DeviceInfo.width*0.42+20
+        let headerHeight = 48+64+DeviceInfo.width*0.42
         return(
             <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
                 <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据,请过些时日再查看</Text>

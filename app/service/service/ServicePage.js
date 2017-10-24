@@ -13,7 +13,7 @@ import {
     TouchableOpacity,
     DeviceEventEmitter
 } from 'react-native';
-import Toast from 'react-native-root-toast'
+import PLPActivityIndicator from '../../view/PLPActivityIndicator'
 
 import {
     Header,
@@ -89,18 +89,22 @@ export default class ServicePage extends BComponent {
     }
     loadData(date='',isPull=false){
 
-        let loading
+        // let loading
         if(isPull){
             this.setState({
                 isRefreshing:true
             })
         }else{
-            loading = SActivityIndicator.show(true, "加载中...");
+            // loading = SActivityIndicator.show(true, "加载中...");
+            this.refs.loading.show()
+
         }
 
         apis.loadServiceData(this.companyid,date).then(
             (responseData) => {
-                SActivityIndicator.hide(loading);
+                // SActivityIndicator.hide(loading);
+                this.refs.loading.hide()
+
                 if(responseData.code == 0){
 
                     this.setState({
@@ -118,7 +122,9 @@ export default class ServicePage extends BComponent {
                 }
             },
             (e) => {
-                SActivityIndicator.hide(loading);
+                // SActivityIndicator.hide(loading);
+                this.refs.loading.hide()
+
                 this.setState({
                     isRefreshing:false
                 })
@@ -162,6 +168,7 @@ export default class ServicePage extends BComponent {
                     {this._renderBody(this.state.selectIndex)}
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
+                <PLPActivityIndicator ref="loading"/>
                 <ChooseTimerModal ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
             </View>
 
