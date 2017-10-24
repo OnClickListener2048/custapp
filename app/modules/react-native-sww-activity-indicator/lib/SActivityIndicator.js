@@ -47,7 +47,7 @@ export default class SActivityIndicator extends Component{
     static hide(AIV){
         if (AIV instanceof RootSiblings) {
 
-            setTimeout(()=>{
+            // setTimeout(()=>{
                 AIV.update(<ActivityIndicatorContent
                     animated={SActivityIndicator.animated}
                     message={SActivityIndicator.message}
@@ -55,7 +55,7 @@ export default class SActivityIndicator extends Component{
                 />)
 
                 AIV.destroy();
-            },200)
+            // },200)
         }
     }
 
