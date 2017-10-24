@@ -10,7 +10,8 @@ import {
     RefreshControl,
     InteractionManager,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    DeviceEventEmitter
 } from 'react-native';
 import Toast from 'react-native-root-toast'
 
@@ -61,7 +62,13 @@ export default class ServicePage extends BComponent {
     componentDidMount() {
 
         this.initData()
+        this.refreshEmitter = DeviceEventEmitter.addListener('refreshService', () => {
+            this.initData()
+        });
 
+    }
+    componentWillUnmount() {
+        this.refreshEmitter.remove();
     }
     initData(){
         UserInfoStore.getCompany().then(

@@ -172,6 +172,9 @@ export default class LoginPage extends Component {
     pop() {
         // 发送通知
         DeviceEventEmitter.emit('loginSuccess', true);
+        //登录后刷新服务页面的数据
+        DeviceEventEmitter.emit('refreshService');
+
 
         Navigation.dismissModal({
             animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
