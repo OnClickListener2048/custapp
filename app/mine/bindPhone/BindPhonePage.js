@@ -7,7 +7,6 @@
 import React, {Component} from 'react';
 
 import {
-    Alert,
     DeviceEventEmitter,
     Image,
     StyleSheet,
@@ -28,6 +27,8 @@ import BComponent from '../../base';
 import errorText from '../../util/ErrorMsg';
 import SubmitButton from "../../view/SubmitButton";
 import {Navigation} from 'react-native-navigation';
+import Alert from "react-native-alert";
+import random from "../../util/random";
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -53,10 +54,10 @@ export default class BindPhonePage extends BComponent {
             vCode: '',         // 图片验证码
             picURL: null,// 图片验证码
             vCodeInputValid: false,
+            device:random(11) // 随机
         };
 
         this._doChangeVCode = this._doChangeVCode.bind(this);
-        this._verifyVCode = this._verifyVCode.bind(this);
         this.readUserInfo = this.readUserInfo.bind(this);
     }
 
@@ -72,72 +73,22 @@ export default class BindPhonePage extends BComponent {
                 console.log("读取信息错误:", e);
             },
         );
+        this._doChangeVCode();
     }
 
     componentDidMount() {
     }
 
     // 刷新验证码
-    _doChangeVCode(newMobile) {
-        if (newMobile.length === 11) {
-            apis.getVerifyVCodeImage(newMobile, 1).then(
+    _doChangeVCode() {
+        if (this.state.device) {
+            apis.getVerifyVCodeImage(this.state.device, 1).then(
                 data => {
                     let picURL = {uri: 'data:image/jpeg;base64,' + data.img};
                     this.setState({picURL, vCode: '', vCodeInputValid: false});
                 },
                 e => {
 
-                }
-            );
-        }
-    }
-
-    // 验证图形码
-    _verifyVCode() {
-        console.log('_verifyVCode');
-        if (this.state.mobileValid) {
-            apis.sendVerifyCode(this.state.mobile, '1', this.state.vCodeInputValid ? this.state.vCode : null).then(
-                (responseData) => {
-                    Toast.show('短信验证码已发送');
-                    this.setState({vCodeServerValid: true});
-                    // this.setState({verifyText : null});
-                    // 重置允许获取验证码
-                    if (this.refs.timerButton.state.counting) {
-                        this.refs.timerButton.reset();
-                    }
-                    this.setState({timerButtonClicked: false});
-
-                    // this.focusField('smsCodeInput');
-                    // if(!this.refs.smsCodeInput.isFocused()) {
-                    //     this.refs.smsCodeInput.focus();
-                    // }
-                }, (e) => {
-                    console.log('_verifyVCode error:' + e.message);
-                    // 重置允许获取验证码
-                    if (this.refs.timerButton.state.counting) {
-                        this.refs.timerButton.reset();
-                    }
-                    this.setState({timerButtonClicked: false});
-                    let msg = '请输入正确的验证字符或手机号';//e.msg;
-                    // if(msg === undefined) {
-                    //     msg = e.message;
-                    // }
-
-                    if (msg !== undefined) {
-                        Alert.alert('', msg,
-                            [
-                                {
-                                    text: '确定',
-                                    onPress: () => {
-                                        // this.focusField('vCodeInput');
-                                        // if(!this.refs.vCodeInput.isFocused()) {
-                                        //     this.refs.vCodeInput.focus();
-                                        // }
-                                    },
-                                },]
-                            , {cancelable: true});
-                    }
-                    this._doChangeVCode();
                 }
             );
         }
@@ -222,11 +173,10 @@ export default class BindPhonePage extends BComponent {
     _requestSMSCode(shouldStartCountting) {
         console.log('_requestSMSCode shouldStartCountting', shouldStartCountting);
         if (this.state.newMobileValid && this.state.vCodeInputValid) {
-            apis.sendVerifyCode(this.state.newMobile, 1, this.state.vCode).then(
+            apis.sendVerifyCode(this.state.newMobile, 1, this.state.vCode, this.state.device).then(
                 (responseData) => {
                     Toast.show('短信验证码已发送');
                     // Toast.show('测试环境短信验证码:' + responseData.msg);
-                    // Toast.show('测试环境短信验证码 ' + responseData.msg,
                     //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
                 }, (e) => {
                     Toast.show(errorText(e));
@@ -275,10 +225,6 @@ export default class BindPhonePage extends BComponent {
                                                newMobileValid = false;
                                            }
                                            this.setState({newMobile, newMobileValid});
-
-                                           if (newMobileValid) {
-                                               this._doChangeVCode(newMobile);
-                                           }
                                        }
                                    }
                         />
@@ -300,7 +246,7 @@ export default class BindPhonePage extends BComponent {
                             <TextInput underlineColorAndroid='transparent'
                                        ref="vCodeInput"
                                        autoCorrect={false}
-                                       value={this.state.vCode}
+
                                        editable={this.state.newMobileValid}
                                        secureTextEntry={false} maxLength={4} keyboardType='default'
                                        style={[styles.codeInput, {paddingLeft: 0,}]}
@@ -308,7 +254,6 @@ export default class BindPhonePage extends BComponent {
                                        placeholderTextColor='#c8c8c8'
                                        returnKeyType='done'
                                        onChangeText={(vCode) => {
-                                           this.setState({vCode})
                                            let vCodeInputValid = (vCode.length === 4);
                                            this.setState({vCode, vCodeInputValid});
                                            if (vCodeInputValid) {
@@ -319,7 +264,7 @@ export default class BindPhonePage extends BComponent {
                             />
 
                             <TouchableWithoutFeedback onPress={() => {
-                                this._doChangeVCode(this.state.newMobile)
+                                this._doChangeVCode()
                             }}>
                                 <Image style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
                                        source={this.state.picURL}/>

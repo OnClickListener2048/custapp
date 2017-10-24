@@ -21,19 +21,19 @@ export function login( phone = '', smsCode = '') {
 }
 
 // 发送手机验证码并校验图形验证码
-export async function sendVerifyCode(mobile = '', type = '1', imgcode = '') {
-    return postApi('/api/v1/verificodes/sms?mobile='+mobile+'&type='+type+'&imgcode='+imgcode, {});
+export async function sendVerifyCode(mobile = '', type = '1', imgcode = '', device = '') {
+    return postApi('/api/v1/verificodes/sms?mobile='+mobile+'&type='+type+'&imgcode='+imgcode + '&device='+device, {});
 }
 
 // 绑定关联新手机号
-export async function editPhoneBind(mobile = '', smscode = '') {
-    return putEx('/api/v1/user/binding?mobile='+mobile+'&smscode='+smscode);
+export async function editPhoneBind(mobile = '', smscode = '', ) {
+    return putEx('/api/v1/user/binding?mobile='+mobile+'&smscode='+smscode );
 }
 
 /**
  * 获取图形验证码
  *
- mobile(*): 手机号
+ device(*): 设备标识
  type(*): 1绑定手机号 5企业核名
  Response
  code
@@ -41,8 +41,8 @@ export async function editPhoneBind(mobile = '', smscode = '') {
  img 图形验证码 图片base64位编码
  * @returns {Promise.<*>}
  */
-export async function getVerifyVCodeImage(mobile = '', type = '1') {
-    return postApi('/api/v1/verificodes/image?mobile='+mobile+'&type='+type, {});
+export async function getVerifyVCodeImage(device = '', type = '1') {
+    return postApi('/api/v1/verificodes/image?device='+device+'&type='+type, {});
 }
 
 /**
