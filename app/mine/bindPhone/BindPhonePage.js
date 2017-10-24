@@ -94,8 +94,6 @@ export default class BindPhonePage extends BComponent {
         }
     }
 
-
-
     // 读取用户信息
     readUserInfo() {
         apis.userInfo().then(

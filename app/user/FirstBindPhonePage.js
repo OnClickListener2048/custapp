@@ -33,6 +33,7 @@ import * as WeChat from 'react-native-wechat';
 import AdapterUI from '../util/AdapterUI'
 import BComponent from "../base/BComponent";
 import errorText from '../util/ErrorMsg';
+import random from "../util/random";
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -52,101 +53,40 @@ export default class FirstBindPhonePage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            phone:'',// 现在手机号
-            newMobile:'', // 新手机号
-            newMobileValid:false, // 新手机号有效
+            phone: '',// 现在手机号
+            newMobile: '', // 新手机号
+            newMobileValid: false, // 新手机号有效
             smsCode: '',         // 短信验证码
             smsCodeValid: false,          // 短信验证码有效
-            timerButtonClicked:false,//  倒计时按钮是否已点击
+            timerButtonClicked: false,//  倒计时按钮是否已点击
             verifyText: '请输入图片验证码',// 图片验证码提示语
             vCode: '',         // 图片验证码
             picURL: null,// 图片验证码
             vCodeInputValid: false,
+            device:random(11) // 随机
         };
 
         this._doChangeVCode = this._doChangeVCode.bind(this);
-        this._verifyVCode = this._verifyVCode.bind(this);
         this.readUserInfo = this.readUserInfo.bind(this);
     }
 
     componentWillMount() {
-        UserInfoStore.getUserInfo().then(
-            (user) => {
-                if (user !== null) {
-                    this.setState({ phone: user.mobilePhone});
-
-                }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
-        );
+        this._doChangeVCode();
     }
 
     componentDidMount() {
     }
 
     // 刷新验证码
-    _doChangeVCode(newMobile) {
-        if(newMobile.length === 11) {
-            apis.getVerifyVCodeImage(newMobile, 1).then(
+    _doChangeVCode() {
+        if (this.state.device) {
+            apis.getVerifyVCodeImage(this.state.device, 1).then(
                 data => {
-                    let picURL = { uri: 'data:image/jpeg;base64,' + data.img };
+                    let picURL = {uri: 'data:image/jpeg;base64,' + data.img};
                     this.setState({picURL, vCode: '', vCodeInputValid: false});
                 },
                 e => {
-                    Toast.show('图形验证码获取失败, 请稍候再试');
-                }
-            );
-        }
-    }
 
-    // 验证图形码
-    _verifyVCode() {
-        console.log('_verifyVCode');
-        if (this.state.mobileValid) {
-            apis.sendVerifyCode(this.state.mobile, '1', this.state.vCodeInputValid ? this.state.vCode : null).then(
-                (responseData) => {
-                    Toast.show('短信验证码已发送');
-                    this.setState({vCodeServerValid: true});
-                    // this.setState({verifyText : null});
-                    // 重置允许获取验证码
-                    if (this.refs.timerButton.state.counting) {
-                        this.refs.timerButton.reset();
-                    }
-                    this.setState({timerButtonClicked: false});
-
-                    // this.focusField('smsCodeInput');
-                    // if(!this.refs.smsCodeInput.isFocused()) {
-                    //     this.refs.smsCodeInput.focus();
-                    // }
-                }, (e) => {
-                    console.log('_verifyVCode error:' + e.message);
-                    // 重置允许获取验证码
-                    if (this.refs.timerButton.state.counting) {
-                        this.refs.timerButton.reset();
-                    }
-                    this.setState({timerButtonClicked: false});
-                    let msg = '请输入正确的验证字符或手机号';//e.msg;
-                    // if(msg === undefined) {
-                    //     msg = e.message;
-                    // }
-
-                    if(msg !== undefined) {
-                        Alert.alert('', msg,
-                            [
-                                {
-                                    text: '确定',
-                                    onPress: () => {
-                                        // this.focusField('vCodeInput');
-                                        // if(!this.refs.vCodeInput.isFocused()) {
-                                        //     this.refs.vCodeInput.focus();
-                                        // }
-                                    },
-                                },]
-                            , {cancelable: true});
-                    }
-                    this._doChangeVCode();
                 }
             );
         }
@@ -231,7 +171,7 @@ export default class FirstBindPhonePage extends BComponent {
     _requestSMSCode(shouldStartCountting) {
         console.log('_requestSMSCode shouldStartCountting', shouldStartCountting);
         if (this.state.newMobileValid && this.state.vCodeInputValid) {
-            apis.sendVerifyCode(this.state.newMobile, 1, this.state.vCode).then(
+            apis.sendVerifyCode(this.state.newMobile, 1, this.state.vCode, this.state.device).then(
                 (responseData) => {
                     Toast.show('短信验证码已发送');
                     // Toast.show('测试环境短信验证码:' + responseData.msg);
@@ -320,10 +260,6 @@ export default class FirstBindPhonePage extends BComponent {
                                                        newMobileValid = false;
                                                    }
                                                    this.setState({newMobile, newMobileValid});
-
-                                                   if(newMobileValid) {
-                                                       this._doChangeVCode(newMobile);
-                                                   }
                                                }
                                            }/>
                             </View>
@@ -352,7 +288,7 @@ export default class FirstBindPhonePage extends BComponent {
                                            }}
                                 />
 
-                                <TouchableWithoutFeedback onPress={ () => { this._doChangeVCode(this.state.newMobile) }}>
+                                <TouchableWithoutFeedback onPress={ () => { this._doChangeVCode() }}>
                                     <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
                                             source={this.state.picURL} />
                                 </TouchableWithoutFeedback>
