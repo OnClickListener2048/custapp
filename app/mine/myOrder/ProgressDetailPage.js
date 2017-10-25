@@ -25,7 +25,7 @@ export default class ProgressDetailPage extends BComponent {
         this.state={
             sourceData:[],//进度列表数据源
             statusW:0,//最外层状态
-            loadState:'loading'
+            loadState:'success'
         }
         this.childState='';//判断显示样式 6显示红色 已完成
         this.status='';//子任务状态，1执行中，2已结束
