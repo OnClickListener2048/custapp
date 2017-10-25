@@ -67,6 +67,7 @@ export default class SettingPage extends BComponent {
                     />
                     <CommentCell
                         leftText="服务条款"
+                        onPress={this._serviceTerm.bind(this)}
                     />
                     <CommentCell
                         leftText="清除缓存"
@@ -109,6 +110,13 @@ export default class SettingPage extends BComponent {
         this.props.navigator.push({
             screen: 'FeedbackPage',
             title: '意见反馈'
+        });
+    }
+
+    _serviceTerm(){
+        this.props.navigator.push({
+            screen: 'ServiceTermPage',
+            title: '服务条款'
         });
     }
 

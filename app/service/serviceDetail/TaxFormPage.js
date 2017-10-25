@@ -17,6 +17,7 @@ import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import HeaderView from '../view/HeaderView'
 import SectionHeader from '../../view/SectionHeader'
+import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
 export default class TaxFormPage extends BComponent {
 
@@ -27,7 +28,8 @@ export default class TaxFormPage extends BComponent {
             data:[],
             isRefreshing:false,
             year:props.year,
-            month:props.month
+            month:props.month,
+            isfirstRefresh:true
         }
 
     }
@@ -37,35 +39,39 @@ export default class TaxFormPage extends BComponent {
         });
     }
     loadData(date='',isPull=false){
-        let loading
         if(isPull){
             this.setState({
                 isRefreshing:true
             })
         }else{
-            loading = SActivityIndicator.show(true, "加载中...");
+            this.setState({
+                isLoading:true
+            })
         }
         apis.loadTaxForm(this.props.companyid,date).then(
             (responseData) => {
-                SActivityIndicator.hide(loading);
                 if(responseData.code == 0){
 
                     this.setState({
                         total:responseData.data.total?responseData.data.total:'- -',
                         data:responseData.data.list?responseData.data.list:[],
-                        isRefreshing:false
+                        isRefreshing:false,
+                        isfirstRefresh:false,
+                        isLoading:false
                     })
                 }else{
                     this.setState({
-                        isRefreshing:false
+                        isRefreshing:false,
+                        isLoading:false
+
                     })
                     Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
             (e) => {
-                SActivityIndicator.hide(loading);
                 this.setState({
-                    isRefreshing:false
+                    isRefreshing:false,
+                    isLoading:false
                 })
                 Toast.show('加载失败！')
             },
@@ -160,12 +166,16 @@ export default class TaxFormPage extends BComponent {
     }
     _listEmptyComponent(){
         let headerHeight = 48+64+DeviceInfo.width*0.42+20
-        return(
-            <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
-                <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据,请过些时日再查看</Text>
-                <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>
-            </View>
-        )
+        if(!this.state.isfirstRefresh){
+            return(
+                <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
+                    <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据,请过些时日再查看</Text>
+                    <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>
+                </View>
+            )
+        }else{
+            return <View />
+        }
     }
     render(){
 
@@ -180,6 +190,7 @@ export default class TaxFormPage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
+                <PLPActivityIndicator isShow={this.state.isLoading} />
                 <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
         )

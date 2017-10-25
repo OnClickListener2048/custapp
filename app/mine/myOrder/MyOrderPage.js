@@ -29,7 +29,7 @@ export default class MyOrderPage extends BComponent {
             doing:[],//进行中
             hang:[],//挂起
             done:[],//已结束
-            loadState:'loading'
+            loadState:'success'
         };
         this.loadData=this.loadData.bind(this);
         this.initData=this.initData.bind(this);
