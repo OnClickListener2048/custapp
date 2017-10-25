@@ -242,7 +242,7 @@ export default class HomePage extends BComponent {
                         <TextInput underlineColorAndroid='transparent'
                                    value={this.state.smsCode}
                                    ref="smsCodeInput"
-                                   editable={this.state.mobileValid && this.state.timerButtonClicked}
+                                   editable={this.state.mobileValid }  //&& this.state.timerButtonClicked
                                    secureTextEntry={false} maxLength={6} keyboardType='numeric'
                                    style={styles.codeInput} placeholder='短信验证码'
                                    placeholderTextColor='#BABABA'
@@ -252,7 +252,7 @@ export default class HomePage extends BComponent {
                                        let smsCodeValid = (smsCode.length === 6);
                                        this.setState({smsCode, smsCodeValid});
                                        if(smsCodeValid) {
-                                           // dismissKeyboard();
+                                           dismissKeyboard();
                                        }
                                    }}
 
@@ -261,7 +261,7 @@ export default class HomePage extends BComponent {
                                    }}
 
                                    onSubmitEditing={() => {
-                                       // dismissKeyboard();
+                                        dismissKeyboard();
                                    }}
                         />
 

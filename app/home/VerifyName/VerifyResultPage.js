@@ -46,17 +46,19 @@ export default class VerifyResultPage extends BComponent {
         this.setState({
             dataStatus:'loading'
         })
-        this.loadResultData()
+        //this.loadResultData()
+        this.loadData()
+
 
     }
 
     loadResultData(){
-        if(!NetInfoSingleton.isConnected) {
-            this.setState({
-                dataStatus:'no-net'
-            })
-            return;
-        }
+        // if(!NetInfoSingleton.isConnected) {
+        //     this.setState({
+        //         dataStatus:'no-net'
+        //     })
+        //     return;
+        // }
         apis.loadVerifyResultData(this.state.keyword,this.state.mobile,this.state.vcode).then(
             (responseData) => {
 
@@ -73,7 +75,7 @@ export default class VerifyResultPage extends BComponent {
                     this.setState({
                         fetchState:'checkRisk'
                     })
-                    this.loadData(this.page)
+                    this.loadData()
                 }
 
             },
@@ -138,11 +140,13 @@ export default class VerifyResultPage extends BComponent {
      }
     * */
 
-    loadData(page=1){
+    loadData(){
 
         console.log('请求核名公司信息')
-
-        apis.loadVerifyCompaniesList(this.state.keyword,page,'10').then(
+        this.setState({
+            fetchState:'checkRisk'
+        })
+        apis.loadVerifyCompaniesList(this.state.keyword,'1','10').then(
             (responseData) => {
 
 
@@ -182,7 +186,7 @@ export default class VerifyResultPage extends BComponent {
 
     onFooterRefresh = () => {
         this.page++
-        this.loadData(this.page)
+        this.loadData()
     }
 
 
@@ -217,7 +221,7 @@ export default class VerifyResultPage extends BComponent {
                 <Text
                     textAlign='right'
                     numberOfLines={1}
-                    style={[{fontSize: 16, marginRight :10 , color : '#E13238'}] }>共20条</Text>
+                    style={[{fontSize: 16, marginRight :10 , color : '#E13238'}] }>共{this.state.dataList.length}条</Text>
             </View>
 
         )
