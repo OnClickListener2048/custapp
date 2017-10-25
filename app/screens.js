@@ -29,6 +29,7 @@ import LicenceInfoPage from './mine/companyInfo/LicenceInfoPage'
 import SettingPage from './mine/setting/SettingPage'
 import FeedbackPage from './mine/setting/FeedbackPage'
 import AboutUsPage from './mine/setting/AboutUsPage'
+import ServiceTermPage from './mine/setting/ServiceTermPage'
 import ProgressDetailPage from './mine/myOrder/ProgressDetailPage'
 import SystemMessagePage from './message/detail/SystemMessagePage';
 
@@ -64,6 +65,7 @@ export default function () {
     reg('SettingPage', () => SettingPage);
     reg('FeedbackPage', () => FeedbackPage);
     reg('AboutUsPage', () => AboutUsPage);
+    reg('ServiceTermPage', () => ServiceTermPage);
     reg('SystemMessagePage', () => SystemMessagePage);
     reg('ProgressDetailPage', () => ProgressDetailPage);
     reg('CashFlowPage', () => CashFlowPage);
