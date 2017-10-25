@@ -35,7 +35,7 @@ export default class DefaultView extends Component {
             //加载中
             return(
                 <View style={styles.box} >
-                    <Spinner  isVisible={true} style={{marginLeft:DeviceInfo.OS==='ios'?-20:0}}  type={'Circle'} size={80} color={'#999999'}/>
+                    <Spinner  isVisible={true} style={{marginLeft:DeviceInfo.OS==='ios'?-20:0}}  type={'FadingCircleAlt'} size={80} color={'#999999'}/>
 
                     {/*<Image source={require('../img/loading.png')}/>*/}
                     <Text style={{fontSize:18,color:'#999999',marginTop:70}}>玩命加载中~</Text>
