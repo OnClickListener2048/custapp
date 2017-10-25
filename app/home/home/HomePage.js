@@ -185,10 +185,11 @@ export default class HomePage extends BComponent {
 
     render(){
 
-        return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                {
-                    this.state.loadState == 'success'?<SectionList
+        if(this.state.loadState == 'success'){
+
+            return(
+                <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                    <SectionList
                         renderItem={this._renderItem.bind(this)}
                         renderSectionHeader={this._renderSectionHeader.bind(this)}
                         sections={this.state.dataSource}
@@ -198,35 +199,16 @@ export default class HomePage extends BComponent {
                         onRefresh={this._onRefresh.bind(this)}
                         refreshing={this.state.isRefreshing}
                     >
-                    </SectionList>:<DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
-                }
-            </View>
-        )
+                    </SectionList>
+                </View>
 
-        // if(this.state.loadState == 'success'){
-        //
-        //     return(
-        //         <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-        //             <SectionList
-        //                 renderItem={this._renderItem.bind(this)}
-        //                 renderSectionHeader={this._renderSectionHeader.bind(this)}
-        //                 sections={this.state.dataSource}
-        //                 stickySectionHeadersEnabled={false}
-        //                 ListHeaderComponent={this._listHeaderComponent.bind(this)}
-        //                 ListFooterComponent={this._listFooterComponent.bind(this)}
-        //                 onRefresh={this._onRefresh.bind(this)}
-        //                 refreshing={this.state.isRefreshing}
-        //             >
-        //             </SectionList>
-        //         </View>
-        //
-        //     )
-        //
-        // }else {
-        //     return(
-        //         <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
-        //     )
-        // }
+            )
+
+        }else {
+            return(
+                <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
+            )
+        }
 
     }
     _onRefresh(){
