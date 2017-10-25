@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
 
 } from 'react-native';
+import Spinner from 'react-native-spinkit';
 export default class DefaultView extends Component {
 
     static defaultProps = {
@@ -34,8 +35,10 @@ export default class DefaultView extends Component {
             //加载中
             return(
                 <View style={styles.box} >
-                    <Image source={require('../img/loading.png')}/>
-                    <Text style={{fontSize:18,color:'#999999',marginTop:50}}>玩命加载中~</Text>
+                    <Spinner  isVisible={true} style={{marginLeft:DeviceInfo.OS==='ios'?-20:0}}  type={'Circle'} size={80} color={'#999999'}/>
+
+                    {/*<Image source={require('../img/loading.png')}/>*/}
+                    <Text style={{fontSize:18,color:'#999999',marginTop:70}}>玩命加载中~</Text>
                 </View>
             )
         }else if (this.props.type == 'no-data'){

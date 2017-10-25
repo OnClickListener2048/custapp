@@ -80,7 +80,7 @@ export default class HomePage extends BComponent {
         super(props);
         this.state = {
             dataSource:[],
-            loadState:'success',
+            loadState:'loading',
             isRefreshing:false,
             isFirstRefresh:true
         };
@@ -94,13 +94,7 @@ export default class HomePage extends BComponent {
     }
     loadData(type = '0'){
         // let loading
-        if(this.state.isFirstRefresh){
-            //第一次加载显示菊花loading
-            // loading = SActivityIndicator.show(true, "加载中...");
-            this.refs.loading.show()
-
-        }else{
-            //显示下拉loading
+        if(!this.state.isFirstRefresh){
             this.setState({
                 isRefreshing:true
             })
@@ -125,7 +119,6 @@ export default class HomePage extends BComponent {
                     if(this.state.isFirstRefresh){
                         //第一次加载
                         // SActivityIndicator.hide(loading);
-                        this.refs.loading.hide()
                         if(responseData.list.length == 0){
                             //没数据
                             this.setState({
@@ -158,9 +151,6 @@ export default class HomePage extends BComponent {
                 }else{
                     //加载失败
                     if(this.state.isFirstRefresh){
-                        //第一次加载
-                        // SActivityIndicator.hide(loading);
-                        this.refs.loading.hide()
                         this.setState({
                             loadState:'error',
                         })
@@ -180,8 +170,6 @@ export default class HomePage extends BComponent {
                 //加载失败
                 if(this.state.isFirstRefresh){
                     //第一次加载
-                    // SActivityIndicator.hide(loading);
-                    this.refs.loading.hide()
                     this.setState({
                         loadState:NetInfoSingleton.isConnected?'error':'no-net',
                     })
@@ -212,7 +200,6 @@ export default class HomePage extends BComponent {
                     >
                     </SectionList>:<DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
                 }
-                <PLPActivityIndicator ref="loading"/>
             </View>
         )
 
