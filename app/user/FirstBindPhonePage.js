@@ -63,11 +63,12 @@ export default class FirstBindPhonePage extends BComponent {
             vCode: '',         // 图片验证码
             picURL: null,// 图片验证码
             vCodeInputValid: false,
-            device:random(11) // 随机
+            device: random(11) // 随机
         };
 
         this._doChangeVCode = this._doChangeVCode.bind(this);
         this.readUserInfo = this.readUserInfo.bind(this);
+        this._serviceTerm = this._serviceTerm.bind(this);
     }
 
     componentWillMount() {
@@ -75,6 +76,13 @@ export default class FirstBindPhonePage extends BComponent {
     }
 
     componentDidMount() {
+    }
+
+    _serviceTerm() {
+        this.props.navigator.push({
+            screen: 'ServiceTermPage',
+            title: '服务条款'
+        });
     }
 
     // 刷新验证码
@@ -98,14 +106,14 @@ export default class FirstBindPhonePage extends BComponent {
             (responseData) => {
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 if (responseData && responseData.user) {
-                    if(responseData.user.mobilePhone) {
+                    if (responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
                                 console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
                                 if (companyInfo && companyInfo.data) {
-                                    console.log("公司信息保存中...." , companyInfo.data);
+                                    console.log("公司信息保存中....", companyInfo.data);
                                     UserInfoStore.setCompany(companyInfo.data).then(
                                         (user) => {
                                             console.log("公司信息保存成功");
@@ -127,7 +135,11 @@ export default class FirstBindPhonePage extends BComponent {
             },
             (e) => {
                 console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取失败' + errorText(e), {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+                Toast.show('用户信息读取失败' + errorText(e), {
+                    position: Toast.positions.CENTER,
+                    duration: Toast.durations.LONG,
+                    backgroundColor: 'red'
+                });
             },
         );
     }
@@ -289,15 +301,17 @@ export default class FirstBindPhonePage extends BComponent {
                                            onChangeText={(vCode) => {
                                                let vCodeInputValid = (vCode.length === 4);
                                                this.setState({vCode, vCodeInputValid});
-                                               if(vCodeInputValid) {
+                                               if (vCodeInputValid) {
                                                    dismissKeyboard();
                                                }
                                            }}
                                 />
 
-                                <TouchableWithoutFeedback onPress={ () => { this._doChangeVCode() }}>
-                                    <Image  style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
-                                            source={this.state.picURL} />
+                                <TouchableWithoutFeedback onPress={() => {
+                                    this._doChangeVCode()
+                                }}>
+                                    <Image style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
+                                           source={this.state.picURL}/>
                                 </TouchableWithoutFeedback>
 
                             </View>
@@ -359,41 +373,39 @@ export default class FirstBindPhonePage extends BComponent {
                         </View>
 
                         {/*  协议 */}
-                        <View style={[styles.textInputContainer,
-                            {marginTop: 2}]}>
-                            <TouchableOpacity
-                                style={{alignSelf: 'center'}} onPress={() => {
-                                dismissKeyboard();
-                                let _acceptLic = !this.state.acceptLic;
-                                console.log('_acceptLic', _acceptLic);
-                                this.setState({acceptLic: _acceptLic});
-                            }}>
-                            </TouchableOpacity>
-                            <View style={[styles.textInputWrapper,
-                                {justifyContent: 'flex-start', borderBottomWidth: 0}]}>
-                                <Text style={{
-                                    color: ( this.state.acceptLic ? '#BABABA' : '#BABABA'),
-                                    alignSelf: 'center',
-                                    marginRight: 1,
-                                    fontSize: 12
-                                }}
-                                >点击登录即视为同意</Text>
-                                <Text style={{
-                                    color: ( this.state.acceptLic ? '#BABABA' : '#BABABA'),
-                                    fontSize: (Platform.OS === 'ios') ? 12 : 11,
-                                    alignSelf: 'center',
-                                    textDecorationLine: 'underline',
-                                    marginRight: 1
-                                }}
-                                >《用户注册和使用协议》</Text>
-                            </View>
+                        <TouchableWithoutFeedback onPress={ () => this._serviceTerm()}>
+                            <View style={[styles.textInputContainer,
+                                {marginTop: 2}]}>
+                                <View style={[styles.textInputWrapper,
+                                    {justifyContent: 'flex-start', borderBottomWidth: 0}]}>
 
-                        </View>
+                                    <Text style={{
+                                        color: ( this.state.acceptLic ? '#BABABA' : '#BABABA'),
+                                        alignSelf: 'center',
+                                        marginRight: 1,
+                                        fontSize: 12
+                                    }}
+                                    >点击登录即视为同意</Text>
+                                    <Text style={{
+                                        color: ( this.state.acceptLic ? '#BABABA' : '#BABABA'),
+                                        fontSize: (Platform.OS === 'ios') ? 12 : 11,
+                                        alignSelf: 'center',
+                                        textDecorationLine: 'underline',
+                                        marginRight: 1
+                                    }}
+                                    >《用户注册和使用协议》</Text>
+
+                                </View>
+
+                            </View>
+                        </TouchableWithoutFeedback>
 
                         <SubmitButton
                             text='立即登录'
-                            onPress={() => {this._doSubmit()}}
-                            isEnabled = {this.state.newMobileValid && this.state.smsCodeValid}
+                            onPress={() => {
+                                this._doSubmit()
+                            }}
+                            isEnabled={this.state.newMobileValid && this.state.smsCodeValid}
                         />
                     </KeyboardAvoidingView>
                 </View>
