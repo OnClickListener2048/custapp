@@ -441,11 +441,9 @@ export default class LoginPage extends Component {
             (e) => {
                 SActivityIndicator.hide(loading);
                 console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取错误' +  JSON.stringify(e));
+                Toast.show('用户信息读取失败' + errorText(e), {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
             },
         );
-
-
     }
 
     updateMobile(mobile) {

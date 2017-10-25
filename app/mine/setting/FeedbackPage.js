@@ -17,6 +17,26 @@ import BComponent from '../../base';
 // 意见反馈页
 export default class FeedbackPage extends BComponent {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            phone: '',// 现在手机号
+            newMobile: '', // 新手机号
+            newMobileValid: false, // 新手机号有效
+            smsCode: '',         // 短信验证码
+            smsCodeValid: false,          // 短信验证码有效
+            timerButtonClicked: false,//  倒计时按钮是否已点击
+            verifyText: '请输入图片验证码',// 图片验证码提示语
+            vCode: '',         // 图片验证码
+            picURL: null,// 图片验证码
+            vCodeInputValid: false,
+            device:random(11) // 随机
+        };
+
+        this._doChangeVCode = this._doChangeVCode.bind(this);
+        this.readUserInfo = this.readUserInfo.bind(this);
+    }
+
     render() {
         return (
             <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>

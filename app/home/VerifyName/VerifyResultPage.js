@@ -59,6 +59,7 @@ export default class VerifyResultPage extends BComponent {
             this.setState({
                 dataStatus:'no-net'
             })
+            SActivityIndicator.hide(this.state.loading);
             return;
         }
         this.state.loading;

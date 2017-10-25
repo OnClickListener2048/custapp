@@ -31,17 +31,18 @@ export default class DefaultView extends Component {
         )
     }
     renderImageAndText() {
-        if(this.props.type == 'loading'){
-            //加载中
-            return(
-                <View style={styles.box} >
-                    <Spinner  isVisible={true} style={{marginLeft:DeviceInfo.OS==='ios'?-20:0}}  type={'FadingCircleAlt'} size={80} color={'#C8C8C8'}/>
-
-                    {/*<Image source={require('../img/loading.png')}/>*/}
-                    <Text style={{fontSize:18,color:'#999999',marginTop:70}}>玩命加载中~</Text>
-                </View>
-            )
-        }else if (this.props.type == 'no-data'){
+        // if(this.props.type == 'loading'){
+        //     //加载中
+        //     return(
+        //         <View style={styles.box} >
+        //             <Spinner  isVisible={true} style={{marginLeft:DeviceInfo.OS==='ios'?-20:0}}  type={'FadingCircleAlt'} size={80} color={'#C8C8C8'}/>
+        //
+        //             {/*<Image source={require('../img/loading.png')}/>*/}
+        //             <Text style={{fontSize:18,color:'#999999',marginTop:70}}>玩命加载中~</Text>
+        //         </View>
+        //     )
+        // }else 
+            if (this.props.type == 'no-data'){
             //无数据
             return(
                 <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>

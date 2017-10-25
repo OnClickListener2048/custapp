@@ -88,7 +88,7 @@ export default class BindPhonePage extends BComponent {
                     this.setState({picURL, vCode: '', vCodeInputValid: false});
                 },
                 e => {
-
+                    Toast.show('图形验证码' + errorText(e), {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
                 }
             );
         }
@@ -99,30 +99,37 @@ export default class BindPhonePage extends BComponent {
         apis.userInfo().then(
             (responseData) => {
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
-                if (responseData !== null && responseData.user !== null) {
-                    if (responseData.user.mobilePhone !== null) {
-                        UserInfoStore.setLastUserPhone(responseData.user.mobilePhone);
-                    } else {
-                        UserInfoStore.removeLastUserPhone();
+                if (responseData && responseData.user) {
+                    if(responseData.user.mobilePhone) {
+                        UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
+                        UserInfoStore.setUserInfo(responseData.user).then();
+                        apis.getCompany(responseData.user.mobilePhone).then(
+                            (companyInfo) => {
+                                console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
+                                if (companyInfo && companyInfo.data) {
+                                    console.log("公司信息保存中...." , companyInfo.data);
+                                    UserInfoStore.setCompany(companyInfo.data).then(
+                                        (user) => {
+                                            console.log("公司信息保存成功");
+                                        },
+                                        (e) => {
+                                            console.log("公司信息保存错误:", e);
+                                        },
+                                    );
+                                }
+                            },
+                            (e) => {
+                                console.log("公司信息读取错误返回:", e);
+                            },
+                        );
                     }
-
-
-                    UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
-                        (user) => {
-                            console.log("OK ===> Main:");
-                        },
-                        (e) => {
-                            console.log("用户信息保存错误:", e);
-                        },
-                    );
-
                 } else {
                     console.log("OK ===> LoginPage:");
                 }
             },
             (e) => {
                 console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取错误' + JSON.stringify(e));
+                Toast.show('用户信息读取失败' + errorText(e), {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
             },
         );
     }
