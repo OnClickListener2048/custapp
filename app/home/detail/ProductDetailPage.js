@@ -26,6 +26,8 @@ import Modal from '../../view/Modalbox';
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
+import errorText from '../../util/ErrorMsg';
+import '../../modules/react-native-sww-activity-indicator';
 
 export const SCREEN_HEIGHT = window.height;
 export const SCREEN_WIDTH = window.width;
@@ -134,12 +136,20 @@ export default class ProductDetailPage extends BComponent {
             }
         }
 
+        let loading = SActivityIndicator.show(true, "加载中...");
+
+
+
         apis.submitFeedBack(this.state.navigatorTitle,this.state.area,this.state.name,this.state.mobile,this.state.message).then(
             (responseData) => {
+                SActivityIndicator.hide(loading);
+
                 Toast.show('提交成功');
                 this.refs.modal3.close()
             }, (e) => {
-                Toast.show('提交失败'+ e);
+                Toast.show(errorText(e));
+                SActivityIndicator.hide(loading);
+
             }
         );
     }

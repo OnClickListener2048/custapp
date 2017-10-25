@@ -15,7 +15,7 @@ UserInfoStore.isLogined = async function (): boolean {
    if(user === null) {
        return false;
    } else {
-       if(user.avatar !== null) {
+       if(user.mobilePhone) {// 有手机号才能判断为登陆成功
            return true;
        }
    }

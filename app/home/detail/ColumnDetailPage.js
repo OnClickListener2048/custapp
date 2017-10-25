@@ -24,9 +24,11 @@ import WebTab from './WebVIew'
 import BComponent from '../../base';
 import * as apis from '../../apis';
 import DefaultView from '../../view/DefaultView'
-import Toast from 'react-native-root-toast'
+import Toast from 'react-native-root-toast';
+import errorText from '../../util/ErrorMsg';
 import Modal from '../../view/Modalbox';
 
+import '../../modules/react-native-sww-activity-indicator';
 
 const col = 4
 const mag = 10
@@ -190,13 +192,17 @@ export default class ColumnDetailPage extends BComponent {
 
         }
 
+        let loading = SActivityIndicator.show(true, "载入中...");
         //这里this.state.navigatorTitle 具体看产品到底要什么
         apis.submitFeedBack(this.state.navigatorTitle,this.state.area,this.state.name,this.state.mobile,this.state.message).then(
             (responseData) => {
+                SActivityIndicator.hide(loading);
                 Toast.show('提交成功');
                 this.refs.modal3.close()
             }, (e) => {
-                Toast.show('提交失败'+ e);
+                SActivityIndicator.hide(loading);
+                Toast.show(errorText(e));
+
             }
         );
     }
