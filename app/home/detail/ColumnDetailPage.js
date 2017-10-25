@@ -356,7 +356,116 @@ export default class ColumnDetailPage extends BComponent {
             )
         }else{
             return(
-                <DefaultView onPress={()=>this.loadData(this.props.type)} type ={this.state.loadState}/>
+
+                <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#f9f9f9'}} >
+                    <Animated.View  style={{backgroundColor:'#f9f9f9',paddingBottom:10,paddingTop:10,marginTop}}>
+                        <Image  style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.state.itemSelected.cover}}/>
+                        <View style={{backgroundColor:'white', marginTop:-13,marginLeft:10,marginRight:10,paddingTop:10,paddingBottom:20,flexDirection:'row',flexWrap:'wrap',borderRadius:3}}>
+                            {
+                                this.state.dataArr.map((item,index)=>{
+                                    let color = '#666666'
+                                    let borderColor='#ECECEC'
+
+
+                                    if(this.state.itemSelected._id == item._id){
+                                        color = '#FF3238'
+                                        borderColor = '#FF3238'
+                                    }
+
+                                    return(
+                                        <TouchableOpacity key={index} onPress={()=>{this.change(index)}}>
+                                            <View  style={[{marginLeft:mag,marginTop:mag,width:itemWidth,height:(2*itemWidth)/5,justifyContent:'center',alignItems:'center',borderColor,borderWidth:1}]}>
+                                                <Text style={[{fontSize:14,color}]}>{item.name}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+
+                                    )
+                                })
+                            }
+                        </View>
+                    </Animated.View>
+                    <WebTab url={this.state.itemSelected.url} />
+                    <View style={styles.tabViewContainer}>
+                        <TouchableOpacity
+                            style={{flexDirection: 'row',height:50,width:(SCREEN_WIDTH - 4)/2}}
+                            onPress={() => {
+                                this.callPhone()
+                            }}>
+                            <View style={{flexDirection: 'row',justifyContent:'center',flex:1,alignItems:'center',backgroundColor:'#E13238'}}>
+                                <Text style={{fontSize:16,textAlign:'center',color:'#ffffff'}}>{'免费咨询'}</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={{flexDirection: 'row',height:50,width:(SCREEN_WIDTH - 4)/2}}
+                            onPress={() => {
+                                this.onlineMessage()
+                            }}>
+                            <View  style={{flexDirection: 'row',justifyContent:'center',flex:1,alignItems:'center',backgroundColor:'#E19F0E'}}>
+                                <Text style={{fontSize:16,textAlign:'center',color:'#ffffff'}}>{'在线留言'}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <Modal onBackClick={()=>Keyboard.dismiss()} backdropPressToClose={!this.state.isShowkeyBoard}
+                           style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
+                           position={"center"} ref={"modal3"}>
+                        <TouchableWithoutFeedback onPress={dismissKeyboard}>
+
+                            <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
+                                <View  style={[{height: 479 - 20, width: SCREEN_WIDTH - 76,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
+
+                                    <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]}
+                                               placeholder='服务区域'
+                                               onChangeText={
+                                                   (area) => {
+                                                       this.updateArea(area);
+                                                   }
+                                               }
+                                    />
+                                    <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
+                                               placeholder='您的称呼'
+                                               onChangeText={
+                                                   (name) => {
+                                                       this.updateName(name);
+                                                   }
+                                               }
+                                    />
+                                    <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
+                                               placeholder='联系电话'
+                                               keyboardType={'number-pad'}
+                                               onChangeText={
+                                                   (mobile) => {
+                                                       this.updateMobile(mobile);
+                                                   }
+                                               }
+                                    />
+                                    <TextInput underlineColorAndroid='transparent' multiline={true} ref={"content"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 140 : 180}]}
+                                               placeholder='请在此输入留言内容,我们会尽快与您联系。'
+                                               onChangeText={
+                                                   (message) => {
+                                                       this.updateMmessage(message);
+                                                   }
+                                               }
+                                    />
+                                    <TouchableOpacity
+                                        style={styles.submitBtnTouchContainer}
+                                        onPress={() => {
+                                            this.submitMessage()
+                                        }}>
+                                        <View  style={[styles.btnContainer,{backgroundColor:'#FF9F0E',borderRadius:8}]}>
+                                            <Text style={styles.textContainer}>{'我要咨询'}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+
+                                </View>
+
+                            </KeyboardAvoidingView>
+                        </TouchableWithoutFeedback>
+
+                    </Modal>
+
+                </View>
+               // <DefaultView onPress={()=>this.loadData(this.props.type)} type ={this.state.loadState}/>
             )
         }
     }
