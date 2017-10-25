@@ -260,6 +260,7 @@ def releaseTime() {
 }
 
 dependencies {
+    compile project(':react-native-spinkit')
     compile project(':react-native-svg')
     compile project(':react-native-alert')
     compile project(':react-native-picker')

@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
 
 } from 'react-native';
+import Spinner from 'react-native-spinkit';
 export default class DefaultView extends Component {
 
     static defaultProps = {
@@ -34,8 +35,10 @@ export default class DefaultView extends Component {
             //加载中
             return(
                 <View style={styles.box} >
-                    <Image source={require('../img/loading.png')}/>
-                    <Text style={{fontSize:18,color:'#999999',marginTop:50}}>玩命加载中~</Text>
+                    <Spinner  isVisible={true} style={{marginLeft:DeviceInfo.OS==='ios'?-20:0}}  type={'FadingCircleAlt'} size={80} color={'#C8C8C8'}/>
+
+                    {/*<Image source={require('../img/loading.png')}/>*/}
+                    <Text style={{fontSize:18,color:'#999999',marginTop:70}}>玩命加载中~</Text>
                 </View>
             )
         }else if (this.props.type == 'no-data'){
@@ -72,7 +75,7 @@ export default class DefaultView extends Component {
                     <Text style={{fontSize:18,color:'#999999',marginTop:50}}>网络请求失败</Text>
                     <Text style={{fontSize:18,color:'#999999',marginTop:5}}>请检查您的网络</Text>
                     <TouchableOpacity onPress={()=>this.props.onPress()}>
-                        <View style={{width:DeviceInfo.width-50,height:50,borderRadius:25,backgroundColor:'#E8E8E8',marginTop:35,justifyContent:'center',alignItems:'center'}}>
+                        <View style={{width:DeviceInfo.width-50,height:50,borderRadius:25,backgroundColor:'red',marginTop:35,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{color:'white',fontSize:18}}>重新加载</Text>
                         </View>
                     </TouchableOpacity>

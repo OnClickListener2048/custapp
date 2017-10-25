@@ -20,6 +20,7 @@ import com.example.qiepeipei.react_native_clear_cache.ClearCachePackage;
 import java.util.Arrays;
 import java.util.List;
 import com.theweflex.react.WeChatPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
 public class MainApplication extends NavigationApplication {
     // 设置为 true 将不弹出 toast
     private boolean SHUTDOWN_TOAST = true;
@@ -44,6 +45,7 @@ public class MainApplication extends NavigationApplication {
     public List<ReactPackage> createAdditionalReactPackages() {
         return Arrays.<ReactPackage>asList(
                 //new MainReactPackage(),
+            new RNSpinkitPackage(),
             new SvgPackage(),
                 new PLPAlertPackage(),
                 new PickerViewPackage(),

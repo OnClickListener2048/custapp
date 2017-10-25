@@ -20,6 +20,9 @@ import SubmitButton from "../../view/SubmitButton";
 import TimerButton from "./view/TimerButton";
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast';
+import errorText from '../../util/ErrorMsg';
+import random from "../../util/random";
+
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
 const window = Dimensions.get('window');
@@ -49,6 +52,7 @@ export default class HomePage extends BComponent {
             smsCode: '',         // 短信验证码
             smsCodeValid: false,          // 短信验证码有效
             mobileValid: false,   // 手机号有效
+            device:random(11) // 随机
 
         }
         this._doChangeVCode = this._doChangeVCode.bind(this);
@@ -79,7 +83,7 @@ export default class HomePage extends BComponent {
     _requestSMSCode(shouldStartCountting) {
         console.log('_requestSMSCode shouldStartCountting1111', shouldStartCountting);
         if (this.state.mobileValid) {
-            apis.sendVerifyCode(this.state.mobile, 5, this.state.vCode,'12234563283').then(
+            apis.sendVerifyCode(this.state.mobile, 5, this.state.vCode,this.state.device).then(
                 (responseData) => {
                     Toast.show('短信验证码已发送');
                     // Toast.show('测试环境短信验证码:' + responseData.msg);
@@ -87,8 +91,9 @@ export default class HomePage extends BComponent {
                     //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
                 }, (e) => {
 
-                    Toast.show('短信验证码发送失败');
                     // Toast.show(errorText(e));
+                    Toast.show(errorText(e));
+
                 }
             );
         }
@@ -137,13 +142,13 @@ export default class HomePage extends BComponent {
 
     // 刷新验证码
     _doChangeVCode() {
-            apis.getVerifyVCodeImage('12234563283', 5).then(
+            apis.getVerifyVCodeImage(this.state.device, 5).then(
                 data => {
                     let picURL = { uri: 'data:image/jpeg;base64,' + data.img };
                     this.setState({picURL, vCode: '', vCodeInputValid: false});
                 },
                 e => {
-                    Toast.show('图形验证码获取失败, 请稍候再试');
+                    Toast.show(errorText(e));
                 }
             );
 
@@ -242,7 +247,7 @@ export default class HomePage extends BComponent {
                         <TextInput underlineColorAndroid='transparent'
                                    value={this.state.smsCode}
                                    ref="smsCodeInput"
-                                   editable={this.state.mobileValid && this.state.timerButtonClicked}
+                                   editable={this.state.mobileValid }  //&& this.state.timerButtonClicked
                                    secureTextEntry={false} maxLength={6} keyboardType='numeric'
                                    style={styles.codeInput} placeholder='短信验证码'
                                    placeholderTextColor='#BABABA'
@@ -252,7 +257,7 @@ export default class HomePage extends BComponent {
                                        let smsCodeValid = (smsCode.length === 6);
                                        this.setState({smsCode, smsCodeValid});
                                        if(smsCodeValid) {
-                                           // dismissKeyboard();
+                                           dismissKeyboard();
                                        }
                                    }}
 
@@ -261,7 +266,7 @@ export default class HomePage extends BComponent {
                                    }}
 
                                    onSubmitEditing={() => {
-                                       // dismissKeyboard();
+                                        dismissKeyboard();
                                    }}
                         />
 
@@ -290,7 +295,7 @@ export default class HomePage extends BComponent {
 
 
                 <SubmitButton onPress={this._doVerfiyResult} isEnabled={(this.state.companyNameNotEmpty&&this.state.phoneNumNotEmpty&&
-                    this.state.smsCodeValid)}
+                    this.state.smsCodeValid&&this.state.vCodeInputValid)}
                               text="立即免费核名"
                 />
             </ScrollView>

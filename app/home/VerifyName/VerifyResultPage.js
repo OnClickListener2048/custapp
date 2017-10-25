@@ -14,7 +14,10 @@ import RefreshListView, {RefreshState} from '../../view/RefreshListView'
 import * as apis from '../../apis';
 import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
-import SActivityIndicator from '../../modules/react-native-sww-activity-indicator';
+import '../../modules/react-native-sww-activity-indicator';
+import errorText from '../../util/ErrorMsg';
+import Toast from 'react-native-root-toast';
+
 const deviceWidth = Dimensions.get('window').width;
 
 export default class VerifyResultPage extends BComponent {
@@ -22,13 +25,14 @@ export default class VerifyResultPage extends BComponent {
         super(props);
         this.state={
             fetchState:'', //'checkRisk' ; 'checkSuccess' ;
-            dataStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
+            dataStatus:'', //  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
 
             keyword: this.props.keyword,  //注册公司名称
             mobile: this.props.mobile,   //手机号
             vcode: this.props.vcode,    //验证码
             refreshState: RefreshState.Idle,
             dataList: [],
+            loading : SActivityIndicator.show(true, "")
 
         }
 
@@ -43,10 +47,10 @@ export default class VerifyResultPage extends BComponent {
     };
 
     componentDidMount(){
-        this.setState({
-            dataStatus:'loading'
-        })
+
         this.loadResultData()
+        //this.loadData()
+
 
     }
 
@@ -57,29 +61,32 @@ export default class VerifyResultPage extends BComponent {
             })
             return;
         }
+        this.state.loading;
+
+
         apis.loadVerifyResultData(this.state.keyword,this.state.mobile,this.state.vcode).then(
             (responseData) => {
 
-                console.log('VerifyNewresponseData',responseData)
-
                 if (responseData.isvalid == 1){
+                    SActivityIndicator.hide(this.state.loading);
+
                     this.setState({
                         fetchState:'checkSuccess',
                         dataStatus:'initSucess'
 
                     })
                 }else {
-
                     this.setState({
                         fetchState:'checkRisk'
                     })
-                    this.loadData(this.page)
+                    this.loadData()
                 }
 
             },
             (e) => {
+                SActivityIndicator.hide(this.state.loading);
 
-                console.log('VerifyNewerror1111',e)
+                Toast.show(errorText(e));
 
                 this.setState({
                     dataStatus:'error'
@@ -138,17 +145,17 @@ export default class VerifyResultPage extends BComponent {
      }
     * */
 
-    loadData(page=1){
+    loadData(){
 
-        console.log('请求核名公司信息')
-
-        apis.loadVerifyCompaniesList(this.state.keyword,page,'10').then(
+        this.setState({
+            fetchState:'checkRisk'
+        })
+        apis.loadVerifyCompaniesList(this.state.keyword,'1','10').then(
             (responseData) => {
 
+                SActivityIndicator.hide(this.state.loading);
 
                 if((responseData !== null && responseData.list !== null)){
-
-
 
                     let newList = responseData.list;
 
@@ -162,6 +169,7 @@ export default class VerifyResultPage extends BComponent {
                         })
 
                 }else{
+
                     this.setState({refreshState: RefreshState.Failure})
                         this.setState({
                             dataStatus:'error'
@@ -171,6 +179,9 @@ export default class VerifyResultPage extends BComponent {
 
             },
             (e) => {
+                SActivityIndicator.hide(this.state.loading);
+
+                Toast.show(errorText(e));
                 this.setState({refreshState: RefreshState.Failure})
                     this.setState({
                         dataStatus:'error'
@@ -182,7 +193,7 @@ export default class VerifyResultPage extends BComponent {
 
     onFooterRefresh = () => {
         this.page++
-        this.loadData(this.page)
+        this.loadData()
     }
 
 
@@ -217,7 +228,7 @@ export default class VerifyResultPage extends BComponent {
                 <Text
                     textAlign='right'
                     numberOfLines={1}
-                    style={[{fontSize: 16, marginRight :10 , color : '#E13238'}] }>共20条</Text>
+                    style={[{fontSize: 16, marginRight :10 , color : '#E13238'}] }>共{this.state.dataList.length}条</Text>
             </View>
 
         )

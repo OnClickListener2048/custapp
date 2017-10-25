@@ -7,6 +7,7 @@ import {
     Text,
     StyleSheet,
     ScrollView,
+    DeviceEventEmitter
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
 import SubmitButton from '../../view/SubmitButton'
@@ -133,6 +134,7 @@ export default class SettingPage extends BComponent {
                                     v => {
                                         if (this.props.navigator) {
                                             console.log("popToRoot");
+                                            DeviceEventEmitter.emit('refreshService');
                                             this.props.navigator.popToRoot();
                                         }
                                     },

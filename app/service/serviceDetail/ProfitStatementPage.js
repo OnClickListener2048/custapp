@@ -100,9 +100,9 @@ export default class ProfitStatementPage extends BComponent {
         )
     }
     _listEmptyComponent(){
-        let headerHeight = 48+64+DeviceInfo.width*0.56+20
+
         return(
-            <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
+            <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-(48+64+DeviceInfo.width*0.56),justifyContent:'center'}}>
                 <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据,请过些时日再查看</Text>
                 <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>
             </View>
@@ -110,7 +110,7 @@ export default class ProfitStatementPage extends BComponent {
     }
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9',paddingBottom:10}}>
+            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
                 <FlatList
                     data={this.state.dataSource}
                     keyExtractor = {(item, index) => index}
