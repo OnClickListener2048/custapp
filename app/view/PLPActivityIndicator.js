@@ -1,95 +1,57 @@
 /**
- * Created by zhuangzihao on 2017/10/24.
- * 单独处理tab界面的loading，解决切换tab时出现的bug
+ * Created by zhuangzihao on 2017/10/25.
  */
-import React,{Component} from 'react';
+import React from 'react';
 import {
-    View,
-    ActivityIndicator,
     StyleSheet,
-    Modal,
-    Dimensions,
-    Animated,
-    Easing,
-    Text
+    View,
+    Text,
+    ActivityIndicator
 } from 'react-native';
-const  ANIMATED_DURATION = 250;
-var {width, height} = Dimensions.get('window');
 
-export default class PLPActivityIndicator extends Component{
+export default class PLPActivityIndicator extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            opacity:new Animated.Value(0),
-            pointerEvents: 'none',
-        };
-    }
-    static defaultProps={
-        message:'加载中...',
-    }
-    render(){
-        return(
-            <Animated.View style={[styles.background,{opacity:this.state.opacity}]} pointerEvents={this.state.pointerEvents}>
-                <Animated.View style={[styles.activeBg,{opacity:this.state.opacity}]}>
-                    <ActivityIndicator
-                        animating={true}
-                        size="large"
-                    />
-                    {this._messageView()}
-                </Animated.View>
-            </Animated.View>
-        )
-
-    }
-    _messageView(){
-        return(
-            <Text style={styles.message}>
-                {this.props.message}
-            </Text>
-        )
-    }
-    show(){
-
-        this.setState({
-            pointerEvents: 'auto',
-        },()=>{
-            Animated.timing(this.state.opacity,{
-                toValue: 1,
-                duration: ANIMATED_DURATION ,
-                easing: Easing.out(Easing.ease)
-            }).start()
-        });
-
-    }
-    hide(){
-        let _this = this
-        setTimeout(function () {
-            Animated.timing(_this.state.opacity, {
-                toValue: 0,
-                duration: ANIMATED_DURATION,
-                easing: Easing.in(Easing.ease)
-            }).start(()=>{
-                _this.setState({
-                    pointerEvents: 'none',
-                })
-            });
-        },500)
-
+    static defaultProps = {
+        message: '加载中...',
+        isShow:false
     };
 
-};
+    render() {
+
+
+        if(this.props.isShow){
+            return (
+                <View style={styles.container}>
+                    <View style={[styles.activeBg]}>
+                        <ActivityIndicator
+                            animating={true}
+                            size="large"
+                        />
+                        <Text style={styles.message}>
+                            {this.props.message}
+                        </Text>
+                    </View>
+                </View>
+            )
+        }
+        return null;
+    }
+}
+
+PLPActivityIndicator.propTypes = {
+    message:React.PropTypes.string,
+    isShow: React.PropTypes.boolean
+}
 
 const styles = StyleSheet.create({
-    background:{
-        backgroundColor:'rgba(0,0,0,0)',
-        justifyContent:'center',
-        alignItems:'center',
-        position:'absolute',
-        width:width,
-        height:height,
-        left:0,
-        top:0
+    container: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     activeBg:{
         padding:15,
@@ -104,6 +66,4 @@ const styles = StyleSheet.create({
         marginTop:5,
         opacity:0.8
     }
-
-
-});
+})
