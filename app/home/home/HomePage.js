@@ -18,7 +18,7 @@ import {
 import SectionHeader from '../../view/SectionHeader'
 import * as apis from '../../apis';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator'
-
+import { Loading, EasyLoading } from '../../view/PLPLoading';
 import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
 const deviceWidth = Dimensions.get('window').width;
@@ -80,7 +80,7 @@ export default class HomePage extends BComponent {
         super(props);
         this.state = {
             dataSource:[],
-            loadState:'loading',
+            loadState:'success',
             isRefreshing:false,
             isFirstRefresh:true
         };
@@ -94,7 +94,14 @@ export default class HomePage extends BComponent {
     }
     loadData(type = '0'){
         // let loading
-        if(!this.state.isFirstRefresh){
+        if(this.state.isFirstRefresh){
+            //第一次加载显示菊花loading
+            // loading = SActivityIndicator.show(true, "加载中...");
+            // this.refs.loading.show()
+            EasyLoading.show();
+
+        }else{
+            //显示下拉loading
             this.setState({
                 isRefreshing:true
             })
@@ -119,6 +126,9 @@ export default class HomePage extends BComponent {
                     if(this.state.isFirstRefresh){
                         //第一次加载
                         // SActivityIndicator.hide(loading);
+                        // this.refs.loading.hide()
+                        EasyLoading.dismis();
+
                         if(responseData.list.length == 0){
                             //没数据
                             this.setState({
@@ -151,6 +161,11 @@ export default class HomePage extends BComponent {
                 }else{
                     //加载失败
                     if(this.state.isFirstRefresh){
+                        //第一次加载
+                        // SActivityIndicator.hide(loading);
+                        // this.refs.loading.hide()
+                        EasyLoading.dismis();
+
                         this.setState({
                             loadState:'error',
                         })
@@ -170,6 +185,10 @@ export default class HomePage extends BComponent {
                 //加载失败
                 if(this.state.isFirstRefresh){
                     //第一次加载
+                    // SActivityIndicator.hide(loading);
+                    // this.refs.loading.hide()
+                    EasyLoading.dismis();
+
                     this.setState({
                         loadState:NetInfoSingleton.isConnected?'error':'no-net',
                     })
@@ -185,11 +204,10 @@ export default class HomePage extends BComponent {
 
     render(){
 
-        if(this.state.loadState == 'success'){
-
-            return(
-                <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                    <SectionList
+        return(
+            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                {
+                    this.state.loadState == 'success'?<SectionList
                         renderItem={this._renderItem.bind(this)}
                         renderSectionHeader={this._renderSectionHeader.bind(this)}
                         sections={this.state.dataSource}
@@ -199,16 +217,36 @@ export default class HomePage extends BComponent {
                         onRefresh={this._onRefresh.bind(this)}
                         refreshing={this.state.isRefreshing}
                     >
-                    </SectionList>
-                </View>
+                    </SectionList>:<DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
+                }
+                <Loading  />
+            </View>
+        )
 
-            )
-
-        }else {
-            return(
-                <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
-            )
-        }
+        // if(this.state.loadState == 'success'){
+        //
+        //     return(
+        //         <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+        //             <SectionList
+        //                 renderItem={this._renderItem.bind(this)}
+        //                 renderSectionHeader={this._renderSectionHeader.bind(this)}
+        //                 sections={this.state.dataSource}
+        //                 stickySectionHeadersEnabled={false}
+        //                 ListHeaderComponent={this._listHeaderComponent.bind(this)}
+        //                 ListFooterComponent={this._listFooterComponent.bind(this)}
+        //                 onRefresh={this._onRefresh.bind(this)}
+        //                 refreshing={this.state.isRefreshing}
+        //             >
+        //             </SectionList>
+        //         </View>
+        //
+        //     )
+        //
+        // }else {
+        //     return(
+        //         <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
+        //     )
+        // }
 
     }
     _onRefresh(){
