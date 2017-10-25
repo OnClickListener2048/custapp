@@ -26,7 +26,7 @@ export default class CompanySurveyPage extends BComponent {
         this.state = {
             dataSource:[],
             phone:null,
-            loadState:'loading'
+            loadState:''
         };
     }
     static navigatorStyle = {
