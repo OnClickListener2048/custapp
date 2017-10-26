@@ -204,7 +204,7 @@ export default class VerifyResultPage extends BComponent {
         // alert(JSON.stringify(item))
         return(
 
-                <TouchableOpacity onPress={this._goto.bind(this)}>
+                <TouchableOpacity>
                     <CommonCell
                         centerText={info.item.name }
                         isClick={false}
