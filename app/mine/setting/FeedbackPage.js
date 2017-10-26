@@ -51,7 +51,7 @@ export default class FeedbackPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
-                Toast.show('留言提交成功', { duration: Toast.durations.LONG, backgroundColor: 'green'});
+                Toast.show('留言提交成功');
                 this.props.navigator.pop();
             }, (e) => {
                 Toast.show(errorText(e));
