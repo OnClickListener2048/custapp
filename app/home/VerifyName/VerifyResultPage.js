@@ -55,6 +55,9 @@ export default class VerifyResultPage extends BComponent {
     }
 
     loadResultData(){
+
+        this.state.loading;
+
         if(!NetInfoSingleton.isConnected) {
             this.setState({
                 dataStatus:'no-net'
@@ -62,7 +65,9 @@ export default class VerifyResultPage extends BComponent {
             SActivityIndicator.hide(this.state.loading);
             return;
         }
-        this.state.loading;
+
+
+
 
 
         apis.loadVerifyResultData(this.state.keyword,this.state.mobile,this.state.vcode).then(
@@ -96,55 +101,7 @@ export default class VerifyResultPage extends BComponent {
             },
         );
     }
-    /*
-    * 分页
-    *  loadData(page=1){
 
-     if(page>1){
-     this.setState({refreshState: RefreshState.FooterRefreshing})
-     }
-
-     apis.loadVerifyCompaniesList(this.state.keyword,page,'10').then(
-     (responseData) => {
-
-
-     if((responseData !== null && responseData.list !== null)){
-
-
-
-     let newList = responseData.list
-
-     let dataList = page == 1 ? newList : [...this.state.dataList, ...newList]
-     this.setState({
-     dataList: dataList,
-     refreshState:newList.length < 10 ? RefreshState.NoMoreData : RefreshState.Idle,
-     })
-     if (this.state.dataStatus !== 'initSucess' && page === 1){
-     this.setState({
-     dataStatus:'initSucess'
-     })
-     }
-     }else{
-     this.setState({refreshState: RefreshState.Failure})
-     if (this.state.dataList.length === 0){
-     this.setState({
-     dataStatus:'error'
-     })
-     }
-     }
-
-     },
-     (e) => {
-     this.setState({refreshState: RefreshState.Failure})
-     if (this.state.dataList.length === 0){
-     this.setState({
-     dataStatus:'error'
-     })
-     }
-     },
-     );
-     }
-    * */
 
     loadData(){
 
@@ -204,12 +161,10 @@ export default class VerifyResultPage extends BComponent {
         // alert(JSON.stringify(item))
         return(
 
-                <TouchableOpacity>
                     <CommonCell
                         centerText={info.item.name }
                         isClick={false}
                     />
-                </TouchableOpacity>
 
         )
     };
