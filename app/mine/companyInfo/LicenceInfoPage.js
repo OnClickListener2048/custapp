@@ -43,7 +43,7 @@ export default class LicenceInfoPage extends BComponent {
                     <ImageLoad
                         placeholderStyle={{width:DeviceInfo.width-16,height:this.state.imgheight}}
                         style={{backgroundColor:'#F9F9F9',width:DeviceInfo.width-16,
-                            height:this.state.imgheight===0||this.state.imgheight===null?(DeviceInfo.width-16)/2:this.state.imgheight+16}}
+                            height:this.state.imgheight===0||this.state.imgheight===null?(DeviceInfo.width-16)/2:this.state.imgheight-4}}
                         loadingStyle={{ size: 'small', color: 'black' }}
                         // source={{ uri:"/FileUploads/Order/CardID/201710/XririZpzMK.png" }}
                         source={{ uri:this.props.licenceinfo.img+"" }}
