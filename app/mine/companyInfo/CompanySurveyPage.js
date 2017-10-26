@@ -39,8 +39,8 @@ export default class CompanySurveyPage extends BComponent {
                     this.setState({
                         phone: mobile,     // 手机号
                     });
-                    // this._onLoadMessageInfo(mobile);
-                    this._onLoadMessageInfo('13810397064');//13810397064长炯
+                    this._onLoadMessageInfo(mobile);
+                    // this._onLoadMessageInfo('13810397064');//13810397064长炯
 
                 }
             },
