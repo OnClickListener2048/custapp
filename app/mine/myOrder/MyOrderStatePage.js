@@ -39,6 +39,7 @@ export default class MyOrderStatePage extends Component {
                 money={item.item.amount}
                 time={item.item.order_time}
                 id={item.item.order_id}
+                order_type={item.item.order_type}
                 {...this.props}
             />
         )

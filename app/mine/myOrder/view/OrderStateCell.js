@@ -16,16 +16,9 @@ export default class OrderStateCell extends Component {
 
     constructor(props){
         super(props)
+        this._typeView=this._typeView.bind(this)
     }
 
-    // static propTypes = {
-    //     orderId: PropTypes.string,//订单号
-    //     orderState: PropTypes.string,
-    //     time: PropTypes.string,
-    //     money: PropTypes.number,
-    //     id:PropTypes.number
-    //
-    // };
 
     _toDetail(orderId,orderState,money,id){
         this.props.navigator.push({
@@ -41,7 +34,7 @@ export default class OrderStateCell extends Component {
     }
 
     render(){
-        const {orderId,orderState,time,money,id} = this.props
+        const {orderId,orderState,time,money,id,order_type} = this.props
         return(
         <View style={styles.container} >
             <View style={styles.wrapper1}>
@@ -64,19 +57,29 @@ export default class OrderStateCell extends Component {
                 <Text style={styles.time}>
                     {time}
                 </Text>
-                <TouchableOpacity onPress={this._toDetail.bind(this,orderId,orderState,money,id)}>
-                <Image style={styles.img}
-                       source={require('../../../img/myorder_progress.png')}>
-                    <Text style={styles.progressTe}>
-                        进度详情
-                    </Text>
-                </Image>
-                </TouchableOpacity>
+                {this._typeView(order_type,orderId,orderState,money,id)}
             </View>
 
         </View>
         )
     }
+
+    _typeView(order_type,orderId,orderState,money,id){
+        if(order_type==1) {
+            return (
+                <TouchableOpacity onPress={this._toDetail.bind(this, orderId, orderState, money,id)}>
+                    <Image style={styles.img}
+                           source={require('../../../img/myorder_progress.png')}>
+                        <Text style={styles.progressTe}>
+                            进度详情
+                        </Text>
+                    </Image>
+                </TouchableOpacity>
+            );
+        }
+    }
+
+
 
 }
 

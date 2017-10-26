@@ -45,7 +45,7 @@ export default class ColumnDetailPage extends BComponent {
         this.state = {
             dataArr:[],
             itemSelected:{},
-            loadState:'success',
+            loadState:'',
 
             navigatorTitle:this.props.navigatorTitle,          //标题名称
 

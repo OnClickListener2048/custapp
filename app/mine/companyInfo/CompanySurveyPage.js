@@ -15,8 +15,8 @@ import CommenCell from '../../view/CommenCell'
 import SectionHeader from '../../view/SectionHeader'
 import BComponent from '../../base/BComponent'
 import * as apis from '../../apis/index';
-import Toast from 'react-native-root-toast';
 import DefaultView from "../../view/DefaultView";
+import PLPActivityIndicator from "../../view/PLPActivityIndicator";
 
 export default class CompanySurveyPage extends BComponent {
 
@@ -26,7 +26,8 @@ export default class CompanySurveyPage extends BComponent {
         this.state = {
             dataSource:[],
             phone:null,
-            loadState:'loading'
+            loadState:'',
+            isLoading:true,
         };
     }
     static navigatorStyle = {
@@ -41,7 +42,7 @@ export default class CompanySurveyPage extends BComponent {
                         phone: mobile,     // 手机号
                     });
                     this._onLoadMessageInfo(mobile);
-                    // this._onLoadMessageInfo('13167547423');13810397064长炯
+                    // this._onLoadMessageInfo('13455667788');//13810397064长炯 13455667788王敏
 
                 }
             },
@@ -54,13 +55,25 @@ export default class CompanySurveyPage extends BComponent {
 
     //企业详情接口数据请求
     _onLoadMessageInfo(phone){
-        let loading = SActivityIndicator.show(true, "加载中...");
+        this.setState({
+            isLoading:true
+        })
         apis.loadVerifyCompanyInfo(phone).then(
 
             (responseData) => {
-                SActivityIndicator.hide(loading);
+                this.setState({
+                    isLoading:false
+                })
 
                 if(responseData.code == 0) {
+                    if(responseData.data === undefined){
+                        console.log("输出返回数据"+responseData.data);
+                        //没数据
+                        this.setState({
+                            loadState:'no-data',
+                        })
+                        return;
+                    }
 
                     const companyData = [
                         {
@@ -98,33 +111,41 @@ export default class CompanySurveyPage extends BComponent {
                         dataSource:dataSource
                         // dataSource:responseData.data
                     })
-                        //修改状态
-                        SActivityIndicator.hide(loading);
-                        if( responseData.data === null ||responseData.data === ''){
-                            //没数据
-                            this.setState({
-                                loadState:'no-data',
-                            })
-                        }else{
-                            //成功
-                            this.setState({
-                                dataSource:dataSource,
-                                loadState:'success'
-                            })
-                        }
+                    console.log("输出返回数据"+responseData.data);
+
+                    //修改状态
+                    this.setState({
+                        isLoading:false
+                    })
+                    if( responseData.data === null){
+                        console.log("输出返回数据"+responseData.data);
+                        //没数据
+                        this.setState({
+                            loadState:'no-data',
+                        })
+                    }else{
+                        //成功
+                        this.setState({
+                            dataSource:dataSource,
+                            loadState:'success'
+                        })
+                    }
                 }else{
                     //加载失败
-                    SActivityIndicator.hide(loading);
+                    this.setState({
+                        isLoading:false
+                    })
                     this.setState({
                         loadState:'error',
                     })
-                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
 
                 }
             },
             (e) => {
                 //加载失败
-                SActivityIndicator.hide(loading);
+                this.setState({
+                    isLoading:false
+                })
                 this.setState({
                     loadState:NetInfoSingleton.isConnected?'error':'no-net',
                 })
@@ -133,24 +154,22 @@ export default class CompanySurveyPage extends BComponent {
     }
 
     render(){
-        if(this.state.loadState == 'success') {
             return (
-                <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+            <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+                {this.state.loadState == 'success'?
                     <SectionList
-                        renderItem={this._renderItem.bind(this)}
-                        renderSectionHeader={this._renderSectionHeader.bind(this)}
-                        sections={this.state.dataSource}
-                        stickySectionHeadersEnabled={false}
-                    >
-                    </SectionList>
-                </View>
+                    renderItem={this._renderItem.bind(this)}
+                    renderSectionHeader={this._renderSectionHeader.bind(this)}
+                    sections={this.state.dataSource}
+                    stickySectionHeadersEnabled={false}
+                >
+                </SectionList>:<DefaultView onPress={()=>this._onLoadMessageInfo(this.state.phone)} type ={this.state.loadState}/>
+                }
+                <PLPActivityIndicator isShow={this.state.isLoading} />
+            </View>
 
             )
-        }else {
-            return(
-                <DefaultView onPress={()=>this._onLoadMessageInfo(this.state.phone)} type ={this.state.loadState}/>
-            )
-        }
+
     }
     _renderItem (item) {
         if (item.item.value === undefined){

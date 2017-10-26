@@ -43,9 +43,6 @@ export default class MessagePage extends BComponent {
         //         initStatus:'no-net'
         //     })
         // }else{
-        //     this.setState({
-        //         initStatus:'loading'
-        //     })
         //     this.onHeaderRefresh()
         //
         // }
