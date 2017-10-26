@@ -141,7 +141,7 @@ export default class BindPhonePage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 this.readUserInfo();
-                Alert.alert('', '绑定成功',
+                Alert.alert('绑定成功', '',
                     [
                         {
                             text: '确定',
