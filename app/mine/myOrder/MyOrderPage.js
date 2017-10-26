@@ -43,10 +43,12 @@ export default class MyOrderPage extends BComponent {
         UserInfoStore.getCompany().then(
             (company) => {
                 console.log('company', company);
-                if (company && company.id) {
+                if (company && company.id&&company.type) {
                     this.companyid = company.id
+                    this.companytype=company.type
                 }else{
                     this.companyid = undefined
+                    this.companytype=undefined
                 }
                 this.loadData()
 
@@ -59,10 +61,13 @@ export default class MyOrderPage extends BComponent {
     }
 
     loadData(){
+        //测试用
+        // this.companyid='99999'
+        // this.companytype=1
 
         if(this.companyid!=null&&this.companyid!=undefined) {
             var loading = SActivityIndicator.show(true, "加载中...");
-            apis.loadOrderListData(this.companyid).then(
+            apis.loadOrderListData(this.companyid,this.companytype).then(
                 (responseData) => {
                     if (responseData.code == 0) {
                         SActivityIndicator.hide(loading);
@@ -74,7 +79,7 @@ export default class MyOrderPage extends BComponent {
                             for (let i = 0; i < data.length; i++) {
                                 if (data[i].status == 5) {
                                     hang.push(data[i]);
-                                } else if (data[i].status == 6) {
+                                } else if (data[i].status == 6||data[i].status == 8||data[i].status == 9) {
                                     done.push(data[i]);
                                 } else {
                                     doing.push(data[i])
@@ -109,7 +114,7 @@ export default class MyOrderPage extends BComponent {
             );
         }else{
             this.setState({
-                loadState: 'no-net',
+                loadState: 'no-data',
             })
         }
     }
