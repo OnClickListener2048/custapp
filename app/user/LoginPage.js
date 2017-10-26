@@ -406,6 +406,8 @@ export default class LoginPage extends Component {
                                             this.pop();
                                         },
                                     );
+                                } else {
+                                    this.pop();
                                 }
                             },
                             (e) => {
