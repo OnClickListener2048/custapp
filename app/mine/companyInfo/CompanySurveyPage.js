@@ -39,8 +39,8 @@ export default class CompanySurveyPage extends BComponent {
                     this.setState({
                         phone: mobile,     // 手机号
                     });
-                    this._onLoadMessageInfo(mobile);
-                    // this._onLoadMessageInfo('13810397064');//13810397064长炯
+                    // this._onLoadMessageInfo(mobile);
+                    this._onLoadMessageInfo('13810397064');//13810397064长炯
 
                 }
             },
@@ -59,7 +59,7 @@ export default class CompanySurveyPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
-                if(responseData.code == 0&&responseData.data!==null) {
+                if(responseData.code == 0) {
                     if(responseData.data === undefined){
                         console.log("输出返回数据"+responseData.data);
                         //没数据

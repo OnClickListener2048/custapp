@@ -25,9 +25,9 @@ export default class LicenceInfoPage extends BComponent {
 
     componentDidMount() {
         Image.getSize(this.props.licenceinfo.img, (width, height) => {
-            console.log("图片高度1==="+height);
+            console.log("图片高度1==="+height+"宽度="+width);
             height = (DeviceInfo.width-16) * height / width; //按照屏幕宽度进行等比缩放
-            console.log("图片高度2==="+height);
+            console.log("图片高度2==="+height+"宽度2="+width);
             this.setState({
                 imgheight:height,
             })
@@ -42,8 +42,10 @@ export default class LicenceInfoPage extends BComponent {
                         height:this.state.imgheight===0||this.state.imgheight===null?(DeviceInfo.width+16)/2:this.state.imgheight+16}}>
                     <ImageLoad
                         placeholderStyle={{width:DeviceInfo.width-16,height:this.state.imgheight}}
-                        style={{backgroundColor:'#F9F9F9',width:DeviceInfo.width-16,height:(DeviceInfo.width-16)/2}}
+                        style={{backgroundColor:'#F9F9F9',width:DeviceInfo.width-16,
+                            height:this.state.imgheight===0||this.state.imgheight===null?(DeviceInfo.width-16)/2:this.state.imgheight+16}}
                         loadingStyle={{ size: 'small', color: 'black' }}
+                        // source={{ uri:"/FileUploads/Order/CardID/201710/XririZpzMK" }}
                         source={{ uri:this.props.licenceinfo.img+"" }}
                     />
                     </View>
