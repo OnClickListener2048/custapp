@@ -15,7 +15,6 @@ import CommenCell from '../../view/CommenCell'
 import SectionHeader from '../../view/SectionHeader'
 import BComponent from '../../base/BComponent'
 import * as apis from '../../apis/index';
-import Toast from 'react-native-root-toast';
 import DefaultView from "../../view/DefaultView";
 
 export default class CompanySurveyPage extends BComponent {
@@ -41,7 +40,7 @@ export default class CompanySurveyPage extends BComponent {
                         phone: mobile,     // 手机号
                     });
                     this._onLoadMessageInfo(mobile);
-                    // this._onLoadMessageInfo('13167547423');13810397064长炯
+                    // this._onLoadMessageInfo('13810397064');//13810397064长炯
 
                 }
             },
@@ -60,7 +59,15 @@ export default class CompanySurveyPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
-                if(responseData.code == 0) {
+                if(responseData.code == 0&&responseData.data!==null) {
+                    if(responseData.data === undefined){
+                        console.log("输出返回数据"+responseData.data);
+                        //没数据
+                        this.setState({
+                            loadState:'no-data',
+                        })
+                        return;
+                    }
 
                     const companyData = [
                         {
@@ -98,27 +105,29 @@ export default class CompanySurveyPage extends BComponent {
                         dataSource:dataSource
                         // dataSource:responseData.data
                     })
-                        //修改状态
-                        SActivityIndicator.hide(loading);
-                        if( responseData.data === null ||responseData.data === ''){
-                            //没数据
-                            this.setState({
-                                loadState:'no-data',
-                            })
-                        }else{
-                            //成功
-                            this.setState({
-                                dataSource:dataSource,
-                                loadState:'success'
-                            })
-                        }
+                    console.log("输出返回数据"+responseData.data);
+
+                    //修改状态
+                    SActivityIndicator.hide(loading);
+                    if( responseData.data === null){
+                        console.log("输出返回数据"+responseData.data);
+                        //没数据
+                        this.setState({
+                            loadState:'no-data',
+                        })
+                    }else{
+                        //成功
+                        this.setState({
+                            dataSource:dataSource,
+                            loadState:'success'
+                        })
+                    }
                 }else{
                     //加载失败
                     SActivityIndicator.hide(loading);
                     this.setState({
                         loadState:'error',
                     })
-                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
 
                 }
             },
