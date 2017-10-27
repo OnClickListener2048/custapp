@@ -161,4 +161,7 @@ fi
 # 输出打包总用时
 echo "\033[36;1m使用PPAutoPackageScript打包总用时: ${SECONDS}s \033[0m"
 
-
+if [ "$method" = "4" ] ; then
+    echo "自动上传至蒲公英"
+    curl -F "file=@$export_ipa_path/$ipa_name.ipa" -F "_api_key=6f113667ad1a8c289064c375683d68c5" http://www.pgyer.com/apiv2/app/upload
+fi

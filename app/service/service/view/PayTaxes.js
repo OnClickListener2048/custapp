@@ -37,6 +37,7 @@ export default class PayTaxes extends Component {
     }
 
     _goto(){
+        UMTool.onEvent('s_paytaxes')
         this.props.navigator.push({
             screen: 'TaxFormPage',
             title:'纳税表',

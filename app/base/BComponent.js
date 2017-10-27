@@ -70,6 +70,10 @@ export default class BComponent extends Component {
                 this.props.navigator.pop();
             }
         }
+        if (event.id === 'bottomTabSelected') {
+            let eventArr = ['homePage','message','service','personal'];
+            UMTool.onEvent(eventArr[event.selectedTabIndex])
+        }
     }
 
 }

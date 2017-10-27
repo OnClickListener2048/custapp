@@ -35,7 +35,9 @@ export default class AccountsReceivablePage extends BComponent {
 
         };
     }
-
+    componentWillUnmount() {
+        UMTool.onEvent('r_return')
+    }
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
@@ -110,7 +112,7 @@ export default class AccountsReceivablePage extends BComponent {
                     rightDes="支出"
                     rightNum={this.state.end_account}
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应付账款明细"/>
+                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应收账款明细"/>
             </View>
         )
     }

@@ -24,15 +24,15 @@ export default class VerifyResultPage extends BComponent {
     constructor(props) {
         super(props);
         this.state={
-            fetchState:'', //'checkRisk' ; 'checkSuccess' ;
-            dataStatus:'', //  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
+
+            fetchState:this.props.fetchState, //'checkRisk' ; 'checkSuccess' ;
+            dataStatus:this.props.dataStatus, //  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
 
             keyword: this.props.keyword,  //注册公司名称
             mobile: this.props.mobile,   //手机号
             vcode: this.props.vcode,    //验证码
             refreshState: RefreshState.Idle,
             dataList: [],
-            loading : SActivityIndicator.show(true, "")
 
         }
 
@@ -48,70 +48,40 @@ export default class VerifyResultPage extends BComponent {
 
     componentDidMount(){
 
-        this.loadResultData()
-        //this.loadData()
 
 
-    }
-
-    loadResultData(){
-
-        this.state.loading;
-
-        if(!NetInfoSingleton.isConnected) {
+        if (this.state.fetchState === 'checkRisk'){
             this.setState({
-                dataStatus:'no-net'
+                fetchState:'checkRisk'
             })
-            SActivityIndicator.hide(this.state.loading);
-            return;
+            this.loadData()
+        }
+
+        if (this.state.fetchState === 'checkSuccess'){
+            this.setState({
+                dataStatus:'initSucess',
+                fetchState:'checkSuccess'
+            })
         }
 
 
-
-
-
-        apis.loadVerifyResultData(this.state.keyword,this.state.mobile,this.state.vcode).then(
-            (responseData) => {
-
-                if (responseData.isvalid == 1){
-                    SActivityIndicator.hide(this.state.loading);
-
-                    this.setState({
-                        fetchState:'checkSuccess',
-                        dataStatus:'initSucess'
-
-                    })
-                }else {
-                    this.setState({
-                        fetchState:'checkRisk'
-                    })
-                    this.loadData()
-                }
-
-            },
-            (e) => {
-                SActivityIndicator.hide(this.state.loading);
-
-                Toast.show(errorText(e));
-
-                this.setState({
-                    dataStatus:'error'
-                })
-
-            },
-        );
     }
 
 
     loadData(){
+        if(!NetInfoSingleton.isConnected) {
+            this.setState({
+                dataStatus:'no-net'
+            })
+            return;
+        }
 
-        this.setState({
-            fetchState:'checkRisk'
-        })
+        let loading = SActivityIndicator.show(true, "加载中...");
+
         apis.loadVerifyCompaniesList(this.state.keyword,'1','10').then(
             (responseData) => {
 
-                SActivityIndicator.hide(this.state.loading);
+                SActivityIndicator.hide(loading);
 
                 if((responseData !== null && responseData.list !== null)){
 
@@ -137,7 +107,7 @@ export default class VerifyResultPage extends BComponent {
 
             },
             (e) => {
-                SActivityIndicator.hide(this.state.loading);
+                SActivityIndicator.hide(loading);
 
                 Toast.show(errorText(e));
                 this.setState({refreshState: RefreshState.Failure})
@@ -148,13 +118,6 @@ export default class VerifyResultPage extends BComponent {
             },
         );
     }
-
-    onFooterRefresh = () => {
-        this.page++
-        this.loadData()
-    }
-
-
 
 
     renderItem = (info) => {
@@ -191,14 +154,6 @@ export default class VerifyResultPage extends BComponent {
     };
 
 
-    _goto(){
-
-        this.props.navigator.push({
-            screen: 'SystemMessagePage',
-            title:'系统消息'
-        });
-
-    }
 
     emptyView = () =>{
         //第一次请求没数据的空页面
@@ -297,7 +252,7 @@ export default class VerifyResultPage extends BComponent {
             );
         }else {
             return(
-                <DefaultView onPress={()=>this.loadResultData()} type ={this.state.dataStatus}/>
+                <DefaultView onPress={()=>this.loadData()} type ={this.state.dataStatus}/>
             )
         }
 

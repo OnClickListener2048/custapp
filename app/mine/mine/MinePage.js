@@ -41,9 +41,11 @@ export default class MinePage extends BComponent {
     // 子类请继承此方法, 不要忘了调用super.onNavigatorEvent(event);
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         console.log('MinePage', event.id);//willAppear
+        super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
             this.initPage();
         }
+
     }
 
     reset() {

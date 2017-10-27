@@ -41,7 +41,7 @@ export default class DefaultView extends Component {
         //             <Text style={{fontSize:18,color:'#999999',marginTop:70}}>玩命加载中~</Text>
         //         </View>
         //     )
-        // }else 
+        // }else
             if (this.props.type == 'no-data'){
             //无数据
             return(

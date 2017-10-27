@@ -172,4 +172,8 @@ export default class AccountsPayablePage extends BComponent {
         openOptions[index]=!openOptions[index]
         this.setState({openOptions})
     }
+
+    componentWillUnmount() {
+        UMTool.onEvent('pay_return')
+    }
 }
