@@ -22,6 +22,7 @@ import * as apis from '../../apis';
 import Toast from 'react-native-root-toast';
 import errorText from '../../util/ErrorMsg';
 import random from "../../util/random";
+import '../../modules/react-native-sww-activity-indicator';
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -181,17 +182,65 @@ export default class HomePage extends BComponent {
     }
 
 
+
     _doVerfiyResult(){
         UMTool.onEvent('immediateCheck')
-        this.props.navigator.push({
-            screen: 'VerifyResultPage',
-            title:'免费核名',
-            passProps: {
-                keyword:this.state.companyName,
-                mobile : this.state.phoneNum,
-                vcode : this.state.smsCode,
-            }
-        });
+        
+        if(!NetInfoSingleton.isConnected) {
+            Toast.show('暂无网络,请检查网络设置');
+
+            return;
+        }
+
+        let loading = SActivityIndicator.show(true, "加载中...");
+
+
+        apis.loadVerifyResultData(this.state.companyName,this.state.phoneNum,this.state.smsCode).then(
+            (responseData) => {
+                SActivityIndicator.hide(loading);
+
+                if (responseData.isvalid == 1){
+
+
+                    this.props.navigator.push({
+                        screen: 'VerifyResultPage',
+                        title:'免费核名',
+                        passProps: {
+                            keyword:this.state.companyName,
+                            mobile : this.state.phoneNum,
+                            vcode : this.state.smsCode,
+                            fetchState:'checkSuccess',
+                            dataStatus:'initSucess',
+                        }
+                    });
+
+                }else {
+
+                    this.props.navigator.push({
+                        screen: 'VerifyResultPage',
+                        title:'免费核名',
+                        passProps: {
+                            keyword:this.state.companyName,
+                            mobile : this.state.phoneNum,
+                            vcode : this.state.smsCode,
+                            fetchState:'checkRisk',
+                            dataStatus:'',
+                        }
+                    });
+
+
+
+                }
+
+            },
+            (e) => {
+                SActivityIndicator.hide(loading);
+
+                Toast.show(errorText(e));
+
+
+            },
+        );
     }
 
     render(){
