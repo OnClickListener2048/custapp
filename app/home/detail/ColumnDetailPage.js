@@ -170,7 +170,7 @@ export default class ColumnDetailPage extends BComponent {
     submitMessage(){
 
         if (this.state.area.length === 0){
-            Toast.show('请输入服务范围');
+            Toast.show('请输入服务区域');
             return;
         }else if (this.state.name.length === 0){
             Toast.show('请输入您的称呼');
@@ -418,6 +418,9 @@ export default class ColumnDetailPage extends BComponent {
                         <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
                             <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
+                                <view>
+
+                                </view>
                                 <View  style={[{height: 479 - 20, width: SCREEN_WIDTH - 76,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
 
                                     <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]}
@@ -445,7 +448,9 @@ export default class ColumnDetailPage extends BComponent {
                                                    }
                                                }
                                     />
-                                    <TextInput underlineColorAndroid='transparent' multiline={true} ref={"content"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 140 : 180}]}
+                                    <TextInput underlineColorAndroid='transparent' multiline={true} ref={"content"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,
+                                        textAlignVertical: 'top',
+                                        height:this.state.isShowkeyBoard ? 140 : 180}]}
                                                placeholder='请在此输入留言内容,我们会尽快与您联系。'
                                                onChangeText={
                                                    (message) => {
