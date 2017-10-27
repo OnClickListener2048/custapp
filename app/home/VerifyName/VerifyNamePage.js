@@ -185,7 +185,7 @@ export default class HomePage extends BComponent {
 
     _doVerfiyResult(){
         UMTool.onEvent('immediateCheck')
-        
+
         if(!NetInfoSingleton.isConnected) {
             Toast.show('暂无网络,请检查网络设置');
 
