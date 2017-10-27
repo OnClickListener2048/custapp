@@ -24,11 +24,12 @@ export default class ProgressDetailPage extends BComponent {
         super(props)
         this.state={
             sourceData:[],//进度列表数据源
-            statusW:0,//最外层状态
             loadState:'success'
         }
-        this.childState='';//判断显示样式 6显示红色 已完成
+        this.childState='';//判断显示样式 6，8，9显示红色 已完成
         this.status='';//子任务状态，1执行中，2已结束
+        this.contract_time='';
+        this.contract_md_time=''
         this.loadData=this.loadData.bind(this);
     }
 
@@ -40,23 +41,35 @@ export default class ProgressDetailPage extends BComponent {
     loadData(){
         var loading = SActivityIndicator.show(true, "加载中...");
         console.log('走了吗吗吗111555', this.props.id)
+
         apis.loadOrderDetailData(this.props.id).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code==0){
-                    if(responseData.data!=null) {
-                        var sourceData = responseData.data.schedule;
-                        var statusW = responseData.data.status;
-                        this.setState({
-                            sourceData: sourceData,
-                            statusW: statusW,
-                            loadState: 'success'
-                        })
-                    }else{
-                        this.setState({
-                            loadState: 'no-data'
-                        })
-                    }
+                        if(responseData.data.schedule) {
+                            var sourceData = responseData.data.schedule;
+
+                            if (sourceData.length){
+                                this.setState({
+                                    sourceData: sourceData,
+                                    loadState: 'success'
+                                })
+                            }else{
+                                this.setState({
+
+                                    loadState: 'no-ProgressData'
+                                })
+                            }
+
+
+
+                        }else{
+
+                            this.setState({
+                                loadState: 'no-ProgressData'
+                            })
+                        }
+
                 }
             },
             (e) => {
@@ -71,9 +84,11 @@ export default class ProgressDetailPage extends BComponent {
 
 
     renderItem = (item) => {
-        console.log('statusW=======',this.state.statusW)
-
-        if(item.index==0&&this.state.statusW==6){
+        if(item.index==0&&(this.props.orderItem.contract_status==3||this.props.orderItem.contract_status==4)){
+            this.childState='done'
+            this.contract_time=this.props.orderItem.contract_time//合同时间
+            this.contract_md_time=this.props.orderItem.contract_md_time//合同最好操作时间
+        }else if(item.index==0&&(this.props.statusW==6||this.props.statusW==8||this.props.statusW==9)){
             this.childState='done'
         }else if(item.item.status==1||item.item.status==3){
             this.childState='green'
@@ -97,6 +112,9 @@ export default class ProgressDetailPage extends BComponent {
             end={item.item.end}
             operator={item.item.operator}
             status={this.status}
+            contract_time={this.contract_time}
+            contract_md_time={this.contract_md_time}
+
         />
         );
     };
@@ -194,6 +212,6 @@ const styles = StyleSheet.create({
     },
     list:{
         backgroundColor:'#ffffff',
-    }
+    },
 
 });

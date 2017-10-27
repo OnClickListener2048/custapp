@@ -20,7 +20,7 @@ export default class OrderStateCell extends Component {
     }
 
 
-    _toDetail(orderId,orderState,money,id){
+    _toDetail(orderId,orderState,money,id,statusW,orderItem){
         this.props.navigator.push({
             screen: 'ProgressDetailPage',
             title:'进度详情',
@@ -28,13 +28,15 @@ export default class OrderStateCell extends Component {
                 orderId:orderId,
                 orderState:orderState,
                 money:money,
-                id:id
+                id:id,
+                statusW:statusW,
+                orderItem:orderItem
             }
         });
     }
 
     render(){
-        const {orderId,orderState,time,money,id,order_type} = this.props
+        const {orderId,orderState,time,money,id,order_type,statusW,orderItem} = this.props
         return(
         <View style={styles.container} >
             <View style={styles.wrapper1}>
@@ -57,17 +59,17 @@ export default class OrderStateCell extends Component {
                 <Text style={styles.time}>
                     {time}
                 </Text>
-                {this._typeView(order_type,orderId,orderState,money,id)}
+                {this._typeView(order_type,orderId,orderState,money,id,statusW,orderItem)}
             </View>
 
         </View>
         )
     }
 
-    _typeView(order_type,orderId,orderState,money,id){
+    _typeView(order_type,orderId,orderState,money,id,statusW,orderItem){
         if(order_type==1) {
             return (
-                <TouchableOpacity onPress={this._toDetail.bind(this, orderId, orderState, money,id)}>
+                <TouchableOpacity onPress={this._toDetail.bind(this, orderId, orderState, money,id,statusW,orderItem)}>
                     <Image style={styles.img}
                            source={require('../../../img/myorder_progress.png')}>
                         <Text style={styles.progressTe}>
