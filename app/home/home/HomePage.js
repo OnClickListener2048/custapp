@@ -372,6 +372,7 @@ export default class HomePage extends BComponent {
         switch (index){
             case 0:
             {
+                UMTool.onEvent('registerCompany')
                 this.props.navigator.push({
                     screen: 'ColumnDetailPage',
                     title:item.title,
@@ -384,6 +385,7 @@ export default class HomePage extends BComponent {
                 break
             case 1:
             {
+                UMTool.onEvent('accountingAndTax')
                 this.props.navigator.push({
                     screen: 'ColumnDetailPage',
                     title:item.title,
@@ -396,6 +398,7 @@ export default class HomePage extends BComponent {
                 break
             case 2:
             {
+                UMTool.onEvent('financialReport')
                 this.props.navigator.switchToTab({
                     tabIndex: 2
                 });
@@ -403,6 +406,7 @@ export default class HomePage extends BComponent {
                 break
             case 3:
             {
+                UMTool.onEvent('enterpriseChange')
                 this.props.navigator.push({
                     screen: 'ColumnDetailPage',
                     title:item.title,
@@ -415,6 +419,7 @@ export default class HomePage extends BComponent {
                 break
             case 4:
             {
+                UMTool.onEvent('leagueCooperation')
                 this.props.navigator.push({
                     screen: 'WebViewPage',
                     title:'加盟合作',
@@ -431,6 +436,7 @@ export default class HomePage extends BComponent {
         
     }
     _goVerifyName(){
+        UMTool.onEvent('homepage_checkname')
         this.props.navigator.push({
             screen: 'VerifyNamePage',
             title:'免费核名',

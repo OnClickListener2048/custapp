@@ -196,6 +196,8 @@ export default class ServicePage extends BComponent {
 
     }
     _renderBody(index){
+        let eventArr = ['s_copiestax','s_sendbill','s_finance','s_applyTax','s_clearCard'];
+        UMTool.onEvent(eventArr[index])
         switch (index){
             case 0:
                 return <CopyTaxes />//抄税

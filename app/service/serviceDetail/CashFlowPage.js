@@ -36,7 +36,9 @@ export default class CashFlowPage extends BComponent {
             isfirstRefresh:true
         };
     }
-
+    componentWillUnmount() {
+        UMTool.onEvent('c_teturn')
+    }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.loadData(this.state.year+'-'+this.state.month)

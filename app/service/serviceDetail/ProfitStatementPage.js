@@ -32,6 +32,9 @@ export default class ProfitStatementPage extends BComponent {
 
         };
     }
+    componentWillUnmount() {
+        UMTool.onEvent('p_return')
+    }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.loadData(this.state.year+'-'+this.state.month)

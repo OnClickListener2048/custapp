@@ -35,7 +35,9 @@ export default class AccountsReceivablePage extends BComponent {
 
         };
     }
-
+    componentWillUnmount() {
+        UMTool.onEvent('r_return')
+    }
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {

@@ -62,6 +62,8 @@ export default class AccountingTreatment extends Component {
     }
 
     _goto(index){
+        let eventArr = ['s_cash','s_ profit','s_finance','s_receivable','s_payable'];
+        UMTool.onEvent(eventArr[index])
         switch (index){
             case 0:
                 this.props.navigator.push({

@@ -182,6 +182,7 @@ export default class HomePage extends BComponent {
 
 
     _doVerfiyResult(){
+        UMTool.onEvent('immediateCheck')
         this.props.navigator.push({
             screen: 'VerifyResultPage',
             title:'免费核名',

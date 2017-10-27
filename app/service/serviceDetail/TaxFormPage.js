@@ -33,6 +33,9 @@ export default class TaxFormPage extends BComponent {
         }
 
     }
+    componentWillUnmount() {
+        UMTool.onEvent('t_return')
+    }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.loadData(this.state.year+'-'+this.state.month)
