@@ -42,7 +42,7 @@ export default class CompanySurveyPage extends BComponent {
                         phone: mobile,     // 手机号
                     });
                     this._onLoadMessageInfo(mobile);
-                    // this._onLoadMessageInfo('13455667788');//13810397064长炯 13455667788王敏
+                    // this._onLoadMessageInfo('13455555555');//13810397064长炯 13455667788王敏 15010622318刘菲
 
                 }
             },
@@ -117,7 +117,7 @@ export default class CompanySurveyPage extends BComponent {
                     this.setState({
                         isLoading:false
                     })
-                    if( responseData.data === null){
+                    if(responseData.data === null){
                         console.log("输出返回数据"+responseData.data);
                         //没数据
                         this.setState({

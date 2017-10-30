@@ -46,7 +46,7 @@ export default class LicenceInfoPage extends BComponent {
                             height:this.state.imgheight===0||this.state.imgheight===null?(DeviceInfo.width-16)/2:this.state.imgheight-4}}
                         loadingStyle={{ size: 'small', color: 'black' }}
                         // source={{ uri:"/FileUploads/Order/CardID/201710/XririZpzMK.png" }}
-                        source={{ uri:this.props.licenceinfo.img+"" }}
+                        source={{ uri:this.props.licenceinfo.img===''?"no_image.png":this.props.licenceinfo.img+""}}
                     />
                     </View>
                     {/*<Image style={{width:DeviceInfo.width}} source={require('../../img/name_bg.png')}/>*/}
