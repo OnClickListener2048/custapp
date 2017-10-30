@@ -240,17 +240,13 @@ android {
             //修改生成的apk名字
             def oldFile = output.outputFile
 
+            println('oldFile = ' + oldFile);
+
             def versionName =manifestParser.getVersionName()
 //            def newName = "pi_v_" + defaultConfig.versionName;
-            def newName = "li_" + abi + "_v" + versionName + "_";// + releaseTime() ;
-            if (variant.buildType.name == 'release') {
-                def releaseApkName = newName + '.apk'
-                output.outputFile = new File(oldFile.parent, releaseApkName)
-            }
-            if (variant.buildType.name == 'debug') {
-                def releaseApkName = newName + '_debug.apk'
-                output.outputFile = new File(oldFile.parent, releaseApkName)
-            }
+            def releaseApkName = "li-" + abi + '-' + variant.buildType.name + '.apk';//+ "_v" + versionName + "_" + releaseTime() ;
+            println('releaseApkName = ' + releaseApkName);
+            output.outputFile = new File(oldFile.parent, releaseApkName);
         }
     }
 }
