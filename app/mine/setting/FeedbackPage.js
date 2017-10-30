@@ -15,6 +15,7 @@ import SubmitButton from '../../view/SubmitButton'
 import BComponent from '../../base';
 import * as apis from '../../apis/feedBack';
 import Toast from 'react-native-root-toast';
+import errorText from '../../util/ErrorMsg';
 
 // 意见反馈页
 export default class FeedbackPage extends BComponent {
