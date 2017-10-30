@@ -76,7 +76,7 @@ class ImageLoad extends React.Component {
                         <Image
                             fadeDuration={0}
                             style={[this.props.isWatch===false?this.props.placeholderStyle ? this.props.placeholderStyle : styles.imagePlaceholderStyles:styles.imagePlaceholderStyle]}
-                            source={this.props.placeholderSource ? this.props.placeholderSource : require('../img/empty-image.png')}
+                            source={require('../img/empty-image.png')}
                             resizeMode={'contain'}
                         >
                             {

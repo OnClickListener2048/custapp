@@ -222,7 +222,7 @@ export default class BindPhonePage extends BComponent {
                                            this.setState({timerButtonClicked: false});
                                            newMobile = newMobile.replace(/[^\d]/g, '');// 过滤非数字输入
                                            let newMobileValid = newMobile.length > 0 && (newMobile.match(/^([0-9]{11})?$/)) !== null;
-                                           if (newMobile === this.state.phone) {
+                                           if (newMobile.length > 0 && newMobile === this.state.phone) {
                                                Toast.show('对不起, 不能输入当前登录用户的手机号进行绑定 ',
                                                    {
                                                        position: Toast.positions.CENTER,

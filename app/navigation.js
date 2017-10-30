@@ -8,6 +8,14 @@ registerScreens();
 
 // 主标签
 const tabsMain = [
+    // {
+    //     label: 'WebTest',
+    //     screen: 'WebTest',
+    //     icon: require('./img/home_normal.png'),
+    //     selectedIcon: require('./img/home_selected.png'),
+    //     title: 'WebTest',
+    //     navigatorStyle
+    // },
     {
         label: '首页',
         screen: 'HomePage',

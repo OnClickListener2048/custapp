@@ -15,8 +15,8 @@ export default class WebViewPage extends BComponent {
         return(
             <WebView
                 source={{uri:this.props.url}}
-                bounces={false}
-                startInLoadingState={true}
+                // bounces={false}
+                // startInLoadingState={true}
             />
         )
     }
