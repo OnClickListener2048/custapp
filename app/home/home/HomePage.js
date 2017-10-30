@@ -359,12 +359,19 @@ export default class HomePage extends BComponent {
     }
     _goProductDetail(item){
         UMTool.onEvent(item.eventsid)
+        // this.props.navigator.push({
+        //     screen: 'ProductDetailPage',
+        //     title:item.name,
+        //     passProps:{
+        //         navigatorTitle : item.name,
+        //         item
+        //     }
+        // });
         this.props.navigator.push({
-            screen: 'ProductDetailPage',
+            screen: 'WebViewPage',
             title:item.name,
             passProps:{
-                navigatorTitle : item.name,
-                item
+                url:item.url
             }
         });
     }
@@ -373,12 +380,19 @@ export default class HomePage extends BComponent {
             case 0:
             {
                 UMTool.onEvent('registerCompany')
+                // this.props.navigator.push({
+                //     screen: 'ColumnDetailPage',
+                //     title:item.title,
+                //     passProps:{
+                //         navigatorTitle : item.title,
+                //         type:1
+                //     }
+                // });
                 this.props.navigator.push({
-                    screen: 'ColumnDetailPage',
-                    title:item.title,
+                    screen: 'WebViewPage',
+                    title:'注册公司',
                     passProps:{
-                        navigatorTitle : item.title,
-                        type:1
+                        url:'https://x-www.i-counting.cn/register?platform=app'
                     }
                 });
             }
@@ -386,12 +400,19 @@ export default class HomePage extends BComponent {
             case 1:
             {
                 UMTool.onEvent('accountingAndTax')
+                // this.props.navigator.push({
+                //     screen: 'ColumnDetailPage',
+                //     title:item.title,
+                //     passProps:{
+                //         navigatorTitle : item.title,
+                //         type:2
+                //     }
+                // });
                 this.props.navigator.push({
-                    screen: 'ColumnDetailPage',
-                    title:item.title,
+                    screen: 'WebViewPage',
+                    title:'记账报税',
                     passProps:{
-                        navigatorTitle : item.title,
-                        type:2
+                        url:'https://x-www.i-counting.cn/accounting?platform=app'
                     }
                 });
             }
@@ -407,12 +428,19 @@ export default class HomePage extends BComponent {
             case 3:
             {
                 UMTool.onEvent('enterpriseChange')
+                // this.props.navigator.push({
+                //     screen: 'ColumnDetailPage',
+                //     title:item.title,
+                //     passProps:{
+                //         navigatorTitle : item.title,
+                //         type:3
+                //     }
+                // });
                 this.props.navigator.push({
-                    screen: 'ColumnDetailPage',
-                    title:item.title,
+                    screen: 'WebViewPage',
+                    title:'企业变更',
                     passProps:{
-                        navigatorTitle : item.title,
-                        type:3
+                        url:'https://x-www.i-counting.cn/change?platform=app'
                     }
                 });
             }
@@ -424,7 +452,7 @@ export default class HomePage extends BComponent {
                     screen: 'WebViewPage',
                     title:'加盟合作',
                     passProps:{
-                        url:'https://www.baidu.com'
+                        url:'https://x-www.i-counting.cn/invest?platform=app'
                     }
                 });
 
