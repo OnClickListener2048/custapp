@@ -59,7 +59,16 @@ export default class DefaultView extends Component {
                     <Text style={{fontSize:15,color:'#999999',marginTop:50}}>您目前暂无系统消息</Text>
                 </TouchableOpacity>
             )
-        }else if(this.props.type == 'no-net'){
+        } else if (this.props.type == 'no-ProgressData'){
+                //进度详情页无数据  其他页面不要用
+                return(
+                    <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>
+                        <Image source={require('../img/no_message.png')}/>
+                        <Text style={{fontSize:15,color:'#999999',marginTop:50}}>您的订单正在处理中，请稍后再查看</Text>
+                        <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线：400-107-0110</Text>
+                    </TouchableOpacity>
+                )
+        } else if(this.props.type == 'no-net'){
             //无网
             return(
                 <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>

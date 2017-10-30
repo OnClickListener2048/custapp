@@ -32,16 +32,18 @@ export default class ProgressDetailCell extends Component {
 
 
     render(){
-        const {state,name,start,end,operator,status} = this.props
+        const {state,name,start,end,operator,status,contract_time,contract_md_time} = this.props
         return(
             <View style={styles.container}>
-                {this._renderDiffItem(state,name,start,end,operator,status)}
+                {this._renderDiffItem(state,name,start,end,operator,status,contract_md_time,contract_time)}
             </View>
         )
     }
 
-    _renderDiffItem(state,name,start,end,operator,status){
+    _renderDiffItem(state,name,start,end,operator,status,contract_time,contract_md_time){
         operator=operator==''?'进行中':operator
+        start=contract_time==''?(start==''?'':'起'+start):contract_time
+        end=contract_md_time==''?(end==''?'':'止'+end):contract_md_time
 
         if(state=='done'){
             return(
@@ -60,7 +62,7 @@ export default class ProgressDetailCell extends Component {
                             处理人：{operator}  状态：已完成
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
-                            起{start}   止{end}
+                            {start}   {end}
                         </Text>
 
                     </View>
@@ -71,6 +73,7 @@ export default class ProgressDetailCell extends Component {
 
 
         }else if(state=='green'){
+
             return(
                 <View style={[styles.wrapper_d1,{marginLeft:20}]}>
                     <View>
@@ -87,7 +90,7 @@ export default class ProgressDetailCell extends Component {
                             处理人：{operator}  状态：{status}
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
-                            起{start}   止{end}
+                            {start}
                         </Text>
 
                     </View>
@@ -111,7 +114,7 @@ export default class ProgressDetailCell extends Component {
                             处理人：{operator}  状态：{status}
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
-                            起{start}   止{end}
+                            {start}   {end}
                         </Text>
 
                     </View>

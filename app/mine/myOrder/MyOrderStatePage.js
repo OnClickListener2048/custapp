@@ -40,6 +40,9 @@ export default class MyOrderStatePage extends Component {
                 time={item.item.order_time}
                 id={item.item.order_id}
                 order_type={item.item.order_type}
+                statusW={item.item.status}
+                orderItem={item.item}
+
                 {...this.props}
             />
         )
