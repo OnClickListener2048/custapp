@@ -17,13 +17,15 @@ export class UMTool{
         UserInfoStore.isLogined().then(
             logined => {
                 if (logined){
-                    
+                     UMModules.onEventWithLabel(eventId,"login_in");
+
                 }else{
+                     UMModules.onEventWithLabel(eventId,"login_out");
 
                 }
             },
             e => {
-                console.log("读取登陆状态错误:", e);
+                 UMModules.onEventWithLabel(eventId,"login_out");
             }
         );
     }
