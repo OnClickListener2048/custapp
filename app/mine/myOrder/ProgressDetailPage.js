@@ -47,37 +47,26 @@ export default class ProgressDetailPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code==0){
+                    var sourceData=[{
+                        "name":'签订合同',
+                        "start": this.props.orderItem.contract_time,
+                        "end":'',
+                        "status":4,
+                        "operator": this.props.orderItem.sales_name}];
 
                         if(responseData.data.schedule) {
-                            var sourceData = responseData.data.schedule;
-                            this.compact={
-                                "name":'签订合同',
-                                "start": this.props.orderItem.contract_time,
-                                "end": '',
-                                "status": 2,
-                                "operator": this.props.orderItem.sales_name}
-                                sourceData.push(this.compact)//返回的是数组的新长度
-
-                            if (sourceData.length){
-                                this.setState({
-                                    sourceData: sourceData,
-                                    loadState: 'success'
-                                })
-                            }else{
-                                this.setState({
-
-                                    loadState: 'no-ProgressData'
-                                })
-                            }
-
-
-
-                        }else{
-
+                            var newSourceData=responseData.data.schedule.concat(sourceData);
                             this.setState({
-                                loadState: 'no-ProgressData'
+                                sourceData: newSourceData,
+                                loadState: 'success'
+                            })
+                        }else{//订单详情子任务列表为空时
+                            this.setState({
+                                sourceData: sourceData,
+                                loadState: 'success'
                             })
                         }
+
 
                 }
             },
@@ -97,12 +86,12 @@ export default class ProgressDetailPage extends BComponent {
             this.childState='done'
             this.contract_time=this.props.orderItem.contract_time//合同时间
             this.contract_md_time=this.props.orderItem.contract_md_time//合同最好操作时间
-        }else if(item.index==0&&(this.props.statusW==6||this.props.statusW==8||this.props.statusW==9)){
+        }else if(item.index==0&&(this.props.statusW==6||this.props.statusW==8||this.props.statusW==5)){
             this.childState='done'
-        }else if(item.item.status==1||item.item.status==3){
+        }else if(item.item.status==1){
             this.childState='green'
 
-        }else if(item.item.status==2){
+        }else if(item.item.status==2||item.item.status==3||item.item.status==4){
             this.childState='gray'
         }
         if(item.item.status==1){
@@ -111,6 +100,8 @@ export default class ProgressDetailPage extends BComponent {
             this.status='已结束'
         }else if(item.item.status==3){
             this.status='已取消'
+        }else if(item.item.status==4){//专为合同状态加的，不是接口提供的
+            this.status=''
         }
 
         return(
