@@ -44,6 +44,7 @@ export default class ProgressDetailCell extends Component {
         operator=operator==''?'进行中':operator
         start=start==''?'':'起'+start
         end=end==''?'':'止'+end
+        status=status==''?'':'状态：'+status
 
         if(state=='done'){
             return(
@@ -87,7 +88,7 @@ export default class ProgressDetailCell extends Component {
                             {name}
                         </Text>
                         <Text style={styles.done_time_te}>
-                            处理人：{operator}  状态：{status}
+                            处理人：{operator}  {status}
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
                             {start}
@@ -111,7 +112,7 @@ export default class ProgressDetailCell extends Component {
                             {name}
                         </Text>
                         <Text style={styles.gray_te}>
-                            处理人：{operator}  状态：{status}
+                            处理人：{operator}  {status}
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
                             {start}   {end}
