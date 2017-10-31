@@ -46,8 +46,6 @@ import WebViewPage from './view/WebViewPage'
 import AccountAndSecurity from "./mine/bindPhone/AccountAndSecurity";
 
 
-import WebTest from './test/WebTest';
-
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -83,6 +81,4 @@ export default function () {
     reg('NoNetTipPage', () => NoNetTipPage);
     reg('WebViewPage', () => WebViewPage);
     reg('AccountAndSecurity', () => AccountAndSecurity);
-    reg('WebTest', () => WebTest);
-
 }
