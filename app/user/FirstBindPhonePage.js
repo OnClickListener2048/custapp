@@ -69,6 +69,7 @@ export default class FirstBindPhonePage extends BComponent {
         this._doChangeVCode = this._doChangeVCode.bind(this);
         this.readUserInfo = this.readUserInfo.bind(this);
         this._serviceTerm = this._serviceTerm.bind(this);
+        this._requestSMSCode = this._requestSMSCode.bind(this);
     }
 
     componentWillMount() {
@@ -198,6 +199,7 @@ export default class FirstBindPhonePage extends BComponent {
                     //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
                 }, (e) => {
                     Toast.show(errorText(e));
+                    this.refs.timerButton.reset();
                 }
             );
         }
