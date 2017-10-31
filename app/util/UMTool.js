@@ -7,8 +7,28 @@ import {
     Platform
 }from 'react-native'
 
-let UMTool = NativeModules.UMNative
+let UMModules = NativeModules.UMNative
 if (Platform.OS === 'android'){
-    UMTool = NativeModules.UmengNativeModule
+    UMModules = NativeModules.UmengNativeModule
 }
+
+export class UMTool{
+    static onEvent(eventId){
+        UserInfoStore.isLogined().then(
+            logined => {
+                if (logined){
+                     UMModules.onEventWithLabel(eventId,"login_in");
+
+                }else{
+                     UMModules.onEventWithLabel(eventId,"login_out");
+
+                }
+            },
+            e => {
+                 UMModules.onEventWithLabel(eventId,"login_out");
+            }
+        );
+    }
+}
+
 global.UMTool = UMTool;// 全局可用

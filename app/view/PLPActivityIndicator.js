@@ -6,7 +6,8 @@ import {
     StyleSheet,
     View,
     Text,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 export default class PLPActivityIndicator extends React.Component {
@@ -21,17 +22,20 @@ export default class PLPActivityIndicator extends React.Component {
 
         if(this.props.isShow){
             return (
-                <View style={styles.container}>
-                    <View style={[styles.activeBg]}>
-                        <ActivityIndicator
-                            animating={true}
-                            size="large"
-                        />
-                        <Text style={styles.message}>
-                            {this.props.message}
-                        </Text>
+                <TouchableWithoutFeedback>
+                    <View style={styles.container} >
+                        <View style={[styles.activeBg]}>
+                            <ActivityIndicator
+                                animating={true}
+                                size="large"
+                            />
+                            <Text style={styles.message}>
+                                {this.props.message}
+                            </Text>
+                        </View>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
+
             )
         }
         return null;
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     activeBg:{
         padding:15,

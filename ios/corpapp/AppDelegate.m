@@ -33,8 +33,9 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   
+  
    /** 友盟统计 */
-  UMConfigInstance.appKey = @"5992c88aa40fa3403a000218";
+  UMConfigInstance.appKey = @"59f6dbeea40fa3718e000108";
   
   //  UMConfigInstance.eSType=E_UM_GAME;//友盟游戏统计，如不设置默认为应用统计
   

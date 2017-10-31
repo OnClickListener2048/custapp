@@ -3,9 +3,11 @@ package cn.pilipa.custapp;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 
+import com.meituan.android.walle.WalleChannelReader;
 import com.reactnativenavigation.controllers.SplashActivity;
 
 import cn.jpush.android.api.JPushInterface;
+
 import com.umeng.analytics.MobclickAgent;
 
 // 闪屏界面: R.layout.launch_screen
@@ -30,9 +32,16 @@ public class MainActivity extends SplashActivity {
         MobclickAgent.openActivityDurationTrack(false);
         // MobclickAgent.setAutoLocation(true);
         // MobclickAgent.setSessionContinueMillis(1000);
-        // MobclickAgent.startWithConfigure(
-        // new UMAnalyticsConfig(mContext, "4f83c5d852701564c0000011", "Umeng",
-        // EScenarioType.E_UM_NORMAL));
+        String channel = WalleChannelReader.getChannel(this.getApplicationContext());// 从瓦力读取渠道
+        if (channel == null || channel.length() == 0) {
+            channel = "pilipa";
+        }
+
+        System.out.println("渠道号:" + channel);
+
+        MobclickAgent.startWithConfigure(
+                new MobclickAgent.UMAnalyticsConfig(getApplicationContext(), "59f6db47734be47f180000ee", channel,
+                        MobclickAgent.EScenarioType.E_UM_NORMAL));// 设置渠道
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
 
     }
