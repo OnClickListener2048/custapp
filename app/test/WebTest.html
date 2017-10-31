@@ -8,10 +8,8 @@
 <body>
 <div style="text-align: center">
     <button id="button">发送数据到react native</button>
-    <p style="text-align: center">收到react native发送的数据: <span id="data"></span></p>
 </div>
 <script>
-    var data = 0;
     function sendData(data) {
         if (window.originalPostMessage) {
             window.postMessage(data);
@@ -20,11 +18,9 @@
         }
     }
     window.onload = function() {
-        document.addEventListener('message', function(e) {
-            document.getElementById('data').textContent = e.data;
-        });
+
         document.getElementById('button').onclick = function() {
-            data += 100;
+            let data = "pilipa://umeng?eventid=123456"
             sendData(data);
         }
     }

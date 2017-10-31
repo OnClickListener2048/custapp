@@ -26,24 +26,19 @@ export default class WebTest extends Component {
         this.webview.postMessage(++this.data);
     }
     handleMessage(e) {
+        console.log(e.nativeEvent)
         this.setState({ webViewData: e.nativeEvent.data });
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={this.sendMessage}
-                >
-                    <Text>发送数据到WebView</Text>
-                </TouchableHighlight>
                 <View>
                     <Text>来自WebView的数据: <Text>{ this.state.webViewData }</Text></Text>
                 </View>
                 <WebView
                     style={styles.webview}
-                    source={require('./WebTest')}
+                    source={require('./WebTest.html')}
                     ref={webview => this.webview = webview}
                     onMessage={this.handleMessage}
                 />
