@@ -42,8 +42,8 @@ export default class ProgressDetailCell extends Component {
 
     _renderDiffItem(state,name,start,end,operator,status,contract_time,contract_md_time){
         operator=operator==''?'进行中':operator
-        start=contract_time==''?(start==''?'':'起'+start):contract_time
-        end=contract_md_time==''?(end==''?'':'止'+end):contract_md_time
+        start=start==''?'':'起'+start
+        end=end==''?'':'止'+end
 
         if(state=='done'){
             return(
@@ -62,7 +62,7 @@ export default class ProgressDetailCell extends Component {
                             处理人：{operator}  状态：已完成
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
-                            {start}   {end}
+                            {contract_md_time}
                         </Text>
 
                     </View>

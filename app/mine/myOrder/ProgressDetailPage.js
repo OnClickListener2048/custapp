@@ -31,6 +31,7 @@ export default class ProgressDetailPage extends BComponent {
         this.contract_time='';
         this.contract_md_time=''
         this.loadData=this.loadData.bind(this);
+
     }
 
 
@@ -46,8 +47,16 @@ export default class ProgressDetailPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code==0){
+
                         if(responseData.data.schedule) {
                             var sourceData = responseData.data.schedule;
+                            this.compact={
+                                "name":'签订合同',
+                                "start": this.props.orderItem.contract_time,
+                                "end": '',
+                                "status": 2,
+                                "operator": this.props.orderItem.sales_name}
+                                sourceData.push(this.compact)//返回的是数组的新长度
 
                             if (sourceData.length){
                                 this.setState({

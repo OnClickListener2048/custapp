@@ -333,7 +333,7 @@ export default class HomePage extends BComponent {
                                      disableColor={"#BABABA"}
                                      style={{width: 94, marginRight: 0, height: 44, alignSelf: 'flex-end',}}
                                      textStyle={{color: '#333333',alignSelf: 'flex-end'}}
-                                     timerCount={80}
+                                     timerCount={60}
                                      onClick={(shouldStartCountting) => {
                                          shouldStartCountting(true);
                                          this.setState({timerButtonClicked: true});

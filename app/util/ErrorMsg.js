@@ -20,7 +20,7 @@ export default function errorText(e) {
             if(code === '4009') {
                 return msg;
             } else {
-                return "操作失败 " + msg;
+                return msg;
             }
         }
     }
