@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import com.theweflex.react.WeChatPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
+import com.umeng.analytics.AnalyticsConfig;
+
 public class MainApplication extends NavigationApplication {
     // 设置为 true 将不弹出 toast
     private boolean SHUTDOWN_TOAST = true;

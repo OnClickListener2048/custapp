@@ -85,7 +85,7 @@
             android:value="${JPUSH_APPKEY}"/>
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5992c807734be4784d000516" />
+            android:value="59f6db47734be47f180000ee" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Umeng" />
