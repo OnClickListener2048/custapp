@@ -27,7 +27,7 @@ export default class MyOrderPage extends BComponent {
         this.state = {
             data:[],//全部
             doing:[],//进行中
-            hang:[],//挂起
+            hang:[],//已驳回
             done:[],//已结束
             loadState:'success'
         };
@@ -77,9 +77,9 @@ export default class MyOrderPage extends BComponent {
                             var done = [];
                             var doing = [];
                             for (let i = 0; i < data.length; i++) {
-                                if (data[i].status == 5) {
+                                if (data[i].status == 9) {
                                     hang.push(data[i]);
-                                } else if (data[i].status == 6||data[i].status == 8||data[i].status == 9) {
+                                } else if (data[i].status == 6||data[i].status == 8||data[i].status == 5) {
                                     done.push(data[i]);
                                 } else {
                                     doing.push(data[i])
@@ -155,7 +155,7 @@ export default class MyOrderPage extends BComponent {
                                       {...this.props}//把所有属性都传给子页面
 
                     />
-                    <MyOrderStatePage tabLabel='挂起'
+                    <MyOrderStatePage tabLabel='已驳回'
                                       sourceData={this.state.hang}
                                       lockSlide={this._lockSlide.bind(this)}
                                       openSlide={this._openSlide.bind(this)}
