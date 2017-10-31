@@ -106,7 +106,7 @@ export default class ProfitStatementPage extends BComponent {
                     rightDes="支出"
                     rightNum={this.state.expenditure}
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应付账款明细"/>
+                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="利润表明细"/>
             </View>
         )
     }
