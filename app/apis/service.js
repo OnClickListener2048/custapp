@@ -2,7 +2,7 @@
  * Created by zhuangzihao on 2017/9/29.
  */
 import {getApi} from './common';
-
+//测试用的公司ID100057
 export function loadServiceData(companyid,date='') {
 
     let params = companyid?{companyid,date}:{date}
