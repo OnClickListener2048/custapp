@@ -79,7 +79,7 @@ export default class MyOrderPage extends BComponent {
                             for (let i = 0; i < data.length; i++) {
                                 if (data[i].status == 9) {
                                     hang.push(data[i]);
-                                } else if (data[i].status == 6||data[i].status == 8||data[i].status == 5) {
+                                } else if (data[i].status == 6||data[i].status == 5) {
                                     done.push(data[i]);
                                 } else {
                                     doing.push(data[i])

@@ -55,7 +55,7 @@ export default class ProgressDetailPage extends BComponent {
                         "operator": this.props.orderItem.sales_name}];
 
                         if(responseData.data.schedule) {
-                            var newSourceData=responseData.data.schedule.concat(sourceData);
+                            var newSourceData=responseData.data.schedule.concat(sourceData);//合并数组
                             this.setState({
                                 sourceData: newSourceData,
                                 loadState: 'success'
@@ -97,7 +97,7 @@ export default class ProgressDetailPage extends BComponent {
         if(item.item.status==1){
             this.status='执行中'
         }else if(item.item.status==2){
-            this.status='已结束'
+            this.status='已完成'
         }else if(item.item.status==3){
             this.status='已取消'
         }else if(item.item.status==4){//专为合同状态加的，不是接口提供的
