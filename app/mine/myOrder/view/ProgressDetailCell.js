@@ -27,7 +27,9 @@ export default class ProgressDetailCell extends Component {
         start:PropTypes.string,//开始时间
         end:PropTypes.string,//结束时间
         operator:PropTypes.string,//操作员
-        status:PropTypes.string//状态
+        status:PropTypes.string,//状态
+        contract_time:PropTypes.string,
+        contract_md_time:PropTypes.string
     };
 
 
@@ -45,6 +47,14 @@ export default class ProgressDetailCell extends Component {
         start=start==''?'':'起'+start
         end=end==''?'':'止'+end
         status=status==''?'':'状态：'+status
+        if(status==''){
+            contract_time=start
+        }else{
+            contract_time=''
+        }
+
+
+
 
         if(state=='done'){
             return(
@@ -60,10 +70,10 @@ export default class ProgressDetailCell extends Component {
                             {name}
                         </Text>
                         <Text style={styles.done_time_te}>
-                            处理人：{operator}  状态：已完成
+                            处理人：{operator}  状态：已结束
                         </Text>
                         <Text style={[styles.time,{marginTop:10}]}>
-                            {contract_md_time}
+                            {contract_time}
                         </Text>
 
                     </View>
