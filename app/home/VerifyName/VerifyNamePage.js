@@ -12,6 +12,8 @@ import {
     TouchableWithoutFeedback,
     Image,
     TextInput,
+    Keyboard,
+    KeyboardAvoidingView,
     StyleSheet
 } from 'react-native';
 import BComponent from '../../base';
@@ -49,6 +51,7 @@ export default class HomePage extends BComponent {
             vCode: '',         // 图片验证码
             picURL: null,// 图片验证码
             vCodeInputValid: false,
+            keyBoardOpen: false,
 
             smsCode: '',         // 短信验证码
             smsCodeValid: false,          // 短信验证码有效
@@ -60,6 +63,8 @@ export default class HomePage extends BComponent {
         this._doVerfiyResult = this._doVerfiyResult.bind(this);
         this._isNotEmpty = this._isNotEmpty.bind(this);
         this._requestSMSCode = this._requestSMSCode.bind(this);
+        this._keyboardDidShow = this._keyboardDidShow.bind(this);
+        this._keyboardDidHide = this._keyboardDidHide.bind(this);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
     }
@@ -72,12 +77,30 @@ export default class HomePage extends BComponent {
         // 如果存在this.timer，则使用clearTimeout清空。
         // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
         this._doChangeVCode();
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     }
 
     componentWillUnmount() {
         // 如果存在this.timer，则使用clearTimeout清空。
         // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
         this.timer && clearTimeout(this.timer);
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
+    // 小屏键盘显示适配
+    _keyboardDidShow() {
+        console.log('Keyboard Shown SCREEN_WIDTH=', SCREEN_WIDTH);
+            this.setState({keyBoardOpen: true});
+
+    }
+
+    // 小屏键盘显示适配
+    _keyboardDidHide() {
+        console.log('Keyboard Hidden');
+            this.setState({keyBoardOpen: false});
+
     }
 
     // 请求短信验证码
@@ -245,15 +268,24 @@ export default class HomePage extends BComponent {
 
     render(){
         return(
+            <TouchableWithoutFeedback onPress={dismissKeyboard}>
+
             <ScrollView style={{flex:1,backgroundColor:'#FFFFFF',
                 flexDirection: 'column'}}>
-                <View style={{width:DeviceInfo.width}}>
-                    <Image source={require('../../img/verify_name.png')} style={{width:deviceWidth,justifyContent:'center',
-                        alignItems:'center',marginTop:DeviceInfo.OS==='ios'?20:0}}>
+                {this.state.keyBoardOpen === false &&
+                <View style={{width: DeviceInfo.width}}>
+                    <Image source={require('../../img/verify_name.png')} style={{
+                        width: deviceWidth, justifyContent: 'center',
+                        alignItems: 'center', marginTop: DeviceInfo.OS === 'ios' ? 20 : 0
+                    }}>
                         {/*<Text style={{backgroundColor:'transparent',fontSize:24,color:'white',fontWeight:'bold'}}>公司名称查询</Text>*/}
                         {/*<Text style={{backgroundColor:'transparent',fontSize:24,color:'white',fontWeight:'bold'}}>提升工商注册通过率</Text>*/}
                     </Image>
                 </View>
+
+                }
+
+
                 {this.renderInput('companyName','请输入要注册的公司名称','')}
                 {this.renderPhoneInput('phoneNum','请输入手机号','')}
 
@@ -348,7 +380,11 @@ export default class HomePage extends BComponent {
                     this.state.smsCodeValid&&this.state.vCodeInputValid)}
                               text="立即免费核名"
                 />
+
             </ScrollView>
+
+    </TouchableWithoutFeedback>
+
         )
     }
 }
