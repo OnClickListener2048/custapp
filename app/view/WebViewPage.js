@@ -11,13 +11,25 @@ export default class WebViewPage extends BComponent {
     static defaultProps = {
         url:''
     };
+    constructor(props) {
+        super(props);
+        this._handleMessage = this._handleMessage.bind(this);
+    }
+
     render(){
         return(
             <WebView
                 source={{uri:this.props.url}}
                 // bounces={false}
                 // startInLoadingState={true}
+                onMessage={this._handleMessage}
             />
         )
     }
+    _handleMessage(e) {
+        if(e.nativeEvent.data){
+            UMTool.onEvent(e.nativeEvent.data)
+        }
+    }
+
 }
