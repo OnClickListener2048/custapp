@@ -55,7 +55,8 @@ export default class PayTaxes extends Component {
 const styles = StyleSheet.create({
     wrapper:{
         marginHorizontal:20,
-        marginTop:30
+        marginTop:30,
+        marginBottom:20
 
     },
     wrapper1:{

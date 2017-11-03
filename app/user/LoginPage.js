@@ -70,6 +70,7 @@ export default class LoginPage extends Component {
             // timerButtonEnable: false, // 倒计时按钮是否可用
             timerButtonClicked: false,//  倒计时按钮是否已点击
             headPad: 20,// 顶部的默认空白
+            isInWechatLoading: false//是否正在进行微信登录中, 避免重复点击
         };
 
         // this.state.mobile = props.mobile;
@@ -103,6 +104,7 @@ export default class LoginPage extends Component {
     _goWechat() {
         let scope = 'snsapi_userinfo';
         let state = 'wechat_sdk_demo';
+        this.setState({isInWechatLoading: true});
         WeChat.sendAuthRequest(scope, state).then(res => {
             console.log(JSON.stringify(res));
             // {"code":"071Na2zw1jxpWb0Q1kzw1Al0zw1Na2zh","state":"wechat_sdk_demo","appid":"wx16da5000356a9497","errCode":0,"type":"SendAuth.Resp"}
@@ -115,6 +117,7 @@ export default class LoginPage extends Component {
             apis.wechatToken(res.code).then(
                 responseData => {
                     console.log('wechat token responseData', responseData);
+                    this.setState({isInWechatLoading: false});
                     let result = JSON.parse(responseData);
                     if(result.code === 0 && result.access_token !== undefined) {
                         console.log('save access_token');
@@ -130,6 +133,7 @@ export default class LoginPage extends Component {
                     }
                 },
                 e => {
+                    this.setState({isInWechatLoading: false});
                     console.log('出错了', e);
                 },
             );
@@ -511,8 +515,8 @@ export default class LoginPage extends Component {
                         {/*</View>*/}
                         {/*</TouchableWithoutFeedback>*/}
 
-                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={ {marginTop: 100}}
-                                      isEnabled={true}
+                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={ {marginTop: 50}}
+                                      isEnabled={!this.state.isInWechatLoading}
                                       text="微信登录"
                         />
 
