@@ -24,34 +24,19 @@ const demoData = {
     "list": [
         {
             "name":"应收账款",
-            "start":"￥893,666.00",
-            "end":"￥893,666.00",
+            "start":"￥20,600.00",
+            "end":"￥20,600.00",
             "others":[
                 {
-                    "name":"泰康人寿",
-                    "start":"￥1,400.00",
-                    "end":"￥1,400.00"
+                    "name":"演示公司1",
+                    "start":"￥2,600.00",
+                    "end":"￥2,600.00"
                 },
                 {
-                    "name":"华扬联众",
-                    "start":"￥38,697.00",
-                    "end":"￥38,697.00"
-                },
-                {
-                    "name":"海珊房地产",
-                    "start":"￥851,339.00",
-                    "end":"￥851,339.00"
-                },
-                {
-                    "name":"御润房地产",
-                    "start":"￥1,200.00",
-                    "end":"￥1,200.00"
-                },
-                {
-                    "name":"高山流水房地产",
-                    "start":"￥1,030,00",
-                    "end":"￥1,030,00"
-                },
+                    "name":"演示公司2",
+                    "start":"￥18,000.00",
+                    "end":"￥18,000.00"
+                }
             ]
         }
     ],
@@ -140,14 +125,14 @@ export default class AccountsReceivablePage extends BComponent {
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
-            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_name="收入" item2_name="支出" item1_money={rowItem.start} item2_money={rowItem.end}/>
+            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_name="期初" item2_name="期末" item1_money={rowItem.start} item2_money={rowItem.end}/>
         )
 
     };
     _renderSection (section, sectionId) {
         let dic = this.state.dataSource[sectionId]
         return(
-            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="收入" item2_name="支出" item1_money={dic.start} item2_money={dic.end}/>
+            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="期初" item2_name="期末" item1_money={dic.start} item2_money={dic.end}/>
 
         )
     };
@@ -156,9 +141,9 @@ export default class AccountsReceivablePage extends BComponent {
             <View style={{width:DeviceInfo.width}}>
                 <HeaderView
                     hasTop={false}
-                    leftDes="收入"
+                    leftDes="期初"
                     leftNum={this.state.start_account}
-                    rightDes="支出"
+                    rightDes="期末"
                     rightNum={this.state.end_account}
                 />
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应收账款明细"/>

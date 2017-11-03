@@ -24,75 +24,75 @@ const demoData = {
     "list": [
         {
             "date": "12",
-            "profit": "￥132,582.30",
-            "income": "￥889,504.07",
-            "expenditure": "￥756,921.77"
+            "profit": "￥15,000.00",
+            "income": "￥39,000.00",
+            "expenditure": "￥24,000.00"
         },
         {
             "date": "11",
-            "profit": "￥95,613.73",
-            "income": "￥860,706.80",
-            "expenditure": "￥765,093.07"
+            "profit": "￥90,000.00",
+            "income": "￥120,000.00",
+            "expenditure": "￥30,000.00"
         },
         {
             "date": "10",
-            "profit": "￥120,280.93",
-            "income": "￥885,202.00",
-            "expenditure": "￥764,921.07"
+            "profit": "￥1,000.00",
+            "income": "￥115,000.00",
+            "expenditure": "￥114,000.00"
         },
         {
             "date": "9",
-            "profit": "￥107,644.70",
-            "income": "￥885,719.70",
-            "expenditure": "￥778,075.00"
+            "profit": "￥105,000.00",
+            "income": "￥223,000.00",
+            "expenditure": "￥118,000.00"
         },
         {
             "date": "8",
-            "profit": "￥119,812.50",
+            "profit": "￥119,000.00",
             "income": "￥895,000.00",
-            "expenditure": "￥775,187.50"
+            "expenditure": "￥775,000.00"
         },
         {
             "date": "7",
-            "profit": "￥99,847.00",
+            "profit": "￥99,000.00",
             "income": "￥900,000.00",
-            "expenditure": "￥800,153.00"
+            "expenditure": "￥800,000.00"
         },
         {
             "date": "6",
-            "profit": "￥86,841.80",
-            "income": "￥922,456.31",
-            "expenditure": "￥835,614.51"
+            "profit": "￥86,000.00",
+            "income": "￥922,000.00",
+            "expenditure": "￥835,000.00"
         },
         {
             "date": "5",
-            "profit": "￥89,370.07",
-            "income": "￥895,101.02",
-            "expenditure": "￥805,730.95"
+            "profit": "￥89,000.00",
+            "income": "￥895,000.00",
+            "expenditure": "￥805,000.00"
         },
         {
             "date": "4",
-            "profit": "￥42,249.49",
-            "income": "￥820.920.38",
-            "expenditure": "￥778,500.51"
+            "profit": "￥42,000.00",
+            "income": "￥820.000.00",
+            "expenditure": "￥778,000.00"
         },
         {
             "date": "3",
-            "profit": "￥85,567.23",
+            "profit": "￥85,000.00",
             "income": "￥850,000.00",
-            "expenditure": "￥765,353.15"
+            "expenditure": "￥765,000.00"
         },
         {
             "date": "2",
-            "profit": "￥69,766.00",
+            "profit": "￥69,000.00",
             "income": "￥850,000.00",
-            "expenditure": "￥780,234.00"
+            "expenditure": "￥780,000.00"
         },
         {
             "date": "1",
-            "profit": "￥100,894.87",
-            "income": "￥810,030.00",
-            "expenditure": "￥709,135.13"
+            "profit": "￥100,000.00",
+            "income": "￥810,000.00",
+            "expenditure": "￥709,000.00"
         }
     ],
 }

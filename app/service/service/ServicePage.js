@@ -182,7 +182,7 @@ export default class ServicePage extends BComponent {
                     <View style={styles.wrapper1}>
                         <View style={[styles.line,{width:30}]}/>
                         <Text style={{fontSize:24,color:'#e13238',marginHorizontal:10}}>
-                            本月进度
+                            本月清单
                         </Text>
                         <View style={[styles.line,{width:30}]}/>
                     </View>

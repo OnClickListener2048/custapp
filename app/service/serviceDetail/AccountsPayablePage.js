@@ -18,30 +18,30 @@ import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 const demoData = {
-    "start_account": "￥330,000.00",
-    "end_account": "￥330,000.00",
+    "start_account": "￥230,000.00",
+    "end_account": "￥230,000.00",
     "list": [
         {
             "name":"应付账款",
-            "start":"￥130,000.00",
-            "end":"￥130,000.00",
+            "start":"￥80,000.00",
+            "end":"￥80,000.00",
             "others":[
                 {
-                    "name":"暂估",
-                    "start":"￥130,000.00",
-                    "end":"￥130,000.00"
+                    "name":"演示公司1",
+                    "start":"￥80,000.00",
+                    "end":"￥80,000.00"
                 }
             ]
         },
         {
             "name":"其他应付账款",
-            "start":"￥200,000.00",
-            "end":"￥200,000.00",
+            "start":"￥150,000.00",
+            "end":"￥150,000.00",
             "others":[
                 {
-                    "name":"李某",
-                    "start":"￥200,000.00",
-                    "end":"￥200,000.00"
+                    "name":"演示公司2",
+                    "start":"￥150,000.00",
+                    "end":"￥150,000.00"
                 }
             ]
         }
@@ -134,14 +134,14 @@ export default class AccountsPayablePage extends BComponent {
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
-            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_name="收入" item2_name="支出" item1_money={rowItem.start} item2_money={rowItem.end}/>
+            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_name="期初" item2_name="期末" item1_money={rowItem.start} item2_money={rowItem.end}/>
         )
 
     };
     _renderSection (section, sectionId) {
         let dic = this.state.dataSource[sectionId]
         return(
-            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="收入" item2_name="支出" item1_money={dic.start} item2_money={dic.end}/>
+            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="期初" item2_name="期末" item1_money={dic.start} item2_money={dic.end}/>
 
         )
     };
@@ -150,9 +150,9 @@ export default class AccountsPayablePage extends BComponent {
             <View style={{width:DeviceInfo.width}}>
                 <HeaderView
                     hasTop={false}
-                    leftDes="收入"
+                    leftDes="期初"
                     leftNum={this.state.start_account}
-                    rightDes="支出"
+                    rightDes="期末"
                     rightNum={this.state.end_account}
                 />
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应付账款明细"/>
