@@ -18,6 +18,44 @@ import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
+const demoData = {
+    "start_account": "￥893,666.00",
+    "end_account": "￥893,666.000",
+    "list": [
+        {
+            "name":"应收账款",
+            "start":"￥893，666.00",
+            "end":"￥893，666.00",
+            "others":[
+                {
+                    "name":"泰康人寿",
+                    "start":"￥1,400.00",
+                    "end":"￥1,400.00"
+                },
+                {
+                    "name":"华扬联众",
+                    "start":"￥38,697.00",
+                    "end":"￥38,697.00"
+                },
+                {
+                    "name":"海珊房地产",
+                    "start":"￥851,339.00",
+                    "end":"￥851,339.00"
+                },
+                {
+                    "name":"御润房地产",
+                    "start":"￥1,200.00",
+                    "end":"￥1,200.00"
+                },
+                {
+                    "name":"高山流水房地产",
+                    "start":"￥1,030,00",
+                    "end":"￥1,030,00"
+                },
+            ]
+        }
+    ],
+}
 
 export default class AccountsReceivablePage extends BComponent {
     constructor(props) {
@@ -31,7 +69,7 @@ export default class AccountsReceivablePage extends BComponent {
             year:props.year,
             month:props.month,
             isfirstRefresh:true,
-            isLoading:true
+            isLoading:false
 
         };
     }
@@ -45,6 +83,17 @@ export default class AccountsReceivablePage extends BComponent {
         });
     }
     loadData(date='',type='2',isPull=false){
+
+        if (this.props.is_demo == '1'){
+            this.setState({
+                dataSource:demoData.list,
+                start_account:demoData.start_account,
+                end_account:demoData.end_account,
+            })
+            return;
+        }
+
+
         if(isPull){
             this.setState({
                 isRefreshing:true
@@ -146,7 +195,7 @@ export default class AccountsReceivablePage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
-                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
                 <PLPActivityIndicator isShow={this.state.isLoading} />
 
             </View>

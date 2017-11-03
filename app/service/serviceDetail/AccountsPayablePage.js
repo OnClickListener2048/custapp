@@ -17,7 +17,36 @@ import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-
+const demoData = {
+    "start_account": "￥330,000.00",
+    "end_account": "￥330,000.00",
+    "list": [
+        {
+            "name":"应付账款",
+            "start":"￥130,000.00",
+            "end":"￥130,000.00",
+            "others":[
+                {
+                    "name":"暂估",
+                    "start":"￥130,000.00",
+                    "end":"￥130,000.00"
+                }
+            ]
+        },
+        {
+            "name":"其他应付账款",
+            "start":"￥200,000.00",
+            "end":"￥200,000.00",
+            "others":[
+                {
+                    "name":"李某",
+                    "start":"￥200,000.00",
+                    "end":"￥200,000.00"
+                }
+            ]
+        }
+    ],
+}
 
 export default class AccountsPayablePage extends BComponent {
     constructor(props) {
@@ -31,7 +60,7 @@ export default class AccountsPayablePage extends BComponent {
             year:props.year,
             month:props.month,
             isfirstRefresh:true,
-            isLoading:true
+            isLoading:false
 
         };
     }
@@ -43,6 +72,19 @@ export default class AccountsPayablePage extends BComponent {
         });
     }
     loadData(date='',type='1',isPull=false){
+
+        if (this.props.is_demo=='1'){
+
+            this.setState({
+                dataSource:demoData.list,
+                start_account:demoData.start_account,
+                end_account:demoData.end_account,
+            })
+
+            return;
+        }
+
+
         if(isPull){
             this.setState({
                 isRefreshing:true
@@ -146,7 +188,7 @@ export default class AccountsPayablePage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
-                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)} />
+                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)} />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
 
             </View>

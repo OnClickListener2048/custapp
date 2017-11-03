@@ -28,6 +28,12 @@ import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import HeaderView from '../view/HeaderView'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
+const demoData = {
+    profit:'￥1,150,470.62',
+    income:'￥10,465,390.28',
+    expenditure:'￥9,314,919.66'
+}
+
 export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
@@ -37,7 +43,7 @@ export default class ServicePage extends BComponent {
             profit:'- -',//本月利润
             income:'- -',//本月收入
             expenditure:'- -',//本月支出
-            is_demo:1,//是否演示数据,
+            is_demo:1,//是否演示数据,1演示数据2非演示数据
             year:today.getFullYear().toString(),
             month:(today.getMonth() + 1).toString(),
             isRefreshing:false,
@@ -107,15 +113,28 @@ export default class ServicePage extends BComponent {
 
                 if(responseData.code == 0){
 
-                    this.setState({
-                        is_demo:responseData.is_demo,
-                        profit:responseData.profit?responseData.profit:'- -',
-                        income:responseData.income?responseData.income:'- -',
-                        expenditure:responseData.expenditure?responseData.expenditure:'- -',
-                        isRefreshing:false,
-                        isLoading:false
 
-                    })
+                    if(responseData.is_demo == '2'){
+                        //真实数据
+                        this.setState({
+                            is_demo:responseData.is_demo?responseData.is_demo:'1',
+                            profit:responseData.profit?responseData.profit:'- -',
+                            income:responseData.income?responseData.income:'- -',
+                            expenditure:responseData.expenditure?responseData.expenditure:'- -',
+                            isRefreshing:false,
+                            isLoading:false
+                        })
+                    }else{
+                        //演示数据
+                        this.setState({
+                            profit:demoData.profit,
+                            income:demoData.income,
+                            expenditure:demoData.expenditure,
+                            isRefreshing:false,
+                            isLoading:false
+                        })
+                    }
+
                 }else{
                     this.setState({
                         isRefreshing:false,
@@ -172,7 +191,7 @@ export default class ServicePage extends BComponent {
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal disabled={this.state.is_demo == '1'?true:false} ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
             </View>
 
         )
@@ -207,10 +226,10 @@ export default class ServicePage extends BComponent {
                 return <SendBill />//发送票据
                 break;
             case 2:
-                return <AccountingTreatment callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} />//财务处理
+                return <AccountingTreatment callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo} />//财务处理
                 break;
             case 3:
-                return <PayTaxes callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid}/>//申报纳税
+                return <PayTaxes callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo}/>//申报纳税
                 break;
             case 4:
                 return <ClearCard/>//清卡

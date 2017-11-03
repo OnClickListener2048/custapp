@@ -19,7 +19,53 @@ import HeaderView from '../view/HeaderView'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-
+const dataDemo = {
+    "balance": "￥131,712.26",
+    "balance_start": "￥3,379,352.16",
+    "balance_end": "￥3,511,064.42",
+    "list": [
+        {
+            "num": "1001",
+            "name": "库存现金",
+            "start": "￥134,978.13",
+            "end": "￥134,978.13",
+            "others": []
+        },
+        {
+            "num": "1002",
+            "name": "银行存款",
+            "start": "￥2,301,769.03",
+            "end": "￥2,433,481.29",
+            "others": []
+        },
+        {
+            "num": "1012",
+            "name": "其他货币资金",
+            "start": "￥830,010.00",
+            "end": "￥830,010.00",
+            "others": [{
+                "num": "1002001",
+                "name": "信用卡",
+                "start": "￥10.00",
+                "end": "￥10.00"
+            },
+                {
+                    "num": "1002002",
+                    "name": "银行汇款",
+                    "start": "￥830，000.00",
+                    "end": "￥830，000.00"
+                }
+            ]
+        },
+        {
+            "num": "1003",
+            "name": "应收票据",
+            "start": "￥112,595.00",
+            "end": "￥112,595.00",
+            "others": []
+        }
+    ]
+}
 export default class CashFlowPage extends BComponent {
 
     constructor(props) {
@@ -33,7 +79,9 @@ export default class CashFlowPage extends BComponent {
             isRefreshing:false,
             year:props.year,
             month:props.month,
-            isfirstRefresh:true
+            isfirstRefresh:true,
+            isLoading:false
+
         };
     }
     componentWillUnmount() {
@@ -45,6 +93,18 @@ export default class CashFlowPage extends BComponent {
         });
     }
     loadData(date='',isPull=false){
+
+        if(this.props.is_demo == '1'){
+
+            this.setState({
+                balance:dataDemo.balance,
+                balance_start:dataDemo.balance_start,
+                balance_end:dataDemo.balance_end,
+                dataSource:dataDemo.list,
+            })
+            return;
+        }
+
         if(isPull){
             this.setState({
                 isRefreshing:true
@@ -150,7 +210,7 @@ export default class CashFlowPage extends BComponent {
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
 
         );

@@ -100,9 +100,16 @@ export default class SettingPage extends BComponent {
     }
 
     _aboutUs() {
+        // this.props.navigator.push({
+        //     screen: 'AboutUsPage',
+        //     title: '关于我们'
+        // });
         this.props.navigator.push({
-            screen: 'AboutUsPage',
-            title: '关于我们'
+            screen: 'WebViewPage',
+            title:'关于我们',
+            passProps:{
+                url:'https://x-www.i-counting.cn/aboutus?platform=app'
+            }
         });
     }
 
