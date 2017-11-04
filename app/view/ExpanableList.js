@@ -37,7 +37,8 @@ class ExpanableList extends Component {
         headerOnPress: PropTypes.func,
         isOpen: PropTypes.bool,
         openOptions: PropTypes.array,
-        headerClickCallBack: PropTypes.func
+        headerClickCallBack: PropTypes.func,
+        isOpenArr:PropTypes.array,
     };
 
     static defaultProps = {
@@ -54,14 +55,15 @@ class ExpanableList extends Component {
             memberOpened.set(i, !memberOpened.get(i)); // toggle
             return { memberOpened };
         });
-
         if (this.props.headerOnPress) {
             this.prop.headerOnPress(i, this.state.memberOpened.get(i) || false);
         }
 
         LayoutAnimation.easeInEaseOut();
+        if (this.props.isOpenArr){
+            this.props.isOpenArr[i] = !this.props.isOpenArr[i];
+        }
 
-        this.props.headerClickCallBack && this.props.headerClickCallBack(i)
     };
 
     _renderItem = ({ item, index }) => { // eslint-disable-line
@@ -74,7 +76,7 @@ class ExpanableList extends Component {
 
         return (
             <View>
-                <TouchableOpacity onPress={() => this._onPress(sectionId)}>
+                <TouchableOpacity  onPress={() => this._onPress(sectionId)}>
                     { renderSectionHeaderX ? renderSectionHeaderX(item[headerKey], sectionId) : null}
                 </TouchableOpacity>
                 <ScrollView scrollEnabled={false}>

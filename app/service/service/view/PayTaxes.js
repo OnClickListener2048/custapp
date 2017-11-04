@@ -45,7 +45,8 @@ export default class PayTaxes extends Component {
                 year:this.props.year,
                 month:this.props.month,
                 callback:this.props.callback,
-                companyid:this.props.companyid
+                companyid:this.props.companyid,
+                is_demo:this.props.is_demo
             }
         })
     }

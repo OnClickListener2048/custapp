@@ -17,6 +17,7 @@ import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
+import demoData from './local/ProfitStatementPage.json'
 export default class ProfitStatementPage extends BComponent {
     constructor(props) {
         super(props);
@@ -28,7 +29,8 @@ export default class ProfitStatementPage extends BComponent {
             isRefreshing:false,
             year:props.year,
             month:props.month,
-            isfirstRefresh:true
+            isfirstRefresh:true,
+            isLoading:false
 
         };
     }
@@ -40,7 +42,28 @@ export default class ProfitStatementPage extends BComponent {
             this.loadData(this.state.year+'-'+this.state.month)
         });
     }
+
     loadData(date='',isPull=false){
+
+        if(this.props.is_demo=='1'){
+
+            let today = new Date()
+            let arr = [];
+
+            for (let i = today.getMonth();i>=0;i--){
+                let dic = demoData.list[11-i];
+                arr.push(dic);
+            }
+            this.setState({
+                profit:arr[0].profit,
+                income:arr[0].income,
+                expenditure:arr[0].expenditure,
+                dataSource:arr,
+            })
+            return;
+        }
+
+
         if(isPull){
             this.setState({
                 isRefreshing:true
@@ -137,7 +160,7 @@ export default class ProfitStatementPage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     istEmptyComponent={this._listEmptyComponent.bind()}
                 />
-                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
                 <PLPActivityIndicator isShow={this.state.isLoading} />
 
             </View>

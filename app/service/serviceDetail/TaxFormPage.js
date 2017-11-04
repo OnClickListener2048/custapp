@@ -19,6 +19,8 @@ import HeaderView from '../view/HeaderView'
 import SectionHeader from '../../view/SectionHeader'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
+import demoData from './local/TaxFormPage.json'
+
 export default class TaxFormPage extends BComponent {
 
     constructor(props){
@@ -42,6 +44,15 @@ export default class TaxFormPage extends BComponent {
         });
     }
     loadData(date='',isPull=false){
+
+        if (this.props.is_demo == '1'){
+            this.setState({
+                total:demoData.total,
+                data:demoData.list,
+            })
+            return;
+        }
+
         if(isPull){
             this.setState({
                 isRefreshing:true
@@ -194,7 +205,7 @@ export default class TaxFormPage extends BComponent {
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
         )
     }

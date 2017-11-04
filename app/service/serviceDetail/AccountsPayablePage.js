@@ -17,13 +17,12 @@ import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-
+import demoData from './local/AccountsPayablePage.json'
 
 export default class AccountsPayablePage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            openOptions:[],
             dataSource:[],
             start_account:'- -',
             end_account:'- -',
@@ -31,9 +30,11 @@ export default class AccountsPayablePage extends BComponent {
             year:props.year,
             month:props.month,
             isfirstRefresh:true,
-            isLoading:true
+            isLoading:false
 
         };
+        this.openOptions=[];
+
     }
 
 
@@ -42,7 +43,20 @@ export default class AccountsPayablePage extends BComponent {
             this.loadData(this.state.year+'-'+this.state.month,'1')
         });
     }
-    loadData(date='',type='1',isPull=false){
+    loadData(date='',type='2',isPull=false){
+
+        if (this.props.is_demo=='1'){
+
+            this.setState({
+                dataSource:demoData.list,
+                start_account:demoData.start_account,
+                end_account:demoData.end_account,
+            })
+
+            return;
+        }
+
+
         if(isPull){
             this.setState({
                 isRefreshing:true
@@ -67,6 +81,11 @@ export default class AccountsPayablePage extends BComponent {
                         isLoading:false
 
                     })
+                    if(responseData.list){
+                        this.openOptions = Array.apply(null, Array(responseData.list.length)).map(function(item, i) {
+                            return false;
+                        });
+                    }
                 }else{
                     this.setState({
                         isRefreshing:false,
@@ -92,14 +111,14 @@ export default class AccountsPayablePage extends BComponent {
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
-            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_name="收入" item2_name="支出" item1_money={rowItem.start} item2_money={rowItem.end}/>
+            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_name="期初" item2_name="期末" item1_money={rowItem.start} item2_money={rowItem.end}/>
         )
 
     };
     _renderSection (section, sectionId) {
         let dic = this.state.dataSource[sectionId]
         return(
-            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="收入" item2_name="支出" item1_money={dic.start} item2_money={dic.end}/>
+            <ServiceCell isOpen={this.openOptions[sectionId]}  isHeader={dic.others.length>0} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="期初" item2_name="期末" item1_money={dic.start} item2_money={dic.end}/>
 
         )
     };
@@ -108,9 +127,9 @@ export default class AccountsPayablePage extends BComponent {
             <View style={{width:DeviceInfo.width}}>
                 <HeaderView
                     hasTop={false}
-                    leftDes="收入"
+                    leftDes="期初"
                     leftNum={this.state.start_account}
-                    rightDes="支出"
+                    rightDes="期末"
                     rightNum={this.state.end_account}
                 />
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应付账款明细"/>
@@ -138,15 +157,14 @@ export default class AccountsPayablePage extends BComponent {
                     dataSource={this.state.dataSource}
                     headerKey="name"
                     memberKey="others"
+                    isOpenArr={this.openOptions}
                     renderRow={this._renderRow.bind(this)}
                     renderSectionHeaderX={this._renderSection.bind(this)}
-                    headerClickCallBack={(index)=>this._headerClickCallBack(index)}
-                    openOptions={this.state.openOptions}
                     onRefresh={this._onRefresh.bind(this)}
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
-                <ChooseTimerModal yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)} />
+                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)} />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
 
             </View>
@@ -167,11 +185,7 @@ export default class AccountsPayablePage extends BComponent {
 
 
     }
-    _headerClickCallBack(index){
-        let openOptions =this.state.openOptions
-        openOptions[index]=!openOptions[index]
-        this.setState({openOptions})
-    }
+
 
     componentWillUnmount() {
         UMTool.onEvent('pay_return')

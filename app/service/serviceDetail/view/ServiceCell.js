@@ -22,6 +22,7 @@ export default class ServiceCell extends Component {
         underLine:false,
         underLineStyle:{},
         isHeader:false,
+        isShowArrow:true,
         isOpen:false
     };
     render(){
@@ -36,16 +37,16 @@ export default class ServiceCell extends Component {
         return(
             <View style={[{width:DeviceInfo.width,paddingTop:18,paddingBottom:18,backgroundColor:'white',flexDirection:'row',alignItems:'center'},this.props.style,underLineStyle,this.props.underLineStyle]}>
                 <View style={{borderRightWidth:1,borderRightColor:'#dcdcdc',justifyContent:'center',alignItems:'center',width:DeviceInfo.width*0.4}}>
-                    <Text style={[{fontSize:setSpText(20),color:'#333333'},this.props.titleStyle]}>{this.props.title}</Text>
+                    <Text  style={[{fontSize:setSpText(20),color:'#333333',textAlign:'center'},this.props.titleStyle]}>{this.props.title}</Text>
                 </View>
                 <View style={{flex:1,justifyContent:'space-between',paddingLeft:25, paddingRight:25}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Text style={{fontSize:setSpText(14),color:'#999999'}}>{this.props.item1_name}</Text>
-                        <Text style={{fontSize:setSpText(16),color:'#333333',marginLeft:9}}>{this.props.item1_money}</Text>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(14),color:'#999999'}}>{this.props.item1_name}</Text>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(16),color:'#333333',marginLeft:9}}>{this.props.item1_money}</Text>
                     </View>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Text style={{fontSize:setSpText(14),color:'#999999'}}>{this.props.item2_name}</Text>
-                        <Text style={{fontSize:setSpText(16),color:'#333333',marginLeft:9}}>{this.props.item2_money}</Text>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(14),color:'#999999'}}>{this.props.item2_name}</Text>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(16),color:'#333333',marginLeft:9}}>{this.props.item2_money}</Text>
                     </View>
                 </View>
                 {this.renderArrow()}
@@ -53,7 +54,7 @@ export default class ServiceCell extends Component {
         )
     }
     renderArrow(){
-        if(this.props.isHeader){
+        if(this.props.isHeader ){
             return(
                 <View style={{paddingRight:18}}>
                     {this.props.isOpen?<Image source={require('../../../img/arrow_up_red.png')}/>:<Image source={require('../../../img/arrow_down_red.png')}/>}
