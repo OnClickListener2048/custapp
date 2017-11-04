@@ -17,85 +17,7 @@ import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
-const demoData = {
-    "profit": "￥1,150,470.62",
-    "income": "￥10,465,390.28",
-    "expenditure": "￥9,314,919.66",
-    "list": [
-        {
-            "date": "12",
-            "profit": "￥15,000.00",
-            "income": "￥39,000.00",
-            "expenditure": "￥24,000.00"
-        },
-        {
-            "date": "11",
-            "profit": "￥90,000.00",
-            "income": "￥120,000.00",
-            "expenditure": "￥30,000.00"
-        },
-        {
-            "date": "10",
-            "profit": "￥1,000.00",
-            "income": "￥115,000.00",
-            "expenditure": "￥114,000.00"
-        },
-        {
-            "date": "9",
-            "profit": "￥13,000.00",
-            "income": "￥28,000.00",
-            "expenditure": "￥15,000.00"
-        },
-        {
-            "date": "8",
-            "profit": "￥11,000.00",
-            "income": "￥76,000.00",
-            "expenditure": "￥65,000.00"
-        },
-        {
-            "date": "7",
-            "profit": "￥80,000.00",
-            "income": "￥150,000.00",
-            "expenditure": "￥70,000.00"
-        },
-        {
-            "date": "6",
-            "profit": "￥42,000.00",
-            "income": "￥65,000.00",
-            "expenditure": "￥23,000.00"
-        },
-        {
-            "date": "5",
-            "profit": "￥80,000.00",
-            "income": "￥120,000.00",
-            "expenditure": "￥40,000.00"
-        },
-        {
-            "date": "4",
-            "profit": "￥20,000.00",
-            "income": "￥50.000.00",
-            "expenditure": "￥30,000.00"
-        },
-        {
-            "date": "3",
-            "profit": "￥130,000.00",
-            "income": "￥200,000.00",
-            "expenditure": "￥70,000.00"
-        },
-        {
-            "date": "2",
-            "profit": "￥120,000.00",
-            "income": "￥140,000.00",
-            "expenditure": "￥20,000.00"
-        },
-        {
-            "date": "1",
-            "profit": "￥100,000.00",
-            "income": "￥178,000.00",
-            "expenditure": "￥78,000.00"
-        }
-    ],
-}
+import demoData from './local/ProfitStatementPage.json'
 export default class ProfitStatementPage extends BComponent {
     constructor(props) {
         super(props);
@@ -120,34 +42,22 @@ export default class ProfitStatementPage extends BComponent {
             this.loadData(this.state.year+'-'+this.state.month)
         });
     }
-    thousandBitSeparator(num) {
-        return num && (num
-            .toString().indexOf('.') != -1 ? num.toString().replace(/(\d)(?=(\d{3})+\.)/g, function($0, $1) {
-            return $1 + ",";
-        }) : num.toString().replace(/(\d)(?=(\d{3})+\b)/g, function($0, $1) {
-            return $1 + ",";
-        }));
-    }
+
     loadData(date='',isPull=false){
 
         if(this.props.is_demo=='1'){
 
             let today = new Date()
             let arr = [];
-            let profit = 0;
-            let income = 0;
-            let expenditure = 0;
+
             for (let i = today.getMonth();i>=0;i--){
                 let dic = demoData.list[11-i];
-                profit = profit + parseFloat(dic.profit.replace(/[,￥]/g,""));
-                income = income + parseFloat(dic.income.replace(/[,￥]/g,""));
-                expenditure = expenditure + parseFloat(dic.expenditure.replace(/[,￥]/g,""));
                 arr.push(dic);
             }
             this.setState({
-                profit:'￥'+this.thousandBitSeparator(profit)+'.00',
-                income:'￥'+this.thousandBitSeparator(income)+'.00',
-                expenditure:'￥'+this.thousandBitSeparator(expenditure)+'.00',
+                profit:arr[0].profit,
+                income:arr[0].income,
+                expenditure:arr[0].expenditure,
                 dataSource:arr,
             })
             return;

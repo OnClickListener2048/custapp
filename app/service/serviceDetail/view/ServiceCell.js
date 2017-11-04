@@ -22,6 +22,7 @@ export default class ServiceCell extends Component {
         underLine:false,
         underLineStyle:{},
         isHeader:false,
+        isShowArrow:true,
         isOpen:false
     };
     render(){
@@ -53,7 +54,7 @@ export default class ServiceCell extends Component {
         )
     }
     renderArrow(){
-        if(this.props.isHeader){
+        if(this.props.isHeader ){
             return(
                 <View style={{paddingRight:18}}>
                     {this.props.isOpen?<Image source={require('../../../img/arrow_up_red.png')}/>:<Image source={require('../../../img/arrow_down_red.png')}/>}

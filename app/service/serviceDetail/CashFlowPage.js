@@ -19,59 +19,12 @@ import HeaderView from '../view/HeaderView'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-const dataDemo = {
-    "balance": "￥131,712.26",
-    "balance_start": "￥347,020.00",
-    "balance_end": "￥347,020.00",
-    "list": [
-        {
-            "num": "1001",
-            "name": "库存现金",
-            "start": "￥23,000.00",
-            "end": "￥23,000.00",
-            "others": []
-        },
-        {
-            "num": "1002",
-            "name": "银行存款",
-            "start": "￥111,000.00",
-            "end": "￥111,000.00",
-            "others": []
-        },
-        {
-            "num": "1012",
-            "name": "其他货币资金",
-            "start": "￥200,020.00",
-            "end": "￥200,020.00",
-            "others": [{
-                "num": "1002001",
-                "name": "信用卡",
-                "start": "￥20.00",
-                "end": "￥20.00"
-            },
-                {
-                    "num": "1002002",
-                    "name": "银行汇款",
-                    "start": "￥200,000.00",
-                    "end": "￥200,000.00"
-                }
-            ]
-        },
-        {
-            "num": "1003",
-            "name": "应收票据",
-            "start": "￥13,000.00",
-            "end": "￥13,000.00",
-            "others": []
-        }
-    ]
-}
+import dataDemo from './local/CashFlow.json'
 export default class CashFlowPage extends BComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            openOptions:[],
             balance:'- -',
             balance_start:'- -',
             balance_end:'- -',
@@ -83,6 +36,7 @@ export default class CashFlowPage extends BComponent {
             isLoading:false
 
         };
+        this.openOptions=[];
     }
     componentWillUnmount() {
         UMTool.onEvent('c_teturn')
@@ -129,6 +83,13 @@ export default class CashFlowPage extends BComponent {
                         isfirstRefresh:false,
                         isLoading:false
                     })
+
+                    if(responseData.data.list){
+                        this.openOptions = Array.apply(null, Array(responseData.data.list.length)).map(function(item, i) {
+                            return true;
+                        });
+                    }
+
                 }else{
                     this.setState({
                         isRefreshing:false,
@@ -159,7 +120,7 @@ export default class CashFlowPage extends BComponent {
     _renderSection (section, sectionId) {
         let dic = this.state.dataSource[sectionId]
         return(
-            <ServiceCell isOpen={this.state.openOptions[sectionId]} isHeader={true} title={dic.name} titleStyle={{color:'#E13238'}} item1_money={dic.start} item2_money={dic.end}/>
+            <ServiceCell isOpen={this.openOptions[sectionId]}  isHeader={dic.others.length>0} title={dic.name} titleStyle={{color:'#E13238'}} item1_money={dic.start} item2_money={dic.end}/>
 
         )
     };
@@ -197,14 +158,14 @@ export default class CashFlowPage extends BComponent {
         return (
             <View style={{backgroundColor:'#f9f9f9',flex:1}}>
                 <ExpanableList
+                    ref="list"
                     ListHeaderComponent = {this._listHeaderComponent.bind(this)}
                     dataSource={this.state.dataSource}
                     headerKey="name"
                     memberKey="others"
+                    isOpenArr={this.openOptions}
                     renderRow={this._renderRow.bind(this)}
                     renderSectionHeaderX={this._renderSection.bind(this)}
-                    openOptions={this.state.openOptions}
-                    headerClickCallBack={(index)=>this._headerClickCallBack(index)}
                     onRefresh={this._onRefresh.bind(this)}
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
@@ -226,9 +187,5 @@ export default class CashFlowPage extends BComponent {
         });
 
     }
-    _headerClickCallBack(index){
-        let openOptions =this.state.openOptions
-        openOptions[index]=!openOptions[index]
-        this.setState({openOptions})
-    }
+
 }

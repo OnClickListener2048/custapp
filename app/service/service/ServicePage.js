@@ -28,11 +28,7 @@ import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import HeaderView from '../view/HeaderView'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
-const demoData = {
-    profit:'￥1,150,470.62',
-    income:'￥10,465,390.28',
-    expenditure:'￥9,314,919.66'
-}
+import demoData from '../serviceDetail/local/ProfitStatementPage.json'
 
 export default class ServicePage extends BComponent {
     constructor(props) {
@@ -126,10 +122,13 @@ export default class ServicePage extends BComponent {
                         })
                     }else{
                         //演示数据
+                        let arr = demoData.list;
+                        let today = new Date()
+                        let dic = arr[11-today.getMonth()]
                         this.setState({
-                            profit:demoData.profit,
-                            income:demoData.income,
-                            expenditure:demoData.expenditure,
+                            profit:dic.profit,
+                            income:dic.income,
+                            expenditure:dic.expenditure,
                             isRefreshing:false,
                             isLoading:false
                         })
