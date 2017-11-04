@@ -37,7 +37,7 @@ export default class ServiceCell extends Component {
         return(
             <View style={[{width:DeviceInfo.width,paddingTop:18,paddingBottom:18,backgroundColor:'white',flexDirection:'row',alignItems:'center'},this.props.style,underLineStyle,this.props.underLineStyle]}>
                 <View style={{borderRightWidth:1,borderRightColor:'#dcdcdc',justifyContent:'center',alignItems:'center',width:DeviceInfo.width*0.4}}>
-                    <Text numberOfLines={1} style={[{fontSize:setSpText(20),color:'#333333'},this.props.titleStyle]}>{this.props.title}</Text>
+                    <Text  style={[{fontSize:setSpText(20),color:'#333333',textAlign:'center'},this.props.titleStyle]}>{this.props.title}</Text>
                 </View>
                 <View style={{flex:1,justifyContent:'space-between',paddingLeft:25, paddingRight:25}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
