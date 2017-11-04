@@ -22,7 +22,7 @@ import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
-const itemMargin = scaleSize(15)
+const itemMargin = scaleSize(10)
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 const headerData = [
     {
