@@ -42,57 +42,57 @@ const demoData = {
         },
         {
             "date": "9",
-            "profit": "￥105,000.00",
-            "income": "￥223,000.00",
-            "expenditure": "￥118,000.00"
+            "profit": "￥13,000.00",
+            "income": "￥28,000.00",
+            "expenditure": "￥15,000.00"
         },
         {
             "date": "8",
-            "profit": "￥119,000.00",
-            "income": "￥895,000.00",
-            "expenditure": "￥775,000.00"
+            "profit": "￥11,000.00",
+            "income": "￥76,000.00",
+            "expenditure": "￥65,000.00"
         },
         {
             "date": "7",
-            "profit": "￥99,000.00",
-            "income": "￥900,000.00",
-            "expenditure": "￥800,000.00"
+            "profit": "￥80,000.00",
+            "income": "￥150,000.00",
+            "expenditure": "￥70,000.00"
         },
         {
             "date": "6",
-            "profit": "￥86,000.00",
-            "income": "￥922,000.00",
-            "expenditure": "￥835,000.00"
+            "profit": "￥42,000.00",
+            "income": "￥65,000.00",
+            "expenditure": "￥23,000.00"
         },
         {
             "date": "5",
-            "profit": "￥89,000.00",
-            "income": "￥895,000.00",
-            "expenditure": "￥805,000.00"
+            "profit": "￥80,000.00",
+            "income": "￥120,000.00",
+            "expenditure": "￥40,000.00"
         },
         {
             "date": "4",
-            "profit": "￥42,000.00",
-            "income": "￥820.000.00",
-            "expenditure": "￥778,000.00"
+            "profit": "￥20,000.00",
+            "income": "￥50.000.00",
+            "expenditure": "￥30,000.00"
         },
         {
             "date": "3",
-            "profit": "￥85,000.00",
-            "income": "￥850,000.00",
-            "expenditure": "￥765,000.00"
+            "profit": "￥130,000.00",
+            "income": "￥200,000.00",
+            "expenditure": "￥70,000.00"
         },
         {
             "date": "2",
-            "profit": "￥69,000.00",
-            "income": "￥850,000.00",
-            "expenditure": "￥780,000.00"
+            "profit": "￥120,000.00",
+            "income": "￥140,000.00",
+            "expenditure": "￥20,000.00"
         },
         {
             "date": "1",
             "profit": "￥100,000.00",
-            "income": "￥810,000.00",
-            "expenditure": "￥709,000.00"
+            "income": "￥178,000.00",
+            "expenditure": "￥78,000.00"
         }
     ],
 }
@@ -120,15 +120,37 @@ export default class ProfitStatementPage extends BComponent {
             this.loadData(this.state.year+'-'+this.state.month)
         });
     }
+    thousandBitSeparator(num) {
+        return num && (num
+            .toString().indexOf('.') != -1 ? num.toString().replace(/(\d)(?=(\d{3})+\.)/g, function($0, $1) {
+            return $1 + ",";
+        }) : num.toString().replace(/(\d)(?=(\d{3})+\b)/g, function($0, $1) {
+            return $1 + ",";
+        }));
+    }
     loadData(date='',isPull=false){
 
         if(this.props.is_demo=='1'){
 
+            let today = new Date()
+            let arr = [];
+            let profit = 0;
+            let income = 0;
+            let expenditure = 0;
+            for (let i = today.getMonth();i>=0;i--){
+                let dic = demoData.list[11-i];
+                profit = profit + parseFloat(dic.profit.replace(/[,￥]/g,""));
+                income = income + parseFloat(dic.income.replace(/[,￥]/g,""));
+                expenditure = expenditure + parseFloat(dic.expenditure.replace(/[,￥]/g,""));
+                arr.push(dic);
+            }
+
+
             this.setState({
-                profit:demoData.profit,
-                income:demoData.income,
-                expenditure:demoData.expenditure,
-                dataSource:demoData.list,
+                profit:'￥'+this.thousandBitSeparator(profit)+'.00',
+                income:'￥'+this.thousandBitSeparator(income)+'.00',
+                expenditure:'￥'+this.thousandBitSeparator(expenditure)+'.00',
+                dataSource:arr,
             })
             return;
         }
