@@ -144,8 +144,6 @@ export default class ProfitStatementPage extends BComponent {
                 expenditure = expenditure + parseFloat(dic.expenditure.replace(/[,￥]/g,""));
                 arr.push(dic);
             }
-
-
             this.setState({
                 profit:'￥'+this.thousandBitSeparator(profit)+'.00',
                 income:'￥'+this.thousandBitSeparator(income)+'.00',

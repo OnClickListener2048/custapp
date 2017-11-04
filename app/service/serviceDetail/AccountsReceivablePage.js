@@ -19,8 +19,8 @@ import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
 const demoData = {
-    "start_account": "￥893,666.00",
-    "end_account": "￥893,666.000",
+    "start_account": "￥20,600.00",
+    "end_account": "￥20,600.00",
     "list": [
         {
             "name":"应收账款",
