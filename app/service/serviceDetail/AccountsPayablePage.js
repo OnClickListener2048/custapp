@@ -40,7 +40,7 @@ export default class AccountsPayablePage extends BComponent {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(this.state.year+'-'+this.state.month,'1')
+            this.loadData(this.state.year+'-'+this.state.month,'2')
         });
     }
     loadData(date='',type='2',isPull=false){
@@ -106,7 +106,7 @@ export default class AccountsPayablePage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.year+'-'+this.state.month,'1',true)
+        this.loadData(this.state.year+'-'+this.state.month,'2',true)
     }
     _renderRow (rowItem, rowId, sectionId) {
 
@@ -174,7 +174,7 @@ export default class AccountsPayablePage extends BComponent {
     _callback(year,month){
 
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(year+'-'+month,'1')
+            this.loadData(year+'-'+month,'2')
             this.props.callback && this.props.callback(year,month,true)
             this.setState({
                 year,

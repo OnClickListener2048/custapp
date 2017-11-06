@@ -42,7 +42,7 @@ export default class AccountsReceivablePage extends BComponent {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(this.state.year+'-'+this.state.month,'2')
+            this.loadData(this.state.year+'-'+this.state.month,'1')
         });
     }
     loadData(date='',type='1',isPull=false){
@@ -104,7 +104,7 @@ export default class AccountsReceivablePage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.year+'-'+this.state.month,'2',true)
+        this.loadData(this.state.year+'-'+this.state.month,'1',true)
     }
     _renderRow (rowItem, rowId, sectionId) {
 
@@ -173,7 +173,7 @@ export default class AccountsReceivablePage extends BComponent {
     _callback(year,month){
 
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(year+'-'+month,'2')
+            this.loadData(year+'-'+month,'1')
             this.props.callback && this.props.callback(year,month,true)
             this.setState({
                 year,
