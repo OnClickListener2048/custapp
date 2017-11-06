@@ -17,15 +17,15 @@ export class UMTool{
         UserInfoStore.isLogined().then(
             logined => {
                 if (logined){
-                     UMModules.onEventWithLabel(eventId,"login_in");
+                    UMModules.onEvent(eventId+'_Y')
 
                 }else{
-                     UMModules.onEventWithLabel(eventId,"login_out");
+                    UMModules.onEvent(eventId+'_N')
 
                 }
             },
             e => {
-                 UMModules.onEventWithLabel(eventId,"login_out");
+                UMModules.onEvent(eventId+'_N')
             }
         );
     }

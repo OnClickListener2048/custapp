@@ -81,13 +81,22 @@ export default class ServicePage extends BComponent {
                 console.log('company', company);
                 if (company && company.id) {
                     this.companyid = company.id
+                    this.setState({
+                        is_demo:2
+                    })
                 }else{
                     this.companyid = undefined
+                    this.setState({
+                        is_demo:1
+                    })
                 }
                 this.loadData(this.state.year+'-'+this.state.month)
 
             },
             (e) => {
+                this.setState({
+                    is_demo:1
+                })
                 this.loadData(this.state.year+'-'+this.state.month)
             },
         );
@@ -135,20 +144,51 @@ export default class ServicePage extends BComponent {
                     }
 
                 }else{
-                    this.setState({
-                        isRefreshing:false,
-                        isLoading:false
-                    })
+
+
+                    if(this.state.is_demo == 1){
+                        //演示数据
+                        let arr = demoData.list;
+                        let today = new Date()
+                        let dic = arr[11-today.getMonth()]
+                        this.setState({
+                            profit:dic.profit,
+                            income:dic.income,
+                            expenditure:dic.expenditure,
+                            isRefreshing:false,
+                            isLoading:false
+                        })
+                    }else{
+                        this.setState({
+                            isRefreshing:false,
+                            isLoading:false
+                        })
+                    }
+
+
                     // Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
             (e) => {
 
-                this.setState({
-                    isRefreshing:false,
-                    isLoading:false
-
-                })
+                if(this.state.is_demo == 1){
+                    //演示数据
+                    let arr = demoData.list;
+                    let today = new Date()
+                    let dic = arr[11-today.getMonth()]
+                    this.setState({
+                        profit:dic.profit,
+                        income:dic.income,
+                        expenditure:dic.expenditure,
+                        isRefreshing:false,
+                        isLoading:false
+                    })
+                }else{
+                    this.setState({
+                        isRefreshing:false,
+                        isLoading:false
+                    })
+                }
                 // Toast.show('加载失败！')
             },
         );
