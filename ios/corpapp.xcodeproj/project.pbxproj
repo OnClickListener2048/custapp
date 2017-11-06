@@ -1037,7 +1037,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = DACZK6XLF9;
+						DevelopmentTeam = 87SVWFPFHY;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1747,7 +1747,7 @@
 				CODE_SIGN_ENTITLEMENTS = corpapp/corpapp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = DACZK6XLF9;
+				DEVELOPMENT_TEAM = 87SVWFPFHY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ImageCropPickerSDK",
@@ -1792,7 +1792,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = corpapp/corpapp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = DACZK6XLF9;
+				DEVELOPMENT_TEAM = 87SVWFPFHY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ImageCropPickerSDK",
