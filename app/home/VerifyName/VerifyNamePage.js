@@ -117,6 +117,7 @@ export default class HomePage extends BComponent {
 
                     // Toast.show(errorText(e));
                     Toast.show(errorText(e));
+                    this.refs.timerButton.reset();
 
                 }
             );
