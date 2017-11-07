@@ -322,13 +322,14 @@ export default class HomePage extends BComponent {
     _listHeaderComponent(){
         return(
             <View style={{width:DeviceInfo.width}}>
-                <Image resizeMode="cover" source={require('../../img/name_bg.png')} style={{width:deviceWidth,justifyContent:'center',
-                    alignItems:'center'}}>
-                    <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>
-                    <TouchableOpacity   onPress={this._goVerifyName.bind(this)} style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>
-                        <Text style={{color:'white',fontSize:setSpText(16)}}>免费核名</Text>
-                    </TouchableOpacity>
-                </Image>
+                <TouchableOpacity onPress={this._goVerifyName.bind(this)}>
+                    <Image resizeMode="cover" source={require('../../img/banner.png')} style={{width:deviceWidth}}>
+                        {/*<Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>*/}
+                        {/*<TouchableOpacity   onPress={this._goVerifyName.bind(this)} style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>*/}
+                        {/*<Text style={{color:'white',fontSize:setSpText(16)}}>免费核名</Text>*/}
+                        {/*</TouchableOpacity>*/}
+                    </Image>
+                </TouchableOpacity>
                 <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white'}}>
                     {
                         headerData.map((item,i)=>{
