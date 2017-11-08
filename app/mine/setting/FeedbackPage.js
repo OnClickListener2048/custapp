@@ -74,7 +74,7 @@ export default class FeedbackPage extends BComponent {
                         rightView={
                             <TextInput
                                 placeholder="请输入您的姓名"
-                                maxLength={5}
+                                maxLength={10}
                                 returnKeyType='next'
                                 underlineColorAndroid='transparent'
                                 style={{fontSize: 14, textAlign: "right", padding: 0, width: DeviceInfo.width / 2}}
