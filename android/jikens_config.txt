@@ -1,0 +1,14 @@
+pwd
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+ANDROID_HOME=/Users/pilipa/Documents/Android/sdk
+( sh /Users/pilipa/IOS/workspace/AppAndroidBuild_dev/build_android.sh ) & pid=$!
+( sleep 1200 && kill -HUP $pid ) 2>/dev/null & watcher=$!
+if wait $pid 2>/dev/null; then
+    java -jar android/walle-cli-all.jar batch -c 360,qq,xiaomi,huawei android/app/build/outputs/apk/li-armeabi-v7a-release.apk
+    echo "build finished, 上传至蒲公英"
+    curl -F "file=@android/app/build/outputs/apk/li-armeabi-v7a-release.apk" -F "_api_key=6f113667ad1a8c289064c375683d68c5" http://www.pgyer.com/apiv2/app/upload
+    exit 0
+else
+    echo "build timeout and interrupted"
+    exit 1
+fi
