@@ -20,14 +20,12 @@ export const SCREEN_HEIGHT = height;
 export let SCHEME = 'https';
 
 export let WECHAT_APP_ID = 'wx16da5000356a9497';// 微信APP ID
-
-export let DOMAIN_API = 'x-www.i-counting.cn';
-export let UAA_DOMAIN_URL = 'https://id.i-counting.cn';
+export let DOMAIN_API = 'www-rc.i-counting.cn';
+console.log("DEBUG==", DEBUG);
 if(DEBUG) {// 测试环境变量, 上线时应删除
 
     SCHEME = 'https';
     DOMAIN_API = 'x-www.i-counting.cn';
-    UAA_DOMAIN_URL = 'https://x-id.i-counting.cn';
 
     //单
     // SCHEME = 'http';

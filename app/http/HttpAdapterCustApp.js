@@ -11,7 +11,7 @@ export default class HttpAdapterCustApp extends HttpAdapter {
         let finalHeaders = new Headers();
         finalHeaders.append('userAgent', 'custapp'); // TODO 登录时的头信息, userAgent
         finalHeaders.append('platform', 'app');
-        finalHeaders.append('client', 'ios'); //Platform.OS);
+        finalHeaders.append('client', Platform.OS);
         try {
             let token = await UserInfoStore.getUserToken();
             console.log('modifyParams token', token);

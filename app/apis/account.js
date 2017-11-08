@@ -2,7 +2,7 @@
  * 用户相关接口
  * 绑定手机号的API在UAA中定义: https://tower.im/projects/c9a5ffff111d411990d752cefa1493fb/docs/dc94ebe6acc845ff97ddf2d877c65377/
  */
-import {postApi, getApi, postRawApi, getApiUAA, putEx} from './common';
+import {postApi, getApi, postRawApi, putEx} from './common';
 import {WECHAT_APP_ID} from '../config' ;
 import {
     Platform, DeviceEventEmitter
