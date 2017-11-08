@@ -161,7 +161,7 @@ export default class MinePage extends BComponent {
         )
     }
     _call(){
-        Linking.openURL('tel:18519107704')
+        Linking.openURL('tel:400-107-0110')
     }
     _goto(screen, title ){
 
