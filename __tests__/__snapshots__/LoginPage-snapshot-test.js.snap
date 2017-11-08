@@ -101,456 +101,89 @@ exports[`快照正确渲染 1`] = `
         }
       }
     />
-    <View
-      style={
-        Object {
-          "backgroundColor": "white",
-          "flexDirection": "row",
-          "height": 44,
-          "justifyContent": "center",
-          "width": 750,
-        }
-      }
-    >
-      <View
-        style={
-          Object {
-            "backgroundColor": "transparent",
-            "borderBottomColor": "#dcdcdc",
-            "borderBottomWidth": 0.5,
-            "flexDirection": "row",
-            "height": 44,
-            "justifyContent": "flex-start",
-            "marginLeft": 20,
-            "marginRight": 15,
-            "width": 685,
-          }
-        }
-      >
-        <TextInput
-          keyboardType="numeric"
-          maxLength={11}
-          onChangeText={[Function]}
-          placeholder="手机号码"
-          placeholderTextColor="#BABABA"
-          returnKeyType="next"
-          style={
-            Object {
-              "color": "#6a6a6a",
-              "flex": 1,
-              "fontSize": 14,
-              "marginLeft": 0,
-              "padding": 0,
-              "width": 219,
-            }
-          }
-          underlineColorAndroid="transparent"
-          value=""
-        />
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "backgroundColor": "white",
-          "flexDirection": "row",
-          "height": 44,
-          "justifyContent": "center",
-          "width": 750,
-        }
-      }
-    >
-      <View
-        style={
-          Object {
-            "backgroundColor": "transparent",
-            "borderBottomColor": "#dcdcdc",
-            "borderBottomWidth": 0.5,
-            "flexDirection": "row",
-            "height": 44,
-            "justifyContent": "flex-start",
-            "marginLeft": 20,
-            "marginRight": 15,
-            "width": 685,
-          }
-        }
-      >
-        <TextInput
-          editable={false}
-          keyboardType="numeric"
-          maxLength={6}
-          onBlur={[Function]}
-          onChangeText={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="短信验证"
-          placeholderTextColor="#BABABA"
-          returnKeyType="done"
-          secureTextEntry={false}
-          style={
-            Object {
-              "alignSelf": "center",
-              "color": "#6A6A6A",
-              "flex": 1,
-              "fontSize": 14,
-              "height": 30,
-              "marginLeft": 0,
-              "padding": 0,
-              "width": 74,
-            }
-          }
-          underlineColorAndroid="transparent"
-          value=""
-        />
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "backgroundColor": "#c8c8c8",
-              "height": 15,
-              "marginRight": 1,
-              "width": 1,
-            }
-          }
-        />
-        <View
-          accessibilityComponentType={undefined}
-          accessibilityLabel={undefined}
-          accessibilityTraits={undefined}
-          accessible={true}
-          collapsable={undefined}
-          hitSlop={undefined}
-          isTVSelectable={true}
-          nativeID={undefined}
-          onLayout={undefined}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
-          testID={undefined}
-          tvParallaxProperties={undefined}
-        >
-          <View
-            style={
-              Array [
-                Object {
-                  "alignItems": "flex-end",
-                  "height": 44,
-                  "justifyContent": "center",
-                  "width": 70,
-                },
-                Object {
-                  "alignSelf": "flex-end",
-                  "height": 44,
-                  "marginRight": 0,
-                  "width": 70,
-                },
-              ]
-            }
-          >
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              disabled={false}
-              ellipsizeMode="tail"
-              style={
-                Array [
-                  Object {
-                    "fontSize": 12,
-                  },
-                  Object {
-                    "alignSelf": "flex-end",
-                    "color": "#6A6A6A",
-                  },
-                  Object {
-                    "color": "#c8c8c8",
-                  },
-                ]
-              }
-              textAlign="right"
-            >
-              获取验证码
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-    <View
+    <Image
+      source={1}
       style={
         Array [
           Object {
-            "backgroundColor": "white",
-            "flexDirection": "row",
-            "height": 44,
-            "justifyContent": "center",
-            "width": 750,
+            "alignSelf": "center",
           },
           Object {
-            "marginTop": 2,
+            "justifyContent": "center",
           },
         ]
       }
-    >
-      <View
-        accessibilityComponentType={undefined}
-        accessibilityLabel={undefined}
-        accessibilityTraits={undefined}
-        accessible={true}
-        collapsable={undefined}
-        hitSlop={undefined}
-        isTVSelectable={true}
-        nativeID={undefined}
-        onLayout={undefined}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "alignSelf": "center",
-            "opacity": 1,
-          }
-        }
-        testID={undefined}
-        tvParallaxProperties={undefined}
-      />
-      <View
-        style={
-          Array [
-            Object {
-              "backgroundColor": "transparent",
-              "borderBottomColor": "#dcdcdc",
-              "borderBottomWidth": 0.5,
-              "flexDirection": "row",
-              "height": 44,
-              "justifyContent": "flex-start",
-              "marginLeft": 20,
-              "marginRight": 15,
-              "width": 685,
-            },
-            Object {
-              "borderBottomWidth": 0,
-              "justifyContent": "flex-start",
-            },
-          ]
-        }
-      >
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "alignSelf": "center",
-              "color": "#BABABA",
-              "fontSize": 12,
-              "marginRight": 1,
-            }
-          }
-        >
-          点击登录即视为同意
-        </Text>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "alignSelf": "center",
-              "color": "#BABABA",
-              "fontSize": 12,
-              "marginRight": 1,
-              "textDecorationLine": "underline",
-            }
-          }
-        >
-          《用户注册和使用协议》
-        </Text>
-      </View>
-    </View>
+    />
     <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {
-            "alignItems": "center",
-            "alignSelf": "stretch",
-            "borderRadius": 8,
-            "borderWidth": 1,
-            "flexDirection": "row",
-            "height": 44,
-            "justifyContent": "center",
-            "marginBottom": 10,
-          },
           Object {
             "alignSelf": "center",
             "backgroundColor": "#ef0c35",
             "borderRadius": 22,
             "borderWidth": 0,
+            "flexDirection": "row",
             "height": 44,
             "justifyContent": "center",
             "margin": 0,
-            "marginTop": 22.5,
+            "marginTop": 0,
             "width": 300,
           },
           Object {
-            "alignSelf": "center",
-            "backgroundColor": "#e6e6e6",
-            "borderRadius": 22,
-            "borderWidth": 0,
-            "height": 44,
-            "justifyContent": "center",
-            "margin": 0,
-            "marginTop": 22.5,
-            "width": 300,
+            "marginTop": 50,
           },
         ]
       }
+      testID={undefined}
     >
+      <Image
+        source={1}
+        style={
+          Array [
+            Object {
+              "alignSelf": "center",
+              "resizeMode": "contain",
+            },
+            Object {
+              "justifyContent": "flex-start",
+            },
+          ]
+        }
+      />
       <Text
         accessible={true}
-        allowFontScaling={true}
+        allowFontScaling={false}
         disabled={false}
         ellipsizeMode="tail"
         style={
           Array [
             Object {
-              "backgroundColor": "transparent",
-              "flex": 1,
-              "fontSize": 18,
-              "textAlign": "center",
-            },
-            Object {
+              "alignSelf": "center",
               "color": "#FFFFFF",
               "fontSize": 15,
               "marginBottom": 10,
+              "marginLeft": 5,
               "marginTop": 10,
               "textAlign": "center",
             },
           ]
         }
       >
-        登录
+        微信登录
       </Text>
-    </View>
-    <View
-      style={
-        Object {
-          "flexDirection": "row",
-          "justifyContent": "space-around",
-          "marginLeft": 0,
-          "marginTop": 15,
-          "width": 750,
-        }
-      }
-    >
-      <View
-        style={
-          Object {
-            "backgroundColor": "transparent",
-            "borderBottomColor": "#ececec",
-            "borderBottomWidth": 0.5,
-            "height": 1,
-            "marginLeft": 10,
-            "marginRight": 10,
-            "marginTop": 5,
-            "width": 200,
-          }
-        }
-      />
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "color": "#c8c8c8",
-            "fontSize": 12,
-          }
-        }
-      >
-        第三方登录
-      </Text>
-      <View
-        style={
-          Object {
-            "backgroundColor": "transparent",
-            "borderBottomColor": "#ececec",
-            "borderBottomWidth": 0.5,
-            "height": 1,
-            "marginLeft": 10,
-            "marginRight": 10,
-            "marginTop": 5,
-            "width": 200,
-          }
-        }
-      />
-    </View>
-    <View
-      style={
-        Array [
-          Object {
-            "flexDirection": "row",
-            "justifyContent": "space-around",
-            "marginLeft": 0,
-            "marginTop": 15,
-            "width": 750,
-          },
-          Object {
-            "marginTop": 20,
-          },
-        ]
-      }
-    >
-      <View
-        accessibilityComponentType={undefined}
-        accessibilityLabel={undefined}
-        accessibilityTraits={undefined}
-        accessible={true}
-        collapsable={undefined}
-        hitSlop={undefined}
-        isTVSelectable={true}
-        nativeID={undefined}
-        onLayout={undefined}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "opacity": 1,
-          }
-        }
-        testID={undefined}
-        tvParallaxProperties={undefined}
-      >
-        <Image
-          source={1}
-          style={
-            Array [
-              Object {
-                "alignSelf": "center",
-                "resizeMode": "contain",
-              },
-              Object {
-                "justifyContent": "center",
-              },
-            ]
-          }
-        />
-      </View>
     </View>
   </View>
 </View>
@@ -658,456 +291,89 @@ exports[`快照正确渲染 2`] = `
         }
       }
     />
-    <View
-      style={
-        Object {
-          "backgroundColor": "white",
-          "flexDirection": "row",
-          "height": 44,
-          "justifyContent": "center",
-          "width": 750,
-        }
-      }
-    >
-      <View
-        style={
-          Object {
-            "backgroundColor": "transparent",
-            "borderBottomColor": "#dcdcdc",
-            "borderBottomWidth": 0.5,
-            "flexDirection": "row",
-            "height": 44,
-            "justifyContent": "flex-start",
-            "marginLeft": 20,
-            "marginRight": 15,
-            "width": 685,
-          }
-        }
-      >
-        <TextInput
-          keyboardType="numeric"
-          maxLength={11}
-          onChangeText={[Function]}
-          placeholder="手机号码"
-          placeholderTextColor="#BABABA"
-          returnKeyType="next"
-          style={
-            Object {
-              "color": "#6a6a6a",
-              "flex": 1,
-              "fontSize": 14,
-              "marginLeft": 0,
-              "padding": 0,
-              "width": 219,
-            }
-          }
-          underlineColorAndroid="transparent"
-          value=""
-        />
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "backgroundColor": "white",
-          "flexDirection": "row",
-          "height": 44,
-          "justifyContent": "center",
-          "width": 750,
-        }
-      }
-    >
-      <View
-        style={
-          Object {
-            "backgroundColor": "transparent",
-            "borderBottomColor": "#dcdcdc",
-            "borderBottomWidth": 0.5,
-            "flexDirection": "row",
-            "height": 44,
-            "justifyContent": "flex-start",
-            "marginLeft": 20,
-            "marginRight": 15,
-            "width": 685,
-          }
-        }
-      >
-        <TextInput
-          editable={false}
-          keyboardType="numeric"
-          maxLength={6}
-          onBlur={[Function]}
-          onChangeText={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="短信验证"
-          placeholderTextColor="#BABABA"
-          returnKeyType="done"
-          secureTextEntry={false}
-          style={
-            Object {
-              "alignSelf": "center",
-              "color": "#6A6A6A",
-              "flex": 1,
-              "fontSize": 14,
-              "height": 30,
-              "marginLeft": 0,
-              "padding": 0,
-              "width": 74,
-            }
-          }
-          underlineColorAndroid="transparent"
-          value=""
-        />
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "backgroundColor": "#c8c8c8",
-              "height": 15,
-              "marginRight": 1,
-              "width": 1,
-            }
-          }
-        />
-        <View
-          accessibilityComponentType={undefined}
-          accessibilityLabel={undefined}
-          accessibilityTraits={undefined}
-          accessible={true}
-          collapsable={undefined}
-          hitSlop={undefined}
-          isTVSelectable={true}
-          nativeID={undefined}
-          onLayout={undefined}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
-          testID={undefined}
-          tvParallaxProperties={undefined}
-        >
-          <View
-            style={
-              Array [
-                Object {
-                  "alignItems": "flex-end",
-                  "height": 44,
-                  "justifyContent": "center",
-                  "width": 70,
-                },
-                Object {
-                  "alignSelf": "flex-end",
-                  "height": 44,
-                  "marginRight": 0,
-                  "width": 70,
-                },
-              ]
-            }
-          >
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              disabled={false}
-              ellipsizeMode="tail"
-              style={
-                Array [
-                  Object {
-                    "fontSize": 12,
-                  },
-                  Object {
-                    "alignSelf": "flex-end",
-                    "color": "#6A6A6A",
-                  },
-                  Object {
-                    "color": "#c8c8c8",
-                  },
-                ]
-              }
-              textAlign="right"
-            >
-              获取验证码
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-    <View
+    <Image
+      source={1}
       style={
         Array [
           Object {
-            "backgroundColor": "white",
-            "flexDirection": "row",
-            "height": 44,
-            "justifyContent": "center",
-            "width": 750,
+            "alignSelf": "center",
           },
           Object {
-            "marginTop": 2,
+            "justifyContent": "center",
           },
         ]
       }
-    >
-      <View
-        accessibilityComponentType={undefined}
-        accessibilityLabel={undefined}
-        accessibilityTraits={undefined}
-        accessible={true}
-        collapsable={undefined}
-        hitSlop={undefined}
-        isTVSelectable={true}
-        nativeID={undefined}
-        onLayout={undefined}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "alignSelf": "center",
-            "opacity": 1,
-          }
-        }
-        testID={undefined}
-        tvParallaxProperties={undefined}
-      />
-      <View
-        style={
-          Array [
-            Object {
-              "backgroundColor": "transparent",
-              "borderBottomColor": "#dcdcdc",
-              "borderBottomWidth": 0.5,
-              "flexDirection": "row",
-              "height": 44,
-              "justifyContent": "flex-start",
-              "marginLeft": 20,
-              "marginRight": 15,
-              "width": 685,
-            },
-            Object {
-              "borderBottomWidth": 0,
-              "justifyContent": "flex-start",
-            },
-          ]
-        }
-      >
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "alignSelf": "center",
-              "color": "#BABABA",
-              "fontSize": 12,
-              "marginRight": 1,
-            }
-          }
-        >
-          点击登录即视为同意
-        </Text>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          disabled={false}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "alignSelf": "center",
-              "color": "#BABABA",
-              "fontSize": 12,
-              "marginRight": 1,
-              "textDecorationLine": "underline",
-            }
-          }
-        >
-          《用户注册和使用协议》
-        </Text>
-      </View>
-    </View>
+    />
     <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {
-            "alignItems": "center",
-            "alignSelf": "stretch",
-            "borderRadius": 8,
-            "borderWidth": 1,
-            "flexDirection": "row",
-            "height": 44,
-            "justifyContent": "center",
-            "marginBottom": 10,
-          },
           Object {
             "alignSelf": "center",
             "backgroundColor": "#ef0c35",
             "borderRadius": 22,
             "borderWidth": 0,
+            "flexDirection": "row",
             "height": 44,
             "justifyContent": "center",
             "margin": 0,
-            "marginTop": 22.5,
+            "marginTop": 0,
             "width": 300,
           },
           Object {
-            "alignSelf": "center",
-            "backgroundColor": "#e6e6e6",
-            "borderRadius": 22,
-            "borderWidth": 0,
-            "height": 44,
-            "justifyContent": "center",
-            "margin": 0,
-            "marginTop": 22.5,
-            "width": 300,
+            "marginTop": 50,
           },
         ]
       }
+      testID={undefined}
     >
+      <Image
+        source={1}
+        style={
+          Array [
+            Object {
+              "alignSelf": "center",
+              "resizeMode": "contain",
+            },
+            Object {
+              "justifyContent": "flex-start",
+            },
+          ]
+        }
+      />
       <Text
         accessible={true}
-        allowFontScaling={true}
+        allowFontScaling={false}
         disabled={false}
         ellipsizeMode="tail"
         style={
           Array [
             Object {
-              "backgroundColor": "transparent",
-              "flex": 1,
-              "fontSize": 18,
-              "textAlign": "center",
-            },
-            Object {
+              "alignSelf": "center",
               "color": "#FFFFFF",
               "fontSize": 15,
               "marginBottom": 10,
+              "marginLeft": 5,
               "marginTop": 10,
               "textAlign": "center",
             },
           ]
         }
       >
-        登录
+        微信登录
       </Text>
-    </View>
-    <View
-      style={
-        Object {
-          "flexDirection": "row",
-          "justifyContent": "space-around",
-          "marginLeft": 0,
-          "marginTop": 15,
-          "width": 750,
-        }
-      }
-    >
-      <View
-        style={
-          Object {
-            "backgroundColor": "transparent",
-            "borderBottomColor": "#ececec",
-            "borderBottomWidth": 0.5,
-            "height": 1,
-            "marginLeft": 10,
-            "marginRight": 10,
-            "marginTop": 5,
-            "width": 200,
-          }
-        }
-      />
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "color": "#c8c8c8",
-            "fontSize": 12,
-          }
-        }
-      >
-        第三方登录
-      </Text>
-      <View
-        style={
-          Object {
-            "backgroundColor": "transparent",
-            "borderBottomColor": "#ececec",
-            "borderBottomWidth": 0.5,
-            "height": 1,
-            "marginLeft": 10,
-            "marginRight": 10,
-            "marginTop": 5,
-            "width": 200,
-          }
-        }
-      />
-    </View>
-    <View
-      style={
-        Array [
-          Object {
-            "flexDirection": "row",
-            "justifyContent": "space-around",
-            "marginLeft": 0,
-            "marginTop": 15,
-            "width": 750,
-          },
-          Object {
-            "marginTop": 20,
-          },
-        ]
-      }
-    >
-      <View
-        accessibilityComponentType={undefined}
-        accessibilityLabel={undefined}
-        accessibilityTraits={undefined}
-        accessible={true}
-        collapsable={undefined}
-        hitSlop={undefined}
-        isTVSelectable={true}
-        nativeID={undefined}
-        onLayout={undefined}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "opacity": 1,
-          }
-        }
-        testID={undefined}
-        tvParallaxProperties={undefined}
-      >
-        <Image
-          source={1}
-          style={
-            Array [
-              Object {
-                "alignSelf": "center",
-                "resizeMode": "contain",
-              },
-              Object {
-                "justifyContent": "center",
-              },
-            ]
-          }
-        />
-      </View>
     </View>
   </View>
 </View>
