@@ -68,7 +68,7 @@ export default class BComponent extends Component {
 
     // 避免短时间内连续点击多次跳转处理
     push(object):void {
-        console.log("_doPush", object);
+        // console.log("_doPush", object);
 
         if (this.state.isPushing === true) {
             console.log("休息一下吧, 您的手速太快了");
@@ -79,7 +79,9 @@ export default class BComponent extends Component {
             this.props.navigator.push(object);
         }
 
-        this.state.isPushing = true;
+        this.setState({
+            isPushing:true
+        })
 
         this._timer = setTimeout(()=>{
             this.setState({isPushing:false})//0.5秒后可点击

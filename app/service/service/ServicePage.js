@@ -263,10 +263,10 @@ export default class ServicePage extends BComponent {
                 return <SendBill />//发送票据
                 break;
             case 2:
-                return <AccountingTreatment push={this.push.bind(this)} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo} />//财务处理
+                return <AccountingTreatment push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo} />//财务处理
                 break;
             case 3:
-                return <PayTaxes push={this.push.bind(this)} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo}/>//申报纳税
+                return <PayTaxes push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo}/>//申报纳税
                 break;
             case 4:
                 return <ClearCard/>//清卡

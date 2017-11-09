@@ -17,6 +17,7 @@ export default class WebViewPage extends BComponent {
     }
 
     render(){
+        console.log(this.props.url);
         return(
             <WebView
                 source={{uri:this.props.url}}
