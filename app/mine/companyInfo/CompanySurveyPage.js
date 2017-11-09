@@ -85,6 +85,7 @@ export default class CompanySurveyPage extends BComponent {
                             title:'证照信息',
                             type:'2',
                             dataArr:responseData.data.license===undefined?[]:responseData.data.license,
+                            // dataArr:responseData.data.license===undefined?[]:[{"name":"营业执照","img":"/FileUploads/Order/CardID/201710/XririZpzMK.png","valid_time":""},{"name":"法人身份证","img":"","valid_time":"2017-01-11"}],
                         }
 
                     ]

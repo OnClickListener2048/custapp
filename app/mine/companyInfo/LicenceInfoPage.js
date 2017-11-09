@@ -37,18 +37,38 @@ export default class LicenceInfoPage extends BComponent {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
+                {this.props.licenceinfo.valid_time !== '' && this.props.licenceinfo.valid_time !== undefined
+                ||this.props.licenceinfo.img !== '' &&this.props.licenceinfo.img !== undefined?
                 <ScrollView>
-                    <View style={{width:DeviceInfo.width,backgroundColor:'#F9F9F9',alignItems:'center',justifyContent:'center',
+                    {this.props.licenceinfo.img !== '' && this.props.licenceinfo.img !== undefined ?
+                        <View style={{width:DeviceInfo.width,backgroundColor:'#F9F9F9',alignItems:'center',justifyContent:'center',
                         height:this.state.imgheight===0||this.state.imgheight===null?(DeviceInfo.width+16)/2:this.state.imgheight+16}}>
-                    <ImageLoad
-                        placeholderStyle={{width:DeviceInfo.width-16,height:this.state.imgheight}}
-                        style={{backgroundColor:'#F9F9F9',width:DeviceInfo.width-16,
-                            height:this.state.imgheight===0||this.state.imgheight===null?(DeviceInfo.width-16)/2:this.state.imgheight-4}}
-                        loadingStyle={{ size: 'small', color: 'black' }}
-                        // source={{ uri:"/FileUploads/Order/CardID/201710/XririZpzMK.png" }}
-                        source={{ uri:this.props.licenceinfo.img===''?"no_image.png":this.props.licenceinfo.img+""}}
-                    />
-                    </View>
+                            <ImageLoad
+                                placeholderStyle={{width: DeviceInfo.width - 16, height: this.state.imgheight}}
+                                style={{
+                                    backgroundColor: '#F9F9F9', width: DeviceInfo.width - 16,
+                                    height: this.state.imgheight === 0 || this.state.imgheight === null ? (DeviceInfo.width - 16) / 2 : this.state.imgheight - 4
+                                }}
+                                loadingStyle={{size: 'small', color: 'black'}}
+                                // source={{ uri:"/FileUploads/Order/CardID/201710/XririZpzMK.png" }}
+                                source={{uri: this.props.licenceinfo.img + ""}}
+                            />
+                    </View>:
+                        <View style={{width:DeviceInfo.width,backgroundColor:'#F9F9F9',alignItems:'center',justifyContent:'center',
+                            height:(DeviceInfo.width+16)/2}}>
+                        <ImageLoad
+                            placeholderStyle={{width: DeviceInfo.width - 16, height: this.state.imgheight}}
+                            style={{
+                                backgroundColor: '#F9F9F9', width: DeviceInfo.width - 16,
+                                height: (DeviceInfo.width - 16) / 2
+                            }}
+                            loadingStyle={{size: 'small', color: 'black'}}
+                            // source={{ uri:"/FileUploads/Order/CardID/201710/XririZpzMK.png" }}
+                            source={require('../../img/no_message.png')}
+                            resizeMode={'contain'}
+                        />
+                        </View>
+                    }
                     {/*<Image style={{width:DeviceInfo.width}} source={require('../../img/name_bg.png')}/>*/}
                     {this.props.licenceinfo.valid_time !== '' && this.props.licenceinfo.valid_time !== undefined &&
                     <View>
@@ -64,7 +84,16 @@ export default class LicenceInfoPage extends BComponent {
                             />
                     </View>
                     }
-                </ScrollView>
+                </ScrollView>:
+                    <View style={{backgroundColor:'#f9f9f9',
+                        justifyContent:'center',
+                        alignItems:'center',
+                        flex:1,
+                        width:DeviceInfo.width, height:DeviceInfo.OS==='ios'?DeviceInfo.height-44-64:DeviceInfo.height-88}}>
+                        <Image source={require('../../img/no_message.png')}/>
+                        <Text style={{fontSize:15,color:'#999999',marginTop:50}}>暂未上传资料</Text>
+                    </View>
+                }
             </View>
 
         )
