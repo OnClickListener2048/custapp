@@ -17,10 +17,18 @@ export default class OrderStateCell extends Component {
     constructor(props){
         super(props)
         this._typeView=this._typeView.bind(this)
+        this.state = {
+            isPushing: false,// 是否跳转中
+        };
     }
 
 
     _toDetail(orderId,orderState,money,id,statusW,orderItem){
+        if (this.state.isPushing === true) {
+            console.log("休息一下吧, 您的手速太快了");
+            return;
+        }
+
         this.props.navigator.push({
             screen: 'ProgressDetailPage',
             title:'进度详情',
@@ -33,6 +41,15 @@ export default class OrderStateCell extends Component {
                 orderItem:orderItem
             }
         });
+
+        this.state.isPushing = true;
+
+        this._timer = setTimeout(()=>{
+            this.setState({isPushing:false})//0.5秒后可点击
+            clearTimeout(this._timer);
+        },500);
+
+
     }
 
     render(){
