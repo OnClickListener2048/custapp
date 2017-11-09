@@ -38,8 +38,10 @@ export default class FeedbackPage extends BComponent {
     componentWillMount() {
         UserInfoStore.getLastUserPhone().then(
             newMobile => {
-                let newMobileValid = newMobile.length > 0 && (newMobile.match(/^([0-9]{11})?$/)) !== null;
-                this.setState({newMobile, newMobileValid});
+                if(newMobile) {
+                    let newMobileValid = newMobile.length > 0 && (newMobile.match(/^([0-9]{11})?$/)) !== null;
+                    this.setState({newMobile, newMobileValid});
+                }
             },
             e => {});
     }
