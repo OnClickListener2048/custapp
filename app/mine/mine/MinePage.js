@@ -176,7 +176,7 @@ export default class MinePage extends BComponent {
 
         if(screen === '')return;
 
-        this.props.navigator.push({
+        this.push({
             screen: screen,
             title:title
         });

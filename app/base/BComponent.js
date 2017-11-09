@@ -32,6 +32,9 @@ export default class BComponent extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            isPushing: false,// 是否跳转中
+        };
         // 自定义左侧返回按钮
         if(this.props.navigator) {
             if (this.props.testID === 'MessagePage' || this.props.testID === 'HomePage' || this.props.testID === 'ServicePage' || this.props.testID === 'MinePage'){
@@ -52,6 +55,8 @@ export default class BComponent extends Component {
                 });
             }
             this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+
+            this.push = this.push.bind(this);
         }
 
     }
@@ -60,6 +65,28 @@ export default class BComponent extends Component {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
+
+    // 避免短时间内连续点击多次跳转处理
+    push(object):void {
+        console.log("_doPush", object);
+
+        if (this.state.isPushing === true) {
+            console.log("休息一下吧, 您的手速太快了");
+            return;
+        }
+
+        if(this.props.navigator.push) {
+            this.props.navigator.push(object);
+        }
+
+        this.state.isPushing = true;
+
+        this._timer = setTimeout(()=>{
+            this.setState({isPushing:false})//0.5秒后可点击
+            clearTimeout(this._timer);
+        },500);
+    }
+
     // 子类请继承此方法, 不要忘了调用super.onNavigatorEvent(event);
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         // console.log(event.id);//willAppear
