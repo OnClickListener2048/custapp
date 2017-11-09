@@ -514,12 +514,11 @@ export default class LoginPage extends Component {
                         {/*<Text style={styles.logintext}>登录</Text>*/}
                         {/*</View>*/}
                         {/*</TouchableWithoutFeedback>*/}
-
-                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={ {marginTop: 50}}
-                                      isEnabled={!this.state.isInWechatLoading}
-                                      text="微信登录"
-                        />
-
+                        {!this.state.isInWechatLoading &&
+                            <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={{marginTop: 50}}
+                            text="微信登录"
+                            />
+                        }
 
                     </KeyboardAvoidingView>
                 </View>

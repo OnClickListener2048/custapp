@@ -146,8 +146,8 @@ export default class CashFlowPage extends BComponent {
         if(!this.state.isfirstRefresh){
             return(
                 <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
-                    <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据,请过些时日再查看</Text>
-                    <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>
+                    <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据</Text>
+                    {/*<Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>*/}
                 </View>
             )
         }else{
