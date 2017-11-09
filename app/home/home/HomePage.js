@@ -371,6 +371,7 @@ export default class HomePage extends BComponent {
 
         this.push({
             screen: 'VerifyResultPage',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             title:'核名结果',
         });
     }
@@ -387,6 +388,7 @@ export default class HomePage extends BComponent {
         this.push({
             screen: 'WebViewPage',
             title:item.name,
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
                 url:item.url
             }
@@ -408,6 +410,7 @@ export default class HomePage extends BComponent {
                 this.push({
                     screen: 'WebViewPage',
                     title:'注册公司',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps:{
                         url:H5_URL+'register?platform=app'
                     }
@@ -428,6 +431,7 @@ export default class HomePage extends BComponent {
                 this.push({
                     screen: 'WebViewPage',
                     title:'记账报税',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps:{
                         url:H5_URL+'accounting?platform=app'
                     }
@@ -456,6 +460,7 @@ export default class HomePage extends BComponent {
                 this.push({
                     screen: 'WebViewPage',
                     title:'企业变更',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps:{
                         url:H5_URL+'change?platform=app'
                     }
@@ -468,6 +473,7 @@ export default class HomePage extends BComponent {
                 this.push({
                     screen: 'WebViewPage',
                     title:'加盟合作',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps:{
                         url:H5_URL+'invest?platform=app'
                     }
@@ -484,6 +490,7 @@ export default class HomePage extends BComponent {
         UMTool.onEvent('homepage_checkname')
         this.push({
             screen: 'VerifyNamePage',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             title:'免费核名',
         });
     }

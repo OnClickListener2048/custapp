@@ -41,6 +41,7 @@ export default class PayTaxes extends Component {
         this.props.push({
             screen: 'TaxFormPage',
             title:'纳税表',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
                 year:this.props.year,
                 month:this.props.month,

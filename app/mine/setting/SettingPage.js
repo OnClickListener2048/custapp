@@ -105,9 +105,10 @@ export default class SettingPage extends BComponent {
         //     screen: 'AboutUsPage',
         //     title: '关于我们'
         // });
-        this.props.navigator.push({
+        this.push({
             screen: 'WebViewPage',
             title:'关于我们',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
                 url:H5_URL+'aboutus?platform=app'
             }
@@ -115,16 +116,18 @@ export default class SettingPage extends BComponent {
     }
 
     _feedback() {
-        this.props.navigator.push({
+        this.push({
             screen: 'FeedbackPage',
-            title: '意见反馈'
+            title: '意见反馈',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
         });
     }
 
     _serviceTerm(){
-        this.props.navigator.push({
+        this.push({
             screen: 'ServiceTermPage',
-            title: '服务条款'
+            title: '服务条款',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
         });
     }
 
