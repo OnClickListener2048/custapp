@@ -87,7 +87,7 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
   [[RCCManager sharedInstance] initBridgeWithBundleURL:jsCodeLocation launchOptions:launchOptions];
-   [Bugly startWithAppId:@"c572d6596a"];
+   [Bugly startWithAppId:@"6b748ccea1"];
   /*
    // 旧的 RN 启动方式 - remove this part
    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
