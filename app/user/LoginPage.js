@@ -95,10 +95,6 @@ export default class LoginPage extends Component {
         if (event.id === 'backPress') {
             BackAndroid.exitApp();
         }
-
-        if (event.id === 'willAppear') {
-            UserInfoStore.removeUserInfo().then();
-        }
     }
 
     _goWechat() {
@@ -292,8 +288,7 @@ export default class LoginPage extends Component {
                                 console.log('***** 请求图片', picStr);
                                 let picURL = {uri: picStr};
                                 this.setState({picURL});
-                                let picURLStr = verify;
-                                this.setState({picURLStr});
+                                this.setState({picURLStr: verify});
                             }
 
                             if (verifyText !== null && verifyText.length > 0) {

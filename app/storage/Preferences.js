@@ -23,6 +23,7 @@ const Preferences = {
             await AsyncStorage.setItem(key, value);
         } catch (error) {
             // Error saving data
+            console.log("Save data failed:", error);
         }
     },
 
