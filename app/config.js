@@ -25,6 +25,8 @@ console.log("DEBUG==", DEBUG);
 if(DEBUG) {// 测试环境变量, 上线时应删除
 
     SCHEME = 'https';
+    // DOMAIN_API = 'www-rc.i-counting.cn';
+
     DOMAIN_API = 'x-www.i-counting.cn';
 
     //单
