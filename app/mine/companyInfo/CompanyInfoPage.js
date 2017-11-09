@@ -63,7 +63,7 @@ export default class CompanyInfoPage extends BComponent {
     _goto(screen, title){
         if(screen == '')return;
 
-        this.props.navigator.push({
+        this.push({
             screen: screen,
             title:title
 

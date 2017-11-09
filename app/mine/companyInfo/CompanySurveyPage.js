@@ -199,7 +199,7 @@ export default class CompanySurveyPage extends BComponent {
     }
 
     _click(licenceinfo,name){
-        this.props.navigator.push({
+        this.push({
             screen: 'LicenceInfoPage',
             title:name,
             passProps: {

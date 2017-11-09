@@ -185,7 +185,7 @@ export default class MinePage extends BComponent {
 
     login(){
         if(this.state.logined) {
-            this.props.navigator.push({
+            this.push({
                 screen: 'PersonalDataPage',
                 title:'个人资料',
             });
