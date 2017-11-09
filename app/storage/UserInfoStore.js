@@ -33,10 +33,12 @@ UserInfoStore.getUserInfo = async function (): Object {
 };
 
 UserInfoStore.setUserInfo = async function (value: Object) {
+    console.log('setUserInfo', value);
     return Preferences.set(KEY_USER_INFO, JSON.stringify(value));
 };
 
 UserInfoStore.removeUserInfo = async function () {
+    console.log('UserInfoStore.removeUserInfo()');
     return Preferences.remove(KEY_USER_INFO);
 };
 
