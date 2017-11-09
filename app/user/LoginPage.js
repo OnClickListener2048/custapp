@@ -288,8 +288,7 @@ export default class LoginPage extends Component {
                                 console.log('***** 请求图片', picStr);
                                 let picURL = {uri: picStr};
                                 this.setState({picURL});
-                                let picURLStr = verify;
-                                this.setState({picURLStr});
+                                this.setState({picURLStr: verify});
                             }
 
                             if (verifyText !== null && verifyText.length > 0) {
@@ -388,34 +387,34 @@ export default class LoginPage extends Component {
                 */
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 if (responseData && responseData.user) {
-                    // if(responseData.user.mobilePhone) {
-                    //     UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
-                    //     UserInfoStore.setUserInfo(responseData.user).then();
-                    //     apis.getCompany(responseData.user.mobilePhone).then(
-                    //         (companyInfo) => {
-                    //             console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
-                    //             if (companyInfo && companyInfo.data) {
-                    //                 console.log("公司信息保存中...." , companyInfo.data);
-                    //                 UserInfoStore.setCompany(companyInfo.data).then(
-                    //                     (user) => {
-                    //                         console.log("公司信息保存成功");
-                    //                         this.pop();
-                    //                     },
-                    //                     (e) => {
-                    //                         console.log("公司信息保存错误:", e);
-                    //                         this.pop();
-                    //                     },
-                    //                 );
-                    //             } else {
-                    //                 this.pop();
-                    //             }
-                    //         },
-                    //         (e) => {
-                    //             console.log("公司信息读取错误返回:", e);
-                    //             this.pop();
-                    //         },
-                    //     );
-                    // } else {
+                    if(responseData.user.mobilePhone) {
+                        UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
+                        UserInfoStore.setUserInfo(responseData.user).then();
+                        apis.getCompany(responseData.user.mobilePhone).then(
+                            (companyInfo) => {
+                                console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
+                                if (companyInfo && companyInfo.data) {
+                                    console.log("公司信息保存中...." , companyInfo.data);
+                                    UserInfoStore.setCompany(companyInfo.data).then(
+                                        (user) => {
+                                            console.log("公司信息保存成功");
+                                            this.pop();
+                                        },
+                                        (e) => {
+                                            console.log("公司信息保存错误:", e);
+                                            this.pop();
+                                        },
+                                    );
+                                } else {
+                                    this.pop();
+                                }
+                            },
+                            (e) => {
+                                console.log("公司信息读取错误返回:", e);
+                                this.pop();
+                            },
+                        );
+                    } else {
                         // 没有手机号, 强制转往绑定手机页面
                         UserInfoStore.removeLastUserPhone().then();
                         UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
@@ -431,7 +430,9 @@ export default class LoginPage extends Component {
                                 // this.pop();
                             },
                         );
-                    // }
+                    }
+
+
 
 
                 } else {
