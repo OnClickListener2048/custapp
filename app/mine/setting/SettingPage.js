@@ -15,6 +15,7 @@ import clearManager from 'react-native-clear-cache';
 import Toast from 'react-native-root-toast'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
+import {H5_URL} from '../../config'
 
 export default class SettingPage extends BComponent {
 
@@ -108,7 +109,7 @@ export default class SettingPage extends BComponent {
             screen: 'WebViewPage',
             title:'关于我们',
             passProps:{
-                url:'https://x-www.i-counting.cn/aboutus?platform=app'
+                url:H5_URL+'aboutus?platform=app'
             }
         });
     }

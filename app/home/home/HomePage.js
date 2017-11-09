@@ -21,6 +21,7 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
 import Toast from 'react-native-root-toast'
+import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
 const itemMargin = scaleSize(10)
@@ -408,7 +409,7 @@ export default class HomePage extends BComponent {
                     screen: 'WebViewPage',
                     title:'注册公司',
                     passProps:{
-                        url:'https://x-www.i-counting.cn/register?platform=app'
+                        url:H5_URL+'register?platform=app'
                     }
                 });
             }
@@ -428,7 +429,7 @@ export default class HomePage extends BComponent {
                     screen: 'WebViewPage',
                     title:'记账报税',
                     passProps:{
-                        url:'https://x-www.i-counting.cn/accounting?platform=app'
+                        url:H5_URL+'accounting?platform=app'
                     }
                 });
             }
@@ -456,7 +457,7 @@ export default class HomePage extends BComponent {
                     screen: 'WebViewPage',
                     title:'企业变更',
                     passProps:{
-                        url:'https://x-www.i-counting.cn/change?platform=app'
+                        url:H5_URL+'change?platform=app'
                     }
                 });
             }
@@ -468,7 +469,7 @@ export default class HomePage extends BComponent {
                     screen: 'WebViewPage',
                     title:'加盟合作',
                     passProps:{
-                        url:'https://x-www.i-counting.cn/invest?platform=app'
+                        url:H5_URL+'invest?platform=app'
                     }
                 });
 

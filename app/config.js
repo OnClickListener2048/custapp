@@ -19,6 +19,8 @@ export const SCREEN_HEIGHT = height;
 // 线上API服务器接口地址 app.i-counting.cn
 export let SCHEME = 'https';
 
+
+export let H5_URL = 'https://www.i-counting.cn/'
 export let WECHAT_APP_ID = 'wx16da5000356a9497';// 微信APP ID
 export let DOMAIN_API = 'www-rc.i-counting.cn';
 console.log("DEBUG==", DEBUG);
@@ -28,7 +30,7 @@ if(DEBUG) {// 测试环境变量, 上线时应删除
     // DOMAIN_API = 'www-rc.i-counting.cn';
 
     DOMAIN_API = 'x-www.i-counting.cn';
-
+    H5_URL = 'https://x-www.i-counting.cn/'
     //单
     // SCHEME = 'http';
     // DOMAIN_API = '192.168.200.150:3000';
