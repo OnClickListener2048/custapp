@@ -20,6 +20,7 @@ import * as apis from '../../apis';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
+import Toast from 'react-native-root-toast'
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
 const itemMargin = scaleSize(10)
@@ -124,97 +125,111 @@ export default class HomePage extends BComponent {
                         dataSource[i] = section
                     }
                     //修改状态
-                    if(this.state.isFirstRefresh){
-                        //第一次加载
-
-                        if(responseData.list.length == 0){
-                            //没数据
-                            this.setState({
-                                loadState:'no-data',
-                                isLoading:false
-                            })
-                        }else{
-                            //成功
-                            this.setState({
-                                dataSource:dataSource,
-                                loadState:'success',
-                                isFirstRefresh:false,
-                                isLoading:false
-                            })
-                        }
+                    if(responseData.list.length == 0){
+                        //没数据
+                        this.setState({
+                            loadState:'no-data',
+                            isLoading:false,
+                            isFirstRefresh:false,
+                            isRefreshing:false
+                        })
                     }else{
-                        //不是第一次加载
-                        if(responseData.list.length == 0){
-                            //没数据
-                            this.setState({
-                                isRefreshing:false
-                            })
-                        }else{
-                            //成功
-                            this.setState({
-                                dataSource:dataSource,
-                                isRefreshing:false
-                            })
-                        }
+                        //成功
+                        this.setState({
+                            dataSource:dataSource,
+                            loadState:'success',
+                            isFirstRefresh:false,
+                            isLoading:false,
+                            isRefreshing:false
+
+                        })
                     }
 
                 }else{
                     //加载失败
-                    if(this.state.isFirstRefresh){
-                        //第一次加载
-
-                        this.setState({
-                            loadState:'error',
-                            isLoading:false
-                        })
-                    }else{
-                        //不是第一次加载
-                        this.setState({
-                            isRefreshing:false
-                        })
-                    }
-                    // Toast.show(responseData.msg?responseData.msg:'加载失败！')
+                    this.setState({
+                        loadState:'error',
+                        isLoading:false,
+                        isRefreshing:false,
+                        isFirstRefresh:false,
+                    })
+                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
 
                 }
             },
             (e) => {
-                // Toast.show('加载失败！');
+                Toast.show('加载失败！');
 
                 //加载失败
-                if(this.state.isFirstRefresh){
-                    //第一次加载
-
-                    this.setState({
-                        loadState:NetInfoSingleton.isConnected?'error':'no-net',
-                        isLoading:false
-                    })
-                }else{
-                    //不是第一次加载
-                    this.setState({
-                        isRefreshing:false
-                    })
-                }
+                this.setState({
+                    loadState:NetInfoSingleton.isConnected?'error':'no-net',
+                    isLoading:false,
+                    isRefreshing:false,
+                    isFirstRefresh:false,
+                })
             },
         );
     }
 
+    _listEmptyComponent(){
+        let h = 0;
+        if (DeviceInfo.OS === 'ios'){
+            h = DeviceInfo.height-60-110-64-(DeviceInfo.width*0.42)-44;
+        }else{
+            h = DeviceInfo.height-50-110-44-(DeviceInfo.width*0.42)-44;
+        }
+
+
+            if(this.state.loadState == 'no-data'){
+                return(
+                    <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
+                        <Text style={{fontSize:setSpText(15),color:'#999999'}}>暂时没有查到相关数据</Text>
+                        <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请致电客服热线:400-107-0110</Text>
+                    </View>
+                )
+            }else if(this.state.loadState == 'no-net'){
+                return(
+                    <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
+                        <Text style={{fontSize:setSpText(15),color:'#999999'}}>网络请求失败</Text>
+                        <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请检查您的网络</Text>
+                    </View>
+                )
+
+            }else if(this.state.loadState == 'error'){
+                return(
+                    <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
+                        <Text style={{fontSize:setSpText(15),color:'#999999'}}>网络请求失败</Text>
+                        <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请检查您的网络</Text>
+                    </View>
+                )
+            }else{
+                //成功
+                return(
+                    <View style={{width:DeviceInfo.width, height:h,backgroundColor:'white'}}>
+
+                    </View>
+                )
+            }
+
+
+
+    }
     render(){
 
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                {
-                    this.state.loadState == 'success'?<SectionList
-                        renderItem={this._renderItem.bind(this)}
-                        renderSectionHeader={this._renderSectionHeader.bind(this)}
-                        sections={this.state.dataSource}
-                        stickySectionHeadersEnabled={false}
-                        ListHeaderComponent={this._listHeaderComponent.bind(this)}
-                        ListFooterComponent={this._listFooterComponent.bind(this)}
-                        onRefresh={this._onRefresh.bind(this)}
-                        refreshing={this.state.isRefreshing}
-                    >
-                    </SectionList>:<DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
-                }
+                <SectionList
+                    renderItem={this._renderItem.bind(this)}
+                    renderSectionHeader={this._renderSectionHeader.bind(this)}
+                    sections={this.state.dataSource}
+                    stickySectionHeadersEnabled={false}
+                    ListHeaderComponent={this._listHeaderComponent.bind(this)}
+                    ListFooterComponent={this._listFooterComponent.bind(this)}
+                    ListEmptyComponent={this._listEmptyComponent.bind(this)}
+                    onRefresh={this._onRefresh.bind(this)}
+                    refreshing={this.state.isRefreshing}
+                >
+                </SectionList>
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
         )
@@ -299,7 +314,7 @@ export default class HomePage extends BComponent {
                         footData.map((item,index)=>{
                             return (
                                 <View key={index} style={[{width:deviceWidth/3,flexDirection:'row',padding:10,justifyContent:'center',alignItems:'center'},index<3?{borderBottomWidth:1.5,borderBottomColor:'#f9f9f9'}:{},index%3<2?{borderRightWidth:1.5,borderRightColor:'#f9f9f9'}:{}]}>
-                                    <Image source={item.logo}/>
+                                    <Image resizeMode="contain" style={{width:25, height:25}} source={item.logo}/>
                                     <Text style={{fontSize:setSpText(14), color:'#333333',marginLeft:10}}>{item.title}</Text>
                                 </View>
                             )
@@ -323,7 +338,7 @@ export default class HomePage extends BComponent {
         return(
             <View style={{width:DeviceInfo.width}}>
                 <TouchableOpacity onPress={this._goVerifyName.bind(this)}>
-                    <Image resizeMode="cover" source={require('../../img/banner.png')} style={{width:deviceWidth}}>
+                    <Image resizeMode="cover" source={require('../../img/banner.png')} style={{width:deviceWidth,height:DeviceInfo.width*0.42}}>
                         {/*<Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>*/}
                         {/*<TouchableOpacity   onPress={this._goVerifyName.bind(this)} style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>*/}
                         {/*<Text style={{color:'white',fontSize:setSpText(16)}}>免费核名</Text>*/}
@@ -336,7 +351,7 @@ export default class HomePage extends BComponent {
                             return(
                                 <TouchableOpacity key={i} style={{flex:1}} onPress={()=>this._goColumnDetail(i,item)}>
                                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                                        <Image style={{marginTop:20}} source={item.logo }/>
+                                        <Image style={{marginTop:20,width:45,height:45}} source={item.logo }/>
                                         <Text  style={{marginTop:10,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
                                     </View>
                                 </TouchableOpacity>

@@ -50,7 +50,7 @@ public class MainApplication extends NavigationApplication {
         super.onCreate();
         MultiDex.install(this);
 //        CrashReport.initCrashReport(getApplicationContext(), "c2c07c0373", true);
-        Bugly.init(getApplicationContext(), "c2c07c0373", true);
+        Bugly.init(getApplicationContext(), "d352a8a420", true);
         Beta.checkUpgrade(false,false);
         System.out.println(getDeviceInfo(getApplicationContext()));
     }
