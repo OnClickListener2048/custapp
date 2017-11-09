@@ -238,20 +238,18 @@ export default class ServicePage extends BComponent {
     _callback(year,month,isRefresh=false){
 
         let _this = this
-        InteractionManager.runAfterInteractions(() => {
-            _this.loadData(year+'-'+month)
-            _this.setState({
-                year,
-                month
-            },function () {
-                if(isRefresh){
-                    _this.refs.ChooseTimerModal.setState({
-                        yearSelected:year,
-                        monthSelected:month
-                    })
-                }
-            })
-        });
+        _this.loadData(year+'-'+month)
+        _this.setState({
+            year,
+            month
+        },function () {
+            if(isRefresh){
+                _this.refs.ChooseTimerModal.setState({
+                    yearSelected:year,
+                    monthSelected:month
+                })
+            }
+        })
 
 
     }

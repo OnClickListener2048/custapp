@@ -173,14 +173,12 @@ export default class AccountsPayablePage extends BComponent {
     }
     _callback(year,month){
 
-        InteractionManager.runAfterInteractions(() => {
-            this.loadData(year+'-'+month,'2')
-            this.props.callback && this.props.callback(year,month,true)
-            this.setState({
-                year,
-                month
-            })
-        });
+        this.loadData(year+'-'+month,'2')
+        this.props.callback && this.props.callback(year,month,true)
+        this.setState({
+            year,
+            month
+        })
 
 
 

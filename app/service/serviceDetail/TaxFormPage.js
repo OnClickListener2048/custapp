@@ -210,14 +210,12 @@ export default class TaxFormPage extends BComponent {
         )
     }
     _callback(year,month){
-        InteractionManager.runAfterInteractions(() => {
-            this.loadData(year+'-'+month)
-            this.props.callback && this.props.callback(year,month,true)
-            this.setState({
-                year,
-                month
-            })
-        });
+        this.loadData(year+'-'+month)
+        this.props.callback && this.props.callback(year,month,true)
+        this.setState({
+            year,
+            month
+        })
     }
 
 }
