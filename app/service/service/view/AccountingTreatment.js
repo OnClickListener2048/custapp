@@ -66,7 +66,7 @@ export default class AccountingTreatment extends Component {
         UMTool.onEvent(eventArr[index])
         switch (index){
             case 0:
-                this.props.navigator.push({
+                this.props.push({
                     screen: 'CashFlowPage',
                     title:'现金流',
                     passProps:{
@@ -79,7 +79,7 @@ export default class AccountingTreatment extends Component {
                 })
                 break;
             case 1:
-                this.props.navigator.push({
+                this.props.push({
                     screen: 'ProfitStatementPage',
                     title:'利润表',
                     passProps:{
@@ -92,7 +92,7 @@ export default class AccountingTreatment extends Component {
                 })
                 break;
             case 2:
-                this.props.navigator.push({
+                this.props.push({
                     screen: 'AccountsReceivablePage',
                     title:'应收账款',
                     passProps:{
@@ -105,7 +105,7 @@ export default class AccountingTreatment extends Component {
                 })
                 break;
             case 3:
-                this.props.navigator.push({
+                this.props.push({
                     screen: 'AccountsPayablePage',
                     title:'应付账款',
                     passProps:{
