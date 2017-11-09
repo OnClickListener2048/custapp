@@ -369,7 +369,7 @@ export default class HomePage extends BComponent {
 
     _goVerifyResultPage(){
 
-        this.props.navigator.push({
+        this.push({
             screen: 'VerifyResultPage',
             title:'核名结果',
         });
@@ -384,7 +384,7 @@ export default class HomePage extends BComponent {
         //         item
         //     }
         // });
-        this.props.navigator.push({
+        this.push({
             screen: 'WebViewPage',
             title:item.name,
             passProps:{
@@ -405,7 +405,7 @@ export default class HomePage extends BComponent {
                 //         type:1
                 //     }
                 // });
-                this.props.navigator.push({
+                this.push({
                     screen: 'WebViewPage',
                     title:'注册公司',
                     passProps:{
@@ -425,7 +425,7 @@ export default class HomePage extends BComponent {
                 //         type:2
                 //     }
                 // });
-                this.props.navigator.push({
+                this.push({
                     screen: 'WebViewPage',
                     title:'记账报税',
                     passProps:{
@@ -453,7 +453,7 @@ export default class HomePage extends BComponent {
                 //         type:3
                 //     }
                 // });
-                this.props.navigator.push({
+                this.push({
                     screen: 'WebViewPage',
                     title:'企业变更',
                     passProps:{
@@ -465,7 +465,7 @@ export default class HomePage extends BComponent {
             case 4:
             {
                 UMTool.onEvent('leagueCooperation')
-                this.props.navigator.push({
+                this.push({
                     screen: 'WebViewPage',
                     title:'加盟合作',
                     passProps:{
@@ -482,7 +482,7 @@ export default class HomePage extends BComponent {
     }
     _goVerifyName(){
         UMTool.onEvent('homepage_checkname')
-        this.props.navigator.push({
+        this.push({
             screen: 'VerifyNamePage',
             title:'免费核名',
         });
