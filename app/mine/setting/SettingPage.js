@@ -139,6 +139,7 @@ export default class SettingPage extends BComponent {
                 {
                     text: '确定',
                     onPress: () => {
+                        UserInfoStore.removeLastUserPhone().then();
                         UserInfoStore.removeUserInfo().then(
                             v => {
                                 UserInfoStore.removeCompany().then(
