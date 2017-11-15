@@ -73,7 +73,7 @@ export default class BComponent extends Component {
         if (this.state.isPushing === true) {
             console.log("休息一下吧, 您的手速太快了");
             return;
-            
+
         }
 
         if(this.props.navigator.push) {
