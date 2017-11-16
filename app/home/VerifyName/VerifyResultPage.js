@@ -33,6 +33,7 @@ export default class VerifyResultPage extends BComponent {
             vcode: this.props.vcode,    //验证码
             refreshState: RefreshState.Idle,
             dataList: [],
+            responseData: this.props.responseData
 
         }
 
@@ -54,7 +55,22 @@ export default class VerifyResultPage extends BComponent {
             this.setState({
                 fetchState:'checkRisk'
             })
-            this.loadData()
+
+
+            if((this.state.responseData !== null && this.state.responseData.list !== null)){
+
+                let newList = this.state.responseData.list;
+
+                let dataList =  newList;
+                this.setState({
+                    dataList: dataList,
+                    refreshState: RefreshState.NoMoreData,
+                })
+                this.setState({
+                    dataStatus:'initSucess'
+                })
+
+            }
         }
 
         if (this.state.fetchState === 'checkSuccess'){
@@ -63,77 +79,18 @@ export default class VerifyResultPage extends BComponent {
                 fetchState:'checkSuccess'
             })
         }
-
-
-    }
-
-
-    loadData(){
-        if(!NetInfoSingleton.isConnected) {
-            this.setState({
-                dataStatus:'no-net'
-            })
-            return;
-        }
-
-        let loading = SActivityIndicator.show(true, "加载中...");
-
-        apis.loadVerifyCompaniesList(this.state.keyword,'1','10').then(
-            (responseData) => {
-
-                SActivityIndicator.hide(loading);
-
-                if((responseData !== null && responseData.list !== null)){
-
-                    let newList = responseData.list;
-
-                    let dataList =  newList;
-                    this.setState({
-                        dataList: dataList,
-                        refreshState: RefreshState.NoMoreData,
-                    })
-                        this.setState({
-                            dataStatus:'initSucess'
-                        })
-
-                }else{
-
-                    this.setState({refreshState: RefreshState.Failure})
-                        this.setState({
-                            dataStatus:'error'
-                        })
-
-                }
-
-            },
-            (e) => {
-                SActivityIndicator.hide(loading);
-
-                Toast.show(errorText(e));
-                this.setState({refreshState: RefreshState.Failure})
-                    this.setState({
-                        dataStatus:'error'
-                    })
-
-            },
-        );
     }
 
 
     renderItem = (info) => {
         // alert(JSON.stringify(item))
         return(
-
-                    <CommonCell
-                        centerText={info.item.name }
-                        isClick={false}
-                    />
-
+            <CommonCell
+                centerText={info.item.name }
+                isClick={false}
+            />
         )
     };
-
-
-
 
 
     renderHeader = () => {
@@ -242,21 +199,12 @@ export default class VerifyResultPage extends BComponent {
     }
 
     render() {
-
-        if(this.state.dataStatus === 'initSucess') {
-            return (
-                <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                    {this.state.fetchState === 'checkRisk' && this.renderRisk()}
-                    {this.state.fetchState === 'checkSuccess' && this.renderSuccess()}
-                </View>
-            );
-        }else {
-            return(
-                <DefaultView onPress={()=>this.loadData()} type ={this.state.dataStatus}/>
-            )
-        }
-
-
+        return (
+            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                {this.state.fetchState === 'checkRisk' && this.renderRisk()}
+                {this.state.fetchState === 'checkSuccess' && this.renderSuccess()}
+            </View>
+        );
     }
 
 

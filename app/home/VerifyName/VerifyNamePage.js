@@ -218,7 +218,7 @@ export default class HomePage extends BComponent {
 
         let loading = SActivityIndicator.show(true, "加载中...");
 
-
+//this.state.companyName
         apis.loadVerifyResultData(this.state.companyName,this.state.phoneNum,this.state.smsCode).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
@@ -248,6 +248,7 @@ export default class HomePage extends BComponent {
                             mobile : this.state.phoneNum,
                             vcode : this.state.smsCode,
                             fetchState:'checkRisk',
+                            responseData:responseData,
                             dataStatus:'',
                         }
                     });
