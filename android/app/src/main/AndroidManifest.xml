@@ -77,7 +77,8 @@
                 android:exported="true"
         />
 
-        <meta-data android:name="android.max_aspect" android:value="3.0" />
+        <!-- 小米全面屏适配 -->
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
 
         <meta-data
             android:name="JPUSH_CHANNEL"
