@@ -25,8 +25,8 @@ export default class CompanyInfoPage extends BComponent {
         UserInfoStore.getCompany().then(
             (company) => {
                 console.log('company', company);
-                if (company && company.name) {
-                    this.setState({company: company.name});
+                if (company && company.infos && company.infos.length>0) {
+                    this.setState({company: company.infos[0].value});
                 } else {
                     this.setState({company: ''});
                 }
