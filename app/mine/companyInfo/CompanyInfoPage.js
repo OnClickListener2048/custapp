@@ -21,7 +21,21 @@ export default class CompanyInfoPage extends BComponent {
         };
     }
 
-    componentDidMount(){
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        console.log('CompanyInfoPage', event.id);//willAppear
+        super.onNavigatorEvent(event);
+        if (event.id === 'willAppear') {
+            this.initPage();
+        }
+
+    }
+
+    componentWillMount(){
+        this.initPage();
+
+    }
+
+    initPage(){
         UserInfoStore.getCompany().then(
             (company) => {
                 console.log('company', company);
@@ -37,6 +51,23 @@ export default class CompanyInfoPage extends BComponent {
         );
 
     }
+
+    // componentDidMount(){
+    //     UserInfoStore.getCompany().then(
+    //         (company) => {
+    //             console.log('company', company);
+    //             if (company && company.infos && company.infos.length>0) {
+    //                 this.setState({company: company.infos[0].value});
+    //             } else {
+    //                 this.setState({company: ''});
+    //             }
+    //         },
+    //         (e) => {
+    //             console.log("读取信息错误:", e);
+    //         },
+    //     );
+    //
+    // }
 
     render(){
         return(

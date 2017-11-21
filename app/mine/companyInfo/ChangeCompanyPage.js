@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import {
     View,
+    DeviceEventEmitter,
     Text,
     StyleSheet,
     ScrollView,
@@ -20,24 +21,163 @@ export default class ChangeCompanyPage extends BComponent {
         this.state = {
             dataSource:[
                 {
-                    company:'大宇科技',
-                    id:'1',
+                    "type": 1,
+                    "id": 40551,
+                    "name": "北京红升四季鲜商贸中心",
+                    "infos": [
+                        {
+                            "name": "企业名称",
+                            "value": "北京红升四季鲜商贸中心"
+                        },
+                        {
+                            "name": "纳税类型",
+                            "value": ""
+                        },
+                        {
+                            "name": "公司地址",
+                            "value": "房山区"
+                        },
+                        {
+                            "name": "公司电话",
+                            "value": "13681551316,"
+                        }
+                    ],
+                    "license": [
+                        {
+                            "name": "营业执照",
+                            "img": "",
+                            "valid_time": ""
+                        },
+                        {
+                            "name": "法人身份证",
+                            "img": "",
+                            "valid_time": ""
+                        }
+                    ]
                 },
                 {
-                    company:'大佳科技',
-                    id:'2',
+                    "type": 1,
+                    "id": 40552,
+                    "name": "黑色星期五",
+                    "infos": [
+                        {
+                            "name": "企业名称",
+                            "value": "黑色星期五"
+                        },
+                        {
+                            "name": "纳税类型",
+                            "value": ""
+                        },
+                        {
+                            "name": "公司地址",
+                            "value": "房山区"
+                        },
+                        {
+                            "name": "公司电话",
+                            "value": "13681551316,"
+                        }
+                    ],
+                    "license": [
+                        {
+                            "name": "营业执照",
+                            "img": "",
+                            "valid_time": ""
+                        },
+                        {
+                            "name": "法人身份证",
+                            "img": "",
+                            "valid_time": ""
+                        }
+                    ]
                 },
                 {
-                    company:'大佳科技',
-                    id:'3',
+                    "type": 1,
+                    "id": 40553,
+                    "name": "元旦",
+                    "infos": [
+                        {
+                            "name": "企业名称",
+                            "value": "元旦"
+                        },
+                        {
+                            "name": "纳税类型",
+                            "value": ""
+                        },
+                        {
+                            "name": "公司地址",
+                            "value": "房山区"
+                        },
+                        {
+                            "name": "公司电话",
+                            "value": "13681551316,"
+                        }
+                    ],
+                    "license": [
+                        {
+                            "name": "营业执照",
+                            "img": "",
+                            "valid_time": ""
+                        },
+                        {
+                            "name": "法人身份证",
+                            "img": "",
+                            "valid_time": ""
+                        }
+                    ]
                 },
                 {
-                    company:'大佳科技',
-                    id:'4',
+                    "type": 1,
+                    "id": 40554,
+                    "name": "新年放假哈哈哈",
+                    "infos": [
+                        {
+                            "name": "企业名称",
+                            "value": "新年放假哈哈哈"
+                        },
+                        {
+                            "name": "纳税类型",
+                            "value": ""
+                        },
+                        {
+                            "name": "公司地址",
+                            "value": "房山区"
+                        },
+                        {
+                            "name": "公司电话",
+                            "value": "13681551316,"
+                        }
+                    ],
+                    "license": [
+                        {
+                            "name": "营业执照",
+                            "img": "",
+                            "valid_time": ""
+                        },
+                        {
+                            "name": "法人身份证",
+                            "img": "",
+                            "valid_time": ""
+                        }
+                    ]
                 }
             ],
+
+
             selectedCompanyId:'2'
         };
+
+        UserInfoStore.getCompany().then(
+            (company) => {
+                console.log('company', company);
+                if (company && company.infos && company.infos.length>0) {
+                    this.setState({selectedCompanyId: company.id});
+                } else {
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
     }
 
     render(){
@@ -49,7 +189,7 @@ export default class ChangeCompanyPage extends BComponent {
                             return(
                                 <TouchableOpacity key={index} onPress={this._press.bind(this,item)}>
                                     <CommenCell
-                                        leftText={item.company}
+                                        leftText={item.name}
                                         isClick ={false}
                                         rightView = {item.id==this.state.selectedCompanyId?<Image source={require('../../img/choose_seleted.png')}/>:<Image source={require('../../img/choose_normal.png')}/>}
                                     />
@@ -69,6 +209,18 @@ export default class ChangeCompanyPage extends BComponent {
         this.setState({
             selectedCompanyId:item.id
         })
+
+        UserInfoStore.setCompany(item).then(
+            (user) => {
+                console.log("公司信息保存成功");
+                DeviceEventEmitter.emit('refreshService');
+
+            },
+            (e) => {
+                console.log("公司信息保存错误:", e);
+            },
+        );
+
         // let data = this.state.dataSource[index];
         //
         // this.setState({

@@ -27,7 +27,6 @@ export default class CompanySurveyPage extends BComponent {
             dataSource:[],
             phone:null,
             loadState:'',
-            isLoading:true,
         };
     }
     static navigatorStyle = {
@@ -35,60 +34,36 @@ export default class CompanySurveyPage extends BComponent {
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
     componentDidMount(){
-        UserInfoStore.getLastUserPhone().then(
-            (mobile) => {
-                if (mobile !== null) {
-                    this.setState({
-                        phone: mobile,     // 手机号
-                    });
-                    this._onLoadMessageInfo(mobile);
-                    //  this._onLoadMessageInfo('13455555555');//13810397064长炯 13455667788王敏 15010622318刘菲
-
-                }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
-        );
-
+        this._onLoadMessageInfo();
     }
 
     //企业详情接口数据请求
-    _onLoadMessageInfo(phone){
-        this.setState({
-            isLoading:true
-        })
-        apis.loadVerifyCompanyInfo(phone).then(
+    _onLoadMessageInfo(){
 
-            (responseData) => {
-                this.setState({
-                    isLoading:false
-                })
 
-                if(responseData.code == 0) {
-                    if(responseData.data === undefined){
-                        console.log("输出返回数据"+responseData.data);
-                        //没数据
-                        this.setState({
-                            loadState:'no-data',
-                        })
-                        return;
-                    }
+
+
+        UserInfoStore.getCompany().then(
+            (company) => {
+                console.log('company', company);
+                if (company && company.infos && company.infos.length>0) {
+                    console.log("输出返回数据company"+company);
+                    console.log("输出返回数据company"+company.infos);
 
                     const companyData = [
                         {
                             title:'基本信息',
                             type:'1',
-                            dataArr:responseData.data.infos===undefined?[]:responseData.data.infos,
+                            dataArr:company.infos===undefined?[]:company.infos,
                         },
                         {
                             title:'证照信息',
                             type:'2',
-                            dataArr:responseData.data.license===undefined?[]:responseData.data.license,
-                            // dataArr:responseData.data.license===undefined?[]:[{"name":"营业执照","img":"/FileUploads/Order/CardID/201710/XririZpzMK.png","valid_time":""},{"name":"法人身份证","img":"","valid_time":"2017-01-11"}],
+                            dataArr:company.license===undefined?[]:company.license,
                         }
 
                     ]
+                    console.log("到这里1");
 
                     let dataSource = [];
                     for (let i = 0; i<companyData.length;i++){
@@ -107,52 +82,42 @@ export default class CompanySurveyPage extends BComponent {
                         dataSource[i] = section
                     }
 
+                    console.log("到这里2");
 
                     this.setState({
                         dataSource:dataSource
-                        // dataSource:responseData.data
                     })
-                    console.log("输出返回数据"+responseData.data);
+                    console.log("输出返回数据"+company);
 
                     //修改状态
-                    this.setState({
-                        isLoading:false
-                    })
-                    if(responseData.data === null){
-                        console.log("输出返回数据"+responseData.data);
-                        //没数据
-                        this.setState({
-                            loadState:'no-data',
-                        })
-                    }else{
+
+
                         //成功
                         this.setState({
                             dataSource:dataSource,
                             loadState:'success'
                         })
-                    }
-                }else{
-                    //加载失败
-                    this.setState({
-                        isLoading:false
-                    })
-                    this.setState({
-                        loadState:'error',
-                    })
 
+                } else {
+                    this.setState({
+                        loadState:'no-data',
+                    })
                 }
             },
             (e) => {
-                //加载失败
+                console.log("读取信息错误:", e);
                 this.setState({
-                    isLoading:false
-                })
-                this.setState({
-                    loadState:NetInfoSingleton.isConnected?'error':'no-net',
+                    loadState:'no-data',
                 })
             },
         );
+
+
+
+
+
     }
+
 
     render(){
             return (
@@ -164,9 +129,8 @@ export default class CompanySurveyPage extends BComponent {
                     sections={this.state.dataSource}
                     stickySectionHeadersEnabled={false}
                 >
-                </SectionList>:<DefaultView onPress={()=>this._onLoadMessageInfo(this.state.phone)} type ={this.state.loadState}/>
+                </SectionList>:<DefaultView onPress={()=>this._onLoadMessageInfo()} type ={this.state.loadState}/>
                 }
-                <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
 
             )
