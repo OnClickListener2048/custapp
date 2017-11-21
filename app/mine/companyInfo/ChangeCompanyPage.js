@@ -22,24 +22,21 @@ export default class ChangeCompanyPage extends BComponent {
                 {
                     company:'大宇科技',
                     id:'1',
-                    isSelcted:false
                 },
                 {
                     company:'大佳科技',
                     id:'2',
-                    isSelcted:true
                 },
                 {
                     company:'大佳科技',
                     id:'3',
-                    isSelcted:false
                 },
                 {
                     company:'大佳科技',
                     id:'4',
-                    isSelcted:false
                 }
-            ]
+            ],
+            selectedCompanyId:'2'
         };
     }
 
@@ -50,11 +47,11 @@ export default class ChangeCompanyPage extends BComponent {
                     {
                         this.state.dataSource.map((item,index)=>{
                             return(
-                                <TouchableOpacity key={index} onPress={this._press.bind(this,index)}>
+                                <TouchableOpacity key={index} onPress={this._press.bind(this,item)}>
                                     <CommenCell
                                         leftText={item.company}
                                         isClick ={false}
-                                        rightView = {item.isSelcted?<Image source={require('../../img/choose_seleted.png')}/>:<Image source={require('../../img/choose_normal.png')}/>}
+                                        rightView = {item.id==this.state.selectedCompanyId?<Image source={require('../../img/choose_seleted.png')}/>:<Image source={require('../../img/choose_normal.png')}/>}
                                     />
                                 </TouchableOpacity>
 
@@ -66,16 +63,17 @@ export default class ChangeCompanyPage extends BComponent {
 
         )
     }
-    _press(index){
-        let data = this.state.dataSource;
-        for(let i = 0;i<data.length;i++){
-            let dic = data[i];
-            dic.isSelcted = false
-        }
-        data[index].isSelcted = true
+    _press(item){
+        if (item.id === this.state.selectedCompanyId) return;
+
         this.setState({
-            dataSource:data
+            selectedCompanyId:item.id
         })
+        // let data = this.state.dataSource[index];
+        //
+        // this.setState({
+        //     dataSource:data
+        // })
     }
 
 
