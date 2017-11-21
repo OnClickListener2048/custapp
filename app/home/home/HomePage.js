@@ -94,6 +94,8 @@ export default class HomePage extends BComponent {
     componentDidMount(){
         this.loadData()
     }
+
+
     loadData(type = '0'){
         // let loading
         if(this.state.isFirstRefresh){
