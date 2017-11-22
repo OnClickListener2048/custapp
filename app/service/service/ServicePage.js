@@ -29,6 +29,7 @@ import HeaderView from '../view/HeaderView'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import demoData from '../serviceDetail/local/ProfitStatementPage.json'
+import {deviceHeight, deviceWidth} from "../../util/ScreenUtil";
 
 export default class ServicePage extends BComponent {
     constructor(props) {
