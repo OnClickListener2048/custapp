@@ -17,11 +17,6 @@ import DefaultView from '../../view/DefaultView'
 import RefreshListView, {RefreshState} from '../../view/RefreshListView'
 export default class MessagePage extends BComponent {
 
-    static navigatorStyle = {
-        navBarHidden: false, // 隐藏默认的顶部导航栏
-        tabBarHidden: false, // 默认隐藏底部标签栏
-    };
-
     constructor(props) {
         super(props)
 
