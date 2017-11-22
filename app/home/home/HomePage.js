@@ -74,7 +74,6 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
-import DefaultView from '../../view/DefaultView'
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -236,32 +235,6 @@ export default class HomePage extends BComponent {
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
         )
-
-        // if(this.state.loadState == 'success'){
-        //
-        //     return(
-        //         <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-        //             <SectionList
-        //                 renderItem={this._renderItem.bind(this)}
-        //                 renderSectionHeader={this._renderSectionHeader.bind(this)}
-        //                 sections={this.state.dataSource}
-        //                 stickySectionHeadersEnabled={false}
-        //                 ListHeaderComponent={this._listHeaderComponent.bind(this)}
-        //                 ListFooterComponent={this._listFooterComponent.bind(this)}
-        //                 onRefresh={this._onRefresh.bind(this)}
-        //                 refreshing={this.state.isRefreshing}
-        //             >
-        //             </SectionList>
-        //         </View>
-        //
-        //     )
-        //
-        // }else {
-        //     return(
-        //         <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
-        //     )
-        // }
-
     }
     _onRefresh(){
         this.loadData()
@@ -342,10 +315,7 @@ export default class HomePage extends BComponent {
             <View style={{width:DeviceInfo.width}}>
                 <TouchableOpacity onPress={this._goVerifyName.bind(this)}>
                     <Image resizeMode="cover" source={require('../../img/banner.png')} style={{width:deviceWidth,height:DeviceInfo.width*0.42}}>
-                        {/*<Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>*/}
-                        {/*<TouchableOpacity   onPress={this._goVerifyName.bind(this)} style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>*/}
-                        {/*<Text style={{color:'white',fontSize:setSpText(16)}}>免费核名</Text>*/}
-                        {/*</TouchableOpacity>*/}
+
                     </Image>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white'}}>
@@ -379,14 +349,6 @@ export default class HomePage extends BComponent {
     }
     _goProductDetail(item){
         UMTool.onEvent(item.eventsid)
-        // this.props.navigator.push({
-        //     screen: 'ProductDetailPage',
-        //     title:item.name,
-        //     passProps:{
-        //         navigatorTitle : item.name,
-        //         item
-        //     }
-        // });
         this.push({
             screen: 'WebViewPage',
             title:item.name,
@@ -401,14 +363,6 @@ export default class HomePage extends BComponent {
             case 0:
             {
                 UMTool.onEvent('registerCompany')
-                // this.props.navigator.push({
-                //     screen: 'ColumnDetailPage',
-                //     title:item.title,
-                //     passProps:{
-                //         navigatorTitle : item.title,
-                //         type:1
-                //     }
-                // });
                 this.push({
                     screen: 'WebViewPage',
                     title:'注册公司',
@@ -422,14 +376,6 @@ export default class HomePage extends BComponent {
             case 1:
             {
                 UMTool.onEvent('accountingAndTax')
-                // this.props.navigator.push({
-                //     screen: 'ColumnDetailPage',
-                //     title:item.title,
-                //     passProps:{
-                //         navigatorTitle : item.title,
-                //         type:2
-                //     }
-                // });
                 this.push({
                     screen: 'WebViewPage',
                     title:'记账报税',
@@ -442,23 +388,16 @@ export default class HomePage extends BComponent {
                 break
             case 2:
             {
-                UMTool.onEvent('financialReport')
                 this.props.navigator.switchToTab({
-                    tabIndex: 2
+                    tabIndex: 1
                 });
+                UMTool.onEvent('financialReport')
+
             }
                 break
             case 3:
             {
                 UMTool.onEvent('enterpriseChange')
-                // this.props.navigator.push({
-                //     screen: 'ColumnDetailPage',
-                //     title:item.title,
-                //     passProps:{
-                //         navigatorTitle : item.title,
-                //         type:3
-                //     }
-                // });
                 this.push({
                     screen: 'WebViewPage',
                     title:'企业变更',

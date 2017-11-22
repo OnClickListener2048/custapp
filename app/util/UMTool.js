@@ -28,6 +28,27 @@ export class UMTool{
                 UMModules.onEvent(eventId+'_N')
             }
         );
+        // try {
+        //     UserInfoStore.isLogined().then(
+        //         logined => {
+        //             if (logined){
+        //                 UMModules.onEvent(eventId+'_Y')
+        //
+        //             }else{
+        //                 UMModules.onEvent(eventId+'_N')
+        //
+        //             }
+        //         },
+        //         e => {
+        //             UMModules.onEvent(eventId+'_N')
+        //         }
+        //     );
+        // } catch(error) {
+        //     console.log(error);
+        // }
+
+
+
     }
 }
 

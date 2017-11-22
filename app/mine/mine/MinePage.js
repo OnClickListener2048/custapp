@@ -166,12 +166,12 @@ export default class MinePage extends BComponent {
     _goto(screen, title ){
 
         //未登录不能跳转的页面
-        if(!this.state.logined) {
-            if(screen === 'BindPhonePage' ||screen === 'MyOrderPage' ||screen === 'CompanyInfoPage' || screen === 'AccountAndSecurity') {
-                Toast.show("请先登录")
-                return;
-            }
-        }
+        // if(!this.state.logined) {
+        //     if(screen === 'BindPhonePage' ||screen === 'MyOrderPage' ||screen === 'CompanyInfoPage' || screen === 'AccountAndSecurity') {
+        //         Toast.show("请先登录")
+        //         return;
+        //     }
+        // }
 
         if(screen == 'CompanyInfoPage'){
 
@@ -183,7 +183,7 @@ export default class MinePage extends BComponent {
                 style: {
                     backgroundBlur: 'none',
                     backgroundColor: 'rgba(0,0,0,0.5)',
-                    tapBackgroundToDismiss: true
+                    tapBackgroundToDismiss:true
                 }
             });
         }else{
