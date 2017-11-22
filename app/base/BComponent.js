@@ -37,7 +37,8 @@ export default class BComponent extends Component {
         };
         // 自定义左侧返回按钮
         if(this.props.navigator) {
-            if (this.props.testID === 'MessagePage' || this.props.testID === 'HomePage' || this.props.testID === 'ServicePage' || this.props.testID === 'MinePage'){
+            //this.props.testID === 'MessagePage' ||隐藏message页（不在tab中显示）恢复返回键
+            if ( this.props.testID === 'HomePage' || this.props.testID === 'ServicePage' || this.props.testID === 'MinePage'){
 
             }else{
                 this.props.navigator.setButtons({
