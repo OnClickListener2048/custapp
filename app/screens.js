@@ -44,7 +44,7 @@ import NoNetTipPage from './view/NoNetTipPage'
 
 import WebViewPage from './view/WebViewPage'
 import AccountAndSecurity from "./mine/bindPhone/AccountAndSecurity";
-
+import ChangeCompanyLightBox from './view/ChangeCompanyLightBox'
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -81,4 +81,7 @@ export default function () {
     reg('NoNetTipPage', () => NoNetTipPage);
     reg('WebViewPage', () => WebViewPage);
     reg('AccountAndSecurity', () => AccountAndSecurity);
+    reg('ChangeCompanyLightBox', () => ChangeCompanyLightBox);
+
+
 }

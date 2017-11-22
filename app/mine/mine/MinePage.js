@@ -165,7 +165,7 @@ export default class MinePage extends BComponent {
     }
     _goto(screen, title ){
 
-        // 未登录不能跳转的页面
+        未登录不能跳转的页面
         if(!this.state.logined) {
             if(screen === 'BindPhonePage' ||screen === 'MyOrderPage' ||screen === 'CompanyInfoPage' || screen === 'AccountAndSecurity') {
                 Toast.show("请先登录")
@@ -173,16 +173,35 @@ export default class MinePage extends BComponent {
             }
         }
 
+        if(screen == 'CompanyInfoPage'){
 
-        if(screen === '')return;
+            this.props.navigator.showLightBox({
+                screen: "ChangeCompanyLightBox",
+                passProps: {
+                    onClose: this.dismissLightBox,
+                },
+                style: {
+                    backgroundBlur: 'none',
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                    tapBackgroundToDismiss: true
+                }
+            });
+        }else{
+            if(screen === '')return;
 
-        this.push({
-            screen: screen,
-            title:title
-        });
+            this.push({
+                screen: screen,
+                title:title
+            });
+        }
+
+
+
 
     }
-
+    dismissLightBox = () => {
+        this.props.navigator.dismissLightBox();
+    };
     login(){
         if(this.state.logined) {
             this.push({
