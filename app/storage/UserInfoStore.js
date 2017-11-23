@@ -9,6 +9,8 @@ let UserInfoStore = {};
 let KEY_JPUSH_ID = "KEY_JPUSH_ID";
 let LAST_USER_PHONE = "LAST_USER_PHONE";// 上次登陆后的用户手机号
 const KEY_COMPANY_INFO = "KEY_COMPANY_INFO";// 公司信息
+const KEY_COMPANYARR_INFOS = "KEY_COMPANYARR_INFOS";// 公司信息数组
+
 // 返回是否已登陆
 UserInfoStore.isLogined = async function (): boolean {
    let user = await UserInfoStore.getUserInfo();
@@ -90,6 +92,24 @@ UserInfoStore.setCompany = async function (value: object) {
 
 UserInfoStore.removeCompany = async function () {
     return Preferences.remove(KEY_COMPANY_INFO);
+};
+
+UserInfoStore.setCompanyArr = async function (value: object) {
+    return Preferences.set(KEY_COMPANYARR_INFOS, JSON.stringify(value));
+};
+
+UserInfoStore.removeCompanyArr = async function () {
+    return Preferences.remove(KEY_COMPANYARR_INFOS);
+};
+
+UserInfoStore.getCompanyArr = async function () {
+    // return await Preferences.get(KEY_COMPANY_INFO);
+    let value = await Preferences.get(KEY_COMPANYARR_INFOS);
+    if (value !== null) {
+        console.log('getCompanyArr', value);
+        return JSON.parse(value);
+    }
+    return value;
 };
 
 global.UserInfoStore = UserInfoStore;// 全局可用
