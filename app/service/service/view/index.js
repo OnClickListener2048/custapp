@@ -7,6 +7,7 @@ import ClearCard from './ClearCard'
 import CopyTaxes from './CopyTaxes'
 import PayTaxes from './PayTaxes'
 import SendBill from './SendBill'
+import CustomHeader from './CustomHeader'
 
 export   {
     Header,
@@ -14,5 +15,6 @@ export   {
     ClearCard,
     CopyTaxes,
     PayTaxes,
-    SendBill
+    SendBill,
+    CustomHeader
 }

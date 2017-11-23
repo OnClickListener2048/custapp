@@ -14,9 +14,10 @@ import {
     DeviceEventEmitter
 } from 'react-native';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import {
     Header,
+    CustomHeader,
     AccountingTreatment ,
     ClearCard,
     CopyTaxes,
@@ -36,7 +37,7 @@ export default class ServicePage extends BComponent {
         super(props);
         let today = new Date()
         this.state = {
-            selectIndex:0,
+            // selectIndex:0,
             profit:'- -',//本月利润
             income:'- -',//本月收入
             expenditure:'- -',//本月支出
@@ -45,10 +46,10 @@ export default class ServicePage extends BComponent {
             month:(today.getMonth() + 1).toString(),
             isRefreshing:false,
             isClose:false,
-            isLoading:true
+            isLoading:false
 
         };
-        this._renderBody=this._renderBody.bind(this);
+        // this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
         this.toClose=this.toClose.bind(this);
 
@@ -57,13 +58,13 @@ export default class ServicePage extends BComponent {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
-    btnClick(index){
-        let eventArr = ['s_copiestax','s_sendbill','s_finance','s_applyTax','s_clearCard'];
-        UMTool.onEvent(eventArr[index])
-        this.setState({
-            selectIndex:index
-        })
-    }
+    // btnClick(index){
+    //     let eventArr = ['s_copiestax','s_sendbill','s_finance','s_applyTax','s_clearCard'];
+    //     UMTool.onEvent(eventArr[index])
+    //     this.setState({
+    //         selectIndex:index
+    //     })
+    // }
 
     componentDidMount() {
 
@@ -94,6 +95,7 @@ export default class ServicePage extends BComponent {
                 });
             }
         }
+
     }
     initData(){
         UserInfoStore.getCompany().then(
@@ -299,8 +301,17 @@ export default class ServicePage extends BComponent {
                         </Text>
                         <View style={[styles.line,{width:30}]}/>
                     </View>
-                    <Header btnClick={this.btnClick.bind(this)} selectIndex={this.state.selectIndex} />
-                    {this._renderBody(this.state.selectIndex)}
+                    <ScrollableTabView
+                        renderTabBar={() => <CustomHeader />}
+                    >
+                        <CopyTaxes tabLabel ='抄税' />
+                        <SendBill tabLabel ='发送票据' />
+                        <AccountingTreatment tabLabel ='财务处理' push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo} />
+                        <PayTaxes tabLabel ='申报纳税' push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo}/>
+                        <ClearCard tabLabel ='清卡'/>
+                    </ScrollableTabView>
+                    {/*<Header btnClick={this.btnClick.bind(this)} selectIndex={this.state.selectIndex} />*/}
+                    {/*{this._renderBody(this.state.selectIndex)}*/}
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 <PLPActivityIndicator isShow={this.state.isLoading} />
@@ -327,26 +338,26 @@ export default class ServicePage extends BComponent {
 
 
     }
-    _renderBody(index){
-
-        switch (index){
-            case 0:
-                return <CopyTaxes />//抄税
-                break;
-            case 1:
-                return <SendBill />//发送票据
-                break;
-            case 2:
-                return <AccountingTreatment push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo} />//财务处理
-                break;
-            case 3:
-                return <PayTaxes push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo}/>//申报纳税
-                break;
-            case 4:
-                return <ClearCard/>//清卡
-                break;
-        }
-    }
+    // _renderBody(index){
+    //
+    //     switch (index){
+    //         case 0:
+    //             return <CopyTaxes />//抄税
+    //             break;
+    //         case 1:
+    //             return <SendBill />//发送票据
+    //             break;
+    //         case 2:
+    //             return <AccountingTreatment push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo} />//财务处理
+    //             break;
+    //         case 3:
+    //             return <PayTaxes push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo}/>//申报纳税
+    //             break;
+    //         case 4:
+    //             return <ClearCard/>//清卡
+    //             break;
+    //     }
+    // }
 
     toClose(){
         this.setState(
