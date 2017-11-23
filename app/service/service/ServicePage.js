@@ -76,6 +76,24 @@ export default class ServicePage extends BComponent {
     componentWillUnmount() {
         this.refreshEmitter.remove();
     }
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+
+            if (event.id == 'ChangeCompany') {
+                this.props.navigator.showLightBox({
+                    screen: "ChangeCompanyLightBox",
+                    passProps: {
+                        onClose: this.dismissLightBox,
+                    },
+                    style: {
+                        backgroundBlur: 'none',
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        tapBackgroundToDismiss:true
+                    }
+                });
+            }
+        }
+    }
     initData(){
         UserInfoStore.getCompany().then(
             (company) => {
@@ -85,6 +103,57 @@ export default class ServicePage extends BComponent {
                     this.setState({
                         is_demo:2
                     })
+
+                    //判断是否是多加公司
+                    UserInfoStore.getCompanyArr().then(
+                        (companyArr) => {
+                            console.log('companyArr-----',companyArr)
+                            if(companyArr && companyArr.length>1){
+                                //多家
+                                //配置title 为当前公司名称
+                                if (company && company.infos && company.infos[0] && company.infos[0].value) {
+                                    this.props.navigator.setTitle({
+                                        title: company.infos[0].value
+                                    });
+                                }else{
+                                    this.props.navigator.setTitle({
+                                        title: '服务'
+                                    });
+                                }
+                                //配置右边的按钮
+                                this.props.navigator.setButtons({
+                                    rightButtons: [{
+                                        icon: require('../../img/left.png'), // for icon button, provide the local image asset name
+                                        id: 'ChangeCompany', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                                        disableIconTint:true
+                                    }], // see "Adding buttons to the navigator" below for format (optional)
+                                });
+
+                            }else{
+                                //一家或者没有
+                                //配置title为服务
+                                this.props.navigator.setTitle({
+                                    title: "服务"
+                                });
+                                //配置右边的按钮为空
+                                this.props.navigator.setButtons({
+                                    rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                                });
+                            }
+                        },
+                        (e) => {
+                            //一家或者没有
+                            //配置title为服务
+                            this.props.navigator.setTitle({
+                                title: "服务"
+                            });
+                            //配置右边的按钮为空
+                            this.props.navigator.setButtons({
+                                rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                            });
+                        },
+                    );
+
                 }else{
                     this.companyid = undefined
                     this.setState({

@@ -4,8 +4,8 @@
 import React from 'react';
 import {StyleSheet, View, Text, Dimensions, Button,Image,TouchableOpacity,DeviceEventEmitter} from 'react-native';
 import CommenCell from '../view/CommenCell'
-
-class Lightbox extends React.Component {
+import BComponent from '../base/BComponent'
+class Lightbox extends BComponent {
 
     constructor(props) {
         super(props);
@@ -107,7 +107,7 @@ class Lightbox extends React.Component {
                 <View style={{width: Dimensions.get('window').width * 0.7, height:40}}>
                     <Button
                         title={'Close'}
-                        onPress={() => this.props.onClose()}
+                        onPress={() => this.props.navigator.dismissLightBox()}
                     />
                 </View>
             </View>

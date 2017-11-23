@@ -177,9 +177,6 @@ export default class MinePage extends BComponent {
 
             this.props.navigator.showLightBox({
                 screen: "ChangeCompanyLightBox",
-                passProps: {
-                    onClose: this.dismissLightBox,
-                },
                 style: {
                     backgroundBlur: 'none',
                     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -199,9 +196,7 @@ export default class MinePage extends BComponent {
 
 
     }
-    dismissLightBox = () => {
-        this.props.navigator.dismissLightBox();
-    };
+
     login(){
         if(this.state.logined) {
             this.push({
