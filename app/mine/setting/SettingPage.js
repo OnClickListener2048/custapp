@@ -160,7 +160,7 @@ export default class SettingPage extends BComponent {
                                     v => {
                                         if (this.props.navigator) {
                                             console.log("popToRoot");
-                                            DeviceEventEmitter.emit('refreshService');
+                                            DeviceEventEmitter.emit('ChangeCompany');
                                             this.props.navigator.popToRoot();
                                         }
                                     },

@@ -61,7 +61,7 @@ export default class MinePage extends BComponent {
     // 准备加载组件
     componentWillMount() {
         this.initPage();
-        this.refreshEmitter = DeviceEventEmitter.addListener('refreshService', () => {
+        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
             this.initPage()
         });
     }

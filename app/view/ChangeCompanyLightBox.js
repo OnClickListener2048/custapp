@@ -73,7 +73,7 @@ class Lightbox extends BComponent {
         UserInfoStore.setCompany(item).then(
             (user) => {
                 console.log("公司信息保存成功");
-                DeviceEventEmitter.emit('refreshService');
+                DeviceEventEmitter.emit('ChangeCompany');
                 this.props.navigator.dismissLightBox()
                 this.props.callback && this.props.callback()
             },
@@ -90,14 +90,16 @@ class Lightbox extends BComponent {
     render() {
         return (
             <View style={[styles.container] }>
-                <View style={{width: Dimensions.get('window').width * 0.7, height:this.state.dataSource.length * 40}}>
+                <Text style={{width:Dimensions.get('window').width * 0.7,textAlign:'center',fontSize:18,padding:7}}>切换公司</Text>
+                <View style={{width: Dimensions.get('window').width * 0.7}}>
                     {
                         this.state.dataSource.map((item,index)=>{
                             return(
                                 <TouchableOpacity key={index} onPress={this._press.bind(this,item)}>
                                     <CommenCell
+                                        leftTextStyle={{width: Dimensions.get('window').width * 0.7*0.7}}
                                         underLine={false}
-                                        style={{width: Dimensions.get('window').width * 0.7, height:40}}
+                                        style={{width: Dimensions.get('window').width * 0.7}}
                                         leftText={item.name}
                                         isClick ={false}
                                         rightView = {item.id==this.state.selectedCompanyId?<Image source={require('../img/choose_seleted.png')}/>:<Image source={require('../img/choose_normal.png')}/>}
@@ -119,16 +121,8 @@ const styles = StyleSheet.create({
         //height: Dimensions.get('window').height * 0.3,
         backgroundColor: '#ffffff',
         borderRadius: 5,
-        paddingTop: 10,
-        paddingBottom: 10,
-
-    },
-    title: {
-        fontSize: 17,
-        fontWeight: '700',
-    },
-    content: {
-        marginTop: 8,
+        paddingTop:10,
+        paddingBottom:15
     },
 });
 

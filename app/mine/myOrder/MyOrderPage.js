@@ -57,7 +57,7 @@ export default class MyOrderPage extends BComponent {
     componentDidMount() {
         this.initNavigatorBar();
         this.initData()
-        this.refreshEmitter = DeviceEventEmitter.addListener('refreshService', () => {
+        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
             this.initData()
         });
     }

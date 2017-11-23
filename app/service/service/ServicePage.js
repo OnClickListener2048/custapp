@@ -68,7 +68,7 @@ export default class ServicePage extends BComponent {
     componentDidMount() {
 
         this.initData()
-        this.refreshEmitter = DeviceEventEmitter.addListener('refreshService', () => {
+        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
             this.initData()
         });
 

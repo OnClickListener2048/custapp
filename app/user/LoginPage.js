@@ -174,7 +174,7 @@ export default class LoginPage extends Component {
         // 发送通知
         DeviceEventEmitter.emit('loginSuccess', true);
         //登录后刷新服务页面的数据
-        DeviceEventEmitter.emit('refreshService');
+        DeviceEventEmitter.emit('ChangeCompany');
 
 
         Navigation.dismissModal({
@@ -392,7 +392,7 @@ export default class LoginPage extends Component {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
                         //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '13681551316'
-                        apis.getCompany(responseData.user.mobilePhone).then(
+                        apis.getCompany('18099990000').then(
                             (companyInfo) => {
                                 if (companyInfo && companyInfo.list) {
 
