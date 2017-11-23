@@ -70,7 +70,8 @@ export default class LoginPage extends Component {
             // timerButtonEnable: false, // 倒计时按钮是否可用
             timerButtonClicked: false,//  倒计时按钮是否已点击
             headPad: 20,// 顶部的默认空白
-            isInWechatLoading: false//是否正在进行微信登录中, 避免重复点击
+            isInWechatLoading: false,//是否正在进行微信登录中, 避免重复点击
+
         };
 
         // this.state.mobile = props.mobile;
@@ -390,12 +391,17 @@ export default class LoginPage extends Component {
                     if(responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
+                        //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '13681551316'
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
-                                console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
-                                if (companyInfo && companyInfo.data) {
-                                    console.log("公司信息保存中...." , companyInfo.data);
-                                    UserInfoStore.setCompany(companyInfo.data).then(
+                                if (companyInfo && companyInfo.list) {
+
+                                    console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
+
+                                    let tmpCompaniesArr = companyInfo.list;
+
+                                    //需要注掉到时候
+                                    UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
                                         (user) => {
                                             console.log("公司信息保存成功");
                                             this.pop();
@@ -405,11 +411,29 @@ export default class LoginPage extends Component {
                                             this.pop();
                                         },
                                     );
+                                    if (tmpCompaniesArr.length > 0) {
+                                        UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+                                            (user) => {
+                                                console.log("公司信息保存成功");
+                                                this.pop();
+                                            },
+                                            (e) => {
+                                                console.log("公司信息保存错误:", e);
+                                                this.pop();
+                                            },
+                                        );
+
+                                    }
                                 } else {
+                                    UserInfoStore.removeCompany().then();
+                                    UserInfoStore.removeCompanyArr().then();
                                     this.pop();
                                 }
                             },
                             (e) => {
+                                UserInfoStore.removeCompany().then();
+                                UserInfoStore.removeCompanyArr().then();
+
                                 console.log("公司信息读取错误返回:", e);
                                 this.pop();
                             },
