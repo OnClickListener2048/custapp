@@ -60,7 +60,11 @@ class Lightbox extends BComponent {
     }
 
     _press(item){
-        if (item.id === this.state.selectedCompanyId) return;
+        if (item.id === this.state.selectedCompanyId) {
+            this.props.navigator.dismissLightBox()
+            this.props.callback && this.props.callback()
+            return;
+        }
 
         this.setState({
             selectedCompanyId:item.id
@@ -70,29 +74,29 @@ class Lightbox extends BComponent {
             (user) => {
                 console.log("公司信息保存成功");
                 DeviceEventEmitter.emit('refreshService');
-
+                this.props.navigator.dismissLightBox()
+                this.props.callback && this.props.callback()
             },
             (e) => {
                 console.log("公司信息保存错误:", e);
+                this.props.navigator.dismissLightBox()
+                this.props.callback && this.props.callback()
             },
         );
 
-        // let data = this.state.dataSource[index];
-        //
-        // this.setState({
-        //     dataSource:data
-        // })
+
     }
 
     render() {
         return (
-            <View style={[styles.container,{height:this.state.dataSource.length * 40 + 40 + 20}] }>
-                <View style={{marginTop:10 , width: Dimensions.get('window').width * 0.7, height:this.state.dataSource.length * 40}}>
+            <View style={[styles.container] }>
+                <View style={{width: Dimensions.get('window').width * 0.7, height:this.state.dataSource.length * 40}}>
                     {
                         this.state.dataSource.map((item,index)=>{
                             return(
                                 <TouchableOpacity key={index} onPress={this._press.bind(this,item)}>
                                     <CommenCell
+                                        underLine={false}
                                         style={{width: Dimensions.get('window').width * 0.7, height:40}}
                                         leftText={item.name}
                                         isClick ={false}
@@ -103,12 +107,6 @@ class Lightbox extends BComponent {
                             )
                         })
                     }
-                </View>
-                <View style={{width: Dimensions.get('window').width * 0.7, height:40}}>
-                    <Button
-                        title={'Close'}
-                        onPress={() => this.props.navigator.dismissLightBox()}
-                    />
                 </View>
             </View>
         );
@@ -121,7 +119,9 @@ const styles = StyleSheet.create({
         //height: Dimensions.get('window').height * 0.3,
         backgroundColor: '#ffffff',
         borderRadius: 5,
-        padding: 0,
+        paddingTop: 10,
+        paddingBottom: 10,
+
     },
     title: {
         fontSize: 17,

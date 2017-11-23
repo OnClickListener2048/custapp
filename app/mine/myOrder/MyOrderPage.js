@@ -14,6 +14,7 @@ import {
     Platform,
     TouchableOpacity,
     ScrollView,
+    DeviceEventEmitter
 } from 'react-native';
 
 import  MyOrderStatePage from './MyOrderStatePage'
@@ -34,9 +35,61 @@ export default class MyOrderPage extends BComponent {
         this.loadData=this.loadData.bind(this);
         this.initData=this.initData.bind(this);
     }
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event);
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
 
+            if (event.id == 'ChangeCompany') {
+                this.props.navigator.showLightBox({
+                    screen: "ChangeCompanyLightBox",
+                    passProps: {
+                        onClose: this.dismissLightBox,
+                    },
+                    style: {
+                        backgroundBlur: 'none',
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        tapBackgroundToDismiss:true
+                    }
+                });
+            }
+        }
+    }
     componentDidMount() {
+        this.initNavigatorBar();
         this.initData()
+        this.refreshEmitter = DeviceEventEmitter.addListener('refreshService', () => {
+            this.initData()
+        });
+    }
+    initNavigatorBar(){
+        UserInfoStore.getCompanyArr().then(
+            (companyArr) => {
+                if(companyArr && companyArr.length>1){
+                    //多家
+                    this.props.navigator.setButtons({
+                        rightButtons: [{
+                            icon: require('../../img/change.png'), // for icon button, provide the local image asset name
+                            id: 'ChangeCompany', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                            disableIconTint:true
+                        }], // see "Adding buttons to the navigator" below for format (optional)
+                    });
+                }else{
+                    //一家或者没有
+                    this.props.navigator.setButtons({
+                        rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                    });
+                }
+            },
+            (e) => {
+                //一家或者没有
+                this.props.navigator.setButtons({
+                    rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                });
+            },
+        );
+    }
+    componentWillUnmount() {
+        this.refreshEmitter.remove();
     }
 
     initData(){
