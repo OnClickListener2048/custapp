@@ -11,7 +11,8 @@ import {
     Platform,
     TouchableOpacity,
     ScrollView,
-    Linking
+    Linking,
+    DeviceEventEmitter
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CommenCell from '../../view/CommenCell'
@@ -60,8 +61,13 @@ export default class MinePage extends BComponent {
     // 准备加载组件
     componentWillMount() {
         this.initPage();
+        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
+            this.initPage()
+        });
     }
-
+    componentWillUnmount() {
+        this.refreshEmitter.remove();
+    }
     initPage() {
         console.log('MinePage', 'initPage');
         UserInfoStore.isLogined().then(
@@ -139,7 +145,7 @@ export default class MinePage extends BComponent {
                     />
                     <CommenCell
                         leftText="企业信息"
-                        onPress = {this._goto.bind(this,'CompanyInfoPage','企业概况')}
+                        onPress = {this._goto.bind(this,'CompanySurveyPage','企业概况')}
                     />
                     <CommenCell
                         leftText="消息"
@@ -168,30 +174,53 @@ export default class MinePage extends BComponent {
         Linking.openURL('tel:400-107-0110')
     }
     _goto(screen, title ){
+        if(screen === '')return;
 
         //未登录不能跳转的页面
-        // if(!this.state.logined) {
-        //     if(screen === 'BindPhonePage' ||screen === 'MyOrderPage' ||screen === 'CompanyInfoPage' || screen === 'AccountAndSecurity') {
-        //         Toast.show("请先登录")
-        //         return;
-        //     }
-        // }
+        if(!this.state.logined) {
+            if(screen === 'BindPhonePage' ||screen === 'MyOrderPage' ||screen === 'CompanySurveyPage' || screen === 'AccountAndSecurity') {
+                Toast.show("请先登录")
+                return;
+            }
+        }
 
-        if(screen == 'CompanyInfoPage'){
+        if(screen == 'CompanySurveyPage'){
 
-            this.props.navigator.showLightBox({
-                screen: "ChangeCompanyLightBox",
-                passProps: {
-                    onClose: this.dismissLightBox,
+            UserInfoStore.getCompanyArr().then(
+                (companyArr) => {
+                    console.log('companyArr-----',companyArr)
+                    if(companyArr && companyArr.length>1){
+                        //多家
+                        this.props.navigator.showLightBox({
+                            screen: "ChangeCompanyLightBox",
+                            passProps: {
+                                callback: this.changeCallBack,
+                            },
+                            style: {
+                                backgroundBlur: 'none',
+                                backgroundColor: 'rgba(0,0,0,0.5)',
+                                tapBackgroundToDismiss:true
+                            }
+                        });
+                    }else{
+                        //一家或者没有
+                        this.push({
+                            screen: screen,
+                            title:title
+                        });
+                    }
                 },
-                style: {
-                    backgroundBlur: 'none',
-                    backgroundColor: 'rgba(0,0,0,0.5)',
-                    tapBackgroundToDismiss:true
-                }
-            });
+                (e) => {
+                    //一家或者没有
+                    this.push({
+                        screen: screen,
+                        title:title
+                    });
+
+                },
+            );
+
         }else{
-            if(screen === '')return;
 
             this.push({
                 screen: screen,
@@ -203,9 +232,13 @@ export default class MinePage extends BComponent {
 
 
     }
-    dismissLightBox = () => {
-        this.props.navigator.dismissLightBox();
-    };
+
+    changeCallBack=()=>{
+        this.push({
+            screen: 'CompanySurveyPage',
+            title:'企业概况'
+        });
+    }
     login(){
         if(this.state.logined) {
             this.push({

@@ -213,7 +213,7 @@ export default class ChangeCompanyPage extends BComponent {
         UserInfoStore.setCompany(item).then(
             (user) => {
                 console.log("公司信息保存成功");
-                DeviceEventEmitter.emit('refreshService');
+                DeviceEventEmitter.emit('ChangeCompany');
 
             },
             (e) => {
