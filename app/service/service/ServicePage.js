@@ -260,11 +260,19 @@ export default class ServicePage extends BComponent {
             )
         }
     }
+    _onContentSizeChange(w,h){
+        console.log(w,h);
+
+    }
+
+
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#ffffff'}}>
                 <PLPCustomNavBar titleItem={this._titleItem.bind(this)} />
                 <ScrollView
+                    ref={scrollView => this.scrollView = scrollView}
+                    onContentSizeChange = {this._onContentSizeChange}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.isRefreshing}
