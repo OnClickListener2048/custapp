@@ -391,7 +391,7 @@ export default class LoginPage extends Component {
                     if(responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
-                        //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '13681551316'
+                        //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '18099990000'
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
                                 if (companyInfo && companyInfo.list) {

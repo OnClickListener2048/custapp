@@ -14,9 +14,10 @@ import {
     Platform,
     TouchableOpacity,
     ScrollView,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    TouchableWithoutFeedback
 } from 'react-native';
-
+import PLPCustomNavBar from '../../view/PLPCustomNavBar'
 import  MyOrderStatePage from './MyOrderStatePage'
 import BComponent from '../../base/BComponent'
 import * as apis from '../../apis';
@@ -30,17 +31,37 @@ export default class MyOrderPage extends BComponent {
             doing:[],//进行中
             hang:[],//已驳回
             done:[],//已结束
-            loadState:'success'
+            loadState:'success',
+            title:'我的订单',
+            isCompanies:false
         };
         this.loadData=this.loadData.bind(this);
         this.initData=this.initData.bind(this);
     }
-    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        super.onNavigatorEvent(event);
-        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+    static navigatorStyle = {
+        navBarHidden: true, // 隐藏默认的顶部导航栏
+    };
 
-            if (event.id == 'ChangeCompany') {
-                this.props.navigator.showLightBox({
+    componentDidMount() {
+        this.initData()
+        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
+            this.initData()
+        });
+    }
+    _leftItem(){
+        return (
+            <TouchableWithoutFeedback style={{width:44,height:50}}  onPress={()=>this.props.navigator.pop()}>
+                <Image style={{marginLeft:10}} source={require('../../img/left.png')} />
+            </TouchableWithoutFeedback>
+
+        )
+    }
+
+    _titleItem(){
+
+        if(this.state.isCompanies){
+            return (
+                <TouchableOpacity onPress ={()=>this.props.navigator.showLightBox({
                     screen: "ChangeCompanyLightBox",
                     passProps: {
                         onClose: this.dismissLightBox,
@@ -50,43 +71,19 @@ export default class MyOrderPage extends BComponent {
                         backgroundColor: 'rgba(0,0,0,0.5)',
                         tapBackgroundToDismiss:true
                     }
-                });
-            }
+                })}>
+                    <View style={{width:DeviceInfo.width*0.6,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center'}}>{this.state.title}&#12288;</Text>
+                        <Image source={require('../../img/triangle_black.png')}/>
+                    </View>
+
+                </TouchableOpacity>
+            )
+        }else{
+            return (
+                <Text style={{fontSize:setSpText(18),fontWeight:'bold'}}>{this.state.title}</Text>
+            )
         }
-    }
-    componentDidMount() {
-        this.initNavigatorBar();
-        this.initData()
-        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
-            this.initData()
-        });
-    }
-    initNavigatorBar(){
-        UserInfoStore.getCompanyArr().then(
-            (companyArr) => {
-                if(companyArr && companyArr.length>1){
-                    //多家
-                    this.props.navigator.setButtons({
-                        rightButtons: [{
-                            icon: require('../../img/change.png'), // for icon button, provide the local image asset name
-                            id: 'ChangeCompany', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-                            disableIconTint:true
-                        }], // see "Adding buttons to the navigator" below for format (optional)
-                    });
-                }else{
-                    //一家或者没有
-                    this.props.navigator.setButtons({
-                        rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
-                    });
-                }
-            },
-            (e) => {
-                //一家或者没有
-                this.props.navigator.setButtons({
-                    rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
-                });
-            },
-        );
     }
     componentWillUnmount() {
         this.refreshEmitter.remove();
@@ -99,9 +96,36 @@ export default class MyOrderPage extends BComponent {
                 if (company && company.id&&company.type) {
                     this.companyid = company.id
                     this.companytype=company.type
+
+                    //判断是否是多加公司
+                    UserInfoStore.getCompanyArr().then(
+                        (companyArr) => {
+                            if(companyArr && companyArr.length>1){
+                                //多家
+                                if (company && company.infos && company.infos[0] && company.infos[0].value) {
+
+                                    this.initNavigationBar(true,company.infos[0].value)
+
+                                }else{
+                                    this.initNavigationBar(true)
+                                }
+                            }else{
+                                //一家或者没有
+                                this.initNavigationBar(false)
+                            }
+                        },
+                        (e) => {
+                            //一家或者没有
+                            this.initNavigationBar(false)
+
+                        },
+                    );
+
                 }else{
                     this.companyid = undefined
                     this.companytype=undefined
+                    this.initNavigationBar(false)
+
                 }
                 this.loadData()
 
@@ -109,10 +133,18 @@ export default class MyOrderPage extends BComponent {
             (e) => {
                 this.loadData()
                 console.log(e)
+                this.initNavigationBar(false)
+
             },
         );
     }
+    initNavigationBar(isCompanies=false,title='服务'){
 
+        this.setState({
+            title:title,
+            isCompanies:isCompanies
+        })
+    }
     loadData(){
         //测试用
         // this.companyid='99999'
@@ -122,6 +154,7 @@ export default class MyOrderPage extends BComponent {
             var loading = SActivityIndicator.show(true, "加载中...");
             apis.loadOrderListData(this.companyid,this.companytype).then(
                 (responseData) => {
+                    console.log('caocaocaoca',responseData)
                     if (responseData.code == 0) {
                         SActivityIndicator.hide(loading);
                         var data = responseData.list;
@@ -148,12 +181,21 @@ export default class MyOrderPage extends BComponent {
                             );
                         } else {
                             this.setState({
-                                    loadState: 'no-data'
+                                    data: [],
+                                    doing: [],
+                                    hang: [],
+                                    done: [],
+                                    loadState: 'success'
                                 }
                             );
                         }
 
 
+                    }else{
+                        this.setState({
+                                loadState: 'error'
+                            }
+                        );
                     }
                 },
                 (e) => {
@@ -189,48 +231,56 @@ export default class MyOrderPage extends BComponent {
     render(){
         if(this.state.loadState == 'success') {
             return (
-                <ScrollableTabView
-                    renderTabBar={() => <CustomTabBar/>}
-                    style={styles.container}
-                    tabBarUnderlineStyle={styles.lineStyle}//选中时线的样式
-                    tabBarActiveTextColor='#E13238'//选中时字体的颜色
-                    tabBarBackgroundColor='#ececec'//整个tab的背景色
-                    tabBarInactiveTextColor='#999999'//未选中时字的颜色
-                    tabBarTextStyle={styles.textStyle}//tab字体的样式
-                    ref={(scrollTabView) => {
-                        this.scrollTabView = scrollTabView;
-                    }}
-                >
-                    <MyOrderStatePage tabLabel='进行中'
-                                      sourceData={this.state.doing}
-                                      lockSlide={this._lockSlide.bind(this)} //解决ScrollableTabView和listView的滑动冲突
-                                      openSlide={this._openSlide.bind(this)}
-                                      {...this.props}//把所有属性都传给子页面
+                <View style={{flex:1}}>
+                    <PLPCustomNavBar leftItem={this._leftItem.bind(this)} titleItem={this._titleItem.bind(this)} />
+                    <ScrollableTabView
+                        renderTabBar={() => <CustomTabBar/>}
+                        style={styles.container}
+                        tabBarUnderlineStyle={styles.lineStyle}//选中时线的样式
+                        tabBarActiveTextColor='#E13238'//选中时字体的颜色
+                        tabBarBackgroundColor='#ececec'//整个tab的背景色
+                        tabBarInactiveTextColor='#999999'//未选中时字的颜色
+                        tabBarTextStyle={styles.textStyle}//tab字体的样式
+                        ref={(scrollTabView) => {
+                            this.scrollTabView = scrollTabView;
+                        }}
+                    >
+                        <MyOrderStatePage tabLabel='进行中'
+                                          sourceData={this.state.doing}
+                                          lockSlide={this._lockSlide.bind(this)} //解决ScrollableTabView和listView的滑动冲突
+                                          openSlide={this._openSlide.bind(this)}
+                                          {...this.props}//把所有属性都传给子页面
 
-                    />
-                    <MyOrderStatePage tabLabel='已驳回'
-                                      sourceData={this.state.hang}
-                                      lockSlide={this._lockSlide.bind(this)}
-                                      openSlide={this._openSlide.bind(this)}
-                                      {...this.props}
-                    />
-                    <MyOrderStatePage tabLabel='已结束'
-                                      sourceData={this.state.done}
-                                      lockSlide={this._lockSlide.bind(this)}
-                                      openSlide={this._openSlide.bind(this)}
-                                      {...this.props}
-                    />
-                    <MyOrderStatePage tabLabel='全部'
-                                      sourceData={this.state.data}
-                                      lockSlide={this._lockSlide.bind(this)}
-                                      openSlide={this._openSlide.bind(this)}
-                                      {...this.props}
-                    />
-                </ScrollableTabView>
+                        />
+                        <MyOrderStatePage tabLabel='已驳回'
+                                          sourceData={this.state.hang}
+                                          lockSlide={this._lockSlide.bind(this)}
+                                          openSlide={this._openSlide.bind(this)}
+                                          {...this.props}
+                        />
+                        <MyOrderStatePage tabLabel='已结束'
+                                          sourceData={this.state.done}
+                                          lockSlide={this._lockSlide.bind(this)}
+                                          openSlide={this._openSlide.bind(this)}
+                                          {...this.props}
+                        />
+                        <MyOrderStatePage tabLabel='全部'
+                                          sourceData={this.state.data}
+                                          lockSlide={this._lockSlide.bind(this)}
+                                          openSlide={this._openSlide.bind(this)}
+                                          {...this.props}
+                        />
+                    </ScrollableTabView>
+                </View>
+
             )
         }else{
             return(
-                <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
+                <View style={{flex:1}}>
+                    <PLPCustomNavBar leftItem={this._leftItem.bind(this)} titleItem={this._titleItem.bind(this)} />
+                    <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
+
+                </View>
             )
         };
     }

@@ -76,6 +76,7 @@ export default class CustomHeader extends Component {
         );
     }
     click=(i)=>{
+
         this.props.goToPage(i)
         let eventArr = ['s_copiestax','s_sendbill','s_finance','s_applyTax','s_clearCard'];
         UMTool.onEvent(eventArr[i])

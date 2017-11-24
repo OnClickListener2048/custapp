@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import PLPCustomNavBar from '../../view/PLPCustomNavBar'
 import {
     Header,
     CustomHeader,
@@ -46,7 +47,9 @@ export default class ServicePage extends BComponent {
             month:(today.getMonth() + 1).toString(),
             isRefreshing:false,
             isClose:false,
-            isLoading:false
+            isLoading:true,
+            title:'服务',
+            isCompanies:false
 
         };
         // this._renderBody=this._renderBody.bind(this);
@@ -55,16 +58,10 @@ export default class ServicePage extends BComponent {
 
     }
     static navigatorStyle = {
-        navBarHidden: false, // 隐藏默认的顶部导航栏
+        navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
-    // btnClick(index){
-    //     let eventArr = ['s_copiestax','s_sendbill','s_finance','s_applyTax','s_clearCard'];
-    //     UMTool.onEvent(eventArr[index])
-    //     this.setState({
-    //         selectIndex:index
-    //     })
-    // }
+
 
     componentDidMount() {
 
@@ -77,26 +74,7 @@ export default class ServicePage extends BComponent {
     componentWillUnmount() {
         this.refreshEmitter.remove();
     }
-    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        super.onNavigatorEvent(event);
-        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
 
-            if (event.id == 'ChangeCompany') {
-                this.props.navigator.showLightBox({
-                    screen: "ChangeCompanyLightBox",
-                    passProps: {
-                        onClose: this.dismissLightBox,
-                    },
-                    style: {
-                        backgroundBlur: 'none',
-                        backgroundColor: 'rgba(0,0,0,0.5)',
-                        tapBackgroundToDismiss:true
-                    }
-                });
-            }
-        }
-
-    }
     initData(){
         UserInfoStore.getCompany().then(
             (company) => {
@@ -151,31 +129,11 @@ export default class ServicePage extends BComponent {
         );
     }
     initNavigationBar(isCompanies=false,title='服务'){
-        if(isCompanies){
-            //多家
-            //配置右边的按钮
-            this.props.navigator.setButtons({
-                rightButtons: [{
-                    icon: require('../../img/change.png'), // for icon button, provide the local image asset name
-                    id: 'ChangeCompany', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-                    disableIconTint:true
-                }], // see "Adding buttons to the navigator" below for format (optional)
-            });
-            this.props.navigator.setTitle({
-                title: title
-            });
-        }else{
-            //一家或者没有
-            //配置title为服务
-            this.props.navigator.setTitle({
-                title: title
-            });
-            //配置右边的按钮为空
-            this.props.navigator.setButtons({
-                rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
-            });
-        }
 
+        this.setState({
+            title:title,
+            isCompanies:isCompanies
+        })
     }
     loadData(date='',isPull=false){
 
@@ -273,9 +231,39 @@ export default class ServicePage extends BComponent {
         this.loadData(this.state.year+'-'+this.state.month,true)
 
     }
+    _titleItem(){
+
+
+        if(this.state.isCompanies){
+            return (
+                <TouchableOpacity onPress ={()=>this.props.navigator.showLightBox({
+                    screen: "ChangeCompanyLightBox",
+                    passProps: {
+                        onClose: this.dismissLightBox,
+                    },
+                    style: {
+                        backgroundBlur: 'none',
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        tapBackgroundToDismiss:true
+                    }
+                })}>
+                    <View style={{width:deviceWidth*0.7,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center'}}>{this.state.title}&#12288;</Text>
+                        <Image source={require('../../img/triangle_black.png')}/>
+                    </View>
+
+                </TouchableOpacity>
+            )
+        }else{
+            return (
+                <Text style={{fontSize:setSpText(18),fontWeight:'bold'}}>{this.state.title}</Text>
+            )
+        }
+    }
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#ffffff'}}>
+                <PLPCustomNavBar titleItem={this._titleItem.bind(this)} />
                 <ScrollView
                     refreshControl={
                         <RefreshControl
@@ -315,7 +303,7 @@ export default class ServicePage extends BComponent {
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal disabled={this.state.is_demo == '1'?true:false} ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal style={{marginTop:DeviceInfo.OS=='ios'?64:44}} disabled={this.state.is_demo == '1'?true:false} ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
             </View>
 
         )
