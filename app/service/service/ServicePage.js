@@ -16,6 +16,8 @@ import {
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PLPCustomNavBar from '../../view/PLPCustomNavBar'
+import {isIphoneX} from '../../util/iphoneX-helper'
+
 import {
     Header,
     CustomHeader,
@@ -32,7 +34,6 @@ import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import demoData from '../serviceDetail/local/ProfitStatementPage.json'
 import {deviceHeight, deviceWidth} from "../../util/ScreenUtil";
-
 export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
@@ -260,10 +261,7 @@ export default class ServicePage extends BComponent {
             )
         }
     }
-    _onContentSizeChange(w,h){
-        console.log(w,h);
 
-    }
 
 
     render(){
@@ -271,8 +269,6 @@ export default class ServicePage extends BComponent {
             <View style={{flex:1,backgroundColor:'#ffffff'}}>
                 <PLPCustomNavBar titleItem={this._titleItem.bind(this)} />
                 <ScrollView
-                    ref={scrollView => this.scrollView = scrollView}
-                    onContentSizeChange = {this._onContentSizeChange}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.isRefreshing}
@@ -311,7 +307,7 @@ export default class ServicePage extends BComponent {
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal style={{marginTop:DeviceInfo.OS=='ios'?64:44}} disabled={this.state.is_demo == '1'?true:false} ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal style={{marginTop:DeviceInfo.OS=='ios'?isIphoneX()?90:64:44}} disabled={this.state.is_demo == '1'?true:false} ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
             </View>
 
         )

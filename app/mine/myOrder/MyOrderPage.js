@@ -138,7 +138,7 @@ export default class MyOrderPage extends BComponent {
             },
         );
     }
-    initNavigationBar(isCompanies=false,title='服务'){
+    initNavigationBar(isCompanies=false,title='我的订单'){
 
         this.setState({
             title:title,

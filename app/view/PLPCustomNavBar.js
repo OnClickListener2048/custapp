@@ -9,6 +9,7 @@ import {
     Dimensions,
     Platform,
 } from 'react-native';
+import {isIphoneX} from '../util/iphoneX-helper'
 
 const {width, height} = Dimensions.get('window');
 
@@ -64,14 +65,14 @@ export default class PLPCustomNavBar extends Component {
 const styles = StyleSheet.create({
     container: {
         width:width,
-        height:Platform.OS === 'ios' ? 64 : 44,
+        height:Platform.OS === 'ios' ? isIphoneX()?90:64 : 44,
         backgroundColor:'#FAFAFA',
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
         borderBottomWidth:0.5,
         borderBottomColor:'#DCDCDC',
-        paddingTop:Platform.OS === 'ios' ? 15 : 0,
-        zIndex:9999
+        paddingTop:Platform.OS === 'ios' ?isIphoneX()?35: 20 : 0,
+        zIndex:9999,
     },
 });
