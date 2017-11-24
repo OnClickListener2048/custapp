@@ -142,6 +142,10 @@ export default class MinePage extends BComponent {
                         onPress = {this._goto.bind(this,'CompanyInfoPage','企业概况')}
                     />
                     <CommenCell
+                        leftText="消息"
+                        onPress = {this._goto.bind(this,'MessagePage','消息')}
+                    />
+                    <CommenCell
                         leftText="账号与安全"
                         onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
                         style={{marginTop:9}}

@@ -71,10 +71,6 @@ export default class SettingPage extends BComponent {
                         onPress={this._serviceTerm.bind(this)}
                     />
                     <CommentCell
-                        leftText="消息"
-                        onPress={this._messagePage.bind(this)}
-                    />
-                    <CommentCell
                         leftText="清除缓存"
                         style={{marginTop: 10}}
                         rightText={this.state.cacheSize + this.state.unit}
@@ -131,14 +127,6 @@ export default class SettingPage extends BComponent {
         this.push({
             screen: 'ServiceTermPage',
             title: '服务条款',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-        });
-    }
-
-    _messagePage(){
-        this.push({
-            screen: 'MessagePage',
-            title: '消息',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
         });
     }
