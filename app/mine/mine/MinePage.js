@@ -64,10 +64,17 @@ export default class MinePage extends BComponent {
         this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
             this.initPage()
         });
+        this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
+            console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
+            loginJumpSingleton.goToLogin(this.props.navigator);
+        });
     }
+
     componentWillUnmount() {
         this.refreshEmitter.remove();
+        this.subscription.remove();
     }
+
     initPage() {
         console.log('MinePage', 'initPage');
         UserInfoStore.isLogined().then(
