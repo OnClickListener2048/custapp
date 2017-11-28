@@ -92,6 +92,9 @@ export default class SettingPage extends BComponent {
         clearManager.runClearCache(() => {
 
             Toast.show("清除成功")
+            // setTimeout(function () {
+            //     Toast.hide(toast);
+            // }, 500);
             this.setState({
                 cacheSize: '', //缓存大小
                 unit: ''  //缓存单位
