@@ -31,6 +31,11 @@ export default class MessagePage extends BComponent {
 
     }
 
+    static navigatorStyle = {
+        navBarHidden: true, // 隐藏默认的顶部导航栏
+        tabBarHidden: false, // 默认隐藏底部标签栏
+    };
+
     componentDidMount() {
         //打开即可
         // if(!NetInfoSingleton.isConnected) {
