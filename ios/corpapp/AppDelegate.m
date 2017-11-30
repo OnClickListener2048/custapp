@@ -62,7 +62,7 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
                                           categories:nil];
   }
   
-  [JPUSHService setupWithOption:launchOptions appKey:@"e8f5ec679b9976aa36858ebb"
+  [JPUSHService setupWithOption:launchOptions appKey:@"18d5ed48d3155714f80f3927"
                         channel:nil apsForProduction:isProduction];
   
   
