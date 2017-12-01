@@ -98,44 +98,70 @@ export default class LoginPage extends Component {
         }
     }
 
-    _goWechat() {
+    // 执行登陆操作
+    _doWeChatLogin = () => {
         let scope = 'snsapi_userinfo';
         let state = 'wechat_sdk_demo';
         this.setState({isInWechatLoading: true});
-        WeChat.sendAuthRequest(scope, state).then(res => {
-            console.log(JSON.stringify(res));
-            // {"code":"071Na2zw1jxpWb0Q1kzw1Al0zw1Na2zh","state":"wechat_sdk_demo","appid":"wx16da5000356a9497","errCode":0,"type":"SendAuth.Resp"}
-            // fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
-            //
-            // })
-            // if(res === null || res.code !== 0) {
-            //
-            // }
-            apis.wechatToken(res.code).then(
-                responseData => {
-                    console.log('wechat token responseData', responseData);
-                    this.setState({isInWechatLoading: false});
-                    let result = JSON.parse(responseData);
-                    if(result.code === 0 && result.access_token !== undefined) {
-                        console.log('save access_token');
+        let loading = SActivityIndicator.show(true, "微信登录中...");
+        WeChat.sendAuthRequest(scope, state).then(
+            res => {
+                console.log(JSON.stringify(res));
+                // {"code":"071Na2zw1jxpWb0Q1kzw1Al0zw1Na2zh","state":"wechat_sdk_demo","appid":"wx16da5000356a9497","errCode":0,"type":"SendAuth.Resp"}
+                // fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
+                //
+                // })
+                // if(res === null || res.code !== 0) {
+                //
+                // }
+                apis.wechatToken(res.code).then(
+                    responseData => {
+                        SActivityIndicator.hide(loading);
+                        console.log('wechat token responseData', responseData);
+                        this.setState({isInWechatLoading: false});
+                        let result = JSON.parse(responseData);
+                        if (result.code === 0 && result.access_token !== undefined) {
+                            console.log('save access_token');
 
-                        UserInfoStore.setUserToken(result.access_token).then(
-                            v => {
-                                this.readUserInfo();// TODO 获取用户信息
-                            },
-                            e => console.log(e.message)
-                        );
-                    } else {
-                        Alert.alert(result.msg);
-                    }
-                },
-                e => {
-                    this.setState({isInWechatLoading: false});
-                    console.log('出错了', e);
-                },
-            );
-        })
+                            UserInfoStore.setUserToken(result.access_token).then(
+                                v => {
+                                    this.readUserInfo();// TODO 获取用户信息
+                                },
+                                e => console.log(e.message)
+                            );
+                        } else {
+                            Alert.alert(result.msg);
+                        }
+                    },
+                    e => {
+                        this.setState({isInWechatLoading: false});
+                        Toast.show("对不起, 操作已取消.");
+                        console.log('出错了', e);
+                        SActivityIndicator.hide(loading);
+                    },
+                );
+            },
+            e => {
+                this.setState({isInWechatLoading: false});
+                Toast.show("对不起, 操作已取消或失败, 请稍候重试.");
+                console.log('出错了', e);
+                SActivityIndicator.hide(loading);
+            });
+    };
 
+    _goWechat() {
+        WeChat.isWXAppInstalled().then(
+            v => {
+                if (!v) {
+                    Toast.show("对不起, 您的设备上必须首先安装微信才能登陆.");
+                } else {
+                    this._doWeChatLogin();
+                }
+            },
+            e => {
+                Toast.show("对不起, 您的设备上必须首先安装微信才能登陆.");
+            }
+        );
     }
 
     //debug only
@@ -388,12 +414,15 @@ export default class LoginPage extends Component {
                 */
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 if (responseData && responseData.user) {
-                    if(responseData.user.mobilePhone) {
+                    if (responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
                         //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '18099990000' responseData.user.mobilePhone
+                        loading = SActivityIndicator.show(true, "读取公司信息中...")
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
+                                console.log("公司信息读取返回", companyInfo);
+                                SActivityIndicator.hide(loading);
                                 if (companyInfo && companyInfo.list) {
 
                                     console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
@@ -422,7 +451,8 @@ export default class LoginPage extends Component {
                                                 this.pop();
                                             },
                                         );
-
+                                    } else {
+                                        this.pop();// bug 修复: 无公司数据时不能返回
                                     }
                                 } else {
                                     UserInfoStore.removeCompany().then();
@@ -431,6 +461,7 @@ export default class LoginPage extends Component {
                                 }
                             },
                             (e) => {
+                                SActivityIndicator.hide(loading);
                                 UserInfoStore.removeCompany().then();
                                 UserInfoStore.removeCompanyArr().then();
 
@@ -446,7 +477,7 @@ export default class LoginPage extends Component {
                                 console.log("用户信息保存OK");
                                 this.props.navigator.push({
                                     screen: 'FirstBindPhonePage',
-                                    title:''
+                                    title: ''
                                 });
                             },
                             (e) => {
@@ -457,8 +488,6 @@ export default class LoginPage extends Component {
                     }
 
 
-
-
                 } else {
                     console.log("OK ===> LoginPage:");
                 }
@@ -466,7 +495,11 @@ export default class LoginPage extends Component {
             (e) => {
                 SActivityIndicator.hide(loading);
                 console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取失败' + errorText(e), {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+                Toast.show('用户信息读取失败' + errorText(e), {
+                    position: Toast.positions.CENTER,
+                    duration: Toast.durations.LONG,
+                    backgroundColor: 'red'
+                });
             },
         );
     }
@@ -533,11 +566,9 @@ export default class LoginPage extends Component {
                         {/*<Text style={styles.logintext}>登录</Text>*/}
                         {/*</View>*/}
                         {/*</TouchableWithoutFeedback>*/}
-                        {!this.state.isInWechatLoading &&
-                            <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={{marginTop: 50}}
-                            text="微信登录"
-                            />
-                        }
+                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={{marginTop: 50}} isEnabled={!this.state.isInWechatLoading}
+                                              text={this.state.isInWechatLoading ? "登录中..." : "微信登录"}
+                        />
 
                     </KeyboardAvoidingView>
                 </View>
