@@ -24,14 +24,14 @@ const tabsMain = [
         title: '首页',
         navigatorStyle
     },
-    // {
-    //     label: '消息',
-    //     screen: 'MessagePage',
-    //     icon: require('./img/message_normal.png'),
-    //     selectedIcon: require('./img/message_selected.png'),
-    //     title: '消息',
-    //     navigatorStyle
-    // },
+    {
+        label: '消息',
+        screen: 'MessagePage',
+        icon: require('./img/message_normal.png'),
+        selectedIcon: require('./img/message_selected.png'),
+        title: '消息',
+        navigatorStyle
+    },
     {
         label: '服务',
         screen: 'ServicePage',
