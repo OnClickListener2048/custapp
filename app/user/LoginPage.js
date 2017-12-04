@@ -103,7 +103,16 @@ export default class LoginPage extends Component {
         let scope = 'snsapi_userinfo';
         let state = 'wechat_sdk_demo';
         this.setState({isInWechatLoading: true});
-        let loading = SActivityIndicator.show(true, "微信登录中...");
+        let loading = SActivityIndicator.show(true, "尝试微信登录中...");
+
+        let _timer = setTimeout(()=>{
+            SActivityIndicator.hide(loading);
+            if(this.state.isInWechatLoading) {
+                this.setState({isInWechatLoading: false});//10秒后可点击返回
+            }
+            clearTimeout(_timer);
+        }, 10000);
+
         WeChat.sendAuthRequest(scope, state).then(
             res => {
                 console.log(JSON.stringify(res));
@@ -165,14 +174,23 @@ export default class LoginPage extends Component {
     _goWechat() {
         WeChat.isWXAppInstalled().then(
             v => {
+                console.log(v);
+                // Toast.show("微信安装情况" + v);
                 if (!v) {
-                    Toast.show("对不起, 您的设备上必须首先安装微信才能登陆.");
+                    if (Platform.OS === 'ios') {// iOS上不能检测出来是否安装了微信...
+                        Toast.show("尝试微信登录中...");
+                        this._doWeChatLogin();
+                    }
+                    else {
+                        Toast.show("对不起, 您的设备上必须首先安装微信才能登陆.");
+                    }
                 } else {
                     this._doWeChatLogin();
                 }
             },
             e => {
-                Toast.show("对不起, 您的设备上必须首先安装微信才能登陆.");
+                console.log(e);
+                Toast.show("对不起, 您的设备上必须首先安装微信才能登陆." + e);
             }
         );
     }
@@ -579,7 +597,8 @@ export default class LoginPage extends Component {
                         {/*<Text style={styles.logintext}>登录</Text>*/}
                         {/*</View>*/}
                         {/*</TouchableWithoutFeedback>*/}
-                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={{marginTop: 50}} isEnabled={!this.state.isInWechatLoading}
+                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={{marginTop: 50}}
+                                              isEnabled={!this.state.isInWechatLoading}
                                               text={this.state.isInWechatLoading ? "登录中..." : "微信登录"}
                         />
 
