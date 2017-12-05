@@ -157,7 +157,7 @@ export default class FirstBindPhonePage extends BComponent {
                         {
                             text: '确定',
                             onPress: () => {
-                                Navigation.dismissAllModals({
+                                Navigation.dismissModal({
                                     animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
                                 });
                                 if (this.props.navigator) {
@@ -178,6 +178,7 @@ export default class FirstBindPhonePage extends BComponent {
                         {
                             text: '确定',
                             onPress: () => {
+
                             },
                         },]
                     , {cancelable: false});

@@ -21,6 +21,7 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
 import Toast from 'react-native-root-toast'
+
 import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
@@ -233,6 +234,7 @@ export default class HomePage extends BComponent {
                 >
                 </SectionList>
                 <PLPActivityIndicator isShow={this.state.isLoading} />
+
             </View>
         )
     }
