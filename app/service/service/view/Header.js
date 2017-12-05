@@ -20,7 +20,7 @@ export default class Header extends Component {
 
     static defaultProps = {
         selectIndex:0,
-        btnArr:['抄税','发票数据','财务处理','申报纳税','清卡']
+        btnArr:['抄税','发送票据','财务处理','申报纳税','清卡']
     };
 
     btnClick(index){

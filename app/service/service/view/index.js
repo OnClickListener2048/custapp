@@ -10,7 +10,6 @@ import SendBill from './SendBill'
 import CustomHeader from './CustomHeader'
 
 export   {
-    Header,
     AccountingTreatment,
     ClearCard,
     CopyTaxes,
