@@ -1,7 +1,6 @@
 /**
  * Created by zhuangzihao on 2017/9/14.
  */
-import Header from './Header'
 import AccountingTreatment from './AccountingTreatment'
 import ClearCard from './ClearCard'
 import CopyTaxes from './CopyTaxes'
