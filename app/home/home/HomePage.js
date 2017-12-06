@@ -391,7 +391,7 @@ export default class HomePage extends BComponent {
             case 2:
             {
                 this.props.navigator.switchToTab({
-                    tabIndex: 2
+                    tabIndex: 1
                 });
                 UMTool.onEvent('financialReport')
 
