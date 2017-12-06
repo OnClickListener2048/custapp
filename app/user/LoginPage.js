@@ -18,6 +18,7 @@ import {
     View,
     ToastAndroid,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 
 // import ProgressiveInput from 'react-native-progressive-input';
@@ -71,7 +72,8 @@ export default class LoginPage extends Component {
             timerButtonClicked: false,//  倒计时按钮是否已点击
             headPad: 20,// 顶部的默认空白
             isInWechatLoading: false,//是否正在进行微信登录中, 避免重复点击
-
+            centerBlankHeight: 40, // logo区域和下方的间距
+            submitButtonMarginTop: 50, // 微信登录按钮和上方的间距
         };
 
         // this.state.mobile = props.mobile;
@@ -109,6 +111,7 @@ export default class LoginPage extends Component {
             SActivityIndicator.hide(loading);
             if(this.state.isInWechatLoading) {
                 this.setState({isInWechatLoading: false});//10秒后可点击返回
+                Toast.show("操作超时");
             }
             clearTimeout(_timer);
         }, 10000);
@@ -175,10 +178,9 @@ export default class LoginPage extends Component {
         WeChat.isWXAppInstalled().then(
             v => {
                 console.log(v);
-                // Toast.show("微信安装情况" + v);
+
                 if (!v) {
                     if (Platform.OS === 'ios') {// iOS上不能检测出来是否安装了微信...
-                        Toast.show("尝试微信登录中...");
                         this._doWeChatLogin();
                     }
                     else {
@@ -248,15 +250,20 @@ export default class LoginPage extends Component {
     componentWillMount() {
         // 发送通知
         DeviceEventEmitter.emit('isHiddenTabBar', true);
-        if (DEBUG) {
-            this._setupDebug();
+        let deviceModel = DeviceInfo.getModel();
+        // iPad 特殊处理, 便于苹果审核通过
+        if(deviceModel && deviceModel.toLowerCase().includes('ipad')) {
+            this.setState({centerBlankHeight : 0, submitButtonMarginTop : 0});
         }
+
 
         // let {isReset = false } = this.props;// 重置, 清理所有登录信息
         //
         // if (isReset) {
         //     loginJumpSingleton.reset();
         // }
+
+
 
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
@@ -583,7 +590,7 @@ export default class LoginPage extends Component {
                     <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
                         {backgroundColor: 'white'}]}
                                           keyboardVerticalOffset={0}>
-                        <View style={{height: 40}}/>
+                        <View style={{height: this.state.centerBlankHeight}}/>
 
                         <Image style={[styles.wechart_icon, {justifyContent: 'center'}]}
                                source={require('../img/cloud.png')}/>
@@ -597,7 +604,7 @@ export default class LoginPage extends Component {
                         {/*<Text style={styles.logintext}>登录</Text>*/}
                         {/*</View>*/}
                         {/*</TouchableWithoutFeedback>*/}
-                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={{marginTop: 50}}
+                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={{marginTop: this.state.submitButtonMarginTop}}
                                               isEnabled={!this.state.isInWechatLoading}
                                               text={this.state.isInWechatLoading ? "登录中..." : "微信登录"}
                         />
