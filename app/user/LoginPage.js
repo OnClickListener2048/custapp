@@ -16,7 +16,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     View,
-    ToastAndroid,
+    ActionSheetIOS,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
@@ -174,7 +174,31 @@ export default class LoginPage extends Component {
             });
     };
 
+    BUTTONS = [
+        '账号密码登陆',
+        '微信登录',
+        '取消',
+    ];
+     DESTRUCTIVE_INDEX = 3;
+     CANCEL_INDEX = 2;
+
+    showActionSheet = () => {
+        ActionSheetIOS.showActionSheetWithOptions({
+                options: this.BUTTONS,
+                cancelButtonIndex: this.CANCEL_INDEX,
+            },
+            (buttonIndex) => {
+                this.setState({ clicked: this.BUTTONS[buttonIndex] });
+            });
+    };
+
+
     _goWechat() {
+        // if(Platform.OS === 'ios') {
+        //     this.showActionSheet();
+        //     return;
+        // }
+
         WeChat.isWXAppInstalled().then(
             v => {
                 console.log(v);
