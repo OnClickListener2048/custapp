@@ -443,7 +443,7 @@ export default class LoginPage extends Component {
 
     // 读取用户信息
     readUserInfo() {
-        let loading = SActivityIndicator.show(true, "载入中...");
+        let loading = SActivityIndicator.show(true, "读取用户信息中...");
         apis.userInfo().then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
@@ -527,7 +527,7 @@ export default class LoginPage extends Component {
 
 
                 } else {
-                    console.log("OK ===> LoginPage:");
+                    Alert.alert("用户信息返回为空, 请重试", JSON.stringify(responseData));
                 }
             },
             (e) => {
