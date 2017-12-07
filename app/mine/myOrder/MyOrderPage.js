@@ -155,9 +155,8 @@ export default class MyOrderPage extends BComponent {
             var loading = SActivityIndicator.show(true, "加载中...");
             apis.loadOrderListData(this.companyid,this.companytype).then(
                 (responseData) => {
-                    console.log('caocaocaoca',responseData)
+                    SActivityIndicator.hide(loading);
                     if (responseData.code == 0) {
-                        SActivityIndicator.hide(loading);
                         var data = responseData.list;
                         if (data != null && data != []) {
                             var hang = [];
@@ -210,8 +209,13 @@ export default class MyOrderPage extends BComponent {
             );
         }else{
             this.setState({
-                loadState: 'no-data',
-            })
+                    data: [],
+                    doing: [],
+                    hang: [],
+                    done: [],
+                    loadState: 'success'
+                }
+            );
         }
     }
 

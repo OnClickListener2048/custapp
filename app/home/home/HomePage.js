@@ -92,7 +92,10 @@ export default class HomePage extends BComponent {
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
     componentDidMount(){
+
         this.loadData()
+
+
     }
 
 
@@ -234,7 +237,6 @@ export default class HomePage extends BComponent {
                 >
                 </SectionList>
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-
             </View>
         )
     }
@@ -350,6 +352,7 @@ export default class HomePage extends BComponent {
         });
     }
     _goProductDetail(item){
+
         UMTool.onEvent(item.eventsid)
         this.push({
             screen: 'WebViewPage',
@@ -361,6 +364,7 @@ export default class HomePage extends BComponent {
         });
     }
     _goColumnDetail(index,item){
+
         switch (index){
             case 0:
             {

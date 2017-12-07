@@ -26,14 +26,16 @@
 
 #import "UMMobClick/MobClick.h"
 #import <React/RCTLinkingManager.h>
+#import "NEHTTPEye.h"
+
 @implementation AppDelegate
 
 static BOOL isProduction = true;  //填写isProdurion  平时测试时为false ，生产时填写 true
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  
-  
+
+  [NEHTTPEye setEnabled:YES];
    /** 友盟统计 */
   UMConfigInstance.appKey = @"59f6dbeea40fa3718e000108";
   
