@@ -2,14 +2,18 @@
  * Created by zhuangzihao on 2017/9/8.
  */
 import React, {Component} from 'react';
+import {navToMainTab} from '../../navigation';
+
 import {
     View,
     TouchableOpacity,
     Text,
     Platform,
+    DeviceEventEmitter,
     StyleSheet
 } from 'react-native';
 import MessageCustomCell from './MessageCell'
+import JPushModule from 'jpush-react-native';
 import Swipeout from "react-native-swipeout"
 import * as apis from '../../apis';
 import BComponent from '../../base';
@@ -47,6 +51,16 @@ export default class MessagePage extends BComponent {
         }
     }
 
+    onHeaderRefresh = () => {
+        this.page=1
+        this.loadData(this.page)
+    }
+
+    onFooterRefresh = () => {
+        this.page++
+        this.loadData(this.page)
+    }
+
     _loadUnreadedNum(){
         if(!NetInfoSingleton.isConnected) {
             return;
@@ -61,9 +75,11 @@ export default class MessagePage extends BComponent {
                         unReadNum:responseData.unread,
                     })
 
-                    this.props.navigator.setTabBadge({
-                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
+                    this.props.navigator.setTabButton({
+                        icon: this.state.unReadNum > 0 ? require('../../img/message_red_normal.png') : require('../../img/message_normal.png'), // local image asset for the tab icon unselected state (optional)
+                        selectedIcon:  this.state.unReadNum > 0 ? require('../../img/message_red_normal.png') : require('../../img/message_normal.png'), // local image asset for the tab icon selected state (optional, iOS only)
                     });
+
 
                 }else{
                 }
@@ -74,15 +90,6 @@ export default class MessagePage extends BComponent {
         );
     }
 
-    onHeaderRefresh = () => {
-        this.page=1
-        this.loadData(this.page)
-    }
-
-    onFooterRefresh = () => {
-        this.page++
-        this.loadData(this.page)
-    }
 
     loadData(page=1,pageSize=10){
 
@@ -145,19 +152,6 @@ export default class MessagePage extends BComponent {
         );
     }
 
-    renderCell = (info) => {
-        return(
-            <TouchableOpacity onPress={this._readed.bind(this,info.item)}>
-                <MessageCustomCell
-                    messageTitle={info.item.title}
-                    messageSubTitle={info.item.content}
-                    messageTime={info.item.createDate}
-                    isRead={info.item.readed}
-                />
-            </TouchableOpacity>
-        )
-    }
-
     _readed(item){
 
         if (item.readed === true){
@@ -177,11 +171,14 @@ export default class MessagePage extends BComponent {
                         dataList:data,
                     });
 
+
+
                     this.state.unReadNum--;
-                    this.props.navigator.setTabBadge({
-                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
+
+                    this.props.navigator.setTabButton({
+                        icon: this.state.unReadNum > 0 ? require('../../img/message_red_normal.png') : require('../../img/message_normal.png'), // local image asset for the tab icon unselected state (optional)
+                        selectedIcon:  this.state.unReadNum > 0 ? require('../../img/message_red_normal.png') : require('../../img/message_normal.png'), // local image asset for the tab icon selected state (optional, iOS only)
                     });
-
                 }else{
                 }
             },
@@ -192,37 +189,6 @@ export default class MessagePage extends BComponent {
 
     }
 
-
-    _delete(index,item){
-
-        console.log(item + "rrrr" +item._id)
-
-        apis.deleteMessageItem(item._id).then(
-            (responseData) => {
-
-                if(responseData.code === 0){
-
-                    let arr = JSON.parse(JSON.stringify(this.state.dataList))
-                    arr.splice(index,1)
-                    this.setState({
-                        dataList:arr
-                    })
-
-                    if (this.state.dataList.length === 0){
-                        this.setState({
-                            initStatus:'no-data'
-                        })
-                    }
-
-                }else{
-                }
-            },
-            (e) => {
-
-            },
-        );
-
-    }
 
 
     _goto(item){
@@ -237,14 +203,23 @@ export default class MessagePage extends BComponent {
 
     }
 
+    renderCell = (info) => {
+        return(
+            <TouchableOpacity onPress={this._readed.bind(this,info.item)}>
+                <MessageCustomCell
+                    messageTitle={info.item.title}
+                    messageSubTitle={info.item.content}
+                    messageTime={info.item.createDate}
+                    isRead={info.item.readed}
+                />
+            </TouchableOpacity>
+        )
+    }
+
+
 
 
     render() {
-
-        // return(
-        //     <DefaultView onPress={()=>this.onHeaderRefresh()} type ={'no-MessageData'}/>
-        // )
-        //打开即可
 
         if(this.state.initStatus === 'initSucess') {
             return (

@@ -135,18 +135,18 @@ export default class LoginPage extends Component {
                         if (result.code === 0 && result.access_token !== undefined) {
                             console.log('save access_token');
                             //绑定openID为用户别名
-                            // JPushModule.setAlias(DeviceInfo.OS,function () {
-                            //     console.log('绑定成功',DeviceInfo.OS)
-                            // },function () {
-                            //     console.log('绑定失败')
-                            //
-                            // })
+                            JPushModule.setAlias(DeviceInfo.OS,function () {
+                                console.log('绑定成功',DeviceInfo.OS)
+                            },function () {
+                                console.log('绑定失败')
+
+                            })
                             // //设置分组
-                            // JPushModule.setTags("我的分组",function () {
-                            //     console.log('设置分组成功')
-                            // },function () {
-                            //     console.log('设置分组失败')
-                            // })
+                            JPushModule.setTags("我的分组",function () {
+                                console.log('设置分组成功')
+                            },function () {
+                                console.log('设置分组失败')
+                            })
 
                             UserInfoStore.setUserToken(result.access_token).then(
                                 v => {
