@@ -56,8 +56,8 @@ public class MainApplication extends NavigationApplication {
 
         System.out.println(getDeviceInfo(getApplicationContext()));
         //自定义升级布局
-//        Beta.upgradeDialogLayoutId = R.layout.upgrade_dialog;
-//        Beta.tipsDialogLayoutId = R.layout.tips_dialog;
+        Beta.upgradeDialogLayoutId = R.layout.upgrade_dialog;
+        Beta.tipsDialogLayoutId = R.layout.tips_dialog;
 
         Bugly.init(getApplicationContext(), "d352a8a420", true);
         Beta.checkUpgrade(false,false);
