@@ -38,7 +38,9 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
   [NEHTTPEye setEnabled:YES];
    /** 友盟统计 */
   UMConfigInstance.appKey = @"59f6dbeea40fa3718e000108";
-  
+  // 读取真正版本号而不是Build Number
+  NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+  [MobClick setAppVersion:version];
   //  UMConfigInstance.eSType=E_UM_GAME;//友盟游戏统计，如不设置默认为应用统计
   
   [MobClick startWithConfigure:UMConfigInstance];
