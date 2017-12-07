@@ -44,6 +44,7 @@
 		35BFB7DB03514790937103A0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B80FA943F36647FB91972A89 /* CoreGraphics.framework */; };
 		3D02EE5B46134FCEA3432D97 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40C8A4E4C39249C3A0FD4352 /* FontAwesome.ttf */; };
 		4C4DE59F1F67E31700FFA149 /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4DE58A1F67E1CC00FFA149 /* libRCTWeChat.a */; };
+		4C4EDEA51FD927E300A71EAD /* DCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4EDEA21FD927E200A71EAD /* DCLog.m */; };
 		4C5A46391FD91005008AAE26 /* NEHTTPEye.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46241FD91005008AAE26 /* NEHTTPEye.m */; };
 		4C5A463A1FD91005008AAE26 /* NEHTTPEyeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46261FD91005008AAE26 /* NEHTTPEyeDetailViewController.m */; };
 		4C5A463B1FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46281FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m */; };
@@ -56,6 +57,7 @@
 		4C5A46421FD91005008AAE26 /* NEURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46361FD91005008AAE26 /* NEURLSessionConfiguration.m */; };
 		4C5A46431FD91005008AAE26 /* UIWindow+NEExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46381FD91005008AAE26 /* UIWindow+NEExtension.m */; };
 		4C5A46461FD91B41008AAE26 /* MyBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46451FD91B41008AAE26 /* MyBar.m */; };
+		4C5A46491FD92408008AAE26 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46481FD92408008AAE26 /* LogViewController.m */; };
 		4CB73ED81F429BD70018C00A /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB73ED71F429BD70018C00A /* UMMobClick.framework */; };
 		4CB73EDE1F429BF40018C00A /* UMNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB73EDD1F429BF40018C00A /* UMNative.m */; };
 		4CB73EE01F429D120018C00A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB73EDF1F429D120018C00A /* libsqlite3.tbd */; };
@@ -471,6 +473,8 @@
 		4609ED98B60D46B6BA3770EC /* libRCTBEEPickerManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBEEPickerManager.a; sourceTree = "<group>"; };
 		47E94947C4FD49238EBD9AF5 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
 		4C4DE56F1F67E1CC00FFA149 /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../node_modules/react-native-wechat/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
+		4C4EDE751FD927E200A71EAD /* DCLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCLog.h; sourceTree = "<group>"; };
+		4C4EDEA21FD927E200A71EAD /* DCLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCLog.m; sourceTree = "<group>"; };
 		4C5A46231FD91005008AAE26 /* NEHTTPEye.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEHTTPEye.h; sourceTree = "<group>"; };
 		4C5A46241FD91005008AAE26 /* NEHTTPEye.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEHTTPEye.m; sourceTree = "<group>"; };
 		4C5A46251FD91005008AAE26 /* NEHTTPEyeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEHTTPEyeDetailViewController.h; sourceTree = "<group>"; };
@@ -495,6 +499,8 @@
 		4C5A46381FD91005008AAE26 /* UIWindow+NEExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+NEExtension.m"; sourceTree = "<group>"; };
 		4C5A46441FD91B41008AAE26 /* MyBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyBar.h; sourceTree = "<group>"; };
 		4C5A46451FD91B41008AAE26 /* MyBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyBar.m; sourceTree = "<group>"; };
+		4C5A46471FD92408008AAE26 /* LogViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
+		4C5A46481FD92408008AAE26 /* LogViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
 		4CB73ED71F429BD70018C00A /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		4CB73EDC1F429BF40018C00A /* UMNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMNative.h; sourceTree = "<group>"; };
 		4CB73EDD1F429BF40018C00A /* UMNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMNative.m; sourceTree = "<group>"; };
@@ -755,6 +761,8 @@
 		4C5A46221FD91005008AAE26 /* NetworkEye */ = {
 			isa = PBXGroup;
 			children = (
+				4C4EDE751FD927E200A71EAD /* DCLog.h */,
+				4C4EDEA21FD927E200A71EAD /* DCLog.m */,
 				4C5A46231FD91005008AAE26 /* NEHTTPEye.h */,
 				4C5A46241FD91005008AAE26 /* NEHTTPEye.m */,
 				4C5A46251FD91005008AAE26 /* NEHTTPEyeDetailViewController.h */,
@@ -779,6 +787,8 @@
 				4C5A46381FD91005008AAE26 /* UIWindow+NEExtension.m */,
 				4C5A46441FD91B41008AAE26 /* MyBar.h */,
 				4C5A46451FD91B41008AAE26 /* MyBar.m */,
+				4C5A46471FD92408008AAE26 /* LogViewController.h */,
+				4C5A46481FD92408008AAE26 /* LogViewController.m */,
 			);
 			name = NetworkEye;
 			path = corpapp/NetworkEye;
@@ -1660,12 +1670,14 @@
 				4C5A46461FD91B41008AAE26 /* MyBar.m in Sources */,
 				4C5A463D1FD91005008AAE26 /* NEHTTPModel.m in Sources */,
 				4C5A463B1FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m in Sources */,
+				4C4EDEA51FD927E300A71EAD /* DCLog.m in Sources */,
 				4CB73EDE1F429BF40018C00A /* UMNative.m in Sources */,
 				4C5A46411FD91005008AAE26 /* NEShakeGestureManager.m in Sources */,
 				4C5A46401FD91005008AAE26 /* NEMapViewController.m in Sources */,
 				4C5A463F1FD91005008AAE26 /* NEKeyboardShortcutManager.m in Sources */,
 				4C5A463C1FD91005008AAE26 /* NEHTTPEyeViewController.m in Sources */,
 				4C5A463E1FD91005008AAE26 /* NEHTTPModelManager.m in Sources */,
+				4C5A46491FD92408008AAE26 /* LogViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

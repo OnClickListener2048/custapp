@@ -10,7 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NEHTTPEyeViewController.h"
-
+#import "LogViewController.h"
 @interface NEShakeGestureManager ()<UIAlertViewDelegate>
 
 #pragma clang diagnostic push
@@ -46,9 +46,10 @@
     if (_alertView == nil) {
         _alertView = [[UIAlertView alloc] init];
         _alertView.delegate = self;
-        _alertView.title = @"Network Eye";
-        [_alertView addButtonWithTitle:@"Go NetworkEye"];
-        [_alertView addButtonWithTitle:@"Cancel"];
+        _alertView.title = @"调试";
+        [_alertView addButtonWithTitle:@"查看网络"];
+       [_alertView addButtonWithTitle:@"查看日志"];
+        [_alertView addButtonWithTitle:@"取消"];
         [_alertView setCancelButtonIndex:[_alertView numberOfButtons]-1];
     }
     return _alertView;
@@ -70,8 +71,12 @@
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     
     NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"Go NetworkEye"]) {
+    if ([buttonTitle isEqualToString:@"查看网络"]) {
         [self presentInformationViewController];
+    }else if ([buttonTitle isEqualToString:@"查看日志"]){
+      LogViewController *viewController = [[LogViewController alloc] init];
+      [[[[[UIApplication sharedApplication] delegate] window] rootViewController]
+       presentViewController:viewController animated:YES completion:nil];
     }
 }
 
