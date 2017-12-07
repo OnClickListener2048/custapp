@@ -12,6 +12,7 @@ import {
 import CommentCell from '../../view/CommenCell'
 import SubmitButton from '../../view/SubmitButton'
 import clearManager from 'react-native-clear-cache';
+import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-root-toast'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
@@ -60,6 +61,7 @@ export default class SettingPage extends BComponent {
                     <CommentCell
                         leftText="关于我们"
                         style={{marginTop: 10}}
+                        rightText={"v"+DeviceInfo.getVersion()}
                         onPress={this._aboutUs.bind(this)}
                     />
                     <CommentCell
