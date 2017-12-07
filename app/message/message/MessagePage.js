@@ -9,7 +9,7 @@ import {
     Platform,
     StyleSheet
 } from 'react-native';
-import CommonCell from '../../view/CommenCell'
+import MessageCustomCell from './MessageCell'
 import Swipeout from "react-native-swipeout"
 import * as apis from '../../apis';
 import BComponent from '../../base';
@@ -22,13 +22,11 @@ export default class MessagePage extends BComponent {
 
         this.state = {
             dataList: [],
+            unReadNum: 0,
             refreshState: RefreshState.Idle,
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
         }
         this.page =1
-
-
-
     }
 
     static navigatorStyle = {
@@ -38,15 +36,42 @@ export default class MessagePage extends BComponent {
 
     componentDidMount() {
         //打开即可
-        // if(!NetInfoSingleton.isConnected) {
-        //     this.setState({
-        //         initStatus:'no-net'
-        //     })
-        // }else{
-        //     this.onHeaderRefresh()
-        //
-        // }
+        if(!NetInfoSingleton.isConnected) {
+            this.setState({
+                initStatus:'no-net'
+            })
+        }else{
+            this.onHeaderRefresh()
+            this._loadUnreadedNum()
 
+        }
+    }
+
+    _loadUnreadedNum(){
+        if(!NetInfoSingleton.isConnected) {
+            return;
+        }
+        apis.loadMessageUnReadedNum().then(
+            (responseData) => {
+
+                if(responseData.code === 0){
+
+
+                    this.setState({
+                        unReadNum:responseData.unread,
+                    })
+
+                    this.props.navigator.setTabBadge({
+                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
+                    });
+
+                }else{
+                }
+            },
+            (e) => {
+
+            },
+        );
     }
 
     onHeaderRefresh = () => {
@@ -59,7 +84,7 @@ export default class MessagePage extends BComponent {
         this.loadData(this.page)
     }
 
-    loadData(page=1,pageSize=15){
+    loadData(page=1,pageSize=10){
 
         if(!NetInfoSingleton.isConnected) {
            return;
@@ -75,7 +100,7 @@ export default class MessagePage extends BComponent {
         apis.loadMessageData(pageSize,page).then(
             (responseData) => {
 
-                if(responseData.code == 0){
+                if(responseData.code === 0){
 
 
                     let newList = responseData.list
@@ -122,27 +147,52 @@ export default class MessagePage extends BComponent {
 
     renderCell = (info) => {
         return(
-            <Swipeout right={[
-                {
-                    text: '删除',
-                    backgroundColor:'red',
-                    onPress:this._delete.bind(this,info.index,info.item)
-                }
-            ]}
-                      autoClose={true}
-            >
-                <TouchableOpacity onPress={this._goto.bind(this,info.item)}>
-                    <CommonCell
-                        leftText={info.item.title == undefined?info.item.name:info.item.title }
-                        rightText={info.item.date}
-                        isClick={false}
-                    />
-                </TouchableOpacity>
-
-            </Swipeout>
-
+            <TouchableOpacity onPress={this._readed.bind(this,info.item)}>
+                <MessageCustomCell
+                    messageTitle={info.item.title}
+                    messageSubTitle={info.item.content}
+                    messageTime={info.item.createDate}
+                    isRead={info.item.readed}
+                />
+            </TouchableOpacity>
         )
     }
+
+    _readed(item){
+
+        if (item.readed === true){
+            return;
+        }
+        apis.putMessageReaded().then(
+            (responseData) => {
+
+                if(responseData.code === 0){
+                    item.readed = true;
+                    let data = [];
+                    this.state.dataList.forEach(row => {
+                        data.push(Object.assign({}, row));
+                    });
+
+                    this.setState({
+                        dataList:data,
+                    });
+
+                    this.state.unReadNum--;
+                    this.props.navigator.setTabBadge({
+                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
+                    });
+
+                }else{
+                }
+            },
+            (e) => {
+
+            },
+        );
+
+    }
+
+
     _delete(index,item){
 
         console.log(item + "rrrr" +item._id)
@@ -150,7 +200,7 @@ export default class MessagePage extends BComponent {
         apis.deleteMessageItem(item._id).then(
             (responseData) => {
 
-                if(responseData.code == 0){
+                if(responseData.code === 0){
 
                     let arr = JSON.parse(JSON.stringify(this.state.dataList))
                     arr.splice(index,1)
@@ -172,10 +222,9 @@ export default class MessagePage extends BComponent {
             },
         );
 
-
-
-
     }
+
+
     _goto(item){
 
         this.props.navigator.push({
@@ -192,30 +241,30 @@ export default class MessagePage extends BComponent {
 
     render() {
 
-        return(
-            <DefaultView onPress={()=>this.onHeaderRefresh()} type ={'no-MessageData'}/>
-        )
+        // return(
+        //     <DefaultView onPress={()=>this.onHeaderRefresh()} type ={'no-MessageData'}/>
+        // )
         //打开即可
 
-        // if(this.state.initStatus === 'initSucess') {
-        //     return (
-        //         <View style={styles.container}>
-        //             <RefreshListView
-        //                 data={this.state.dataList}
-        //                 keyExtractor = {(item, index) => index}
-        //                 renderItem={this.renderCell.bind(this)}
-        //                 refreshState={this.state.refreshState}
-        //                 onHeaderRefresh={this.onHeaderRefresh}
-        //                 onFooterRefresh={this.onFooterRefresh}
-        //                 contentContainerStyle={{paddingTop:20,backgroundColor:'#f9f9f9'}}
-        //             />
-        //         </View>
-        //     )
-        // }else {
-        //     return(
-        //         <DefaultView onPress={()=>this.onHeaderRefresh()} type ={this.state.initStatus}/>
-        //     )
-        // }
+        if(this.state.initStatus === 'initSucess') {
+            return (
+                <View style={styles.container}>
+                    <RefreshListView
+                        data={this.state.dataList}
+                        keyExtractor = {(item, index) => index}
+                        renderItem={this.renderCell.bind(this)}
+                        refreshState={this.state.refreshState}
+                        onHeaderRefresh={this.onHeaderRefresh}
+                        onFooterRefresh={this.onFooterRefresh}
+                        contentContainerStyle={{paddingTop:20,backgroundColor:'#f9f9f9'}}
+                    />
+                </View>
+            )
+        }else {
+            return(
+                <DefaultView onPress={()=>this.onHeaderRefresh()} type ={this.state.initStatus}/>
+            )
+        }
 
     }
 
