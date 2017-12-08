@@ -161,7 +161,7 @@ export default class FirstBindPhonePage extends BComponent {
             },
         );
     }
-    
+
     // 修改绑定手机号
     _doSubmit() {
         let loading = SActivityIndicator.show(true, "");

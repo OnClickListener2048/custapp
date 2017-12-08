@@ -437,8 +437,9 @@ export default class LoginPage extends Component {
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 if (responseData && responseData.user) {
                     if(responseData.user.username){
-                        JPushModule.setAlias(responseData.user.username,function () {
-                            console.log('绑定成功',responseData.user.username)
+                        let alias = responseData.user.username.replace(/-/g, "_")
+                        JPushModule.setAlias(alias,function () {
+                            console.log('绑定成功',alias)
                         },function () {
                             console.log('绑定失败')
                         })
