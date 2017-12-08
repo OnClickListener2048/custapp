@@ -101,20 +101,22 @@ export default class BindPhonePage extends BComponent {
             (responseData) => {
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 if (responseData && responseData.user) {
+                    console.log('heihei--0001')
+
                     if(responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
+                        console.log('heihei--000')
+
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
-                                console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
+                                console.log('heihei--111')
                                 if (companyInfo && companyInfo.list) {
-
-                                    console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
 
                                     let tmpCompaniesArr = companyInfo.list;
 
-
                                     if (tmpCompaniesArr.length > 0) {
+                                        console.log('heihei--222')
 
                                         UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
                                             (user) => {
@@ -136,28 +138,29 @@ export default class BindPhonePage extends BComponent {
                                             },
                                         );
                                     }else{
+                                        console.log('heihei--333')
+
                                         this._removeCompanyInfo()
 
                                     }
 
 
                                 }else{
-                                    console.log("暂无公司信息:", JSON.stringify(companyInfo));
+                                    console.log('heihei--444')
 
                                     this._removeCompanyInfo()
 
                                 }
                             },
                             (e) => {
+                                console.log('heihei--555')
 
-                                console.log("公司信息读取错误返回:", e);
                                 this._removeCompanyInfo()
                             },
                         );
                     }
                 } else {
                     console.log("OK ===> LoginPage:");
-                    this._removeCompanyInfo()
                 }
             },
             (e) => {
@@ -167,12 +170,10 @@ export default class BindPhonePage extends BComponent {
         );
     }
     _removeCompanyInfo(){
-        UserInfoStore.removeCompany().then(
-            (user)=>{
-                DeviceEventEmitter.emit('ChangeCompany');
-            }
-        );
+        UserInfoStore.removeCompany().then();
         UserInfoStore.removeCompanyArr().then();
+        DeviceEventEmitter.emit('ChangeCompany');
+
     }
     // 修改绑定手机号
     _doSubmit() {
