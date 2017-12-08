@@ -143,6 +143,11 @@ export default class FirstBindPhonePage extends BComponent {
                                 }
                             },
                             (e) => {
+                                Toast.show('公司信息读取失败', {
+                                    position: Toast.positions.CENTER,
+                                    duration: Toast.durations.LONG,
+                                    backgroundColor: 'red'
+                                });
                                 console.log("公司信息读取错误返回:", e);
                             },
                         );
@@ -153,7 +158,7 @@ export default class FirstBindPhonePage extends BComponent {
             },
             (e) => {
                 console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取失败' + errorText(e), {
+                Toast.show('用户信息读取失败', {
                     position: Toast.positions.CENTER,
                     duration: Toast.durations.LONG,
                     backgroundColor: 'red'

@@ -13,9 +13,9 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
  
-    if (event.type == UIEventTypeMotion && event.subtype == UIEventSubtypeMotionShake) {
-        [[NEShakeGestureManager defaultManager] showAlertView];
-    }
+//    if (event.type == UIEventTypeMotion && event.subtype == UIEventSubtypeMotionShake) {
+//        [[NEShakeGestureManager defaultManager] showAlertView];
+//    }
   
 }
 

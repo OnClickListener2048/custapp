@@ -101,22 +101,18 @@ export default class BindPhonePage extends BComponent {
             (responseData) => {
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 if (responseData && responseData.user) {
-                    console.log('heihei--0001')
 
                     if(responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
-                        console.log('heihei--000')
 
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
-                                console.log('heihei--111')
                                 if (companyInfo && companyInfo.list) {
 
                                     let tmpCompaniesArr = companyInfo.list;
 
                                     if (tmpCompaniesArr.length > 0) {
-                                        console.log('heihei--222')
 
                                         UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
                                             (user) => {
@@ -138,7 +134,6 @@ export default class BindPhonePage extends BComponent {
                                             },
                                         );
                                     }else{
-                                        console.log('heihei--333')
 
                                         this._removeCompanyInfo()
 
@@ -146,16 +141,16 @@ export default class BindPhonePage extends BComponent {
 
 
                                 }else{
-                                    console.log('heihei--444')
 
                                     this._removeCompanyInfo()
 
                                 }
                             },
                             (e) => {
-                                console.log('heihei--555')
 
                                 this._removeCompanyInfo()
+                                Toast.show('公司信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+
                             },
                         );
                     }
@@ -165,7 +160,7 @@ export default class BindPhonePage extends BComponent {
             },
             (e) => {
                 console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取失败' + errorText(e), {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+                Toast.show('用户信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
             },
         );
     }
