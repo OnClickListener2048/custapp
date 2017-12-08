@@ -16,7 +16,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     View,
-    ToastAndroid,
+    ActionSheetIOS,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
@@ -132,9 +132,22 @@ export default class LoginPage extends Component {
                         console.log('wechat token responseData', responseData);
                         this.setState({isInWechatLoading: false});
                         let result = JSON.parse(responseData);
-                        console.log('result',result)
+
                         if (result.code === 0 && result.access_token !== undefined) {
                             console.log('save access_token');
+                            //绑定openID为用户别名
+                            // JPushModule.setAlias(DeviceInfo.OS,function () {
+                            //     console.log('绑定成功',DeviceInfo.OS)
+                            // },function () {
+                            //     console.log('绑定失败')
+                            //
+                            // })
+                            // //设置分组
+                            // JPushModule.setTags("我的分组",function () {
+                            //     console.log('设置分组成功')
+                            // },function () {
+                            //     console.log('设置分组失败')
+                            // })
 
                             UserInfoStore.setUserToken(result.access_token).then(
                                 v => {
@@ -163,6 +176,33 @@ export default class LoginPage extends Component {
     };
 
     _goWechat() {
+
+    BUTTONS = [
+        '账号密码登陆',
+        '微信登录',
+        '取消',
+    ];
+     DESTRUCTIVE_INDEX = 3;
+     CANCEL_INDEX = 2;
+    }
+
+    showActionSheet = () => {
+        ActionSheetIOS.showActionSheetWithOptions({
+                options: this.BUTTONS,
+                cancelButtonIndex: this.CANCEL_INDEX,
+            },
+            (buttonIndex) => {
+                this.setState({ clicked: this.BUTTONS[buttonIndex] });
+            });
+    };
+
+
+    _goWechat() {
+        // if(Platform.OS === 'ios') {
+        //     this.showActionSheet();
+        //     return;
+        // }
+
         WeChat.isWXAppInstalled().then(
             v => {
                 console.log(v);
@@ -235,6 +275,7 @@ export default class LoginPage extends Component {
     // 准备加载组件
     componentWillMount() {
         // 发送通知
+
         let deviceModel = DeviceInfo.getModel();
         // iPad 特殊处理, 便于苹果审核通过
         if(deviceModel && deviceModel.toLowerCase().includes('ipad')) {
@@ -452,6 +493,7 @@ export default class LoginPage extends Component {
                             console.log('设置分组失败')
                         })
                     }
+
                     if (responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
