@@ -36,7 +36,7 @@ import SubmitButton from "../view/SubmitButton";
 import * as WeChat from 'react-native-wechat';
 import AdapterUI from '../util/AdapterUI'
 import SubmitButtonWithIcon from "../view/SubmitButtonWithIcon";
-
+import JPushModule from 'jpush-react-native'
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
 export default class LoginPage extends Component {
@@ -142,11 +142,11 @@ export default class LoginPage extends Component {
 
                             })
                             // //设置分组
-                            JPushModule.setTags("我的分组",function () {
-                                console.log('设置分组成功')
-                            },function () {
-                                console.log('设置分组失败')
-                            })
+                            // JPushModule.setTags("我的分组",function () {
+                            //     console.log('设置分组成功')
+                            // },function () {
+                            //     console.log('设置分组失败')
+                            // })
 
                             UserInfoStore.setUserToken(result.access_token).then(
                                 v => {

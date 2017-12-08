@@ -113,17 +113,33 @@ export default class FirstBindPhonePage extends BComponent {
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
                                 console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
-                                if (companyInfo && companyInfo.data) {
-                                    console.log("公司信息保存中....", companyInfo.data);
-                                    UserInfoStore.setCompany(companyInfo.data).then(
-                                        (user) => {
-                                            console.log("公司信息保存成功");
-                                            DeviceEventEmitter.emit('ChangeCompany');
-                                        },
-                                        (e) => {
-                                            console.log("公司信息保存错误:", e);
-                                        },
-                                    );
+                                if (companyInfo && companyInfo.list) {
+                                    console.log("公司信息保存中....", companyInfo.list);
+                                    let tmpCompaniesArr = companyInfo.list;
+
+                                    //需要注掉到时候
+                                    if (tmpCompaniesArr.length > 0) {
+
+                                        UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+                                            (user) => {
+                                                console.log("公司信息保存成功");
+                                            },
+                                            (e) => {
+                                                console.log("公司信息保存错误:", e);
+                                            },
+                                        );
+
+                                        UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+                                            (user) => {
+                                                console.log("公司信息保存成功");
+                                                DeviceEventEmitter.emit('ChangeCompany');
+
+                                            },
+                                            (e) => {
+                                                console.log("公司信息保存错误:", e);
+                                            },
+                                        );
+                                    }
                                 }
                             },
                             (e) => {
@@ -145,7 +161,14 @@ export default class FirstBindPhonePage extends BComponent {
             },
         );
     }
-
+    _removeCompanyInfo(){
+        UserInfoStore.removeCompany().then(
+            (user)=>{
+                DeviceEventEmitter.emit('ChangeCompany');
+            }
+        );
+        UserInfoStore.removeCompanyArr().then();
+    }
     // 修改绑定手机号
     _doSubmit() {
         let loading = SActivityIndicator.show(true, "");

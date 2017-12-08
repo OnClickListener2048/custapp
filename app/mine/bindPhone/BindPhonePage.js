@@ -107,22 +107,51 @@ export default class BindPhonePage extends BComponent {
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
                                 console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
-                                if (companyInfo && companyInfo.data) {
-                                    console.log("公司信息保存中...." , companyInfo.data);
-                                    UserInfoStore.setCompany(companyInfo.data).then(
-                                        (user) => {
-                                            console.log("公司信息保存成功");
-                                            DeviceEventEmitter.emit('ChangeCompany');
+                                if (companyInfo && companyInfo.list) {
 
-                                        },
-                                        (e) => {
-                                            console.log("公司信息保存错误:", e);
-                                        },
-                                    );
+                                    console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
+
+                                    let tmpCompaniesArr = companyInfo.list;
+
+
+                                    if (tmpCompaniesArr.length > 0) {
+
+                                        UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+                                            (user) => {
+                                                console.log("公司信息保存成功");
+                                            },
+                                            (e) => {
+                                                console.log("公司信息保存错误:", e);
+                                            },
+                                        );
+
+                                        UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+                                            (user) => {
+                                                console.log("公司信息保存成功");
+                                                DeviceEventEmitter.emit('ChangeCompany');
+
+                                            },
+                                            (e) => {
+                                                console.log("公司信息保存错误:", e);
+                                            },
+                                        );
+                                    }else{
+                                        this._removeCompanyInfo()
+
+                                    }
+
+
+                                }else{
+                                    console.log("暂无公司信息:", JSON.stringify(companyInfo));
+
+                                    this._removeCompanyInfo()
+
                                 }
                             },
                             (e) => {
+
                                 console.log("公司信息读取错误返回:", e);
+                                this._removeCompanyInfo()
                             },
                         );
                     }
@@ -136,7 +165,14 @@ export default class BindPhonePage extends BComponent {
             },
         );
     }
-
+    _removeCompanyInfo(){
+        UserInfoStore.removeCompany().then(
+            (user)=>{
+                DeviceEventEmitter.emit('ChangeCompany');
+            }
+        );
+        UserInfoStore.removeCompanyArr().then();
+    }
     // 修改绑定手机号
     _doSubmit() {
         let loading = SActivityIndicator.show(true, "");
