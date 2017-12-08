@@ -45,8 +45,20 @@ export default class MessagePage extends BComponent {
                 initStatus:'no-net'
             })
         }else{
-            this.onHeaderRefresh()
+            this.onHeaderRefresh();
             this._loadUnreadedNum()
+
+        }
+
+        if (Platform.OS !== 'ios') {
+
+            JPushModule.addReceiveNotificationListener((message) => {
+                console.log("receive notification: " + JSON.stringify(message));
+                this._loadUnreadedNum();
+                this.onHeaderRefresh()
+            })
+        }else {
+
 
         }
     }
@@ -75,9 +87,8 @@ export default class MessagePage extends BComponent {
                         unReadNum:responseData.unread,
                     })
 
-                    this.props.navigator.setTabButton({
-                        icon: this.state.unReadNum > 0 ? require('../../img/message_red_normal.png') : require('../../img/message_normal.png'), // local image asset for the tab icon unselected state (optional)
-                        selectedIcon:  this.state.unReadNum > 0 ? require('../../img/message_red_normal.png') : require('../../img/message_normal.png'), // local image asset for the tab icon selected state (optional, iOS only)
+                    this.props.navigator.setTabBadge({
+                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
                     });
 
 
@@ -175,9 +186,8 @@ export default class MessagePage extends BComponent {
 
                     this.state.unReadNum--;
 
-                    this.props.navigator.setTabButton({
-                        icon: this.state.unReadNum > 0 ? require('../../img/message_red_normal.png') : require('../../img/message_normal.png'), // local image asset for the tab icon unselected state (optional)
-                        selectedIcon:  this.state.unReadNum > 0 ? require('../../img/message_red_normal.png') : require('../../img/message_normal.png'), // local image asset for the tab icon selected state (optional, iOS only)
+                    this.props.navigator.setTabBadge({
+                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
                     });
                 }else{
                 }
