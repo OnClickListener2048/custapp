@@ -112,6 +112,8 @@ export default class BindPhonePage extends BComponent {
                                     UserInfoStore.setCompany(companyInfo.data).then(
                                         (user) => {
                                             console.log("公司信息保存成功");
+                                            DeviceEventEmitter.emit('ChangeCompany');
+
                                         },
                                         (e) => {
                                             console.log("公司信息保存错误:", e);

@@ -230,8 +230,6 @@ export default class LoginPage extends Component {
 
     // 返回
     pop() {
-        // 发送通知
-        DeviceEventEmitter.emit('loginSuccess', true);
         //登录后刷新服务页面的数据
         DeviceEventEmitter.emit('ChangeCompany');
 
@@ -249,7 +247,6 @@ export default class LoginPage extends Component {
     // 准备加载组件
     componentWillMount() {
         // 发送通知
-        DeviceEventEmitter.emit('isHiddenTabBar', true);
         let deviceModel = DeviceInfo.getModel();
         // iPad 特殊处理, 便于苹果审核通过
         if(deviceModel && deviceModel.toLowerCase().includes('ipad')) {
@@ -286,7 +283,6 @@ export default class LoginPage extends Component {
     // 准备销毁组件
     componentWillUnmount() {
         // 发送通知
-        DeviceEventEmitter.emit('isHiddenTabBar', false);
         loginJumpSingleton.isJumpingLogin = false;
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
