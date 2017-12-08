@@ -157,6 +157,7 @@ export default class BindPhonePage extends BComponent {
                     }
                 } else {
                     console.log("OK ===> LoginPage:");
+                    this._removeCompanyInfo()
                 }
             },
             (e) => {

@@ -132,21 +132,9 @@ export default class LoginPage extends Component {
                         console.log('wechat token responseData', responseData);
                         this.setState({isInWechatLoading: false});
                         let result = JSON.parse(responseData);
+                        console.log('result',result)
                         if (result.code === 0 && result.access_token !== undefined) {
                             console.log('save access_token');
-                            //绑定openID为用户别名
-                            JPushModule.setAlias(DeviceInfo.OS,function () {
-                                console.log('绑定成功',DeviceInfo.OS)
-                            },function () {
-                                console.log('绑定失败')
-
-                            })
-                            // //设置分组
-                            // JPushModule.setTags("我的分组",function () {
-                            //     console.log('设置分组成功')
-                            // },function () {
-                            //     console.log('设置分组失败')
-                            // })
 
                             UserInfoStore.setUserToken(result.access_token).then(
                                 v => {
@@ -448,6 +436,21 @@ export default class LoginPage extends Component {
                 */
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 if (responseData && responseData.user) {
+                    if(responseData.user.username){
+                        JPushModule.setAlias(responseData.user.username,function () {
+                            console.log('绑定成功',responseData.user.username)
+                        },function () {
+                            console.log('绑定失败')
+                        })
+
+                    }
+                    if(responseData.user.group){
+                        JPushModule.setTags(responseData.user.group,function () {
+                            console.log('设置分组成功')
+                        },function () {
+                            console.log('设置分组失败')
+                        })
+                    }
                     if (responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
