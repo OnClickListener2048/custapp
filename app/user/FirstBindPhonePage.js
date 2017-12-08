@@ -161,14 +161,7 @@ export default class FirstBindPhonePage extends BComponent {
             },
         );
     }
-    _removeCompanyInfo(){
-        UserInfoStore.removeCompany().then(
-            (user)=>{
-                DeviceEventEmitter.emit('ChangeCompany');
-            }
-        );
-        UserInfoStore.removeCompanyArr().then();
-    }
+    
     // 修改绑定手机号
     _doSubmit() {
         let loading = SActivityIndicator.show(true, "");
