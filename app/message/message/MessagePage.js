@@ -10,6 +10,7 @@ import {
     Text,
     Platform,
     DeviceEventEmitter,
+    NativeAppEventEmitter,
     StyleSheet
 } from 'react-native';
 import MessageCustomCell from './MessageCell'
@@ -49,6 +50,7 @@ export default class MessagePage extends BComponent {
             this._loadUnreadedNum()
 
         }
+        var self = this;
 
         if (Platform.OS !== 'ios') {
 
@@ -58,7 +60,15 @@ export default class MessagePage extends BComponent {
                 this.onHeaderRefresh()
             })
         }else {
+            self.JPushReceiveNotification = NativeAppEventEmitter.addListener(
+                'ReceiveNotification',
+                (message) => {
+                    console.log("receive notification: " + JSON.stringify(message));
+                    this._loadUnreadedNum();
+                    this.onHeaderRefresh()
 
+                }
+            );
 
         }
     }
