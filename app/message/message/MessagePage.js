@@ -32,12 +32,46 @@ export default class MessagePage extends BComponent {
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
         }
         this.page =1
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+
     }
 
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
+
+    _clearUnreadedNum(){
+        if(!NetInfoSingleton.isConnected) {
+            return;
+        }
+        apis.loadClearMessageUnReadedNum().then(
+            (responseData) => {
+
+                if(responseData.code === 0){
+
+                    this.props.navigator.setTabBadge({
+                        badge: null
+                    });
+
+
+                }else{
+                }
+            },
+            (e) => {
+
+            },
+        );
+    }
+
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        // console.log('ApplicationCenterPage event.type', event.type);
+        if(event.id==='willAppear'){
+          this._clearUnreadedNum();
+
+        }
+
+    }
 
     componentDidMount() {
         //打开即可
@@ -173,6 +207,19 @@ export default class MessagePage extends BComponent {
         );
     }
 
+    _cellClick(item){
+        this._readed(item);
+        this._jumpWithUrl(item);
+
+    }
+
+    _jumpWithUrl(item){
+        this.props.navigator.switchToTab({
+            tabIndex: 0
+        });
+
+    }
+
     _readed(item){
 
         if (item.readed === true){
@@ -225,7 +272,7 @@ export default class MessagePage extends BComponent {
 
     renderCell = (info) => {
         return(
-            <TouchableOpacity onPress={this._readed.bind(this,info.item)}>
+            <TouchableOpacity onPress={this._jumpWithUrl.bind(this,info.item)}>
                 <MessageCustomCell
                     messageTitle={info.item.title}
                     messageSubTitle={info.item.content}

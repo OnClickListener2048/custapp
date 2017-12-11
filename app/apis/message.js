@@ -19,3 +19,8 @@ export function deleteMessageItem( id = '') {
 export function loadMessageUnReadedNum( ) {
     return getApi('/api/v1/messages/unread');
 }
+
+
+export function loadClearMessageUnReadedNum( ) {
+    return getApi('/');
+}
