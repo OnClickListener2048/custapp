@@ -13,5 +13,35 @@
     "title": "订单详情",
     "uri": "pilipa://view.orders.detail",
     "screen": "ProgressDetailPage"
+  },
+  {
+    "title": "免费核名",
+    "uri": "pilipa://view.company.check",
+    "screen": "VerifyNamePage"
+  },
+  {
+    "title": "现金流",
+    "uri": "pilipa://view.services/cashflow?companyid=<111>&date=<2016-06>",
+    "screen": "CashFlowPage"
+  },
+  {
+    "title": "利润表",
+    "uri": "pilipa://view.services/profit?companyid=<111>&date=<2016-06>",
+    "screen": "ProfitStatementPage"
+  },
+  {
+    "title": "纳税表",
+    "uri": "pilipa://view.services/tax?companyid=<111>&date=<2016-06>",
+    "screen": "TaxFormPage"
+  },
+  {
+    "title": "应收账款",
+    "uri": "pilipa://view.services/accounts/receivable?companyid=<111>&date=<2016-06>",
+    "screen": "AccountsReceivablePage"
+  },
+  {
+    "title": "应付账款",
+    "uri": "pilipa://view.services/accounts/payable?companyid=<111>&date=<2016-06>",
+    "screen": "AccountsPayablePage"
   }
 ]
