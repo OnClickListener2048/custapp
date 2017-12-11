@@ -73,6 +73,10 @@ export default class MessagePage extends BComponent {
 
     }
 
+    componentWillUnmount() {
+        JPushModule.removeReceiveCustomMsgListener(this.jpushEvent)
+    }
+
     componentDidMount() {
         //打开即可
         if(!NetInfoSingleton.isConnected) {
@@ -85,38 +89,24 @@ export default class MessagePage extends BComponent {
 
         }
         var self = this;
-        JPushModule.setAlias('zhuangzihao',function () {
-            console.log('绑定成功')
-        },function () {
-            console.log('绑定失败')
-        })
+        
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
-        JPushModule.notifyJSDidLoad(() => {
-            JPushModule.addReceiveCustomMsgListener((message) => {
-                console.log('111111111')
-
+        if(Platform.OS === 'ios'){
+            self.jpushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
+                console.log("receive notification: " + JSON.stringify(message));
+                self._loadUnreadedNum();
+                self.onHeaderRefresh()
             });
-        });
+        }else{
+            JPushModule.notifyJSDidLoad(() => {
+                self.jpushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
+                    console.log("receive notification: " + JSON.stringify(message));
+                    self._loadUnreadedNum();
+                    self.onHeaderRefresh()
+                });
+            });
+        }
 
-        // if (Platform.OS !== 'ios') {
-        //
-        //     JPushModule.addReceiveNotificationListener((message) => {
-        //         console.log("receive notification: " + JSON.stringify(message));
-        //         this._loadUnreadedNum();
-        //         this.onHeaderRefresh()
-        //     })
-        // }else {
-        //     self.JPushReceiveNotification = NativeAppEventEmitter.addListener(
-        //         'ReceiveNotification',
-        //         (message) => {
-        //             console.log("receive notification: " + JSON.stringify(message));
-        //             this._loadUnreadedNum();
-        //             this.onHeaderRefresh()
-        //
-        //         }
-        //     );
-        //
-        // }
     }
 
     onHeaderRefresh = () => {
