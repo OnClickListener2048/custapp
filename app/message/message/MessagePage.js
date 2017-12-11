@@ -89,7 +89,7 @@ export default class MessagePage extends BComponent {
 
         }
         var self = this;
-        
+
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
             self.jpushEvent = JPushModule.addReceiveCustomMsgListener((message) => {

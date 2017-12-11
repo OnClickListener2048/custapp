@@ -17,6 +17,7 @@ import Toast from 'react-native-root-toast'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
 import {H5_URL} from '../../config'
+import JPushModule from 'jpush-react-native';
 
 export default class SettingPage extends BComponent {
 
@@ -144,6 +145,15 @@ export default class SettingPage extends BComponent {
                 {
                     text: '确定',
                     onPress: () => {
+                        //删除jpush别名和标签
+                        JPushModule.cleanTags(function () {
+                            console.log('标签清除成功')
+                        })
+                        JPushModule.deleteAlias(function () {
+                            console.log('别名清除成功')
+
+                        })
+                        //删除本地存储信息
                         UserInfoStore.removeCompany().then();
                         UserInfoStore.removeCompanyArr().then();
                         UserInfoStore.removeLastUserPhone().then();
