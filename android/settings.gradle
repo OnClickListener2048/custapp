@@ -1,4 +1,6 @@
 rootProject.name = 'corpapp'
+include ':reactNativeClearCache'
+project(':reactNativeClearCache').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-clear-cache/android')
 include ':react-native-spinkit'
 project(':react-native-spinkit').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-spinkit/android')
 include ':react-native-svg'
@@ -28,6 +30,3 @@ include ':jcore-react-native'
 project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
 include ':react-native-wechat'
 project(':react-native-wechat').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wechat/android')
-
-include ':reactNativeClearCache'
-project(':reactNativeClearCache').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-clear-cache/android')

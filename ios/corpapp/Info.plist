@@ -50,7 +50,7 @@
 	<key>CFBundleVersion</key>
 	<string>5</string>
 	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<string/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wexin</string>
@@ -74,7 +74,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>是否允许此app访问您的相机</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>是否允许此app访问您的相册</string>
 	<key>UIAppFonts</key>
