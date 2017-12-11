@@ -1,0 +1,17 @@
+[
+  {
+    "title": "产品详情",
+    "uri": "pilipa://view.products.detail",
+    "screen": ""
+  },
+  {
+    "title": "订单列表",
+    "uri": "pilipa://view.orders",
+    "screen": "MyOrderPage"
+  },
+  {
+    "title": "订单详情",
+    "uri": "pilipa://view.orders.detail",
+    "screen": "ProgressDetailPage"
+  }
+]
