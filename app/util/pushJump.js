@@ -40,11 +40,10 @@ export default function pushJump(navigator, urlStr) {
         let uri = components.scheme + "://" + components.host + components.path;
         console.log( "跳转目标 uri = ", uri);
         let query = components.query;
-        let passProps = {};
+        let passProps = null;
         if (query) {
             passProps = queryString.parse(query);
         }
-        console.log( "跳转目标 passProps = ", passProps);
         let targetObject = homeTabMap.get(uri);
 
         console.log( "首页跳转目标 = ", targetObject);
@@ -62,10 +61,17 @@ export default function pushJump(navigator, urlStr) {
         console.log( "页面跳转目标 = ", targetObject);
 
         if (navigator && targetObject && targetObject.screen && targetObject.screen.length > 0) {
+            console.log( "跳转目标 passProps = ", passProps);
+
+            let passPropsFinal = {};
+            let paramsKeyArray = Object.keys(passProps);// 直接使用这个解析后的 passProps, 会产生莫名奇妙的错误, 稳妥起见, 复制一下
+            // 通过 forEach 方法拿到数组中每个元素,将元素与参数的值进行拼接处理,并且放入 paramsArray 中
+            paramsKeyArray.forEach(key => passPropsFinal[key] =  passProps[key] );
+
             navigator.push({
                 screen: targetObject.screen,
                 title: targetObject.title,
-                passProps: passProps
+                passProps: passPropsFinal
             });
         }
     } catch( e) {
