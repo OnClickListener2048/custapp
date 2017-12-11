@@ -259,16 +259,12 @@ export default class MessagePage extends BComponent {
         );
     }
 
-    _cellClick(item){
-        this._readed(item);
-        this._jumpWithUrl(item);
 
-    }
 
     _jumpWithUrl(item){
-        this.props.navigator.switchToTab({
-            tabIndex: 0
-        });
+
+
+        pushJump(this.props.navigator, item.url);
     }
 
     _readed(item){
