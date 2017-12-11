@@ -153,6 +153,8 @@ export default class SettingPage extends BComponent {
                             console.log('别名清除成功')
 
                         })
+                        DeviceEventEmitter.emit('ClearMessage');  //清空消息列表与未读消息数
+
                         //删除本地存储信息
                         UserInfoStore.removeCompany().then();
                         UserInfoStore.removeCompanyArr().then();

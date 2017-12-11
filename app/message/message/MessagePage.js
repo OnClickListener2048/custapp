@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react';
 import {navToMainTab} from '../../navigation';
+import pushJump from '../../util/pushJump';
 
 import {
     View,
@@ -19,19 +20,22 @@ import Swipeout from "react-native-swipeout"
 import * as apis from '../../apis';
 import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
+import Toast from 'react-native-root-toast';
+
 import RefreshListView, {RefreshState} from '../../view/RefreshListView'
 export default class MessagePage extends BComponent {
 
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             dataList: [],
             unReadNum: 0,
+            isAppear : false,
             refreshState: RefreshState.Idle,
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
-        }
-        this.page =1
+        };
+        this.page =1;
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
     }
@@ -41,41 +45,31 @@ export default class MessagePage extends BComponent {
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
 
-    _clearUnreadedNum(){
-        if(!NetInfoSingleton.isConnected) {
-            return;
-        }
-        apis.loadClearMessageUnReadedNum().then(
-            (responseData) => {
 
-                if(responseData.code === 0){
-
-                    this.props.navigator.setTabBadge({
-                        badge: null
-                    });
-
-
-                }else{
-                }
-            },
-            (e) => {
-
-            },
-        );
-    }
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         // console.log('ApplicationCenterPage event.type', event.type);
-        if(event.id==='willAppear'){
-          this._clearUnreadedNum();
+        if(event.id === 'willAppear'){
+            this.setState({
+                isAppear : true
+            })
+            this._clearUnreadedNum();
+
+        }
+
+        if(event.id === 'willDisappear'){
+            this.setState({
+                isAppear : false
+            })
 
         }
 
     }
 
     componentWillUnmount() {
-        JPushModule.removeReceiveCustomMsgListener(this.jpushEvent)
+        JPushModule.removeReceiveCustomMsgListener(this.jpushEvent);
     }
+
 
     componentDidMount() {
         //打开即可
@@ -88,20 +82,56 @@ export default class MessagePage extends BComponent {
             this._loadUnreadedNum()
 
         }
+
+        this.refreshEmitter = DeviceEventEmitter.addListener('ReloadMessage', () => {
+            this.onHeaderRefresh();
+            if (this.state.isAppear === true){
+                this.props.navigator.setTabBadge({
+                    badge: null
+                });
+            }else {
+                self._loadUnreadedNum();
+
+            }
+        });
+
+        this.refreshEmitter = DeviceEventEmitter.addListener('ClearMessage', () => {
+            this.props.navigator.setTabBadge({
+                badge: null
+            });
+            this.setState({
+                initStatus:'no-data'
+            })
+        });
+
         var self = this;
 
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
             self.jpushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                 console.log("receive notification: " + JSON.stringify(message));
-                self._loadUnreadedNum();
+                if (this.state.isAppear === true){
+                    this.props.navigator.setTabBadge({
+                        badge: null
+                    });
+                }else {
+                    self._loadUnreadedNum();
+
+                }
                 self.onHeaderRefresh()
             });
         }else{
             JPushModule.notifyJSDidLoad(() => {
                 self.jpushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                     console.log("receive notification: " + JSON.stringify(message));
-                    self._loadUnreadedNum();
+                    if (this.state.isAppear === true){
+                        this.props.navigator.setTabBadge({
+                            badge: null
+                        });
+                    }else {
+                        self._loadUnreadedNum();
+
+                    }
                     self.onHeaderRefresh()
                 });
             });
@@ -109,15 +139,37 @@ export default class MessagePage extends BComponent {
 
     }
 
-    onHeaderRefresh = () => {
-        this.page=1
-        this.loadData(this.page)
+    _clearUnreadedNum(){
+
+        if (this.state.unReadNum === 0){
+            return;
+        }
+
+        if(!NetInfoSingleton.isConnected) {
+            return;
+        }
+
+        apis.putClearMessageUnReadedNum().then(
+            (responseData) => {
+
+                if(responseData.code === 0){
+                    this.setState({
+                        unReadNum:0,
+                    });
+                    this.props.navigator.setTabBadge({
+                        badge: null
+                    });
+
+                }else{
+                }
+            },
+            (e) => {
+
+            },
+        );
     }
 
-    onFooterRefresh = () => {
-        this.page++
-        this.loadData(this.page)
-    }
+
 
     _loadUnreadedNum(){
         if(!NetInfoSingleton.isConnected) {
@@ -131,7 +183,7 @@ export default class MessagePage extends BComponent {
 
                     this.setState({
                         unReadNum:responseData.unread,
-                    })
+                    });
 
                     this.props.navigator.setTabBadge({
                         badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
@@ -165,15 +217,13 @@ export default class MessagePage extends BComponent {
             (responseData) => {
 
                 if(responseData.code === 0){
-
-
-                    let newList = responseData.list
+                    let newList = responseData.list;
 
                     let dataList = page === 1 ? newList : [...this.state.dataList, ...newList]
                     this.setState({
                         dataList: dataList,
                         refreshState:responseData.list.length < pageSize ? RefreshState.NoMoreData : RefreshState.Idle,
-                    })
+                    });
 
                     if (page === 1 && this.state.dataList.length === 0){
 
@@ -219,7 +269,6 @@ export default class MessagePage extends BComponent {
         this.props.navigator.switchToTab({
             tabIndex: 0
         });
-
     }
 
     _readed(item){
@@ -240,11 +289,7 @@ export default class MessagePage extends BComponent {
                     this.setState({
                         dataList:data,
                     });
-
-
-
                     this.state.unReadNum--;
-
                     this.props.navigator.setTabBadge({
                         badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
                     });
@@ -272,6 +317,16 @@ export default class MessagePage extends BComponent {
 
     }
 
+    onHeaderRefresh = () => {
+        this.page=1;
+        this.loadData(this.page)
+    };
+
+    onFooterRefresh = () => {
+        this.page++;
+        this.loadData(this.page)
+    };
+
     renderCell = (info) => {
         return(
             <TouchableOpacity onPress={this._jumpWithUrl.bind(this,info.item)}>
@@ -279,14 +334,11 @@ export default class MessagePage extends BComponent {
                     messageTitle={info.item.title}
                     messageSubTitle={info.item.content}
                     messageTime={info.item.createDate}
-                    isRead={info.item.readed}
+                    isRead={false}
                 />
             </TouchableOpacity>
         )
-    }
-
-
-
+    };
 
     render() {
 
@@ -325,4 +377,4 @@ const styles = StyleSheet.create({
         height: 84,
         textAlign: 'center'
     }
-})
+});

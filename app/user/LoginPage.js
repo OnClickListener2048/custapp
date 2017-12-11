@@ -220,6 +220,7 @@ export default class LoginPage extends Component {
     pop() {
         //登录后刷新服务页面的数据
         DeviceEventEmitter.emit('ChangeCompany');
+        DeviceEventEmitter.emit('ReloadMessage');
 
 
         Navigation.dismissModal({

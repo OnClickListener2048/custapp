@@ -21,6 +21,6 @@ export function loadMessageUnReadedNum( ) {
 }
 
 
-export function loadClearMessageUnReadedNum( ) {
-    return getApi('/');
+export function putClearMessageUnReadedNum( ) {
+    return putEx('/api/v1/messages/clear');
 }
