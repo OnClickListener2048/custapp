@@ -48,7 +48,6 @@
         _alertView.delegate = self;
         _alertView.title = @"调试";
         [_alertView addButtonWithTitle:@"查看网络"];
-       [_alertView addButtonWithTitle:@"查看日志"];
         [_alertView addButtonWithTitle:@"取消"];
         [_alertView setCancelButtonIndex:[_alertView numberOfButtons]-1];
     }

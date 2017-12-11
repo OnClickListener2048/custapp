@@ -56,9 +56,6 @@
 }
 
 
-
-
-
 - (void)saveLogInfo {
     
     NSString *logPath = [self loadPathWithName:LogFileName];
@@ -72,22 +69,6 @@
 #endif
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 - (NSString *)loadPathWithName:(NSString *)fileName {
     
