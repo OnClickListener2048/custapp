@@ -33,7 +33,7 @@ export default class OrderStateCell extends Component {
             screen: 'ProgressDetailPage',
             title:'进度详情',
             passProps: {
-                id:orderItem.order_id,
+                orderno:orderItem.order_id,
             }
         });
 

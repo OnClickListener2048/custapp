@@ -31,7 +31,8 @@ export default class TaxFormPage extends BComponent {
             isRefreshing:false,
             year:props.year,
             month:props.month,
-            isfirstRefresh:true
+            isfirstRefresh:true,
+            isLoading:false
         }
 
     }

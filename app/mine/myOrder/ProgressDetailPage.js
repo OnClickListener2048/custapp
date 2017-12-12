@@ -52,9 +52,9 @@ export default class ProgressDetailPage extends BComponent {
 
     loadData(){
         var loading = SActivityIndicator.show(true, "加载中...");
-        console.log('走了吗吗吗111555', this.props.id)
+        console.log('走了吗吗吗111555', this.props.orderno)
 
-        apis.loadOrderDetailData(this.props.id).then(
+        apis.loadOrderDetailData(this.props.orderno).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
                 if(responseData.code==0){
