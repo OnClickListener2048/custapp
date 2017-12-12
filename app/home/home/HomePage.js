@@ -439,6 +439,7 @@ export default class HomePage extends BComponent {
         
     }
     _goVerifyName(){
+
         UMTool.onEvent('homepage_checkname')
         this.push({
             screen: 'VerifyNamePage',

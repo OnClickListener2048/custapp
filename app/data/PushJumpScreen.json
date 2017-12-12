@@ -21,27 +21,27 @@
   },
   {
     "title": "现金流",
-    "uri": "pilipa://view.services/cashflow?companyid=<111>&date=<2016-06>",
+    "uri": "pilipa://view.services/cashflow",
     "screen": "CashFlowPage"
   },
   {
     "title": "利润表",
-    "uri": "pilipa://view.services/profit?companyid=<111>&date=<2016-06>",
+    "uri": "pilipa://view.services/profit",
     "screen": "ProfitStatementPage"
   },
   {
     "title": "纳税表",
-    "uri": "pilipa://view.services/tax?companyid=<111>&date=<2016-06>",
+    "uri": "pilipa://view.services/tax",
     "screen": "TaxFormPage"
   },
   {
     "title": "应收账款",
-    "uri": "pilipa://view.services/accounts/receivable?companyid=<111>&date=<2016-06>",
+    "uri": "pilipa://view.services/accounts/receivable",
     "screen": "AccountsReceivablePage"
   },
   {
     "title": "应付账款",
-    "uri": "pilipa://view.services/accounts/payable?companyid=<111>&date=<2016-06>",
+    "uri": "pilipa://view.services/accounts/payable",
     "screen": "AccountsPayablePage"
   }
 ]

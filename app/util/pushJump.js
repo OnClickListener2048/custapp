@@ -40,7 +40,7 @@ export default function pushJump(navigator, urlStr) {
         let uri = components.scheme + "://" + components.host + components.path;
         console.log( "跳转目标 uri = ", uri);
         let query = components.query;
-        let passProps = null;
+        let passProps = {};
         if (query) {
             passProps = queryString.parse(query);
         }
