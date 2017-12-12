@@ -23,7 +23,7 @@ export default class OrderStateCell extends Component {
     }
 
 
-    _toDetail(orderId,orderState,money,id,statusW,orderItem){
+    _toDetail(orderItem){
         if (this.state.isPushing === true) {
             console.log("休息一下吧, 您的手速太快了");
             return;
@@ -33,12 +33,7 @@ export default class OrderStateCell extends Component {
             screen: 'ProgressDetailPage',
             title:'进度详情',
             passProps: {
-                orderId:orderId,
-                orderState:orderState,
-                money:money,
-                id:id,
-                statusW:statusW,
-                orderItem:orderItem
+                id:orderItem.order_id,
             }
         });
 
@@ -53,7 +48,7 @@ export default class OrderStateCell extends Component {
     }
 
     render(){
-        const {orderId,orderState,time,money,id,order_type,statusW,orderItem} = this.props
+        const {orderItem} = this.props
         return(
         <View style={styles.container} >
             <View style={styles.wrapper1}>
@@ -61,32 +56,32 @@ export default class OrderStateCell extends Component {
                     订单状态
                 </Text>
                 <Text style={styles.orderstate}>
-                    {orderState}
+                    {this.props.orderItem.status_desc}
                 </Text>
             </View>
             <View style={[styles.wrapper1,{marginTop:15}]}>
                 <Text style={styles.orderstateTe}>
-                    订单号:{orderId}
+                    订单号:{this.props.orderItem.order_no}
                 </Text>
                 <Text style={styles.orderstate}>
-                    {money}
+                    {this.props.orderItem.amount}
                 </Text>
             </View>
             <View style={[styles.wrapper1,{marginTop:15}]}>
                 <Text style={styles.time}>
-                    {time}
+                    {this.props.orderItem.order_time}
                 </Text>
-                {this._typeView(order_type,orderId,orderState,money,id,statusW,orderItem)}
+                {this._typeView(orderItem)}
             </View>
 
         </View>
         )
     }
 
-    _typeView(order_type,orderId,orderState,money,id,statusW,orderItem){
-        if(order_type==1) {
+    _typeView(orderItem){
+        if(orderItem.order_type==1) {
             return (
-                <TouchableOpacity onPress={this._toDetail.bind(this, orderId, orderState, money,id,statusW,orderItem)}>
+                <TouchableOpacity onPress={this._toDetail.bind(this, orderItem)}>
                     <Image style={styles.img}
                            source={require('../../../img/myorder_progress.png')}>
                         <Text style={styles.progressTe}>

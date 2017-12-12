@@ -148,7 +148,7 @@ export default class MyOrderPage extends BComponent {
     }
     loadData(){
         //测试用
-        // this.companyid='99999'
+        // this.companyid='285729'
         // this.companytype=1
 
         if(this.companyid!=null&&this.companyid!=undefined) {
