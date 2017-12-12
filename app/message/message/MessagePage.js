@@ -31,6 +31,7 @@ export default class MessagePage extends BComponent {
         this.state = {
             dataList: [],
             unReadNum: 0,
+            logined : false,
             isAppear : false,
             refreshState: RefreshState.Idle,
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
@@ -139,6 +140,23 @@ export default class MessagePage extends BComponent {
 
     }
 
+
+    _isLogined(){
+        UserInfoStore.isLogined().then(
+            logined => {
+                console.log('MinePage logined', logined);
+                this.setState({logined:logined});
+
+            },
+            e => {
+
+            }
+        );
+    }
+
+
+
+
     _clearUnreadedNum(){
 
         if (this.state.unReadNum === 0){
@@ -172,6 +190,16 @@ export default class MessagePage extends BComponent {
 
 
     _loadUnreadedNum(){
+
+        this._isLogined();
+        if (this.state.logined === false){
+            this.props.navigator.setTabBadge({
+                badge: null
+            });
+
+            return;
+        }
+
         if(!NetInfoSingleton.isConnected) {
             return;
         }
@@ -201,6 +229,13 @@ export default class MessagePage extends BComponent {
 
 
     loadData(page=1,pageSize=10){
+        this._isLogined();
+        if (this.state.logined === false){
+            this.setState({
+                initStatus:'no-data'
+            });
+            return;
+        }
 
         if(!NetInfoSingleton.isConnected) {
            return;
