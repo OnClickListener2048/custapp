@@ -172,6 +172,17 @@ export default class MinePage extends BComponent {
                         style={{marginTop:9}}
                         onPress = {this._call.bind(this,'')}
                     />
+
+                    <CommenCell
+                        leftText="查看日志"
+                        style={{marginTop: 10}}
+                        onPress={ () => {
+                            this.push({
+                                screen: 'LogViewer',
+                                title:'查看日志',
+                            });
+                        }}
+                    />
                 </ScrollView>
             </View>
 
