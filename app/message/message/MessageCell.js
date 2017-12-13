@@ -48,7 +48,8 @@ export default class MessageCell extends Component {
                     <Text
                         textAlign='left'
                         numberOfLines={0}
-                        style={[{fontSize: 14,marginTop: Platform.OS==='ios'?14:12,marginBottom: Platform.OS==='ios'?14:12,
+
+                        style={[{fontSize: 14,lineHeight: 20,marginTop: Platform.OS==='ios'?14:12,marginBottom: Platform.OS==='ios'?14:12,
                             marginLeft : 14 ,width :SCREEN_WIDTH - 43 - 14,color : isRead === false ? '#333333' : '#999999'}] }>
                         {messageSubTitle}
                     </Text>
