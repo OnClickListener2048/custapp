@@ -60,28 +60,34 @@ export default class ProgressDetailPage extends BComponent {
                 if(responseData.code==0){
                     var sourceData=[{
                         "name":'签订合同',
-                        "start": responseData.data.order.contract_time,
+                        "start": responseData.data.order.contract_time?responseData.data.order.contract_time:'',
                         "end":'',
                         "status":4,
-                        "operator": responseData.data.order.sales_name
+                        "operator": responseData.data.order.sales_name?responseData.data.order.sales_name:''
                     }];
+
+                    if(responseData.data.order){
+                        this.setState({
+                            orderData:responseData.data.order
+                        })
+                    }
 
                     if(responseData.data.schedule) {
                         var newSourceData=responseData.data.schedule.concat(sourceData);//合并数组
                         this.setState({
                             sourceData: newSourceData,
                             loadState: 'success',
-                            orderData:responseData.data.order?responseData.data.order:this.state.orderData
                         })
                     }else{//订单详情子任务列表为空时
                         this.setState({
                             sourceData: sourceData,
                             loadState: 'success',
-                            orderData:responseData.data.order?responseData.data.order:this.state.orderData
                         })
                     }
-
-
+                }else{
+                    this.setState({
+                        loadState: 'no-data',
+                    })
                 }
             },
             (e) => {
