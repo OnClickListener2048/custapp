@@ -129,7 +129,6 @@ export default class MessagePage extends BComponent {
 
         this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
             console.log('点击通知自测关闭应用的时候message',message)
-            alert(message);
         });
 
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
