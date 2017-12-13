@@ -74,12 +74,15 @@ export default class MessagePage extends BComponent {
         var self = this;
         self.jpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
             console.log("点击击通知自测通知自测 " + JSON.stringify(message));
-            let a = message.url.replace('"','')
+            let a = JSON.stringify(message)
+            alert(a);
 
-            this.props.navigator.switchToTab({
-                tabIndex: 2
-            });
-            pushJump(this.props.navigator, a);
+            // let a = message.url.replace('"','')
+            //
+            // this.props.navigator.switchToTab({
+            //     tabIndex: 2
+            // });
+            // pushJump(this.props.navigator, a);
 
 
         });
@@ -129,7 +132,12 @@ export default class MessagePage extends BComponent {
 
         this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
             console.log('点击通知自测关闭应用的时候message',message)
-            alert(message);
+            let a = JSON.stringify(message)
+            alert(a);
+            // this.props.navigator.switchToTab({
+            //     tabIndex: 2
+            // });
+            // pushJump(this.props.navigator, 'pilipa://view.company.check');
         });
 
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
