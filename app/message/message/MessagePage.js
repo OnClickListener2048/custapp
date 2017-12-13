@@ -72,11 +72,11 @@ export default class MessagePage extends BComponent {
 
     componentDidMount() {
         var self = this;
-        JPushModule.setAlias('f3d54ae6_db20_49dd_92f6_db4140aab633',function () {
-            console.log('绑定成功','f3d54ae6_db20_49dd_92f6_db4140aab633')
-        },function () {
-            console.log('绑定失败')
-        })
+        // JPushModule.setAlias('f3d54ae6_db20_49dd_92f6_db4140aab633',function () {
+        //     console.log('绑定成功','f3d54ae6_db20_49dd_92f6_db4140aab633')
+        // },function () {
+        //     console.log('绑定失败')
+        // })
 
         // console.log("点击击通知自测通知自测 " + JSON.stringify(message));
         // let a = message.url.replace('"','')
@@ -122,16 +122,16 @@ export default class MessagePage extends BComponent {
 
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
+            //应用杀死 点击通知跳转
             this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
 
-                let obj = JSON.parse(message)
 
                 this.props.navigator.switchToTab({
                     tabIndex: 2
                 });
-                pushJump(this.props.navigator, obj.url);
+                pushJump(this.props.navigator, message.url);
             });
-
+            //收到自定义消息 刷新消息
             self.recieveiOSCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                 console.log("receive notification: " + JSON.stringify(message));
                 if (this.state.isAppear === true){
@@ -144,8 +144,7 @@ export default class MessagePage extends BComponent {
                 self.onHeaderRefresh()
             });
 
-
-
+            //收到通知刷新自定义消息
             self.recieveiOSJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
                 console.log("receive notification: " + JSON.stringify(message));
                 if (this.state.isAppear === true){
@@ -157,21 +156,21 @@ export default class MessagePage extends BComponent {
                 }
                 self.onHeaderRefresh()
             });
-
+            //应用未杀死 点击通知栏
             self.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                 console.log("点击击通知自测通知自测 " + JSON.stringify(message));
 
-                let obj = JSON.parse(message)
 
                 this.props.navigator.switchToTab({
                     tabIndex: 2
                 });
-                pushJump(this.props.navigator, obj.url);
+                pushJump(this.props.navigator, message.url);
 
             });
 
         }else{
             JPushModule.notifyJSDidLoad(() => {
+                //收到自定义消息
                 self.recieveAndroidCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                     console.log("receive notification: " + JSON.stringify(message));
                     if (this.state.isAppear === true){
@@ -184,7 +183,7 @@ export default class MessagePage extends BComponent {
                     }
                     self.onHeaderRefresh()
                 });
-
+                //收到通知
                 self.recieveAndroidJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
                     console.log("receive notification: " + JSON.stringify(message));
                     if (this.state.isAppear === true){
@@ -196,7 +195,7 @@ export default class MessagePage extends BComponent {
                     }
                     self.onHeaderRefresh()
                 });
-
+                //点击通知栏
                 self.clickAndroidjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                     console.log("点击击通知自测通知自测 " + JSON.stringify(message));
                     let obj = JSON.parse(message.extras)
