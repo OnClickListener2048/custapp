@@ -38,6 +38,7 @@ export default class MessagePage extends BComponent {
         };
         this.page =1;
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this.jumpSecondActivity = this.jumpSecondActivity.bind(this);
 
     }
 
@@ -71,12 +72,12 @@ export default class MessagePage extends BComponent {
 
 
     componentDidMount() {
-        var self = this;
-        // JPushModule.setAlias('f3d54ae6_db20_49dd_92f6_db4140aab633',function () {
-        //     console.log('绑定成功','f3d54ae6_db20_49dd_92f6_db4140aab633')
-        // },function () {
-        //     console.log('绑定失败')
-        // })
+        JPushModule.setAlias('f3d54ae6_db20_49dd_92f6_db4140aab633',function () {
+            console.log('绑定成功','f3d54ae6_db20_49dd_92f6_db4140aab633')
+        },function () {
+            console.log('绑定失败')
+        })
+
 
         // console.log("点击击通知自测通知自测 " + JSON.stringify(message));
         // let a = message.url.replace('"','')
@@ -104,7 +105,7 @@ export default class MessagePage extends BComponent {
                     badge: null
                 });
             }else {
-                self._loadUnreadedNum();
+                this._loadUnreadedNum();
 
             }
         });
@@ -132,32 +133,32 @@ export default class MessagePage extends BComponent {
                 pushJump(this.props.navigator, message.url);
             });
             //收到自定义消息 刷新消息
-            self.recieveiOSCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
+            this.recieveiOSCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                 console.log("receive notification: " + JSON.stringify(message));
                 if (this.state.isAppear === true){
                     this.props.navigator.setTabBadge({
                         badge: null
                     });
                 }else {
-                    self._loadUnreadedNum();
+                    this._loadUnreadedNum();
                 }
-                self.onHeaderRefresh()
+                this.onHeaderRefresh()
             });
 
             //收到通知刷新自定义消息
-            self.recieveiOSJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
+            this.recieveiOSJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
                 console.log("receive notification: " + JSON.stringify(message));
                 if (this.state.isAppear === true){
                     this.props.navigator.setTabBadge({
                         badge: null
                     });
                 }else {
-                    self._loadUnreadedNum();
+                    this._loadUnreadedNum();
                 }
-                self.onHeaderRefresh()
+                this.onHeaderRefresh()
             });
             //应用未杀死 点击通知栏
-            self.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
+            this.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                 console.log("点击击通知自测通知自测 " + JSON.stringify(message));
 
 
@@ -169,50 +170,53 @@ export default class MessagePage extends BComponent {
             });
 
         }else{
+            let self = this
             JPushModule.notifyJSDidLoad(() => {
                 //收到自定义消息
-                self.recieveAndroidCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
+                this.recieveAndroidCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                     console.log("receive notification: " + JSON.stringify(message));
                     if (this.state.isAppear === true){
                         this.props.navigator.setTabBadge({
                             badge: null
                         });
                     }else {
-                        self._loadUnreadedNum();
+                        this._loadUnreadedNum();
 
                     }
-                    self.onHeaderRefresh()
+                    this.onHeaderRefresh()
                 });
                 //收到通知
-                self.recieveAndroidJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
+                this.recieveAndroidJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
                     console.log("receive notification: " + JSON.stringify(message));
                     if (this.state.isAppear === true){
                         this.props.navigator.setTabBadge({
                             badge: null
                         });
                     }else {
-                        self._loadUnreadedNum();
+                        this._loadUnreadedNum();
                     }
-                    self.onHeaderRefresh()
+                    this.onHeaderRefresh()
                 });
                 //点击通知栏
                 self.clickAndroidjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                     console.log("点击击通知自测通知自测 " + JSON.stringify(message));
-                    let obj = JSON.parse(message.extras)
 
-                    this.props.navigator.switchToTab({
-                        tabIndex: 2
-                    });
-                    pushJump(this.props.navigator, obj.url);
+                    // let obj = JSON.parse(message.extras)
+                    alert(1)
+
+                    // pushJump(_navigator, 'pilipa://view.orders.detail?orderno=777');
+                    this.jumpSecondActivity();
 
 
                 });
             });
         }
-
-
-
-
+    }
+    jumpSecondActivity() {
+        this.props.navigator.switchToTab({
+            tabIndex: 2
+        });
+        // pushJump(this.props.navigator, 'pilipa://view.orders.detail?orderno=777');
 
     }
 
