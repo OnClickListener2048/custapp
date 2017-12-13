@@ -52,7 +52,7 @@ if (Platform.OS === 'ios') {
         this._timer = setTimeout(() => {
             DeviceEventEmitter.emit('ClickJPushMessage', message);
             clearTimeout(this._timer);
-        }, 500);
+        }, 1000);
 
     });
 }

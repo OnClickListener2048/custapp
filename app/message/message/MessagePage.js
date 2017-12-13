@@ -38,7 +38,6 @@ export default class MessagePage extends BComponent {
         };
         this.page =1;
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-        this.jumpSecondActivity = this.jumpSecondActivity.bind(this);
 
     }
 
@@ -72,22 +71,6 @@ export default class MessagePage extends BComponent {
 
 
     componentDidMount() {
-        JPushModule.setAlias('f3d54ae6_db20_49dd_92f6_db4140aab633',function () {
-            console.log('绑定成功','f3d54ae6_db20_49dd_92f6_db4140aab633')
-        },function () {
-            console.log('绑定失败')
-        })
-
-
-        // console.log("点击击通知自测通知自测 " + JSON.stringify(message));
-        // let a = message.url.replace('"','')
-        //
-        // this.props.navigator.switchToTab({
-        //     tabIndex: 2
-        // });
-        // pushJump(this.props.navigator, a);
-
-
 
         //打开即可
         if(!NetInfoSingleton.isConnected) {
@@ -126,7 +109,6 @@ export default class MessagePage extends BComponent {
             //应用杀死 点击通知跳转
             this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
 
-
                 this.props.navigator.switchToTab({
                     tabIndex: 2
                 });
@@ -161,7 +143,6 @@ export default class MessagePage extends BComponent {
             this.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                 console.log("点击击通知自测通知自测 " + JSON.stringify(message));
 
-
                 this.props.navigator.switchToTab({
                     tabIndex: 2
                 });
@@ -170,7 +151,6 @@ export default class MessagePage extends BComponent {
             });
 
         }else{
-            let self = this
             JPushModule.notifyJSDidLoad(() => {
                 //收到自定义消息
                 this.recieveAndroidCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
@@ -197,28 +177,26 @@ export default class MessagePage extends BComponent {
                     }
                     this.onHeaderRefresh()
                 });
+
                 //点击通知栏
-                self.clickAndroidjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
+                this.clickAndroidjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                     console.log("点击击通知自测通知自测 " + JSON.stringify(message));
 
-                    // let obj = JSON.parse(message.extras)
-                    alert(1)
-
-                    // pushJump(_navigator, 'pilipa://view.orders.detail?orderno=777');
-                    this.jumpSecondActivity();
+                    let obj = JSON.parse(message.extras)
+                    this._timer = setTimeout(() => {
+                        this.props.navigator.switchToTab({
+                            tabIndex: 2
+                        });
+                        pushJump(this.props.navigator, obj.url);
+                        clearTimeout(this._timer);
+                    }, 500);
 
 
                 });
             });
         }
     }
-    jumpSecondActivity() {
-        this.props.navigator.switchToTab({
-            tabIndex: 2
-        });
-        // pushJump(this.props.navigator, 'pilipa://view.orders.detail?orderno=777');
 
-    }
 
 
     _isLogined(){
