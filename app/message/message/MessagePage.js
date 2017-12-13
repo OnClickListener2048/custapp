@@ -67,12 +67,33 @@ export default class MessagePage extends BComponent {
 
     }
 
-    componentWillUnmount() {
-        JPushModule.removeReceiveCustomMsgListener(this.jpushEvent);
-    }
+
 
 
     componentDidMount() {
+        var self = this;
+        self.jpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
+            console.log("点击击通知自测通知自测 " + JSON.stringify(message));
+            let a = message.url.replace('"','')
+
+            this.props.navigator.switchToTab({
+                tabIndex: 2
+            });
+            pushJump(this.props.navigator, a);
+
+
+        });
+
+        // console.log("点击击通知自测通知自测 " + JSON.stringify(message));
+        // let a = message.url.replace('"','')
+        //
+        // this.props.navigator.switchToTab({
+        //     tabIndex: 2
+        // });
+        // pushJump(this.props.navigator, a);
+
+
+
         //打开即可
         if(!NetInfoSingleton.isConnected) {
             this.setState({
@@ -106,7 +127,10 @@ export default class MessagePage extends BComponent {
             })
         });
 
-        var self = this;
+        this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
+            console.log('点击通知自测关闭应用的时候message',message)
+            alert(message);
+        });
 
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
@@ -118,10 +142,11 @@ export default class MessagePage extends BComponent {
                     });
                 }else {
                     self._loadUnreadedNum();
-
                 }
                 self.onHeaderRefresh()
             });
+
+
         }else{
             JPushModule.notifyJSDidLoad(() => {
                 self.jpushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
@@ -138,6 +163,10 @@ export default class MessagePage extends BComponent {
                 });
             });
         }
+
+
+
+
 
     }
 

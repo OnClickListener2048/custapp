@@ -7,9 +7,10 @@ import './util/UMTool';
 import './util/DeviceInfo';
 import './util/ScreenUtil'
 import './modules/react-native-sww-activity-indicator'
+import JPushModule from 'jpush-react-native';
 
 import {Navigation} from 'react-native-navigation';
-import { Text ,NetInfo,Dimensions} from 'react-native';
+import { Text ,NetInfo,Dimensions,DeviceEventEmitter} from 'react-native';
 import {WECHAT_APP_ID} from './config' ;
 import * as wechat from 'react-native-wechat'
 import Toast from 'react-native-root-toast'
@@ -20,4 +21,11 @@ console.disableYellowBox = true;
 console.warn('YellowBox is disabled.');
 console.log("NetInfoSingleton", NetInfoSingleton.isConnected);
 wechat.registerApp(WECHAT_APP_ID);
+if(Platform.OS === 'ios'){
+    JPushModule.addReceiveOpenNotificationListener((message) => {
+
+        DeviceEventEmitter.emit('ClickJPushMessage',message);
+
+    });
+}
 navToMainTab();
