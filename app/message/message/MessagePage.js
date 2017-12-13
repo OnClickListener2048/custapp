@@ -131,7 +131,7 @@ export default class MessagePage extends BComponent {
 
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
-            self.jpushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
+            self.recieveiOSCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                 console.log("receive notification: " + JSON.stringify(message));
                 if (this.state.isAppear === true){
                     this.props.navigator.setTabBadge({
@@ -142,7 +142,22 @@ export default class MessagePage extends BComponent {
                 }
                 self.onHeaderRefresh()
             });
-            self.jpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
+
+
+
+            self.recieveiOSJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
+                console.log("receive notification: " + JSON.stringify(message));
+                if (this.state.isAppear === true){
+                    this.props.navigator.setTabBadge({
+                        badge: null
+                    });
+                }else {
+                    self._loadUnreadedNum();
+                }
+                self.onHeaderRefresh()
+            });
+
+            self.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                 console.log("点击击通知自测通知自测 " + JSON.stringify(message));
                 let a = JSON.stringify(message)
                 alert(message.url);
@@ -159,7 +174,7 @@ export default class MessagePage extends BComponent {
 
         }else{
             JPushModule.notifyJSDidLoad(() => {
-                self.jpushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
+                self.recieveAndroidCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                     console.log("receive notification: " + JSON.stringify(message));
                     if (this.state.isAppear === true){
                         this.props.navigator.setTabBadge({
@@ -172,7 +187,19 @@ export default class MessagePage extends BComponent {
                     self.onHeaderRefresh()
                 });
 
-                self.jpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
+                self.recieveAndroidJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
+                    console.log("receive notification: " + JSON.stringify(message));
+                    if (this.state.isAppear === true){
+                        this.props.navigator.setTabBadge({
+                            badge: null
+                        });
+                    }else {
+                        self._loadUnreadedNum();
+                    }
+                    self.onHeaderRefresh()
+                });
+
+                self.clickAndroidjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                     console.log("点击击通知自测通知自测 " + JSON.stringify(message));
                     let obj = JSON.parse(message.extras)
                     alert(obj.url);
