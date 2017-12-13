@@ -118,19 +118,20 @@ export default class MessagePage extends BComponent {
             })
         });
 
-        this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
-            console.log('点击通知自测关闭应用的时候message',message)
 
-            let a = JSON.stringify(message)
-            alert(a.url);
-            // this.props.navigator.switchToTab({
-            //     tabIndex: 2
-            // });
-            // pushJump(this.props.navigator, 'pilipa://view.company.check');
-        });
 
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
+            this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
+
+                let obj = JSON.parse(message)
+
+                this.props.navigator.switchToTab({
+                    tabIndex: 2
+                });
+                pushJump(this.props.navigator, obj.url);
+            });
+
             self.recieveiOSCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                 console.log("receive notification: " + JSON.stringify(message));
                 if (this.state.isAppear === true){
@@ -159,16 +160,13 @@ export default class MessagePage extends BComponent {
 
             self.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                 console.log("点击击通知自测通知自测 " + JSON.stringify(message));
-                let a = JSON.stringify(message)
-                alert(message.url);
 
-                // let a = message.url.replace('"','')
-                //
-                // this.props.navigator.switchToTab({
-                //     tabIndex: 2
-                // });
-                // pushJump(this.props.navigator, message.url);
+                let obj = JSON.parse(message)
 
+                this.props.navigator.switchToTab({
+                    tabIndex: 2
+                });
+                pushJump(this.props.navigator, obj.url);
 
             });
 
@@ -202,14 +200,11 @@ export default class MessagePage extends BComponent {
                 self.clickAndroidjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                     console.log("点击击通知自测通知自测 " + JSON.stringify(message));
                     let obj = JSON.parse(message.extras)
-                    alert(obj.url);
 
-                    // let a = message.url.replace('"','')
-                    //
-                    // this.props.navigator.switchToTab({
-                    //     tabIndex: 2
-                    // });
-                    // pushJump(this.props.navigator, a);
+                    this.props.navigator.switchToTab({
+                        tabIndex: 2
+                    });
+                    pushJump(this.props.navigator, obj.url);
 
 
                 });
