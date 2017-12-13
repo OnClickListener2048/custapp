@@ -72,20 +72,7 @@ export default class MessagePage extends BComponent {
 
     componentDidMount() {
         var self = this;
-        self.jpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
-            console.log("点击击通知自测通知自测 " + JSON.stringify(message));
-            let a = JSON.stringify(message)
-            alert(a);
 
-            // let a = message.url.replace('"','')
-            //
-            // this.props.navigator.switchToTab({
-            //     tabIndex: 2
-            // });
-            // pushJump(this.props.navigator, a);
-
-
-        });
 
         // console.log("点击击通知自测通知自测 " + JSON.stringify(message));
         // let a = message.url.replace('"','')
@@ -104,9 +91,6 @@ export default class MessagePage extends BComponent {
             })
         }else{
             this._isLogined();
-
-
-
         }
 
         this.refreshEmitter = DeviceEventEmitter.addListener('ReloadMessage', () => {
@@ -134,7 +118,7 @@ export default class MessagePage extends BComponent {
             console.log('点击通知自测关闭应用的时候message',message)
 
             let a = JSON.stringify(message)
-            alert(a);
+            alert(a.url);
             // this.props.navigator.switchToTab({
             //     tabIndex: 2
             // });
@@ -154,7 +138,20 @@ export default class MessagePage extends BComponent {
                 }
                 self.onHeaderRefresh()
             });
+            self.jpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
+                console.log("点击击通知自测通知自测 " + JSON.stringify(message));
+                let a = JSON.stringify(message)
+                alert(a.url);
 
+                // let a = message.url.replace('"','')
+                //
+                // this.props.navigator.switchToTab({
+                //     tabIndex: 2
+                // });
+                // pushJump(this.props.navigator, a);
+
+
+            });
 
         }else{
             JPushModule.notifyJSDidLoad(() => {
@@ -169,6 +166,21 @@ export default class MessagePage extends BComponent {
 
                     }
                     self.onHeaderRefresh()
+                });
+
+                self.jpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
+                    console.log("点击击通知自测通知自测 " + JSON.stringify(message));
+                    let a = JSON.stringify(message)
+                    alert(a);
+
+                    // let a = message.url.replace('"','')
+                    //
+                    // this.props.navigator.switchToTab({
+                    //     tabIndex: 2
+                    // });
+                    // pushJump(this.props.navigator, a);
+
+
                 });
             });
         }
