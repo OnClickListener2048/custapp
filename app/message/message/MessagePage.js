@@ -72,7 +72,11 @@ export default class MessagePage extends BComponent {
 
     componentDidMount() {
         var self = this;
-
+        JPushModule.setAlias('f3d54ae6_db20_49dd_92f6_db4140aab633',function () {
+            console.log('绑定成功','f3d54ae6_db20_49dd_92f6_db4140aab633')
+        },function () {
+            console.log('绑定失败')
+        })
 
         // console.log("点击击通知自测通知自测 " + JSON.stringify(message));
         // let a = message.url.replace('"','')
@@ -141,14 +145,14 @@ export default class MessagePage extends BComponent {
             self.jpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                 console.log("点击击通知自测通知自测 " + JSON.stringify(message));
                 let a = JSON.stringify(message)
-                alert(a.url);
+                alert(message.url);
 
                 // let a = message.url.replace('"','')
                 //
                 // this.props.navigator.switchToTab({
                 //     tabIndex: 2
                 // });
-                // pushJump(this.props.navigator, a);
+                // pushJump(this.props.navigator, message.url);
 
 
             });
@@ -170,8 +174,8 @@ export default class MessagePage extends BComponent {
 
                 self.jpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                     console.log("点击击通知自测通知自测 " + JSON.stringify(message));
-                    let a = JSON.stringify(message)
-                    alert(a);
+                    let obj = JSON.parse(message.extras)
+                    alert(obj.url);
 
                     // let a = message.url.replace('"','')
                     //
