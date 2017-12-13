@@ -253,6 +253,10 @@ export default class MessagePage extends BComponent {
             return;
         }
 
+        this.props.navigator.setTabBadge({
+            badge: null
+        });
+
         if(!NetInfoSingleton.isConnected) {
             return;
         }
