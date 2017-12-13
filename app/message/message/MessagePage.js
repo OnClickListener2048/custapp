@@ -79,8 +79,9 @@ export default class MessagePage extends BComponent {
                 initStatus:'no-net'
             })
         }else{
-            this.onHeaderRefresh();
-            this._loadUnreadedNum()
+            this._isLogined();
+
+
 
         }
 
@@ -146,7 +147,17 @@ export default class MessagePage extends BComponent {
             logined => {
                 console.log('MinePage logined', logined);
                 this.setState({logined:logined});
-
+                if (logined === true){
+                    this.onHeaderRefresh();
+                    this._loadUnreadedNum()
+                }else {
+                    this.setState({
+                        initStatus:'no-data'
+                    });
+                    this.props.navigator.setTabBadge({
+                        badge: null
+                    });
+                }
             },
             e => {
 
@@ -191,18 +202,10 @@ export default class MessagePage extends BComponent {
 
     _loadUnreadedNum(){
 
-        this._isLogined();
-        if (this.state.logined === false){
-            this.props.navigator.setTabBadge({
-                badge: null
-            });
-
-            return;
-        }
-
         if(!NetInfoSingleton.isConnected) {
             return;
         }
+
         apis.loadMessageUnReadedNum().then(
             (responseData) => {
 
@@ -229,13 +232,7 @@ export default class MessagePage extends BComponent {
 
 
     loadData(page=1,pageSize=10){
-        this._isLogined();
-        if (this.state.logined === false){
-            this.setState({
-                initStatus:'no-data'
-            });
-            return;
-        }
+
 
         if(!NetInfoSingleton.isConnected) {
            return;
