@@ -34,6 +34,7 @@ export default class MessagePage extends BComponent {
             logined : false,
             isAppear : false,
             refreshState: RefreshState.Idle,
+            jpushMessage:'',
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
         };
         this.page =1;
@@ -49,11 +50,33 @@ export default class MessagePage extends BComponent {
 
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        // console.log('ApplicationCenterPage event.type', event.type);
-        if(event.id === 'willAppear'){
-            this.setState({
-                isAppear : true
-            })
+         // console.log('ApplicationCenterPage event.type', event.type);
+        //console.log('ApplicationCenterPage event.type', event.id);
+
+        if(event.id === 'didAppear'){
+
+            if (this.state.isAppear === false){
+                this.setState({
+                    isAppear : true
+                });
+                if(Platform.OS === 'ios') {
+
+                    console.log('嘎嘎嘎1', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
+                    if (this.state.jpushMessage) {
+                        console.log('嘎嘎嘎2', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
+
+                        pushJump(this.props.navigator, this.state.jpushMessage.url);
+
+                        this.setState({
+                            jpushMessage: ''
+                        });
+
+
+                    }
+                }
+            }
+
+
             this._clearUnreadedNum();
 
         }
@@ -107,12 +130,12 @@ export default class MessagePage extends BComponent {
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
             //应用杀死 点击通知跳转
-            this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
+            this.refreshEmitter = DeviceEventEmitter.addListener('MessagePageClickJPushMessage', (message) => {
 
-                this.props.navigator.switchToTab({
-                    tabIndex: 2
+                this.setState({
+                    jpushMessage : message
                 });
-                pushJump(this.props.navigator, message.url);
+
             });
             //收到自定义消息 刷新消息
             this.recieveiOSCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {

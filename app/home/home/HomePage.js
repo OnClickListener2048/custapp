@@ -13,6 +13,7 @@ import {
     StyleSheet,
     Animated,
     Platform,
+    DeviceEventEmitter,
     ImageBackground
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
@@ -87,17 +88,30 @@ export default class HomePage extends BComponent {
             loadState:'success',
             isRefreshing:false,
             isFirstRefresh:true,
-            isLoading:true
+            isLoading:true,
         };
+
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
+
+
+
     componentDidMount(){
 
         this.loadData()
+        if(Platform.OS === 'ios') {
+           DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
+                DeviceEventEmitter.emit('MessagePageClickJPushMessage', message);
 
+
+                this.props.navigator.switchToTab({
+                    tabIndex: 2
+                });
+            });
+        }
     // pushJump(this.props.navigator, "pilipa://view.orders.detail?id=123456&test=你好");
     //     pushJump(this.props.navigator, "pilipa://view.orders");
 //         pushJump( this.props.navigator, "pilipa://tab.me");

@@ -52,8 +52,12 @@ if (Platform.OS === 'ios') {
         this._timer = setTimeout(() => {
             DeviceEventEmitter.emit('ClickJPushMessage', message);
             clearTimeout(this._timer);
-        }, 1000);
+        }, 500);
 
     });
 }
+// this._timer = setTimeout(() => {
+//     DeviceEventEmitter.emit('ClickJPushMessage', {"url":"pilipa://view.company.check"});
+//     clearTimeout(this._timer);
+// }, 1000);
 navToMainTab();
