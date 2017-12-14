@@ -133,8 +133,7 @@ export default class MessagePage extends BComponent {
 
 
 
-            JPushModule.setBadge(0, (badgeNumber) => {
-            });
+
 
             //应用杀死 点击通知跳转
             this.refreshEmitter = DeviceEventEmitter.addListener('MessagePageClickJPushMessage', (message) => {

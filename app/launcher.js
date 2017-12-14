@@ -48,6 +48,9 @@ console.warn('YellowBox is disabled.');
 console.log("NetInfoSingleton", NetInfoSingleton.isConnected);
 wechat.registerApp(WECHAT_APP_ID);
 if (Platform.OS === 'ios') {
+    JPushModule.setBadge(0, (badgeNumber) => {
+    });
+
     JPushModule.addOpenNotificationLaunchAppListener((message) => {
         this._timer = setTimeout(() => {
             DeviceEventEmitter.emit('ClickJPushMessage', message);
