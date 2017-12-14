@@ -116,6 +116,7 @@ export default class LoginPage extends Component {
             SActivityIndicator.hide(loading);
             if (this.state.isInWechatLoading) {
                 this.setState({isInWechatLoading: false});//10秒后可点击返回
+                this.setState({loading: false});
                 Toast.show("操作超时");
             }
             clearTimeout(_timer);
