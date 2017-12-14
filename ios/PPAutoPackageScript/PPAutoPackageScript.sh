@@ -85,10 +85,12 @@ then
     ExportOptionsPlistPath="./PPAutoPackageScript/AdHocExportOptionsPlist.plist"
     elif [ "$method" = "2" ] ; then
     ExportOptionsPlistPath="./PPAutoPackageScript/AppStoreExportOptionsPlist.plist"
+    ipa_name="$ipa_name-AppStore"
     elif [ "$method" = "3" ] ; then
     ExportOptionsPlistPath="./PPAutoPackageScript/EnterpriseExportOptionsPlist.plist"
     elif [ "$method" = "4" ] ; then
     ExportOptionsPlistPath="./PPAutoPackageScript/DevelopmentExportOptionsPlist.plist"
+    ipa_name="$ipa_name-Development"
     else
     echo "输入的参数无效!!!"
     exit 1
@@ -164,4 +166,10 @@ echo "\033[36;1m使用PPAutoPackageScript打包总用时: ${SECONDS}s \033[0m"
 if [ "$method" = "4" ] ; then
     echo "自动上传至蒲公英"
     curl -F "file=@$export_ipa_path/$ipa_name.ipa" -F "_api_key=6f113667ad1a8c289064c375683d68c5" http://www.pgyer.com/apiv2/app/upload
+fi
+
+if [ "$method" = "2" ] ; then
+    echo "自动上传至TestFlight"
+    #/Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/altool -v -f $export_ipa_path/$ipa_name.ipa -u kane.mx@gmail.com -p lgkz-llbv-hofg-gkrt -t ios
+    /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/altool --upload-app -f $export_ipa_path/$ipa_name.ipa -t ios -u kane.mx@gmail.com -p lgkz-llbv-hofg-gkrt
 fi
