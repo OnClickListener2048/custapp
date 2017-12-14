@@ -148,8 +148,7 @@ export default class BindPhonePage extends BComponent {
                             },
                             (e) => {
 
-                                this._removeCompanyInfo()
-                                Toast.show('公司信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+                                // Toast.show('公司信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
 
                             },
                         );
@@ -160,14 +159,17 @@ export default class BindPhonePage extends BComponent {
             },
             (e) => {
                 console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+                // Toast.show('用户信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
             },
         );
     }
     _removeCompanyInfo(){
-        UserInfoStore.removeCompany().then();
+        UserInfoStore.removeCompany().then((s)=>{
+            DeviceEventEmitter.emit('ChangeCompany');
+        },(e)=>{
+
+        });
         UserInfoStore.removeCompanyArr().then();
-        DeviceEventEmitter.emit('ChangeCompany');
 
     }
     // 修改绑定手机号
