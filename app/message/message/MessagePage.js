@@ -81,9 +81,6 @@ export default class MessagePage extends BComponent {
 
         }
 
-        if(event.id === 'didAppear'){
-        }
-
 
 
         if(event.id === 'willDisappear'){
@@ -136,11 +133,14 @@ export default class MessagePage extends BComponent {
 
 
             //应用杀死 点击通知跳转
-            this.refreshEmitter = DeviceEventEmitter.addListener('MessagePageClickJPushMessage', (message) => {
-
+            this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
                 this.setState({
                     jpushMessage : message
                 });
+                this.props.navigator.switchToTab({
+                    tabIndex: 2
+                });
+
 
             });
             //收到自定义消息 刷新消息
@@ -381,6 +381,10 @@ export default class MessagePage extends BComponent {
         );
     }
 
+    _reloadPage(){
+        this._isLogined();
+
+    }
 
 
     _jumpWithUrl(item){
@@ -476,7 +480,7 @@ export default class MessagePage extends BComponent {
             )
         }else {
             return(
-                <DefaultView onPress={()=>this.onHeaderRefresh()} type ={this.state.initStatus}/>
+                <DefaultView onPress={()=>this._reloadPage()} type ={this.state.initStatus}/>
             )
         }
 
