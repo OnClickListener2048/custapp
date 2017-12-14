@@ -19,6 +19,7 @@ import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast';
+import * as apis from '../../apis/account';
 
 export default class MinePage extends BComponent {
 
@@ -45,10 +46,72 @@ export default class MinePage extends BComponent {
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
             this.initPage();
+            this.checkCompany()
         }
 
     }
+    //查公司接口超级慢 页面每次进入 调一次
+    checkCompany(){
+        //获取手机号
+        UserInfoStore.getUserInfo().then(
+            (user) => {
+                if (user && user.mobilePhone) {
+                    //获取公司
+                    apis.getCompany(user.mobilePhone).then(
+                        (companyInfo) => {
+                            if (companyInfo && companyInfo.list) {
 
+                                let tmpCompaniesArr = companyInfo.list;
+
+                                if (tmpCompaniesArr.length > 0) {
+
+                                    let companyId = tmpCompaniesArr[0].id
+
+                                    UserInfoStore.getCompany().then(
+                                        (company) => {
+                                            if (company && company.id && companyId && companyId!=company.id) {
+
+                                                UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+                                                    (s) => {
+                                                        console.log("公司信息保存成功");
+                                                    },
+                                                    (e) => {
+                                                        console.log("公司信息保存错误:", e);
+                                                    },
+                                                );
+
+                                                UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+                                                    (s) => {
+                                                        console.log("公司信息保存成功");
+                                                        this.setState({company: company.infos[0].value});
+                                                        DeviceEventEmitter.emit('ChangeCompany');
+
+                                                    },
+                                                    (e) => {
+                                                        console.log("公司信息保存错误:", e);
+                                                    },
+                                                );
+                                            }
+                                        },
+                                        (e) => {
+
+                                        },
+                                    );
+                                }
+                            }
+                        },
+                        (e) => {
+
+                        },
+                    );
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
+
+    }
     reset() {
         this.setState({
             phone: '注册/登录', //手机号
@@ -61,9 +124,6 @@ export default class MinePage extends BComponent {
     // 准备加载组件
     componentWillMount() {
         this.initPage();
-        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
-            this.initPage()
-        });
         this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
             console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
             loginJumpSingleton.goToLogin(this.props.navigator);
@@ -71,7 +131,6 @@ export default class MinePage extends BComponent {
     }
 
     componentWillUnmount() {
-        this.refreshEmitter.remove();
         this.subscription.remove();
     }
 
