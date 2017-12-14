@@ -78,7 +78,7 @@ export default class LoginPage extends Component {
             mobileLogin: false, // 显示手机号登陆模式, 仅针对iOS AppStore提审
             passwordValid: false, // 手机模式密码
             password: '', // 手机模式密码有效
-            access_token: '',
+            loading: false, // 是否载入中, 载入中不能点击任何按钮
         };
 
         // this.state.mobile = props.mobile;
@@ -109,7 +109,7 @@ export default class LoginPage extends Component {
     _doWeChatLogin = () => {
         let scope = 'snsapi_userinfo';
         let state = 'wechat_sdk_demo';
-        this.setState({isInWechatLoading: true});
+        this.setState({isInWechatLoading: true, loading: true});
         let loading = SActivityIndicator.show(true, "尝试微信登录中...");
 
         let _timer = setTimeout(() => {
@@ -120,6 +120,7 @@ export default class LoginPage extends Component {
             }
             clearTimeout(_timer);
         }, 10000);
+
 
         WeChat.sendAuthRequest(scope, state).then(
             res => {
@@ -144,7 +145,9 @@ export default class LoginPage extends Component {
                                 v => {
                                     this.readUserInfo();// TODO 获取用户信息
                                 },
-                                e => console.log(e.message)
+                                e =>  {
+                                    console.log(e.message)
+                                }
                             );
                         } else {
                             Alert.alert(result.msg);
@@ -155,6 +158,7 @@ export default class LoginPage extends Component {
                         Toast.show("对不起, 操作已取消.");
                         console.log('出错了', e);
                         SActivityIndicator.hide(loading);
+                        this.setState({loading: false});
                     },
                 );
             },
@@ -508,6 +512,7 @@ export default class LoginPage extends Component {
                             (companyInfo) => {
                                 console.log("公司信息读取返回", companyInfo);
                                 SActivityIndicator.hide(loading);
+                                this.setState({loading: false});
                                 if (companyInfo && companyInfo.list) {
 
                                     console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
@@ -547,6 +552,7 @@ export default class LoginPage extends Component {
                             },
                             (e) => {
                                 SActivityIndicator.hide(loading);
+                                this.setState({loading: false});
                                 UserInfoStore.removeCompany().then();
                                 UserInfoStore.removeCompanyArr().then();
 
@@ -555,6 +561,7 @@ export default class LoginPage extends Component {
                             },
                         );
                     } else {
+                        this.setState({loading: false});
                         // 没有手机号, 强制转往绑定手机页面
                         UserInfoStore.removeLastUserPhone().then();
                         UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
@@ -575,10 +582,12 @@ export default class LoginPage extends Component {
 
                 } else {
                     Alert.alert("用户信息返回为空, 请重试", JSON.stringify(responseData));
+                    this.setState({loading: false});
                 }
             },
             (e) => {
                 SActivityIndicator.hide(loading);
+                this.setState({loading: false});
                 console.log("用户信息读取错误返回:", e);
                 Toast.show('用户信息读取失败' + errorText(e), {
                     position: Toast.positions.CENTER,
@@ -755,7 +764,7 @@ export default class LoginPage extends Component {
                         this.renderMobileLogin()
                     }
 
-                    {!this.state.openMobileLogin &&
+                    {!this.state.openMobileLogin && !this.state.loading &&
                     <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
                         {backgroundColor: 'white'}]}
                                           keyboardVerticalOffset={0}>
