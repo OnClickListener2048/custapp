@@ -49,6 +49,7 @@ export default function pushJump(navigator, urlStr) {
                 navigator.push({
                     screen: 'WebViewPage',
                     title:'网页',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps:{
                         url:urlStr
                     }
@@ -88,6 +89,7 @@ export default function pushJump(navigator, urlStr) {
             navigator.push({
                 screen: targetObject.screen,
                 title: targetObject.title,
+                backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                 passProps: passPropsFinal
             });
         }
