@@ -65,7 +65,7 @@ export default function pushJump(navigator, urlStr) {
 
         console.log( "首页跳转目标 = ", targetObject);
         // 首页动作, 设置切换标签页
-        if (navigator && targetObject && targetObject.tab === 0) {
+        if (navigator && targetObject) {
             navigator.switchToTab({
                 tabIndex: targetObject.tab
             });
