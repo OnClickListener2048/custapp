@@ -76,8 +76,8 @@ export default class LoginPage extends Component {
             submitButtonMarginTop: 50, // 微信登录按钮和上方的间距
             openMobileLogin: false, // 是否启用手机号登陆模式, 仅针对iOS AppStore提审
             mobileLogin: false, // 显示手机号登陆模式, 仅针对iOS AppStore提审
-            passwordValid: false,
-            password: '',
+            passwordValid: false, // 手机模式密码
+            password: '', // 手机模式密码有效
             access_token: '',
         };
 
