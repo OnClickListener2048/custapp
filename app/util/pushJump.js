@@ -42,7 +42,7 @@ export default function pushJump(navigator, urlStr) {
         console.log( "跳转目标 components = ", components);
         let uri = components.scheme + "://" + components.host + components.path;
         console.log( "跳转目标 uri = ", uri);
-        if(components.scheme === 'http' || components.scheme === 'http') {
+        if(components.scheme === 'http' || components.scheme === 'https') {
             console.log( "跳转WebView = ", urlStr);
             // 首页动作, 设置切换标签页
             if (navigator && urlStr && urlStr.length > 0) {
