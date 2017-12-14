@@ -51,13 +51,19 @@ export default class MyOrderPage extends BComponent {
     }
     _leftItem(){
         return (
-            <TouchableWithoutFeedback style={{width:44,height:50}}  onPress={()=>this.props.navigator.pop()}>
-                <Image style={{marginLeft:10}} source={require('../../img/left.png')} />
+            <TouchableWithoutFeedback onPress={()=>this.props.navigator.pop()}>
+                <View style={{width:50,height:44, justifyContent:'center'}}>
+                    <Image style={{marginLeft:10}} source={require('../../img/left.png')} />
+                </View>
             </TouchableWithoutFeedback>
 
         )
     }
-
+    _rightItem(){
+        return (
+            <View style={{width:50,height:44}} />
+        )
+    }
     _titleItem(){
 
         if(this.state.isCompanies){
@@ -237,7 +243,7 @@ export default class MyOrderPage extends BComponent {
         if(this.state.loadState == 'success') {
             return (
                 <View style={{flex:1}}>
-                    <PLPCustomNavBar leftItem={this._leftItem.bind(this)} titleItem={this._titleItem.bind(this)} />
+                    <PLPCustomNavBar leftItem={this._leftItem.bind(this)} rightItem={this._rightItem.bind(this)} titleItem={this._titleItem.bind(this)} />
                     <ScrollableTabView
                         renderTabBar={() => <CustomTabBar/>}
                         style={styles.container}
@@ -282,7 +288,7 @@ export default class MyOrderPage extends BComponent {
         }else{
             return(
                 <View style={{flex:1}}>
-                    <PLPCustomNavBar leftItem={this._leftItem.bind(this)} titleItem={this._titleItem.bind(this)} />
+                    <PLPCustomNavBar leftItem={this._leftItem.bind(this)} rightItem={this._rightItem.bind(this)} titleItem={this._titleItem.bind(this)} />
                     <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
 
                 </View>

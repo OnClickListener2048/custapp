@@ -102,16 +102,7 @@ export default class HomePage extends BComponent {
     componentDidMount(){
 
         this.loadData()
-        if(Platform.OS === 'ios') {
-           DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
-                DeviceEventEmitter.emit('MessagePageClickJPushMessage', message);
 
-
-                this.props.navigator.switchToTab({
-                    tabIndex: 2
-                });
-            });
-        }
     // pushJump(this.props.navigator, "pilipa://view.orders.detail?id=123456&test=你好");
     //     pushJump(this.props.navigator, "pilipa://view.orders");
 //         pushJump( this.props.navigator, "pilipa://tab.me");
