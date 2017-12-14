@@ -151,6 +151,7 @@
                         android:layout_height="wrap_content"
                         android:tag="beta_upgrade_feature"
                         android:text="feature"
+                        android:lineSpacingExtra="4dp"
                         android:textColor="#273238"
                         android:layout_marginRight="30dp"
                         android:layout_marginLeft="30dp"
