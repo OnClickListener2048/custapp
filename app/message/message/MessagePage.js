@@ -61,9 +61,9 @@ export default class MessagePage extends BComponent {
                 });
                 if(Platform.OS === 'ios') {
 
-                    console.log('嘎嘎嘎1', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
+                    // console.log('嘎嘎嘎1', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
                     if (this.state.jpushMessage) {
-                        console.log('嘎嘎嘎2', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
+                        // console.log('嘎嘎嘎2', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
 
                         pushJump(this.props.navigator, this.state.jpushMessage.url);
 
@@ -89,10 +89,6 @@ export default class MessagePage extends BComponent {
         }
 
     }
-
-
-
-
     componentDidMount() {
 
         //打开即可
