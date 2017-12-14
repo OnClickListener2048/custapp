@@ -115,6 +115,7 @@ export default class HomePage extends BComponent {
     // pushJump(this.props.navigator, "pilipa://view.orders.detail?id=123456&test=你好");
     //     pushJump(this.props.navigator, "pilipa://view.orders");
 //         pushJump( this.props.navigator, "pilipa://tab.me");
+//         pushJump( this.props.navigator, "http://www.beansoft.biz");
     }
 
 
