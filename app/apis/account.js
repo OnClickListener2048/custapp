@@ -74,6 +74,10 @@ export function about() {
     return postApi('/app/v0/about');
 }
 
+// iOS 提审登陆信息
+export function mobilelogin() {
+    return getApi('/api/v1/user/mobilelogin/option');
+}
 
 // // 图片验证码
 // export async function sendImageVerifyCode(phone = '') {

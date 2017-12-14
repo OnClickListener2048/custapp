@@ -2,6 +2,8 @@ import pushJumpData from '../data/PushJumpScreen';// 页面跳转规则
 import pushJumpDataHome from '../data/PushJumpHome';// 首页标签规则
 import * as URI from "uri-js";
 import queryString from "query-string";
+import deviceLog from 'react-native-device-log';
+const log = deviceLog;
 
 console.log(pushJumpData[0].title);
 
@@ -48,7 +50,7 @@ export default function pushJump(navigator, urlStr) {
 
         console.log( "首页跳转目标 = ", targetObject);
         // 首页动作, 设置切换标签页
-        if (navigator && targetObject && targetObject.tab) {
+        if (navigator && targetObject && targetObject.tab === 0) {
             navigator.switchToTab({
                 tabIndex: targetObject.tab
             });

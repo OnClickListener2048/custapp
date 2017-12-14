@@ -74,6 +74,11 @@ export default class LoginPage extends Component {
             isInWechatLoading: false,//是否正在进行微信登录中, 避免重复点击
             centerBlankHeight: 40, // logo区域和下方的间距
             submitButtonMarginTop: 50, // 微信登录按钮和上方的间距
+            openMobileLogin: false, // 是否启用手机号登陆模式, 仅针对iOS AppStore提审
+            mobileLogin: false, // 显示手机号登陆模式, 仅针对iOS AppStore提审
+            passwordValid: false,
+            password: '',
+            access_token: '',
         };
 
         // this.state.mobile = props.mobile;
@@ -107,9 +112,9 @@ export default class LoginPage extends Component {
         this.setState({isInWechatLoading: true});
         let loading = SActivityIndicator.show(true, "尝试微信登录中...");
 
-        let _timer = setTimeout(()=>{
+        let _timer = setTimeout(() => {
             SActivityIndicator.hide(loading);
-            if(this.state.isInWechatLoading) {
+            if (this.state.isInWechatLoading) {
                 this.setState({isInWechatLoading: false});//10秒后可点击返回
                 Toast.show("操作超时");
             }
@@ -132,8 +137,7 @@ export default class LoginPage extends Component {
                         console.log('wechat token responseData', responseData);
                         this.setState({isInWechatLoading: false});
                         let result = JSON.parse(responseData);
-                        console.log('result',result)
-                        if (result.code === 0 && result.access_token !== undefined) {
+                        if (result.code === 0 && result.access_token) {
                             console.log('save access_token');
 
                             UserInfoStore.setUserToken(result.access_token).then(
@@ -162,7 +166,34 @@ export default class LoginPage extends Component {
             });
     };
 
+    BUTTONS = [
+        '账号密码登陆',
+        '微信登录',
+        '取消',
+    ];
+    DESTRUCTIVE_INDEX = 3;
+    CANCEL_INDEX = 2;
+
+    showActionSheet = () => {
+        ActionSheetIOS.showActionSheetWithOptions({
+                options: this.BUTTONS,
+                cancelButtonIndex: this.CANCEL_INDEX,
+            },
+            (buttonIndex) => {
+                this.setState({mobileLogin: buttonIndex === 0});
+                if (buttonIndex === 1) {
+                    this._doWeChatLogin();
+                }
+            });
+    };
+
+
     _goWechat() {
+        if (Platform.OS === 'ios' && this.state.openMobileLogin) {
+            this.showActionSheet();
+            return;
+        }
+
         WeChat.isWXAppInstalled().then(
             v => {
                 console.log(v);
@@ -218,6 +249,8 @@ export default class LoginPage extends Component {
 
     // 返回
     pop() {
+        // 发送通知
+        DeviceEventEmitter.emit('loginSuccess', true);
         //登录后刷新服务页面的数据
         DeviceEventEmitter.emit('ChangeCompany');
         DeviceEventEmitter.emit('ReloadMessage');
@@ -236,19 +269,31 @@ export default class LoginPage extends Component {
     // 准备加载组件
     componentWillMount() {
         // 发送通知
+        DeviceEventEmitter.emit('isHiddenTabBar', true);
         let deviceModel = DeviceInfo.getModel();
         // iPad 特殊处理, 便于苹果审核通过
-        if(deviceModel && deviceModel.toLowerCase().includes('ipad')) {
-            this.setState({centerBlankHeight : 0, submitButtonMarginTop : 0});
+        if (deviceModel && deviceModel.toLowerCase().includes('ipad')) {
+            this.setState({centerBlankHeight: 0, submitButtonMarginTop: 0});
         }
 
+        apis.mobilelogin().then(
+            v => {
+                console.log(v);
+                console.log(v.open);
+                // v.open = !v.open;
+                this.setState({openMobileLogin: v.open});
+                this.setState({mobileLogin: v.open});
+                this.setState({openMobileInfo: v});
+            }, e => {
+                console.log(e);
+            }
+        );
 
         // let {isReset = false } = this.props;// 重置, 清理所有登录信息
         //
         // if (isReset) {
         //     loginJumpSingleton.reset();
         // }
-
 
 
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
@@ -272,6 +317,7 @@ export default class LoginPage extends Component {
     // 准备销毁组件
     componentWillUnmount() {
         // 发送通知
+        DeviceEventEmitter.emit('isHiddenTabBar', false);
         loginJumpSingleton.isJumpingLogin = false;
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
@@ -428,7 +474,7 @@ export default class LoginPage extends Component {
 
     // 读取用户信息
     readUserInfo() {
-        let loading = SActivityIndicator.show(true, "读取用户信息中...");
+        let loading = SActivityIndicator.show(true, "载入中...");
         apis.userInfo().then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
@@ -544,17 +590,134 @@ export default class LoginPage extends Component {
     }
 
     updateMobile(mobile) {
-// 如果手机号改了, 马上就重置获取验证码?
-        if (this.refs.timerButton && this.refs.timerButton.state.counting) {
-            this.refs.timerButton.reset();
-        }
-        this.setState({timerButtonClicked: false});
-
         mobile = mobile.replace(/[^\d]/g, '');// 过滤非数字输入
         let mobileValid = mobile.length > 0 && (mobile.match(/^([0-9]{11})?$/)) !== null;
         let mobileNotEmpty = mobile.length > 0;
-        this.setState({mobile, mobileValid, mobileNotEmpty, smsCode: '', smsCodeValid: false, vCode: ''});
+        this.setState({mobile, mobileValid, mobileNotEmpty, vCode: ''});
     }
+
+    // 执行账号登陆逻辑
+    _doPhoneLogin = () => {
+        let loading = SActivityIndicator.show(true, "登录中...");
+        let _timer = setTimeout(() => {
+            SActivityIndicator.hide(loading);
+            clearTimeout(_timer);
+            let openMobileInfo = this.state.openMobileInfo;
+
+            if (openMobileInfo && openMobileInfo.mobile === this.state.mobile && openMobileInfo.passwd === this.state.password
+                && openMobileInfo.token) {
+                UserInfoStore.setUserToken(openMobileInfo.token).then(
+                    v => {
+                        this.readUserInfo(); // 获取用户信息
+                    },
+                    e => console.log(e.message)
+                );
+            } else {
+                Alert.alert("对不起", "您输入的手机号或密码不正确");
+            }
+        }, 1500);
+    };
+
+    // 渲染手机登陆界面
+    renderMobileLogin = () => {
+        if (this.state.mobileLogin) {
+            return (
+                <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
+                    {backgroundColor: 'white'}]}
+                                      keyboardVerticalOffset={0}>
+                    <View style={{height: 40}}/>
+                    <View style={styles.textInputContainer}>
+
+                        <View style={styles.textInputWrapper}>
+                            <TextInput underlineColorAndroid='transparent' maxLength={11}
+                                       keyboardType='numeric' value={this.state.mobile}
+                                       placeholderTextColor='#BABABA'
+                                       style={styles.textInput} placeholder='手机号码' returnKeyType='next'
+                                       onChangeText={
+                                           (mobile) => {
+                                               this.updateMobile(mobile);
+                                           }
+                                       }/>
+                        </View>
+                    </View>
+
+
+                    {/*   密码 */}
+                    <View style={[styles.textInputContainer,
+                        {marginTop: 2}]}>
+
+                        <View style={styles.textInputWrapper}>
+                            <TextInput underlineColorAndroid='transparent' maxLength={11}
+                                       keyboardType='default' value={this.state.password}
+                                       secureTextEntry={true}
+                                       placeholderTextColor='#BABABA'
+                                       style={styles.textInput} placeholder='密码' returnKeyType='next'
+                                       onChangeText={
+                                           (password) => {
+                                               this.setState({password})
+                                               let passwordValid = (password.length >= 6);
+                                               this.setState({password, passwordValid});
+                                               if (passwordValid) {
+                                                   dismissKeyboard();
+                                               }
+                                           }
+                                       }
+
+                                       onBlur={() => {
+                                           dismissKeyboard();
+                                       }}
+
+                                       onSubmitEditing={() => {
+                                           dismissKeyboard();
+                                       }}
+
+                            />
+                        </View>
+                    </View>
+
+                    {/*  协议 */
+                    }
+                    <View style={[styles.textInputContainer,
+                        {marginTop: 2}]}>
+                        <TouchableOpacity
+                            style={{alignSelf: 'center'}} onPress={() => {
+                            dismissKeyboard();
+                            let _acceptLic = !this.state.acceptLic;
+                            console.log('_acceptLic', _acceptLic);
+                            this.setState({acceptLic: _acceptLic});
+                        }}>
+                        </TouchableOpacity>
+                        <View style={[styles.textInputWrapper,
+                            {justifyContent: 'flex-start', borderBottomWidth: 0}]}>
+                            <Text style={{
+                                color: (this.state.acceptLic ? '#BABABA' : '#BABABA'),
+                                alignSelf: 'center',
+                                marginRight: 1,
+                                fontSize: 12
+                            }}
+                            >点击登录即视为同意</Text>
+                            <Text style={{
+                                color: (this.state.acceptLic ? '#BABABA' : '#BABABA'),
+                                fontSize: (Platform.OS === 'ios') ? 12 : 11,
+                                alignSelf: 'center',
+                                textDecorationLine: 'underline',
+                                marginRight: 1
+                            }}
+                            >《用户注册和使用协议》</Text>
+                        </View>
+
+                    </View>
+
+                    <SubmitButton onPress={this._doPhoneLogin}
+                                  isEnabled={(this.state.mobileValid && this.state.passwordValid)}
+                                  text="登录"
+                    />
+                </KeyboardAvoidingView>
+            );
+        }
+
+        return null;
+    };
 
     render() {
         return (
@@ -588,6 +751,11 @@ export default class LoginPage extends Component {
                     <Image source={require('../img/login_icon.png')} style={[styles.bzLogo,
                         {marginTop: px2dp(this.state.headPad)}]}/>
 
+                    {
+                        this.renderMobileLogin()
+                    }
+
+                    {!this.state.openMobileLogin &&
                     <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
                         {backgroundColor: 'white'}]}
                                           keyboardVerticalOffset={0}>
@@ -596,21 +764,32 @@ export default class LoginPage extends Component {
                         <Image style={[styles.wechart_icon, {justifyContent: 'center'}]}
                                source={require('../img/cloud.png')}/>
 
-                        {/*<TouchableWithoutFeedback onPress={this._doLogin}>*/}
-                        {/*<View style={[styles.buttonview,*/}
-                        {/*{*/}
-                        {/*backgroundColor: (*/}
-                        {/*(this.state.mobileValid && this.state.acceptLic && this.state.smsCodeValid  ) ? '#ef0c35' : '#e6e6e6')*/}
-                        {/*}]}>*/}
-                        {/*<Text style={styles.logintext}>登录</Text>*/}
-                        {/*</View>*/}
-                        {/*</TouchableWithoutFeedback>*/}
-                        <SubmitButtonWithIcon onPress={this._goWechat} buttonStyle={{marginTop: this.state.submitButtonMarginTop}}
+                        <SubmitButtonWithIcon onPress={this._goWechat}
+                                              buttonStyle={{marginTop: this.state.submitButtonMarginTop}}
                                               isEnabled={!this.state.isInWechatLoading}
                                               text={this.state.isInWechatLoading ? "登录中..." : "微信登录"}
                         />
 
                     </KeyboardAvoidingView>
+                    }
+
+                    {this.state.openMobileLogin && !this.state.mobileLogin &&
+                    <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
+                        {backgroundColor: 'white'}]}
+                                          keyboardVerticalOffset={0}>
+                        <View style={{height: this.state.centerBlankHeight}}/>
+
+                        <Image style={[styles.wechart_icon, {justifyContent: 'center'}]}
+                               source={require('../img/cloud.png')}/>
+
+                        <SubmitButton onPress={this._goWechat}
+                                      isEnabled={true}
+                                      buttonStyle={{marginTop: this.state.submitButtonMarginTop}}
+                                      text="登录"
+                        />
+
+                    </KeyboardAvoidingView>
+                    }
                 </View>
             </TouchableWithoutFeedback>
         );
