@@ -48,7 +48,6 @@ export default class MinePage extends BComponent {
             this.initPage();
             this.checkCompany()
         }
-
     }
     //查公司接口超级慢 页面每次进入 调一次
     checkCompany(){
@@ -59,18 +58,17 @@ export default class MinePage extends BComponent {
                     //获取公司
                     apis.getCompany(user.mobilePhone).then(
                         (companyInfo) => {
-                            if (companyInfo && companyInfo.list) {
+                            if (companyInfo) {
 
                                 let tmpCompaniesArr = companyInfo.list;
 
-                                if (tmpCompaniesArr.length > 0) {
 
-                                    let companyId = tmpCompaniesArr[0].id
+                                UserInfoStore.getCompanyArr().then(
+                                    (companyArr) => {
+                                        if (JSON.stringify(tmpCompaniesArr) != JSON.stringify(companyArr)) {
 
-                                    UserInfoStore.getCompany().then(
-                                        (company) => {
-                                            if (company && company.id && companyId && companyId!=company.id) {
-
+                                            if(tmpCompaniesArr && tmpCompaniesArr.length>0){
+                                                //有公司
                                                 UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
                                                     (s) => {
                                                         console.log("公司信息保存成功");
@@ -83,7 +81,7 @@ export default class MinePage extends BComponent {
                                                 UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
                                                     (s) => {
                                                         console.log("公司信息保存成功");
-                                                        this.setState({company: company.infos[0].value});
+                                                        this.setState({company: tmpCompaniesArr[0].infos[0].value});
                                                         DeviceEventEmitter.emit('ChangeCompany');
 
                                                     },
@@ -91,13 +89,24 @@ export default class MinePage extends BComponent {
                                                         console.log("公司信息保存错误:", e);
                                                     },
                                                 );
-                                            }
-                                        },
-                                        (e) => {
+                                            }else{
+                                                //没公司
+                                                UserInfoStore.removeCompany().then((s)=>{
+                                                    this.setState({company: ''});
+                                                    DeviceEventEmitter.emit('ChangeCompany');
+                                                },(e)=>{
 
-                                        },
-                                    );
-                                }
+                                                });
+                                                UserInfoStore.removeCompanyArr().then();
+                                            }
+
+
+                                        }
+                                    },
+                                    (e) => {
+
+                                    },
+                                );
                             }
                         },
                         (e) => {
@@ -123,6 +132,7 @@ export default class MinePage extends BComponent {
 
     // 准备加载组件
     componentWillMount() {
+
         this.initPage();
         this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
             console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
@@ -232,16 +242,16 @@ export default class MinePage extends BComponent {
                         onPress = {this._call.bind(this,'')}
                     />
 
-                    <CommenCell
-                        leftText="查看日志"
-                        style={{marginTop: 10}}
-                        onPress={ () => {
-                            this.push({
-                                screen: 'LogViewer',
-                                title:'查看日志',
-                            });
-                        }}
-                    />
+                    {/*<CommenCell*/}
+                        {/*leftText="查看日志"*/}
+                        {/*style={{marginTop: 10}}*/}
+                        {/*onPress={ () => {*/}
+                            {/*this.push({*/}
+                                {/*screen: 'LogViewer',*/}
+                                {/*title:'查看日志',*/}
+                            {/*});*/}
+                        {/*}}*/}
+                    {/*/>*/}
                 </ScrollView>
             </View>
 
