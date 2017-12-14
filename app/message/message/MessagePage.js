@@ -130,6 +130,12 @@ export default class MessagePage extends BComponent {
 
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
+
+
+
+            JPushModule.setBadge(0, (badgeNumber) => {
+            });
+
             //应用杀死 点击通知跳转
             this.refreshEmitter = DeviceEventEmitter.addListener('MessagePageClickJPushMessage', (message) => {
 
