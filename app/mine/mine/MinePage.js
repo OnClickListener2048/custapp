@@ -232,16 +232,16 @@ export default class MinePage extends BComponent {
                         onPress = {this._call.bind(this,'')}
                     />
 
-                    <CommenCell
-                        leftText="查看日志"
-                        style={{marginTop: 10}}
-                        onPress={ () => {
-                            this.push({
-                                screen: 'LogViewer',
-                                title:'查看日志',
-                            });
-                        }}
-                    />
+                    {/*<CommenCell*/}
+                        {/*leftText="查看日志"*/}
+                        {/*style={{marginTop: 10}}*/}
+                        {/*onPress={ () => {*/}
+                            {/*this.push({*/}
+                                {/*screen: 'LogViewer',*/}
+                                {/*title:'查看日志',*/}
+                            {/*});*/}
+                        {/*}}*/}
+                    {/*/>*/}
                 </ScrollView>
             </View>
 
