@@ -2,6 +2,9 @@ import pushJumpData from '../data/PushJumpScreen';// 页面跳转规则
 import pushJumpDataHome from '../data/PushJumpHome';// 首页标签规则
 import * as URI from "uri-js";
 import queryString from "query-string";
+import deviceLog from 'react-native-device-log';
+import {H5_URL} from "../config";
+const log = deviceLog;
 
 console.log(pushJumpData[0].title);
 
@@ -39,6 +42,20 @@ export default function pushJump(navigator, urlStr) {
         console.log( "跳转目标 components = ", components);
         let uri = components.scheme + "://" + components.host + components.path;
         console.log( "跳转目标 uri = ", uri);
+        if(components.scheme === 'http' || components.scheme === 'http') {
+            console.log( "跳转WebView = ", urlStr);
+            // 首页动作, 设置切换标签页
+            if (navigator && urlStr && urlStr.length > 0) {
+                navigator.push({
+                    screen: 'WebViewPage',
+                    title:'网页',
+                    passProps:{
+                        url:urlStr
+                    }
+                });
+            }
+            return;
+        }
         let query = components.query;
         let passProps = {};
         if (query) {
@@ -48,7 +65,7 @@ export default function pushJump(navigator, urlStr) {
 
         console.log( "首页跳转目标 = ", targetObject);
         // 首页动作, 设置切换标签页
-        if (navigator && targetObject && targetObject.tab) {
+        if (navigator && targetObject && targetObject.tab === 0) {
             navigator.switchToTab({
                 tabIndex: targetObject.tab
             });

@@ -81,6 +81,11 @@ export default class MessagePage extends BComponent {
 
         }
 
+        if(event.id === 'didAppear'){
+        }
+
+
+
         if(event.id === 'willDisappear'){
             this.setState({
                 isAppear : false
