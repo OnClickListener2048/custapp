@@ -34,8 +34,8 @@ if(DEBUG) {// 测试环境变量, 上线时应删除
     // SCHEME = 'http';
     // DOMAIN_API = '192.168.200.150:3000';
 }
-// DOMAIN_API = 'x-www.i-counting.cn';
-// H5_URL = 'https://x-www.i-counting.cn/'
+DOMAIN_API = 'x-www.i-counting.cn';
+H5_URL = 'https://x-www.i-counting.cn/'
 export let API_BASE_URL = `${SCHEME}://${DOMAIN_API}`;// API服务基础地址
 // export let WWW_BASE_URL = `${SCHEME}://${DOMAIN_WWW}`;
 // export let WEB_BASE_URL = `${SCHEME}://${DOMAIN_WEB}`;
