@@ -24,6 +24,7 @@ import {scaleSize} from  '../../util/ScreenUtil'
 import Toast from 'react-native-root-toast'
 import pushJump from '../../util/pushJump';
 
+import * as wechat from 'react-native-wechat'
 
 
 import {H5_URL} from '../../config'
@@ -100,7 +101,7 @@ export default class HomePage extends BComponent {
 
 
     componentDidMount(){
-
+        
         this.loadData()
 
     // pushJump(this.props.navigator, "pilipa://view.orders.detail?id=123456&test=你好");

@@ -43,8 +43,8 @@
 		2DCD954D1E0B4F2C00145EB5 /* corpappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* corpappTests.m */; };
 		35BFB7DB03514790937103A0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B80FA943F36647FB91972A89 /* CoreGraphics.framework */; };
 		3D02EE5B46134FCEA3432D97 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40C8A4E4C39249C3A0FD4352 /* FontAwesome.ttf */; };
-		4C4DE59F1F67E31700FFA149 /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4DE58A1F67E1CC00FFA149 /* libRCTWeChat.a */; };
 		4C4EDEA51FD927E300A71EAD /* DCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4EDEA21FD927E200A71EAD /* DCLog.m */; };
+		4C573E061FE39C5600AA2E92 /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4DE58A1F67E1CC00FFA149 /* libRCTWeChat.a */; };
 		4C5A46391FD91005008AAE26 /* NEHTTPEye.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46241FD91005008AAE26 /* NEHTTPEye.m */; };
 		4C5A463A1FD91005008AAE26 /* NEHTTPEyeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46261FD91005008AAE26 /* NEHTTPEyeDetailViewController.m */; };
 		4C5A463B1FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46281FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m */; };
@@ -568,8 +568,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C573E061FE39C5600AA2E92 /* libRCTWeChat.a in Frameworks */,
 				4CB8A6BA1F720A1A001FC1F3 /* libRCTClearCacheModule.a in Frameworks */,
-				4C4DE59F1F67E31700FFA149 /* libRCTWeChat.a in Frameworks */,
 				4CB73EE01F429D120018C00A /* libsqlite3.tbd in Frameworks */,
 				4CB73ED81F429BD70018C00A /* UMMobClick.framework in Frameworks */,
 				CC2CC0991F31EB340095871E /* libZTAlertView.a in Frameworks */,
