@@ -74,8 +74,8 @@ export default class LoginPage extends Component {
             isInWechatLoading: false,//是否正在进行微信登录中, 避免重复点击
             centerBlankHeight: 40, // logo区域和下方的间距
             submitButtonMarginTop: 50, // 微信登录按钮和上方的间距
-            openMobileLogin: false, // 是否启用手机号登陆模式, 仅针对iOS AppStore提审
-            mobileLogin: false, // 显示手机号登陆模式, 仅针对iOS AppStore提审
+            openMobileLogin: true, // 是否启用手机号登陆模式, 仅针对iOS AppStore提审
+            mobileLogin: true, // 显示手机号登陆模式, 仅针对iOS AppStore提审
             passwordValid: false, // 手机模式密码
             password: '', // 手机模式密码有效
             loading: false, // 是否载入中, 载入中不能点击任何按钮
@@ -291,6 +291,8 @@ export default class LoginPage extends Component {
                 this.setState({openMobileInfo: v});
             }, e => {
                 console.log(e);
+                this.setState({openMobileLogin: false});
+                this.setState({mobileLogin: false});
             }
         );
 
