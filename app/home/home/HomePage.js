@@ -57,16 +57,16 @@ const headerData = [
         eventId:'enterpriseChange'
     },
     {
+        title:'免费核名',
+        logo:require('../../img/check_name.png'),
+        url:'pilipa://view.company.check',
+        eventId:'homepage_checkname'
+    },
+    {
         title:'加盟合作',
         logo:require('../../img/registerConpany1.png'),
         url:H5_URL+'invest?platform=app',
         eventId:'leagueCooperation'
-    },
-    {
-        title:'免费核名',
-        logo:require('../../img/registerConpany1.png'),
-        url:'pilipa://view.company.check',
-        eventId:'homepage_checkname'
     }
 ]
 const footData = [
