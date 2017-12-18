@@ -33,40 +33,40 @@ const itemMargin = scaleSize(10)
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 const headerData = [
     {
-        'title':'注册公司',
-        "logo":require('../../img/register.png'),
-        'url':H5_URL+'register?platform=app',
-        'eventId':'registerCompany'
+        title:'注册公司',
+        logo:require('../../img/register.png'),
+        url:H5_URL+'register?platform=app',
+        eventId:'registerCompany'
     },
     {
-        'title':'记账报税',
-        "logo":require('../../img/Accounting.png'),
-        'url':H5_URL+'accounting?platform=app',
-        'eventId':'accountingAndTax'
+        title:'记账报税',
+        logo:require('../../img/Accounting.png'),
+        url:H5_URL+'accounting?platform=app',
+        eventId:'accountingAndTax'
     },
     {
-        'title':'财务报表',
-        "logo":require('../../img/Finance.png'),
-        'url':'pilipa://tab.service',
-        'eventId':'financialReport'
+        title:'财务报表',
+        logo:require('../../img/Finance.png'),
+        url:'pilipa://tab.service',
+        eventId:'financialReport'
     },
     {
-        'title':'企业变更',
-        "logo":require('../../img/changeConpany.png'),
-        'url':H5_URL+'change?platform=app',
-        'eventId':'enterpriseChange'
+        title:'企业变更',
+        logo:require('../../img/changeConpany.png'),
+        url:H5_URL+'change?platform=app',
+        eventId:'enterpriseChange'
     },
     {
-        'title':'加盟合作',
-        "logo":require('../../img/registerConpany1.png'),
-        'url':H5_URL+'invest?platform=app',
-        'eventId':'leagueCooperation'
+        title:'加盟合作',
+        logo:require('../../img/registerConpany1.png'),
+        url:H5_URL+'invest?platform=app',
+        eventId:'leagueCooperation'
     },
     {
-        'title':'免费核名',
-        "logo":require('../../img/registerConpany1.png'),
-        'url':'pilipa://view.company.check',
-        'eventId':'homepage_checkname'
+        title:'免费核名',
+        logo:require('../../img/registerConpany1.png'),
+        url:'pilipa://view.company.check',
+        eventId:'homepage_checkname'
     }
 ]
 const footData = [
@@ -368,16 +368,19 @@ export default class HomePage extends BComponent {
 
         let bannerData = [
             {
+                title:'服务',
                 url:'pilipa://tab.service',
                 image:require('../../img/banner.png'),
                 eventId:''
             },
             {
+                title:'加盟合作',
                 url:H5_URL+'invest?platform=app',
                 image:require('../../img/banner.png'),
                 eventId:''
             },
             {
+                title:'免费核名',
                 url:'pilipa://view.company.check',
                 image:require('../../img/banner.png'),
                 eventId:''
@@ -406,23 +409,16 @@ export default class HomePage extends BComponent {
     }
     _goBannerDetail(item){
         UMTool.onEvent(item.eventId)
-        pushJump(this.props.navigator, item.url);
+        pushJump(this.props.navigator, item.url,item.title);
     }
     _goProductDetail(item){
 
-        UMTool.onEvent(item.eventsid)
-        this.push({
-            screen: 'WebViewPage',
-            title:item.name,
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-            passProps:{
-                url:item.url
-            }
-        });
+        UMTool.onEvent(item.eventId)
+        pushJump(this.props.navigator, item.url,item.name);
     }
     _goColumnDetail(index,item){
         UMTool.onEvent(item.eventId)
-        pushJump(this.props.navigator, item.url);
+        pushJump(this.props.navigator, item.url,item.title);
     }
 
 

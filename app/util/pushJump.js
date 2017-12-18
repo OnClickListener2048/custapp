@@ -36,7 +36,7 @@ for (let [key, value] of homeTabMap.entries()) {
  * @param navigator
  * @param urlStr - pilipa://view.services/cashflow?companyid=<111>&date=<2016-06>
  */
-export default function pushJump(navigator, urlStr) {
+export default function pushJump(navigator, urlStr,urlTitle = '网页') {
     try {
         let components = URI.parse(urlStr);
         console.log( "跳转目标 components = ", components);
@@ -48,7 +48,7 @@ export default function pushJump(navigator, urlStr) {
             if (navigator && urlStr && urlStr.length > 0) {
                 navigator.push({
                     screen: 'WebViewPage',
-                    title:'网页',
+                    title:urlTitle,
                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps:{
                         url:urlStr
