@@ -45,15 +45,17 @@ export default class WebViewPage extends BComponent {
     }
 
     componentDidMount() {
-        this.setState({ progress:0.9 });
+        this.setState({ progress:0.95 });
 
     }
     _onLoadEnd(){
         this.setState({ progress:1 });
 
         let _this = this;
-        setTimeout(function () {
+        this._hiddenProgresssTimer = setTimeout(function () {
             _this.setState({ isShowProgress:false });
+            clearTimeout(this._hiddenProgresssTimer);
+
         },second)
     }
 
