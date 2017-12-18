@@ -13,8 +13,7 @@ import {
     StyleSheet,
     Animated,
     Platform,
-    DeviceEventEmitter,
-    ImageBackground
+    TouchableWithoutFeedback
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 import * as apis from '../../apis';
@@ -24,7 +23,7 @@ import {scaleSize} from  '../../util/ScreenUtil'
 import Toast from 'react-native-root-toast'
 import pushJump from '../../util/pushJump';
 
-import * as wechat from 'react-native-wechat'
+import Swiper from 'react-native-swiper';
 
 
 import {H5_URL} from '../../config'
@@ -34,24 +33,40 @@ const itemMargin = scaleSize(10)
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 const headerData = [
     {
-        'title':'注册公司',
-        "logo":require('../../img/register.png')
+        title:'注册公司',
+        logo:require('../../img/register.png'),
+        url:H5_URL+'register?platform=app',
+        eventId:'registerCompany'
     },
     {
-        'title':'记账报税',
-        "logo":require('../../img/Accounting.png')
+        title:'记账报税',
+        logo:require('../../img/Accounting.png'),
+        url:H5_URL+'accounting?platform=app',
+        eventId:'accountingAndTax'
     },
     {
-        'title':'财务报表',
-        "logo":require('../../img/Finance.png')
+        title:'财务报表',
+        logo:require('../../img/Finance.png'),
+        url:'pilipa://tab.service',
+        eventId:'financialReport'
     },
     {
-        'title':'企业变更',
-        "logo":require('../../img/changeConpany.png')
+        title:'企业变更',
+        logo:require('../../img/changeConpany.png'),
+        url:H5_URL+'change?platform=app',
+        eventId:'enterpriseChange'
     },
     {
-        'title':'加盟合作',
-        "logo":require('../../img/registerConpany1.png')
+        title:'免费核名',
+        logo:require('../../img/check_name.png'),
+        url:'pilipa://view.company.check',
+        eventId:'homepage_checkname'
+    },
+    {
+        title:'加盟合作',
+        logo:require('../../img/registerConpany1.png'),
+        url:H5_URL+'invest?platform=app',
+        eventId:'leagueCooperation'
     }
 ]
 const footData = [
@@ -80,6 +95,8 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
+
+
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -101,13 +118,7 @@ export default class HomePage extends BComponent {
 
 
     componentDidMount(){
-
         this.loadData()
-
-    // pushJump(this.props.navigator, "pilipa://view.orders.detail?id=123456&test=你好");
-    //     pushJump(this.props.navigator, "pilipa://view.orders");
-//         pushJump( this.props.navigator, "pilipa://tab.me");
-//         pushJump( this.props.navigator, "http://www.beansoft.biz");
     }
 
 
@@ -327,19 +338,20 @@ export default class HomePage extends BComponent {
         )
     }
     _listHeaderComponent(){
+
+        let col = 3;
+        let marginLeft= scaleSize(30);
+        let width = (deviceWidth - marginLeft*(col+1))/col
+
         return(
             <View style={{width:DeviceInfo.width}}>
-                <TouchableOpacity onPress={this._goVerifyName.bind(this)}>
-                    <Image resizeMode="cover" source={require('../../img/banner.png')} style={{width:deviceWidth,height:DeviceInfo.width*0.42}}>
-
-                    </Image>
-                </TouchableOpacity>
-                <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white'}}>
+                {this._renderBannerView()}
+                <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
                     {
                         headerData.map((item,i)=>{
                             return(
-                                <TouchableOpacity key={i} style={{flex:1}} onPress={()=>this._goColumnDetail(i,item)}>
-                                    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                                <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,item)}>
+                                    <View style={{justifyContent:'center',alignItems:'center',width,marginLeft}}>
                                         <Image style={{marginTop:20,width:45,height:45}} source={item.logo }/>
                                         <Text  style={{marginTop:10,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
                                     </View>
@@ -352,108 +364,63 @@ export default class HomePage extends BComponent {
 
         )
     }
+    _renderBannerView(){
 
+        let bannerData = [
+            {
+                title:'服务',
+                url:'pilipa://tab.service',
+                image:require('../../img/banner.png'),
+                eventId:''
+            },
+            {
+                title:'加盟合作',
+                url:H5_URL+'invest?platform=app',
+                image:require('../../img/banner.png'),
+                eventId:''
+            },
+            {
+                title:'免费核名',
+                url:'pilipa://view.company.check',
+                image:require('../../img/banner.png'),
+                eventId:''
+            }
+        ]
 
+        return(
+            <Swiper
+                style={{height:deviceWidth*0.42}}
+                autoplay = {true}
+                loop = {true}
+                showsPagination = {true}
+            >
+                {
+                    bannerData.map((item,index)=>{
+                        return(
+                            <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
+                                <Image resizeMode="cover" source={item.image} style={{width:deviceWidth,height:DeviceInfo.width*0.42}} />
+                            </TouchableWithoutFeedback>
 
-    _goVerifyResultPage(){
-
-        this.push({
-            screen: 'VerifyResultPage',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-            title:'核名结果',
-        });
+                        )
+                    })
+                }
+            </Swiper>
+        );
+    }
+    _goBannerDetail(item){
+        UMTool.onEvent(item.eventId)
+        pushJump(this.props.navigator, item.url,item.title);
     }
     _goProductDetail(item){
 
-        UMTool.onEvent(item.eventsid)
-        this.push({
-            screen: 'WebViewPage',
-            title:item.name,
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-            passProps:{
-                url:item.url
-            }
-        });
+        UMTool.onEvent(item.eventId)
+        pushJump(this.props.navigator, item.url,item.name);
     }
     _goColumnDetail(index,item){
-
-        switch (index){
-            case 0:
-            {
-                UMTool.onEvent('registerCompany')
-                this.push({
-                    screen: 'WebViewPage',
-                    title:'注册公司',
-                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    passProps:{
-                        url:H5_URL+'register?platform=app'
-                    }
-                });
-            }
-                break
-            case 1:
-            {
-                UMTool.onEvent('accountingAndTax')
-                this.push({
-                    screen: 'WebViewPage',
-                    title:'记账报税',
-                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    passProps:{
-                        url:H5_URL+'accounting?platform=app'
-                    }
-                });
-            }
-                break
-            case 2:
-            {
-                this.props.navigator.switchToTab({
-                    tabIndex: 1
-                });
-                UMTool.onEvent('financialReport')
-
-            }
-                break
-            case 3:
-            {
-                UMTool.onEvent('enterpriseChange')
-                this.push({
-                    screen: 'WebViewPage',
-                    title:'企业变更',
-                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    passProps:{
-                        url:H5_URL+'change?platform=app'
-                    }
-                });
-            }
-                break
-            case 4:
-            {
-                UMTool.onEvent('leagueCooperation')
-                this.push({
-                    screen: 'WebViewPage',
-                    title:'加盟合作',
-                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    passProps:{
-                        url:H5_URL+'invest?platform=app'
-                    }
-                });
-
-            }
-                break
-            default:
-                break
-        }
-        
+        UMTool.onEvent(item.eventId)
+        pushJump(this.props.navigator, item.url,item.title);
     }
-    _goVerifyName(){
 
-        UMTool.onEvent('homepage_checkname')
-        this.push({
-            screen: 'VerifyNamePage',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-            title:'免费核名',
-        });
-    }
 
 }
 
