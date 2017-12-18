@@ -101,7 +101,7 @@ export default class HomePage extends BComponent {
 
 
     componentDidMount(){
-        
+
         this.loadData()
 
     // pushJump(this.props.navigator, "pilipa://view.orders.detail?id=123456&test=你好");

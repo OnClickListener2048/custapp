@@ -34,6 +34,7 @@
     "react-native-parabolic": "^1.1.1",
     "react-native-pathjs-charts": "0.0.31",
     "react-native-picker": "github:pilipa-cn/react-native-picker",
+    "react-native-progress": "^3.4.0",
     "react-native-pull": "^2.0.2",
     "react-native-root-toast": "github:pilipa-cn/react-native-root-toast#2.2.0-pi",
     "react-native-scrollable-tab-view": "github:pilipa-cn/react-native-scrollable-tab-view#v0.7.4-pilipa-2",
