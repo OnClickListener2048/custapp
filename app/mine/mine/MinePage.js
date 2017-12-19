@@ -14,12 +14,13 @@ import {
     Linking,
     DeviceEventEmitter
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast';
-import * as apis from '../../apis/account';
+import * as apis from '../../apis/setting';
 
 export default class MinePage extends BComponent {
 
@@ -30,7 +31,8 @@ export default class MinePage extends BComponent {
             avatar: require('../../img/head_img.png'),// 头像
             company: '请立即注册或登录',//公司名称
             logined: false,// 是否已登陆
-            updateIcon:'true',
+            updateIcon:false,
+            loadState:'success',
         };
 
         this.initPage = this.initPage.bind(this);
@@ -135,7 +137,12 @@ export default class MinePage extends BComponent {
 
     // 准备加载组件
     componentWillMount() {
-
+        //iOS不显示版本更新信息
+        // if(Platform.OS!=='iOS'){
+            //获取本APP版本信息
+            DeviceInfo.getVersion();
+            this._uploadUpdateCode('1.0.6');
+        // }
         this.initPage();
         this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
             console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
@@ -145,6 +152,34 @@ export default class MinePage extends BComponent {
 
     componentWillUnmount() {
         this.subscription.remove();
+    }
+
+    //版本更新
+    _uploadUpdateCode(versionCode){
+        apis.loadupdateCode(versionCode).then(
+            (responseData) => {
+                if (responseData.code == 0) {
+                    console.log("版本更新信息="+responseData.info.upgrade);
+                    this.setState({
+                        updateIcon:responseData.upgrade,
+                            loadState: 'success'
+                        }
+                    );
+                }else{
+                    this.setState({
+                            loadState: 'error'
+                        }
+                    );
+                }
+            },
+            (e) => {
+                this.setState({
+                    loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
+                })
+                console.log('error', e)
+
+            },
+        );
     }
 
     initPage() {
@@ -235,11 +270,17 @@ export default class MinePage extends BComponent {
                         onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
                         style={{marginTop:9}}
                     />
-                    <CommenCell
+                    {this.state.updateIcon===false?
+                        <CommenCell
                         leftText="设置"
-                        leftIcon={require('../../img/left_button.png')}
                         onPress = {this._goto.bind(this,'SettingPage','设置')}
-                    />
+                    />:
+                        <CommenCell
+                            leftText="设置"
+                            leftTextIcon={require('../../img/new_icon.png')}
+                            onPress = {this._goto.bind(this,'SettingPage','设置')}
+                        />}
+
                     <CommenCell
                         leftText="联系客服"
                         style={{marginTop:9}}

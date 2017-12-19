@@ -21,6 +21,11 @@ export async function editPhoneBind(phone = '', smsCode = '') {
     return await postApi('/app/v0/user/editPhone/bind', {phone, smsCode});
 }
 
+//获取版本信息
+export function loadupdateCode(version='') {
+    return getApi('/api/v1/upgrade/check',{version});
+}
+
 
 
 

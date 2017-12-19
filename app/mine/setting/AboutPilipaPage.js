@@ -14,6 +14,7 @@ import CommentCell from '../../view/CommenCell'
 import DeviceInfo from 'react-native-device-info';
 import BComponent from '../../base';
 import {H5_URL} from '../../config'
+import * as apis from '../../apis/setting';
 
 export default class ServiceTermPage extends BComponent {
 
@@ -21,8 +22,52 @@ export default class ServiceTermPage extends BComponent {
         super(props);
         this.state = {
             updateIcon:this.props.updateIcon,
+            loadState:'success',
         }
+        // this._uploadUpdateCode = this._uploadUpdateCode.bind(this);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    }
+
+    // 准备加载组件
+    componentWillMount() {
+        //iOS不显示版本更新信息
+        // if(Platform.OS!=='iOS'){
+        //获取本APP版本信息
+        DeviceInfo.getVersion();
+        this._uploadUpdateCode('1.0.6');
+        // }
+    }
+
+    //版本更新
+    _uploadUpdateCode(versionCode){
+        var loading = SActivityIndicator.show(true, "加载中...");
+        apis.loadupdateCode(versionCode).then(
+            (responseData) => {
+                SActivityIndicator.hide(loading);
+
+                if (responseData.code == 0) {
+                    console.log("版本更新信息="+responseData.info.upgrade);
+                    this.setState({
+                            loadState: 'success'
+                        }
+                    );
+                }else{
+                    this.setState({
+                            loadState: 'error'
+                        }
+                    );
+                }
+            },
+            (e) => {
+                SActivityIndicator.hide(loading);
+
+                this.setState({
+                    loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
+                })
+                console.log('error', e)
+
+            },
+        );
     }
 
     _aboutUs() {
@@ -60,9 +105,10 @@ export default class ServiceTermPage extends BComponent {
         }
     }
 
+    //版本更新点击事件
     _updateCode(){
         this.setState({
-            updateIcon:'false',
+            updateIcon:false,
         })
     }
 
@@ -80,15 +126,17 @@ export default class ServiceTermPage extends BComponent {
                         leftText="服务条款"
                         onPress={this._serviceTerm.bind(this)}
                     />
-                    {this.state.updateIcon==='false'?
+                    {this.state.updateIcon=== false?
                         <CommentCell
                             leftText="版本更新"
+                            style={{marginTop:9}}
                             rightText={"v"+DeviceInfo.getVersion()}
                             onPress={this._updateCode.bind(this)}
                         />:
                         <CommentCell
                             leftText="版本更新"
-                            leftIcon={require('../../img/left_button.png')}
+                            style={{marginTop:9}}
+                            leftTextIcon={require('../../img/new_icon.png')}
                             rightText={"v"+DeviceInfo.getVersion()}
                             onPress={this._updateCode.bind(this)}
                         /> }
