@@ -320,7 +320,7 @@ export default class ServicePage extends BComponent {
                             text: "再看看",
                             onPress: ()=>{
                                 console.log('you clicked cancel');
-                            },
+                            },style: 'cancel',
                         }]);
                 }}>
                     <View style={{width:deviceWidth*0.7,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
