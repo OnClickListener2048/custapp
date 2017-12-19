@@ -48,6 +48,8 @@ import AccountAndSecurity from "./mine/bindPhone/AccountAndSecurity";
 import ChangeCompanyLightBox from './view/ChangeCompanyLightBox'
 import LogViewer from "./mine/setting/LogViewer";
 
+import UpdateLightBox from './view/UpdateLightBox'
+
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -85,7 +87,8 @@ export default function () {
     reg('WebViewPage', () => WebViewPage);
     reg('AccountAndSecurity', () => AccountAndSecurity);
     reg('ChangeCompanyLightBox', () => ChangeCompanyLightBox);
-
-
     reg('LogViewer', () => LogViewer);
+    reg('UpdateLightBox', () => UpdateLightBox);
+
+
 }
