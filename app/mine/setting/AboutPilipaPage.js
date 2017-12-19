@@ -17,11 +17,15 @@ import {H5_URL} from '../../config'
 
 export default class ServiceTermPage extends BComponent {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            updateIcon:this.props.updateIcon,
+        }
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    }
+
     _aboutUs() {
-        // this.props.navigator.push({
-        //     screen: 'AboutPilipaPage',
-        //     title: '关于噼里啪'
-        // });
         this.push({
             screen: 'WebViewPage',
             title:'关于我们',
@@ -41,6 +45,28 @@ export default class ServiceTermPage extends BComponent {
     }
 
 
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event);
+
+        console.log('ApplicationCenterPage event.type', event.type+","+event.id);
+        if(event.id==='goBack'){
+            console.log("监听返回键");
+            let callback = this.props.callback;
+            if(callback) {
+                callback(this.state.updateIcon);
+            }
+            console.log("关闭页面");
+            // this.props.navigator.pop();
+        }
+    }
+
+    _updateCode(){
+        this.setState({
+            updateIcon:'false',
+        })
+    }
+
+
     render(){
         return(
             <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
@@ -54,11 +80,19 @@ export default class ServiceTermPage extends BComponent {
                         leftText="服务条款"
                         onPress={this._serviceTerm.bind(this)}
                     />
-                    <CommentCell
-                        leftText="版本更新"
-                        rightText={"v"+DeviceInfo.getVersion()}
-                        // onPress={this._aboutUs.bind(this)}
-                    />
+                    {this.state.updateIcon==='false'?
+                        <CommentCell
+                            leftText="版本更新"
+                            rightText={"v"+DeviceInfo.getVersion()}
+                            onPress={this._updateCode.bind(this)}
+                        />:
+                        <CommentCell
+                            leftText="版本更新"
+                            leftIcon={require('../../img/left_button.png')}
+                            rightText={"v"+DeviceInfo.getVersion()}
+                            onPress={this._updateCode.bind(this)}
+                        /> }
+
                 </ScrollView>
             </View>
         )}

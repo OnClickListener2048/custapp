@@ -27,10 +27,14 @@ export default class SettingPage extends BComponent {
             cacheSize: "",
             unit: "",
             logined: false,// 是否已登陆
+            updateIcon:this.props.updateIcon,
         }
+        this._updateOpenOrClose = this._updateOpenOrClose.bind(this);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentDidMount() {
+
         clearManager.getCacheSize((value, unit) => {
             if(unit == 'B'){
                 this.setState({
@@ -59,12 +63,18 @@ export default class SettingPage extends BComponent {
         return (
             <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
                 <ScrollView>
-                    <CommentCell
-                        leftText="关于噼里啪"
-                        style={{marginTop: 10}}
-                        // rightText={"v"+DeviceInfo.getVersion()}
-                        onPress={this._aboutUs.bind(this)}
-                    />
+                    {this.state.updateIcon === 'false' ?
+                        <CommentCell
+                            leftText="关于噼里啪"
+                            style={{marginTop: 10}}
+                            onPress={this._aboutUs.bind(this)}
+                        /> :
+                        <CommentCell
+                            leftText="关于噼里啪"
+                            style={{marginTop: 10}}
+                            leftIcon={require('../../img/left_button.png')}
+                            onPress={this._aboutUs.bind(this)}
+                        />}
                     <CommentCell
                         leftText="意见反馈"
                         onPress={this._feedback.bind(this)}
@@ -102,11 +112,41 @@ export default class SettingPage extends BComponent {
         });
     }
 
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event);
+
+        console.log('ApplicationCenterPage event.type', event.type+","+event.id);
+        if(event.id==='goBack'){
+            console.log("监听返回键");
+            let callback = this.props.callback;
+            if(callback) {
+                callback(this.state.updateIcon);
+            }
+            console.log("关闭页面");
+            // this.props.navigator.pop();
+        }
+    }
+
     _aboutUs() {
         this.props.navigator.push({
             screen: 'AboutPilipaPage',
-            title: '关于噼里啪'
+            title: '关于噼里啪',
+            passProps: {
+                updateIcon:this.state.updateIcon,
+                //回调!
+                callback: this._updateOpenOrClose,
+            }
         });
+    }
+
+    _updateOpenOrClose(updateIcon){
+
+        if(updateIcon!=null){
+            console.log("返回是否点击过更新按钮="+updateIcon);
+            this.setState({updateIcon: updateIcon,});
+
+        }
+
     }
 
     _feedback() {

@@ -30,10 +30,13 @@ export default class MinePage extends BComponent {
             avatar: require('../../img/head_img.png'),// 头像
             company: '请立即注册或登录',//公司名称
             logined: false,// 是否已登陆
+            updateIcon:'true',
         };
 
         this.initPage = this.initPage.bind(this);
         this.reset = this.reset.bind(this);
+        this._updateOpenOrClose = this._updateOpenOrClose.bind(this);
+
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -234,6 +237,7 @@ export default class MinePage extends BComponent {
                     />
                     <CommenCell
                         leftText="设置"
+                        leftIcon={require('../../img/left_button.png')}
                         onPress = {this._goto.bind(this,'SettingPage','设置')}
                     />
                     <CommenCell
@@ -308,16 +312,34 @@ export default class MinePage extends BComponent {
                 },
             );
 
-        }else{
+        }else if(screen == 'SettingPage'){
 
             this.push({
                 screen: screen,
-                title:title
+                title:title,
+                passProps: {
+                    updateIcon:this.state.updateIcon,
+                    //回调!
+                    callback: this._updateOpenOrClose,
+                }
+            });
+        }else{
+            this.push({
+                screen: screen,
+                title:title,
             });
         }
 
+    }
+
+    _updateOpenOrClose(updateIcon){
+
+        if(updateIcon!=null){
+            console.log("返回是否点击过更新按钮="+updateIcon);
+            this.setState({updateIcon: updateIcon,});
 
 
+        }
 
     }
 
