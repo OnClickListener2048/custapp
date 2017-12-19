@@ -8,7 +8,7 @@ import {
     Text,
     StyleSheet,
     ScrollView,
-    TextInput, WebView
+    TextInput, WebView, Image
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
 import DeviceInfo from 'react-native-device-info';
@@ -127,9 +127,16 @@ export default class ServiceTermPage extends BComponent {
 
 
     render(){
+        var  textConnent = "噼里啪"+DeviceInfo.getVersion();
         return(
             <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
                 <ScrollView>
+                    <View style={styles.container}>
+                        <Image resizeMode = "contain" style = {{marginTop:24}} source={require("../../img/pilipa_icon.png")} />
+                        <Text style={styles.textstyles}>
+                        {textConnent}
+                    </Text>
+                    </View>
                     <CommentCell
                         leftText="平台介绍"
                         style={{marginTop: 10}}
@@ -150,7 +157,7 @@ export default class ServiceTermPage extends BComponent {
                             leftText="版本更新"
                             style={{marginTop:9}}
                             leftTextIcon={require('../../img/new_icon.png')}
-                            rightText={"v"+DeviceInfo.getVersion()}
+                            rightText={DeviceInfo.getVersion()}
                             onPress={this._updateCode.bind(this)}
                         /> }
 
@@ -163,12 +170,18 @@ export default class ServiceTermPage extends BComponent {
 
 const styles = StyleSheet.create({
     container:{
+        flexDirection: 'column',
         backgroundColor:'#f9f9f9',
-        flex: 1,
-        paddingTop:10,
+        flex:1,
+        alignItems:'center',
+    },
+    textstyles:{
+        color:'#999999',
+        fontSize:16,
+        marginTop:5,
+        marginBottom:10,
 
-        marginBottom:10
-    }
+    },
 
 
 });
