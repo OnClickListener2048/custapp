@@ -108,6 +108,7 @@ export default class HomePage extends BComponent {
             isRefreshing:false,
             isFirstRefresh:true,
             isLoading:true,
+            bannerData:[]
         };
 
     }
@@ -197,6 +198,19 @@ export default class HomePage extends BComponent {
                     isRefreshing:false,
                     isFirstRefresh:false,
                 })
+            },
+        );
+        apis.loadHomeBanner().then(
+            (responseData) => {
+                if(responseData.code == 0 && responseData.list){
+                    this.setState({
+                        bannerData:responseData.list
+                    })
+
+                }
+            },
+            (e) => {
+
             },
         );
     }
@@ -366,27 +380,6 @@ export default class HomePage extends BComponent {
     }
     _renderBannerView(){
 
-        let bannerData = [
-            {
-                title:'服务',
-                url:'pilipa://tab.service',
-                image:require('../../img/banner.png'),
-                eventId:''
-            },
-            {
-                title:'加盟合作',
-                url:H5_URL+'invest?platform=app',
-                image:require('../../img/banner.png'),
-                eventId:''
-            },
-            {
-                title:'免费核名',
-                url:'pilipa://view.company.check',
-                image:require('../../img/banner.png'),
-                eventId:''
-            }
-        ]
-
         return(
             <Swiper
                 style={{height:deviceWidth*ImageScale}}
@@ -395,12 +388,11 @@ export default class HomePage extends BComponent {
                 showsPagination = {true}
             >
                 {
-                    bannerData.map((item,index)=>{
+                    this.state.bannerData.map((item,index)=>{
                         return(
                             <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
-                                <Image resizeMode="cover" source={item.image} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
+                                <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
                             </TouchableWithoutFeedback>
-
                         )
                     })
                 }
@@ -408,8 +400,8 @@ export default class HomePage extends BComponent {
         );
     }
     _goBannerDetail(item){
-        UMTool.onEvent(item.eventId)
-        pushJump(this.props.navigator, item.url,item.title);
+        UMTool.onEvent(item.name)
+        pushJump(this.props.navigator, item.url,item.name);
     }
     _goProductDetail(item){
 
