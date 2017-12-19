@@ -60,18 +60,14 @@ export default class SettingPage extends BComponent {
             <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
                 <ScrollView>
                     <CommentCell
-                        leftText="关于我们"
+                        leftText="关于噼里啪"
                         style={{marginTop: 10}}
-                        rightText={"v"+DeviceInfo.getVersion()}
+                        // rightText={"v"+DeviceInfo.getVersion()}
                         onPress={this._aboutUs.bind(this)}
                     />
                     <CommentCell
                         leftText="意见反馈"
                         onPress={this._feedback.bind(this)}
-                    />
-                    <CommentCell
-                        leftText="服务条款"
-                        onPress={this._serviceTerm.bind(this)}
                     />
                     <CommentCell
                         leftText="清除缓存"
@@ -107,17 +103,9 @@ export default class SettingPage extends BComponent {
     }
 
     _aboutUs() {
-        // this.props.navigator.push({
-        //     screen: 'AboutUsPage',
-        //     title: '关于我们'
-        // });
-        this.push({
-            screen: 'WebViewPage',
-            title:'关于我们',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-            passProps:{
-                url:H5_URL+'aboutus?platform=app'
-            }
+        this.props.navigator.push({
+            screen: 'AboutPilipaPage',
+            title: '关于噼里啪'
         });
     }
 
@@ -125,14 +113,6 @@ export default class SettingPage extends BComponent {
         this.push({
             screen: 'FeedbackPage',
             title: '意见反馈',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-        });
-    }
-
-    _serviceTerm(){
-        this.push({
-            screen: 'ServiceTermPage',
-            title: '服务条款',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
         });
     }
