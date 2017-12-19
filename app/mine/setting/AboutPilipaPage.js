@@ -14,6 +14,7 @@ import CommentCell from '../../view/CommenCell'
 import DeviceInfo from 'react-native-device-info';
 import BComponent from '../../base';
 import {H5_URL} from '../../config'
+import Alert from "react-native-alert";
 
 export default class ServiceTermPage extends BComponent {
 
@@ -64,6 +65,18 @@ export default class ServiceTermPage extends BComponent {
         this.setState({
             updateIcon:'false',
         })
+        Alert.alert('更新提示', '立即更新到噼里啪', [
+            {
+                text: "更新",
+                onPress: ()=>{
+
+                },
+            },{
+                text: "取消",
+                onPress: ()=>{
+
+                },style: 'cancel',
+            }]);
     }
 
 
