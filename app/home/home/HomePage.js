@@ -25,6 +25,7 @@ import pushJump from '../../util/pushJump';
 
 import Swiper from 'react-native-swiper';
 
+const ImageScale = 0.42
 
 import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
@@ -107,6 +108,7 @@ export default class HomePage extends BComponent {
             isRefreshing:false,
             isFirstRefresh:true,
             isLoading:true,
+            bannerData:[]
         };
 
     }
@@ -198,16 +200,28 @@ export default class HomePage extends BComponent {
                 })
             },
         );
+        apis.loadHomeBanner().then(
+            (responseData) => {
+                if(responseData.code == 0 && responseData.list){
+                    this.setState({
+                        bannerData:responseData.list
+                    })
+
+                }
+            },
+            (e) => {
+
+            },
+        );
     }
 
     _listEmptyComponent(){
         let h = 0;
         if (DeviceInfo.OS === 'ios'){
-            h = DeviceInfo.height-60-110-64-(DeviceInfo.width*0.42)-44;
+            h = DeviceInfo.height-64-(DeviceInfo.width*ImageScale)-110*2;
         }else{
-            h = DeviceInfo.height-50-110-44-(DeviceInfo.width*0.42)-44;
+            h = DeviceInfo.height-44-(DeviceInfo.width*ImageScale)-110*2;
         }
-
 
             if(this.state.loadState == 'no-data'){
                 return(
@@ -366,41 +380,19 @@ export default class HomePage extends BComponent {
     }
     _renderBannerView(){
 
-        let bannerData = [
-            {
-                title:'服务',
-                url:'pilipa://tab.service',
-                image:require('../../img/banner.png'),
-                eventId:''
-            },
-            {
-                title:'加盟合作',
-                url:H5_URL+'invest?platform=app',
-                image:require('../../img/banner.png'),
-                eventId:''
-            },
-            {
-                title:'免费核名',
-                url:'pilipa://view.company.check',
-                image:require('../../img/banner.png'),
-                eventId:''
-            }
-        ]
-
         return(
             <Swiper
-                style={{height:deviceWidth*0.42}}
+                style={{height:deviceWidth*ImageScale}}
                 autoplay = {true}
                 loop = {true}
                 showsPagination = {true}
             >
                 {
-                    bannerData.map((item,index)=>{
+                    this.state.bannerData.map((item,index)=>{
                         return(
                             <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
-                                <Image resizeMode="cover" source={item.image} style={{width:deviceWidth,height:DeviceInfo.width*0.42}} />
+                                <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
                             </TouchableWithoutFeedback>
-
                         )
                     })
                 }
@@ -408,8 +400,8 @@ export default class HomePage extends BComponent {
         );
     }
     _goBannerDetail(item){
-        UMTool.onEvent(item.eventId)
-        pushJump(this.props.navigator, item.url,item.title);
+        UMTool.onEvent(item.name)
+        pushJump(this.props.navigator, item.url,item.name);
     }
     _goProductDetail(item){
 

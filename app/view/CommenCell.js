@@ -71,7 +71,7 @@ export default class CommenCell extends Component {
             //左边没图片
             return(
                 <View style = {styles.leftViewStyle}>
-                    <Text style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                    <Text numberOfLines={1} style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
                 </View>
             );
         }else{

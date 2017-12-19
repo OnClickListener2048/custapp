@@ -166,6 +166,7 @@ export default class CompanySurveyPage extends BComponent {
         this.push({
             screen: 'LicenceInfoPage',
             title:name,
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps: {
                 licenceinfo:licenceinfo,
             }
