@@ -96,7 +96,8 @@ export default class CompanyInfoPage extends BComponent {
 
         this.push({
             screen: screen,
-            title:title
+            title:title,
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
 
         });
     }

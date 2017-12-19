@@ -25,6 +25,7 @@ import pushJump from '../../util/pushJump';
 
 import Swiper from 'react-native-swiper';
 
+const ImageScale = 0.42
 
 import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
@@ -203,11 +204,10 @@ export default class HomePage extends BComponent {
     _listEmptyComponent(){
         let h = 0;
         if (DeviceInfo.OS === 'ios'){
-            h = DeviceInfo.height-60-110-64-(DeviceInfo.width*0.42)-44;
+            h = DeviceInfo.height-64-(DeviceInfo.width*ImageScale)-110*2;
         }else{
-            h = DeviceInfo.height-50-110-44-(DeviceInfo.width*0.42)-44;
+            h = DeviceInfo.height-44-(DeviceInfo.width*ImageScale)-110*2;
         }
-
 
             if(this.state.loadState == 'no-data'){
                 return(
@@ -389,7 +389,7 @@ export default class HomePage extends BComponent {
 
         return(
             <Swiper
-                style={{height:deviceWidth*0.42}}
+                style={{height:deviceWidth*ImageScale}}
                 autoplay = {true}
                 loop = {true}
                 showsPagination = {true}
@@ -398,7 +398,7 @@ export default class HomePage extends BComponent {
                     bannerData.map((item,index)=>{
                         return(
                             <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
-                                <Image resizeMode="cover" source={item.image} style={{width:deviceWidth,height:DeviceInfo.width*0.42}} />
+                                <Image resizeMode="cover" source={item.image} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
                             </TouchableWithoutFeedback>
 
                         )
