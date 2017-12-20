@@ -108,16 +108,6 @@ export default class ServiceTermPage extends BComponent {
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         super.onNavigatorEvent(event);
 
-        console.log('ApplicationCenterPage event.type', event.type+","+event.id);
-        if(event.id==='goBack'){
-            console.log("监听返回键");
-            let callback = this.props.callback;
-            if(callback) {
-                callback(this.state.updateIcon);
-            }
-            console.log("关闭页面");
-            // this.props.navigator.pop();
-        }
     }
 
     //版本更新点击事件
@@ -129,6 +119,10 @@ export default class ServiceTermPage extends BComponent {
         this.setState({
             updateIcon:false,
         })
+        let callback = this.props.callback;
+        if(callback) {
+            callback(false);
+        }
         Alert.alert('更新提示', '立即更新到噼里啪', [
             {
                 text: "更新",
@@ -154,7 +148,11 @@ export default class ServiceTermPage extends BComponent {
             },{
                 text: "取消",
                 onPress: ()=>{
-
+                    let  upgradeAlert = {
+                        'upgrade':false,
+                        'newversion':this.state.version,
+                    }
+                    UserInfoStore.setUpgrade_setting(upgradeAlert).then();
                 },style: 'cancel',
             }]);
     }

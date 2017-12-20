@@ -44,6 +44,7 @@ export default class MinePage extends BComponent {
         this.initPage = this.initPage.bind(this);
         this.reset = this.reset.bind(this);
         this._updateOpenOrClose = this._updateOpenOrClose.bind(this);
+        this._uploadUpdateCode = this._uploadUpdateCode.bind(this);
 
     }
     static navigatorStyle = {
@@ -143,6 +144,14 @@ export default class MinePage extends BComponent {
 
     // 准备加载组件
     componentWillMount() {
+
+        // let  upgradeAlert = {
+        //     'upgrade':true,
+        //     'newversion':this.state.version,
+        // }
+        // UserInfoStore.setUpgrade_alert(upgradeAlert).then();
+        // UserInfoStore.setUpgrade_setting(upgradeAlert).then();
+
         this._loginSwitch();
         this.initPage();
         this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
@@ -190,28 +199,45 @@ export default class MinePage extends BComponent {
                         }
                     );
 
-                    console.log("何时执行"+this.state.apkUrl);
-
-                    //如果无新版本，不在调用更新提示框
-                    if(Platform.OS === 'ios'&&this.state.loginCSwitch||this.state.updateIcon === false){
-                        return;
-                    }//调用更新提示框
-                    this.props.navigator.showLightBox({
-                        screen: "UpdateLightBox",
-                        passProps: {
-                            onClose: this.dismissLightBox,
-                            // dataArr:['1.版本更新版本更新版本更新版本更新版本更新版本更新版本更新','2.dfjsifjksdafjas','3.fdaskfjadskfjsdkf'],
-                            dataArr:this.state.desc,
-                            version:this.state.newVersion,
-                            apkUrl:this.state.apkUrl,
-                            isForce:this.state.isforce,
+                    UserInfoStore.getUpgrade_alert().then(
+                        (info) => {
+                            //&&info.newversion === this.state.newVersion
+                            // console.log('getUpgrade_alert', info+","+info.upgrade,info.newversion);
+                            if (info !== null) {
+                                if(Platform.OS === 'ios'&&this.state.loginCSwitch||
+                                    info.upgrade === false){
+                                        return;
+                                }
+                            }else{
+                                console.log("何时执行"+this.state.apkUrl+","+this.state.updateIcon);
+                                //如果无新版本，不在调用更新提示框
+                                if(Platform.OS === 'ios'&&this.state.loginCSwitch||this.state.updateIcon === false){
+                                    return;
+                                }
+                            }
+                            //调用更新提示框
+                            this.props.navigator.showLightBox({
+                                screen: "UpdateLightBox",
+                                passProps: {
+                                    onClose: this.dismissLightBox,
+                                    // dataArr:['1.版本更新版本更新版本更新版本更新版本更新版本更新版本更新','2.dfjsifjksdafjas','3.fdaskfjadskfjsdkf'],
+                                    dataArr:this.state.desc,
+                                    version:this.state.newVersion,
+                                    apkUrl:this.state.apkUrl,
+                                    isForce:this.state.isforce,
+                                },
+                                style: {
+                                    backgroundBlur: 'none',
+                                    backgroundColor: 'rgba(0,0,0,0.5)',
+                                    tapBackgroundToDismiss:true
+                                }
+                            })
                         },
-                        style: {
-                            backgroundBlur: 'none',
-                            backgroundColor: 'rgba(0,0,0,0.5)',
-                            tapBackgroundToDismiss:true
-                        }
-                    })
+                        (e) => {
+                            console.log("读取信息错误:", e);
+                        },
+                    );
+
 
                 }else{
                     this.setState({
@@ -403,16 +429,35 @@ export default class MinePage extends BComponent {
             );
 
         }else if(screen == 'SettingPage'){
+            UserInfoStore.getUpgrade_setting().then(
+                (info) => {
+                    console.log('getUpgrade_setting', info);
+                    if (info !== null) {
+                        this.push({
+                            screen: screen,
+                            title:title,
+                            passProps: {
+                                updateIcon:info.upgrade,
+                                //回调!
+                                callback: this._updateOpenOrClose,
+                            }
+                        });
+                    }
+                },
+                (e) => {
+                    this.push({
+                        screen: screen,
+                        title:title,
+                        passProps: {
+                            updateIcon:this.state.updateIcon,
+                            //回调!
+                            callback: this._updateOpenOrClose,
+                        }
+                    });
+                    console.log("读取信息错误:", e);
+                },
+            );
 
-            this.push({
-                screen: screen,
-                title:title,
-                passProps: {
-                    updateIcon:this.state.updateIcon,
-                    //回调!
-                    callback: this._updateOpenOrClose,
-                }
-            });
         }else{
             this.push({
                 screen: screen,
@@ -427,7 +472,11 @@ export default class MinePage extends BComponent {
         if(updateIcon!=null){
             console.log("返回是否点击过更新按钮="+updateIcon);
             this.setState({updateIcon: updateIcon,});
-
+            let  upgradeAlert = {
+                'upgrade':updateIcon,
+                'newversion':this.state.version,
+            }
+            UserInfoStore.setUpgrade_setting(upgradeAlert).then();
 
         }
 

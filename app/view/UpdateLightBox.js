@@ -98,6 +98,12 @@ class UpdateLightBox extends BComponent {
     //立即取消
     _cancle(){
         this.props.navigator.dismissLightBox()
+        let  upgradeAlert = {
+            'upgrade':false,
+            'newversion':this.state.version,
+        }
+        UserInfoStore.setUpgrade_alert(upgradeAlert).then();
+        console.log("存储alert");
     }
 }
 

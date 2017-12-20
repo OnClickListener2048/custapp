@@ -7,6 +7,9 @@ import './Preferences';
 
 let UserInfoStore = {};
 let KEY_JPUSH_ID = "KEY_JPUSH_ID";
+let UPGRADE_ALERT = "UPGRADE_ALERT";//版本更新弹窗
+let UPGRADE_SETTING = "UPGRADE_SETTING";//版本更新设置new
+let NEW_VERSION = "NEW_VERSION";//线上最新版本
 let LAST_USER_PHONE = "LAST_USER_PHONE";// 上次登陆后的用户手机号
 const KEY_COMPANY_INFO = "KEY_COMPANY_INFO";// 公司信息
 const KEY_COMPANYARR_INFOS = "KEY_COMPANYARR_INFOS";// 公司信息数组
@@ -54,6 +57,41 @@ UserInfoStore.setUserToken = async function (value: string) {
 
 UserInfoStore.removeUserToken = async function () {
     return Preferences.remove(KEY_USER_TOKEN);
+};
+//版本更新弹窗
+UserInfoStore.getUpgrade_alert = async function () {
+    let value = await Preferences.get(UPGRADE_ALERT);
+    if (value !== null) {
+        console.log('getUpgrade_alert', value);
+        return JSON.parse(value);
+    }
+    return value;
+};
+
+UserInfoStore.setUpgrade_alert = async function (value: object) {
+    return Preferences.set(UPGRADE_ALERT, JSON.stringify(value));
+};
+
+UserInfoStore.removeUpgrade_alert = async function () {
+    return Preferences.remove(UPGRADE_ALERT);
+};
+
+//版本更新设置new
+UserInfoStore.getUpgrade_setting = async function () {
+    let value = await Preferences.get(UPGRADE_SETTING);
+    if (value !== null) {
+        console.log('getUpgrade_alert', value);
+        return JSON.parse(value);
+    }
+    return value;
+};
+
+UserInfoStore.setUpgrade_setting = async function (value: object) {
+    return Preferences.set(UPGRADE_SETTING, JSON.stringify(value));
+};
+
+UserInfoStore.removeUpgrade_setting = async function () {
+    return Preferences.remove(UPGRADE_SETTING);
 };
 
 UserInfoStore.getLastUserPhone = async function (): Object {

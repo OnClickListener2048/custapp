@@ -114,21 +114,15 @@ export default class SettingPage extends BComponent {
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         super.onNavigatorEvent(event);
-
         console.log('ApplicationCenterPage event.type', event.type+","+event.id);
-        if(event.id==='goBack'){
-            console.log("监听返回键");
             let callback = this.props.callback;
             if(callback) {
                 callback(this.state.updateIcon);
             }
-            console.log("关闭页面");
-            // this.props.navigator.pop();
-        }
     }
 
     _aboutUs() {
-        this.props.navigator.push({
+        this.push({
             screen: 'AboutPilipaPage',
             title: '关于噼里啪',
             passProps: {
