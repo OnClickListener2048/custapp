@@ -196,11 +196,11 @@ export default class MinePage extends BComponent {
                 if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.upgrade+this.state.loginCSwitch);
                     this.setState({
-                        updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
-                        // updateIcon:true,
-                        newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
-                        // newVersion:"1.0.7",
-                        isforce:responseData.info.isforce?responseData.info.isforce:false,
+                        // updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
+                        updateIcon:true,
+                        // newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
+                        newVersion:"1.0.6",
+                        isforce:responseData.info.isforce?responseData.info.isforce:true,
                         apkUrl:responseData.info.url?responseData.info.url:'',
                         desc:responseData.info.desc?responseData.info.desc:[],
                             loadState: 'success'
@@ -237,24 +237,27 @@ export default class MinePage extends BComponent {
                                     return;
                                 }
                             }
-                            //调用更新提示框
-                            this.props.navigator.showLightBox({
-                                screen: "UpdateLightBox",
-                                passProps: {
-                                    onClose: this.dismissLightBox,
-                                    // dataArr:['1.版本更新版本更新版本更新版本更新版本更新版本更新版本更新','2.dfjsifjksdafjas','3.fdaskfjadskfjsdkf'],
-                                    dataArr:this.state.desc,
-                                    version:this.state.newVersion,
-                                    apkUrl:this.state.apkUrl,
-                                    isForce:this.state.isforce,
-                                },
-                                overrideBackPress: true, // 拦截返回键
-                                style: {
-                                    backgroundBlur: 'none',
-                                    backgroundColor: 'rgba(0,0,0,0.5)',
-                                    tapBackgroundToDismiss:true
-                                }
-                            })
+                            if(this.state.newVersion!==DeviceInfo.getVersion()){
+                                //调用更新提示框
+                                this.props.navigator.showLightBox({
+                                    screen: "UpdateLightBox",
+                                    passProps: {
+                                        onClose: this.dismissLightBox,
+                                        // dataArr:['1.版本更新版本更新版本更新版本更新版本更新版本更新版本更新','2.dfjsifjksdafjas','3.fdaskfjadskfjsdkf'],
+                                        dataArr:this.state.desc,
+                                        version:this.state.newVersion,
+                                        apkUrl:this.state.apkUrl,
+                                        isForce:this.state.isforce,
+                                    },
+                                    overrideBackPress: true, // 拦截返回键
+                                    style: {
+                                        backgroundBlur: 'none',
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                        tapBackgroundToDismiss:true
+                                    }
+                                })
+                            }
+
                         },
                         (e) => {
                             console.log("读取信息错误:", e);

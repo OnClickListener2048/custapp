@@ -6,6 +6,7 @@ import {Platform, View, Text,Image,TouchableOpacity,
     NativeModules} from 'react-native';
 import CommenCell from '../view/CommenCell'
 import BComponent from '../base/BComponent'
+import DeviceInfo from 'react-native-device-info';
 import {deviceHeight,deviceWidth} from "../util/ScreenUtil";
 const contentwidth = deviceWidth*0.7
 import Toast from 'react-native-root-toast'
@@ -75,13 +76,7 @@ class UpdateLightBox extends BComponent {
 
     //立即升级
     _upDate(){
-        this.props.navigator.dismissLightBox()
         if(Platform.OS === 'ios'){
-            let  upgradeAlert = {
-                'upgrade':false,
-                'newversion':this.props.version,
-            }
-            UserInfoStore.setUpgrade_alert(upgradeAlert).then();
             NativeModules.upgrade.upgrade('1300062750',(msg) =>{
                 if('YES' == msg) {
                     //跳转到APP Stroe
@@ -97,17 +92,31 @@ class UpdateLightBox extends BComponent {
             NativeModules.upgrade.upgrade(this.state.apkUrl);
             // NativeModules.upgrade.upgrade('https://www.pgyer.com/sKdC');
         }
+        if(!this.props.isForce){//强制升级不关闭弹窗
+            let  upgradeAlerts = {
+                'upgrade':false,
+                'newversion':this.props.version,
+            }
+            UserInfoStore.setUpgrade_alert(upgradeAlerts).then();
+            console.log("存储alert");
+            this.props.navigator.dismissLightBox()
+        }else if(this.props.version===DeviceInfo.getVersion()){
+            this.props.navigator.dismissLightBox()
+        }
+
+
     }
 
     //立即取消
     _cancle(){
-        this.props.navigator.dismissLightBox()
         let  upgradeAlert = {
             'upgrade':false,
             'newversion':this.props.version,
         }
         UserInfoStore.setUpgrade_alert(upgradeAlert).then();
         console.log("存储alert");
+        this.props.navigator.dismissLightBox()
+
     }
 }
 
