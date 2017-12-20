@@ -33,6 +33,11 @@ export default class MinePage extends BComponent {
             logined: false,// 是否已登陆
             updateIcon:false,
             loadState:'success',
+            newVersion:'',//最新APP版本号
+            isforce:false,//是否强制更新
+            apkUrl:'',//新包地址
+            desc:[],//版本说明
+            loginSwitch:false,//默认开关关闭
         };
 
         this.initPage = this.initPage.bind(this);
@@ -162,9 +167,38 @@ export default class MinePage extends BComponent {
                     console.log("版本更新信息="+responseData.info.upgrade);
                     this.setState({
                         updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
+                        // updateIcon:true,
+                        newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
+                        isforce:responseData.info.isforce?responseData.info.isforce:false,
+                        apkUrl:responseData.info.url?responseData.info.url:'',
+                        desc:responseData.info.desc?responseData.info.desc:[],
                             loadState: 'success'
                         }
                     );
+
+                    console.log("何时执行"+this.state.apkUrl);
+
+                    //如果无新版本，不在调用更新提示框
+                    if(Platform.OS === 'ios'&&!this.state.loginSwitch||this.state.updateIcon === false){
+                        return;
+                    }//调用更新提示框
+                    this.props.navigator.showLightBox({
+                        screen: "UpdateLightBox",
+                        passProps: {
+                            onClose: this.dismissLightBox,
+                            // dataArr:['1.版本更新版本更新版本更新版本更新版本更新版本更新版本更新','2.dfjsifjksdafjas','3.fdaskfjadskfjsdkf'],
+                            dataArr:this.state.desc,
+                            version:this.state.newVersion,
+                            apkUrl:this.state.apkUrl,
+                            isForce:this.state.isforce,
+                        },
+                        style: {
+                            backgroundBlur: 'none',
+                            backgroundColor: 'rgba(0,0,0,0.5)',
+                            tapBackgroundToDismiss:true
+                        }
+                    })
+
                 }else{
                     this.setState({
                             loadState: 'error'
@@ -180,6 +214,7 @@ export default class MinePage extends BComponent {
 
             },
         );
+
     }
 
     initPage() {
@@ -270,7 +305,7 @@ export default class MinePage extends BComponent {
                         onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
                         style={{marginTop:9}}
                     />
-                    {this.state.updateIcon===false?
+                    {Platform.OS === 'ios'||this.state.updateIcon===false?
                         <CommenCell
                         leftText="设置"
                         onPress = {this._goto.bind(this,'SettingPage','设置')}

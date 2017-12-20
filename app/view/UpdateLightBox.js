@@ -16,7 +16,8 @@ class UpdateLightBox extends BComponent {
     static defaultProps = {
         version:'',//版本号
         dataArr:[],//更新说明
-        isForce:false//是否强制更新
+        isForce:false,//是否强制更新
+        apkUrl:'',//apk下载地址
     };
 
     render() {
@@ -69,10 +70,14 @@ class UpdateLightBox extends BComponent {
             </View>
         );
     }
+
+    //立即升级
     _upDate(){
         this.props.navigator.dismissLightBox()
 
     }
+
+    //立即取消
     _cancle(){
         this.props.navigator.dismissLightBox()
     }

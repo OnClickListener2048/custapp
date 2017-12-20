@@ -7,7 +7,7 @@ import {
     View,
     Text,
     StyleSheet,
-    ScrollView,
+    ScrollView,Platform,
     TextInput, WebView, Image
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
@@ -164,13 +164,14 @@ export default class ServiceTermPage extends BComponent {
                         leftText="服务条款"
                         onPress={this._serviceTerm.bind(this)}
                     />
-                    {this.state.updateIcon=== false?
+
+                    {this.state.updateIcon=== false&&Platform.OS !== 'ios'?
                         <CommentCell
                             leftText="版本更新"
                             style={{marginTop:9}}
                             rightText={this.state.newVersion}
                             onPress={this._updateCode.bind(this)}
-                        />:
+                        />:Platform.OS !== 'ios'&&
                         <CommentCell
                             leftText="版本更新"
                             style={{marginTop:9}}
