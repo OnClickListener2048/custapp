@@ -127,6 +127,11 @@ export default class ServiceTermPage extends BComponent {
             {
                 text: "更新",
                 onPress: ()=>{
+                    let  upgradeAlert = {
+                        'upgrade':false,
+                        'newversion':this.state.newVersion,
+                    }
+                    UserInfoStore.setUpgrade_setting(upgradeAlert).then();
                     if(Platform.OS === 'ios'){
 
                         NativeModules.upgrade.upgrade('1300062750',(msg) =>{
@@ -150,7 +155,7 @@ export default class ServiceTermPage extends BComponent {
                 onPress: ()=>{
                     let  upgradeAlert = {
                         'upgrade':false,
-                        'newversion':this.state.version,
+                        'newversion':this.state.newVersion,
                     }
                     UserInfoStore.setUpgrade_setting(upgradeAlert).then();
                 },style: 'cancel',

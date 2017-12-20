@@ -77,7 +77,11 @@ class UpdateLightBox extends BComponent {
     _upDate(){
         this.props.navigator.dismissLightBox()
         if(Platform.OS === 'ios'){
-
+            let  upgradeAlert = {
+                'upgrade':false,
+                'newversion':this.props.version,
+            }
+            UserInfoStore.setUpgrade_alert(upgradeAlert).then();
             NativeModules.upgrade.upgrade('1300062750',(msg) =>{
                 if('YES' == msg) {
                     //跳转到APP Stroe
@@ -100,7 +104,7 @@ class UpdateLightBox extends BComponent {
         this.props.navigator.dismissLightBox()
         let  upgradeAlert = {
             'upgrade':false,
-            'newversion':this.state.version,
+            'newversion':this.props.version,
         }
         UserInfoStore.setUpgrade_alert(upgradeAlert).then();
         console.log("存储alert");

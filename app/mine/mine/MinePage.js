@@ -39,6 +39,7 @@ export default class MinePage extends BComponent {
             apkUrl:'',//新包地址
             desc:[],//版本说明
             loginCSwitch:true,//默认开关关闭
+            settingNew:false,//默认显示版本更新的new
         };
 
         this.initPage = this.initPage.bind(this);
@@ -151,7 +152,13 @@ export default class MinePage extends BComponent {
         // }
         // UserInfoStore.setUpgrade_alert(upgradeAlert).then();
         // UserInfoStore.setUpgrade_setting(upgradeAlert).then();
-
+        UserInfoStore.getUpgrade_setting().then(
+            (info) => {
+                if (info !== null) {
+                    this.setState({
+                        settingNew:info.upgrade
+                    })
+                }})
         this._loginSwitch();
         this.initPage();
         this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
@@ -189,9 +196,10 @@ export default class MinePage extends BComponent {
                 if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.upgrade+this.state.loginCSwitch);
                     this.setState({
-                        // updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
-                        updateIcon:true,
+                        updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
+                        // updateIcon:true,
                         newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
+                        // newVersion:"1.0.7",
                         isforce:responseData.info.isforce?responseData.info.isforce:false,
                         apkUrl:responseData.info.url?responseData.info.url:'',
                         desc:responseData.info.desc?responseData.info.desc:[],
@@ -201,13 +209,27 @@ export default class MinePage extends BComponent {
 
                     UserInfoStore.getUpgrade_alert().then(
                         (info) => {
-                            //&&info.newversion === this.state.newVersion
-                            // console.log('getUpgrade_alert', info+","+info.upgrade,info.newversion);
                             if (info !== null) {
+                                console.log('getUpgrade_alert', info+","+info.upgrade,info.newversion);
+
+                                //如果有多级版本更新则更新存储信息
+                                if(info.newversion !== this.state.newVersion){
+                                    // UserInfoStore.removeUpgrade_alert().then();
+                                    // UserInfoStore.removeUpgrade_setting().then();
+                                    let  upgradeAlert = {
+                                        'upgrade':this.state.updateIcon,
+                                        'newversion':this.state.newVersion,
+                                    }
+                                    UserInfoStore.setUpgrade_alert(upgradeAlert).then();
+                                    UserInfoStore.setUpgrade_setting(upgradeAlert).then();
+                                    this.setState({
+                                        settingNew:this.state.updateIcon
+                                    })
+                                }else{
                                 if(Platform.OS === 'ios'&&this.state.loginCSwitch||
                                     info.upgrade === false){
                                         return;
-                                }
+                                }}
                             }else{
                                 console.log("何时执行"+this.state.apkUrl+","+this.state.updateIcon);
                                 //如果无新版本，不在调用更新提示框
@@ -237,7 +259,6 @@ export default class MinePage extends BComponent {
                             console.log("读取信息错误:", e);
                         },
                     );
-
 
                 }else{
                     this.setState({
@@ -308,6 +329,7 @@ export default class MinePage extends BComponent {
     }
 
     render(){
+        console.log("settingNew",this.state.settingNew);
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9',position:'relative'}}>
                 <View style={{width:DeviceInfo.width,height:DeviceInfo.height/3,backgroundColor:'white',position:'absolute'}}/>
@@ -345,7 +367,7 @@ export default class MinePage extends BComponent {
                         onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
                         style={{marginTop:9}}
                     />
-                    {Platform.OS === 'ios'||this.state.updateIcon===false?
+                    {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)?
                         <CommenCell
                         leftText="设置"
                         onPress = {this._goto.bind(this,'SettingPage','设置')}
@@ -442,6 +464,16 @@ export default class MinePage extends BComponent {
                                 callback: this._updateOpenOrClose,
                             }
                         });
+                    }else{
+                        this.push({
+                            screen: screen,
+                            title:title,
+                            passProps: {
+                                updateIcon:this.state.updateIcon,
+                                //回调!
+                                callback: this._updateOpenOrClose,
+                            }
+                        });
                     }
                 },
                 (e) => {
@@ -474,7 +506,7 @@ export default class MinePage extends BComponent {
             this.setState({updateIcon: updateIcon,});
             let  upgradeAlert = {
                 'upgrade':updateIcon,
-                'newversion':this.state.version,
+                'newversion':this.state.newVersion,
             }
             UserInfoStore.setUpgrade_setting(upgradeAlert).then();
 
