@@ -4130,9 +4130,9 @@ react-native-modalbox@^1.4.2:
     create-react-class "^15.6.0"
     prop-types "^15.5.10"
 
-"react-native-navigation@github:pilipa-cn/react-native-navigation#1.1.135_httpdns":
-  version "1.1.135_httpdns"
-  resolved "https://codeload.github.com/pilipa-cn/react-native-navigation/tar.gz/a8739d2bb90a3e2f0893e8adce5f0973c5397be8"
+"react-native-navigation@github:pilipa-cn/react-native-navigation#1.1.136":
+  version "1.1.136"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-navigation/tar.gz/1833ba37111afe57086fecc454b215626d86760e"
   dependencies:
     lodash "4.x.x"
 
