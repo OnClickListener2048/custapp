@@ -128,10 +128,16 @@ export default class ProfitStatementPage extends BComponent {
                     leftNum={this.state.income}
                     rightDes="支出"
                     rightNum={this.state.expenditure}
+                    year={this.state.year}
+                    month={this.state.month}
+                    _showTimer={this._showTimer.bind(this)}
                 />
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="利润表明细"/>
             </View>
         )
+    }
+    _showTimer(){
+        this.refs.ChooseTimerModal._showTimer()
     }
     _listEmptyComponent(){
         let headerHeight = 48+64+DeviceInfo.width*0.56
@@ -160,7 +166,7 @@ export default class ProfitStatementPage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
-                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
                 <PLPActivityIndicator isShow={this.state.isLoading} />
 
             </View>

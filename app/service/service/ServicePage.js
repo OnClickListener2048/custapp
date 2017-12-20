@@ -359,6 +359,9 @@ export default class ServicePage extends BComponent {
                         leftNum={this.state.income}
                         rightDes="支出"
                         rightNum={this.state.expenditure}
+                        year={this.state.year}
+                        month={this.state.month}
+                        _showTimer={this._showTimer.bind(this)}
                     />
                     <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap'}}>
                         {
@@ -401,6 +404,9 @@ export default class ServicePage extends BComponent {
 
         )
     }
+    _showTimer(){
+        this.refs.ChooseTimerModal._showTimer()
+    }
     _callback(year,month,isRefresh=false){
 
         let _this = this
@@ -420,6 +426,7 @@ export default class ServicePage extends BComponent {
 
     }
     _goServiceDetail(item){
+
         this.push({
             screen: item.jumpPage,
             title:item.title,
