@@ -248,6 +248,7 @@ export default class MinePage extends BComponent {
                                     apkUrl:this.state.apkUrl,
                                     isForce:this.state.isforce,
                                 },
+                                overrideBackPress: true, // 拦截返回键
                                 style: {
                                     backgroundBlur: 'none',
                                     backgroundColor: 'rgba(0,0,0,0.5)',
