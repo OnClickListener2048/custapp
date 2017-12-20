@@ -6,7 +6,7 @@ import {
     View,
     Text,
     StyleSheet,
-    ScrollView,
+    ScrollView,Platform,
     DeviceEventEmitter
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
@@ -63,7 +63,7 @@ export default class SettingPage extends BComponent {
         return (
             <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
                 <ScrollView>
-                    {this.state.updateIcon === false ?
+                    {Platform.OS === 'ios'||this.state.updateIcon === false ?
                         <CommentCell
                             leftText="关于噼里啪"
                             style={{marginTop: 10}}
