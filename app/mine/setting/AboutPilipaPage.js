@@ -16,30 +16,40 @@ import BComponent from '../../base';
 import {H5_URL} from '../../config'
 import * as apis from '../../apis/setting';
 import Alert from "react-native-alert";
+import Toast from 'react-native-root-toast'
+
 
 export default class ServiceTermPage extends BComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            updateIcon:this.props.updateIcon,
+            updateIcon:this.props.updateIcon,//是否更新
             loadState:'success',
+            oldVersion:'',//当前APP版本号
+            newVersion:'',//最新APP版本号
+            isforce:false,//是否强制更新
+            apkUrl:'',//新包地址
+            desc:[],//版本说明
+
         }
-        // this._uploadUpdateCode = this._uploadUpdateCode.bind(this);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     // 准备加载组件
     componentWillMount() {
+        this.setState({
+            oldVersion:DeviceInfo.getVersion(),
+        })
         //iOS不显示版本更新信息
-        // if(Platform.OS!=='iOS'){
+        // if(Platform.OS!=='ios'){
         //获取本APP版本信息
         DeviceInfo.getVersion();
         this._uploadUpdateCode('1.0.6');
         // }
     }
 
-    //版本更新
+    //版本更新接口请求
     _uploadUpdateCode(versionCode){
         var loading = SActivityIndicator.show(true, "加载中...");
         apis.loadupdateCode(versionCode).then(
@@ -47,9 +57,13 @@ export default class ServiceTermPage extends BComponent {
                 SActivityIndicator.hide(loading);
 
                 if (responseData.code == 0) {
-                    console.log("版本更新信息="+responseData.info.upgrade);
+                    console.log("版本更新信息="+responseData.info.version);
                     this.setState({
-                            loadState: 'success'
+                        newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
+                        isforce:responseData.info.isforce?responseData.info.isforce:false,
+                        apkUrl:responseData.info.url?responseData.info.url:'',
+                        desc:responseData.info.desc?responseData.info.desc:[],
+                        loadState: 'success'
                         }
                     );
                 }else{
@@ -108,6 +122,10 @@ export default class ServiceTermPage extends BComponent {
 
     //版本更新点击事件
     _updateCode(){
+        if(this.state.updateIcon === false){
+            Toast.show("当前已是最新版")
+            return;
+        }
         this.setState({
             updateIcon:false,
         })
@@ -127,7 +145,7 @@ export default class ServiceTermPage extends BComponent {
 
 
     render(){
-        var  textConnent = "噼里啪"+DeviceInfo.getVersion();
+        var  textConnent = "噼里啪"+this.state.oldVersion;
         return(
             <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
                 <ScrollView>
@@ -150,14 +168,14 @@ export default class ServiceTermPage extends BComponent {
                         <CommentCell
                             leftText="版本更新"
                             style={{marginTop:9}}
-                            rightText={"v"+DeviceInfo.getVersion()}
+                            rightText={this.state.newVersion}
                             onPress={this._updateCode.bind(this)}
                         />:
                         <CommentCell
                             leftText="版本更新"
                             style={{marginTop:9}}
                             leftTextIcon={require('../../img/new_icon.png')}
-                            rightText={DeviceInfo.getVersion()}
+                            rightText={this.state.newVersion}
                             onPress={this._updateCode.bind(this)}
                         /> }
 

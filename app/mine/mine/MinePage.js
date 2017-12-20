@@ -138,7 +138,7 @@ export default class MinePage extends BComponent {
     // 准备加载组件
     componentWillMount() {
         //iOS不显示版本更新信息
-        // if(Platform.OS!=='iOS'){
+        // if(Platform.OS!=='ios'){
             //获取本APP版本信息
             DeviceInfo.getVersion();
             this._uploadUpdateCode('1.0.6');
@@ -161,7 +161,7 @@ export default class MinePage extends BComponent {
                 if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.upgrade);
                     this.setState({
-                        updateIcon:responseData.upgrade,
+                        updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
                             loadState: 'success'
                         }
                     );
