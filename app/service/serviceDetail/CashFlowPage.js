@@ -126,7 +126,7 @@ export default class CashFlowPage extends BComponent {
     };
     _listHeaderComponent(){
         return(
-            <View style={{width:DeviceInfo.width}}>
+            <View style={{width:DeviceInfo.width,position:'relative'}}>
                 <HeaderView
                     hasTop={true}
                     topDes="净流动资金"
@@ -135,11 +135,16 @@ export default class CashFlowPage extends BComponent {
                     leftNum={this.state.balance_start}
                     rightDes="期末"
                     rightNum={this.state.balance_end}
+                    year={this.state.year}
+                    month={this.state.month}
+                    _showTimer={this._showTimer.bind(this)}
                 />
-
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="现金流明细"/>
             </View>
         )
+    }
+    _showTimer(){
+        this.refs.ChooseTimerModal._showTimer()
     }
     _listEmptyComponent(){
         let headerHeight = 48+64+DeviceInfo.width*0.56
@@ -171,7 +176,7 @@ export default class CashFlowPage extends BComponent {
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
 
         );

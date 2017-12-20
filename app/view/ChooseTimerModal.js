@@ -134,7 +134,8 @@ export default class ChooseTimerModal extends Component {
                         <TouchableOpacity onPress={()=>{this._ok()}}><Text style={{fontSize:16,color:'#E13238'}}>确定</Text></TouchableOpacity>
                     </View>
                 </Animated.View>
-                <TouchableOpacity  activeOpacity={1} onPress={()=>{this._showTimer()}}>
+                {
+                    this.state.isShow?<TouchableOpacity  activeOpacity={1} onPress={()=>{this._showTimer()}}>
                         <View style={[{width:DeviceInfo.width,flexDirection:'row',padding:15,paddingLeft:24,paddingRight:24,
                             justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:DeviceInfo.onePR},this.props.style,this.state.isShow?{backgroundColor:'white'}:{backgroundColor:'transparent'}]}>
                             <View style={{flexDirection:'row'}}>
@@ -144,7 +145,8 @@ export default class ChooseTimerModal extends Component {
                             </View>
                             <Image source={this.state.isShow?require('../img/today_black.png'):require('../img/today_white.png')}/>
                         </View>
-                </TouchableOpacity>
+                    </TouchableOpacity>:null
+                }
             </View>
 
 

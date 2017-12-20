@@ -129,10 +129,16 @@ export default class AccountsReceivablePage extends BComponent {
                     leftNum={this.state.start_account}
                     rightDes="期末"
                     rightNum={this.state.end_account}
+                    year={this.state.year}
+                    month={this.state.month}
+                    _showTimer={this._showTimer.bind(this)}
                 />
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应收账款明细"/>
             </View>
         )
+    }
+    _showTimer(){
+        this.refs.ChooseTimerModal._showTimer()
     }
     _listEmptyComponent(){
         let headerHeight = 48+64+DeviceInfo.width*0.42+20
@@ -163,7 +169,7 @@ export default class AccountsReceivablePage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
-                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
                 <PLPActivityIndicator isShow={this.state.isLoading} />
 
             </View>
