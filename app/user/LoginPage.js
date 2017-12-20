@@ -506,6 +506,9 @@ export default class LoginPage extends Component {
                             console.log('设置分组失败')
                         })
                     }
+
+                    // responseData.user.mobilePhone = '13818615090';// 调试
+
                     if (responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();

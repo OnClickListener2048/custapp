@@ -20,7 +20,8 @@ import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast';
-import * as apis from '../../apis/setting';
+import * as apis from '../../apis';
+import * as apisSettings from '../../apis/setting';
 import * as apiSwitch from '../../apis/account';
 
 export default class MinePage extends BComponent {
@@ -191,7 +192,7 @@ export default class MinePage extends BComponent {
 
     //版本更新
     _uploadUpdateCode(versionCode){
-        apis.loadupdateCode(versionCode).then(
+        apisSettings.loadupdateCode(versionCode).then(
             (responseData) => {
                 if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.upgrade+this.state.loginCSwitch);
