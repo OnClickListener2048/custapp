@@ -108,7 +108,8 @@ export default class HomePage extends BComponent {
             isRefreshing:false,
             isFirstRefresh:true,
             isLoading:true,
-            bannerData:[]
+            bannerData:[],
+            visible: true
         };
 
     }
@@ -117,7 +118,21 @@ export default class HomePage extends BComponent {
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
 
+    onNavigatorEvent(event) {
+        if(DeviceInfo.OS === 'android'){
+            if (event.id === 'willAppear') {
+                this.setState({
+                    visible: true
+                });
+            }
+            if (event.id === 'willDisappear') {
+                this.setState({
+                    visible: false
+                });
+            }
+        }
 
+    }
 
     componentDidMount(){
         this.loadData()
@@ -354,11 +369,11 @@ export default class HomePage extends BComponent {
     _listHeaderComponent(){
 
         let col = 3;
-        let marginLeft= scaleSize(30);
+        let marginLeft= 40;
         let width = (deviceWidth - marginLeft*(col+1))/col
 
         return(
-            <View style={{width:DeviceInfo.width}}>
+            <View style={{width:DeviceInfo.width, marginTop:DeviceInfo.OS==='ios'?-20:0}}>
                 {this._renderBannerView()}
                 <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
                     {
@@ -366,8 +381,8 @@ export default class HomePage extends BComponent {
                             return(
                                 <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,item)}>
                                     <View style={{justifyContent:'center',alignItems:'center',width,marginLeft}}>
-                                        <Image style={{marginTop:20,width:45,height:45}} source={item.logo }/>
-                                        <Text  style={{marginTop:10,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
+                                        <Image style={{marginTop:20,width:width-20, height:width-20}} source={item.logo }/>
+                                        <Text  style={{marginTop:15,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
                                     </View>
                                 </TouchableOpacity>
                             )
@@ -380,24 +395,30 @@ export default class HomePage extends BComponent {
     }
     _renderBannerView(){
 
-        return(
-            <Swiper
-                style={{height:deviceWidth*ImageScale}}
-                autoplay = {true}
-                loop = {true}
-                showsPagination = {true}
-            >
-                {
-                    this.state.bannerData.map((item,index)=>{
-                        return(
-                            <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
-                                <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
-                            </TouchableWithoutFeedback>
-                        )
-                    })
-                }
-            </Swiper>
-        );
+        if(this.state.visible){
+            return(
+                <Swiper
+                    style={{height:deviceWidth*ImageScale}}
+                    loop = {true}
+                    autoplay = {true}
+                    showsPagination = {true}
+                >
+                    {
+                        this.state.bannerData.map((item,index)=>{
+                            return(
+                                <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
+                                    <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
+                                </TouchableWithoutFeedback>
+                            )
+                        })
+                    }
+                </Swiper>
+            );
+        }else{
+            return <View style={{height:deviceWidth*ImageScale}}/>
+        }
+
+
     }
     _goBannerDetail(item){
         UMTool.onEvent(item.name)
