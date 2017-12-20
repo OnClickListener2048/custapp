@@ -2,7 +2,8 @@
  * Created by zhuangzihao on 2017/12/19.
  */
 import React from 'react';
-import {Platform, View, Text,Image,TouchableOpacity} from 'react-native';
+import {Platform, View, Text,Image,TouchableOpacity,
+    NativeModules} from 'react-native';
 import CommenCell from '../view/CommenCell'
 import BComponent from '../base/BComponent'
 import {deviceHeight,deviceWidth} from "../util/ScreenUtil";
@@ -74,7 +75,25 @@ class UpdateLightBox extends BComponent {
     //立即升级
     _upDate(){
         this.props.navigator.dismissLightBox()
+        if(Platform.OS === 'ios'){
 
+            NativeModules.upgrade.upgrade('1300062750',(msg) =>{
+                if('YES' == msg) {
+                    //跳转到APP Stroe
+                    NativeModules.upgrade.openAPPStore('1300062750');
+                } else {
+                    Toast.show('当前为最新版本');
+                }
+            })
+
+            //跳转到APP Stroe
+            // NativeModules.upgrade.openAPPStore('1300062750');
+        }else{
+
+            // 下载最新Apk
+            // NativeModules.upgrade.upgrade(this.state.apkUrl);
+            NativeModules.upgrade.upgrade('https://www.pgyer.com/sKdC');
+        }
     }
 
     //立即取消

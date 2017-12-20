@@ -78,6 +78,10 @@
                 android:exported="true"
         />
 
+        <service
+            android:name=".android_upgrade.DownloadService"
+            android:exported="true" />
+
         <!-- 小米全面屏适配 -->
         <meta-data android:name="android.max_aspect" android:value="2.1" />
 

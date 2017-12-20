@@ -79,6 +79,7 @@
 		83162E091EFCC58A0031CA7A /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83162DE31EFCC5450031CA7A /* RSKImageCropper.framework */; };
 		83162E0A1EFCC58A0031CA7A /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 83162DE31EFCC5450031CA7A /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		83AA3E7E1FEA0DF3000D3836 /* upgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AA3E7D1FEA0DF3000D3836 /* upgrade.m */; };
 		8681B9B515F74C5380B46CD4 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C4F35D0882457A8C738D0D /* libRNSpinkit.a */; };
 		8BE7B07F46754585BEC43177 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712127CBAFE4408085C55623 /* CoreTelephony.framework */; };
 		8FAB6DCCE5D0423C8FE9CA48 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2758CF5095384C08943BD664 /* Entypo.ttf */; };
@@ -530,6 +531,8 @@
 		83162DE21EFCC5450031CA7A /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = "<group>"; };
 		83162DE31EFCC5450031CA7A /* RSKImageCropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		83AA3E4F1FEA0DF3000D3836 /* upgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upgrade.h; sourceTree = "<group>"; };
+		83AA3E7D1FEA0DF3000D3836 /* upgrade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = upgrade.m; sourceTree = "<group>"; };
 		87FF0CC6331343AAA7D30B20 /* libRCTJCoreModule.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTJCoreModule.a; sourceTree = "<group>"; };
 		99F39C20519D4E478DB4352D /* ZTAlertView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ZTAlertView.xcodeproj; path = "../node_modules/react-native-alert/ios/ZTAlertView.xcodeproj"; sourceTree = "<group>"; };
 		9F5B65A9E8AA44BEAC6307E9 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTJPushModule.a; sourceTree = "<group>"; };
@@ -727,6 +730,8 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				83AA3E4F1FEA0DF3000D3836 /* upgrade.h */,
+				83AA3E7D1FEA0DF3000D3836 /* upgrade.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -1703,6 +1708,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				4C5A463A1FD91005008AAE26 /* NEHTTPEyeDetailViewController.m in Sources */,
+				83AA3E7E1FEA0DF3000D3836 /* upgrade.m in Sources */,
 				4C5A46461FD91B41008AAE26 /* MyBar.m in Sources */,
 				4C5A463D1FD91005008AAE26 /* NEHTTPModel.m in Sources */,
 				4C5A463B1FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m in Sources */,

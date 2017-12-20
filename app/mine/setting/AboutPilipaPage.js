@@ -6,6 +6,7 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
+    NativeModules,
     StyleSheet,
     ScrollView,Platform,
     TextInput, WebView, Image
@@ -133,7 +134,15 @@ export default class ServiceTermPage extends BComponent {
             {
                 text: "更新",
                 onPress: ()=>{
+                    if(Platform.OS === 'ios'){
+                        //跳转到APP Stroe
+                        NativeModules.upgrade.openAPPStore('1300062750');
+                    }else{
+                        // 下载最新Apk
+                        // NativeModules.upgrade.upgrade(this.state.apkUrl);
+                        NativeModules.upgrade.upgrade('https://www.pgyer.com/sKdC');
 
+                    }
                 },
             },{
                 text: "取消",

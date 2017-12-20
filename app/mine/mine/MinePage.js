@@ -37,7 +37,7 @@ export default class MinePage extends BComponent {
             isforce:false,//是否强制更新
             apkUrl:'',//新包地址
             desc:[],//版本说明
-            loginSwitch:false,//默认开关关闭
+            loginSwitch:true,//默认开关关闭
         };
 
         this.initPage = this.initPage.bind(this);
@@ -166,8 +166,8 @@ export default class MinePage extends BComponent {
                 if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.upgrade);
                     this.setState({
-                        updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
-                        // updateIcon:true,
+                        // updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
+                        updateIcon:false,
                         newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
                         isforce:responseData.info.isforce?responseData.info.isforce:false,
                         apkUrl:responseData.info.url?responseData.info.url:'',

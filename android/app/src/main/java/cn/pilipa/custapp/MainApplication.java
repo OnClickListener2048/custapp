@@ -16,6 +16,8 @@ import com.reactnativenavigation.NavigationApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.horcrux.svg.SvgPackage;
 import cn.jpush.reactnativejpush.JPushPackage;
+import cn.pilipa.custapp.android_upgrade.UpgradePackage;
+
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.facebook.react.ReactPackage;
@@ -61,6 +63,7 @@ public class MainApplication extends NavigationApplication {
 
         Bugly.init(getApplicationContext(), "d352a8a420", true);
         Beta.checkUpgrade(false,false);
+        new UpgradePackage();
     }
 
 
