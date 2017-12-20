@@ -121,20 +121,20 @@ export default class HomePage extends BComponent {
 
     componentDidMount(){
         this.loadData()
-        // this.props.navigator.showLightBox({
-        //     screen: "UpdateLightBox",
-        //     passProps: {
-        //         onClose: this.dismissLightBox,
-        //         dataArr:['1.版本更新版本更新版本更新版本更新版本更新版本更新版本更新','2.dfjsifjksdafjas','3.fdaskfjadskfjsdkf'],
-        //         version:'v1.0.4',
-        //         isForce:true
-        //     },
-        //     style: {
-        //         backgroundBlur: 'none',
-        //         backgroundColor: 'rgba(0,0,0,0.5)',
-        //         tapBackgroundToDismiss:true
-        //     }
-        // })
+        this.props.navigator.showLightBox({
+            screen: "UpdateLightBox",
+            passProps: {
+                onClose: this.dismissLightBox,
+                dataArr:['1.版本更新版本更新版本更新版本更新版本更新版本更新版本更新','2.dfjsifjksdafjas','3.fdaskfjadskfjsdkf'],
+                version:'v1.0.4',
+                isForce:true
+            },
+            style: {
+                backgroundBlur: 'none',
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                tapBackgroundToDismiss:true
+            }
+        })
     }
 
 

@@ -8,6 +8,7 @@ import CommenCell from '../view/CommenCell'
 import BComponent from '../base/BComponent'
 import {deviceHeight,deviceWidth} from "../util/ScreenUtil";
 const contentwidth = deviceWidth*0.7
+import Toast from 'react-native-root-toast'
 class UpdateLightBox extends BComponent {
 
     constructor(props) {
