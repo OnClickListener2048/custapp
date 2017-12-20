@@ -6,19 +6,17 @@ import deviceLog from 'react-native-device-log';
 import {H5_URL} from "../config";
 const log = deviceLog;
 
-console.log(pushJumpData[0].title);
 
 const jumpMap = new Map();// 跳转映射规则
 pushJumpData.forEach(data => {
-    console.log('pushJumpData', data);
     if(data.uri) {
         jumpMap.set(data.uri, data);
     }
 }  );
 
-for (let [key, value] of jumpMap.entries()) {
-    console.log("跳转规则:", key + " = " , value);
-}
+// for (let [key, value] of jumpMap.entries()) {
+//     console.log("跳转规则:", key + " = " , value);
+// }
 
 const homeTabMap = new Map();// 首页规则
 pushJumpDataHome.forEach(data => {
@@ -27,16 +25,17 @@ pushJumpDataHome.forEach(data => {
     }
 }  );
 
-for (let [key, value] of homeTabMap.entries()) {
-    console.log("首页标签规则:", key + " = " , value);
-}
+// for (let [key, value] of homeTabMap.entries()) {
+//     console.log("首页标签规则:", key + " = " , value);
+// }
 
 /**
  * 执行跳转
  * @param navigator
  * @param urlStr - pilipa://view.services/cashflow?companyid=<111>&date=<2016-06>
+ * @param urlTitle - 网页标题
  */
-export default function pushJump(navigator, urlStr,urlTitle = '网页') {
+export default function pushJump(navigator, urlStr, urlTitle = '网页') {
     try {
         let components = URI.parse(urlStr);
         console.log( "跳转目标 components = ", components);

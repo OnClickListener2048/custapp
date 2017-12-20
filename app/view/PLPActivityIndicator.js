@@ -44,7 +44,7 @@ export default class PLPActivityIndicator extends React.Component {
 
 PLPActivityIndicator.propTypes = {
     message:React.PropTypes.string,
-    isShow: React.PropTypes.boolean
+    isShow: React.PropTypes.bool // boolean is not a valid value
 }
 
 const styles = StyleSheet.create({
