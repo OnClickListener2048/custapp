@@ -21,6 +21,7 @@ import BComponent from '../../base';
 import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast';
 import * as apis from '../../apis/setting';
+import * as apiSwitch from '../../apis/account';
 
 export default class MinePage extends BComponent {
 
@@ -37,7 +38,7 @@ export default class MinePage extends BComponent {
             isforce:false,//是否强制更新
             apkUrl:'',//新包地址
             desc:[],//版本说明
-            loginSwitch:true,//默认开关关闭
+            loginCSwitch:true,//默认开关关闭
         };
 
         this.initPage = this.initPage.bind(this);
@@ -142,12 +143,7 @@ export default class MinePage extends BComponent {
 
     // 准备加载组件
     componentWillMount() {
-        //iOS不显示版本更新信息
-        // if(Platform.OS!=='ios'){
-            //获取本APP版本信息
-            DeviceInfo.getVersion();
-            this._uploadUpdateCode('1.0.6');
-        // }
+        this._loginSwitch();
         this.initPage();
         this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
             console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
@@ -159,15 +155,33 @@ export default class MinePage extends BComponent {
         this.subscription.remove();
     }
 
+    _loginSwitch(){
+        apiSwitch.mobilelogin().then(
+            v => {
+                console.log(v);
+                console.log("开关="+v.open);
+                // v.open = !v.open;  true为手机号登录，FALSE 为微信登录
+                this.setState({loginCSwitch: v.open});
+                //iOS不显示版本更新信息
+                //获取本APP版本信息
+                this._uploadUpdateCode(DeviceInfo.getVersion());
+            }, e => {
+                this._uploadUpdateCode(DeviceInfo.getVersion());
+                console.log(e);
+            }
+        );
+
+    }
+
     //版本更新
     _uploadUpdateCode(versionCode){
         apis.loadupdateCode(versionCode).then(
             (responseData) => {
                 if (responseData.code == 0) {
-                    console.log("版本更新信息="+responseData.info.upgrade);
+                    console.log("版本更新信息="+responseData.info.upgrade+this.state.loginCSwitch);
                     this.setState({
-                        updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
-                        // updateIcon:true,
+                        // updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
+                        updateIcon:true,
                         newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
                         isforce:responseData.info.isforce?responseData.info.isforce:false,
                         apkUrl:responseData.info.url?responseData.info.url:'',
@@ -179,7 +193,7 @@ export default class MinePage extends BComponent {
                     console.log("何时执行"+this.state.apkUrl);
 
                     //如果无新版本，不在调用更新提示框
-                    if(Platform.OS === 'ios'&&!this.state.loginSwitch||this.state.updateIcon === false){
+                    if(Platform.OS === 'ios'&&this.state.loginCSwitch||this.state.updateIcon === false){
                         return;
                     }//调用更新提示框
                     this.props.navigator.showLightBox({

@@ -124,7 +124,7 @@ export default class HomePage extends BComponent {
     }
 
 
-    loadData(type = '0'){
+        loadData(type = '0'){
         // let loading
         if(this.state.isFirstRefresh){
             //第一次加载显示菊花loading

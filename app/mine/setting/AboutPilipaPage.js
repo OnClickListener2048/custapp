@@ -43,11 +43,10 @@ export default class ServiceTermPage extends BComponent {
             oldVersion:DeviceInfo.getVersion(),
         })
         //iOS不显示版本更新信息
-        // if(Platform.OS!=='ios'){
+        if(Platform.OS!=='ios'){
         //获取本APP版本信息
-        DeviceInfo.getVersion();
-        this._uploadUpdateCode('1.0.6');
-        // }
+        this._uploadUpdateCode(DeviceInfo.getVersion());
+        }
     }
 
     //版本更新接口请求
