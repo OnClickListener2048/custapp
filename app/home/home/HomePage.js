@@ -354,11 +354,11 @@ export default class HomePage extends BComponent {
     _listHeaderComponent(){
 
         let col = 3;
-        let marginLeft= scaleSize(30);
+        let marginLeft= 40;
         let width = (deviceWidth - marginLeft*(col+1))/col
 
         return(
-            <View style={{width:DeviceInfo.width}}>
+            <View style={{width:DeviceInfo.width, marginTop:DeviceInfo.OS==='ios'?-20:0}}>
                 {this._renderBannerView()}
                 <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
                     {
@@ -366,8 +366,8 @@ export default class HomePage extends BComponent {
                             return(
                                 <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,item)}>
                                     <View style={{justifyContent:'center',alignItems:'center',width,marginLeft}}>
-                                        <Image style={{marginTop:20,width:45,height:45}} source={item.logo }/>
-                                        <Text  style={{marginTop:10,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
+                                        <Image style={{marginTop:20,width:width-20, height:width-20}} source={item.logo }/>
+                                        <Text  style={{marginTop:15,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
                                     </View>
                                 </TouchableOpacity>
                             )
