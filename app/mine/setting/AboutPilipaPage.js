@@ -135,13 +135,21 @@ export default class ServiceTermPage extends BComponent {
                 text: "更新",
                 onPress: ()=>{
                     if(Platform.OS === 'ios'){
-                        //跳转到APP Stroe
-                        NativeModules.upgrade.openAPPStore('1300062750');
-                    }else{
-                        // 下载最新Apk
-                        // NativeModules.upgrade.upgrade(this.state.apkUrl);
-                        NativeModules.upgrade.upgrade('https://www.pgyer.com/sKdC');
 
+                        NativeModules.upgrade.upgrade('1300062750',(msg) =>{
+                            if('YES' == msg) {
+                                //跳转到APP Stroe
+                                NativeModules.upgrade.openAPPStore('1300062750');
+                            } else {
+                                Toast.show('当前为最新版本');
+                            }
+                        })
+
+                    }else{
+
+                        // 下载最新Apk
+                        NativeModules.upgrade.upgrade(this.state.apkUrl);
+                        // NativeModules.upgrade.upgrade('https://www.pgyer.com/sKdC');
                     }
                 },
             },{

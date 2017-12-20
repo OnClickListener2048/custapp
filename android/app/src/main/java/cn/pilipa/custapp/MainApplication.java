@@ -63,7 +63,6 @@ public class MainApplication extends NavigationApplication {
 
         Bugly.init(getApplicationContext(), "d352a8a420", true);
         Beta.checkUpgrade(false,false);
-        new UpgradePackage();
     }
 
 
@@ -161,7 +160,8 @@ public class MainApplication extends NavigationApplication {
                 //new NavigationReactPackage(),
                 new RNDeviceInfo(),
                 new VectorIconsPackage(),
-                new BlurViewPackage(),
+                new UpgradePackage(),
+        new BlurViewPackage(),
                 new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG),
                 new UmengReactPackage(),
                 new WeChatPackage(),
