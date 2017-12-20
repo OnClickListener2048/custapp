@@ -148,16 +148,16 @@ public class MainApplication extends NavigationApplication {
     }
 
 
+    //new MainReactPackage(),                //new NavigationReactPackage(),
+
     @Nullable
     public List<ReactPackage> createAdditionalReactPackages() {
         return Arrays.<ReactPackage>asList(
-                //new MainReactPackage(),
             new RNSpinkitPackage(),
             new SvgPackage(),
                 new PLPAlertPackage(),
                 new PickerViewPackage(),
                 new PickerPackage(),
-                //new NavigationReactPackage(),
                 new RNDeviceInfo(),
                 new VectorIconsPackage(),
                 new UpgradePackage(),
