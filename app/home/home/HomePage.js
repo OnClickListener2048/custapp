@@ -108,7 +108,8 @@ export default class HomePage extends BComponent {
             isRefreshing:false,
             isFirstRefresh:true,
             isLoading:true,
-            bannerData:[]
+            bannerData:[],
+            visible: true
         };
 
     }
@@ -117,7 +118,21 @@ export default class HomePage extends BComponent {
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
 
+    onNavigatorEvent(event) {
+        if(DeviceInfo.OS === 'android'){
+            if (event.id === 'willAppear') {
+                this.setState({
+                    visible: true
+                });
+            }
+            if (event.id === 'willDisappear') {
+                this.setState({
+                    visible: false
+                });
+            }
+        }
 
+    }
 
     componentDidMount(){
         this.loadData()
@@ -380,24 +395,30 @@ export default class HomePage extends BComponent {
     }
     _renderBannerView(){
 
-        return(
-            <Swiper
-                style={{height:deviceWidth*ImageScale}}
-                autoplay = {true}
-                loop = {true}
-                showsPagination = {true}
-            >
-                {
-                    this.state.bannerData.map((item,index)=>{
-                        return(
-                            <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
-                                <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
-                            </TouchableWithoutFeedback>
-                        )
-                    })
-                }
-            </Swiper>
-        );
+        if(this.state.visible){
+            return(
+                <Swiper
+                    style={{height:deviceWidth*ImageScale}}
+                    loop = {true}
+                    autoplay = {true}
+                    showsPagination = {true}
+                >
+                    {
+                        this.state.bannerData.map((item,index)=>{
+                            return(
+                                <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
+                                    <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
+                                </TouchableWithoutFeedback>
+                            )
+                        })
+                    }
+                </Swiper>
+            );
+        }else{
+            return <View style={{height:deviceWidth*ImageScale}}/>
+        }
+
+
     }
     _goBannerDetail(item){
         UMTool.onEvent(item.name)
