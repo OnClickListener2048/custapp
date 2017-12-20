@@ -196,11 +196,11 @@ export default class MinePage extends BComponent {
                 if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.upgrade+this.state.loginCSwitch);
                     this.setState({
-                        // updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
-                        updateIcon:true,
-                        // newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
-                        newVersion:"1.0.6",
-                        isforce:responseData.info.isforce?responseData.info.isforce:true,
+                        updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
+                        // updateIcon:true,
+                        newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
+                        // newVersion:"1.0.6",
+                        isforce:responseData.info.isforce?responseData.info.isforce:false,
                         apkUrl:responseData.info.url?responseData.info.url:'',
                         desc:responseData.info.desc?responseData.info.desc:[],
                             loadState: 'success'
