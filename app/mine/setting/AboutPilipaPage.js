@@ -25,7 +25,7 @@ export default class AboutPilipaPage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            updateIcon:this.props.updateIcon,//this.props.updateIcon,//是否更新
+            updateIcon:this.props.updateIcon,//this.props.updateIcon,//是否显示new
             loadState:'success',
             upgrade:false,//是否有新版本
             newVersion:'',//最新APP版本号
@@ -207,7 +207,12 @@ export default class AboutPilipaPage extends BComponent {
                     />
 
                     {this.state.updateIcon=== false&&Platform.OS !== 'ios'?
-                        <CommentCell
+                        this.state.upgrade?<CommentCell
+                            leftText="版本更新"
+                            rightText={this.state.newVersion}
+                            style={{marginTop:9}}
+                            onPress={this._updateCode.bind(this)}
+                        />:<CommentCell
                             leftText="版本更新"
                             style={{marginTop:9}}
                             onPress={this._updateCode.bind(this)}
