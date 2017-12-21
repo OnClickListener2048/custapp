@@ -18,8 +18,6 @@ import {H5_URL} from '../../config'
 import * as apis from '../../apis/setting';
 import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast'
-import  TimerMixin from "react-timer-mixin";
-let loadings;
 
 
 export default class ServiceTermPage extends BComponent {
@@ -112,14 +110,6 @@ export default class ServiceTermPage extends BComponent {
 
     }
 
-    //跳转加载超时（暂定10秒）
-    setToggleTimeout() {
-        TimerMixin.setTimeout(() => {
-            SActivityIndicator.hide(loadings);
-            this.setToggleTimeout();
-        }, 10000);
-    }
-
     //版本更新点击事件
     _updateCode(){
         if(this.state.updateIcon === false){
@@ -154,9 +144,6 @@ export default class ServiceTermPage extends BComponent {
                         })
 
                     }else{
-                        loadings = SActivityIndicator.show(true, "载入中...");
-                        this.setToggleTimeout();
-
                         // 下载最新Apk
                         NativeModules.upgrade.upgrade(this.state.apkUrl);
                         // NativeModules.upgrade.upgrade('http://pilipa-assets.oss-cn-beijing.aliyuncs.com/app/li-armeabi-v7a-release_pilipa.apk');

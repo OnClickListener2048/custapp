@@ -10,9 +10,7 @@ import DeviceInfo from 'react-native-device-info';
 import {deviceHeight,deviceWidth} from "../util/ScreenUtil";
 const contentwidth = deviceWidth*0.7
 import Toast from 'react-native-root-toast'
-import  TimerMixin from "react-timer-mixin";
 
-let loading;
 class UpdateLightBox extends BComponent {
 
     constructor(props) {
@@ -77,14 +75,6 @@ class UpdateLightBox extends BComponent {
         );
     }
 
-    //跳转加载超时（暂定10秒）
-    setToggleTimeout() {
-        TimerMixin.setTimeout(() => {
-            SActivityIndicator.hide(loading);
-            this.setToggleTimeout();
-        }, 10000);
-    }
-
     //立即升级
     _upDate(){
         if(Platform.OS === 'ios'){
@@ -99,11 +89,9 @@ class UpdateLightBox extends BComponent {
 
         }else{
             console.log("存储Android   alert");
-            loading = SActivityIndicator.show(true, "载入中...");
-            this.setToggleTimeout();
             // 下载最新Apk
-            NativeModules.upgrade.upgrade(this.state.apkUrl);
-            // NativeModules.upgrade.upgrade('http://hlj-app.b0.upaiyun.com/zmw/upload/android-package/helijia.apk');
+            // NativeModules.upgrade.upgrade(this.state.apkUrl);
+            NativeModules.upgrade.upgrade('http://hlj-app.b0.upaiyun.com/zmw/upload/android-package/helijia.apk');
 
         }
         if(!this.props.isForce){//强制升级不关闭弹窗
