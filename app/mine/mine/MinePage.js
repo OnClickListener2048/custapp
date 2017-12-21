@@ -463,44 +463,17 @@ export default class MinePage extends BComponent {
             );
 
         }else if(screen == 'SettingPage'){
-            UserInfoStore.getUpgrade_setting().then(
-                (info) => {
-                    console.log('getUpgrade_setting', info);
-                    if (info !== null) {
+
                         this.push({
                             screen: screen,
                             title:title,
                             passProps: {
-                                updateIcon:info.upgrade,
+                                updateIcon:this.state.upgrade,
                                 //回调!
                                 callback: this._updateOpenOrClose,
                             }
                         });
-                    }else{
-                        this.push({
-                            screen: screen,
-                            title:title,
-                            passProps: {
-                                updateIcon:this.state.updateIcon,
-                                //回调!
-                                callback: this._updateOpenOrClose,
-                            }
-                        });
-                    }
-                },
-                (e) => {
-                    this.push({
-                        screen: screen,
-                        title:title,
-                        passProps: {
-                            updateIcon:this.state.updateIcon,
-                            //回调!
-                            callback: this._updateOpenOrClose,
-                        }
-                    });
-                    console.log("读取信息错误:", e);
-                },
-            );
+
 
         }else{
             this.push({
