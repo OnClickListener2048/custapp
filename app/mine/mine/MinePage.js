@@ -217,8 +217,8 @@ export default class MinePage extends BComponent {
                             if (info !== null) {
                                 console.log('getUpgrade_alert', info+","+info.upgrade,info.newversion);
 
-                                //如果有多级版本更新则更新存储信息
-                                if(info.newversion !== this.state.newVersion){
+                                //如果有多级版本更新则更新存储信息  或  强制更新则再次显示弹窗
+                                if(info.newversion !== this.state.newVersion||this.state.isforce){
                                     // UserInfoStore.removeUpgrade_alert().then();
                                     // UserInfoStore.removeUpgrade_setting().then();
                                     let  upgradeAlert = {
@@ -242,7 +242,7 @@ export default class MinePage extends BComponent {
                                     return;
                                 }
                             }
-                            if(this.state.newVersion!==DeviceInfo.getVersion()){
+                            if(this.state.newVersion!==DeviceInfo.getVersion()||this.state.isforce){
                                 console.log("唤起弹窗"+this.state.apkUrl+","+this.state.updateIcon);
                                 //调用更新提示框
                                 this.props.navigator.showLightBox({

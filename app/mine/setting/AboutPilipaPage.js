@@ -113,18 +113,18 @@ export default class AboutPilipaPage extends BComponent {
             return;
         }
         this.setState({
-            updateIcon:false,
+            updateIcon:true,
         })
         let callback = this.props.callback;
         if(callback) {
-            callback(false);
+            callback(true);
         }
         Alert.alert('更新提示', '立即更新到噼里啪', [
             {
                 text: "更新",
                 onPress: ()=>{
                     let  upgradeAlert = {
-                        'upgrade':false,
+                        'upgrade':true,
                         'newversion':this.state.newVersion,
                     }
                     UserInfoStore.setUpgrade_setting(upgradeAlert).then();
@@ -176,7 +176,7 @@ export default class AboutPilipaPage extends BComponent {
                 text: "取消",
                 onPress: ()=>{
                     let  upgradeAlert = {
-                        'upgrade':false,
+                        'upgrade':true,
                         'newversion':this.state.newVersion,
                     }
                     UserInfoStore.setUpgrade_setting(upgradeAlert).then();
