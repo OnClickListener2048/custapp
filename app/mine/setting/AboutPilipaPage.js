@@ -25,9 +25,9 @@ export default class AboutPilipaPage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            updateIcon:true,//this.props.updateIcon,//是否更新
+            updateIcon:this.props.updateIcon,//this.props.updateIcon,//是否显示new
             loadState:'success',
-            oldVersion:'',//当前APP版本号
+            upgrade:false,//是否有新版本
             newVersion:'',//最新APP版本号
             isforce:false,//是否强制更新
             apkUrl:'',//新包地址
@@ -56,11 +56,12 @@ export default class AboutPilipaPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
-                    console.log("版本更新信息="+responseData.info.version);
+                    console.log("设置页版本更新信息="+responseData.info.version,this.state.updateIcon);
                 // responseData.info.version = '1.0.6';
                 // responseData.info.url = 'http://hlj-app.b0.upaiyun.com/zmw/upload/android-package/helijia.apk';
 
                     this.setState({
+                        upgrade:responseData.info.upgrade?responseData.info.upgrade:false,
                         newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
                         isforce:responseData.info.isforce?responseData.info.isforce:false,
                         apkUrl:responseData.info.url?responseData.info.url:'',
@@ -107,7 +108,7 @@ export default class AboutPilipaPage extends BComponent {
 
     //版本更新点击事件
     _updateCode(){
-        if(this.state.updateIcon === false){
+        if(this.state.upgrade === false){
             Toast.show("当前已是最新版")
             return;
         }
@@ -206,10 +207,14 @@ export default class AboutPilipaPage extends BComponent {
                     />
 
                     {this.state.updateIcon=== false&&Platform.OS !== 'ios'?
-                        <CommentCell
+                        this.state.upgrade?<CommentCell
+                            leftText="版本更新"
+                            rightText={this.state.newVersion}
+                            style={{marginTop:9}}
+                            onPress={this._updateCode.bind(this)}
+                        />:<CommentCell
                             leftText="版本更新"
                             style={{marginTop:9}}
-                            rightText={this.state.newVersion}
                             onPress={this._updateCode.bind(this)}
                         />:Platform.OS !== 'ios'&&
                         <CommentCell
