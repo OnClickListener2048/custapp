@@ -401,6 +401,7 @@ export default class HomePage extends BComponent {
                 <Swiper
                     style={{height:deviceWidth*ImageScale}}
                     loop = {true}
+                    autoplayTimeout={5}
                     autoplay = {true}
                     showsPagination = {true}
                 >
@@ -422,7 +423,7 @@ export default class HomePage extends BComponent {
 
     }
     _goBannerDetail(item){
-        UMTool.onEvent(item.name)
+        UMTool.onEvent(item.eventsid)
         pushJump(this.props.navigator, item.url,item.name);
     }
     _goProductDetail(item){

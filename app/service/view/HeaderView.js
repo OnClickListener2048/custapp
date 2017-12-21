@@ -44,7 +44,7 @@ export default class HeaderView extends Component {
                         <View style={{flexDirection:'row'}}>
                             <Text style={[{fontSize:setSpText(20)},{color:'white'}]}>{this.props.month}月</Text>
                             <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end'},{color:'white'}]}>{this.props.year}</Text>
-                            <Image style={{alignSelf:'flex-end',margin:3}} source={require('../../img/triangle.png')}/>
+                            <Image style={{alignSelf:'flex-end',margin:5}} source={require('../../img/triangle.png')}/>
                         </View>
                         <Image source={require('../../img/today_white.png')}/>
                     </View>
