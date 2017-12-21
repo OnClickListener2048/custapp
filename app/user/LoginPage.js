@@ -28,7 +28,6 @@ import styles from './css/LoginPageStyle';
 import px2dp from '../util'
 import Toast from 'react-native-root-toast';
 import * as apis from '../apis';
-import InternetStatusView from '../modules/react-native-internet-status-view';
 import {Navigation} from 'react-native-navigation';
 import {DEBUG, SCREEN_WIDTH} from '../config';
 import Alert from "react-native-alert";
@@ -79,17 +78,14 @@ export default class LoginPage extends Component {
             passwordValid: false, // 手机模式密码
             password: '', // 手机模式密码有效
             loading: false, // 是否载入中, 载入中不能点击任何按钮
+            visible: false, // 是否界面还没初始化完毕, 没初始化完毕不现实任何UI元素
         };
 
         // this.state.mobile = props.mobile;
 
-        this._requestSMSCode = this._requestSMSCode.bind(this);
-        this._verifyVCode = this._verifyVCode.bind(this);
-        this._doChangeVCode = this._doChangeVCode.bind(this);
         this.readUserInfo = this.readUserInfo.bind(this);
         this._keyboardDidShow = this._keyboardDidShow.bind(this);
         this._keyboardDidHide = this._keyboardDidHide.bind(this);
-        this._setupDebug = this._setupDebug.bind(this);
         this.updateMobile = this.updateMobile.bind(this);
         this._goWechat = this._goWechat.bind(this);
 
@@ -194,22 +190,12 @@ export default class LoginPage extends Component {
 
 
     _goWechat() {
-        if (Platform.OS === 'ios' && this.state.openMobileLogin) {
-            this.showActionSheet();
-            return;
-        }
-
         WeChat.isWXAppInstalled().then(
             v => {
                 console.log(v);
 
                 if (!v) {
-                    if (Platform.OS === 'ios') {// iOS上不能检测出来是否安装了微信...
-                        this._doWeChatLogin();
-                    }
-                    else {
-                        Toast.show("对不起, 您的设备上必须首先安装微信才能登陆.");
-                    }
+                    Toast.show("对不起, 您的设备上必须首先安装微信才能登陆.");
                 } else {
                     this._doWeChatLogin();
                 }
@@ -221,29 +207,7 @@ export default class LoginPage extends Component {
         );
     }
 
-    //debug only
-    _setupDebug() {
-        UserInfoStore.getLastUserPhone().then(
-            (mobile) => {
-                if (mobile !== null) {
-                    this.setState({
-                        mobile: mobile,     // 手机号
-                        mobileValid: true,   // 手机号有效
-                        // smsCode: '888888',         // 短信验证码
-                        // smsCodeValid: true,        // 短信验证码有效
-                        // acceptLic: true,
-                        // vCode: 'E69M',         // 图片验证码
-                        // vCodeInputValid: false,          // 图片验证码有效
-                    });
-                }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
-        );
 
-
-    }
 
 
     back() {
@@ -273,24 +237,24 @@ export default class LoginPage extends Component {
 
     // 准备加载组件
     componentWillMount() {
-        // 发送通知
-        DeviceEventEmitter.emit('isHiddenTabBar', true);
         let deviceModel = DeviceInfo.getModel();
         // iPad 特殊处理, 便于苹果审核通过
         if (deviceModel && deviceModel.toLowerCase().includes('ipad')) {
             this.setState({centerBlankHeight: 0, submitButtonMarginTop: 0});
         }
 
-        apis.mobilelogin().then(
+        UserInfoStore.getMobileLoginInfo().then(
             v => {
                 console.log(v);
-                console.log(v.open);
-                // v.open = !v.open;
+                this.setState({visible: true});
+
+                // v.open = !v.open;// 调试开关反转
                 this.setState({openMobileLogin: v.open});
                 this.setState({mobileLogin: v.open});
                 this.setState({openMobileInfo: v});
             }, e => {
                 console.log(e);
+                this.setState({visible: true});
                 this.setState({openMobileLogin: false});
                 this.setState({mobileLogin: false});
             }
@@ -346,137 +310,6 @@ export default class LoginPage extends Component {
         }
     }
 
-    // 请求短信验证码
-    _requestSMSCode(shouldStartCountting) {
-        console.log('_requestSMSCode');
-        if (this.state.mobileValid && this.state.vCodeServerValid) {
-            apis.sendVerifyCode(this.state.mobile, this.state.vCodeInputValid ? this.state.vCode : null).then(
-                (responseData) => {
-                    Toast.show('短信验证码已发送');
-
-                    // Toast.show('测试环境短信验证码:' + responseData.msg);
-                    // Toast.show('测试环境短信验证码 ' + responseData.msg,
-                    //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
-                }, (e) => {
-                    console.log("短信验证码获取失败" + JSON.stringify(e));
-                    let msg = e.msg;
-                    if (msg !== undefined) {
-                        if (!msg.includes("图形验证码")) {
-                            Alert.alert('', msg,
-                                [
-                                    {
-                                        text: '确定',
-                                        onPress: () => {
-
-                                        },
-                                    },]
-                                , {cancelable: true});
-                        }
-                    } else {
-                        Alert.alert('', '短信验证码获取失败',
-                            [
-                                {
-                                    text: '确定',
-                                    onPress: () => {
-
-                                    },
-                                },]
-                            , {cancelable: true});
-                    }
-                    try {
-                        if (e.data !== undefined && e.data.verifyText !== null && e.data.verify !== null) {
-                            let {verifyText, verify} = e.data;
-                            if (verify !== null && verify.length > 0) {
-                                let picStr = "https://" + verify + "?phone=" + this.state.mobile + "&t=" + new Date().getTime();
-                                console.log('***** 请求图片', picStr);
-                                let picURL = {uri: picStr};
-                                this.setState({picURL});
-                                this.setState({picURLStr: verify});
-                            }
-
-                            if (verifyText !== null && verifyText.length > 0) {
-                                this.setState({vCodeServerValid: false});
-                                this.setState({verifyText});
-                            }
-
-                            console.log("**** refs", this.refs);
-                            // 重置允许获取验证码
-                            if (this.refs.timerButton.state.counting) {
-                                this.refs.timerButton.reset();
-                            }
-                            this.setState({timerButtonClicked: false});
-                        }
-                    } catch (e) {
-                        console.log("验证码异常*******", e);
-                        // 重置允许获取验证码
-                        if (this.refs.timerButton.state.counting) {
-                            this.refs.timerButton.reset();
-                        }
-                        this.setState({timerButtonClicked: false});
-                    }
-                }
-            );
-        }
-    }
-
-    // 验证图形码
-    _verifyVCode() {
-        console.log('_verifyVCode');
-        if (this.state.mobileValid) {
-            apis.sendVerifyVCode(this.state.mobile, this.state.vCodeInputValid ? this.state.vCode : null).then(
-                (responseData) => {
-                    Toast.show('图形验证码已验证');
-                    this.setState({vCodeServerValid: true});
-                    // this.setState({verifyText : null});
-                    // 重置允许获取验证码
-                    if (this.refs.timerButton.state.counting) {
-                        this.refs.timerButton.reset();
-                    }
-                    this.setState({timerButtonClicked: false});
-
-                    // this.focusField('smsCodeInput');
-                    // if(!this.refs.smsCodeInput.isFocused()) {
-                    //     this.refs.smsCodeInput.focus();
-                    // }
-                }, (e) => {
-                    console.log('_verifyVCode error:' + e.message);
-                    // 重置允许获取验证码
-                    if (this.refs.timerButton.state.counting) {
-                        this.refs.timerButton.reset();
-                    }
-                    this.setState({timerButtonClicked: false});
-                    let msg = '请输入正确的验证字符或手机号';//e.msg;
-                    // if(msg === undefined) {
-                    //     msg = e.message;
-                    // }
-
-                    if (msg !== undefined) {
-                        Alert.alert('', msg,
-                            [
-                                {
-                                    text: '确定',
-                                    onPress: () => {
-
-                                    },
-                                },]
-                            , {cancelable: true});
-                    }
-                    this._doChangeVCode();
-                }
-            );
-        }
-    }
-
-    _doChangeVCode() {
-        // 刷新验证码
-        let picURLStr = this.state.picURLStr;
-        if (picURLStr !== null && picURLStr.length > 0) {
-            let picStr = "https://" + picURLStr + "?phone=" + this.state.mobile + "&t=" + new Date().getTime();
-            console.log('***** 请求图片', picStr);
-            let picURL = {uri: picStr};
-            this.setState({picURL, vCode: '', vCodeInputValid: false});
-        }
-    }
 
 
     // 读取用户信息
@@ -735,6 +568,10 @@ export default class LoginPage extends Component {
     };
 
     render() {
+        if(!this.state.visible) {
+            return null;
+        }
+
         return (
 
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
@@ -752,16 +589,7 @@ export default class LoginPage extends Component {
                         }}>
                         <Image source={require('../img/login_back.png')}/>
                     </TouchableOpacity>
-                    {/*<InternetStatusView*/}
-                    {/*textToDisplay="未检测到网络连接，请确保WIFI或移动网络正常可用。"*/}
-                    {/*style={{*/}
-                    {/*justifyContent: 'center',*/}
-                    {/*alignSelf: 'stretch',*/}
-                    {/*backgroundColor: '#00000088',*/}
-                    {/*marginTop: px2dp(50),*/}
-                    {/*height: 25*/}
-                    {/*}}*/}
-                    {/*/>*/}
+
 
                     <Image source={require('../img/login_icon.png')} style={[styles.bzLogo,
                         {marginTop: px2dp(this.state.headPad)}]}/>
