@@ -117,7 +117,7 @@ export default class AboutPilipaPage extends BComponent {
         })
         let callback = this.props.callback;
         if(callback) {
-            callback(false);
+            callback(true);
         }
         Alert.alert('更新提示', '立即更新到噼里啪', [
             {
