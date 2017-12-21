@@ -122,6 +122,15 @@ export default class AboutPilipaPage extends BComponent {
         }
         Alert.alert('更新提示', '立即更新到噼里啪', [
             {
+                text: "取消",
+                onPress: ()=>{
+                    let  upgradeAlert = {
+                        'upgrade':true,
+                        'newversion':this.state.newVersion,
+                    }
+                    UserInfoStore.setUpgrade_setting(upgradeAlert).then();
+                },style: 'cancel',
+            },{
                 text: "更新",
                 onPress: ()=>{
                     let  upgradeAlert = {
@@ -173,15 +182,6 @@ export default class AboutPilipaPage extends BComponent {
                         // NativeModules.upgrade.upgrade('http://pilipa-assets.oss-cn-beijing.aliyuncs.com/app/li-armeabi-v7a-release_pilipa.apk');
                     }
                 },
-            },{
-                text: "取消",
-                onPress: ()=>{
-                    let  upgradeAlert = {
-                        'upgrade':true,
-                        'newversion':this.state.newVersion,
-                    }
-                    UserInfoStore.setUpgrade_setting(upgradeAlert).then();
-                },style: 'cancel',
             }]);
     }
 
