@@ -145,17 +145,19 @@ export default class ServicePage extends BComponent {
                                 this.companyid = undefined
                                 this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
                             }
+
                             this.loadData(this.state.year+'-'+this.state.month)
 
                         },
                         (e) => {
-
+                            this.companyid = undefined
                             this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
                             this.loadData(this.state.year+'-'+this.state.month)
                         },
                     );
                 } else {
                     //未登录
+                    this.companyid = undefined
                     this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
                     this.loadData(this.state.year+'-'+this.state.month)
 
@@ -163,6 +165,7 @@ export default class ServicePage extends BComponent {
             },
             e => {
                 //未登录
+                this.companyid = undefined
                 this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
                 this.loadData(this.state.year+'-'+this.state.month)
             }
