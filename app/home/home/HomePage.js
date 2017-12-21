@@ -26,6 +26,7 @@ import pushJump from '../../util/pushJump';
 import Swiper from 'react-native-swiper';
 
 const ImageScale = 0.42
+import {isIphoneX} from '../../util/iphoneX-helper'
 
 import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
@@ -373,7 +374,7 @@ export default class HomePage extends BComponent {
         let width = (deviceWidth - marginLeft*(col+1))/col
 
         return(
-            <View style={{width:DeviceInfo.width, marginTop:DeviceInfo.OS==='ios'?-20:0}}>
+            <View style={{width:DeviceInfo.width, marginTop:DeviceInfo.OS==='ios'?isIphoneX()?0:-20:0}}>
                 {this._renderBannerView()}
                 <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
                     {
