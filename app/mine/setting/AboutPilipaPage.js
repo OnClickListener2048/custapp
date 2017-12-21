@@ -140,14 +140,8 @@ export default class AboutPilipaPage extends BComponent {
                     UserInfoStore.setUpgrade_setting(upgradeAlert).then();
                     if(Platform.OS === 'ios'){
 
-                        NativeModules.upgrade.upgrade('1300062750',(msg) =>{
-                            if('YES' === msg) {
-                                //跳转到APP Stroe
-                                NativeModules.upgrade.openAPPStore('1300062750');
-                            } else {
-                                Toast.show('当前为最新版本');
-                            }
-                        })
+                        //跳转到APP Stroe
+                        NativeModules.upgrade.openAPPStore('1300062750');
 
                     }else{
                         // loadings =
