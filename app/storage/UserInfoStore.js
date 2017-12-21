@@ -13,6 +13,7 @@ let NEW_VERSION = "NEW_VERSION";//线上最新版本
 let LAST_USER_PHONE = "LAST_USER_PHONE";// 上次登陆后的用户手机号
 const KEY_COMPANY_INFO = "KEY_COMPANY_INFO";// 公司信息
 const KEY_COMPANYARR_INFOS = "KEY_COMPANYARR_INFOS";// 公司信息数组
+const KEY_MOBILE_INFO = "KEY_MOBILE_INFO";// 苹果审核开关
 
 // 返回是否已登陆
 UserInfoStore.isLogined = async function (): boolean {
@@ -148,6 +149,23 @@ UserInfoStore.getCompanyArr = async function () {
         return JSON.parse(value);
     }
     return value;
+};
+
+UserInfoStore.setMobileLoginInfo = async function (value: object) {
+ return Preferences.set(KEY_MOBILE_INFO, JSON.stringify(value));
+};
+
+UserInfoStore.getMobileLoginInfo = async function () {
+    let value = await Preferences.get(KEY_MOBILE_INFO);
+    if (value) {
+        console.log('getMobileLoginInfo', value);
+        return JSON.parse(value);
+    }
+    return value;
+};
+
+UserInfoStore.removeMobileLoginInfo = async function () {
+    return Preferences.remove(KEY_MOBILE_INFO);
 };
 
 global.UserInfoStore = UserInfoStore;// 全局可用

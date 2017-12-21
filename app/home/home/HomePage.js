@@ -135,10 +135,21 @@ export default class HomePage extends BComponent {
 
     }
 
+    componentWillMount() {
+        // 读取审核开关
+        apis.mobilelogin().then(
+            v => {
+                UserInfoStore.setMobileLoginInfo(v).then();
+            }, e => {
+                console.log(e);
+                UserInfoStore.removeMobileLoginInfo().then();
+            }
+        );
+    }
+
     componentDidMount(){
         this.loadData()
     }
-
 
         loadData(type = '0'){
         // let loading
