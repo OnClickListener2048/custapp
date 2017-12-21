@@ -293,7 +293,7 @@ export default class ServicePage extends BComponent {
                         }
                     })}>
                         <View style={{width:deviceWidth*0.7,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center'}}>{this.state.title}&#12288;</Text>
+                            <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
                             <Image source={require('../../img/change_arrow.png')}/>
                         </View>
 
@@ -302,7 +302,7 @@ export default class ServicePage extends BComponent {
             }else{
                 //一家
                 return (
-                    <Text style={{fontSize:setSpText(18),fontWeight:'bold'}}>{this.state.title}</Text>
+                    <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
                 )
             }
         }else{
@@ -325,8 +325,8 @@ export default class ServicePage extends BComponent {
                         }]);
                 }}>
                     <View style={{width:deviceWidth*0.7,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center'}}>{this.state.title}&#12288;</Text>
-                        <Image source={require('../../img/change_arrow.png')}/>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
+                        <Image   source={require('../../img/change_arrow.png')}/>
                     </View>
 
                 </TouchableOpacity>

@@ -76,7 +76,6 @@ export default class MinePage extends BComponent {
 
                                 let tmpCompaniesArr = companyInfo.list;
 
-
                                 UserInfoStore.getCompanyArr().then(
                                     (companyArr) => {
                                         if (JSON.stringify(tmpCompaniesArr) != JSON.stringify(companyArr)) {
@@ -334,7 +333,6 @@ export default class MinePage extends BComponent {
     }
 
     render(){
-        console.log("settingNew",this.state.settingNew);
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9',position:'relative'}}>
                 <View style={{width:DeviceInfo.width,height:DeviceInfo.height/3,backgroundColor:'white',position:'absolute'}}/>
@@ -347,7 +345,7 @@ export default class MinePage extends BComponent {
                                 <Text style={styles.login}>
                                     {this.state.phone || this.state.userName}
                                 </Text>
-                                <Text style={styles.company}>
+                                <Text numberOfLines={1} style={styles.company}>
                                     {this.state.company}
                                 </Text>
                             </View>
