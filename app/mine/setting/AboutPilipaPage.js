@@ -25,7 +25,7 @@ export default class AboutPilipaPage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            updateIcon:true,//this.props.updateIcon,//是否更新
+            updateIcon:this.props.updateIcon,//this.props.updateIcon,//是否更新
             loadState:'success',
             oldVersion:'',//当前APP版本号
             newVersion:'',//最新APP版本号
@@ -56,7 +56,7 @@ export default class AboutPilipaPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
-                    console.log("版本更新信息="+responseData.info.version);
+                    console.log("设置页版本更新信息="+responseData.info.version,this.state.updateIcon);
                 // responseData.info.version = '1.0.6';
                 // responseData.info.url = 'http://hlj-app.b0.upaiyun.com/zmw/upload/android-package/helijia.apk';
 
@@ -209,7 +209,6 @@ export default class AboutPilipaPage extends BComponent {
                         <CommentCell
                             leftText="版本更新"
                             style={{marginTop:9}}
-                            rightText={this.state.newVersion}
                             onPress={this._updateCode.bind(this)}
                         />:Platform.OS !== 'ios'&&
                         <CommentCell

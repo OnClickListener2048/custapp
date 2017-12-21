@@ -32,7 +32,7 @@ export default class MinePage extends BComponent {
             avatar: require('../../img/head_img.png'),// 头像
             company: '请立即注册或登录',//公司名称
             logined: false,// 是否已登陆
-            updateIcon:false,
+            updateIcon:false,//红色提示（New）是否显示，及首页更新弹窗是否显示
             loadState:'success',
             newVersion:'',//最新APP版本号
             isforce:false,//是否强制更新
