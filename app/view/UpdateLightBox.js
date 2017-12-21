@@ -9,21 +9,24 @@ import BComponent from '../base/BComponent'
 import DeviceInfo from 'react-native-device-info';
 import {deviceHeight,deviceWidth} from "../util/ScreenUtil";
 const contentwidth = deviceWidth*0.7
-import Toast from 'react-native-root-toast'
-import  TimerMixin from "react-timer-mixin";
+import Toast from 'react-native-root-toast';
+import Alert from "react-native-alert";
 
-let loading;
-class UpdateLightBox extends BComponent {
+// 升级弹窗
+export default class UpdateLightBox extends BComponent {
 
     constructor(props) {
         super(props);
-
+        this.state = {
+            inProgress: this.props.inProgress,// 升级中
+        };
     }
     static defaultProps = {
         version:'',//版本号
         dataArr:[],//更新说明
         isForce:false,//是否强制更新
-        apkUrl:'',//apk下载地址
+        apkUrl:'',//apk下载地址,
+        inProgress: false,// 升级中
     };
 
     render() {
@@ -61,11 +64,13 @@ class UpdateLightBox extends BComponent {
                             <View style={{width:contentwidth-80,height:40,borderRadius:20,backgroundColor:'rgba(252,117,28,1)',marginTop:25,justifyContent:'center',
                                 alignItems:
                                     'center'}}>
-                                <Text style={{color:'white',fontSize:18}}>立即升级</Text>
+                                <Text style={{color:'white',fontSize:18}}>{this.state.inProgress? '等待升级完成中...' : '立即升级'}</Text>
                             </View>
                         </TouchableOpacity>
+
                         {
-                            this.props.isForce?null:<TouchableOpacity onPress={()=>{this._cancle()}}><View style={{width:contentwidth-80,height:40,borderRadius:20,backgroundColor:'white',marginTop:20,justifyContent:'center',
+                            !this.props.isForce &&
+                            <TouchableOpacity onPress={()=>{this._cancle()}}><View style={{width:contentwidth-80,height:40,borderRadius:20,backgroundColor:'white',marginTop:20,justifyContent:'center',
                                 alignItems:'center',borderWidth:1,borderColor:'rgba(153,153,153,1)'}}>
                                 <Text style={{color:'rgba(153,153,153,1)',fontSize:18}}>立即取消</Text>
                             </View></TouchableOpacity>
@@ -75,14 +80,6 @@ class UpdateLightBox extends BComponent {
                 </View>
             </View>
         );
-    }
-
-    //跳转加载超时（暂定10秒）
-    setToggleTimeout() {
-        TimerMixin.setTimeout(() => {
-            SActivityIndicator.hide(loading);
-            this.setToggleTimeout();
-        }, 10000);
     }
 
     //立即升级
@@ -98,11 +95,19 @@ class UpdateLightBox extends BComponent {
             })
 
         }else{
+            if(this.state.inProgress) {
+                return;
+            }
+
             console.log("存储Android   alert");
-            loading = SActivityIndicator.show(true, "载入中...");
-            this.setToggleTimeout();
-            // 下载最新Apk
-            NativeModules.upgrade.upgrade(this.state.apkUrl);
+            if(this.props.isForce) {
+                Alert.alert("更新已开始", "安装包已在后台下载, 请等待升级到最新版");
+            } else {
+                alert("安装包已在后台下载, 请等待下载完成后安装");
+            }
+            this.setState({inProgress: true});
+                // 下载最新Apk
+            NativeModules.upgrade.upgrade(this.props.apkUrl);
             // NativeModules.upgrade.upgrade('http://hlj-app.b0.upaiyun.com/zmw/upload/android-package/helijia.apk');
 
         }
@@ -110,14 +115,13 @@ class UpdateLightBox extends BComponent {
             let  upgradeAlerts = {
                 'upgrade':false,
                 'newversion':this.props.version,
-            }
+            };
             UserInfoStore.setUpgrade_alert(upgradeAlerts).then();
             console.log("存储alert");
             this.props.navigator.dismissLightBox()
         }else if(this.props.version===DeviceInfo.getVersion()){
             this.props.navigator.dismissLightBox()
         }
-
 
     }
 
@@ -126,14 +130,10 @@ class UpdateLightBox extends BComponent {
         let  upgradeAlert = {
             'upgrade':false,
             'newversion':this.props.version,
-        }
+        };
         UserInfoStore.setUpgrade_alert(upgradeAlert).then();
         console.log("存储alert");
         this.props.navigator.dismissLightBox()
 
     }
 }
-
-
-
-export default UpdateLightBox;

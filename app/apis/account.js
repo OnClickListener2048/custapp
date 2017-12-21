@@ -48,10 +48,8 @@ export async function getVerifyVCodeImage(device = '', type = '1') {
 /**
  * 获取公司信息
  */
-export async function getCompany(mobile = '') {
+export function getCompany(mobile = '') {
     return getApi('/api/v1.01/companies', {mobile});
-
-
 }
 
 // 问题反馈

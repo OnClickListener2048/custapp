@@ -18,16 +18,14 @@ import {H5_URL} from '../../config'
 import * as apis from '../../apis/setting';
 import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast'
-import  TimerMixin from "react-timer-mixin";
-let loadings;
 
 
-export default class ServiceTermPage extends BComponent {
+export default class AboutPilipaPage extends BComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            updateIcon:this.props.updateIcon,//是否更新
+            updateIcon:true,//this.props.updateIcon,//是否更新
             loadState:'success',
             oldVersion:'',//当前APP版本号
             newVersion:'',//最新APP版本号
@@ -58,8 +56,10 @@ export default class ServiceTermPage extends BComponent {
             (responseData) => {
                 SActivityIndicator.hide(loading);
 
-                if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.version);
+                // responseData.info.version = '1.0.6';
+                // responseData.info.url = 'http://hlj-app.b0.upaiyun.com/zmw/upload/android-package/helijia.apk';
+
                     this.setState({
                         newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
                         isforce:responseData.info.isforce?responseData.info.isforce:false,
@@ -68,12 +68,6 @@ export default class ServiceTermPage extends BComponent {
                         loadState: 'success'
                         }
                     );
-                }else{
-                    this.setState({
-                            loadState: 'error'
-                        }
-                    );
-                }
             },
             (e) => {
                 SActivityIndicator.hide(loading);
@@ -82,7 +76,6 @@ export default class ServiceTermPage extends BComponent {
                     loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
                 })
                 console.log('error', e)
-
             },
         );
     }
@@ -112,14 +105,6 @@ export default class ServiceTermPage extends BComponent {
 
     }
 
-    //跳转加载超时（暂定10秒）
-    setToggleTimeout() {
-        TimerMixin.setTimeout(() => {
-            SActivityIndicator.hide(loadings);
-            this.setToggleTimeout();
-        }, 10000);
-    }
-
     //版本更新点击事件
     _updateCode(){
         if(this.state.updateIcon === false){
@@ -145,7 +130,7 @@ export default class ServiceTermPage extends BComponent {
                     if(Platform.OS === 'ios'){
 
                         NativeModules.upgrade.upgrade('1300062750',(msg) =>{
-                            if('YES' == msg) {
+                            if('YES' === msg) {
                                 //跳转到APP Stroe
                                 NativeModules.upgrade.openAPPStore('1300062750');
                             } else {
@@ -154,8 +139,32 @@ export default class ServiceTermPage extends BComponent {
                         })
 
                     }else{
-                        loadings = SActivityIndicator.show(true, "载入中...");
-                        this.setToggleTimeout();
+                        // loadings =
+                        // this.setToggleTimeout();
+                        if(this.state.isforce) {
+                            //调用更新提示框
+                            this.props.navigator.showLightBox({
+                                screen: "UpdateLightBox",
+                                passProps: {
+                                    onClose: () => {},
+                                    // dataArr:['1.版本更新版本更新版本更新版本更新版本更新版本更新版本更新','2.dfjsifjksdafjas','3.fdaskfjadskfjsdkf'],
+                                    dataArr:this.state.desc,
+                                    version:this.state.newVersion,
+                                    apkUrl:this.state.apkUrl,
+                                    isForce:this.state.isforce,
+                                    inProgress: true,
+                                },
+                                overrideBackPress: true, // 拦截返回键
+                                style: {
+                                    backgroundBlur: 'none',
+                                    backgroundColor: 'rgba(0,0,0,0.5)',
+                                    tapBackgroundToDismiss:false
+                                }
+                            });
+                        } else {
+                            Toast.show("安装包已在后台下载, 请等待下载完成后安装");
+                        }
+
 
                         // 下载最新Apk
                         NativeModules.upgrade.upgrade(this.state.apkUrl);
