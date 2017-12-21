@@ -195,11 +195,11 @@ export default class MinePage extends BComponent {
             (responseData) => {
                 if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.upgrade+this.state.loginCSwitch);
-                    responseData.info.version = '1.0.6';
-                    responseData.info.url = 'http://pilipa-assets.oss-cn-beijing.aliyuncs.com/app/li-armeabi-v7a-release_pilipa.apk';
-                    responseData.info.isforce = true;
-                    responseData.info.desc = ["更新说明"];
-                    responseData.info.upgrade = true;
+                    // responseData.info.version = '1.0.6';
+                    // responseData.info.url = 'http://pilipa-assets.oss-cn-beijing.aliyuncs.com/app/li-armeabi-v7a-release_pilipa.apk';
+                    // responseData.info.isforce = true;
+                    // responseData.info.desc = ["更新说明"];
+                    // responseData.info.upgrade = true;
 
                     this.setState({
                         updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
@@ -255,7 +255,7 @@ export default class MinePage extends BComponent {
                                         apkUrl:this.state.apkUrl,
                                         isForce:this.state.isforce,
                                     },
-                                    overrideBackPress: false,//this.state.isforce, // 拦截返回键
+                                    overrideBackPress: true, // 拦截返回键
                                     style: {
                                         backgroundBlur: 'none',
                                         backgroundColor: 'rgba(0,0,0,0.5)',

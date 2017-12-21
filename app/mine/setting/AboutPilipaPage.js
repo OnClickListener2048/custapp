@@ -57,8 +57,8 @@ export default class AboutPilipaPage extends BComponent {
                 SActivityIndicator.hide(loading);
 
                     console.log("版本更新信息="+responseData.info.version);
-                responseData.info.version = '1.0.6';
-                responseData.info.url = 'http://hlj-app.b0.upaiyun.com/zmw/upload/android-package/helijia.apk';
+                // responseData.info.version = '1.0.6';
+                // responseData.info.url = 'http://hlj-app.b0.upaiyun.com/zmw/upload/android-package/helijia.apk';
 
                     this.setState({
                         newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),

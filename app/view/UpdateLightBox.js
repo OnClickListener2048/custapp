@@ -12,7 +12,8 @@ const contentwidth = deviceWidth*0.7
 import Toast from 'react-native-root-toast';
 import Alert from "react-native-alert";
 
-class UpdateLightBox extends BComponent {
+// 升级弹窗
+export default class UpdateLightBox extends BComponent {
 
     constructor(props) {
         super(props);
@@ -136,7 +137,3 @@ class UpdateLightBox extends BComponent {
 
     }
 }
-
-
-
-export default UpdateLightBox;
