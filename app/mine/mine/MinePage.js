@@ -20,7 +20,6 @@ import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast';
-import * as apis from '../../apis';
 import * as apisSettings from '../../apis/setting';
 import * as apiSwitch from '../../apis/account';
 
@@ -70,7 +69,7 @@ export default class MinePage extends BComponent {
             (user) => {
                 if (user && user.mobilePhone) {
                     //获取公司
-                    apis.getCompany(user.mobilePhone).then(
+                    apiSwitch.getCompany(user.mobilePhone).then(
                         (companyInfo) => {
                             if (companyInfo) {
 
@@ -196,6 +195,12 @@ export default class MinePage extends BComponent {
             (responseData) => {
                 if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.upgrade+this.state.loginCSwitch);
+                    responseData.info.version = '1.0.6';
+                    responseData.info.url = 'http://pilipa-assets.oss-cn-beijing.aliyuncs.com/app/li-armeabi-v7a-release_pilipa.apk';
+                    responseData.info.isforce = true;
+                    responseData.info.desc = ["更新说明"];
+                    responseData.info.upgrade = true;
+
                     this.setState({
                         updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
                         // updateIcon:true,
@@ -250,7 +255,7 @@ export default class MinePage extends BComponent {
                                         apkUrl:this.state.apkUrl,
                                         isForce:this.state.isforce,
                                     },
-                                    overrideBackPress: true, // 拦截返回键
+                                    overrideBackPress: false,//this.state.isforce, // 拦截返回键
                                     style: {
                                         backgroundBlur: 'none',
                                         backgroundColor: 'rgba(0,0,0,0.5)',
