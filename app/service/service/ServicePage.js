@@ -310,17 +310,18 @@ export default class ServicePage extends BComponent {
             return(
                 <TouchableOpacity onPress ={()=>{
 
-                    Alert.alert('提示', '立即登录查看您公司的财务数据', [
+                    Alert.alert('提示', '立即登录查看您公司的财务数据', [{
+                        text: "再看看",
+                        onPress: ()=>{
+                            console.log('you clicked cancel');
+                        },
+                        color:'#999999'
+                    },
                         {
                             text: "登录",
                             onPress: ()=>{
                                 loginJumpSingleton.goToLogin(this.props.navigator);
                             },
-                        },{
-                            text: "再看看",
-                            onPress: ()=>{
-                                console.log('you clicked cancel');
-                            },style: 'cancel',
                         }]);
                 }}>
                     <View style={{width:deviceWidth*0.7,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
