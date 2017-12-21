@@ -33,6 +33,7 @@ export default class MinePage extends BComponent {
             company: '请立即注册或登录',//公司名称
             logined: false,// 是否已登陆
             updateIcon:false,//红色提示（New）是否显示，及首页更新弹窗是否显示
+            upgrade:false,//是否有新版本
             loadState:'success',
             newVersion:'',//最新APP版本号
             isforce:false,//是否强制更新
@@ -201,6 +202,7 @@ export default class MinePage extends BComponent {
                     // responseData.info.upgrade = true;
 
                     this.setState({
+                        upgrade:responseData.info.upgrade?responseData.info.upgrade:false,
                         updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
                         // updateIcon:true,
                         newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
@@ -242,8 +244,8 @@ export default class MinePage extends BComponent {
                                     return;
                                 }
                             }
-                            if(this.state.newVersion!==DeviceInfo.getVersion()||this.state.isforce){
-                                console.log("唤起弹窗"+this.state.apkUrl+","+this.state.updateIcon);
+                            if(this.state.upgrade||this.state.isforce){
+                                console.log("唤起弹窗"+this.state.apkUrl+","+this.state.updateIcon,this.state.upgrade);
                                 //调用更新提示框
                                 this.props.navigator.showLightBox({
                                     screen: "UpdateLightBox",
@@ -339,7 +341,7 @@ export default class MinePage extends BComponent {
     }
 
     render(){
-        console.log("new是否显示的settingNew="+this.state.settingNew);
+        console.log("new是否显示的settingNew="+this.state.settingNew+this.state.upgrade);
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9',position:'relative'}}>
                 <View style={{width:DeviceInfo.width,height:DeviceInfo.height/3,backgroundColor:'white',position:'absolute'}}/>
@@ -377,7 +379,7 @@ export default class MinePage extends BComponent {
                         onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
                         style={{marginTop:9}}
                     />
-                    {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)?
+                    {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)||!this.state.upgrade?
                         <CommenCell
                         leftText="设置"
                         onPress = {this._goto.bind(this,'SettingPage','设置')}

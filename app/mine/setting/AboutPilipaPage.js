@@ -108,6 +108,7 @@ export default class AboutPilipaPage extends BComponent {
 
     //版本更新点击事件
     _updateCode(){
+        console.log("upgrade="+this.state.upgrade);
         if(this.state.upgrade === false){
             Toast.show("当前已是最新版")
             return;
