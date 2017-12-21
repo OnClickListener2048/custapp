@@ -39,7 +39,7 @@ export default class MinePage extends BComponent {
             apkUrl:'',//新包地址
             desc:[],//版本说明
             loginCSwitch:true,//默认开关关闭
-            settingNew:false,//默认显示版本更新的new
+            settingNew:true,//默认显示版本更新的new
         };
 
         this.initPage = this.initPage.bind(this);
@@ -243,6 +243,7 @@ export default class MinePage extends BComponent {
                                 }
                             }
                             if(this.state.newVersion!==DeviceInfo.getVersion()){
+                                console.log("唤起弹窗"+this.state.apkUrl+","+this.state.updateIcon);
                                 //调用更新提示框
                                 this.props.navigator.showLightBox({
                                     screen: "UpdateLightBox",
@@ -338,6 +339,7 @@ export default class MinePage extends BComponent {
     }
 
     render(){
+        console.log("new是否显示的settingNew="+this.state.settingNew);
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9',position:'relative'}}>
                 <View style={{width:DeviceInfo.width,height:DeviceInfo.height/3,backgroundColor:'white',position:'absolute'}}/>

@@ -27,7 +27,7 @@ export default class AboutPilipaPage extends BComponent {
         this.state = {
             updateIcon:this.props.updateIcon,//this.props.updateIcon,//是否更新
             loadState:'success',
-            oldVersion:'',//当前APP版本号
+            upgrade:false,//是否有新版本
             newVersion:'',//最新APP版本号
             isforce:false,//是否强制更新
             apkUrl:'',//新包地址
@@ -61,6 +61,7 @@ export default class AboutPilipaPage extends BComponent {
                 // responseData.info.url = 'http://hlj-app.b0.upaiyun.com/zmw/upload/android-package/helijia.apk';
 
                     this.setState({
+                        upgrade:responseData.info.upgrade?responseData.info.upgrade:false,
                         newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
                         isforce:responseData.info.isforce?responseData.info.isforce:false,
                         apkUrl:responseData.info.url?responseData.info.url:'',
@@ -107,7 +108,7 @@ export default class AboutPilipaPage extends BComponent {
 
     //版本更新点击事件
     _updateCode(){
-        if(this.state.updateIcon === false){
+        if(this.state.upgrade === false){
             Toast.show("当前已是最新版")
             return;
         }
