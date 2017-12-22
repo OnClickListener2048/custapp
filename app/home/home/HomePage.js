@@ -120,6 +120,7 @@ export default class HomePage extends BComponent {
     };
 
     onNavigatorEvent(event) {
+        super.onNavigatorEvent(event);
         if(DeviceInfo.OS === 'android'){
             if (event.id === 'willAppear') {
                 this.setState({

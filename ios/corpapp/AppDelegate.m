@@ -86,6 +86,7 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
   
+//  [NSThread sleepForTimeInterval:1.0];
 //  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
   
   // **********************************************

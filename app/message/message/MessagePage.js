@@ -52,7 +52,7 @@ export default class MessagePage extends BComponent {
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
          // console.log('ApplicationCenterPage event.type', event.type);
         //console.log('ApplicationCenterPage event.type', event.id);
-
+        super.onNavigatorEvent(event)
         if(event.id === 'didAppear'){
 
             if (this.state.isAppear === false){
