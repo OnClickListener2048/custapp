@@ -103,6 +103,7 @@ export default class BComponent extends Component {
         }
         if (event.id === 'bottomTabSelected') {
 
+            //拦截tab 建
             // if(event.selectedTabIndex==3){
             //
             //     UserInfoStore.isLogined().then(
