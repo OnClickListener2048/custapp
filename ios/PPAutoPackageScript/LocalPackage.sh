@@ -167,3 +167,9 @@ if [ "$method" = "4" ] ; then
     echo "自动上传至蒲公英"
     curl -F "file=@$export_ipa_path/$ipa_name.ipa" -F "_api_key=6f113667ad1a8c289064c375683d68c5" http://www.pgyer.com/apiv2/app/upload
 fi
+
+if [ "$method" = "2" ] ; then
+    echo "自动上传至TestFlight"
+    #/Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/altool -v -f $export_ipa_path/$ipa_name.ipa -u kane.mx@gmail.com -p lgkz-llbv-hofg-gkrt -t ios
+    /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/altool --upload-app -f $export_ipa_path/$ipa_name.ipa -t ios -u kane.mx@gmail.com -p lgkz-llbv-hofg-gkrt
+fi

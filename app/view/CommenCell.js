@@ -21,6 +21,7 @@ export default class CommenCell extends Component {
         leftTextStyle:{},//左侧文字样式
         leftImgStyle:{},//左侧图片样式
         leftIcon:null,//左侧图片  本地图片传require（），网络图片传字符串
+        leftTextIcon:null,//左侧图片(靠文字右侧图片)  本地图片传require（），网络图片传字符串
 
         centerTextStyle:{}, //中间文字样式
         centerText:'',//中间文字内容
@@ -67,14 +68,14 @@ export default class CommenCell extends Component {
 
     _renderLeftView(){
 
-        if(this.props.leftIcon == null){
+        if(this.props.leftIcon === null&&this.props.leftTextIcon === null){
             //左边没图片
             return(
                 <View style = {styles.leftViewStyle}>
-                    <Text style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                    <Text numberOfLines={1} style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
                 </View>
             );
-        }else{
+        }else if(this.props.leftIcon !== null&&this.props.leftTextIcon === null){
             //左边有图片
             if(typeof (this.props.leftIcon) == 'string'){
                 return(
@@ -84,10 +85,31 @@ export default class CommenCell extends Component {
                     </View>
                 );
             }else {
+                return (
+                    <View style={styles.leftViewStyle}>
+                        <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
+                               source={this.props.leftIcon}/>
+                        <Text
+                            style={[styles.leftTextStyle, this.props.leftTextStyle, {marginLeft: 10}]}>{this.props.leftText}</Text>
+                    </View>
+                )
+            }
+        }else if(this.props.leftIcon === null&&this.props.leftTextIcon !== null){
+            //左边有图片
+            if(typeof (this.props.leftTextIcon) == 'string'){
                 return(
                     <View style = {styles.leftViewStyle}>
-                        <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle]} source={this.props.leftIcon} />
-                        <Text style = {[styles.leftTextStyle,this.props.leftTextStyle,{marginLeft:10}]}>{this.props.leftText}</Text>
+                        <Text style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                        <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle,{marginLeft:10}]} source={{uri:this.props.leftTextIcon}} />
+
+                    </View>
+                );
+            }else {
+                return(
+                    <View style = {styles.leftViewStyle}>
+                        <Text style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                        <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle,{marginLeft:10}]} source={this.props.leftTextIcon} />
+
                     </View>
                 )
             }

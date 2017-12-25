@@ -13,7 +13,7 @@ import {
     StyleSheet,
     Animated,
     Platform,
-    ImageBackground
+    TouchableWithoutFeedback
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 import * as apis from '../../apis';
@@ -21,6 +21,13 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
 import Toast from 'react-native-root-toast'
+import pushJump from '../../util/pushJump';
+
+import Swiper from 'react-native-swiper';
+
+const ImageScale = 0.42
+import {isIphoneX} from '../../util/iphoneX-helper'
+
 import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
 const col = 4
@@ -28,24 +35,40 @@ const itemMargin = scaleSize(10)
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 const headerData = [
     {
-        'title':'注册公司',
-        "logo":require('../../img/register.png')
+        title:'注册公司',
+        logo:require('../../img/register.png'),
+        url:H5_URL+'register?platform=app',
+        eventId:'registerCompany'
     },
     {
-        'title':'记账报税',
-        "logo":require('../../img/Accounting.png')
+        title:'记账报税',
+        logo:require('../../img/Accounting.png'),
+        url:H5_URL+'accounting?platform=app',
+        eventId:'accountingAndTax'
     },
     {
-        'title':'财务报表',
-        "logo":require('../../img/Finance.png')
+        title:'财务报表',
+        logo:require('../../img/Finance.png'),
+        url:'pilipa://tab.service',
+        eventId:'financialReport'
     },
     {
-        'title':'企业变更',
-        "logo":require('../../img/changeConpany.png')
+        title:'企业变更',
+        logo:require('../../img/changeConpany.png'),
+        url:H5_URL+'change?platform=app',
+        eventId:'enterpriseChange'
     },
     {
-        'title':'加盟合作',
-        "logo":require('../../img/registerConpany1.png')
+        title:'免费核名',
+        logo:require('../../img/check_name.png'),
+        url:'pilipa://view.company.check',
+        eventId:'homepage_checkname'
+    },
+    {
+        title:'加盟合作',
+        logo:require('../../img/registerConpany1.png'),
+        url:H5_URL+'invest?platform=app',
+        eventId:'leagueCooperation'
     }
 ]
 const footData = [
@@ -74,7 +97,8 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
-import DefaultView from '../../view/DefaultView'
+
+
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -84,17 +108,51 @@ export default class HomePage extends BComponent {
             loadState:'success',
             isRefreshing:false,
             isFirstRefresh:true,
-            isLoading:true
+            isLoading:true,
+            bannerData:[],
+            visible: true
         };
+
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
+
+    onNavigatorEvent(event) {
+        super.onNavigatorEvent(event);
+        if(DeviceInfo.OS === 'android'){
+            if (event.id === 'willAppear') {
+                this.setState({
+                    visible: true
+                });
+            }
+            if (event.id === 'willDisappear') {
+                this.setState({
+                    visible: false
+                });
+            }
+        }
+
+    }
+
+    componentWillMount() {
+        // 读取审核开关
+        apis.mobilelogin().then(
+            v => {
+                UserInfoStore.setMobileLoginInfo(v).then();
+            }, e => {
+                console.log(e);
+                UserInfoStore.removeMobileLoginInfo().then();
+            }
+        );
+    }
+
     componentDidMount(){
         this.loadData()
     }
-    loadData(type = '0'){
+
+        loadData(type = '0'){
         // let loading
         if(this.state.isFirstRefresh){
             //第一次加载显示菊花loading
@@ -170,16 +228,28 @@ export default class HomePage extends BComponent {
                 })
             },
         );
+        apis.loadHomeBanner().then(
+            (responseData) => {
+                if(responseData.code == 0 && responseData.list){
+                    this.setState({
+                        bannerData:responseData.list
+                    })
+
+                }
+            },
+            (e) => {
+
+            },
+        );
     }
 
     _listEmptyComponent(){
         let h = 0;
         if (DeviceInfo.OS === 'ios'){
-            h = DeviceInfo.height-60-110-64-(DeviceInfo.width*0.42)-44;
+            h = DeviceInfo.height-64-(DeviceInfo.width*ImageScale)-110*2;
         }else{
-            h = DeviceInfo.height-50-110-44-(DeviceInfo.width*0.42)-44;
+            h = DeviceInfo.height-44-(DeviceInfo.width*ImageScale)-110*2;
         }
-
 
             if(this.state.loadState == 'no-data'){
                 return(
@@ -234,32 +304,6 @@ export default class HomePage extends BComponent {
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
         )
-
-        // if(this.state.loadState == 'success'){
-        //
-        //     return(
-        //         <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-        //             <SectionList
-        //                 renderItem={this._renderItem.bind(this)}
-        //                 renderSectionHeader={this._renderSectionHeader.bind(this)}
-        //                 sections={this.state.dataSource}
-        //                 stickySectionHeadersEnabled={false}
-        //                 ListHeaderComponent={this._listHeaderComponent.bind(this)}
-        //                 ListFooterComponent={this._listFooterComponent.bind(this)}
-        //                 onRefresh={this._onRefresh.bind(this)}
-        //                 refreshing={this.state.isRefreshing}
-        //             >
-        //             </SectionList>
-        //         </View>
-        //
-        //     )
-        //
-        // }else {
-        //     return(
-        //         <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
-        //     )
-        // }
-
     }
     _onRefresh(){
         this.loadData()
@@ -336,24 +380,22 @@ export default class HomePage extends BComponent {
         )
     }
     _listHeaderComponent(){
+
+        let col = 3;
+        let marginLeft= 40;
+        let width = (deviceWidth - marginLeft*(col+1))/col
+
         return(
-            <View style={{width:DeviceInfo.width}}>
-                <TouchableOpacity onPress={this._goVerifyName.bind(this)}>
-                    <Image resizeMode="cover" source={require('../../img/banner.png')} style={{width:deviceWidth,height:DeviceInfo.width*0.42}}>
-                        {/*<Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>免费核查公司名称,让您轻松通过工商注册</Text>*/}
-                        {/*<TouchableOpacity   onPress={this._goVerifyName.bind(this)} style={{width:160,height:30,borderRadius:15,backgroundColor:'#CB1A19',justifyContent:'center',alignItems:'center',marginTop:15}}>*/}
-                        {/*<Text style={{color:'white',fontSize:setSpText(16)}}>免费核名</Text>*/}
-                        {/*</TouchableOpacity>*/}
-                    </Image>
-                </TouchableOpacity>
-                <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white'}}>
+            <View style={{width:DeviceInfo.width, marginTop:DeviceInfo.OS==='ios'?isIphoneX()?0:-20:0}}>
+                {this._renderBannerView()}
+                <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
                     {
                         headerData.map((item,i)=>{
                             return(
-                                <TouchableOpacity key={i} style={{flex:1}} onPress={()=>this._goColumnDetail(i,item)}>
-                                    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                                        <Image style={{marginTop:20,width:45,height:45}} source={item.logo }/>
-                                        <Text  style={{marginTop:10,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
+                                <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,item)}>
+                                    <View style={{justifyContent:'center',alignItems:'center',width,marginLeft}}>
+                                        <Image style={{marginTop:20,width:width-20, height:width-20}} source={item.logo }/>
+                                        <Text  style={{marginTop:15,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
                                     </View>
                                 </TouchableOpacity>
                             )
@@ -364,136 +406,48 @@ export default class HomePage extends BComponent {
 
         )
     }
+    _renderBannerView(){
+
+        if(this.state.visible){
+            return(
+                <Swiper
+                    style={{height:deviceWidth*ImageScale}}
+                    loop = {true}
+                    autoplayTimeout={5}
+                    autoplay = {true}
+                    showsPagination = {true}
+                >
+                    {
+                        this.state.bannerData.map((item,index)=>{
+                            return(
+                                <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
+                                    <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
+                                </TouchableWithoutFeedback>
+                            )
+                        })
+                    }
+                </Swiper>
+            );
+        }else{
+            return <View style={{height:deviceWidth*ImageScale}}/>
+        }
 
 
-
-    _goVerifyResultPage(){
-
-        this.push({
-            screen: 'VerifyResultPage',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-            title:'核名结果',
-        });
+    }
+    _goBannerDetail(item){
+        UMTool.onEvent(item.eventsid)
+        pushJump(this.props.navigator, item.url,item.name);
     }
     _goProductDetail(item){
-        UMTool.onEvent(item.eventsid)
-        // this.props.navigator.push({
-        //     screen: 'ProductDetailPage',
-        //     title:item.name,
-        //     passProps:{
-        //         navigatorTitle : item.name,
-        //         item
-        //     }
-        // });
-        this.push({
-            screen: 'WebViewPage',
-            title:item.name,
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-            passProps:{
-                url:item.url
-            }
-        });
+
+        UMTool.onEvent(item.eventId)
+        pushJump(this.props.navigator, item.url,item.name);
     }
     _goColumnDetail(index,item){
-        switch (index){
-            case 0:
-            {
-                UMTool.onEvent('registerCompany')
-                // this.props.navigator.push({
-                //     screen: 'ColumnDetailPage',
-                //     title:item.title,
-                //     passProps:{
-                //         navigatorTitle : item.title,
-                //         type:1
-                //     }
-                // });
-                this.push({
-                    screen: 'WebViewPage',
-                    title:'注册公司',
-                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    passProps:{
-                        url:H5_URL+'register?platform=app'
-                    }
-                });
-            }
-                break
-            case 1:
-            {
-                UMTool.onEvent('accountingAndTax')
-                // this.props.navigator.push({
-                //     screen: 'ColumnDetailPage',
-                //     title:item.title,
-                //     passProps:{
-                //         navigatorTitle : item.title,
-                //         type:2
-                //     }
-                // });
-                this.push({
-                    screen: 'WebViewPage',
-                    title:'记账报税',
-                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    passProps:{
-                        url:H5_URL+'accounting?platform=app'
-                    }
-                });
-            }
-                break
-            case 2:
-            {
-                UMTool.onEvent('financialReport')
-                this.props.navigator.switchToTab({
-                    tabIndex: 2
-                });
-            }
-                break
-            case 3:
-            {
-                UMTool.onEvent('enterpriseChange')
-                // this.props.navigator.push({
-                //     screen: 'ColumnDetailPage',
-                //     title:item.title,
-                //     passProps:{
-                //         navigatorTitle : item.title,
-                //         type:3
-                //     }
-                // });
-                this.push({
-                    screen: 'WebViewPage',
-                    title:'企业变更',
-                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    passProps:{
-                        url:H5_URL+'change?platform=app'
-                    }
-                });
-            }
-                break
-            case 4:
-            {
-                UMTool.onEvent('leagueCooperation')
-                this.push({
-                    screen: 'WebViewPage',
-                    title:'加盟合作',
-                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    passProps:{
-                        url:H5_URL+'invest?platform=app'
-                    }
-                });
+        UMTool.onEvent(item.eventId)
+        pushJump(this.props.navigator, item.url,item.title);
+    }
 
-            }
-                break
-            default:
-                break
-        }
-        
-    }
-    _goVerifyName(){
-        UMTool.onEvent('homepage_checkname')
-        this.push({
-            screen: 'VerifyNamePage',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-            title:'免费核名',
-        });
-    }
 
 }
 

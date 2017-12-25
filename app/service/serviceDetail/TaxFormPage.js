@@ -31,7 +31,8 @@ export default class TaxFormPage extends BComponent {
             isRefreshing:false,
             year:props.year,
             month:props.month,
-            isfirstRefresh:true
+            isfirstRefresh:true,
+            isLoading:false
         }
 
     }
@@ -94,6 +95,9 @@ export default class TaxFormPage extends BComponent {
     _onRefresh(){
         this.loadData(this.state.year+'-'+this.state.month,true)
     }
+    _showTimer(){
+        this.refs.ChooseTimerModal._showTimer()
+    }
     _listHeaderComponent(){
         return (
             <View style={{width:DeviceInfo.width}}>
@@ -106,6 +110,9 @@ export default class TaxFormPage extends BComponent {
                     leftNum=""
                     rightDes=""
                     rightNum=""
+                    year={this.state.year}
+                    month={this.state.month}
+                    _showTimer={this._showTimer.bind(this)}
                 />
                 <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="纳税表明细"/>
 
@@ -205,7 +212,7 @@ export default class TaxFormPage extends BComponent {
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                <ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
             </View>
         )
     }

@@ -63,7 +63,7 @@ export default class HttpAdapterCustApp extends HttpAdapter {
             responseJson.hasOwnProperty('code')) {
             if ( responseJson.code === 0) {
                 return responseJson;
-            } else if ( responseJson.code === 40000003) {
+            } else if ( responseJson.code === 401) {
                 // Token无效时自动跳转到登录页
                 DeviceEventEmitter.emit('goLoginPage', true);
                 return Promise.reject(responseJson);
@@ -71,6 +71,23 @@ export default class HttpAdapterCustApp extends HttpAdapter {
         }
         console.log("后台响应报文有误");
         return Promise.reject(responseJson);
+    }
+
+    /**
+     * 处理默认的Http错误信息, 确保msg不为空, 子类可以覆盖此行为.
+     * @param response Response对象
+     * @returns {{code: *, msg: *}}
+     */
+    makeErrorMsg (response) : Object {
+        let json = super.makeErrorMsg(response);
+        let {status, statusText} = response;
+
+        if(status === 401) {
+            // 401 转向登录页面
+            DeviceEventEmitter.emit('goLoginPage', true);
+        }
+
+        return json;
     }
 
     isConnected() : boolean {

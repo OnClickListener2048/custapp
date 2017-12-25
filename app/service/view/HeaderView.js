@@ -7,9 +7,10 @@ import {
     View,
     Text,
     Image,
-    ImageBackground,
+    TouchableOpacity,
     StyleSheet,
-    Platform
+    Platform,
+    TouchableWithoutFeedback
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 
@@ -37,6 +38,17 @@ export default class HeaderView extends Component {
         return(
             <Image style={styles.wrapper}
                    source={hasTop&&hasBottom?require('../../img/service_bg.png'):require('../../img/service_receive_bg.png')}>
+                <TouchableWithoutFeedback  activeOpacity={1} onPress={()=>{this.props._showTimer&&this.props._showTimer()}}>
+                    <View style={[{width:DeviceInfo.width,flexDirection:'row',padding:15,paddingLeft:24,paddingRight:24,
+                        justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:DeviceInfo.onePR,backgroundColor:'transparent',position:'absolute',top:0,left:0}]}>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={[{fontSize:setSpText(20)},{color:'white'}]}>{this.props.month}月</Text>
+                            <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end'},{color:'white'}]}>{this.props.year}</Text>
+                            <Image style={{alignSelf:'flex-end',margin:5}} source={require('../../img/triangle.png')}/>
+                        </View>
+                        <Image source={require('../../img/today_white.png')}/>
+                    </View>
+                </TouchableWithoutFeedback>
                 {this._renderTop()}
                 {this._renderBottom()}
             </Image>

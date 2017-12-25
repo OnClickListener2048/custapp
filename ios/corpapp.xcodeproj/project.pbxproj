@@ -43,7 +43,21 @@
 		2DCD954D1E0B4F2C00145EB5 /* corpappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* corpappTests.m */; };
 		35BFB7DB03514790937103A0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B80FA943F36647FB91972A89 /* CoreGraphics.framework */; };
 		3D02EE5B46134FCEA3432D97 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40C8A4E4C39249C3A0FD4352 /* FontAwesome.ttf */; };
-		4C4DE59F1F67E31700FFA149 /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4DE58A1F67E1CC00FFA149 /* libRCTWeChat.a */; };
+		4C4EDEA51FD927E300A71EAD /* DCLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4EDEA21FD927E200A71EAD /* DCLog.m */; };
+		4C573E061FE39C5600AA2E92 /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4DE58A1F67E1CC00FFA149 /* libRCTWeChat.a */; };
+		4C5A46391FD91005008AAE26 /* NEHTTPEye.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46241FD91005008AAE26 /* NEHTTPEye.m */; };
+		4C5A463A1FD91005008AAE26 /* NEHTTPEyeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46261FD91005008AAE26 /* NEHTTPEyeDetailViewController.m */; };
+		4C5A463B1FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46281FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m */; };
+		4C5A463C1FD91005008AAE26 /* NEHTTPEyeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A462A1FD91005008AAE26 /* NEHTTPEyeViewController.m */; };
+		4C5A463D1FD91005008AAE26 /* NEHTTPModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A462C1FD91005008AAE26 /* NEHTTPModel.m */; };
+		4C5A463E1FD91005008AAE26 /* NEHTTPModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A462E1FD91005008AAE26 /* NEHTTPModelManager.m */; };
+		4C5A463F1FD91005008AAE26 /* NEKeyboardShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46301FD91005008AAE26 /* NEKeyboardShortcutManager.m */; };
+		4C5A46401FD91005008AAE26 /* NEMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46321FD91005008AAE26 /* NEMapViewController.m */; };
+		4C5A46411FD91005008AAE26 /* NEShakeGestureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46341FD91005008AAE26 /* NEShakeGestureManager.m */; };
+		4C5A46421FD91005008AAE26 /* NEURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46361FD91005008AAE26 /* NEURLSessionConfiguration.m */; };
+		4C5A46431FD91005008AAE26 /* UIWindow+NEExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46381FD91005008AAE26 /* UIWindow+NEExtension.m */; };
+		4C5A46461FD91B41008AAE26 /* MyBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46451FD91B41008AAE26 /* MyBar.m */; };
+		4C5A46491FD92408008AAE26 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A46481FD92408008AAE26 /* LogViewController.m */; };
 		4CB73ED81F429BD70018C00A /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB73ED71F429BD70018C00A /* UMMobClick.framework */; };
 		4CB73EDE1F429BF40018C00A /* UMNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB73EDD1F429BF40018C00A /* UMNative.m */; };
 		4CB73EE01F429D120018C00A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB73EDF1F429D120018C00A /* libsqlite3.tbd */; };
@@ -65,10 +79,13 @@
 		83162E091EFCC58A0031CA7A /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83162DE31EFCC5450031CA7A /* RSKImageCropper.framework */; };
 		83162E0A1EFCC58A0031CA7A /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 83162DE31EFCC5450031CA7A /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		83AA3E7E1FEA0DF3000D3836 /* upgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AA3E7D1FEA0DF3000D3836 /* upgrade.m */; };
 		8681B9B515F74C5380B46CD4 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C4F35D0882457A8C738D0D /* libRNSpinkit.a */; };
 		8BE7B07F46754585BEC43177 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712127CBAFE4408085C55623 /* CoreTelephony.framework */; };
 		8FAB6DCCE5D0423C8FE9CA48 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2758CF5095384C08943BD664 /* Entypo.ttf */; };
+		B2485D899E1A4243A9CA9681 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87FF0CC6331343AAA7D30B20 /* libRCTJCoreModule.a */; };
 		B3FA13E95A5646C39C757110 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AB272067FB42379DF185B7 /* libz.tbd */; };
+		BC1BB30799FD49198F69FD86 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A32AA7727F9A47729DDE2A49 /* Feather.ttf */; };
 		C30E55D7A85A41C5AB2173BA /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F41427D626C48109F82DDCD /* libc++.tbd */; };
 		C34FFE0F7FA54338BE920DCF /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79C240DBF0264B06B811EAE2 /* libRNSVG.a */; };
 		C4D18E200218412399140025 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3534C717D8834B7B9A192786 /* SimpleLineIcons.ttf */; };
@@ -272,6 +289,20 @@
 			remoteGlobalIDString = 10D6D7A41F160C250066F0F3;
 			remoteInfo = RCTWeChatTests;
 		};
+		4CAA235C1FDE554B0094ECC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0638EBE380CD4457B6EF4B9D /* RCTJCoreModule.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6212E9B41F3990DC00BDF51A;
+			remoteInfo = RCTJCoreModule;
+		};
+		4CAA23831FDE554B0094ECC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F72D41BD6BEB458DB88BDB50 /* RCTJPushModule.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6280980A1CEDC407000D3A81;
+			remoteInfo = RCTJPushModule;
+		};
 		4CB8A6B81F7209FB001FC1F3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4CB8A6B41F7209FB001FC1F3 /* RCTClearCacheModule.xcodeproj */;
@@ -370,13 +401,6 @@
 			remoteGlobalIDString = CC2128051F2F1A7500262541;
 			remoteInfo = ZTAlertView;
 		};
-		E3065E181EF0E23700294B0D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FE682726094E43ACAD36A1B6 /* RCTJPushModule.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6280980A1CEDC407000D3A81;
-			remoteInfo = RCTJPushModule;
-		};
 		E3065E2E1EF0E23700294B0D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EFB551CEB7F94865B4EF767B /* ReactNativeNavigation.xcodeproj */;
@@ -432,6 +456,7 @@
 		00E356EE1AD99517003FC87E /* corpappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = corpappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* corpappTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = corpappTests.m; sourceTree = "<group>"; };
+		0638EBE380CD4457B6EF4B9D /* RCTJCoreModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTJCoreModule.xcodeproj; path = "../node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* corpapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = corpapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -459,6 +484,34 @@
 		4609ED98B60D46B6BA3770EC /* libRCTBEEPickerManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBEEPickerManager.a; sourceTree = "<group>"; };
 		47E94947C4FD49238EBD9AF5 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
 		4C4DE56F1F67E1CC00FFA149 /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../node_modules/react-native-wechat/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
+		4C4EDE751FD927E200A71EAD /* DCLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCLog.h; sourceTree = "<group>"; };
+		4C4EDEA21FD927E200A71EAD /* DCLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCLog.m; sourceTree = "<group>"; };
+		4C5A46231FD91005008AAE26 /* NEHTTPEye.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEHTTPEye.h; sourceTree = "<group>"; };
+		4C5A46241FD91005008AAE26 /* NEHTTPEye.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEHTTPEye.m; sourceTree = "<group>"; };
+		4C5A46251FD91005008AAE26 /* NEHTTPEyeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEHTTPEyeDetailViewController.h; sourceTree = "<group>"; };
+		4C5A46261FD91005008AAE26 /* NEHTTPEyeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEHTTPEyeDetailViewController.m; sourceTree = "<group>"; };
+		4C5A46271FD91005008AAE26 /* NEHTTPEyeSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEHTTPEyeSettingsViewController.h; sourceTree = "<group>"; };
+		4C5A46281FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEHTTPEyeSettingsViewController.m; sourceTree = "<group>"; };
+		4C5A46291FD91005008AAE26 /* NEHTTPEyeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEHTTPEyeViewController.h; sourceTree = "<group>"; };
+		4C5A462A1FD91005008AAE26 /* NEHTTPEyeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEHTTPEyeViewController.m; sourceTree = "<group>"; };
+		4C5A462B1FD91005008AAE26 /* NEHTTPModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEHTTPModel.h; sourceTree = "<group>"; };
+		4C5A462C1FD91005008AAE26 /* NEHTTPModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEHTTPModel.m; sourceTree = "<group>"; };
+		4C5A462D1FD91005008AAE26 /* NEHTTPModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEHTTPModelManager.h; sourceTree = "<group>"; };
+		4C5A462E1FD91005008AAE26 /* NEHTTPModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEHTTPModelManager.m; sourceTree = "<group>"; };
+		4C5A462F1FD91005008AAE26 /* NEKeyboardShortcutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEKeyboardShortcutManager.h; sourceTree = "<group>"; };
+		4C5A46301FD91005008AAE26 /* NEKeyboardShortcutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEKeyboardShortcutManager.m; sourceTree = "<group>"; };
+		4C5A46311FD91005008AAE26 /* NEMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEMapViewController.h; sourceTree = "<group>"; };
+		4C5A46321FD91005008AAE26 /* NEMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEMapViewController.m; sourceTree = "<group>"; };
+		4C5A46331FD91005008AAE26 /* NEShakeGestureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEShakeGestureManager.h; sourceTree = "<group>"; };
+		4C5A46341FD91005008AAE26 /* NEShakeGestureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEShakeGestureManager.m; sourceTree = "<group>"; };
+		4C5A46351FD91005008AAE26 /* NEURLSessionConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NEURLSessionConfiguration.h; sourceTree = "<group>"; };
+		4C5A46361FD91005008AAE26 /* NEURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NEURLSessionConfiguration.m; sourceTree = "<group>"; };
+		4C5A46371FD91005008AAE26 /* UIWindow+NEExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+NEExtension.h"; sourceTree = "<group>"; };
+		4C5A46381FD91005008AAE26 /* UIWindow+NEExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+NEExtension.m"; sourceTree = "<group>"; };
+		4C5A46441FD91B41008AAE26 /* MyBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyBar.h; sourceTree = "<group>"; };
+		4C5A46451FD91B41008AAE26 /* MyBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyBar.m; sourceTree = "<group>"; };
+		4C5A46471FD92408008AAE26 /* LogViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
+		4C5A46481FD92408008AAE26 /* LogViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
 		4CB73ED71F429BD70018C00A /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		4CB73EDC1F429BF40018C00A /* UMNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMNative.h; sourceTree = "<group>"; };
 		4CB73EDD1F429BF40018C00A /* UMNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMNative.m; sourceTree = "<group>"; };
@@ -478,9 +531,13 @@
 		83162DE21EFCC5450031CA7A /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = "<group>"; };
 		83162DE31EFCC5450031CA7A /* RSKImageCropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		83AA3E4F1FEA0DF3000D3836 /* upgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upgrade.h; sourceTree = "<group>"; };
+		83AA3E7D1FEA0DF3000D3836 /* upgrade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = upgrade.m; sourceTree = "<group>"; };
+		87FF0CC6331343AAA7D30B20 /* libRCTJCoreModule.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTJCoreModule.a; sourceTree = "<group>"; };
 		99F39C20519D4E478DB4352D /* ZTAlertView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ZTAlertView.xcodeproj; path = "../node_modules/react-native-alert/ios/ZTAlertView.xcodeproj"; sourceTree = "<group>"; };
 		9F5B65A9E8AA44BEAC6307E9 /* libRCTJPushModule.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTJPushModule.a; sourceTree = "<group>"; };
 		A2CDC8C512D04BC8B29A902D /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		A32AA7727F9A47729DDE2A49 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		B80FA943F36647FB91972A89 /* CoreGraphics.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BC4205A0316540A091B34D3E /* CFNetwork.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C3AB272067FB42379DF185B7 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -498,7 +555,7 @@
 		F00B1389467445BEBA946DA2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F2867101F8064C919D043B1F /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		F60DDCB3FC3844EEBF01BEB5 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
-		FE682726094E43ACAD36A1B6 /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
+		F72D41BD6BEB458DB88BDB50 /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -514,8 +571,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C573E061FE39C5600AA2E92 /* libRCTWeChat.a in Frameworks */,
 				4CB8A6BA1F720A1A001FC1F3 /* libRCTClearCacheModule.a in Frameworks */,
-				4C4DE59F1F67E31700FFA149 /* libRCTWeChat.a in Frameworks */,
 				4CB73EE01F429D120018C00A /* libsqlite3.tbd in Frameworks */,
 				4CB73ED81F429BD70018C00A /* UMMobClick.framework in Frameworks */,
 				CC2CC0991F31EB340095871E /* libZTAlertView.a in Frameworks */,
@@ -556,6 +613,7 @@
 				CB74B2B9FECC43B7A3545F60 /* libRCTBEEPickerManager.a in Frameworks */,
 				C34FFE0F7FA54338BE920DCF /* libRNSVG.a in Frameworks */,
 				8681B9B515F74C5380B46CD4 /* libRNSpinkit.a in Frameworks */,
+				B2485D899E1A4243A9CA9681 /* libRCTJCoreModule.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,6 +722,7 @@
 		13B07FAE1A68108700A75B9A /* corpapp */ = {
 			isa = PBXGroup;
 			children = (
+				4C5A46221FD91005008AAE26 /* NetworkEye */,
 				4CB73EDC1F429BF40018C00A /* UMNative.h */,
 				4CB73EDD1F429BF40018C00A /* UMNative.m */,
 				CCCACC011F061FBE008FB508 /* corpapp.entitlements */,
@@ -671,6 +730,8 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				83AA3E4F1FEA0DF3000D3836 /* upgrade.h */,
+				83AA3E7D1FEA0DF3000D3836 /* upgrade.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -711,6 +772,58 @@
 			children = (
 				4C4DE58A1F67E1CC00FFA149 /* libRCTWeChat.a */,
 				4C4DE58C1F67E1CC00FFA149 /* RCTWeChatTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4C5A46221FD91005008AAE26 /* NetworkEye */ = {
+			isa = PBXGroup;
+			children = (
+				4C4EDE751FD927E200A71EAD /* DCLog.h */,
+				4C4EDEA21FD927E200A71EAD /* DCLog.m */,
+				4C5A46231FD91005008AAE26 /* NEHTTPEye.h */,
+				4C5A46241FD91005008AAE26 /* NEHTTPEye.m */,
+				4C5A46251FD91005008AAE26 /* NEHTTPEyeDetailViewController.h */,
+				4C5A46261FD91005008AAE26 /* NEHTTPEyeDetailViewController.m */,
+				4C5A46271FD91005008AAE26 /* NEHTTPEyeSettingsViewController.h */,
+				4C5A46281FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m */,
+				4C5A46291FD91005008AAE26 /* NEHTTPEyeViewController.h */,
+				4C5A462A1FD91005008AAE26 /* NEHTTPEyeViewController.m */,
+				4C5A462B1FD91005008AAE26 /* NEHTTPModel.h */,
+				4C5A462C1FD91005008AAE26 /* NEHTTPModel.m */,
+				4C5A462D1FD91005008AAE26 /* NEHTTPModelManager.h */,
+				4C5A462E1FD91005008AAE26 /* NEHTTPModelManager.m */,
+				4C5A462F1FD91005008AAE26 /* NEKeyboardShortcutManager.h */,
+				4C5A46301FD91005008AAE26 /* NEKeyboardShortcutManager.m */,
+				4C5A46311FD91005008AAE26 /* NEMapViewController.h */,
+				4C5A46321FD91005008AAE26 /* NEMapViewController.m */,
+				4C5A46331FD91005008AAE26 /* NEShakeGestureManager.h */,
+				4C5A46341FD91005008AAE26 /* NEShakeGestureManager.m */,
+				4C5A46351FD91005008AAE26 /* NEURLSessionConfiguration.h */,
+				4C5A46361FD91005008AAE26 /* NEURLSessionConfiguration.m */,
+				4C5A46371FD91005008AAE26 /* UIWindow+NEExtension.h */,
+				4C5A46381FD91005008AAE26 /* UIWindow+NEExtension.m */,
+				4C5A46441FD91B41008AAE26 /* MyBar.h */,
+				4C5A46451FD91B41008AAE26 /* MyBar.m */,
+				4C5A46471FD92408008AAE26 /* LogViewController.h */,
+				4C5A46481FD92408008AAE26 /* LogViewController.m */,
+			);
+			name = NetworkEye;
+			path = corpapp/NetworkEye;
+			sourceTree = "<group>";
+		};
+		4CAA23501FDE554B0094ECC5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4CAA235D1FDE554B0094ECC5 /* libRCTJCoreModule.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4CAA23801FDE554B0094ECC5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4CAA23841FDE554B0094ECC5 /* libRCTJPushModule.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -771,12 +884,13 @@
 				D72E095FBA70460B976BC928 /* RNVectorIcons.xcodeproj */,
 				3E93F6B273514AAAAA80D9F5 /* RNDeviceInfo.xcodeproj */,
 				EFB551CEB7F94865B4EF767B /* ReactNativeNavigation.xcodeproj */,
-				FE682726094E43ACAD36A1B6 /* RCTJPushModule.xcodeproj */,
 				30A2278CAF08454197B1F6EB /* imageCropPicker.xcodeproj */,
 				1B10AC44EA3744B48AEC46A9 /* RCTBEEPickerManager.xcodeproj */,
 				99F39C20519D4E478DB4352D /* ZTAlertView.xcodeproj */,
 				F2867101F8064C919D043B1F /* RNSVG.xcodeproj */,
 				F60DDCB3FC3844EEBF01BEB5 /* RNSpinkit.xcodeproj */,
+				0638EBE380CD4457B6EF4B9D /* RCTJCoreModule.xcodeproj */,
+				F72D41BD6BEB458DB88BDB50 /* RCTJPushModule.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -867,6 +981,7 @@
 				CFD3BB77481F4C0BB6B897B0 /* Octicons.ttf */,
 				3534C717D8834B7B9A192786 /* SimpleLineIcons.ttf */,
 				3B2E7DB9AA8C42F28846B646 /* Zocial.ttf */,
+				A32AA7727F9A47729DDE2A49 /* Feather.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -893,6 +1008,7 @@
 				4609ED98B60D46B6BA3770EC /* libRCTBEEPickerManager.a */,
 				79C240DBF0264B06B811EAE2 /* libRNSVG.a */,
 				43C4F35D0882457A8C738D0D /* libRNSpinkit.a */,
+				87FF0CC6331343AAA7D30B20 /* libRCTJCoreModule.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -909,14 +1025,6 @@
 			isa = PBXGroup;
 			children = (
 				E3065E2F1EF0E23700294B0D /* libReactNativeNavigation.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		E3065E0F1EF0E23700294B0D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E3065E191EF0E23700294B0D /* libRCTJPushModule.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1096,8 +1204,12 @@
 					ProjectRef = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
 				},
 				{
-					ProductGroup = E3065E0F1EF0E23700294B0D /* Products */;
-					ProjectRef = FE682726094E43ACAD36A1B6 /* RCTJPushModule.xcodeproj */;
+					ProductGroup = 4CAA23501FDE554B0094ECC5 /* Products */;
+					ProjectRef = 0638EBE380CD4457B6EF4B9D /* RCTJCoreModule.xcodeproj */;
+				},
+				{
+					ProductGroup = 4CAA23801FDE554B0094ECC5 /* Products */;
+					ProjectRef = F72D41BD6BEB458DB88BDB50 /* RCTJPushModule.xcodeproj */;
 				},
 				{
 					ProductGroup = 78C398B11ACF4ADC00677621 /* Products */;
@@ -1346,6 +1458,20 @@
 			remoteRef = 4C4DE58B1F67E1CC00FFA149 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		4CAA235D1FDE554B0094ECC5 /* libRCTJCoreModule.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTJCoreModule.a;
+			remoteRef = 4CAA235C1FDE554B0094ECC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4CAA23841FDE554B0094ECC5 /* libRCTJPushModule.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTJPushModule.a;
+			remoteRef = 4CAA23831FDE554B0094ECC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		4CB8A6B91F7209FB001FC1F3 /* libRCTClearCacheModule.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1444,13 +1570,6 @@
 			remoteRef = CC304DCC1F31EAAB0061CB00 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E3065E191EF0E23700294B0D /* libRCTJPushModule.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTJPushModule.a;
-			remoteRef = E3065E181EF0E23700294B0D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		E3065E2F1EF0E23700294B0D /* libReactNativeNavigation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1505,6 +1624,7 @@
 				170C979501214A8D8F598342 /* Octicons.ttf in Resources */,
 				C4D18E200218412399140025 /* SimpleLineIcons.ttf in Resources */,
 				0DD43394F79647619BC34780 /* Zocial.ttf in Resources */,
+				BC1BB30799FD49198F69FD86 /* Feather.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1582,9 +1702,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C5A46421FD91005008AAE26 /* NEURLSessionConfiguration.m in Sources */,
+				4C5A46391FD91005008AAE26 /* NEHTTPEye.m in Sources */,
+				4C5A46431FD91005008AAE26 /* UIWindow+NEExtension.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				4C5A463A1FD91005008AAE26 /* NEHTTPEyeDetailViewController.m in Sources */,
+				83AA3E7E1FEA0DF3000D3836 /* upgrade.m in Sources */,
+				4C5A46461FD91B41008AAE26 /* MyBar.m in Sources */,
+				4C5A463D1FD91005008AAE26 /* NEHTTPModel.m in Sources */,
+				4C5A463B1FD91005008AAE26 /* NEHTTPEyeSettingsViewController.m in Sources */,
+				4C4EDEA51FD927E300A71EAD /* DCLog.m in Sources */,
 				4CB73EDE1F429BF40018C00A /* UMNative.m in Sources */,
+				4C5A46411FD91005008AAE26 /* NEShakeGestureManager.m in Sources */,
+				4C5A46401FD91005008AAE26 /* NEMapViewController.m in Sources */,
+				4C5A463F1FD91005008AAE26 /* NEKeyboardShortcutManager.m in Sources */,
+				4C5A463C1FD91005008AAE26 /* NEHTTPEyeViewController.m in Sources */,
+				4C5A463E1FD91005008AAE26 /* NEHTTPModelManager.m in Sources */,
+				4C5A46491FD92408008AAE26 /* LogViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1657,12 +1792,16 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 				);
 				INFOPLIST_FILE = corpappTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1709,12 +1848,16 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 				);
 				INFOPLIST_FILE = corpappTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1769,6 +1912,9 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 				);
 				INFOPLIST_FILE = corpapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1814,6 +1960,9 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 				);
 				INFOPLIST_FILE = corpapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1858,11 +2007,15 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 				);
 				INFOPLIST_FILE = "corpapp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1917,11 +2070,15 @@
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 				);
 				INFOPLIST_FILE = "corpapp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1976,6 +2133,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.corpapp-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2000,6 +2158,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

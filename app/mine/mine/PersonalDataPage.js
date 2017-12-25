@@ -114,8 +114,9 @@ export default class HomePage extends BComponent {
                         <Text style={styles.textstyle}>
                             公司名称
                         </Text>
-                        <Text style={styles.textContentStyle}>
+                        <Text style={[styles.textContentStyle,{width:deviceWidth-16*4-5-15*2,textAlign:'right'}]}>
                             {this.state.company}
+                            {/*一路顺风软件信息技术有限公司北京分公司技术研究院*/}
                         </Text>
                     </View>
                 </View>

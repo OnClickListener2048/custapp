@@ -1,0 +1,22 @@
+[
+  {
+    "title": "首页",
+    "uri": "pilipa://tab.home",
+    "tab": 0
+  },
+  {
+    "title": "服务",
+    "uri": "pilipa://tab.service",
+    "tab": 1
+  },
+  {
+    "title": "消息",
+    "uri": "pilipa://tab.messages",
+    "tab": 2
+  },
+  {
+    "title": "我的",
+    "uri": "pilipa://tab.me",
+    "tab": 3
+  }
+]

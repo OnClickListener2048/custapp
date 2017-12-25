@@ -37,7 +37,8 @@ export default class BComponent extends Component {
         };
         // 自定义左侧返回按钮
         if(this.props.navigator) {
-            if (this.props.testID === 'MessagePage' || this.props.testID === 'HomePage' || this.props.testID === 'ServicePage' || this.props.testID === 'MinePage'){
+            //this.props.testID === 'MessagePage' ||隐藏message页（不在tab中显示）恢复返回键
+            if ( this.props.testID === 'MessagePage' ||this.props.testID === 'HomePage' || this.props.testID === 'ServicePage' || this.props.testID === 'MinePage'){
 
             }else{
                 this.props.navigator.setButtons({
@@ -73,6 +74,7 @@ export default class BComponent extends Component {
         if (this.state.isPushing === true) {
             console.log("休息一下吧, 您的手速太快了");
             return;
+
         }
 
         if(this.props.navigator.push) {
@@ -100,6 +102,32 @@ export default class BComponent extends Component {
             }
         }
         if (event.id === 'bottomTabSelected') {
+
+            //拦截tab 建
+            // if(event.selectedTabIndex==3){
+            //
+            //     UserInfoStore.isLogined().then(
+            //         logined => {
+            //             if(!logined) {
+            //                 //未登录
+            //                 loginJumpSingleton.goToLogin(this.props.navigator);
+            //
+            //             } else {
+            //                 //已登录
+            //                 this.props.navigator.switchToTab({
+            //                     tabIndex: event.selectedTabIndex
+            //                 });
+            //             }
+            //         },
+            //         e => {
+            //             loginJumpSingleton.goToLogin(this.props.navigator);
+            //
+            //         }
+            //     );
+            //
+            //
+            // }
+
             let eventArr = ['homePage','message','service','personal'];
             UMTool.onEvent(eventArr[event.selectedTabIndex])
         }

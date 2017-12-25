@@ -11,13 +11,17 @@ import {
     Platform,
     TouchableOpacity,
     ScrollView,
-    Linking
+    Linking,
+    DeviceEventEmitter
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast';
+import * as apisSettings from '../../apis/setting';
+import * as apiSwitch from '../../apis/account';
 
 export default class MinePage extends BComponent {
 
@@ -28,10 +32,22 @@ export default class MinePage extends BComponent {
             avatar: require('../../img/head_img.png'),// 头像
             company: '请立即注册或登录',//公司名称
             logined: false,// 是否已登陆
+            updateIcon:false,//红色提示（New）是否显示，及首页更新弹窗是否显示
+            upgrade:false,//是否有新版本
+            loadState:'success',
+            newVersion:'',//最新APP版本号
+            isforce:false,//是否强制更新
+            apkUrl:'',//新包地址
+            desc:[],//版本说明
+            loginCSwitch:true,//默认开关关闭
+            settingNew:true,//默认显示版本更新的new
         };
 
         this.initPage = this.initPage.bind(this);
         this.reset = this.reset.bind(this);
+        this._updateOpenOrClose = this._updateOpenOrClose.bind(this);
+        this._uploadUpdateCode = this._uploadUpdateCode.bind(this);
+
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -44,10 +60,80 @@ export default class MinePage extends BComponent {
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
             this.initPage();
+            this.checkCompany()
         }
+    }
+    //查公司接口超级慢 页面每次进入 调一次
+    checkCompany(){
+        //获取手机号
+        UserInfoStore.getUserInfo().then(
+            (user) => {
+                if (user && user.mobilePhone) {
+                    //获取公司
+                    apiSwitch.getCompany(user.mobilePhone).then(
+                        (companyInfo) => {
+                            if (companyInfo) {
+
+                                let tmpCompaniesArr = companyInfo.list;
+
+                                UserInfoStore.getCompanyArr().then(
+                                    (companyArr) => {
+                                        if (JSON.stringify(tmpCompaniesArr) != JSON.stringify(companyArr)) {
+
+                                            if(tmpCompaniesArr && tmpCompaniesArr.length>0){
+                                                //有公司
+                                                UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+                                                    (s) => {
+                                                        console.log("公司信息保存成功");
+                                                    },
+                                                    (e) => {
+                                                        console.log("公司信息保存错误:", e);
+                                                    },
+                                                );
+
+                                                UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+                                                    (s) => {
+                                                        console.log("公司信息保存成功");
+                                                        this.setState({company: tmpCompaniesArr[0].infos[0].value});
+                                                        DeviceEventEmitter.emit('ChangeCompany');
+
+                                                    },
+                                                    (e) => {
+                                                        console.log("公司信息保存错误:", e);
+                                                    },
+                                                );
+                                            }else{
+                                                //没公司
+                                                UserInfoStore.removeCompany().then((s)=>{
+                                                    this.setState({company: ''});
+                                                    DeviceEventEmitter.emit('ChangeCompany');
+                                                },(e)=>{
+
+                                                });
+                                                UserInfoStore.removeCompanyArr().then();
+                                            }
+
+
+                                        }
+                                    },
+                                    (e) => {
+
+                                    },
+                                );
+                            }
+                        },
+                        (e) => {
+
+                        },
+                    );
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
 
     }
-
     reset() {
         this.setState({
             phone: '注册/登录', //手机号
@@ -59,7 +145,149 @@ export default class MinePage extends BComponent {
 
     // 准备加载组件
     componentWillMount() {
+
+        // let  upgradeAlert = {
+        //     'upgrade':true,
+        //     'newversion':this.state.version,
+        // }
+        // UserInfoStore.setUpgrade_alert(upgradeAlert).then();
+        // UserInfoStore.setUpgrade_setting(upgradeAlert).then();
+        UserInfoStore.getUpgrade_setting().then(
+            (info) => {
+                if (info !== null) {
+                    this.setState({
+                        settingNew:info.upgrade
+                    })
+                }})
+        this._loginSwitch();
         this.initPage();
+        this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
+            console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
+            loginJumpSingleton.goToLogin(this.props.navigator);
+        });
+    }
+
+    componentWillUnmount() {
+        this.subscription.remove();
+    }
+
+    _loginSwitch(){
+        apiSwitch.mobilelogin().then(
+            v => {
+                console.log(v);
+                console.log("开关="+v.open);
+                // v.open = !v.open;  true为手机号登录，FALSE 为微信登录
+                this.setState({loginCSwitch: v.open});
+                //iOS不显示版本更新信息
+                //获取本APP版本信息
+                this._uploadUpdateCode(DeviceInfo.getVersion());
+            }, e => {
+                this._uploadUpdateCode(DeviceInfo.getVersion());
+                console.log(e);
+            }
+        );
+
+    }
+
+    //版本更新
+    _uploadUpdateCode(versionCode){
+        apisSettings.loadupdateCode(versionCode).then(
+            (responseData) => {
+                if (responseData.code == 0) {
+                    console.log("版本更新信息="+responseData.info.upgrade+this.state.loginCSwitch);
+                    // responseData.info.version = '1.0.6';
+                    // responseData.info.url = 'http://pilipa-assets.oss-cn-beijing.aliyuncs.com/app/li-armeabi-v7a-release_pilipa.apk';
+                    // responseData.info.isforce = true;
+                    // responseData.info.desc = ["更新说明"];
+                    // responseData.info.upgrade = true;
+
+                    this.setState({
+                        upgrade:responseData.info.upgrade?responseData.info.upgrade:false,
+                        updateIcon:responseData.info.upgrade?responseData.info.upgrade:false,
+                        // updateIcon:true,
+                        newVersion:responseData.info.version?responseData.info.version:DeviceInfo.getVersion(),
+                        // newVersion:"1.0.6",
+                        isforce:responseData.info.isforce?responseData.info.isforce:false,
+                        apkUrl:responseData.info.url?responseData.info.url:'',
+                        desc:responseData.info.desc?responseData.info.desc:[],
+                            loadState: 'success'
+                        }
+                    );
+
+                    UserInfoStore.getUpgrade_alert().then(
+                        (info) => {
+                            if (info !== null) {
+                                console.log('getUpgrade_alert', info+","+info.upgrade,info.newversion);
+
+                                //如果有多级版本更新则更新存储信息  或  强制更新则再次显示弹窗
+                                if(info.newversion !== this.state.newVersion||this.state.isforce){
+                                    // UserInfoStore.removeUpgrade_alert().then();
+                                    // UserInfoStore.removeUpgrade_setting().then();
+                                    let  upgradeAlert = {
+                                        'upgrade':this.state.updateIcon,
+                                        'newversion':this.state.newVersion,
+                                    }
+                                    UserInfoStore.setUpgrade_alert(upgradeAlert).then();
+                                    UserInfoStore.setUpgrade_setting(upgradeAlert).then();
+                                    this.setState({
+                                        settingNew:this.state.updateIcon
+                                    })
+                                }else{
+                                if(Platform.OS === 'ios'&&this.state.loginCSwitch||
+                                    info.upgrade === false){
+                                        return;
+                                }}
+                            }else{
+                                console.log("何时执行"+this.state.apkUrl+","+this.state.updateIcon);
+                                //如果无新版本，不在调用更新提示框
+                                if(Platform.OS === 'ios'&&this.state.loginCSwitch||this.state.updateIcon === false){
+                                    return;
+                                }
+                            }
+                            if(this.state.upgrade||this.state.isforce){
+                                console.log("唤起弹窗"+this.state.apkUrl+","+this.state.updateIcon,this.state.upgrade);
+                                //调用更新提示框
+                                this.props.navigator.showLightBox({
+                                    screen: "UpdateLightBox",
+                                    passProps: {
+                                        onClose: this.dismissLightBox,
+                                        // dataArr:['1.版本更新版本更新版本更新版本更新版本更新版本更新版本更新','2.dfjsifjksdafjas','3.fdaskfjadskfjsdkf'],
+                                        dataArr:this.state.desc,
+                                        version:this.state.newVersion,
+                                        apkUrl:this.state.apkUrl,
+                                        isForce:this.state.isforce,
+                                    },
+                                    overrideBackPress: true, // 拦截返回键
+                                    style: {
+                                        backgroundBlur: 'none',
+                                        backgroundColor: 'rgba(0,0,0,0.5)',
+                                        tapBackgroundToDismiss:true
+                                    }
+                                })
+                            }
+
+                        },
+                        (e) => {
+                            console.log("读取信息错误:", e);
+                        },
+                    );
+
+                }else{
+                    this.setState({
+                            loadState: 'error'
+                        }
+                    );
+                }
+            },
+            (e) => {
+                this.setState({
+                    loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
+                })
+                console.log('error', e)
+
+            },
+        );
+
     }
 
     initPage() {
@@ -113,6 +341,7 @@ export default class MinePage extends BComponent {
     }
 
     render(){
+        console.log("new是否显示的settingNew="+this.state.settingNew+this.state.upgrade);
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9',position:'relative'}}>
                 <View style={{width:DeviceInfo.width,height:DeviceInfo.height/3,backgroundColor:'white',position:'absolute'}}/>
@@ -125,7 +354,7 @@ export default class MinePage extends BComponent {
                                 <Text style={styles.login}>
                                     {this.state.phone || this.state.userName}
                                 </Text>
-                                <Text style={styles.company}>
+                                <Text numberOfLines={1} style={styles.company}>
                                     {this.state.company}
                                 </Text>
                             </View>
@@ -141,20 +370,42 @@ export default class MinePage extends BComponent {
                         leftText="企业信息"
                         onPress = {this._goto.bind(this,'CompanySurveyPage','企业概况')}
                     />
+                    {/*<CommenCell*/}
+                        {/*leftText="消息"*/}
+                        {/*onPress = {this._goto.bind(this,'MessagePage','消息')}*/}
+                    {/*/>*/}
                     <CommenCell
                         leftText="账号与安全"
                         onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
                         style={{marginTop:9}}
                     />
-                    <CommenCell
+                    {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)||!this.state.upgrade?
+                        <CommenCell
                         leftText="设置"
                         onPress = {this._goto.bind(this,'SettingPage','设置')}
-                    />
+                    />:
+                        <CommenCell
+                            leftText="设置"
+                            leftTextIcon={require('../../img/new_icon.png')}
+                            onPress = {this._goto.bind(this,'SettingPage','设置')}
+                        />}
+
                     <CommenCell
                         leftText="联系客服"
                         style={{marginTop:9}}
                         onPress = {this._call.bind(this,'')}
                     />
+
+                    {/*<CommenCell*/}
+                        {/*leftText="查看日志"*/}
+                        {/*style={{marginTop: 10}}*/}
+                        {/*onPress={ () => {*/}
+                            {/*this.push({*/}
+                                {/*screen: 'LogViewer',*/}
+                                {/*title:'查看日志',*/}
+                            {/*});*/}
+                        {/*}}*/}
+                    {/*/>*/}
                 </ScrollView>
             </View>
 
@@ -164,25 +415,96 @@ export default class MinePage extends BComponent {
         Linking.openURL('tel:400-107-0110')
     }
     _goto(screen, title ){
+        if(screen === '')return;
 
-        // 未登录不能跳转的页面
+        //未登录不能跳转的页面
         if(!this.state.logined) {
+            //screen ==='MessagePage'||
             if(screen === 'BindPhonePage' ||screen === 'MyOrderPage' ||screen === 'CompanySurveyPage' || screen === 'AccountAndSecurity') {
                 Toast.show("请先登录")
                 return;
             }
         }
 
+        if(screen == 'CompanySurveyPage'){
 
-        if(screen === '')return;
+            UserInfoStore.getCompanyArr().then(
+                (companyArr) => {
+                    console.log('companyArr-----',companyArr)
+                    if(companyArr && companyArr.length>1){
+                        //多家
+                        this.props.navigator.showLightBox({
+                            screen: "ChangeCompanyLightBox",
+                            passProps: {
+                                callback: this.changeCallBack,
+                            },
+                            style: {
+                                backgroundBlur: 'none',
+                                backgroundColor: 'rgba(0,0,0,0.5)',
+                                tapBackgroundToDismiss:true
+                            }
+                        });
+                    }else{
+                        //一家或者没有
+                        this.push({
+                            screen: screen,
+                            title:title
+                        });
+                    }
+                },
+                (e) => {
+                    //一家或者没有
+                    this.push({
+                        screen: screen,
+                        title:title
+                    });
 
-        this.push({
-            screen: screen,
-            title:title
-        });
+                },
+            );
+
+        }else if(screen == 'SettingPage'){
+
+                        this.push({
+                            screen: screen,
+                            title:title,
+                            passProps: {
+                                updateIcon:this.state.upgrade,
+                                //回调!
+                                callback: this._updateOpenOrClose,
+                            }
+                        });
+
+
+        }else{
+            this.push({
+                screen: screen,
+                title:title,
+            });
+        }
 
     }
 
+    _updateOpenOrClose(updateIcon){
+
+        if(updateIcon!=null){
+            console.log("返回是否点击过更新按钮="+updateIcon);
+            this.setState({updateIcon: updateIcon,});
+            let  upgradeAlert = {
+                'upgrade':updateIcon,
+                'newversion':this.state.newVersion,
+            }
+            UserInfoStore.setUpgrade_setting(upgradeAlert).then();
+
+        }
+
+    }
+
+    changeCallBack=()=>{
+        this.push({
+            screen: 'CompanySurveyPage',
+            title:'企业概况'
+        });
+    }
     login(){
         if(this.state.logined) {
             this.push({

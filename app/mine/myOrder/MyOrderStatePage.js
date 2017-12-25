@@ -34,13 +34,13 @@ export default class MyOrderStatePage extends Component {
 
         return(
             <OrderStateCell
-                orderId={item.item.order_no}
-                orderState={item.item.status_desc}
-                money={item.item.amount}
-                time={item.item.order_time}
-                id={item.item.order_id}
-                order_type={item.item.order_type}
-                statusW={item.item.status}
+                // orderId={item.item.order_no}//订单号
+                // orderState={item.item.status_desc}//订单状态描述
+                // money={item.item.amount}//订单金额
+                // time={item.item.order_time}//订单时间
+                // id={item.item.order_id}//订单id
+                // order_type={item.item.order_type}//订单类型
+                // statusW={item.item.status}//订单状态
                 orderItem={item.item}
 
                 {...this.props}

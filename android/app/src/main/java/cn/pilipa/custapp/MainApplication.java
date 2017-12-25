@@ -2,6 +2,7 @@ package cn.pilipa.custapp;
 
 import android.*;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import com.reactnativenavigation.NavigationApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.horcrux.svg.SvgPackage;
 import cn.jpush.reactnativejpush.JPushPackage;
+import cn.pilipa.custapp.android_upgrade.UpgradePackage;
+
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.facebook.react.ReactPackage;
@@ -30,9 +33,11 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+
 import com.theweflex.react.WeChatPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.umeng.analytics.AnalyticsConfig;
+
 
 public class MainApplication extends NavigationApplication {
     // 设置为 true 将不弹出 toast
@@ -50,10 +55,17 @@ public class MainApplication extends NavigationApplication {
         super.onCreate();
         MultiDex.install(this);
 //        CrashReport.initCrashReport(getApplicationContext(), "c2c07c0373", true);
+
+        System.out.println(getDeviceInfo(getApplicationContext()));
+        //自定义升级布局
+        Beta.upgradeDialogLayoutId = R.layout.upgrade_dialog;
+//        Beta.tipsDialogLayoutId = R.layout.tips_dialog;
+
         Bugly.init(getApplicationContext(), "d352a8a420", true);
         Beta.checkUpgrade(false,false);
-        System.out.println(getDeviceInfo(getApplicationContext()));
     }
+
+
 
 
     public static boolean checkPermission(Context context, String permission) {
@@ -136,19 +148,20 @@ public class MainApplication extends NavigationApplication {
     }
 
 
+    //new MainReactPackage(),                //new NavigationReactPackage(),
+
     @Nullable
     public List<ReactPackage> createAdditionalReactPackages() {
         return Arrays.<ReactPackage>asList(
-                //new MainReactPackage(),
             new RNSpinkitPackage(),
             new SvgPackage(),
                 new PLPAlertPackage(),
                 new PickerViewPackage(),
                 new PickerPackage(),
-                //new NavigationReactPackage(),
                 new RNDeviceInfo(),
                 new VectorIconsPackage(),
-                new BlurViewPackage(),
+                new UpgradePackage(),
+        new BlurViewPackage(),
                 new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG),
                 new UmengReactPackage(),
                 new WeChatPackage(),

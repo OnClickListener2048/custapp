@@ -25,13 +25,6 @@ const tabsMain = [
         navigatorStyle
     },
     {
-        label: '消息',
-        screen: 'MessagePage',
-        icon: require('./img/message_normal.png'),
-        selectedIcon: require('./img/message_selected.png'),
-        title: '消息',
-        navigatorStyle
-    }, {
         label: '服务',
         screen: 'ServicePage',
         icon: require('./img/service_normal.png'),
@@ -40,11 +33,20 @@ const tabsMain = [
         navigatorStyle
     },
     {
+        label: '消息',
+        screen: 'MessagePage',
+        icon: require('./img/message_normal.png'),
+        selectedIcon: require('./img/message_selected.png'),
+        title: '消息',
+        navigatorStyle
+    },
+    {
         label: '我的',
         screen: 'MinePage',
         icon: require('./img/mine_normal.png'),
         selectedIcon: require('./img/mine_selected.png'),
         title: '我的',
+        isIntercept:false,//添加iOS拦截tabbar点击拦截，true为拦截，配合基类event.id === 'bottomTabSelected使用
         navigatorStyle,
     }
 ];
@@ -82,6 +84,7 @@ export function navToMainTab() {
         tabs: tabsMain,
         tabsStyle,
         appStyle,
+        ceshi:1,
         animationType: 'fade',
         portraitOnlyMode: true,
     });

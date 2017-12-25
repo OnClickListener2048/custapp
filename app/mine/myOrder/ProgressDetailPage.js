@@ -24,7 +24,18 @@ export default class ProgressDetailPage extends BComponent {
         super(props)
         this.state={
             sourceData:[],//进度列表数据源
-            loadState:'success'
+            loadState:'success',
+            orderData:{
+                "order_no": "",
+                "status": 1,
+                "status_desc": "执行中",
+                "amount": "",
+                "order_time": "",
+                "order_type": 1,
+                "contract_time": "",
+                "contract_md_time": "",
+                "contract_status": ""
+            }
         }
         this.childState='';//判断显示样式 6，8，9显示红色 已完成
         this.status='';//子任务状态，1执行中，2已结束
@@ -41,33 +52,51 @@ export default class ProgressDetailPage extends BComponent {
 
     loadData(){
         var loading = SActivityIndicator.show(true, "加载中...");
-        console.log('走了吗吗吗111555', this.props.id)
+        console.log('走了吗吗吗111555', this.props.orderno)
 
-        apis.loadOrderDetailData(this.props.id).then(
+        apis.loadOrderDetailData(this.props.orderno).then(
             (responseData) => {
                 SActivityIndicator.hide(loading);
-                if(responseData.code==0){
-                    var sourceData=[{
-                        "name":'签订合同',
-                        "start": this.props.orderItem.contract_time,
-                        "end":'',
-                        "status":4,
-                        "operator": this.props.orderItem.sales_name}];
+                if(responseData.code==0 ){
+
+                    if(responseData.data){
+                        var sourceData=[{
+                            "name":'签订合同',
+                            "start": (responseData.data.order && responseData.data.order.contract_time)?responseData.data.order.contract_time:'',
+                            "end":'',
+                            "status":4,
+                            "operator": (responseData.data.order && responseData.data.order.sales_name)?responseData.data.order.sales_name:''
+                        }];
+
+                        if(responseData.data.order){
+                            this.setState({
+                                orderData:responseData.data.order
+                            })
+                        }
 
                         if(responseData.data.schedule) {
                             var newSourceData=responseData.data.schedule.concat(sourceData);//合并数组
                             this.setState({
                                 sourceData: newSourceData,
-                                loadState: 'success'
+                                loadState: 'success',
                             })
                         }else{//订单详情子任务列表为空时
                             this.setState({
                                 sourceData: sourceData,
-                                loadState: 'success'
+                                loadState: 'success',
                             })
                         }
+                    }else{
 
+                        this.setState({
+                            loadState: 'no-data',
+                        })
+                    }
 
+                }else{
+                    this.setState({
+                        loadState: 'error',
+                    })
                 }
             },
             (e) => {
@@ -82,11 +111,11 @@ export default class ProgressDetailPage extends BComponent {
 
 
     renderItem = (item) => {
-        if(item.index==0&&(this.props.orderItem.contract_status==3||this.props.orderItem.contract_status==4)){
+        if(item.index==0&&(this.state.orderData.contract_status==3||this.state.orderData.contract_status==4)){
             this.childState='done'
-            this.contract_time=this.props.orderItem.contract_time//合同时间
-            this.contract_md_time=this.props.orderItem.contract_md_time//合同最好操作时间
-        }else if(item.index==0&&(this.props.statusW==6||this.props.statusW==8||this.props.statusW==5)){
+            this.contract_time=this.state.orderData.contract_time//合同时间
+            this.contract_md_time=this.state.orderData.contract_md_time//合同最好操作时间
+        }else if(item.index==0&&(this.state.orderData.status==6||this.state.orderData.status==8||this.state.orderData.status==5)){
             this.childState='done'
         }else if(item.item.status==1){
             this.childState='green'
@@ -132,15 +161,15 @@ export default class ProgressDetailPage extends BComponent {
                                 订单状态
                             </Text>
                             <Text style={styles.orderstate}>
-                                {this.props.orderState}
+                                {this.state.orderData.status_desc}
                             </Text>
                         </View>
                         <View style={[styles.wrapper1, {marginTop: 15}]}>
                             <Text style={styles.orderstateTe}>
-                                订单号:{this.props.orderId}
+                                订单号:{this.state.orderData.order_no}
                             </Text>
                             <Text style={styles.money}>
-                                {this.props.money}
+                                {this.state.orderData.amount}
                             </Text>
                         </View>
                     </View>

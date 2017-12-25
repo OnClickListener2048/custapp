@@ -1,0 +1,47 @@
+[
+  {
+    "title": "产品详情",
+    "uri": "pilipa://view.products.detail",
+    "screen": ""
+  },
+  {
+    "title": "订单列表",
+    "uri": "pilipa://view.orders",
+    "screen": "MyOrderPage"
+  },
+  {
+    "title": "订单详情",
+    "uri": "pilipa://view.orders.detail",
+    "screen": "ProgressDetailPage"
+  },
+  {
+    "title": "免费核名",
+    "uri": "pilipa://view.company.check",
+    "screen": "VerifyNamePage"
+  },
+  {
+    "title": "现金流",
+    "uri": "pilipa://view.services/cashflow",
+    "screen": "CashFlowPage"
+  },
+  {
+    "title": "利润表",
+    "uri": "pilipa://view.services/profit",
+    "screen": "ProfitStatementPage"
+  },
+  {
+    "title": "纳税表",
+    "uri": "pilipa://view.services/tax",
+    "screen": "TaxFormPage"
+  },
+  {
+    "title": "应收账款",
+    "uri": "pilipa://view.services/accounts/receivable",
+    "screen": "AccountsReceivablePage"
+  },
+  {
+    "title": "应付账款",
+    "uri": "pilipa://view.services/accounts/payable",
+    "screen": "AccountsPayablePage"
+  }
+]

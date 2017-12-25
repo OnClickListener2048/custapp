@@ -48,8 +48,8 @@ export async function getVerifyVCodeImage(device = '', type = '1') {
 /**
  * 获取公司信息
  */
-export async function getCompany(mobile = '') {
-    return getApi('/api/v1/companies', {mobile});
+export function getCompany(mobile = '') {
+    return getApi('/api/v1.01/companies', {mobile});
 }
 
 // 问题反馈
@@ -72,6 +72,10 @@ export function about() {
     return postApi('/app/v0/about');
 }
 
+// iOS 提审登陆信息
+export function mobilelogin() {
+    return getApi('/api/v1/user/mobilelogin/option');
+}
 
 // // 图片验证码
 // export async function sendImageVerifyCode(phone = '') {

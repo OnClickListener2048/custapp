@@ -113,19 +113,41 @@ export default class FirstBindPhonePage extends BComponent {
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
                                 console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
-                                if (companyInfo && companyInfo.data) {
-                                    console.log("公司信息保存中....", companyInfo.data);
-                                    UserInfoStore.setCompany(companyInfo.data).then(
-                                        (user) => {
-                                            console.log("公司信息保存成功");
-                                        },
-                                        (e) => {
-                                            console.log("公司信息保存错误:", e);
-                                        },
-                                    );
+                                if (companyInfo && companyInfo.list) {
+                                    console.log("公司信息保存中....", companyInfo.list);
+                                    let tmpCompaniesArr = companyInfo.list;
+
+                                    //需要注掉到时候
+                                    if (tmpCompaniesArr.length > 0) {
+
+                                        UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+                                            (user) => {
+                                                console.log("公司信息保存成功");
+                                            },
+                                            (e) => {
+                                                console.log("公司信息保存错误:", e);
+                                            },
+                                        );
+
+                                        UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+                                            (user) => {
+                                                console.log("公司信息保存成功");
+                                                DeviceEventEmitter.emit('ChangeCompany');
+
+                                            },
+                                            (e) => {
+                                                console.log("公司信息保存错误:", e);
+                                            },
+                                        );
+                                    }
                                 }
                             },
                             (e) => {
+                                Toast.show('公司信息读取失败', {
+                                    position: Toast.positions.CENTER,
+                                    duration: Toast.durations.LONG,
+                                    backgroundColor: 'red'
+                                });
                                 console.log("公司信息读取错误返回:", e);
                             },
                         );
@@ -136,7 +158,7 @@ export default class FirstBindPhonePage extends BComponent {
             },
             (e) => {
                 console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取失败' + errorText(e), {
+                Toast.show('用户信息读取失败', {
                     position: Toast.positions.CENTER,
                     duration: Toast.durations.LONG,
                     backgroundColor: 'red'
@@ -157,7 +179,7 @@ export default class FirstBindPhonePage extends BComponent {
                         {
                             text: '确定',
                             onPress: () => {
-                                Navigation.dismissAllModals({
+                                Navigation.dismissModal({
                                     animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
                                 });
                                 if (this.props.navigator) {
@@ -178,6 +200,7 @@ export default class FirstBindPhonePage extends BComponent {
                         {
                             text: '确定',
                             onPress: () => {
+
                             },
                         },]
                     , {cancelable: false});

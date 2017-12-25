@@ -12,7 +12,7 @@ import {
     Platform
 } from 'react-native';
 import PickerAndroid from './PickerAndroid';
-
+import Toast from 'react-native-root-toast'
 let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
 let PickerItem = Picker.Item;
 
@@ -23,6 +23,7 @@ export default class ChooseTimerModal extends Component {
         yearSelected:'',
         monthSelected:'',
         disabled:false,
+        style:{}
     };
     constructor(props) {
         super(props);
@@ -64,9 +65,14 @@ export default class ChooseTimerModal extends Component {
     }
     render(){
 
+        let h = 0;
+        if(this.props.style.marginTop){
+            h=this.props.style.marginTop
+        }
+
         const height = this.heightValue.interpolate({
             inputRange: [0, 1],
-            outputRange: [-280, 0]
+            outputRange: [-280, h]
         })
 
         return(
@@ -128,17 +134,19 @@ export default class ChooseTimerModal extends Component {
                         <TouchableOpacity onPress={()=>{this._ok()}}><Text style={{fontSize:16,color:'#E13238'}}>确定</Text></TouchableOpacity>
                     </View>
                 </Animated.View>
-                <TouchableOpacity disabled={this.props.disabled} activeOpacity={1} onPress={()=>{this._showTimer()}}>
+                {
+                    this.state.isShow?<TouchableOpacity  activeOpacity={1} onPress={()=>{this._showTimer()}}>
                         <View style={[{width:DeviceInfo.width,flexDirection:'row',padding:15,paddingLeft:24,paddingRight:24,
-                            justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:DeviceInfo.onePR},this.state.isShow?{backgroundColor:'white'}:{backgroundColor:'transparent'}]}>
+                            justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:DeviceInfo.onePR},this.props.style,this.state.isShow?{backgroundColor:'white'}:{backgroundColor:'transparent'}]}>
                             <View style={{flexDirection:'row'}}>
                                 <Text style={[{fontSize:setSpText(20)},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.monthSelected}月</Text>
                                 <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end'},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.yearSelected}</Text>
-                                <Image style={{alignSelf:'flex-end',margin:3}} source={require('../img/triangle.png')}/>
+                                <Image style={{alignSelf:'flex-end',margin:5}} source={require('../img/triangle.png')}/>
                             </View>
                             <Image source={this.state.isShow?require('../img/today_black.png'):require('../img/today_white.png')}/>
                         </View>
-                </TouchableOpacity>
+                    </TouchableOpacity>:null
+                }
             </View>
 
 
@@ -181,7 +189,14 @@ export default class ChooseTimerModal extends Component {
         )
     }
     _showTimer(){
-        this.show();
+
+        if(this.props.disabled){
+            Toast.show('当前为演示数据')
+        }else{
+            this.show();
+
+        }
+
     }
 
     show(){

@@ -101,26 +101,55 @@ export default class BindPhonePage extends BComponent {
             (responseData) => {
                 console.log("用户信息读取成功返回:", JSON.stringify(responseData));
                 if (responseData && responseData.user) {
+
                     if(responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
+
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
-                                console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
-                                if (companyInfo && companyInfo.data) {
-                                    console.log("公司信息保存中...." , companyInfo.data);
-                                    UserInfoStore.setCompany(companyInfo.data).then(
-                                        (user) => {
-                                            console.log("公司信息保存成功");
-                                        },
-                                        (e) => {
-                                            console.log("公司信息保存错误:", e);
-                                        },
-                                    );
+                                if (companyInfo && companyInfo.list) {
+
+                                    let tmpCompaniesArr = companyInfo.list;
+
+                                    if (tmpCompaniesArr.length > 0) {
+
+                                        UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+                                            (user) => {
+                                                console.log("公司信息保存成功");
+                                            },
+                                            (e) => {
+                                                console.log("公司信息保存错误:", e);
+                                            },
+                                        );
+
+                                        UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+                                            (user) => {
+                                                console.log("公司信息保存成功");
+                                                DeviceEventEmitter.emit('ChangeCompany');
+
+                                            },
+                                            (e) => {
+                                                console.log("公司信息保存错误:", e);
+                                            },
+                                        );
+                                    }else{
+
+                                        this._removeCompanyInfo()
+
+                                    }
+
+
+                                }else{
+
+                                    this._removeCompanyInfo()
+
                                 }
                             },
                             (e) => {
-                                console.log("公司信息读取错误返回:", e);
+
+                                // Toast.show('公司信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+
                             },
                         );
                     }
@@ -130,11 +159,19 @@ export default class BindPhonePage extends BComponent {
             },
             (e) => {
                 console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取失败' + errorText(e), {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+                // Toast.show('用户信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
             },
         );
     }
+    _removeCompanyInfo(){
+        UserInfoStore.removeCompany().then((s)=>{
+            DeviceEventEmitter.emit('ChangeCompany');
+        },(e)=>{
 
+        });
+        UserInfoStore.removeCompanyArr().then();
+
+    }
     // 修改绑定手机号
     _doSubmit() {
         let loading = SActivityIndicator.show(true, "");
@@ -147,9 +184,9 @@ export default class BindPhonePage extends BComponent {
                         {
                             text: '确定',
                             onPress: () => {
-                                Navigation.dismissAllModals({
-                                    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
-                                });
+                                // Navigation.dismissAllModals({
+                                //     animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+                                // });
                                 if (this.props.navigator) {
                                     console.log("PhoneBind popToRoot");
                                     this.props.navigator.popToRoot();

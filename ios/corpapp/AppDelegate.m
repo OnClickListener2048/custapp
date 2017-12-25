@@ -26,17 +26,24 @@
 
 #import "UMMobClick/MobClick.h"
 #import <React/RCTLinkingManager.h>
+#import "NEHTTPEye.h"
+#import "DCLog.h"
+
 @implementation AppDelegate
 
 static BOOL isProduction = true;  //填写isProdurion  平时测试时为false ，生产时填写 true
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  
-  
+
+  [NEHTTPEye setEnabled:YES];
+//  [DCLog setLogViewEnabled:YES];
+
    /** 友盟统计 */
   UMConfigInstance.appKey = @"59f6dbeea40fa3718e000108";
-  
+  // 读取真正版本号而不是Build Number
+  NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+  [MobClick setAppVersion:version];
   //  UMConfigInstance.eSType=E_UM_GAME;//友盟游戏统计，如不设置默认为应用统计
   
   [MobClick startWithConfigure:UMConfigInstance];
@@ -62,7 +69,7 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
                                           categories:nil];
   }
   
-  [JPUSHService setupWithOption:launchOptions appKey:@"e8f5ec679b9976aa36858ebb"
+  [JPUSHService setupWithOption:launchOptions appKey:@"18d5ed48d3155714f80f3927"
                         channel:nil apsForProduction:isProduction];
   
   
@@ -79,6 +86,7 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
   
+//  [NSThread sleepForTimeInterval:1.0];
 //  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
   
   // **********************************************
