@@ -90,7 +90,6 @@ export default class LoginPage extends Component {
         this._goWechat = this._goWechat.bind(this);
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-
     }
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
@@ -243,22 +242,30 @@ export default class LoginPage extends Component {
             this.setState({centerBlankHeight: 0, submitButtonMarginTop: 0});
         }
 
-        UserInfoStore.getMobileLoginInfo().then(
-            v => {
-                console.log(v);
-                this.setState({visible: true});
+        // 只针对ios处理
+        if(Platform.OS === 'ios') {
+            UserInfoStore.getMobileLoginInfo().then(
+                v => {
+                    console.log(v);
+                    this.setState({visible: true});
 
-                // v.open = !v.open;// 调试开关反转
-                this.setState({openMobileLogin: v.open});
-                this.setState({mobileLogin: v.open});
-                this.setState({openMobileInfo: v});
-            }, e => {
-                console.log(e);
-                this.setState({visible: true});
-                this.setState({openMobileLogin: false});
-                this.setState({mobileLogin: false});
-            }
-        );
+                    // v.open = !v.open;// 调试开关反转
+                    this.setState({openMobileLogin: v.open});
+                    this.setState({mobileLogin: v.open});
+                    this.setState({openMobileInfo: v});
+                }, e => {
+                    console.log(e);
+                    this.setState({visible: true});
+                    this.setState({openMobileLogin: false});
+                    this.setState({mobileLogin: false});
+                }
+            );
+        } else {
+            // Android一直打开微信登录
+            this.setState({openMobileLogin: false});
+            this.setState({mobileLogin: false});
+        }
+
 
         // let {isReset = false } = this.props;// 重置, 清理所有登录信息
         //
