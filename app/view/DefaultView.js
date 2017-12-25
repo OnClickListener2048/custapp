@@ -82,8 +82,8 @@ export default class DefaultView extends Component {
             return(
                 <View style={styles.box} onPress={()=>this.props.onPress()}>
                     <Image source={require('../img/no_message.png')}/>
-                    <Text style={{fontSize:18,color:'#999999',marginTop:50}}>网络请求失败</Text>
-                    <Text style={{fontSize:18,color:'#999999',marginTop:5}}>请检查您的网络</Text>
+                    <Text style={{fontSize:18,color:'#999999',marginTop:50}}>请求失败</Text>
+                    <Text style={{fontSize:18,color:'#999999',marginTop:5}}>请稍候重试</Text>
                     <TouchableOpacity onPress={()=>this.props.onPress()}>
                         <View style={{width:DeviceInfo.width-50,height:50,borderRadius:25,backgroundColor:'red',marginTop:35,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{color:'white',fontSize:18}}>重新加载</Text>
