@@ -18,10 +18,9 @@ import DeviceInfo from 'react-native-device-info';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
-import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast';
-import * as apisSettings from '../../apis/setting';
-import * as apiSwitch from '../../apis/account';
+
+import * as apis from '../../apis';
 
 export default class MinePage extends BComponent {
 
@@ -41,6 +40,8 @@ export default class MinePage extends BComponent {
             desc:[],//版本说明
             loginCSwitch:true,//默认开关关闭
             settingNew:true,//默认显示版本更新的new
+            orderCount:'',
+            companyCount:''
         };
 
         this.initPage = this.initPage.bind(this);
@@ -60,79 +61,165 @@ export default class MinePage extends BComponent {
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
             this.initPage();
-            this.checkCompany()
         }
     }
     //查公司接口超级慢 页面每次进入 调一次
-    checkCompany(){
-        //获取手机号
-        UserInfoStore.getUserInfo().then(
-            (user) => {
-                if (user && user.mobilePhone) {
-                    //获取公司
-                    apiSwitch.getCompany(user.mobilePhone).then(
-                        (companyInfo) => {
-                            if (companyInfo) {
+    initPage(){
+        UserInfoStore.isLogined().then(
+            logined => {
+                //设置登录状态
+                this.setState({logined:logined});
+                if(!logined) {
+                    //未登录展示
+                    this.reset();
+                }else{
+                    //已登录获取用户信息
+                    UserInfoStore.getUserInfo().then(
+                        (user) => {
+                            if (user) {
+                                //获取成功设置头像电话号码
+                                this.setState({userName: user.name, phone: user.mobilePhone});
+                                if(user.avatar !== null) {
+                                    this.setState({avatar: {uri:user.avatar}});
+                                }
+                                //获取当前公司
+                                UserInfoStore.getCompany().then(
+                                    (company) => {
+                                        console.log('company', company);
+                                        //获取成功 设置公司名称
+                                        if (company && company.infos && company.infos[0] && company.infos[0].value) {
+                                            this.setState({company: company.infos[0].value});
+                                        } else {
+                                            this.setState({company: ''});
+                                        }
+                                        //获取成更 根据公司ID 获取订单总数
+                                        if(company && company.id && company.type){
+                                            this.getOrderNumber(company.id,company.type)
+                                        }else{
+                                            this.getOrderNumber()
+                                        }
+                                    },
+                                    (e) => {
+                                        console.log("读取信息错误:", e);
+                                    },
+                                );
+                                //获取公司数组
+                                UserInfoStore.getCompanyArr().then((companyArr)=>{
+                                    if(companyArr && companyArr.length){
+                                        //多个公司设置公司数组长度
+                                        this.setState({
+                                            companyCount:companyArr.length
+                                        })
+                                    }else{
+                                        //没有多个公司
+                                        this.setState({
+                                            companyCount:''
+                                        })
+                                    }
+                                },(e)=>{
+                                    //没有多个公司
+                                    this.setState({
+                                        companyCount:''
+                                    })
+                                })
+                                //由于公司获取接口经常失败这里再次调用接口检查一下  获取公司
+                                apis.getCompany(user.mobilePhone).then(
+                                    (companyInfo) => {
+                                        if (companyInfo) {
+                                            let tmpCompaniesArr = companyInfo.list;
+                                            UserInfoStore.getCompanyArr().then(
+                                                (companyArr) => {
+                                                    //接口返回与本地存储数据不一样  （之前登录后调企业接口出错的情况）
+                                                    if (JSON.stringify(tmpCompaniesArr) != JSON.stringify(companyArr)) {
 
-                                let tmpCompaniesArr = companyInfo.list;
+                                                        if(tmpCompaniesArr && tmpCompaniesArr.length>0){
+                                                            this.getOrderNumber(tmpCompaniesArr[0].id,tmpCompaniesArr[0].type)
+                                                            //有公司
+                                                            UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+                                                                (s) => {
+                                                                    console.log("公司信息保存成功");
+                                                                },
+                                                                (e) => {
+                                                                    console.log("公司信息保存错误:", e);
+                                                                },
+                                                            );
 
-                                UserInfoStore.getCompanyArr().then(
-                                    (companyArr) => {
-                                        if (JSON.stringify(tmpCompaniesArr) != JSON.stringify(companyArr)) {
+                                                            UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+                                                                (s) => {
+                                                                    console.log("公司信息保存成功");
+                                                                    this.setState({company: tmpCompaniesArr[0].infos[0].value});
+                                                                    DeviceEventEmitter.emit('ChangeCompany');
 
-                                            if(tmpCompaniesArr && tmpCompaniesArr.length>0){
-                                                //有公司
-                                                UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
-                                                    (s) => {
-                                                        console.log("公司信息保存成功");
-                                                    },
-                                                    (e) => {
-                                                        console.log("公司信息保存错误:", e);
-                                                    },
-                                                );
+                                                                },
+                                                                (e) => {
+                                                                    console.log("公司信息保存错误:", e);
+                                                                },
+                                                            );
+                                                        }else{
+                                                            this.getOrderNumber()
 
-                                                UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
-                                                    (s) => {
-                                                        console.log("公司信息保存成功");
-                                                        this.setState({company: tmpCompaniesArr[0].infos[0].value});
-                                                        DeviceEventEmitter.emit('ChangeCompany');
+                                                            //没公司
+                                                            UserInfoStore.removeCompany().then((s)=>{
+                                                                this.setState({company: '',companyCount:''});
+                                                                DeviceEventEmitter.emit('ChangeCompany');
+                                                            },(e)=>{
 
-                                                    },
-                                                    (e) => {
-                                                        console.log("公司信息保存错误:", e);
-                                                    },
-                                                );
-                                            }else{
-                                                //没公司
-                                                UserInfoStore.removeCompany().then((s)=>{
-                                                    this.setState({company: ''});
-                                                    DeviceEventEmitter.emit('ChangeCompany');
-                                                },(e)=>{
+                                                            });
+                                                            UserInfoStore.removeCompanyArr().then();
+                                                        }
+                                                    }
+                                                },
+                                                (e) => {
 
-                                                });
-                                                UserInfoStore.removeCompanyArr().then();
-                                            }
-
-
+                                                },
+                                            );
                                         }
                                     },
                                     (e) => {
 
                                     },
                                 );
+                            } else{
+                                this.reset();
                             }
                         },
                         (e) => {
-
+                            this.reset();
+                            console.log("读取信息错误:", e);
                         },
                     );
                 }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
-        );
+            },(e)=>{
 
+            }
+        )
+
+    }
+
+    //获取订单总数
+    getOrderNumber(id='',type=''){
+        if(id){
+            //请求订单接口
+            apis.loadOrderListData(id,type).then(
+                (responseData) => {
+                    if((responseData.code == 0)&&responseData.list&&responseData.list.length>0){
+                        this.setState({
+                            orderCount:responseData.list.length
+                        })
+                    }else {
+                        this.setState({
+                            orderCount:''
+                        })
+                    }
+                },(e)=>{
+
+                }
+            )
+        }else{
+            this.setState({
+                orderCount:''
+            })
+        }
     }
     reset() {
         this.setState({
@@ -140,6 +227,8 @@ export default class MinePage extends BComponent {
             avatar: require('../../img/head_img.png'),// 头像
             company: '请立即注册或登录',//公司名称
             logined: false,// 是否已登陆
+            orderCount:'',//订单总数
+            companyCount:''//公司总数
         });
     }
 
@@ -172,7 +261,7 @@ export default class MinePage extends BComponent {
     }
 
     _loginSwitch(){
-        apiSwitch.mobilelogin().then(
+        apis.mobilelogin().then(
             v => {
                 console.log(v);
                 console.log("开关="+v.open);
@@ -191,7 +280,7 @@ export default class MinePage extends BComponent {
 
     //版本更新
     _uploadUpdateCode(versionCode){
-        apisSettings.loadupdateCode(versionCode).then(
+        apis.loadupdateCode(versionCode).then(
             (responseData) => {
                 if (responseData.code == 0) {
                     console.log("版本更新信息="+responseData.info.upgrade+this.state.loginCSwitch);
@@ -290,56 +379,6 @@ export default class MinePage extends BComponent {
 
     }
 
-    initPage() {
-        console.log('MinePage', 'initPage');
-        UserInfoStore.isLogined().then(
-            logined => {
-                    console.log('MinePage logined', logined);
-                    this.setState({logined:logined});
-                    if(!logined) {
-                        this.reset();
-                    } else {
-                        UserInfoStore.getUserInfo().then(
-                            (user) => {
-                                if (user !== null) {
-                                    this.setState({userName: user.name, phone: user.mobilePhone});
-
-                                    if(user.avatar !== null) {
-                                        console.log('MinePage', user.avatar);
-                                        this.setState({avatar: {uri:user.avatar}});
-                                    }
-                                } else {
-                                    this.reset();
-                                }
-                            },
-                            (e) => {
-                                console.log("读取信息错误:", e);
-                                this.reset();
-                            },
-                        );
-
-                        UserInfoStore.getCompany().then(
-                            (company) => {
-                                console.log('company', company);
-                                if (company && company.infos && company.infos[0] && company.infos[0].value) {
-                                    this.setState({company: company.infos[0].value});
-                                } else {
-                                    this.setState({company: ''});
-                                }
-                            },
-                            (e) => {
-                                console.log("读取信息错误:", e);
-                            },
-                        );
-                    }
-                },
-            e => {
-                console.log("读取登陆状态错误:", e);
-                this.reset();
-            }
-        );
-    }
-
     render(){
         console.log("new是否显示的settingNew="+this.state.settingNew+this.state.upgrade);
         return(
@@ -365,10 +404,12 @@ export default class MinePage extends BComponent {
                         leftText="我的订单"
                         style={{marginTop:9}}
                         onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
+                        rightText={this.state.orderCount}
                     />
                     <CommenCell
                         leftText="企业信息"
                         onPress = {this._goto.bind(this,'CompanySurveyPage','企业概况')}
+                        rightText={this.state.companyCount}
                     />
                     {/*<CommenCell*/}
                         {/*leftText="消息"*/}
