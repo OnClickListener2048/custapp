@@ -9,7 +9,6 @@ import * as apis from '../../apis/accredit';
 import BComponent from '../../base/BComponent'
 import DefaultView from "../../view/DefaultView";
 import Alert from "react-native-alert";
-import TextInputView from "../../home/VerifyName/view/TextInputView";
 import Toast from 'react-native-root-toast';
 
 export default class AccreditPhonePage extends BComponent {
@@ -23,10 +22,11 @@ export default class AccreditPhonePage extends BComponent {
         this.state = {
             phoneNum:'',//新添加的手机号
             dataSource: [],
+            dataList:[],//接口返回数组信息
             cancelAccredit:false,//取消授权，默认不取消
             loadState:'success',
             isAcceditModal:false,//添加授权、取消授权下拉框（默认不显示）
-            companyid:this.props.companyid,//公司ID
+            companyid:'',//公司ID
             ownerMobile:'',//本次登录手机号
         };
         // if you want to listen on navigator events, set this up
@@ -70,12 +70,18 @@ export default class AccreditPhonePage extends BComponent {
                                         SActivityIndicator.hide(loading);
                                         if (responseData.code === 0) {
                                             console.log("请求成功走进来")
-                                            this._againData(responseData.list);
-                                            if(responseData.list.length===0){
+                                            if(responseData.list){
+                                                this._againData(responseData.list);
                                                 this.setState({
-                                                    loadState:'no-data'
+                                                    dataList:responseData.list
                                                 })
+                                                if(responseData.list.length===0){
+                                                    this.setState({
+                                                        loadState:'no-data'
+                                                    })
+                                                }
                                             }
+
                                         }else{
                                             this.setState({
                                                     loadState: 'error'
@@ -142,7 +148,7 @@ export default class AccreditPhonePage extends BComponent {
             {
                 text: "取消",
                 onPress: ()=>{
-                    this._onLoadPhone();
+                    // this._onLoadPhone();
                 },style: 'cancel',
             },{
                 text: "确定",
@@ -221,7 +227,7 @@ export default class AccreditPhonePage extends BComponent {
             cancelAccredit:true,
             isAcceditModal:false,
         })
-        this._againData();
+        this._againData(this.state.dataList);
 
     }
 
@@ -344,7 +350,7 @@ export default class AccreditPhonePage extends BComponent {
                     cancelAccredit:false,
                     isAcceditModal:false,
                 })
-                this._againData();
+                this._againData(this.state.dataList);
 
             }
 
