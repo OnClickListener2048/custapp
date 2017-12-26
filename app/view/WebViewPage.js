@@ -12,6 +12,7 @@ import {
     KeyboardAvoidingView,
     Keyboard,
     Text,
+    Linking,
     TextInput,
     Dimensions
 } from 'react-native';
