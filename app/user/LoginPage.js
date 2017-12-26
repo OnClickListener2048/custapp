@@ -149,6 +149,8 @@ export default class LoginPage extends Component {
                             );
                         } else {
                             Alert.alert(result.msg);
+                            this.setState({isInWechatLoading: false});
+                            this.setState({loading: false});
                         }
                     },
                     e => {
