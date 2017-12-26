@@ -113,7 +113,7 @@ export default class HomePage extends BComponent {
             bannerData:[],
             visible: true
         };
-
+        this._index = 0
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -425,8 +425,10 @@ export default class HomePage extends BComponent {
                     loop = {true}
                     autoplayTimeout={5}
                     autoplay = {true}
+                    index={this._index}
                     showsPagination = {true}
                     paginationStyle={{bottom:5}}
+                    onIndexChanged ={(index)=>{this._index = index}}
                 >
                     {
                         this.state.bannerData.map((item,index)=>{
