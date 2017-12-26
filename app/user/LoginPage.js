@@ -143,6 +143,8 @@ export default class LoginPage extends Component {
                                 },
                                 e =>  {
                                     console.log(e.message)
+                                    this.setState({isInWechatLoading: false});
+                                    Toast.show("对不起, 操作已取消.");
                                 }
                             );
                         } else {
@@ -160,6 +162,7 @@ export default class LoginPage extends Component {
             },
             e => {
                 this.setState({isInWechatLoading: false});
+                this.setState({loading: false});
                 Toast.show("对不起, 操作已取消或失败, 请稍候重试.");
                 console.log('出错了', e);
                 SActivityIndicator.hide(loading);
