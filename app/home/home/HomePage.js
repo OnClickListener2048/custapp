@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {
-   View,
+    View,
     Text,
     ScrollView,
     SectionList,
@@ -14,7 +14,7 @@ import {
     StyleSheet,
     Animated,
     Platform,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback, DeviceEventEmitter
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 import * as apis from '../../apis';
@@ -148,9 +148,19 @@ export default class HomePage extends BComponent {
                 }, e => {
                     console.log(e);
                     // UserInfoStore.removeMobileLoginInfo().then();
+                    // 读取失败或者弱网一直打开微信登录
+                    this.setState({openMobileLogin: false});
+                    this.setState({mobileLogin: false});
                 }
             );
+        } else {
+            // Android一直打开微信登录
+            this.setState({openMobileLogin: false});
+            this.setState({mobileLogin: false});
         }
+    }
+
+    componentWillUnmount() {
     }
 
     componentDidMount(){

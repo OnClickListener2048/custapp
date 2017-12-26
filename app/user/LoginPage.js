@@ -267,6 +267,7 @@ export default class LoginPage extends Component {
             // Android一直打开微信登录
             this.setState({openMobileLogin: false});
             this.setState({mobileLogin: false});
+            this.setState({visible: true});
         }
 
 
