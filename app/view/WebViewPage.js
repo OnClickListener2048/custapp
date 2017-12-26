@@ -130,7 +130,6 @@ export default class WebViewPage extends BComponent {
         this.setState({mobile});
     }
     updateArea(area) {
-
         this.setState({area});
     }
 
@@ -145,17 +144,27 @@ export default class WebViewPage extends BComponent {
 
     submitMessage(){
 
-        if (this.state.area.length === 0){
+
+
+        if (this.state.area.length === 0 || this.state.area.replace(/^[\s　]+|[\s　]+$/g, "").length === 0){
             Toast.show('请输入服务范围');
+            this.refs.AreaTextInput.clear();
+            this.updateArea('');
             return;
-        }else if (this.state.name.length === 0){
+        }else if (this.state.name.length === 0 || this.state.name.replace(/^[\s　]+|[\s　]+$/g, "").length === 0){
             Toast.show('请输入您的称呼');
+            this.refs.NameTextInput.clear();
+            this.updateName('');
             return;
-        }else if (this.state.mobile.length === 0){
+        }else if (this.state.mobile.length === 0 || this.state.mobile.replace(/^[\s　]+|[\s　]+$/g, "").length === 0){
             Toast.show('请输入联系电话');
+            this.refs.MobileTextInput.clear();
+            this.updateMobile('');
             return;
-        }else if (this.state.message.length === 0){
+        }else if (this.state.message.length === 0 || this.state.message.replace(/^[\s　]+|[\s　]+$/g, "").length === 0){
             Toast.show('请输入留言内容');
+            this.refs.ContentTextInput.clear();
+            this.updateMmessage('');
             return;
         }else {
             let  mobileStr = this.state.mobile.replace(/[^\d]/g, '');// 过滤非数字输入
@@ -237,6 +246,7 @@ export default class WebViewPage extends BComponent {
 
                                 <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]}
                                            placeholder='服务区域'
+                                           ref="AreaTextInput"
                                            onChangeText={
                                                (area) => {
                                                    this.updateArea(area);
@@ -245,6 +255,7 @@ export default class WebViewPage extends BComponent {
                                 />
                                 <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
                                            placeholder='您的称呼'
+                                           ref="NameTextInput"
                                            onChangeText={
                                                (name) => {
                                                    this.updateName(name);
@@ -253,6 +264,7 @@ export default class WebViewPage extends BComponent {
                                 />
                                 <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
                                            placeholder='联系电话'
+                                           ref="MobileTextInput"
                                            keyboardType={'number-pad'}
                                            onChangeText={
                                                (mobile) => {
@@ -260,7 +272,7 @@ export default class WebViewPage extends BComponent {
                                                }
                                            }
                                 />
-                                <TextInput underlineColorAndroid='transparent' multiline={true} ref={"content"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 160 : 160}]}
+                                <TextInput underlineColorAndroid='transparent' multiline={true} ref={"ContentTextInput"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 160 : 160}]}
                                            placeholder='请在此输入留言内容,我们会尽快与您联系。'
                                            onChangeText={
                                                (message) => {
