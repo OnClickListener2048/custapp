@@ -24,6 +24,7 @@ import MyOrderPage from './mine/myOrder/MyOrderPage'
 import ChangeCompanyPage from './mine/companyInfo/ChangeCompanyPage'
 import CompanyInfoPage from './mine/companyInfo/CompanyInfoPage'
 import CompanySurveyPage from './mine/companyInfo/CompanySurveyPage'
+import AccreditPhonePage from './mine/companyInfo/AccreditPhonePage'
 import LicenceInfoPage from './mine/companyInfo/LicenceInfoPage'
 
 import SettingPage from './mine/setting/SettingPage'
@@ -49,6 +50,7 @@ import ChangeCompanyLightBox from './view/ChangeCompanyLightBox'
 import LogViewer from "./mine/setting/LogViewer";
 
 import UpdateLightBox from './view/UpdateLightBox'
+import AccreditInputBox from './mine/companyInfo/AccreditInputBox'
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -66,6 +68,7 @@ export default function () {
     reg('ChangeCompanyPage', () => ChangeCompanyPage);
     reg('CompanyInfoPage', () => CompanyInfoPage);
     reg('CompanySurveyPage', () => CompanySurveyPage);
+    reg('AccreditPhonePage', () => AccreditPhonePage);
     reg('LicenceInfoPage', () => LicenceInfoPage);
     reg('SettingPage', () => SettingPage);
     reg('FeedbackPage', () => FeedbackPage);
@@ -89,6 +92,7 @@ export default function () {
     reg('ChangeCompanyLightBox', () => ChangeCompanyLightBox);
     reg('LogViewer', () => LogViewer);
     reg('UpdateLightBox', () => UpdateLightBox);
+    reg('AccreditInputBox', () => AccreditInputBox);
 
 
 }
