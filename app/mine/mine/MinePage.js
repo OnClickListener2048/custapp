@@ -461,7 +461,7 @@ export default class MinePage extends BComponent {
         //未登录不能跳转的页面
         if(!this.state.logined) {
             //screen ==='MessagePage'||   ||screen === 'CompanySurveyPage' 企业信息跳转
-            if(screen === 'BindPhonePage' ||screen === 'MyOrderPage' || screen === 'AccountAndSecurity') {
+            if(screen === 'BindPhonePage' ||screen === 'CompanySurveyPage'||screen === 'MyOrderPage' || screen === 'AccountAndSecurity') {
                 Toast.show("请先登录")
                 return;
             }
