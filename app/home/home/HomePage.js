@@ -137,15 +137,19 @@ export default class HomePage extends BComponent {
     }
 
     componentWillMount() {
-        // 读取审核开关
-        apis.mobilelogin().then(
-            v => {
-                UserInfoStore.setMobileLoginInfo(v).then();
-            }, e => {
-                console.log(e);
-                UserInfoStore.removeMobileLoginInfo().then();
-            }
-        );
+        // 只针对ios处理
+        if(Platform.OS === 'ios') {
+            console.log(Platform.OS, '读取审核开关');
+            // 读取审核开关
+            apis.mobilelogin().then(
+                v => {
+                    UserInfoStore.setMobileLoginInfo(v).then();
+                }, e => {
+                    console.log(e);
+                    // UserInfoStore.removeMobileLoginInfo().then();
+                }
+            );
+        }
     }
 
     componentDidMount(){
