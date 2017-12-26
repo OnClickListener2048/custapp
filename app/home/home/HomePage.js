@@ -10,6 +10,7 @@ import {
     Dimensions,
     TouchableOpacity,
     Image,
+    DeviceEventEmitter,
     StyleSheet,
     Animated,
     Platform,
@@ -154,6 +155,11 @@ export default class HomePage extends BComponent {
 
     componentDidMount(){
         this.loadData()
+        this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
+            console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
+            loginJumpSingleton.goToLogin(this.props.navigator);
+        });
+
     }
 
         loadData(type = '0'){
