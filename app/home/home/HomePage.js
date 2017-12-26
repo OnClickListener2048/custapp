@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {
-   View,
+    View,
     Text,
     ScrollView,
     SectionList,
@@ -148,9 +148,19 @@ export default class HomePage extends BComponent {
                 }, e => {
                     console.log(e);
                     // UserInfoStore.removeMobileLoginInfo().then();
+                    // 读取失败或者弱网一直打开微信登录
+                    this.setState({openMobileLogin: false});
+                    this.setState({mobileLogin: false});
                 }
             );
+        } else {
+            // Android一直打开微信登录
+            this.setState({openMobileLogin: false});
+            this.setState({mobileLogin: false});
         }
+    }
+
+    componentWillUnmount() {
     }
 
     componentDidMount(){
@@ -296,7 +306,6 @@ export default class HomePage extends BComponent {
 
     }
     render(){
-
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
                 <SectionList

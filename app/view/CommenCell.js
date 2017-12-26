@@ -21,11 +21,13 @@ export default class CommenCell extends Component {
         leftTextStyle:{},//左侧文字样式
         leftImgStyle:{},//左侧图片样式
         leftIcon:null,//左侧图片  本地图片传require（），网络图片传字符串
+        leftIconTouch:false,//左边图标是否可点击，默认不可点
         leftTextIcon:null,//左侧图片(靠文字右侧图片)  本地图片传require（），网络图片传字符串
 
         centerTextStyle:{}, //中间文字样式
         centerText:'',//中间文字内容
         rightText:'',//右侧副标题内容
+        closeRightIcon:false,//默认不关闭右侧图标
         rightTextStyle:{},//右侧副标题样式
         underLine:true,//是否有分割线
         underLineStyle:{},//分割线样式自定义
@@ -80,15 +82,30 @@ export default class CommenCell extends Component {
             if(typeof (this.props.leftIcon) == 'string'){
                 return(
                     <View style = {styles.leftViewStyle}>
-                        <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle]} source={{uri:this.props.leftIcon}} />
+                        {this.props.leftIconTouch?
+                            <TouchableOpacity onPress = {() => {this.props.onIconPress()}}>
+                                <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle]} source={{uri:this.props.leftIcon}} />
+                            </TouchableOpacity>
+                            :
+                            <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle]} source={{uri:this.props.leftIcon}} />
+
+                        }
                         <Text style = {[styles.leftTextStyle,this.props.leftTextStyle,{marginLeft:10}]}>{this.props.leftText}</Text>
                     </View>
                 );
             }else {
                 return (
                     <View style={styles.leftViewStyle}>
-                        <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
-                               source={this.props.leftIcon}/>
+                        {this.props.leftIconTouch?
+                            <TouchableOpacity onPress = {() => {this.props.onIconPress()}}>
+                                <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
+                                       source={this.props.leftIcon}/>
+                            </TouchableOpacity>
+                            :
+                            <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
+                                   source={this.props.leftIcon}/>
+                        }
+
                         <Text
                             style={[styles.leftTextStyle, this.props.leftTextStyle, {marginLeft: 10}]}>{this.props.leftText}</Text>
                     </View>
@@ -138,7 +155,9 @@ export default class CommenCell extends Component {
             //可以点击
             return(
                 <View style = {styles.rightViewStyle}>
+                    {!this.props.closeRightIcon&&//控制右侧图标显示、隐藏
                     <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../img/left_button.png')} />
+                    }
                     <Text style = {[styles.rightTextStyle,this.props.rightTextStyle,{marginRight:10}]}>{this.props.rightText}</Text>
                     {this.props.rightView}
                 </View>
