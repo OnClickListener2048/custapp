@@ -305,7 +305,7 @@ export default class ServicePage extends BComponent {
             }else{
                 //一家
                 return (
-                    <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
+                    <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}</Text>
                 )
             }
         }else{
