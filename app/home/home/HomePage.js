@@ -14,7 +14,7 @@ import {
     StyleSheet,
     Animated,
     Platform,
-    TouchableWithoutFeedback, DeviceEventEmitter
+    TouchableWithoutFeedback
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 import * as apis from '../../apis';
