@@ -426,6 +426,7 @@ export default class HomePage extends BComponent {
                     autoplayTimeout={5}
                     autoplay = {true}
                     showsPagination = {true}
+                    paginationStyle={{bottom:5}}
                 >
                     {
                         this.state.bannerData.map((item,index)=>{
