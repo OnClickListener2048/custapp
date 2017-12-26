@@ -46,7 +46,6 @@ export default class HeaderView extends Component {
                             <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end'},{color:'white'}]}>{this.props.year}</Text>
                             <Image style={{alignSelf:'flex-end',margin:5}} source={require('../../img/triangle.png')}/>
                         </View>
-                        <Image source={require('../../img/today_white.png')}/>
                     </View>
                 </TouchableWithoutFeedback>
                 {this._renderTop()}
