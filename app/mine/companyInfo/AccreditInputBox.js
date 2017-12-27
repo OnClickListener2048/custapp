@@ -49,27 +49,28 @@ export default class AccreditInputBox extends BComponent {
                         <TextInput underlineColorAndroid='transparent' maxLength={11}
                                keyboardType='numeric' value={this.state.phoneNum}
                                placeholderTextColor='#BABABA'
-                               style={styles.textInput} placeholder='手机号码' returnKeyType='next'
+                               style={styles.textInput} placeholder='' returnKeyType='next'
                                onChangeText={
                                    (phoneNum) => {
                                        this.updateMobile(phoneNum);
                                    }
                                }/>
                     </View>
+                    <View style={{backgroundColor:'#D4D4D4',height:0.5,width:284.7,marginLeft:6,marginRight:6}}/>
                     <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity onPress={()=>{this._cancle()}}>
                         <View style={{width:141.35,height:45,borderTopWidth:1,borderRightWidth:1,borderBottomLeftRadius: 8,
-                            borderLeftWidth:0,borderBottomWidth:0,borderColor:'#D4D4D4',backgroundColor:'#F2F2F2',justifyContent:'center',
-                            alignItems:
-                                'center'}}>
+                            backgroundColor:'#F2F2F2',justifyContent:'center',
+                            alignItems:'center'}}>
                             <Text style={{color:'#999999',fontSize:18}}>取消</Text>
 
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>{this._addPhone()}}>
+                        <View style={{backgroundColor:'#D4D4D4',height:45,width:0.5}}/>
+                        <TouchableOpacity onPress={()=>{this._addPhone()}}>
                         <View style={{width:141.35,height:45,backgroundColor:'#F2F2F2'
                             ,justifyContent:'center',borderBottomRightRadius: 8,
-                        alignItems:'center',borderTopWidth:1,borderRightWidth:0,borderLeftWidth:0,borderBottomWidth:0,borderColor:'#D4D4D4'}}>
+                        alignItems:'center'}}>
                             <Text style={{color:'#333333',fontSize:18}}>{'添加'}</Text>
 
                         </View>
@@ -83,6 +84,10 @@ export default class AccreditInputBox extends BComponent {
 
     //添加
     _addPhone(){
+        if(this.state.phoneNum===''||!this.state.phoneNum){
+            // Toast.show("手机号不能为空");
+            return;
+        }
         let callback = this.props.callback;
         if(callback) {
             callback(this.state.phoneNum);
@@ -107,6 +112,7 @@ const styles = StyleSheet.create({
         padding: 0,
         fontSize: px2dp(28),
         color: '#6a6a6a',
+        paddingLeft: 5,
     },
     textInputContainer:{
         justifyContent:'center',

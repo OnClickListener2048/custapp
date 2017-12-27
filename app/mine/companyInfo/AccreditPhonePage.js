@@ -209,7 +209,7 @@ export default class AccreditPhonePage extends BComponent {
     //取消授权点击事件
     _cancelPhone(){
         console.log("点击取消授权");
-        if(this.state.loadState!=='no-data'){
+        if(this.state.loadState==='no-data'){
             Toast.show("您还没有对其他用户授权");
             return;
         }
@@ -248,18 +248,20 @@ export default class AccreditPhonePage extends BComponent {
 
 
     _isAcceditRender(){
-        if(this.state.isAcceditModal&&this.state.loadState==='success'){
+        if(this.state.isAcceditModal&&(this.state.loadState==='success'||this.state.loadState==='no-data')){
             console.log("下拉框点击显示",this.state.cancelAccredit)
             return(
                 <View style={styles.isAccreditViewStyle}>
                     <View style={styles.isAccreditStyle}>
-                        <TouchableOpacity onPress = {() => {this._addAccredit()}}>
+                        <TouchableOpacity onPress = {() => {this._addAccredit()}}
+                        style={styles.touchArea}>
                             <Text style={styles.isAccredittext}>
                                 {'添加授权'}
                             </Text>
                         </TouchableOpacity>
-                        <View style={{backgroundColor:'#D4D4D4',height:0.5,width:74,margin:6}}/>
-                        <TouchableOpacity onPress = {() => {this._cancelPhone()}}>
+                        <View style={{backgroundColor:'#D4D4D4',height:0.5,width:74,marginLeft:6,marginRight:6}}/>
+                        <TouchableOpacity onPress = {() => {this._cancelPhone()}}
+                                          style={styles.touchArea}>
                             <Text style={styles.isAccredittext}>
                                 {'取消授权'}
                             </Text>
@@ -417,6 +419,12 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         justifyContent:'center',
         borderRadius: 3,
+    },
+    touchArea:{
+        width:94,
+        height:34,
+        alignItems:'center',
+        justifyContent:'center',
     },
     isAccreditViewStyle:{
         alignSelf:'flex-end',
