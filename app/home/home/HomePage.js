@@ -98,7 +98,7 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
-
+import BannerView from '../../view/BannerView'
 
 export default class HomePage extends BComponent {
 
@@ -172,7 +172,7 @@ export default class HomePage extends BComponent {
 
     }
 
-        loadData(type = '0'){
+    loadData(type = '0'){
         // let loading
         if(this.state.isFirstRefresh){
             //第一次加载显示菊花loading
@@ -427,6 +427,13 @@ export default class HomePage extends BComponent {
     }
     _renderBannerView(){
 
+        // return(
+        //     <BannerView
+        //         style={{height:deviceWidth*ImageScale}}
+        //         bannerData = {this.state.bannerData}
+        //         imageKey="img"
+        //     />
+        // )
         if(this.state.visible){
             return(
                 <Swiper
