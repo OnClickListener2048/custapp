@@ -103,30 +103,31 @@ export default class BComponent extends Component {
         }
         if (event.id === 'bottomTabSelected') {
 
-            //拦截tab 建
-            // if(event.selectedTabIndex==3){
-            //
-            //     UserInfoStore.isLogined().then(
-            //         logined => {
-            //             if(!logined) {
-            //                 //未登录
-            //                 loginJumpSingleton.goToLogin(this.props.navigator);
-            //
-            //             } else {
-            //                 //已登录
-            //                 this.props.navigator.switchToTab({
-            //                     tabIndex: event.selectedTabIndex
-            //                 });
-            //             }
-            //         },
-            //         e => {
-            //             loginJumpSingleton.goToLogin(this.props.navigator);
-            //
-            //         }
-            //     );
-            //
-            //
-            // }
+            if(this.props.navigator) {
+                    //拦截tab 建
+                    if(event.selectedTabIndex===3){
+
+                        UserInfoStore.isLogined().then(
+                            logined => {
+                                if(!logined) {
+                                    //未登录
+                                    loginJumpSingleton.goToLogin(this.props.navigator);
+
+                                } else {
+                                    //已登录
+                                    this.props.navigator.switchToTab({
+                                        tabIndex: event.selectedTabIndex
+                                    });
+                                }
+                            },
+                            e => {
+                                loginJumpSingleton.goToLogin(this.props.navigator);
+
+                            }
+                        );
+                }
+            }
+
 
             let eventArr = ['homePage','message','service','personal'];
             UMTool.onEvent(eventArr[event.selectedTabIndex])

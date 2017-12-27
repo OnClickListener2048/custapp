@@ -46,7 +46,7 @@ const tabsMain = [
         icon: require('./img/mine_normal.png'),
         selectedIcon: require('./img/mine_selected.png'),
         title: '我的',
-        isIntercept:false,//添加iOS拦截tabbar点击拦截，true为拦截，配合基类event.id === 'bottomTabSelected使用
+        isIntercept:true,//添加iOS拦截tabbar点击拦截，true为拦截，配合基类event.id === 'bottomTabSelected使用
         navigatorStyle,
     }
 ];
