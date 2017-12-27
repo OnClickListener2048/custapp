@@ -6,7 +6,6 @@ import {Platform, View, Text,Image,TouchableOpacity,
     NativeModules,TextInput,Dimensions,StyleSheet} from 'react-native';
 import {deviceHeight,deviceWidth} from "../../util/ScreenUtil";
 const contentwidth = deviceWidth*0.7
-import Toast from 'react-native-root-toast';
 import Alert from "react-native-alert";
 import px2dp from '../../util';
 import BComponent from '../../base/BComponent'
@@ -36,8 +35,8 @@ export default class AccreditInputBox extends BComponent {
     render() {
         return (
             <View style={{justifyContent:'center',alignItems:'center'}}>
-                <View style={{borderRadius: 8,justifyContent:'center',alignItems:'center',backgroundColor:'#F2F2F2',width:284.7}}>
-                    <Text style={{fontSize:16,color:'#333333',marginTop:28}}>
+                <View style={{borderRadius: 8,justifyContent:'center',alignItems:'center',backgroundColor:'#F2F2F2',width:304.7}}>
+                    <Text style={{fontSize:17,color:'#333333',marginTop:28}}>
                         {'添加您要授权看账的手机号码'}
                     </Text>
                     <View style={styles.textInputContainer}>
@@ -51,22 +50,22 @@ export default class AccreditInputBox extends BComponent {
                                    }
                                }/>
                     </View>
-                    <View style={{backgroundColor:'#D4D4D4',height:0.5,width:284.7,marginLeft:6,marginRight:6}}/>
+                    <View style={{backgroundColor:'#D4D4D4',height:0.5,width:304.7,marginLeft:6,marginRight:6}}/>
                     <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity onPress={()=>{this._cancle()}}>
-                        <View style={{width:141.35,height:45,borderTopWidth:1,borderRightWidth:1,borderBottomLeftRadius: 8,
+                        <View style={{width:151.35,height:45,borderBottomLeftRadius: 8,
                             backgroundColor:'#F2F2F2',justifyContent:'center',
                             alignItems:'center'}}>
-                            <Text style={{color:'#999999',fontSize:18}}>取消</Text>
+                            <Text style={{color:'#999999',fontSize:19}}>取消</Text>
 
                         </View>
                     </TouchableOpacity>
                         <View style={{backgroundColor:'#D4D4D4',height:45,width:0.5}}/>
                         <TouchableOpacity onPress={()=>{this._addPhone()}}>
-                        <View style={{width:141.35,height:45,backgroundColor:'#F2F2F2'
+                        <View style={{width:151.35,height:45,backgroundColor:'#F2F2F2'
                             ,justifyContent:'center',borderBottomRightRadius: 8,
                         alignItems:'center'}}>
-                            <Text style={{color:'#333333',fontSize:18}}>{'添加'}</Text>
+                            <Text style={{color:'#333333',fontSize:19}}>{'添加'}</Text>
 
                         </View>
                     </TouchableOpacity>
@@ -80,7 +79,6 @@ export default class AccreditInputBox extends BComponent {
     //添加
     _addPhone(){
         if(this.state.phoneNum===''||!this.state.phoneNum){
-            // Toast.show("手机号不能为空");
             return;
         }
         let callback = this.props.callback;
@@ -105,17 +103,17 @@ const styles = StyleSheet.create({
         width: deviceW-120,
         marginLeft: px2dp(0),
         padding: 0,
-        fontSize: px2dp(28),
+        fontSize: px2dp(32),
         color: '#6a6a6a',
         paddingLeft: 5,
     },
     textInputContainer:{
         justifyContent:'center',
         alignItems:'center',
-        height: 35,
+        height: 40,
         width: 240,
-        marginTop:13,
-        marginBottom:18,
+        marginTop:18,
+        marginBottom:23,
         backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent:'center',

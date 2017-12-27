@@ -9,7 +9,7 @@ import * as apis from '../../apis/accredit';
 import BComponent from '../../base/BComponent'
 import DefaultView from "../../view/DefaultView";
 import Alert from "react-native-alert";
-import Toast from 'react-native-root-toast';
+import Toast, {DURATION} from 'react-native-easy-toast'
 
 export default class AccreditPhonePage extends BComponent {
     static navigatorStyle = {
@@ -111,7 +111,8 @@ export default class AccreditPhonePage extends BComponent {
     _deleteMobile(mobile){
         console.log("删除所选手机号",mobile);
         if(!this.props.companyid||!this.props.ownerMobile||!mobile){
-            Toast.show("公司ID为空或授权手机号为空");
+            this.refs.toast.show("公司ID为空或授权手机号为空", DURATION.LENGTH_SHORT);
+
             return;
         }
 
@@ -205,7 +206,7 @@ export default class AccreditPhonePage extends BComponent {
     _cancelPhone(){
         console.log("点击取消授权");
         if(this.state.loadState==='no-data'){
-            Toast.show("您还没有对其他用户授权");
+            this.refs.toast.show("您还没有对其他用户授权", DURATION.LENGTH_SHORT);
             return;
         }
         this.props.navigator.setButtons({
@@ -246,7 +247,7 @@ export default class AccreditPhonePage extends BComponent {
 
     _isAcceditRender(){
         if(this.state.isAcceditModal&&(this.state.loadState==='success'||this.state.loadState==='no-data')){
-            console.log("下拉框点击显示",this.state.cancelAccredit)
+            console.log("下拉框点击显示",this.state.isAcceditModal)
             return(
                 <View style={styles.isAccreditViewStyle}>
                     <View style={styles.isAccreditStyle}>
@@ -256,7 +257,7 @@ export default class AccreditPhonePage extends BComponent {
                                 {'添加授权'}
                             </Text>
                         </TouchableOpacity>
-                        <View style={{backgroundColor:'#D4D4D4',height:0.5,width:74,marginLeft:6,marginRight:6}}/>
+                        <View style={{backgroundColor:'#D4D4D4',height:0.5,width:94,marginLeft:6,marginRight:6}}/>
                         <TouchableOpacity onPress = {() => {this._cancelPhone()}}
                                           style={styles.touchArea}>
                             <Text style={styles.isAccredittext}>
@@ -288,24 +289,34 @@ export default class AccreditPhonePage extends BComponent {
                 <TouchableWithoutFeedback
                     onPress={this.lostBlur.bind(this)}>
                     <View style={styles.container}>
+                        <Toast ref="toast" position={'bottom'} style={{zIndex: 1,}}/>
                         {this._isAcceditRender()}
-                        {this.state.loadState == 'success'?
-                            <FlatList
-                                style={{marginTop:20}}
-                                data={this.state.dataSource}
-                                renderItem={this._renderItem.bind(this)}
-                            >
-                            </FlatList>:this.state.loadState == 'no-data'?<View style={{alignItems:'center',
-                                flexDirection:'row',
-                                justifyContent:'center',marginTop:20}}>
-                                <Image resizeMode="contain"
-                                       source={require('../../img/warn_icon.png')}>
-                                </Image>
-                                <Text style={{fontSize:18,color:'#999999',marginLeft:5}}>
-                                    {'您还没有对其他用户授权'}
-                                </Text>
-                            </View>:
-                                <DefaultView onPress={()=>this._onLoadPhone()} type ={this.state.loadState}/>
+                        {this.state.loadState == 'success'||this.state.loadState == 'no-data'?
+
+                            <View style={styles.container}>
+                                <FlatList
+                                    style={{marginTop:20,zIndex: 1,}}
+                                    data={this.state.dataSource}
+                                    renderItem={this._renderItem.bind(this)}
+                                >
+                                </FlatList>
+                                {this.state.loadState == 'no-data'&&
+                                <View style={{alignItems:'center',
+                                    position:'absolute',
+                                    flex:1,
+                                    alignSelf:'center',
+                                    flexDirection:'row',zIndex: 1,
+                                    justifyContent:'center',marginTop:20}}>
+                                    <Image resizeMode="contain"
+                                           source={require('../../img/warn_icon.png')}>
+                                    </Image>
+                                    <Text style={{fontSize:18,color:'#999999',marginLeft:5}}>
+                                        {'您还没有对其他用户授权'}
+                                    </Text>
+                                </View>}
+                            </View>
+                            :
+                            <DefaultView onPress={()=>this._onLoadPhone()} type ={this.state.loadState}/>
                         }
                     </View>
                 </TouchableWithoutFeedback>
@@ -332,7 +343,7 @@ export default class AccreditPhonePage extends BComponent {
             if (event.id === 'more') { // this is the same id field from the static navigatorButtons definition
 
                 this.setState({isAcceditModal:true,})
-
+                console.log("右侧更多按钮",this.state.isAcceditModal);
             }else if(event.id=== 'cancel'){
                 console.log("右侧取消按钮");
                 this.props.navigator.setButtons({
@@ -362,7 +373,8 @@ export default class AccreditPhonePage extends BComponent {
     _addMobile(mobile){
         console.log("删除所选手机号",mobile);
         if(!this.props.companyid||!this.props.ownerMobile||!mobile){
-            Toast.show("公司ID为空或授权手机号为空");
+            this.refs.toast.show("公司ID为空或授权手机号为空", DURATION.LENGTH_SHORT);
+
             return;
         }
 
@@ -370,15 +382,12 @@ export default class AccreditPhonePage extends BComponent {
             (responseData) => {
                 if (responseData.code === 0) {//添加成功刷新页面
                     this._onLoadPhone();
-
                 }else{
-
-                    Toast.show(responseData.msg);
-
+                    this.refs.toast.show(responseData.msg, DURATION.LENGTH_SHORT);
                 }
             },
             (e) => {
-                Toast.show(e.msg);
+                this.refs.toast.show(e.msg, DURATION.LENGTH_SHORT);
 
             },
         );
@@ -407,29 +416,29 @@ const styles = StyleSheet.create({
     isAccreditStyle:{
         backgroundColor:'rgba(0, 0, 0, 0.6)',
         alignSelf:'flex-end',
-        width:94,
-        height:70,
+        width:114,
+        height:90,
         alignItems:'center',
         flexDirection:'column',
         justifyContent:'center',
         borderRadius: 3,
     },
     touchArea:{
-        width:94,
-        height:34,
+        width:114,
+        height:44,
         alignItems:'center',
         justifyContent:'center',
     },
     isAccreditViewStyle:{
         alignSelf:'flex-end',
-        width:109,
-        height:70,
+        width:129,
+        height:90,
         zIndex: 10,
         position: 'absolute',
         paddingRight:10,
     },
     isAccredittext:{
-        fontSize:14,
+        fontSize:16,
         color:'#ffffff',
     }
 })

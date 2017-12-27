@@ -4087,6 +4087,12 @@ react-native-device-info@^0.10.2:
     react-native-invertible-scroll-view "^1.1.0"
     stacktrace-parser "^0.1.4"
 
+react-native-easy-toast@^1.0.9:
+  version "1.0.9"
+  resolved "http://registry.npm.taobao.org/react-native-easy-toast/download/react-native-easy-toast-1.0.9.tgz#85b28ccd8f6dfb67495320a47c275d3fe163e660"
+  dependencies:
+    prop-types "^15.5.10"
+
 "react-native-http@github:pilipa-cn/react-native-http#v1.1.1":
   version "1.1.1"
   resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/e992fccdc0b5b63bde7aa093d84e44c3573405d1"
