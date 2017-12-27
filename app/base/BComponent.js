@@ -105,7 +105,6 @@ export default class BComponent extends Component {
 
             //拦截tab 建
             // if(event.selectedTabIndex==3){
-            //
             //     UserInfoStore.isLogined().then(
             //         logined => {
             //             if(!logined) {
@@ -125,9 +124,7 @@ export default class BComponent extends Component {
             //         }
             //     );
             //
-            //
             // }
-
             let eventArr = ['homePage','message','service','personal'];
             UMTool.onEvent(eventArr[event.selectedTabIndex])
         }
