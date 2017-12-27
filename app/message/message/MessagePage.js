@@ -55,6 +55,12 @@ export default class MessagePage extends BComponent {
         super.onNavigatorEvent(event)
         if(event.id === 'didAppear'){
 
+
+            if(Platform.OS === 'ios') {
+                JPushModule.setBadge(0, (badgeNumber) => {
+                });
+            }
+
             if (this.state.isAppear === false){
                 this.setState({
                     isAppear : true
@@ -103,7 +109,9 @@ export default class MessagePage extends BComponent {
         }
 
         this.refreshEmitter = DeviceEventEmitter.addListener('ReloadMessage', () => {
+            //收到登录后的通知需要刷新消息页面
             this.onHeaderRefresh();
+            //如果在消息页面则不显示badge红点提示,否则要在消息的tab显示红点数字提示
             if (this.state.isAppear === true){
                 this.props.navigator.setTabBadge({
                     badge: null
@@ -115,6 +123,7 @@ export default class MessagePage extends BComponent {
         });
 
         this.refreshEmitter = DeviceEventEmitter.addListener('ClearMessage', () => {
+            //收到退出后的通知需要清空消息页面,并置badge为空不提示红点
             this.props.navigator.setTabBadge({
                 badge: null
             });
@@ -129,23 +138,20 @@ export default class MessagePage extends BComponent {
         if(Platform.OS === 'ios'){
 
 
-
-
-
             //应用杀死 点击通知跳转
             this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
                 this.setState({
                     jpushMessage : message
                 });
                 this.props.navigator.switchToTab({
+                    //因为应用杀死的情况下直接点开不会走viewwillAppear,所以强制跳转到本页面走viewwillAppear然后在viewwillAppear执行相关操作
                     tabIndex: 2
                 });
-
-
             });
             //收到自定义消息 刷新消息
             this.recieveiOSCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                 console.log("receive notification: " + JSON.stringify(message));
+                //每收到一次消息都刷新消息列表,并根据是否当前在消息页面控制底部badge是否显示
                 if (this.state.isAppear === true){
                     this.props.navigator.setTabBadge({
                         badge: null

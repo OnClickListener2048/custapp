@@ -12,6 +12,7 @@ import {
     KeyboardAvoidingView,
     Keyboard,
     Text,
+    Image,
     Linking,
     TextInput,
     Dimensions
@@ -55,7 +56,7 @@ export default class WebViewPage extends BComponent {
         this.state={
             progress:0,
             isShowProgress:true,
-
+            isShowTabButton:false,
             isShowkeyBoard:false,
             mobile: '',     // 手机号
             area:'',  //服务区域
@@ -214,7 +215,7 @@ export default class WebViewPage extends BComponent {
                         animationConfig={{duration:second}}
                     />:null
                 }
-                {this.state.progress === 1 && <View style={styles.tabViewContainer}>
+                {this.state.progress === 1 && this.state.isShowTabButton === true && <View style={styles.tabViewContainer}>
                     <TouchableOpacity
                         style={styles.btnTouchContainer}
                         onPress={() => {
@@ -235,16 +236,27 @@ export default class WebViewPage extends BComponent {
                         </View>
                     </TouchableOpacity>
                 </View>}
-
                 <Modal onBackClick={()=>Keyboard.dismiss()} backdropPressToClose={!this.state.isShowkeyBoard}
-                       style={ {height: 479 - 20, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
+                       style={ {height: 439 + 10, width: SCREEN_WIDTH - 75, backgroundColor:'clear',justifyContent: 'center', alignItems: 'center', marginTop: -50}}
                        position={"center"} ref={"modal3"}>
+
+                    <TouchableOpacity
+                        style={styles.dismissBtnTouchContainer}
+                        onPress={() => {
+                            this.refs.modal3.close()
+                        }}>
+                        <Image
+                            source={require('../img/closemessage.png')}
+                            style={styles.dismissBtnTouchContainer}
+                        />
+                    </TouchableOpacity>
+
                     <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
-                        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
-                            <View  style={[{height: 479 - 20 - 20, width: SCREEN_WIDTH - 76,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
+                        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{marginTop:10,height: 439 - 20, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 75,flexDirection: 'column',alignItems:'center'}]}>
+                            <View  style={[{height: 439 - 20 - 20, width: SCREEN_WIDTH - 75 - 15,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
 
-                                <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]}
+                                <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 20}]}
                                            placeholder='服务区域'
                                            ref="AreaTextInput"
                                            onChangeText={
@@ -272,7 +284,8 @@ export default class WebViewPage extends BComponent {
                                                }
                                            }
                                 />
-                                <TextInput underlineColorAndroid='transparent' multiline={true} ref={"ContentTextInput"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 160 : 160}]}
+                                <TextInput underlineColorAndroid='transparent' multiline={true} ref={"ContentTextInput"} placeholderTextColor={'#D9D8D8'}
+                                           style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 130 : 130}]}
                                            placeholder='请在此输入留言内容,我们会尽快与您联系。'
                                            onChangeText={
                                                (message) => {
@@ -300,7 +313,10 @@ export default class WebViewPage extends BComponent {
         )
     }
     _handleMessage(e) {
-        if(e.nativeEvent.data){
+        console.log('嘎嘎嘎嘎网页信息',e.nativeEvent.data)
+        if(e.nativeEvent.data == 'showFooterTab'){
+            this.setState({isShowTabButton: true});
+        }else {
             UMTool.onEvent(e.nativeEvent.data)
         }
     }
@@ -342,7 +358,7 @@ const styles = StyleSheet.create({
         borderRadius:8,
         borderColor:'#CBCBCB',
         borderWidth:1,
-        width:SCREEN_WIDTH - 76 - 40,
+        width:SCREEN_WIDTH - 75 - 15 - 35,
         height:40,
         color:'#666666',
         paddingLeft: 10,
@@ -353,8 +369,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height:40,
         width:208,
-        marginTop:24,
+        marginTop:25,
         borderRadius:8
     },
+    dismissBtnTouchContainer: {
+        // height:30,
+        // width:30,
+        marginTop:0,
+        marginRight:0,
+        marginLeft:SCREEN_WIDTH - 75 * 2 - 82,
+
+    }
 });
 
