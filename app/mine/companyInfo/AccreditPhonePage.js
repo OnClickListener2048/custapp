@@ -26,8 +26,8 @@ export default class AccreditPhonePage extends BComponent {
             cancelAccredit:false,//取消授权，默认不取消
             loadState:'success',
             isAcceditModal:false,//添加授权、取消授权下拉框（默认不显示）
-            companyid:'',//公司ID
-            ownerMobile:'',//本次登录手机号
+            companyid:this.props.companyid,//公司ID
+            ownerMobile:this.props.ownerMobile,//本次登录手机号
         };
         // if you want to listen on navigator events, set this up
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -45,70 +45,64 @@ export default class AccreditPhonePage extends BComponent {
 
     //请求所有授权手机号
     _onLoadPhone(){
-        // 获取公司地址
-        UserInfoStore.getCompany().then(
-            (company) => {
-                console.log('company', company);
-                if (company && company.id) {
-                    console.log("授权手机号"+company.id);
-                    this.setState({companyid:company.id});
-                    //获取当前授权人的手机号
-                    UserInfoStore.getLastUserPhone().then(
-                        (mobile) => {
-                            console.log("授权手机号"+mobile);
-                            if (mobile) {
-                                this.setState({ownerMobile:mobile});
-                                console.log("公司ID,授权手机号"+company.id,mobile);
-                                if(!company.id||!mobile){
-                                    Toast.show("公司ID为空或授权手机号为空");
-                                    return;
-                                }
-                                var loading = SActivityIndicator.show(true, "加载中...");
-                                apis.getAccreditMobile(company.id,mobile).then(
-                                    (responseData) => {
-                                        console.log("走进来")
-                                        SActivityIndicator.hide(loading);
-                                        if (responseData.code === 0) {
-                                            console.log("请求成功走进来")
-                                            if(responseData.list){
-                                                this._againData(responseData.list);
-                                                this.setState({
-                                                    dataList:responseData.list
-                                                })
-                                                if(responseData.list.length===0){
-                                                    this.setState({
-                                                        loadState:'no-data'
-                                                    })
-                                                }
-                                            }
 
-                                        }else{
-                                            this.setState({
-                                                    loadState: 'error'
-                                                }
-                                            );
-                                        }
-                                    },
-                                    (e) => {
-                                        SActivityIndicator.hide(loading);
-                                        this.setState({
-                                            loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
-                                        })
-                                        console.log('error', e)
+        if(!this.props.companyid||!this.props.ownerMobile){
+            Toast.show("公司ID为空或授权手机号为空");
+            return;
+        }
+        console.log("企业详情页传值=",this.props.companyid,this.props.ownerMobile);
+        var loading = SActivityIndicator.show(true, "加载中...");
+        apis.getAccreditMobile(this.props.companyid,this.props.ownerMobile).then(
+            (responseData) => {
+                console.log("走进来")
+                SActivityIndicator.hide(loading);
+                if (responseData.code === 0) {
+                    console.log("请求成功走进来")
+                    if(responseData.list){
+                        this.setState({
+                            dataList:responseData.list
+                        })
+                        if(responseData.list.length===0){
+                            this.props.navigator.setButtons({
 
-                                    },
-                                );
-                            }else{
-                                this.ownerMobile = undefined
-                            }
+                                rightButtons: [
+                                    {
+                                        icon: require('../../img/more_btn.png'),
+                                        buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+                                        buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
+                                        buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
+                                        id: 'more'
+                                    }]
+                            });
+                            this.setState({
+                                cancelAccredit:false,
+                                loadState:'no-data'
+                            })
+                            this._againData(responseData.list);
+                        }else{
+                                this.setState({
+                                    loadState:'success'
+                                })
+                            this._againData(responseData.list);
 
                         }
-                    );
-                }else{
-                    this.companyid = undefined
-                }
+                    }
 
-            }
+                }else{
+                    this.setState({
+                            loadState: 'error'
+                        }
+                    );
+                }
+            },
+            (e) => {
+                SActivityIndicator.hide(loading);
+                this.setState({
+                    loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
+                })
+                console.log('error', e)
+
+            },
         );
 
     }
@@ -116,12 +110,12 @@ export default class AccreditPhonePage extends BComponent {
     //删除所选手机号
     _deleteMobile(mobile){
         console.log("删除所选手机号",mobile);
-        if(!this.state.companyid||!this.state.ownerMobile||!mobile){
+        if(!this.props.companyid||!this.props.ownerMobile||!mobile){
             Toast.show("公司ID为空或授权手机号为空");
             return;
         }
 
-        apis.deleteAccreditMobile(this.state.ownerMobile,mobile,this.state.companyid).then(
+        apis.deleteAccreditMobile(this.props.ownerMobile,mobile,this.props.companyid).then(
             (responseData) => {
                 if (responseData.code === 0) {//删除成功刷新页面
                     this._onLoadPhone();
@@ -161,6 +155,7 @@ export default class AccreditPhonePage extends BComponent {
     _renderItem(item){
         console.log("授权后是否走renderItem",this.state.cancelAccredit);
         if(this.state.cancelAccredit){//取消授权，，，取消按钮显示
+
             return(
                 <CommenCell
                     leftText={item.item.data}
@@ -172,6 +167,7 @@ export default class AccreditPhonePage extends BComponent {
                 />
             )
         }else{
+
             return(
                 <CommenCell
                     leftText={item.item.data}
@@ -191,7 +187,6 @@ export default class AccreditPhonePage extends BComponent {
             screen: "AccreditInputBox",
             passProps: {
                 onClose: this.dismissLightBox,
-                companyId:'',
                 //回调!
                 callback: this._addOrCancelphoneNum,
             },
@@ -233,6 +228,8 @@ export default class AccreditPhonePage extends BComponent {
 
     //重新赋值
     _againData(phoneList){
+        console.log("重新赋值=",phoneList,this.state.cancelAccredit);
+
         let dataSource=[];
         for (let i = 0; i<phoneList.length;i++){
             let flat = {};
@@ -364,27 +361,24 @@ export default class AccreditPhonePage extends BComponent {
     //添加手机号
     _addMobile(mobile){
         console.log("删除所选手机号",mobile);
-        if(!this.state.companyid||!this.state.ownerMobile||!mobile){
+        if(!this.props.companyid||!this.props.ownerMobile||!mobile){
             Toast.show("公司ID为空或授权手机号为空");
             return;
         }
 
-        apis.addAccreditMobile(this.state.ownerMobile,mobile,this.state.companyid).then(
+        apis.addAccreditMobile(this.props.ownerMobile,mobile,this.props.companyid).then(
             (responseData) => {
-                if (responseData.code === 0) {//删除成功刷新页面
+                if (responseData.code === 0) {//添加成功刷新页面
                     this._onLoadPhone();
+
                 }else{
-                    this.setState({
-                            loadState: 'error'
-                        }
-                    );
+
+                    Toast.show(responseData.msg);
+
                 }
             },
             (e) => {
-                this.setState({
-                    loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
-                })
-                console.log('error', e)
+                Toast.show(e.msg);
 
             },
         );

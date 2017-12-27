@@ -20,16 +20,11 @@ export default class AccreditInputBox extends BComponent {
         super(props);
         this.state={
                 phoneNum:'',//增加授权的手机号
-            companyId:'',//公司ID
         }
         this.updateMobile = this.updateMobile.bind(this);
 
 
     }
-    static defaultProps = {
-        companyId:'',//公司ID
-
-    };
 
     updateMobile(phoneNum) {
         phoneNum = phoneNum.replace(/[^\d]/g, '');// 过滤非数字输入
