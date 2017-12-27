@@ -93,7 +93,7 @@ export default class CompanySurveyPage extends BComponent {
                             rightButtons: [
                                 {
                                     title: '授权', // for a textual button, provide the button title (label)
-                                    buttonColor: '#e13238', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+                                    buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
                                     buttonFontSize: 18, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
                                     buttonFontWeight: 'normal', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
                                     id: 'edit'
