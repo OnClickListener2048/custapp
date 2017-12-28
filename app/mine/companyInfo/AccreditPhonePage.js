@@ -211,7 +211,9 @@ export default class AccreditPhonePage extends BComponent {
             Alert.alert('您还没有对其他用户授权', '', [
                 {
                     text: "OK",
-                    onPress: () => console.log('Cancel Pressed'),style: 'cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    color: "#ef0c35", // 可选, 可以不设置
+                    style: 'cancel',
                 }]);
         }else{
             this.props.navigator.setButtons({
@@ -397,7 +399,9 @@ export default class AccreditPhonePage extends BComponent {
                     Alert.alert(responseData.msg, '', [
                         {
                             text: "OK",
-                            onPress: () => console.log('Cancel Pressed'),style: 'cancel',
+                            onPress: () => console.log('Cancel Pressed'),
+                            color: "#ef0c35", // 可选, 可以不设置
+                            style: 'cancel',
                         }]);
                 }
             },
@@ -406,7 +410,9 @@ export default class AccreditPhonePage extends BComponent {
                 Alert.alert(e.msg, '', [
                     {
                         text: "OK",
-                        onPress: () => console.log('Cancel Pressed'),style: 'cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        color: "#ef0c35", // 可选, 可以不设置
+                        style: 'cancel',
                     }]);
             },
         );
@@ -423,7 +429,9 @@ export default class AccreditPhonePage extends BComponent {
             Alert.alert('手机号不能为空', '', [
                 {
                     text: "OK",
-                    onPress: () => console.log('Cancel Pressed'),style: 'cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    color: "#ef0c35", // 可选, 可以不设置
+                    style: 'cancel',
                 }]);
         }
 
