@@ -226,10 +226,11 @@ export default class AccreditPhonePage extends BComponent {
             });
 
             this._againData(this.state.dataList);
-
+            this.setState({
+                cancelAccredit:true,
+            })
         }
         this.setState({
-            cancelAccredit:true,
             isAcceditModal:false,
         })
 
@@ -392,12 +393,21 @@ export default class AccreditPhonePage extends BComponent {
                 if (responseData.code === 0) {//添加成功刷新页面
                     this._onLoadPhone();
                 }else{
-                    this.refs.toast.show(responseData.msg, DURATION.LENGTH_SHORT);
+                    // this.refs.toast.show(responseData.msg, DURATION.LENGTH_SHORT);
+                    Alert.alert(responseData.msg, '', [
+                        {
+                            text: "OK",
+                            onPress: () => console.log('Cancel Pressed'),style: 'cancel',
+                        }]);
                 }
             },
             (e) => {
-                this.refs.toast.show(e.msg, DURATION.LENGTH_SHORT);
-
+                // this.refs.toast.show(e.msg, DURATION.LENGTH_SHORT);
+                Alert.alert(e.msg, '', [
+                    {
+                        text: "OK",
+                        onPress: () => console.log('Cancel Pressed'),style: 'cancel',
+                    }]);
             },
         );
     }
@@ -409,7 +419,12 @@ export default class AccreditPhonePage extends BComponent {
             console.log("添加的手机号",phoneNum);
             this._addMobile(phoneNum);
         }else{
-            this.refs.toast.show("手机号不能为空", DURATION.LENGTH_SHORT);
+            // this.refs.toast.show("手机号不能为空", DURATION.LENGTH_SHORT);
+            Alert.alert('手机号不能为空', '', [
+                {
+                    text: "OK",
+                    onPress: () => console.log('Cancel Pressed'),style: 'cancel',
+                }]);
         }
 
     }
