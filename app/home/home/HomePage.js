@@ -161,6 +161,7 @@ export default class HomePage extends BComponent {
     }
 
     componentWillUnmount() {
+        this.subscription.remove();
     }
 
     componentDidMount(){
