@@ -181,18 +181,22 @@ export default class SettingPage extends BComponent {
                                             console.log("popToRoot");
                                             DeviceEventEmitter.emit('ChangeCompany');
                                             this.props.navigator.popToRoot();
-                                            this.props.navigator.switchToTab({
-                                                tabIndex: 0
-                                            });
+                                            if(Platform.OS === 'android'){
+                                                this.props.navigator.switchToTab({
+                                                    tabIndex: 0
+                                                });
+                                            }
                                         }
                                     },
                                     e => {
                                         if (this.props.navigator) {
                                             console.log("popToRoot");
                                             this.props.navigator.popToRoot();
-                                            this.props.navigator.switchToTab({
-                                                tabIndex: 0
-                                            });
+                                            if(Platform.OS === 'android'){
+                                                this.props.navigator.switchToTab({
+                                                    tabIndex: 0
+                                                });
+                                            }
                                         }
                                     }
                                 );
@@ -201,17 +205,22 @@ export default class SettingPage extends BComponent {
                                 if (this.props.navigator) {
                                     console.log("popToRoot");
                                     this.props.navigator.popToRoot();
-                                    this.props.navigator.switchToTab({
-                                        tabIndex: 0
-                                    });
+                                    if(Platform.OS === 'android'){
+                                        this.props.navigator.switchToTab({
+                                            tabIndex: 0
+                                        });
+                                    }
+                                    
                                 }
                             }
                         );
 
-                        // 转到首页标签
-                        // this.props.navigator.switchToTab({
-                        //     tabIndex: 0
-                        // });
+                        if(Platform.OS === 'ios'){
+                            // 转到首页标签
+                            this.props.navigator.switchToTab({
+                                tabIndex: 0
+                            });
+                        }
                     },
                 },]
             , {cancelable: false});
