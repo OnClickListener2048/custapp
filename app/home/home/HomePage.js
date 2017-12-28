@@ -170,13 +170,6 @@ export default class HomePage extends BComponent {
             loginJumpSingleton.goToLogin(this.props.navigator);
         });
 
-        this.loginOk = DeviceEventEmitter.addListener('loginSuccess', (loginSuccess)=>{
-            console.log('loginOk loginSuccess=', loginSuccess);
-            // 登录完成后选中我的页面
-            this.props.navigator.switchToTab({
-                tabIndex: 3
-            });
-        });
     }
 
     loadData(type = '0'){
