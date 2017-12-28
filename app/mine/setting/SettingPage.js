@@ -177,25 +177,32 @@ export default class SettingPage extends BComponent {
                             v => {
                                 UserInfoStore.removeCompany().then(
                                     v => {
-                                        DeviceEventEmitter.emit('ChangeCompany');
-
+                                        if (this.props.navigator) {
+                                            console.log("popToRoot");
+                                            DeviceEventEmitter.emit('ChangeCompany');
+                                            this.props.navigator.pop();
+                                        }
                                     },
                                     e => {
-
+                                        if (this.props.navigator) {
+                                            console.log("popToRoot");
+                                            this.props.navigator.pop();
+                                        }
                                     }
                                 );
                             },
                             e => {
-
+                                if (this.props.navigator) {
+                                    console.log("popToRoot");
+                                    this.props.navigator.pop();
+                                }
                             }
                         );
-                        if (this.props.navigator) {
-                            this.props.navigator.pop();
-                            this.props.navigator.switchToTab({
-                                tabIndex: 0
-                            });
-                        }
+
                         // 转到首页标签
+                        this.props.navigator.switchToTab({
+                            tabIndex: 0
+                        });
                     },
                 },]
             , {cancelable: false});
