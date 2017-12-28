@@ -207,24 +207,31 @@ export default class AccreditPhonePage extends BComponent {
     _cancelPhone(){
         console.log("点击取消授权");
         if(this.state.loadState==='no-data'){
-            this.refs.toast.show("您还没有对其他用户授权", DURATION.LENGTH_SHORT);
-            return;
-        }
-        this.props.navigator.setButtons({
-            rightButtons: [
+            // this.refs.toast.show("您还没有对其他用户授权", DURATION.LENGTH_SHORT);
+            Alert.alert('您还没有对其他用户授权', '', [
                 {
-                    title: '取消',
-                    buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
-                    buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
-                    buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
-                    id: 'cancel'
-                }]
-        });
+                    text: "OK",
+                    onPress: () => console.log('Cancel Pressed'),style: 'cancel',
+                }]);
+        }else{
+            this.props.navigator.setButtons({
+                rightButtons: [
+                    {
+                        title: '取消',
+                        buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+                        buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
+                        buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
+                        id: 'cancel'
+                    }]
+            });
+
+            this._againData(this.state.dataList);
+
+        }
         this.setState({
             cancelAccredit:true,
             isAcceditModal:false,
         })
-        this._againData(this.state.dataList);
 
     }
 
@@ -285,7 +292,7 @@ export default class AccreditPhonePage extends BComponent {
     }
 
     render(){
-        console.log("页面显示",this.state.cancelAccredit)
+        console.log("页面显示",this.state.cancelAccredit,this.state.isAcceditModal)
             return(
                 <TouchableWithoutFeedback
                     onPress={this.lostBlur.bind(this)}>
