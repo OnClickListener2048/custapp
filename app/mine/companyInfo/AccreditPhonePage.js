@@ -111,7 +111,7 @@ export default class AccreditPhonePage extends BComponent {
     //删除所选手机号
     _deleteMobile(mobile){
         console.log("删除所选手机号",mobile);
-        if(!this.props.companyid||!this.props.ownerMobile||!mobile){
+        if(!this.props.companyid||!this.props.ownerMobile){
             this.refs.toast.show("公司ID为空或授权手机号为空", DURATION.LENGTH_SHORT);
 
             return;
@@ -374,7 +374,7 @@ export default class AccreditPhonePage extends BComponent {
     //添加手机号
     _addMobile(mobile){
         console.log("删除所选手机号",mobile);
-        if(!this.props.companyid||!this.props.ownerMobile||!mobile){
+        if(!this.props.companyid||!this.props.ownerMobile){
             this.refs.toast.show("公司ID为空或授权手机号为空", DURATION.LENGTH_SHORT);
 
             return;
@@ -398,10 +398,11 @@ export default class AccreditPhonePage extends BComponent {
     //经营范围回调
     _addOrCancelphoneNum(phoneNum){
 
-        if(phoneNum!=null){
+        if(phoneNum!==null&&phoneNum!==''){
             console.log("添加的手机号",phoneNum);
             this._addMobile(phoneNum);
-
+        }else{
+            this.refs.toast.show("手机号不能为空", DURATION.LENGTH_SHORT);
         }
 
     }

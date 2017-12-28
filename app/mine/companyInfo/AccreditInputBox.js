@@ -79,9 +79,6 @@ export default class AccreditInputBox extends BComponent {
 
     //添加
     _addPhone(){
-        if(this.state.phoneNum===''||!this.state.phoneNum){
-            return;
-        }
         let callback = this.props.callback;
         if(callback) {
             callback(this.state.phoneNum);
