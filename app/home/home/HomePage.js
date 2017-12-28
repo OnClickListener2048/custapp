@@ -38,19 +38,19 @@ const headerData = [
     {
         title:'注册公司',
         logo:require('../../img/register.png'),
-        url:H5_URL+'register?platform=app',
+        url:H5_URL+'register?platform=app&showFooterTab=true',
         eventId:'registerCompany'
     },
     {
         title:'记账报税',
         logo:require('../../img/Accounting.png'),
-        url:H5_URL+'accounting?platform=app',
+        url:H5_URL+'accounting?platform=app&showFooterTab=true',
         eventId:'accountingAndTax'
     },
     {
         title:'企业变更',
         logo:require('../../img/changeConpany.png'),
-        url:H5_URL+'change?platform=app',
+        url:H5_URL+'change?platform=app&showFooterTab=true',
         eventId:'enterpriseChange'
     },
     {

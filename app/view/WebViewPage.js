@@ -25,6 +25,8 @@ const window = Dimensions.get('window');
 import Modal from '../view/Modalbox';
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 import * as apis from '../apis';
+import * as URI from "uri-js";
+import queryString from "query-string";
 
 export const SCREEN_HEIGHT = window.height;
 export const SCREEN_WIDTH = window.width;
@@ -110,6 +112,27 @@ export default class WebViewPage extends BComponent {
     }
     _onLoadEnd(){
         this.setState({ progress:1 });
+
+
+        let components = URI.parse(this.props.url);
+        let query = components.query;
+        let passProps = {};
+        if (query) {
+            passProps = queryString.parse(query);
+        }
+
+        let passPropsFinal = {};
+        let paramsKeyArray = Object.keys(passProps);// 直接使用这个解析后的 passProps, 会产生莫名奇妙的错误, 稳妥起见, 复制一下
+        // 通过 forEach 方法拿到数组中每个元素,将元素与参数的值进行拼接处理,并且放入 paramsArray 中
+        paramsKeyArray.forEach(key => passPropsFinal[key] =  passProps[key] );
+
+        console.log( "网页信息后缀是否包含 showFooterTab = ", passPropsFinal['showFooterTab']);
+
+        if (passPropsFinal['showFooterTab'] == 'true'){
+            this.setState({isShowTabButton: true});
+
+        }
+
 
         let _this = this;
         this._hiddenProgresssTimer = setTimeout(function () {
@@ -319,12 +342,10 @@ export default class WebViewPage extends BComponent {
         )
     }
     _handleMessage(e) {
-        console.log('嘎嘎嘎嘎网页信息',e.nativeEvent.data)
-        if(e.nativeEvent.data == 'showFooterTab'){
-            this.setState({isShowTabButton: true});
-        }else {
-            UMTool.onEvent(e.nativeEvent.data)
-        }
+        // console.log('网页发送的信息',e.nativeEvent.data)
+
+        UMTool.onEvent(e.nativeEvent.data)
+
     }
 
 }
