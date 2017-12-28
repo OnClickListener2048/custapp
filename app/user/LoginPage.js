@@ -78,7 +78,6 @@ export default class LoginPage extends Component {
             passwordValid: false, // 手机模式密码
             password: '', // 手机模式密码有效
             loading: false, // 是否载入中, 载入中不能点击任何按钮
-            visible: false, // 是否界面还没初始化完毕, 没初始化完毕不现实任何UI元素
         };
 
         // this.state.mobile = props.mobile;
@@ -233,10 +232,10 @@ export default class LoginPage extends Component {
             animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
         });
 
-        if (this.props.navigator) {
-            console.log("popToRoot");
-            this.props.navigator.popToRoot();
-        }
+        // if (this.props.navigator) {
+        //     console.log("popToRoot");
+        //     this.props.navigator.popToRoot();
+        // }
     }
 
     // 准备加载组件
@@ -252,15 +251,12 @@ export default class LoginPage extends Component {
             UserInfoStore.getMobileLoginInfo().then(
                 v => {
                     console.log(v);
-                    this.setState({visible: true});
-
                     // v.open = !v.open;// 调试开关反转
                     this.setState({openMobileLogin: v.open});
                     this.setState({mobileLogin: v.open});
                     this.setState({openMobileInfo: v});
                 }, e => {
                     console.log(e);
-                    this.setState({visible: true});
                     this.setState({openMobileLogin: false});
                     this.setState({mobileLogin: false});
                 }
@@ -269,7 +265,6 @@ export default class LoginPage extends Component {
             // Android一直打开微信登录
             this.setState({openMobileLogin: false});
             this.setState({mobileLogin: false});
-            this.setState({visible: true});
         }
 
 
@@ -386,18 +381,10 @@ export default class LoginPage extends Component {
                                         UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
                                             (user) => {
                                                 console.log("公司信息保存成功");
-                                                // 选中我的页面
-                                                this.props.navigator.switchToTab({
-                                                    tabIndex: 3
-                                                });
                                                 this.pop();
                                             },
                                             (e) => {
                                                 console.log("公司信息保存错误:", e);
-                                                // 选中我的页面
-                                                this.props.navigator.switchToTab({
-                                                    tabIndex: 3
-                                                });
                                                 this.pop();
                                             },
                                         );
@@ -589,10 +576,6 @@ export default class LoginPage extends Component {
     };
 
     render() {
-        if(!this.state.visible) {
-            return null;
-        }
-
         return (
 
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
