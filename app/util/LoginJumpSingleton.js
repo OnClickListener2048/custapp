@@ -25,7 +25,7 @@ export default class LoginJumpSingleton {
         UserInfoStore.removeUserInfo(null);
     }
 
-    goToLogin(navigator) {
+    goToLogin(navigator,callback) {
         if(navigator !== undefined) {
             if (this.isJumpingLogin === true){
                 return;
@@ -43,6 +43,7 @@ export default class LoginJumpSingleton {
                 overrideBackPress: true, // 覆盖Android返回键
                 passProps: {
                     isReset: true,
+                    callback:callback
                     // navigator: navigator,
                 }
             });

@@ -111,7 +111,12 @@ export default class BComponent extends Component {
                             logined => {
                                 if(!logined) {
                                     //未登录
-                                    loginJumpSingleton.goToLogin(this.props.navigator);
+                                    let _this = this
+                                    loginJumpSingleton.goToLogin(this.props.navigator,function () {
+                                        _this.props.navigator.switchToTab({
+                                            tabIndex: 3
+                                        });
+                                    });
 
                                 } else {
                                     //已登录

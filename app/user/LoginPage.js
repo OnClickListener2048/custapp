@@ -381,10 +381,16 @@ export default class LoginPage extends Component {
                                         UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
                                             (user) => {
                                                 console.log("公司信息保存成功");
+                                                // 选中我的页面
+
                                                 this.pop();
+
+                                                this.props.callback && this.props.callback()
                                             },
                                             (e) => {
-                                                console.log("公司信息保存错误:", e);
+
+                                                this.props.callback && this.props.callback()
+
                                                 this.pop();
                                             },
                                         );
