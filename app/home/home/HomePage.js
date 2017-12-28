@@ -48,16 +48,16 @@ const headerData = [
         eventId:'accountingAndTax'
     },
     {
-        title:'财务报表',
-        logo:require('../../img/Finance.png'),
-        url:'pilipa://tab.service',
-        eventId:'financialReport'
-    },
-    {
         title:'企业变更',
         logo:require('../../img/changeConpany.png'),
         url:H5_URL+'change?platform=app',
         eventId:'enterpriseChange'
+    },
+    {
+        title:'财务报表',
+        logo:require('../../img/Finance.png'),
+        url:'pilipa://tab.service',
+        eventId:'financialReport'
     },
     {
         title:'免费核名',
