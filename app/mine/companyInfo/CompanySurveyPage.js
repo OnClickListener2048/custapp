@@ -56,7 +56,7 @@ export default class CompanySurveyPage extends BComponent {
                                         console.log("公司ID,授权手机号"+company.id,mobile);
                                         this.push({
                                             screen: 'AccreditPhonePage',
-                                            title:'授权',
+                                            title:'授权看账',
                                             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                                             passProps: {
                                                 companyid:company.id,
