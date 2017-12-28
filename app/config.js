@@ -23,19 +23,19 @@ export let SCHEME = 'https';
 export let H5_URL = 'https://www.pilipa.cn/'
 export let WECHAT_APP_ID = 'wx16da5000356a9497';// 微信APP ID
 export let DOMAIN_API = 'www.pilipa.cn';
-if(DEBUG) {// 测试环境变量, 上线时应删除
-
-    SCHEME = 'https';
-    // DOMAIN_API = 'www-rc.i-counting.cn';
-
-    DOMAIN_API = 'x-www.i-counting.cn';
-    H5_URL = 'https://x-www.i-counting.cn/'
-    //单
-    // SCHEME = 'http';
-    // DOMAIN_API = '192.168.200.150:3000';
-}
-DOMAIN_API = 'x-www.i-counting.cn';
-H5_URL = 'https://x-www.i-counting.cn/';
+// if(DEBUG) {// 测试环境变量, 上线时应删除
+//
+//     SCHEME = 'https';
+//     // DOMAIN_API = 'www-rc.i-counting.cn';
+//
+//     DOMAIN_API = 'x-www.i-counting.cn';
+//     H5_URL = 'https://x-www.i-counting.cn/'
+//     //单
+//     // SCHEME = 'http';
+//     // DOMAIN_API = '192.168.200.150:3000';
+// }
+// DOMAIN_API = 'x-www.i-counting.cn';
+// H5_URL = 'https://x-www.i-counting.cn/';
 export let API_BASE_URL = `${SCHEME}://${DOMAIN_API}`;// API服务基础地址
 // export let WWW_BASE_URL = `${SCHEME}://${DOMAIN_WWW}`;
 // export let WEB_BASE_URL = `${SCHEME}://${DOMAIN_WEB}`;
