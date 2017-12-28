@@ -235,12 +235,6 @@ export default class MinePage extends BComponent {
     // 准备加载组件
     componentWillMount() {
 
-        // let  upgradeAlert = {
-        //     'upgrade':true,
-        //     'newversion':this.state.version,
-        // }
-        // UserInfoStore.setUpgrade_alert(upgradeAlert).then();
-        // UserInfoStore.setUpgrade_setting(upgradeAlert).then();
         UserInfoStore.getUpgrade_setting().then(
             (info) => {
                 if (info !== null) {
