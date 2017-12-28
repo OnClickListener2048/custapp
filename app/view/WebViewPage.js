@@ -213,6 +213,12 @@ export default class WebViewPage extends BComponent {
 
                 Toast.show('提交成功');
                 this.refs.modal3.close()
+                this.refs.AreaTextInput.clear();
+                this.refs.NameTextInput.clear();
+                this.refs.MobileTextInput.clear();
+                this.refs.ContentTextInput.clear();
+
+
             }, (e) => {
                 Toast.show(errorText(e));
                 SActivityIndicator.hide(loading);
@@ -314,8 +320,9 @@ export default class WebViewPage extends BComponent {
                                            }
                                 />
                                 <TextInput underlineColorAndroid='transparent' multiline={true} ref={"ContentTextInput"} placeholderTextColor={'#D9D8D8'}
-                                           style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 130 : 130}]}
+                                           style={[styles.textInputStyle,{textAlignVertical:"top",marginTop: 10,height:this.state.isShowkeyBoard ? 130 : 130}]}
                                            placeholder='请在此输入留言内容,我们会尽快与您联系。'
+
                                            onChangeText={
                                                (message) => {
                                                    this.updateMmessage(message);
