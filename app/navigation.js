@@ -38,6 +38,7 @@ const tabsMain = [
         icon: require('./img/message_normal.png'),
         selectedIcon: require('./img/message_selected.png'),
         title: '消息',
+        isIntercept:true,
         navigatorStyle
     },
     {
