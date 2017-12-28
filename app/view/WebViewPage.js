@@ -46,6 +46,7 @@ const patchPostMessageFunction = function() {
 const patchPostMessageJsCode = '(' + String(patchPostMessageFunction) + ')();';
 
 const second = 1500
+const html ="";
 
 export default class WebViewPage extends BComponent {
     static defaultProps = {
@@ -199,7 +200,7 @@ export default class WebViewPage extends BComponent {
             <View style={{flex:1,backgroundColor:'#ebebeb',position:'relative'}}>
                 <WebView
                     injectedJavaScript={patchPostMessageJsCode}
-                    source={{uri:this.props.url}}
+                    source={require('./index.html')}
                     onLoadEnd = {this._onLoadEnd.bind(this)}
                     onMessage={this._handleMessage}
                 />
