@@ -272,19 +272,10 @@ export default class WebViewPage extends BComponent {
                     </TouchableOpacity>
                 </View>}
                 <Modal onBackClick={()=>Keyboard.dismiss()} backdropPressToClose={!this.state.isShowkeyBoard}
-                       style={ {height: 439 + 10, width: SCREEN_WIDTH - 75, backgroundColor:'clear',justifyContent: 'center', alignItems: 'center', marginTop: -50}}
+                       style={ {height: 439 - 10, width: SCREEN_WIDTH - 75, backgroundColor:'clear',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
                        position={"center"} ref={"modal3"}>
 
-                    <TouchableOpacity
-                        style={styles.dismissBtnTouchContainer}
-                        onPress={() => {
-                            this.refs.modal3.close()
-                        }}>
-                        <Image
-                            source={require('../img/closemessage.png')}
-                            style={styles.dismissBtnTouchContainer}
-                        />
-                    </TouchableOpacity>
+
 
                     <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
@@ -405,14 +396,6 @@ const styles = StyleSheet.create({
         width:208,
         marginTop:25,
         borderRadius:8
-    },
-    dismissBtnTouchContainer: {
-        // height:30,
-        // width:30,
-        marginTop:0,
-        marginRight:0,
-        marginLeft:SCREEN_WIDTH - 75 * 2 - 82,
-
     }
 });
 
