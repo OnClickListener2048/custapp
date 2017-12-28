@@ -444,6 +444,8 @@ export default class HomePage extends BComponent {
                     index={this._index}
                     showsPagination = {true}
                     paginationStyle={{bottom:5}}
+                    dot={<View style={{backgroundColor:'rgba(0,0,0,.2)', width: 6, height: 6,borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+                    activeDot={<View style={{backgroundColor: '#323232', width: 6, height: 6, borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
                     onIndexChanged ={(index)=>{this._index = index}}
                 >
                     {
