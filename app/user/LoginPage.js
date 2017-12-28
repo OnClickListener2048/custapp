@@ -387,17 +387,21 @@ export default class LoginPage extends Component {
                                             (user) => {
                                                 console.log("公司信息保存成功");
                                                 // 选中我的页面
-                                                this.props.navigator.switchToTab({
-                                                    tabIndex: 3
-                                                });
+
                                                 this.pop();
+                                                // this.props.navigator.switchToTab({
+                                                //     tabIndex: 3
+                                                // });
+                                                this.props.callback && this.props.callback()
                                             },
                                             (e) => {
                                                 console.log("公司信息保存错误:", e);
                                                 // 选中我的页面
-                                                this.props.navigator.switchToTab({
-                                                    tabIndex: 3
-                                                });
+                                                // this.props.navigator.switchToTab({
+                                                //     tabIndex: 3
+                                                // });
+                                                this.props.callback && this.props.callback()
+
                                                 this.pop();
                                             },
                                         );
