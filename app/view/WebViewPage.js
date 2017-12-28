@@ -117,6 +117,9 @@ export default class WebViewPage extends BComponent {
             clearTimeout(this._hiddenProgresssTimer);
 
         },second)
+
+        console.log('webview _onLoadEnd');
+        this.webview.postMessage(++this.data);
     }
     callPhone(){
         Linking.openURL('tel:4001070110')
@@ -200,9 +203,11 @@ export default class WebViewPage extends BComponent {
             <View style={{flex:1,backgroundColor:'#ebebeb',position:'relative'}}>
                 <WebView
                     injectedJavaScript={patchPostMessageJsCode}
-                    source={require('./index.html')}
+                    source={{uri:this.props.url}}
+                    onLoad = {() => {console.log('webview onLoad')}}
                     onLoadEnd = {this._onLoadEnd.bind(this)}
                     onMessage={this._handleMessage}
+                    ref={webview => this.webview = webview}
                 />
                 {
                     this.state.isShowProgress?<Progress.Bar
