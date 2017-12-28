@@ -222,12 +222,12 @@ export default class LoginPage extends Component {
     // 返回
     pop() {
         // 发送通知
-        DeviceEventEmitter.emit('loginSuccess', true);
+        // DeviceEventEmitter.emit('loginSuccess', true);
         //登录后刷新服务页面的数据
         DeviceEventEmitter.emit('ChangeCompany');
         DeviceEventEmitter.emit('ReloadMessage');
 
-
+        this.props.callback && this.props.callback()
         Navigation.dismissModal({
             animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
         });
@@ -371,10 +371,13 @@ export default class LoginPage extends Component {
                                         (user) => {
                                             console.log("公司信息保存成功");
                                             this.pop();
+
                                         },
                                         (e) => {
                                             console.log("公司信息保存错误:", e);
                                             this.pop();
+
+
                                         },
                                     );
                                     if (tmpCompaniesArr.length > 0) {
@@ -385,22 +388,21 @@ export default class LoginPage extends Component {
 
                                                 this.pop();
 
-                                                this.props.callback && this.props.callback()
                                             },
                                             (e) => {
-
-                                                this.props.callback && this.props.callback()
 
                                                 this.pop();
                                             },
                                         );
                                     } else {
                                         this.pop();// bug 修复: 无公司数据时不能返回
+
                                     }
                                 } else {
                                     UserInfoStore.removeCompany().then();
                                     UserInfoStore.removeCompanyArr().then();
                                     this.pop();
+
                                 }
                             },
                             (e) => {

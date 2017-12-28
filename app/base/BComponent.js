@@ -105,7 +105,7 @@ export default class BComponent extends Component {
 
             if(this.props.navigator) {
                     //拦截tab 建
-                    if(event.selectedTabIndex===3){
+                    if(event.selectedTabIndex===3 || event.selectedTabIndex===2){
 
                         UserInfoStore.isLogined().then(
                             logined => {
@@ -114,7 +114,7 @@ export default class BComponent extends Component {
                                     let _this = this
                                     loginJumpSingleton.goToLogin(this.props.navigator,function () {
                                         _this.props.navigator.switchToTab({
-                                            tabIndex: 3
+                                            tabIndex: event.selectedTabIndex
                                         });
                                     });
 
