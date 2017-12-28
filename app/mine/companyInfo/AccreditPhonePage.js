@@ -47,7 +47,8 @@ export default class AccreditPhonePage extends BComponent {
     _onLoadPhone(){
 
         if(!this.props.companyid||!this.props.ownerMobile){
-            Toast.show("公司ID为空或授权手机号为空");
+            this.refs.toast.show("公司ID为空或授权手机号为空", DURATION.LENGTH_SHORT);
+
             return;
         }
         console.log("企业详情页传值=",this.props.companyid,this.props.ownerMobile);
@@ -300,20 +301,21 @@ export default class AccreditPhonePage extends BComponent {
                                     renderItem={this._renderItem.bind(this)}
                                 >
                                 </FlatList>
-                                {this.state.loadState == 'no-data'&&
                                 <View style={{alignItems:'center',
                                     position:'absolute',
                                     flex:1,
                                     alignSelf:'center',
-                                    flexDirection:'row',zIndex: 1,
+                                    flexDirection:'row',zIndex: -1,
                                     justifyContent:'center',marginTop:20}}>
+                                    {this.state.loadState == 'no-data'&&
                                     <Image resizeMode="contain"
                                            source={require('../../img/warn_icon.png')}>
-                                    </Image>
+                                    </Image>}
+                                    {this.state.loadState == 'no-data'&&
                                     <Text style={{fontSize:18,color:'#999999',marginLeft:5}}>
                                         {'您还没有对其他用户授权'}
-                                    </Text>
-                                </View>}
+                                    </Text>}
+                                </View>
                             </View>
                             :
                             <DefaultView onPress={()=>this._onLoadPhone()} type ={this.state.loadState}/>

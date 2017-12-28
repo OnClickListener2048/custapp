@@ -12,6 +12,7 @@ import BComponent from '../../base/BComponent'
 const deviceH = Dimensions.get('window').height
 const deviceW = Dimensions.get('window').width
 
+
 // 升级弹窗
 export default class AccreditInputBox extends BComponent {
 
