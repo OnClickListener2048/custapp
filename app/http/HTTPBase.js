@@ -15,6 +15,7 @@ import {Http} from 'react-native-http';
 import HttpAdapterCustApp from './HttpAdapterCustApp';
 
 Http.setAdapter(new HttpAdapterCustApp());
+Http.timeout = 10*1000;// 10秒超时
 
 export default Http;
 
