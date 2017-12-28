@@ -147,16 +147,14 @@ export default class HomePage extends BComponent {
                     UserInfoStore.setMobileLoginInfo(v).then();
                 }, e => {
                     console.log(e);
-                    // UserInfoStore.removeMobileLoginInfo().then();
                     // 读取失败或者弱网一直打开微信登录
-                    this.setState({openMobileLogin: false});
-                    this.setState({mobileLogin: false});
+                    UserInfoStore.removeMobileLoginInfo().then();
                 }
             );
         } else {
             // Android一直打开微信登录
-            this.setState({openMobileLogin: false});
-            this.setState({mobileLogin: false});
+            // 读取失败或者弱网一直打开微信登录
+            UserInfoStore.removeMobileLoginInfo().then();
         }
     }
 
