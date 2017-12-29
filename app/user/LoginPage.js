@@ -339,10 +339,8 @@ export default class LoginPage extends Component {
                     if(responseData.user.username){
                         let alias = responseData.user.username.replace(/-/g, "_")
                         JPushModule.setAlias(alias,function () {
-                            alert(alias)
                             console.log('绑定成功',alias)
                         },function () {
-                            alert('绑定失败')
                             console.log('绑定失败')
                         })
 
