@@ -102,7 +102,6 @@ export default class BComponent extends Component {
             }
         }
         if (event.id === 'bottomTabSelected') {
-
             if(this.props.navigator) {
                     //拦截tab 建
                     if(event.selectedTabIndex===3 || event.selectedTabIndex===2){

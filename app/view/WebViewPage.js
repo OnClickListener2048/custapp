@@ -108,6 +108,7 @@ export default class WebViewPage extends BComponent {
 
     componentDidMount() {
         this.setState({ progress:0.95 });
+        console.log('-----',this.props.navigator)
 
     }
     _onLoadEnd(){

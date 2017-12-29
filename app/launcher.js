@@ -6,6 +6,8 @@ import './util/NetInfoSingleton';
 import './util/UMTool';
 import './util/DeviceInfo';
 import './util/ScreenUtil'
+import './util/NavigatorUtil'
+
 import './modules/react-native-sww-activity-indicator'
 import JPushModule from 'jpush-react-native';
 

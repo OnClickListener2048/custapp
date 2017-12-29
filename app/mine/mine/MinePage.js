@@ -60,6 +60,7 @@ export default class MinePage extends BComponent {
         console.log('MinePage', event.id);//willAppear
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
+            NavigatorSelected = this.props.navigator;
             this.initPage();
         }
     }

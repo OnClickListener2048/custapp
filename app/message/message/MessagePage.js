@@ -53,6 +53,10 @@ export default class MessagePage extends BComponent {
          // console.log('ApplicationCenterPage event.type', event.type);
         //console.log('ApplicationCenterPage event.type', event.id);
         super.onNavigatorEvent(event)
+        if (event.id === 'willAppear') {
+            if(NavigatorSelected || NavigatorSelected)
+            NavigatorSelected = this.props.navigator;
+        }
         if(event.id === 'didAppear'){
 
 
@@ -118,7 +122,6 @@ export default class MessagePage extends BComponent {
                 });
             }else {
                 this._loadUnreadedNum();
-
             }
         });
 
@@ -178,10 +181,15 @@ export default class MessagePage extends BComponent {
             this.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                 console.log("点击击通知自测通知自测 " + JSON.stringify(message));
 
-                this.props.navigator.switchToTab({
-                    tabIndex: 2
-                });
-                pushJump(this.props.navigator, message.url);
+                // this.props.navigator.switchToTab({
+                //     tabIndex: 2
+                // });
+
+                // pushJump(this.props.navigator, message.url);
+                if(NavigatorSelected){
+                    pushJump(NavigatorSelected, message.url);
+
+                }
 
             });
 
@@ -219,10 +227,13 @@ export default class MessagePage extends BComponent {
 
                     let obj = JSON.parse(message.extras)
                     this._timer = setTimeout(() => {
-                        this.props.navigator.switchToTab({
-                            tabIndex: 2
-                        });
-                        pushJump(this.props.navigator, obj.url);
+                        // this.props.navigator.switchToTab({
+                        //     tabIndex: 2
+                        // });
+                        // pushJump(this.props.navigator, obj.url);
+                        if(NavigatorSelected){
+                            pushJump(NavigatorSelected, obj.url);
+                        }
                         clearTimeout(this._timer);
                     }, 500);
 

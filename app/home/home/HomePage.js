@@ -124,6 +124,7 @@ export default class HomePage extends BComponent {
         super.onNavigatorEvent(event);
         if(DeviceInfo.OS === 'android'){
             if (event.id === 'willAppear') {
+                NavigatorSelected = this.props.navigator;
                 this.setState({
                     visible: true
                 });
@@ -132,6 +133,10 @@ export default class HomePage extends BComponent {
                 this.setState({
                     visible: false
                 });
+            }
+        }else{
+            if (event.id === 'willAppear') {
+                NavigatorSelected = this.props.navigator;
             }
         }
 
