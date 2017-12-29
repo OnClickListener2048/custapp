@@ -143,29 +143,31 @@ export default class HomePage extends BComponent {
     }
 
     componentWillMount() {
+        console.log(Platform.OS, '读取审核开关');
         // 只针对ios处理
         if(Platform.OS === 'ios') {
             console.log(Platform.OS, '读取审核开关');
-            // 读取审核开关
+            //读取审核开关
             apis.mobilelogin().then(
                 v => {
+                    console.log(Platform.OS, '读取审核开关返回值', v);
                     UserInfoStore.setMobileLoginInfo(v).then();
                 }, e => {
-                    console.log(e);
-                    // UserInfoStore.removeMobileLoginInfo().then();
+                    // Toast.show("读取审核开关" + e);
+                    console.log("读取审核开关" + e);
                     // 读取失败或者弱网一直打开微信登录
-                    this.setState({openMobileLogin: false});
-                    this.setState({mobileLogin: false});
+                    UserInfoStore.removeMobileLoginInfo().then();
                 }
             );
         } else {
             // Android一直打开微信登录
-            this.setState({openMobileLogin: false});
-            this.setState({mobileLogin: false});
+            // 读取失败或者弱网一直打开微信登录
+            UserInfoStore.removeMobileLoginInfo().then();
         }
     }
 
     componentWillUnmount() {
+        this.subscription.remove();
     }
 
     componentDidMount(){

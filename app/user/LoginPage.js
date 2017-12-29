@@ -252,9 +252,14 @@ export default class LoginPage extends Component {
                 v => {
                     console.log(v);
                     // v.open = !v.open;// 调试开关反转
-                    this.setState({openMobileLogin: v.open});
-                    this.setState({mobileLogin: v.open});
-                    this.setState({openMobileInfo: v});
+                    if(v) {
+                        this.setState({openMobileLogin: v.open});
+                        this.setState({mobileLogin: v.open});
+                        this.setState({openMobileInfo: v});
+                    } else {
+                        this.setState({openMobileLogin: false});
+                        this.setState({mobileLogin: false});
+                    }
                 }, e => {
                     console.log(e);
                     this.setState({openMobileLogin: false});

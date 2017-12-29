@@ -50,7 +50,8 @@ export default function pushJump(navigator, urlStr, urlTitle = '网页') {
                     title:urlTitle,
                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps:{
-                        url:urlStr
+                        url:urlStr,
+                        navigatorTitle:urlTitle
                     }
                 });
             }

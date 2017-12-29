@@ -245,14 +245,6 @@ export default class MinePage extends BComponent {
                 }})
         this._loginSwitch();
         this.initPage();
-        // this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
-        //     console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
-        //     loginJumpSingleton.goToLogin(this.props.navigator);
-        // });
-    }
-
-    componentWillUnmount() {
-        this.subscription.remove();
     }
 
     _loginSwitch(){

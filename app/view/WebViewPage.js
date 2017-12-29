@@ -214,6 +214,12 @@ export default class WebViewPage extends BComponent {
 
                 Toast.show('提交成功');
                 this.refs.modal3.close()
+                this.refs.AreaTextInput.clear();
+                this.refs.NameTextInput.clear();
+                this.refs.MobileTextInput.clear();
+                this.refs.ContentTextInput.clear();
+
+
             }, (e) => {
                 Toast.show(errorText(e));
                 SActivityIndicator.hide(loading);
@@ -267,19 +273,10 @@ export default class WebViewPage extends BComponent {
                     </TouchableOpacity>
                 </View>}
                 <Modal onBackClick={()=>Keyboard.dismiss()} backdropPressToClose={!this.state.isShowkeyBoard}
-                       style={ {height: 439 + 10, width: SCREEN_WIDTH - 75, backgroundColor:'clear',justifyContent: 'center', alignItems: 'center', marginTop: -50}}
+                       style={ {height: 439 - 10, width: SCREEN_WIDTH - 75, backgroundColor:'clear',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
                        position={"center"} ref={"modal3"}>
 
-                    <TouchableOpacity
-                        style={styles.dismissBtnTouchContainer}
-                        onPress={() => {
-                            this.refs.modal3.close()
-                        }}>
-                        <Image
-                            source={require('../img/closemessage.png')}
-                            style={styles.dismissBtnTouchContainer}
-                        />
-                    </TouchableOpacity>
+
 
                     <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
@@ -315,8 +312,9 @@ export default class WebViewPage extends BComponent {
                                            }
                                 />
                                 <TextInput underlineColorAndroid='transparent' multiline={true} ref={"ContentTextInput"} placeholderTextColor={'#D9D8D8'}
-                                           style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 130 : 130}]}
+                                           style={[styles.textInputStyle,{textAlignVertical:"top",marginTop: 10,height:this.state.isShowkeyBoard ? 130 : 130}]}
                                            placeholder='请在此输入留言内容,我们会尽快与您联系。'
+
                                            onChangeText={
                                                (message) => {
                                                    this.updateMmessage(message);
@@ -399,14 +397,6 @@ const styles = StyleSheet.create({
         width:208,
         marginTop:25,
         borderRadius:8
-    },
-    dismissBtnTouchContainer: {
-        // height:30,
-        // width:30,
-        marginTop:0,
-        marginRight:0,
-        marginLeft:SCREEN_WIDTH - 75 * 2 - 82,
-
     }
 });
 
