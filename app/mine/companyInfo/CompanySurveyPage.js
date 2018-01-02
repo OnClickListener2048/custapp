@@ -27,25 +27,84 @@ export default class CompanySurveyPage extends BComponent {
             dataSource:[],
             phone:null,
             loadState:'',
+            owner:false, //是否有权限授权,默认无授权
         };
     }
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
+
+    //点击右按钮
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event);
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+            if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
+                console.log("跳转传值",this.state.companyid);
+                // 获取公司地址
+                UserInfoStore.getCompany().then(
+                    (company) => {
+                        console.log('company', company);
+                        if (company) {
+                            console.log("授权手机号"+company.id);
+                            this.setState({companyid:company.id});
+                            //获取当前授权人的手机号
+                            UserInfoStore.getLastUserPhone().then(
+                                (mobile) => {
+                                    console.log("授权手机号"+mobile);
+                                        this.setState({ownerMobile:mobile});
+                                        console.log("公司ID,授权手机号"+company.id,mobile);
+                                        this.push({
+                                            screen: 'AccreditPhonePage',
+                                            title:'授权看账',
+                                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                                            passProps: {
+                                                companyid:company.id,
+                                                ownerMobile:mobile,
+                                            },
+                                        });
+                                }
+                            );
+                        }
+
+                    }
+                );
+
+            }
+        }
+
+    }
     componentDidMount(){
         this._onLoadMessageInfo();
     }
 
     //企业详情接口数据请求
     _onLoadMessageInfo(){
-
-
-
-
         UserInfoStore.getCompany().then(
             (company) => {
                 console.log('company', company);
+                if(company&&company.owner){
+                    console.log(company.owner);
+                    this.setState({
+                        owner:company.owner,
+                    })
+                    if(company.owner){
+                        this.props.navigator.setButtons({
+                            rightButtons: [
+                                {
+                                    title: '授权', // for a textual button, provide the button title (label)
+                                    buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+                                    buttonFontSize: 18, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
+                                    buttonFontWeight: 'normal', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
+                                    id: 'edit'
+                                }]
+                        })
+                    }else{
+                        this.props.navigator.setButtons({
+                            rightButtons: []
+                        })
+                    }
+                }
                 if (company && company.infos && company.infos.length>0) {
                     console.log("输出返回数据company"+company);
                     console.log("输出返回数据company"+company.infos);
@@ -85,6 +144,7 @@ export default class CompanySurveyPage extends BComponent {
                     console.log("到这里2");
 
                     this.setState({
+                        owner:company.owner,
                         dataSource:dataSource
                     })
                     console.log("输出返回数据"+company);
@@ -112,15 +172,12 @@ export default class CompanySurveyPage extends BComponent {
             },
         );
 
-
-
-
-
     }
 
 
     render(){
-            return (
+        console.log("输出企业信息数据，"+this.state.dataSource);
+        return (
             <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
                 {this.state.loadState == 'success'?
                     <SectionList

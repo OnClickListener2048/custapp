@@ -97,7 +97,12 @@ export default class ServicePage extends BComponent {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: false, // 默认隐藏底部标签栏
     };
-
+    onNavigatorEvent(event) {
+        super.onNavigatorEvent(event)
+        if (event.id === 'willAppear') {
+            NavigatorSelected = this.props.navigator;
+        }
+    }
 
     componentDidMount() {
 

@@ -23,17 +23,17 @@ export let SCHEME = 'https';
 export let H5_URL = 'https://www.pilipa.cn/'
 export let WECHAT_APP_ID = 'wx16da5000356a9497';// 微信APP ID
 export let DOMAIN_API = 'www.pilipa.cn';
-if(DEBUG) {// 测试环境变量, 上线时应删除
-
-    SCHEME = 'https';
-    // DOMAIN_API = 'www-rc.i-counting.cn';
-
-    DOMAIN_API = 'x-www.i-counting.cn';
-    H5_URL = 'https://x-www.i-counting.cn/'
-    //单
-    // SCHEME = 'http';
-    // DOMAIN_API = '192.168.200.150:3000';
-}
+// if(DEBUG) {// 测试环境变量, 上线时应删除
+//
+//     SCHEME = 'https';
+//     // DOMAIN_API = 'www-rc.i-counting.cn';
+//
+//     DOMAIN_API = 'x-www.i-counting.cn';
+//     H5_URL = 'https://x-www.i-counting.cn/'
+//     //单
+//     // SCHEME = 'http';
+//     // DOMAIN_API = '192.168.200.150:3000';
+// }
 // DOMAIN_API = 'x-www.i-counting.cn';
 // H5_URL = 'https://x-www.i-counting.cn/';
 export let API_BASE_URL = `${SCHEME}://${DOMAIN_API}`;// API服务基础地址
@@ -62,6 +62,10 @@ export const tabsStyle = {
     // statusBarColor: '#002b4c',
     // tabFontFamily: 'BioRhyme-Bold',
 };
+
+export const PRIMARY_YELLOW = '#C6A567';
+export const PRIMARY_RED = '#C5191F';
+export const PRIMARY_BLACK = '#252525';
 
 // App 的默认样式(react-native-navigation)
 export const appStyle = {

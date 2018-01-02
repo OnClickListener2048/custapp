@@ -3,13 +3,14 @@
  */
 import React, {Component} from 'react';
 import {
-   View,
+    View,
     Text,
     ScrollView,
     SectionList,
     Dimensions,
     TouchableOpacity,
     Image,
+    DeviceEventEmitter,
     StyleSheet,
     Animated,
     Platform,
@@ -37,26 +38,26 @@ const headerData = [
     {
         title:'注册公司',
         logo:require('../../img/register.png'),
-        url:H5_URL+'register?platform=app',
+        url:H5_URL+'register?platform=app&showFooterTab=true',
         eventId:'registerCompany'
     },
     {
         title:'记账报税',
         logo:require('../../img/Accounting.png'),
-        url:H5_URL+'accounting?platform=app',
+        url:H5_URL+'accounting?platform=app&showFooterTab=true',
         eventId:'accountingAndTax'
+    },
+    {
+        title:'企业变更',
+        logo:require('../../img/changeConpany.png'),
+        url:H5_URL+'change?platform=app&showFooterTab=true',
+        eventId:'enterpriseChange'
     },
     {
         title:'财务报表',
         logo:require('../../img/Finance.png'),
         url:'pilipa://tab.service',
         eventId:'financialReport'
-    },
-    {
-        title:'企业变更',
-        logo:require('../../img/changeConpany.png'),
-        url:H5_URL+'change?platform=app',
-        eventId:'enterpriseChange'
     },
     {
         title:'免费核名',
@@ -97,7 +98,7 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
-
+import BannerView from '../../view/BannerView'
 
 export default class HomePage extends BComponent {
 
@@ -112,7 +113,7 @@ export default class HomePage extends BComponent {
             bannerData:[],
             visible: true
         };
-
+        this._index = 0
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -123,6 +124,7 @@ export default class HomePage extends BComponent {
         super.onNavigatorEvent(event);
         if(DeviceInfo.OS === 'android'){
             if (event.id === 'willAppear') {
+                NavigatorSelected = this.props.navigator;
                 this.setState({
                     visible: true
                 });
@@ -132,31 +134,52 @@ export default class HomePage extends BComponent {
                     visible: false
                 });
             }
+        }else{
+            if (event.id === 'willAppear') {
+                NavigatorSelected = this.props.navigator;
+            }
         }
 
     }
 
     componentWillMount() {
+        console.log(Platform.OS, '读取审核开关');
         // 只针对ios处理
         if(Platform.OS === 'ios') {
             console.log(Platform.OS, '读取审核开关');
-            // 读取审核开关
+            //读取审核开关
             apis.mobilelogin().then(
                 v => {
+                    console.log(Platform.OS, '读取审核开关返回值', v);
                     UserInfoStore.setMobileLoginInfo(v).then();
                 }, e => {
-                    console.log(e);
-                    // UserInfoStore.removeMobileLoginInfo().then();
+                    // Toast.show("读取审核开关" + e);
+                    console.log("读取审核开关" + e);
+                    // 读取失败或者弱网一直打开微信登录
+                    UserInfoStore.removeMobileLoginInfo().then();
                 }
             );
+        } else {
+            // Android一直打开微信登录
+            // 读取失败或者弱网一直打开微信登录
+            UserInfoStore.removeMobileLoginInfo().then();
         }
+    }
+
+    componentWillUnmount() {
+        this.subscription.remove();
     }
 
     componentDidMount(){
         this.loadData()
+        this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
+            console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
+            loginJumpSingleton.goToLogin(this.props.navigator);
+        });
+
     }
 
-        loadData(type = '0'){
+    loadData(type = '0'){
         // let loading
         if(this.state.isFirstRefresh){
             //第一次加载显示菊花loading
@@ -290,7 +313,6 @@ export default class HomePage extends BComponent {
 
     }
     render(){
-
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
                 <SectionList
@@ -412,6 +434,13 @@ export default class HomePage extends BComponent {
     }
     _renderBannerView(){
 
+        // return(
+        //     <BannerView
+        //         style={{height:deviceWidth*ImageScale}}
+        //         bannerData = {this.state.bannerData}
+        //         imageKey="img"
+        //     />
+        // )
         if(this.state.visible){
             return(
                 <Swiper
@@ -419,7 +448,12 @@ export default class HomePage extends BComponent {
                     loop = {true}
                     autoplayTimeout={5}
                     autoplay = {true}
+                    index={this._index}
                     showsPagination = {true}
+                    paginationStyle={{bottom:5}}
+                    dot={<View style={{backgroundColor:'rgba(0,0,0,.2)', width: 6, height: 6,borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+                    activeDot={<View style={{backgroundColor: '#323232', width: 6, height: 6, borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+                    onIndexChanged ={(index)=>{this._index = index}}
                 >
                     {
                         this.state.bannerData.map((item,index)=>{

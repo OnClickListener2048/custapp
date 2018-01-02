@@ -12,6 +12,8 @@ import {
     KeyboardAvoidingView,
     Keyboard,
     Text,
+    Image,
+    Linking,
     TextInput,
     Dimensions
 } from 'react-native';
@@ -23,6 +25,8 @@ const window = Dimensions.get('window');
 import Modal from '../view/Modalbox';
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 import * as apis from '../apis';
+import * as URI from "uri-js";
+import queryString from "query-string";
 
 export const SCREEN_HEIGHT = window.height;
 export const SCREEN_WIDTH = window.width;
@@ -44,6 +48,7 @@ const patchPostMessageFunction = function() {
 const patchPostMessageJsCode = '(' + String(patchPostMessageFunction) + ')();';
 
 const second = 1500
+const html ="";
 
 export default class WebViewPage extends BComponent {
     static defaultProps = {
@@ -54,7 +59,7 @@ export default class WebViewPage extends BComponent {
         this.state={
             progress:0,
             isShowProgress:true,
-
+            isShowTabButton:false,
             isShowkeyBoard:false,
             mobile: '',     // 手机号
             area:'',  //服务区域
@@ -103,10 +108,32 @@ export default class WebViewPage extends BComponent {
 
     componentDidMount() {
         this.setState({ progress:0.95 });
+        console.log('-----',this.props.navigator)
 
     }
     _onLoadEnd(){
         this.setState({ progress:1 });
+
+
+        let components = URI.parse(this.props.url);
+        let query = components.query;
+        let passProps = {};
+        if (query) {
+            passProps = queryString.parse(query);
+        }
+
+        let passPropsFinal = {};
+        let paramsKeyArray = Object.keys(passProps);// 直接使用这个解析后的 passProps, 会产生莫名奇妙的错误, 稳妥起见, 复制一下
+        // 通过 forEach 方法拿到数组中每个元素,将元素与参数的值进行拼接处理,并且放入 paramsArray 中
+        paramsKeyArray.forEach(key => passPropsFinal[key] =  passProps[key] );
+
+        console.log( "网页信息后缀是否包含 showFooterTab = ", passPropsFinal['showFooterTab']);
+
+        if (passPropsFinal['showFooterTab'] == 'true'){
+            this.setState({isShowTabButton: true});
+
+        }
+
 
         let _this = this;
         this._hiddenProgresssTimer = setTimeout(function () {
@@ -114,6 +141,9 @@ export default class WebViewPage extends BComponent {
             clearTimeout(this._hiddenProgresssTimer);
 
         },second)
+
+        console.log('webview _onLoadEnd');
+        this.webview.postMessage(++this.data);
     }
     callPhone(){
         Linking.openURL('tel:4001070110')
@@ -129,7 +159,6 @@ export default class WebViewPage extends BComponent {
         this.setState({mobile});
     }
     updateArea(area) {
-
         this.setState({area});
     }
 
@@ -144,17 +173,27 @@ export default class WebViewPage extends BComponent {
 
     submitMessage(){
 
-        if (this.state.area.length === 0){
+
+
+        if (this.state.area.length === 0 || this.state.area.replace(/^[\s　]+|[\s　]+$/g, "").length === 0){
             Toast.show('请输入服务范围');
+            this.refs.AreaTextInput.clear();
+            this.updateArea('');
             return;
-        }else if (this.state.name.length === 0){
+        }else if (this.state.name.length === 0 || this.state.name.replace(/^[\s　]+|[\s　]+$/g, "").length === 0){
             Toast.show('请输入您的称呼');
+            this.refs.NameTextInput.clear();
+            this.updateName('');
             return;
-        }else if (this.state.mobile.length === 0){
+        }else if (this.state.mobile.length === 0 || this.state.mobile.replace(/^[\s　]+|[\s　]+$/g, "").length === 0){
             Toast.show('请输入联系电话');
+            this.refs.MobileTextInput.clear();
+            this.updateMobile('');
             return;
-        }else if (this.state.message.length === 0){
+        }else if (this.state.message.length === 0 || this.state.message.replace(/^[\s　]+|[\s　]+$/g, "").length === 0){
             Toast.show('请输入留言内容');
+            this.refs.ContentTextInput.clear();
+            this.updateMmessage('');
             return;
         }else {
             let  mobileStr = this.state.mobile.replace(/[^\d]/g, '');// 过滤非数字输入
@@ -175,6 +214,12 @@ export default class WebViewPage extends BComponent {
 
                 Toast.show('提交成功');
                 this.refs.modal3.close()
+                this.refs.AreaTextInput.clear();
+                this.refs.NameTextInput.clear();
+                this.refs.MobileTextInput.clear();
+                this.refs.ContentTextInput.clear();
+
+
             }, (e) => {
                 Toast.show(errorText(e));
                 SActivityIndicator.hide(loading);
@@ -189,8 +234,10 @@ export default class WebViewPage extends BComponent {
                 <WebView
                     injectedJavaScript={patchPostMessageJsCode}
                     source={{uri:this.props.url}}
+                    onLoad = {() => {console.log('webview onLoad')}}
                     onLoadEnd = {this._onLoadEnd.bind(this)}
                     onMessage={this._handleMessage}
+                    ref={webview => this.webview = webview}
                 />
                 {
                     this.state.isShowProgress?<Progress.Bar
@@ -204,7 +251,7 @@ export default class WebViewPage extends BComponent {
                         animationConfig={{duration:second}}
                     />:null
                 }
-                {this.state.progress === 1 && <View style={styles.tabViewContainer}>
+                {this.state.progress === 1 && this.state.isShowTabButton === true && <View style={styles.tabViewContainer}>
                     <TouchableOpacity
                         style={styles.btnTouchContainer}
                         onPress={() => {
@@ -225,17 +272,20 @@ export default class WebViewPage extends BComponent {
                         </View>
                     </TouchableOpacity>
                 </View>}
-
                 <Modal onBackClick={()=>Keyboard.dismiss()} backdropPressToClose={!this.state.isShowkeyBoard}
-                       style={ {height: 479 - 20, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
+                       style={ {height: 439 - 10, width: SCREEN_WIDTH - 75, backgroundColor:'clear',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
                        position={"center"} ref={"modal3"}>
+
+
+
                     <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
-                        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
-                            <View  style={[{height: 479 - 20 - 20, width: SCREEN_WIDTH - 76,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
+                        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{marginTop:10,height: 439 - 20, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 75,flexDirection: 'column',alignItems:'center'}]}>
+                            <View  style={[{height: 439 - 20 - 20, width: SCREEN_WIDTH - 75 - 15,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
 
-                                <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]}
+                                <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 20}]}
                                            placeholder='服务区域'
+                                           ref="AreaTextInput"
                                            onChangeText={
                                                (area) => {
                                                    this.updateArea(area);
@@ -244,6 +294,7 @@ export default class WebViewPage extends BComponent {
                                 />
                                 <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
                                            placeholder='您的称呼'
+                                           ref="NameTextInput"
                                            onChangeText={
                                                (name) => {
                                                    this.updateName(name);
@@ -252,6 +303,7 @@ export default class WebViewPage extends BComponent {
                                 />
                                 <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 10}]}
                                            placeholder='联系电话'
+                                           ref="MobileTextInput"
                                            keyboardType={'number-pad'}
                                            onChangeText={
                                                (mobile) => {
@@ -259,8 +311,10 @@ export default class WebViewPage extends BComponent {
                                                }
                                            }
                                 />
-                                <TextInput underlineColorAndroid='transparent' multiline={true} ref={"content"} placeholderTextColor={'#D9D8D8'} style={[styles.textInputStyle,{marginTop: 10,height:this.state.isShowkeyBoard ? 160 : 160}]}
+                                <TextInput underlineColorAndroid='transparent' multiline={true} ref={"ContentTextInput"} placeholderTextColor={'#D9D8D8'}
+                                           style={[styles.textInputStyle,{textAlignVertical:"top",marginTop: 10,height:this.state.isShowkeyBoard ? 130 : 130}]}
                                            placeholder='请在此输入留言内容,我们会尽快与您联系。'
+
                                            onChangeText={
                                                (message) => {
                                                    this.updateMmessage(message);
@@ -287,9 +341,10 @@ export default class WebViewPage extends BComponent {
         )
     }
     _handleMessage(e) {
-        if(e.nativeEvent.data){
-            UMTool.onEvent(e.nativeEvent.data)
-        }
+        // console.log('网页发送的信息',e.nativeEvent.data)
+
+        UMTool.onEvent(e.nativeEvent.data)
+
     }
 
 }
@@ -329,7 +384,7 @@ const styles = StyleSheet.create({
         borderRadius:8,
         borderColor:'#CBCBCB',
         borderWidth:1,
-        width:SCREEN_WIDTH - 76 - 40,
+        width:SCREEN_WIDTH - 75 - 15 - 35,
         height:40,
         color:'#666666',
         paddingLeft: 10,
@@ -340,8 +395,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height:40,
         width:208,
-        marginTop:24,
+        marginTop:25,
         borderRadius:8
-    },
+    }
 });
 

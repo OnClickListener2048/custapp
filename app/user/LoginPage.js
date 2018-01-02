@@ -78,7 +78,6 @@ export default class LoginPage extends Component {
             passwordValid: false, // 手机模式密码
             password: '', // 手机模式密码有效
             loading: false, // 是否载入中, 载入中不能点击任何按钮
-            visible: false, // 是否界面还没初始化完毕, 没初始化完毕不现实任何UI元素
         };
 
         // this.state.mobile = props.mobile;
@@ -144,16 +143,18 @@ export default class LoginPage extends Component {
                                 e =>  {
                                     console.log(e.message)
                                     this.setState({isInWechatLoading: false});
-                                    Toast.show("对不起, 操作已取消.");
+                                    Toast.show("对不起, 操作已取消");
                                 }
                             );
                         } else {
                             Alert.alert(result.msg);
+                            this.setState({isInWechatLoading: false});
+                            this.setState({loading: false});
                         }
                     },
                     e => {
                         this.setState({isInWechatLoading: false});
-                        Toast.show("对不起, 操作已取消.");
+                        Toast.show("对不起, 操作已取消");
                         console.log('出错了', e);
                         SActivityIndicator.hide(loading);
                         this.setState({loading: false});
@@ -163,7 +164,7 @@ export default class LoginPage extends Component {
             e => {
                 this.setState({isInWechatLoading: false});
                 this.setState({loading: false});
-                Toast.show("对不起, 操作已取消或失败, 请稍候重试.");
+                Toast.show("对不起, 操作已取消或失败, 请稍候重试");
                 console.log('出错了', e);
                 SActivityIndicator.hide(loading);
             });
@@ -221,20 +222,20 @@ export default class LoginPage extends Component {
     // 返回
     pop() {
         // 发送通知
-        DeviceEventEmitter.emit('loginSuccess', true);
+        // DeviceEventEmitter.emit('loginSuccess', true);
         //登录后刷新服务页面的数据
         DeviceEventEmitter.emit('ChangeCompany');
         DeviceEventEmitter.emit('ReloadMessage');
 
-
+        this.props.callback && this.props.callback()
         Navigation.dismissModal({
             animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
         });
 
-        if (this.props.navigator) {
-            console.log("popToRoot");
-            this.props.navigator.popToRoot();
-        }
+        // if (this.props.navigator) {
+        //     console.log("popToRoot");
+        //     this.props.navigator.popToRoot();
+        // }
     }
 
     // 准备加载组件
@@ -250,15 +251,17 @@ export default class LoginPage extends Component {
             UserInfoStore.getMobileLoginInfo().then(
                 v => {
                     console.log(v);
-                    this.setState({visible: true});
-
                     // v.open = !v.open;// 调试开关反转
-                    this.setState({openMobileLogin: v.open});
-                    this.setState({mobileLogin: v.open});
-                    this.setState({openMobileInfo: v});
+                    if(v) {
+                        this.setState({openMobileLogin: v.open});
+                        this.setState({mobileLogin: v.open});
+                        this.setState({openMobileInfo: v});
+                    } else {
+                        this.setState({openMobileLogin: false});
+                        this.setState({mobileLogin: false});
+                    }
                 }, e => {
                     console.log(e);
-                    this.setState({visible: true});
                     this.setState({openMobileLogin: false});
                     this.setState({mobileLogin: false});
                 }
@@ -373,30 +376,38 @@ export default class LoginPage extends Component {
                                         (user) => {
                                             console.log("公司信息保存成功");
                                             this.pop();
+
                                         },
                                         (e) => {
                                             console.log("公司信息保存错误:", e);
                                             this.pop();
+
+
                                         },
                                     );
                                     if (tmpCompaniesArr.length > 0) {
                                         UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
                                             (user) => {
                                                 console.log("公司信息保存成功");
+                                                // 选中我的页面
+
                                                 this.pop();
+
                                             },
                                             (e) => {
-                                                console.log("公司信息保存错误:", e);
+
                                                 this.pop();
                                             },
                                         );
                                     } else {
                                         this.pop();// bug 修复: 无公司数据时不能返回
+
                                     }
                                 } else {
                                     UserInfoStore.removeCompany().then();
                                     UserInfoStore.removeCompanyArr().then();
                                     this.pop();
+
                                 }
                             },
                             (e) => {
@@ -578,10 +589,6 @@ export default class LoginPage extends Component {
     };
 
     render() {
-        if(!this.state.visible) {
-            return null;
-        }
-
         return (
 
             <TouchableWithoutFeedback onPress={dismissKeyboard}>

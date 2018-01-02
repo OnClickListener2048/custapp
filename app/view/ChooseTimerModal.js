@@ -143,7 +143,6 @@ export default class ChooseTimerModal extends Component {
                                 <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end'},this.state.isShow?{color:'#999999'}:{color:'white'}]}>{this.state.yearSelected}</Text>
                                 <Image style={{alignSelf:'flex-end',margin:5}} source={require('../img/triangle.png')}/>
                             </View>
-                            <Image source={this.state.isShow?require('../img/today_black.png'):require('../img/today_white.png')}/>
                         </View>
                     </TouchableOpacity>:null
                 }

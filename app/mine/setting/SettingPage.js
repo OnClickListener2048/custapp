@@ -162,11 +162,11 @@ export default class SettingPage extends BComponent {
                         //删除jpush别名和标签
                         JPushModule.cleanTags(function () {
                             console.log('标签清除成功')
-                        })
+                        });
                         JPushModule.deleteAlias(function () {
                             console.log('别名清除成功')
 
-                        })
+                        });
                         DeviceEventEmitter.emit('ClearMessage');  //清空消息列表与未读消息数
 
                         //删除本地存储信息
@@ -181,12 +181,22 @@ export default class SettingPage extends BComponent {
                                             console.log("popToRoot");
                                             DeviceEventEmitter.emit('ChangeCompany');
                                             this.props.navigator.popToRoot();
+                                            if(Platform.OS === 'android'){
+                                                this.props.navigator.switchToTab({
+                                                    tabIndex: 0
+                                                });
+                                            }
                                         }
                                     },
                                     e => {
                                         if (this.props.navigator) {
                                             console.log("popToRoot");
                                             this.props.navigator.popToRoot();
+                                            if(Platform.OS === 'android'){
+                                                this.props.navigator.switchToTab({
+                                                    tabIndex: 0
+                                                });
+                                            }
                                         }
                                     }
                                 );
@@ -195,9 +205,22 @@ export default class SettingPage extends BComponent {
                                 if (this.props.navigator) {
                                     console.log("popToRoot");
                                     this.props.navigator.popToRoot();
+                                    if(Platform.OS === 'android'){
+                                        this.props.navigator.switchToTab({
+                                            tabIndex: 0
+                                        });
+                                    }
+                                    
                                 }
                             }
                         );
+
+                        if(Platform.OS === 'ios'){
+                            // 转到首页标签
+                            this.props.navigator.switchToTab({
+                                tabIndex: 0
+                            });
+                        }
                     },
                 },]
             , {cancelable: false});

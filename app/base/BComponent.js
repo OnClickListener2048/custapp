@@ -102,31 +102,36 @@ export default class BComponent extends Component {
             }
         }
         if (event.id === 'bottomTabSelected') {
+            if(this.props.navigator) {
+                    //拦截tab 建
+                    if(event.selectedTabIndex===3 || event.selectedTabIndex===2){
 
-            //拦截tab 建
-            // if(event.selectedTabIndex==3){
-            //
-            //     UserInfoStore.isLogined().then(
-            //         logined => {
-            //             if(!logined) {
-            //                 //未登录
-            //                 loginJumpSingleton.goToLogin(this.props.navigator);
-            //
-            //             } else {
-            //                 //已登录
-            //                 this.props.navigator.switchToTab({
-            //                     tabIndex: event.selectedTabIndex
-            //                 });
-            //             }
-            //         },
-            //         e => {
-            //             loginJumpSingleton.goToLogin(this.props.navigator);
-            //
-            //         }
-            //     );
-            //
-            //
-            // }
+                        UserInfoStore.isLogined().then(
+                            logined => {
+                                if(!logined) {
+                                    //未登录
+                                    let _this = this
+                                    loginJumpSingleton.goToLogin(this.props.navigator,function () {
+                                        _this.props.navigator.switchToTab({
+                                            tabIndex: event.selectedTabIndex
+                                        });
+                                    });
+
+                                } else {
+                                    //已登录
+                                    this.props.navigator.switchToTab({
+                                        tabIndex: event.selectedTabIndex
+                                    });
+                                }
+                            },
+                            e => {
+                                loginJumpSingleton.goToLogin(this.props.navigator);
+
+                            }
+                        );
+                }
+            }
+
 
             let eventArr = ['homePage','message','service','personal'];
             UMTool.onEvent(eventArr[event.selectedTabIndex])

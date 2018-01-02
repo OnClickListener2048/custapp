@@ -60,6 +60,7 @@ export default class MinePage extends BComponent {
         console.log('MinePage', event.id);//willAppear
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
+            NavigatorSelected = this.props.navigator;
             this.initPage();
         }
     }
@@ -235,12 +236,6 @@ export default class MinePage extends BComponent {
     // 准备加载组件
     componentWillMount() {
 
-        // let  upgradeAlert = {
-        //     'upgrade':true,
-        //     'newversion':this.state.version,
-        // }
-        // UserInfoStore.setUpgrade_alert(upgradeAlert).then();
-        // UserInfoStore.setUpgrade_setting(upgradeAlert).then();
         UserInfoStore.getUpgrade_setting().then(
             (info) => {
                 if (info !== null) {
@@ -250,14 +245,6 @@ export default class MinePage extends BComponent {
                 }})
         this._loginSwitch();
         this.initPage();
-        this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
-            console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
-            loginJumpSingleton.goToLogin(this.props.navigator);
-        });
-    }
-
-    componentWillUnmount() {
-        this.subscription.remove();
     }
 
     _loginSwitch(){
@@ -460,8 +447,8 @@ export default class MinePage extends BComponent {
 
         //未登录不能跳转的页面
         if(!this.state.logined) {
-            //screen ==='MessagePage'||
-            if(screen === 'BindPhonePage' ||screen ==='MyOrderPage'||screen === 'CompanySurveyPage' || screen === 'AccountAndSecurity') {
+            //screen ==='MessagePage'||   ||screen === 'CompanySurveyPage' 企业信息跳转
+            if(screen === 'BindPhonePage' ||screen === 'CompanySurveyPage'||screen === 'MyOrderPage' || screen === 'AccountAndSecurity') {
                 Toast.show("请先登录")
                 return;
             }

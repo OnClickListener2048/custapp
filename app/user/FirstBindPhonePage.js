@@ -243,6 +243,10 @@ export default class FirstBindPhonePage extends BComponent {
         if (this.props.navigator) {
             console.log("popToRoot");
             this.props.navigator.popToRoot();
+            // 选中我的页面
+            this.props.navigator.switchToTab({
+                tabIndex: 3
+            });
         }
     }
 
