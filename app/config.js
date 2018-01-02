@@ -63,6 +63,10 @@ export const tabsStyle = {
     // tabFontFamily: 'BioRhyme-Bold',
 };
 
+export const PRIMARY_YELLOW = '#C6A567';
+export const PRIMARY_RED = '#C5191F';
+export const PRIMARY_BLACK = '#252525';
+
 // App 的默认样式(react-native-navigation)
 export const appStyle = {
         navBarButtonColor: '#323232',// 顶部按钮颜色
