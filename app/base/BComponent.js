@@ -18,7 +18,7 @@ import {
     InteractionManager,
     Platform,
     BackAndroid,
-    ToastAndroid,
+    ToastAndroid
 } from 'react-native';
 import Toast from 'react-native-root-toast';
 import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
@@ -35,6 +35,7 @@ export default class BComponent extends Component {
         this.state = {
             isPushing: false,// 是否跳转中
         };
+
         // 自定义左侧返回按钮
         if(this.props.navigator) {
             //this.props.testID === 'MessagePage' ||隐藏message页（不在tab中显示）恢复返回键

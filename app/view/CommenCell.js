@@ -11,6 +11,8 @@ import {
     TouchableOpacity,
 
 } from 'react-native';
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../config';
+
 export default class CommenCell extends Component {
     static defaultProps = {
         isClick:true,//是否可以点击，  true自带右侧箭头
@@ -185,7 +187,8 @@ const styles = StyleSheet.create({
         // 垂直居中
         alignItems:'center',
         // 高度
-        height:51,
+         height:51/375.0*SCREEN_WIDTH,
+        // height:51,
 
         // 下边框
         // borderBottomColor:'#e8e8e8',
