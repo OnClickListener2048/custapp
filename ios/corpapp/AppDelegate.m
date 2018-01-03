@@ -108,7 +108,7 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
    self.window.rootViewController = rootViewController;
    [self.window makeKeyAndVisible];
    */
-  
+  [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
   return YES;
 }
 
