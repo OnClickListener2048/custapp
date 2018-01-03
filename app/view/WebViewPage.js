@@ -237,19 +237,22 @@ export default class WebViewPage extends BComponent {
 
     appendURL(){
         let urlStr = this.props.url;
-        if(this.props.url.indexOf("?") != -1){
-            //包含
-            if(this.props.url.indexOf("&") != -1){
-                urlStr = urlStr+'&userAgent=custapp&platform=app&client='+ Platform.OS + '&version=' + DeviceInfo.getVersion();
-            }else {
-                urlStr = urlStr+'userAgent=custapp&platform=app&client='+ Platform.OS + '&version=' + DeviceInfo.getVersion();
+        if (this.props.url.indexOf("pilipa") !== -1 || this.props.url.indexOf("i-counting") !== -1) {
+            if (this.props.url.indexOf("?") !== -1) {
+                //包含
+                if (this.props.url.indexOf("&") !== -1) {
+                    urlStr = urlStr + '&userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+                } else {
+                    urlStr = urlStr + 'userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+
+                }
+            } else {
+                urlStr = urlStr + '?userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
 
             }
-        }else{
-            urlStr = urlStr+'?userAgent=custapp&platform=app&client='+ Platform.OS + '&version=' + DeviceInfo.getVersion();
-
         }
         console.log('当前访问的网页地址是' + urlStr);
+
         return urlStr;
     }
 
