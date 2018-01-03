@@ -16,6 +16,8 @@ import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
+import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
+import TimeSearchBar from '../view/TimeSearchBar'
 
 import demoData from './local/ProfitStatementPage.json'
 export default class ProfitStatementPage extends BComponent {
@@ -34,6 +36,10 @@ export default class ProfitStatementPage extends BComponent {
 
         };
     }
+    static navigatorStyle = {
+        navBarHidden: true, // 隐藏默认的顶部导航栏
+        tabBarHidden: true, // 默认隐藏底部标签栏
+    };
     componentWillUnmount() {
         UMTool.onEvent('p_return')
     }
@@ -128,11 +134,10 @@ export default class ProfitStatementPage extends BComponent {
                     leftNum={this.state.income}
                     rightDes="支出"
                     rightNum={this.state.expenditure}
-                    year={this.state.year}
-                    month={this.state.month}
-                    _showTimer={this._showTimer.bind(this)}
+
+
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="利润表明细"/>
+                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="利润表明细"/>
             </View>
         )
     }
@@ -157,6 +162,12 @@ export default class ProfitStatementPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} title="利润表" year={this.state.year}/>
+                <TimeSearchBar
+                    year={this.state.year}
+                    month={this.state.month}
+                    callback = {this._callback.bind(this)}
+                />
                 <FlatList
                     data={this.state.dataSource}
                     keyExtractor = {(item, index) => index}
@@ -166,7 +177,7 @@ export default class ProfitStatementPage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
-                <ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                {/*<ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>*/}
                 <PLPActivityIndicator isShow={this.state.isLoading} />
 
             </View>
@@ -188,7 +199,7 @@ class Cell extends Component{
     render(){
         return(
             <View style={[{width:DeviceInfo.width,height:85,backgroundColor:'white',paddingLeft:13,flexDirection:'row',alignItems:'center'},this.props.item.index==0?{marginTop:0}:{marginTop:10}]}>
-                <View style={[{width:30,height:85,justifyContent:'center',alignItems:'center'},this.props.item.index%2==0?{backgroundColor:'#EB5B47'}:{backgroundColor:'#F8863F'}]}>
+                <View style={[{width:30,height:85,justifyContent:'center',alignItems:'center'},this.props.item.index%2==0?{backgroundColor:'#EB5B47'}:{backgroundColor:'#C6A567'}]}>
                     <Text style={{fontSize:setSpText(16),color:'white'}}>{this.props.item.item.date}</Text>
                     <Text style={{fontSize:setSpText(16),color:'white',marginTop:5}}>月</Text>
                 </View>

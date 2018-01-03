@@ -10,6 +10,7 @@ import {
     RefreshControl,
     InteractionManager,
     Image,
+    Platform,
     TouchableOpacity,
     DeviceEventEmitter
 } from 'react-native';
@@ -18,7 +19,8 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PLPCustomNavBar from '../../view/PLPCustomNavBar'
 import {isIphoneX} from '../../util/iphoneX-helper'
 import Alert from "react-native-alert";
-
+import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
+import TimeSearchBar from '../view/TimeSearchBar'
 const serviceData = [
     {
         title:'现金流',
@@ -48,7 +50,7 @@ const serviceData = [
 ]
 
 const col = 3
-const marg = 20
+const marg = 0
 const itemWidth = (deviceWidth - marg*(col+1))/ col
 
 
@@ -115,7 +117,6 @@ export default class ServicePage extends BComponent {
     componentWillUnmount() {
         this.refreshEmitter.remove();
     }
-
     initData(){
         UserInfoStore.isLogined().then(
             logined => {
@@ -187,7 +188,6 @@ export default class ServicePage extends BComponent {
         })
     }
     loadData(date='',isPull=false){
-
         if(isPull){
             this.setState({
                 isRefreshing:true
@@ -197,12 +197,10 @@ export default class ServicePage extends BComponent {
                 isLoading:true
             })
         }
-
         apis.loadServiceData(this.companyid,date).then(
             (responseData) => {
 
                 if(responseData.code == 0){
-
 
                     if(responseData.is_demo == '2'){
                         //真实数据
@@ -251,7 +249,7 @@ export default class ServicePage extends BComponent {
                     }
 
 
-                    // Toast.show(responseData.msg?responseData.msg:'加载失败！')
+                    Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
             (e) => {
@@ -274,7 +272,7 @@ export default class ServicePage extends BComponent {
                         isLoading:false
                     })
                 }
-                // Toast.show('加载失败！')
+                Toast.show('加载失败！')
             },
         );
     }
@@ -301,8 +299,8 @@ export default class ServicePage extends BComponent {
                         }
                     })}>
                         <View style={{width:deviceWidth*0.7,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
-                            <Image source={require('../../img/change_arrow.png')}/>
+                            <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
+                            <Image source={require('../../img/change_arrow_white.png')}/>
                         </View>
 
                     </TouchableOpacity>
@@ -310,7 +308,7 @@ export default class ServicePage extends BComponent {
             }else{
                 //一家
                 return (
-                    <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}</Text>
+                    <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}</Text>
                 )
             }
         }else{
@@ -333,8 +331,8 @@ export default class ServicePage extends BComponent {
                         }]);
                 }}>
                     <View style={{width:deviceWidth*0.7,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
-                        <Image   source={require('../../img/change_arrow.png')}/>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
+                        <Image   source={require('../../img/change_arrow_white.png')}/>
                     </View>
 
                 </TouchableOpacity>
@@ -346,12 +344,15 @@ export default class ServicePage extends BComponent {
 
     }
 
-
-
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#ffffff'}}>
-                <PLPCustomNavBar titleItem={this._titleItem.bind(this)} />
+            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
+                <ServiceNavigatorBar isSecondLevel = {false}   titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <TimeSearchBar
+                    year={this.state.year}
+                    month={this.state.month}
+                    callback = {this._callback.bind(this)}
+                />
                 <ScrollView
                     refreshControl={
                         <RefreshControl
@@ -368,16 +369,24 @@ export default class ServicePage extends BComponent {
                         leftNum={this.state.income}
                         rightDes="支出"
                         rightNum={this.state.expenditure}
-                        year={this.state.year}
-                        month={this.state.month}
-                        _showTimer={this._showTimer.bind(this)}
+
                     />
-                    <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap'}}>
+                    <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white',
+                        marginTop: 12}}>
                         {
                             serviceData.map((item,index)=>{
+                                let borderRightWidth = 0
+                                let borderBottomWidth = 0
+                                if (index !=2){
+                                    borderRightWidth = 1
+                                }
+                                if(index <3){
+                                    borderBottomWidth = 1
+                                }
+
                                 return(
                                     <TouchableOpacity key={index} onPress = {this._goServiceDetail.bind(this,item)}>
-                                        <View style={{width:itemWidth, marginLeft:marg, marginTop:marg,backgroundColor:'#F9F9F9',height:itemWidth,justifyContent:'center',alignItems:'center'}}>
+                                        <View style={[{width:itemWidth, marginLeft:marg,backgroundColor:'white',height:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'#F9F9F9',borderRightWidth,borderBottomWidth}]}>
                                             <Image resizeMode="contain" source={item.logo} />
                                             <Text style={{color:'#333333',fontSize:setSpText(14), marginTop:13}}>{item.title}</Text>
                                         </View>
@@ -387,51 +396,50 @@ export default class ServicePage extends BComponent {
                             })
                         }
                     </View>
-                    {/*<View style={styles.wrapper1}>*/}
-                        {/*<View style={[styles.line,{width:30}]}/>*/}
-                        {/*<Text style={{fontSize:24,color:'#e13238',marginHorizontal:10}}>*/}
-                            {/*本月清单*/}
-                        {/*</Text>*/}
-                        {/*<View style={[styles.line,{width:30}]}/>*/}
-                    {/*</View>*/}
-                    {/*<ScrollableTabView*/}
-                        {/*renderTabBar={() => <CustomHeader />}*/}
-                    {/*>*/}
-                        {/*<CopyTaxes tabLabel ='抄税' />*/}
-                        {/*<SendBill tabLabel ='发送票据' />*/}
-                        {/*<AccountingTreatment tabLabel ='财务处理' push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo} />*/}
-                        {/*<PayTaxes tabLabel ='申报纳税' push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo}/>*/}
-                        {/*<ClearCard tabLabel ='清卡'/>*/}
-                    {/*</ScrollableTabView>*/}
-                    {/*<Header btnClick={this.btnClick.bind(this)} selectIndex={this.state.selectIndex} />*/}
-                    {/*{this._renderBody(this.state.selectIndex)}*/}
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal style={{marginTop:DeviceInfo.OS=='ios'?isIphoneX()?90:64:44}} disabled={this.state.is_demo == '1'?true:false} ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>
+                {/*<ChooseTimerModal style={{marginTop:DeviceInfo.OS=='ios'?isIphoneX()?90:64:44}} disabled={this.state.is_demo == '1'?true:false} ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>*/}
             </View>
 
         )
     }
-    _showTimer(){
-        this.refs.ChooseTimerModal._showTimer()
-    }
+
     _callback(year,month,isRefresh=false){
+       if(Platform.OS === 'ios'){
+           let loading = SActivityIndicator.show(true, "加载中...");
 
-        let _this = this
-        _this.loadData(year+'-'+month)
-        _this.setState({
-            year,
-            month
-        },function () {
-            if(isRefresh){
-                _this.refs.ChooseTimerModal.setState({
-                    yearSelected:year,
-                    monthSelected:month
-                })
-            }
-        })
+           apis.loadServiceData(this.companyid,year+'-'+month).then(
+               (responseData) => {
+                   SActivityIndicator.hide(loading);
 
+                   if(responseData.code == 0){
+                       this.setState({
+                           profit:responseData.profit?responseData.profit:'- -',
+                           income:responseData.income?responseData.income:'- -',
+                           expenditure:responseData.expenditure?responseData.expenditure:'- -',
+                           year:year,
+                           month:month
+                       })
+
+                   }else{
+
+                       Toast.show(responseData.msg?responseData.msg:'加载失败！')
+                   }
+               },
+               (e) => {
+                   SActivityIndicator.hide(loading);
+
+                   Toast.show('加载失败！')
+               },
+           );
+       }else{
+           this.setState({
+               year,
+               month
+           })
+           this.loadData(year+'-'+month)
+       }
 
     }
     _goServiceDetail(item){
@@ -449,26 +457,7 @@ export default class ServicePage extends BComponent {
             }
         })
     }
-    // _renderBody(index){
-    //
-    //     switch (index){
-    //         case 0:
-    //             return <CopyTaxes />//抄税
-    //             break;
-    //         case 1:
-    //             return <SendBill />//发送票据
-    //             break;
-    //         case 2:
-    //             return <AccountingTreatment push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo} />//财务处理
-    //             break;
-    //         case 3:
-    //             return <PayTaxes push={this.push} callback ={this._callback.bind(this)} year={this.state.year} month={this.state.month}  navigator={this.props.navigator} companyid={this.companyid} is_demo={this.state.is_demo}/>//申报纳税
-    //             break;
-    //         case 4:
-    //             return <ClearCard/>//清卡
-    //             break;
-    //     }
-    // }
+
 
     toClose(){
         this.setState(

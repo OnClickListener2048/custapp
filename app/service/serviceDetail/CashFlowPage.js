@@ -20,6 +20,9 @@ import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import dataDemo from './local/CashFlow.json'
+import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
+import TimeSearchBar from '../view/TimeSearchBar'
+
 export default class CashFlowPage extends BComponent {
 
     constructor(props) {
@@ -38,6 +41,10 @@ export default class CashFlowPage extends BComponent {
         };
         this.openOptions=[];
     }
+    static navigatorStyle = {
+        navBarHidden: true, // 隐藏默认的顶部导航栏
+        tabBarHidden: true, // 默认隐藏底部标签栏
+    };
     componentWillUnmount() {
         UMTool.onEvent('c_teturn')
     }
@@ -135,11 +142,8 @@ export default class CashFlowPage extends BComponent {
                     leftNum={this.state.balance_start}
                     rightDes="期末"
                     rightNum={this.state.balance_end}
-                    year={this.state.year}
-                    month={this.state.month}
-                    _showTimer={this._showTimer.bind(this)}
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="现金流明细"/>
+                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="现金流明细"/>
             </View>
         )
     }
@@ -162,6 +166,12 @@ export default class CashFlowPage extends BComponent {
     render() {
         return (
             <View style={{backgroundColor:'#f9f9f9',flex:1}}>
+                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} title="现金流" year={this.state.year}/>
+                <TimeSearchBar
+                    year={this.state.year}
+                    month={this.state.month}
+                    callback = {this._callback.bind(this)}
+                />
                 <ExpanableList
                     ref="list"
                     ListHeaderComponent = {this._listHeaderComponent.bind(this)}
@@ -176,7 +186,7 @@ export default class CashFlowPage extends BComponent {
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                {/*<ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>*/}
             </View>
 
         );
