@@ -13,32 +13,44 @@ export default class SubmitButtonWithIcon extends Component {
     };
 
     render() {
-        return (
-            <TouchableWithoutFeedback onPress={this.props.onPress}>
-            <View
-                style={[styles.buttonViewEnabled, this.props.buttonStyle]}>
-                <Image style={[styles.wechart_icon, {justifyContent: 'flex-start'}]}
-                       source={require('../img/wechat.png')}/>
 
-                <Text
-                    style={[styles.loginText]}
-                    allowFontScaling={false}
-                    key={this.props.text}>
-                    {this.props.text}
-                </Text>
-            </View>
-            </TouchableWithoutFeedback>
-        );
+        return this.props.isEnabled ?
+            (
+                <TouchableWithoutFeedback onPress={this.props.onPress}>
+                    <Image source={require('../img/Rectangle.png')}
+                           style={[styles.buttonView, this.props.buttonStyle]}>
+                        <Image style={[styles.wechart_icon, {justifyContent: 'flex-start'}]}
+                               source={require('../img/wechat.png')}/>
+
+                        <Text
+                            style={[styles.loginText]}
+                            allowFontScaling={false}
+                            key={this.props.text}>
+                            {this.props.text}
+                        </Text>
+                    </Image>
+                </TouchableWithoutFeedback>
+            )
+            :
+            (
+                <TouchableWithoutFeedback onPress={this.props.onPress}>
+                    <View style={styles.buttonViewDisabled}>
+                        <Text style={styles.loginTextDisabled}>{this.props.text}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+            );
     }
 }
 
 const styles = StyleSheet.create({
     buttonView: {
-        backgroundColor: '#e6e6e6',
+        flexDirection: 'row',
+        backgroundColor: 'transparent',
         margin: 0,
-        borderRadius: 22,
+        borderRadius: 2,
         justifyContent: 'center',
         alignSelf: 'center',
+        alignItems: 'center',
         height: px2dp(88),
         width: px2dp(600),
         marginTop: px2dp(45),
@@ -70,16 +82,15 @@ const styles = StyleSheet.create({
     },
 
     loginText: {
-        fontSize: 15,
-        marginLeft: 5,
+        fontSize: 18,
         color: '#FFFFFF',
         marginTop: 10,
+        marginLeft: 2,
         marginBottom: 10,
-        textAlign: 'center',
-        alignSelf: 'center',
+        textAlign: 'center'
     },
 
-    wechart_icon:{
+    wechart_icon: {
         resizeMode: "contain",
         alignSelf: 'center',
     },

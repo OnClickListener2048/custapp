@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
     loginTextDisabled: {
         fontSize: 18,
         color: '#CEAF72',
-    marginTop: 10,
-    marginBottom: 10,
-    textAlign: 'center'
+        marginTop: 10,
+        marginBottom: 10,
+        textAlign: 'center'
     },
 });
