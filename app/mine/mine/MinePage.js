@@ -21,6 +21,7 @@ import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
 import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
 import Toast from 'react-native-root-toast';
+import {isIphoneX} from '../../util/iphoneX-helper'
 
 import * as apis from '../../apis';
 
@@ -572,6 +573,7 @@ const styles = StyleSheet.create({
         paddingTop:180/375*SCREEN_WIDTH - 90,
 
         backgroundColor:'transparent',
+        marginTop:Platform.OS === 'ios' ?isIphoneX()?-35: -20 : 0,
         justifyContent:'space-between'
     },
 
