@@ -37,18 +37,6 @@ const styles = StyleSheet.create({
         borderWidth: 0,
     },
 
-    buttonViewEnabled: {
-        backgroundColor: '#ef0c35',
-        margin: 0,
-        borderRadius: 6,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        height: 44,
-        width: 250,
-        marginTop: 22.5,
-        borderWidth: 0,
-    },
-
     buttonEnableView: {
         backgroundColor: '#e6e6e6',
         margin: 0,
