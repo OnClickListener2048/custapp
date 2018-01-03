@@ -16,7 +16,7 @@ import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-root-toast'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
-import {H5_URL} from '../../config'
+import {H5_URL,SCREEN_WIDTH} from '../../config'
 import JPushModule from 'jpush-react-native';
 
 export default class SettingPage extends BComponent {
@@ -66,12 +66,10 @@ export default class SettingPage extends BComponent {
                     {Platform.OS === 'ios'||this.state.updateIcon === false ?
                         <CommentCell
                             leftText="关于噼里啪"
-                            style={{marginTop: 10}}
                             onPress={this._aboutUs.bind(this)}
                         /> :
                         <CommentCell
                             leftText="关于噼里啪"
-                            style={{marginTop: 10}}
                             leftTextIcon={require('../../img/new_icon.png')}
                             onPress={this._aboutUs.bind(this)}
                         />}
@@ -88,6 +86,7 @@ export default class SettingPage extends BComponent {
 
                     <SubmitButton
                         onPress={this._doLogout.bind(this)}
+
                         text='退出'
                         isEnabled={this.state.logined}
                     />

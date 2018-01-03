@@ -34,23 +34,26 @@ const deviceWidth = Dimensions.get('window').width;
 const col = 4
 const itemMargin = scaleSize(10)
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
+
+
+
 const headerData = [
     {
         title:'注册公司',
         logo:require('../../img/register.png'),
-        url:H5_URL+'register?platform=app&showFooterTab=true',
+        url:H5_URL+'register?showFooterTab=true',
         eventId:'registerCompany'
     },
     {
         title:'记账报税',
         logo:require('../../img/Accounting.png'),
-        url:H5_URL+'accounting?platform=app&showFooterTab=true',
+        url:H5_URL+'accounting?showFooterTab=true',
         eventId:'accountingAndTax'
     },
     {
         title:'企业变更',
         logo:require('../../img/changeConpany.png'),
-        url:H5_URL+'change?platform=app&showFooterTab=true',
+        url:H5_URL+'change?showFooterTab=true',
         eventId:'enterpriseChange'
     },
     {
@@ -68,7 +71,7 @@ const headerData = [
     {
         title:'加盟合作',
         logo:require('../../img/registerConpany1.png'),
-        url:H5_URL+'invest?platform=app',
+        url:H5_URL+'invest',
         eventId:'leagueCooperation'
     }
 ]
