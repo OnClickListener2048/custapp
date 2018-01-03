@@ -10,15 +10,37 @@ import {
     TouchableOpacity,
     StyleSheet,
     Platform,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    ScrollView,
+    InteractionManager
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
-
+const monthWidth = SCREEN_WIDTH/5
 export default class HeaderView extends Component {
 
     constructor(props){
         super(props)
+        let today = new Date();//获得当前日期
         this._renderTop=this._renderTop.bind(this);
+        this.monthArr = [
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            '10',
+            '11',
+            '12'
+        ]
+        this.nowMonthArr=[]
+        for (let j=1 ;j<=(today.getMonth() + 1);j++){
+            this.nowMonthArr.push(j.toString())
+        }
+        this.year=today.getFullYear().toString()
     }
 
     static defaultProps = {
@@ -32,27 +54,19 @@ export default class HeaderView extends Component {
         rightNum:''
     }
 
-
     render(){
         const {hasTop,hasBottom} = this.props
         return(
             <Image style={styles.wrapper}
                    source={hasTop&&hasBottom?require('../../img/service_bg.png'):require('../../img/service_receive_bg.png')}>
-                <TouchableWithoutFeedback  activeOpacity={1} onPress={()=>{this.props._showTimer&&this.props._showTimer()}}>
-                    <View style={[{width:DeviceInfo.width,flexDirection:'row',padding:15,paddingLeft:24,paddingRight:24,
-                        justifyContent:'space-between',borderBottomColor:'rgba(255,255,255,0.15)',borderBottomWidth:DeviceInfo.onePR,backgroundColor:'transparent',position:'absolute',top:0,left:0}]}>
-                        <View style={{flexDirection:'row'}}>
-                            <Text style={[{fontSize:setSpText(20)},{color:'white'}]}>{this.props.month}月</Text>
-                            <Text style={[{fontSize:setSpText(14),alignSelf:'flex-end'},{color:'white'}]}>{this.props.year}</Text>
-                            <Image style={{alignSelf:'flex-end',margin:5}} source={require('../../img/triangle.png')}/>
-                        </View>
-                    </View>
-                </TouchableWithoutFeedback>
+
                 {this._renderTop()}
                 {this._renderBottom()}
             </Image>
         )
     }
+
+
     _renderBottom(){
         const {leftDes,leftNum,rightDes,rightNum,hasBottom} = this.props
 
@@ -67,6 +81,7 @@ export default class HeaderView extends Component {
                             {leftNum}
                         </Text>
                     </View>
+                    <View style={[styles.wrapper3,{width:DeviceInfo.onePR,height:30,backgroundColor:'#F9F9F9'}]}/>
                     <View style={styles.wrapper3}>
                         <Text style={styles.te3}>
                             {rightDes}
@@ -102,7 +117,7 @@ const styles = StyleSheet.create({
 
     },
     wrapper1:{
-        marginTop:65,
+        marginTop:25,
         justifyContent:'center',
         alignItems:'center',
     },
@@ -124,7 +139,7 @@ const styles = StyleSheet.create({
         position:'absolute',
         bottom:20,
         left:0,
-        width:SCREEN_WIDTH-40
+        width:SCREEN_WIDTH-40,
     },
     wrapper3:{
         justifyContent:'center',

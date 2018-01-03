@@ -11,7 +11,8 @@ import {
     TouchableWithoutFeedback,
     Dimensions,
     Image,
-    ScrollView
+    ScrollView,
+    InteractionManager
 } from 'react-native';
 const window = Dimensions.get('window');
 export const SCREEN_HEIGHT = window.height;
@@ -43,6 +44,8 @@ export default class BannerView extends Component{
         this._beginTime();
 
     }
+
+
 
     componentWillUnmount() {
         clearInterval(this._timer);

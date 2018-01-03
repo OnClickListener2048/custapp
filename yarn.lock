@@ -4156,8 +4156,8 @@ react-native-pathjs-charts@0.0.31:
     react-native-svg "~5.4.0"
 
 "react-native-picker@github:pilipa-cn/react-native-picker":
-  version "4.0.19"
-  resolved "https://codeload.github.com/pilipa-cn/react-native-picker/tar.gz/d13016309f862e4692c5a901e3554d41945b4cb1"
+  version "1.0.0"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-picker/tar.gz/005cfcb6cb9b67da1cb59c4e8301d110971309ba"
 
 react-native-progress@^3.4.0:
   version "3.4.0"
