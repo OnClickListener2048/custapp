@@ -85,6 +85,11 @@ export default class HttpAdapterCustApp extends HttpAdapter {
         if(status === 401) {
             // 401 转向登录页面
             DeviceEventEmitter.emit('goLoginPage', true);
+            return {'code':  401, 'msg':  '登录'};
+        }
+
+        if(status === 500) {
+            return {'code':  500, 'msg':  '内部错误,请稍后重试'};
         }
 
         return json;

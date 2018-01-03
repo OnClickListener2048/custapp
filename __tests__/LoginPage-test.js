@@ -76,6 +76,7 @@ it('can fetch', async () => {
     console.log("fetch response ******=", response);
     // const response = await HTTPBase.get('http://fake.com', {});
     const result = await response.json();
+    console.log("fetch result ******=", result);
     expect(result.success).toEqual(true);
 });
 

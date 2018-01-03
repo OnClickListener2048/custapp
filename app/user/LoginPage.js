@@ -353,7 +353,7 @@ export default class LoginPage extends Component {
                         })
                     }
 
-                    // responseData.user.mobilePhone = '13818615090';// 调试
+                    responseData.user.mobilePhone = '18877775555';// 调试
 
                     if (responseData.user.mobilePhone) {
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();

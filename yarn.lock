@@ -4093,9 +4093,9 @@ react-native-easy-toast@^1.0.9:
   dependencies:
     prop-types "^15.5.10"
 
-"react-native-http@github:pilipa-cn/react-native-http#v1.1.1":
-  version "1.1.1"
-  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/e992fccdc0b5b63bde7aa093d84e44c3573405d1"
+"react-native-http@github:pilipa-cn/react-native-http#v1.1.2":
+  version "1.1.2"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/4005fa9eb68ce0f2d9d28f46dd85afd9e8b844a4"
 
 "react-native-image-crop-picker@github:pilipa-cn/react-native-image-crop-picker#v0.14.2":
   version "0.14.2"

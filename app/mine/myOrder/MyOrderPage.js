@@ -248,7 +248,7 @@ export default class MyOrderPage extends BComponent {
                         renderTabBar={() => <CustomTabBar/>}
                         style={styles.container}
                         tabBarUnderlineStyle={styles.lineStyle}//选中时线的样式
-                        tabBarActiveTextColor='#E13238'//选中时字体的颜色
+                        tabBarActiveTextColor='#C6A567'//选中时字体的颜色
                         tabBarBackgroundColor='#ececec'//整个tab的背景色
                         tabBarInactiveTextColor='#999999'//未选中时字的颜色
                         tabBarTextStyle={styles.textStyle}//tab字体的样式
