@@ -347,11 +347,12 @@ export default class ServicePage extends BComponent {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
-                <ServiceNavigatorBar isSecondLevel = {false}   titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
                     year={this.state.year}
                     month={this.state.month}
                     callback = {this._callback.bind(this)}
+                    isDemo = {this.state.is_demo}
                 />
                 <ScrollView
                     refreshControl={
@@ -406,40 +407,11 @@ export default class ServicePage extends BComponent {
     }
 
     _callback(year,month,isRefresh=false){
-       if(Platform.OS === 'ios'){
-           let loading = SActivityIndicator.show(true, "加载中...");
-
-           apis.loadServiceData(this.companyid,year+'-'+month).then(
-               (responseData) => {
-                   SActivityIndicator.hide(loading);
-
-                   if(responseData.code == 0){
-                       this.setState({
-                           profit:responseData.profit?responseData.profit:'- -',
-                           income:responseData.income?responseData.income:'- -',
-                           expenditure:responseData.expenditure?responseData.expenditure:'- -',
-                           year:year,
-                           month:month
-                       })
-
-                   }else{
-
-                       Toast.show(responseData.msg?responseData.msg:'加载失败！')
-                   }
-               },
-               (e) => {
-                   SActivityIndicator.hide(loading);
-
-                   Toast.show('加载失败！')
-               },
-           );
-       }else{
-           this.setState({
-               year,
-               month
-           })
-           this.loadData(year+'-'+month)
-       }
+        this.setState({
+            year,
+            month
+        })
+        this.loadData(year+'-'+month)
 
     }
     _goServiceDetail(item){

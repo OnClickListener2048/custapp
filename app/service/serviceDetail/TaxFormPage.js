@@ -146,10 +146,11 @@ export default class TaxFormPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} title="纳税表" year={this.state.year}/>
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="纳税表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
                     year={this.state.year}
                     month={this.state.month}
+                    isDemo = {this.props.is_demo}
                     callback = {this._callback.bind(this)}
                 />
                 <FlatList
@@ -168,12 +169,12 @@ export default class TaxFormPage extends BComponent {
     }
     _callback(year,month){
 
-        this.loadData(year+'-'+month)
-        this.props.callback && this.props.callback(year,month,true)
         this.setState({
             year,
             month
         })
+        this.loadData(year+'-'+month)
+        this.props.callback && this.props.callback(year,month,true)
     }
 
 }

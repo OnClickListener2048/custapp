@@ -43,7 +43,17 @@ export default class TimeSearchBar extends Component {
 
     componentWillReceiveProps(nextProps){
         this._index = parseInt(nextProps['month'])-1
-        this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: true})
+        if(Platform.OS === 'ios'){
+            this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
+
+        }else{
+            this.timer = setTimeout(()=>{
+                this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
+
+                clearTimeout(this.timer);
+
+            },500)
+        }
     }
 
     render(){
@@ -51,6 +61,7 @@ export default class TimeSearchBar extends Component {
             <View style={{width:DeviceInfo.width,height:40,position:'relative',backgroundColor:'#D9C298',}}>
                 <ScrollView
                     horizontal = {true}
+                    scrollEnabled = {this.props.isDemo == 1?false:true}
                     showsHorizontalScrollIndicator = {false}
                     onMomentumScrollEnd = {this._onMomentumScrollEnd.bind(this)}
                     ref={(scrollView) => { this._scrollView = scrollView; }}

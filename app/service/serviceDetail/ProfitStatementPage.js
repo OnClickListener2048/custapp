@@ -162,10 +162,11 @@ export default class ProfitStatementPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
-                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} title="利润表" year={this.state.year}/>
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="利润表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
                     year={this.state.year}
                     month={this.state.month}
+                    isDemo = {this.props.is_demo}
                     callback = {this._callback.bind(this)}
                 />
                 <FlatList

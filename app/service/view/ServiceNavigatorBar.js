@@ -94,6 +94,7 @@ export default class ServiceNavigatorBar extends Component {
 
     }
     _showDataPicker =() =>{
+        if (this.props.isDemo == 1)return
         Picker.init({
             pickerData: this.yearArr,
             selectedValue: [this.props.year],
@@ -106,6 +107,7 @@ export default class ServiceNavigatorBar extends Component {
             pickerToolBarBg:[206,175,114,1],
             pickerBg:[255,255,255,1],
             onPickerConfirm: data => {
+                if(this.props.year == data[0])return
 
                 if(data[0] == this.year){
                     this.props.callback && this.props.callback(data[0],this.month)
