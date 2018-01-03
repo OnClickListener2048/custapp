@@ -14,6 +14,8 @@ import {
     Linking,
     DeviceEventEmitter
 } from 'react-native';
+export let H5_URL = 'https://www.pilipa.cn/'
+import pushJump from '../../util/pushJump';
 import DeviceInfo from 'react-native-device-info';
 import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
 import CommenCell from '../../view/CommenCell'
@@ -427,6 +429,10 @@ export default class MinePage extends BComponent {
                         style={{marginTop:9}}
                         onPress = {this._call.bind(this,'')}
                     />
+                    <CommenCell
+                        leftText="加盟合作"
+                        onPress={this._goColumnDetail.bind(this)}
+                    />
 
                     {/*<CommenCell*/}
                         {/*leftText="查看日志"*/}
@@ -443,6 +449,12 @@ export default class MinePage extends BComponent {
 
         )
     }
+
+    _goColumnDetail(){
+        UMTool.onEvent('leagueCooperation')
+        pushJump(this.props.navigator, H5_URL+'invest','加盟合作');
+    }
+
     _call(){
         Linking.openURL('tel:400-107-0110')
     }
