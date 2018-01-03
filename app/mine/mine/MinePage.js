@@ -14,11 +14,14 @@ import {
     Linking,
     DeviceEventEmitter
 } from 'react-native';
+export let H5_URL = 'https://www.pilipa.cn/'
+import pushJump from '../../util/pushJump';
 import DeviceInfo from 'react-native-device-info';
 import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
 import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
 import Toast from 'react-native-root-toast';
+import {isIphoneX} from '../../util/iphoneX-helper'
 
 import * as apis from '../../apis';
 
@@ -427,6 +430,10 @@ export default class MinePage extends BComponent {
                         style={{marginTop:9}}
                         onPress = {this._call.bind(this,'')}
                     />
+                    <CommenCell
+                        leftText="加盟合作"
+                        onPress={this._goColumnDetail.bind(this)}
+                    />
 
                     {/*<CommenCell*/}
                         {/*leftText="查看日志"*/}
@@ -443,6 +450,12 @@ export default class MinePage extends BComponent {
 
         )
     }
+
+    _goColumnDetail(){
+        UMTool.onEvent('leagueCooperation')
+        pushJump(this.props.navigator, H5_URL+'invest','加盟合作');
+    }
+
     _call(){
         Linking.openURL('tel:400-107-0110')
     }
@@ -560,6 +573,7 @@ const styles = StyleSheet.create({
         paddingTop:180/375*SCREEN_WIDTH - 90,
 
         backgroundColor:'transparent',
+        marginTop:Platform.OS === 'ios' ?isIphoneX()?-35: -20 : 0,
         justifyContent:'space-between'
     },
 

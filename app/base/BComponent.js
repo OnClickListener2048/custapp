@@ -50,7 +50,7 @@ export default class BComponent extends Component {
                             buttonFontSize: 18, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
                             // buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
                             id: 'goBack',
-                            icon: require('../img/left.png'),
+                            icon: require('../img/arrow_left_white.png'),
                         }], // see "Adding buttons to the navigator" below for format (optional)
                     // rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
                     animated: false // does the change have transition animation or does it happen immediately (optional)
