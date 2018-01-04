@@ -16,8 +16,20 @@ import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-root-toast'
 import BComponent from '../../base';
 import Alert from "react-native-alert";
-import {H5_URL,SCREEN_WIDTH} from '../../config'
+import {DEBUG,API_BASE_URL} from '../../config'
 import JPushModule from 'jpush-react-native';
+import ActionSheet from 'react-native-actionsheet';
+
+const CANCEL_INDEX = 0;
+const DESTRUCTIVE_INDEX = 3;
+
+const options = [
+    '取消',
+    '线上 www.pilipa.cn',
+    <Text style={{color: 'gray'}}>测试 x-www.i-counting.cn</Text>
+];
+
+const title = <Text style={{color: '#000', fontSize: 18}}>请选择要切换的服务器, 切换后请重启App</Text>
 
 export default class SettingPage extends BComponent {
 
@@ -36,7 +48,7 @@ export default class SettingPage extends BComponent {
     componentDidMount() {
 
         clearManager.getCacheSize((value, unit) => {
-            if(unit == 'B'){
+            if(unit === 'B'){
                 this.setState({
                     cacheSize: '', //缓存大小
                     unit: ''  //缓存单位
@@ -90,6 +102,26 @@ export default class SettingPage extends BComponent {
                         text='退出'
                         isEnabled={this.state.logined}
                     />
+                    { DEBUG &&
+                    <CommentCell
+                        leftText={API_BASE_URL}
+                        style={{marginTop: 10}}
+                        rightText='点击切换'
+                        onPress={this.showActionSheet}
+                    />
+                    }
+
+                    { DEBUG &&
+                    <ActionSheet
+                        ref={o => this.ActionSheet = o}
+                        title={title}
+                        options={options}
+                        cancelButtonIndex={CANCEL_INDEX}
+                        destructiveButtonIndex={DESTRUCTIVE_INDEX}
+                        onPress={this.handleActionSheetPress}
+                    />
+                    }
+
                 </ScrollView>
             </View>
 
@@ -99,7 +131,7 @@ export default class SettingPage extends BComponent {
     _clear() {
         clearManager.runClearCache(() => {
 
-            Toast.show("清除成功")
+            Toast.show("清除成功");
             // setTimeout(function () {
             //     Toast.hide(toast);
             // }, 500);
@@ -110,6 +142,23 @@ export default class SettingPage extends BComponent {
 
         });
     }
+
+
+    // 打开域名切换
+    showActionSheet = () => {
+        this.ActionSheet.show();
+    };
+
+    handleActionSheetPress = (i) => {
+        console.log(i);
+        if(i === 1) {
+            Preferences.set('CONFIG_SERVER', 'https://www.pilipa.cn').then();
+        } else if(i === 2) {
+            Preferences.set('CONFIG_SERVER', 'https://x-www.i-counting.cn').then();
+        }
+
+        Toast.show("请重启App来使切换后的域名配置生效");
+    };
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         super.onNavigatorEvent(event);

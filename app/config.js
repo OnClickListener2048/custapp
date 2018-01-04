@@ -3,11 +3,12 @@
  */
 
 import { Dimensions} from 'react-native';
+import './storage/Preferences.js';
+export const DEBUG = true ;// 开发包, 上线前请务必改为true
 
 console.log('__DEV__开发模式', __DEV__);// 说明: __DEV__ 的值是自动设置的, 无需import
 // 参考: https://stackoverflow.com/questions/34315274/react-native-detect-dev-or-production-env
 
-export const DEBUG = __DEV__;
 // export const IN_DEBUGGER = DEBUG && !!window.navigator.userAgent;
 console.log('DEBUG=', DEBUG);// 说明: __DEV__ 的值是自动设置的, 无需import
 export const RN_VERSION = '1.3.0';
@@ -40,7 +41,23 @@ if(DEBUG) {// 测试环境变量, 上线时应删除
 }
 DOMAIN_API = 'x-www.i-counting.cn';
 H5_URL = 'https://x-www.i-counting.cn/';
+
+
 export let API_BASE_URL = `${SCHEME}://${DOMAIN_API}`;// API服务基础地址
+
+if(DEBUG) {
+    Preferences.get('CONFIG_SERVER').then(
+        v => {
+            if(v) {
+                console.log("CONFIG_SERVER==", v);
+                API_BASE_URL = v;
+                H5_URL = v + "/";
+            }
+        }, e => {
+
+        });
+}
+
 // export let WWW_BASE_URL = `${SCHEME}://${DOMAIN_WWW}`;
 // export let WEB_BASE_URL = `${SCHEME}://${DOMAIN_WEB}`;
 export let KEY_USER_TOKEN = 'KEY_USER_TOKEN';// 用户登陆token
