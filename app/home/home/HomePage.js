@@ -565,7 +565,7 @@ export default class HomePage extends BComponent {
             pushJump(this.props.navigator, item.url,item.name);
 
         }else{
-            Toast.show('敬请期待')
+            Toast.show('即将上线，敬请期待...')
 
         }
     }
@@ -575,7 +575,7 @@ export default class HomePage extends BComponent {
             pushJump(this.props.navigator, item.url,item.title);
 
         }else{
-            Toast.show('敬请期待')
+            Toast.show('即将上线，敬请期待...')
         }
     }
 
