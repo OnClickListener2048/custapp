@@ -573,7 +573,7 @@ const styles = StyleSheet.create({
         paddingTop:180/375*SCREEN_WIDTH - 90,
 
         backgroundColor:'transparent',
-        marginTop:Platform.OS === 'ios' ?isIphoneX()?-35: -20 : 0,
+        marginTop:Platform.OS === 'ios' ?isIphoneX()?-35: -20 : -20,
         justifyContent:'space-between'
     },
 
