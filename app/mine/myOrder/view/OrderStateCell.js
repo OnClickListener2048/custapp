@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     },
     progressTe:{
         fontSize:12,
-        color:'#E13238',
+        color:'#C6A567',
         alignItems:'center',
     }
 });
