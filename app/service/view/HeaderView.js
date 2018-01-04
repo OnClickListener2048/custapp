@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     },
     te3:{
         fontSize:12,
-        color:'#FFFFFF',
+        color:'rgba(255, 255, 255, 0.8)',
         backgroundColor:'transparent',
     },
     te4:{
