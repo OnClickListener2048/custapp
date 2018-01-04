@@ -497,7 +497,8 @@ export default class MinePage extends BComponent {
                         //一家或者没有
                         this.push({
                             screen: screen,
-                            title:title
+                            title:title,
+                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                         });
                     }
                 },
@@ -505,7 +506,8 @@ export default class MinePage extends BComponent {
                     //一家或者没有
                     this.push({
                         screen: screen,
-                        title:title
+                        title:title,
+                        backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     });
 
                 },
@@ -520,6 +522,7 @@ export default class MinePage extends BComponent {
                                 updateIcon:this.state.upgrade,
                                 //回调!
                                 callback: this._updateOpenOrClose,
+                                backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                             }
                         });
 
@@ -528,6 +531,7 @@ export default class MinePage extends BComponent {
             this.push({
                 screen: screen,
                 title:title,
+                backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             });
         }
 
