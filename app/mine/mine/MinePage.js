@@ -402,6 +402,7 @@ export default class MinePage extends BComponent {
                     <CommenCell
                         leftText="我的订单"
                         onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
+                        style={{marginBottom:9}}
                         rightText={this.state.orderCount}
                     />
 
@@ -412,22 +413,23 @@ export default class MinePage extends BComponent {
                     <CommenCell
                         leftText="账号与安全"
                         onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
-                        style={{marginTop:9}}
                     />
                     {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)||!this.state.upgrade?
                         <CommenCell
                         leftText="设置"
+                        style={{marginBottom:9}}
                         onPress = {this._goto.bind(this,'SettingPage','设置')}
                     />:
                         <CommenCell
                             leftText="设置"
+                            style={{marginBottom:9}}
                             leftTextIcon={require('../../img/new_icon.png')}
                             onPress = {this._goto.bind(this,'SettingPage','设置')}
                         />}
 
                     <CommenCell
                         leftText="联系客服"
-                        style={{marginTop:9}}
+                        // style={{marginTop:9}}
                         onPress = {this._call.bind(this,'')}
                     />
                     <CommenCell
