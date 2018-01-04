@@ -74,7 +74,7 @@ const headerData = [
                 title:'发票验真',
                 logo:require('../../img/fapiao.png'),
                 url:'',
-                eventId:'Invoice truth'
+                eventId:'InvoiceTruth'
             },
         ],
     },
