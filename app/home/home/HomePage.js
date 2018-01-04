@@ -35,50 +35,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 const itemBorder = 1
 
-const headerData = [
-    {
-        title:'热门产品',
-        UItype:1,
-        productArr:[
-            {
-                title:'注册公司',
-                logo:require('../../img/register.png'),
-                url:H5_URL+'register?showFooterTab=true',
-                eventId:'registerCompany'
-            },
-            {
-                title:'记账报税',
-                logo:require('../../img/Accounting.png'),
-                url:H5_URL+'accounting?showFooterTab=true',
-                eventId:'accountingAndTax'
-            },
-            {
-                title:'企业变更',
-                logo:require('../../img/changeConpany.png'),
-                url:H5_URL+'change?showFooterTab=true',
-                eventId:'enterpriseChange'
-            },
-        ],
-    },
-    {
-        title:'实用工具',
-        UItype:2,
-        productArr:[
-            {
-                title:'免费核名',
-                logo:require('../../img/check_name.png'),
-                url:'pilipa://view.company.check',
-                eventId:'homepage_checkname'
-            },
-            {
-                title:'发票验真',
-                logo:require('../../img/fapiao.png'),
-                url:'',
-                eventId:'InvoiceTruth'
-            },
-        ],
-    },
-]
+let headerData = null;// 延迟到willmount时初始化, 解决切换域名带来得问题
 const footData = [
     {
         'title':'安全',
@@ -171,6 +128,51 @@ export default class HomePage extends BComponent {
             // 读取失败或者弱网一直打开微信登录
             UserInfoStore.removeMobileLoginInfo().then();
         }
+
+        headerData = [
+            {
+                title:'热门产品',
+                UItype:1,
+                productArr:[
+                    {
+                        title:'注册公司',
+                        logo:require('../../img/register.png'),
+                        url:H5_URL+'register?showFooterTab=true',
+                        eventId:'registerCompany'
+                    },
+                    {
+                        title:'记账报税',
+                        logo:require('../../img/Accounting.png'),
+                        url:H5_URL+'accounting?showFooterTab=true',
+                        eventId:'accountingAndTax'
+                    },
+                    {
+                        title:'企业变更',
+                        logo:require('../../img/changeConpany.png'),
+                        url:H5_URL+'change?showFooterTab=true',
+                        eventId:'enterpriseChange'
+                    },
+                ],
+            },
+            {
+                title:'实用工具',
+                UItype:2,
+                productArr:[
+                    {
+                        title:'免费核名',
+                        logo:require('../../img/check_name.png'),
+                        url:'pilipa://view.company.check',
+                        eventId:'homepage_checkname'
+                    },
+                    {
+                        title:'发票验真',
+                        logo:require('../../img/fapiao.png'),
+                        url:'',
+                        eventId:'InvoiceTruth'
+                    },
+                ],
+            },
+        ]
     }
 
     componentWillUnmount() {
@@ -178,7 +180,8 @@ export default class HomePage extends BComponent {
     }
 
     componentDidMount(){
-        this.loadData()
+        this.loadData();
+        // 登陆处理
         this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
             console.log('goLoginPage loginJumpSingleton.isJumpingLogin=', loginJumpSingleton.isJumpingLogin);
             loginJumpSingleton.goToLogin(this.props.navigator);
