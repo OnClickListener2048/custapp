@@ -14,11 +14,14 @@ import {
     Linking,
     DeviceEventEmitter
 } from 'react-native';
+export let H5_URL = 'https://www.pilipa.cn/'
+import pushJump from '../../util/pushJump';
 import DeviceInfo from 'react-native-device-info';
-import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
+import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
 import CommenCell from '../../view/CommenCell'
 import BComponent from '../../base';
 import Toast from 'react-native-root-toast';
+import {isIphoneX} from '../../util/iphoneX-helper'
 
 import * as apis from '../../apis';
 
@@ -369,11 +372,12 @@ export default class MinePage extends BComponent {
     render(){
         console.log("new是否显示的settingNew="+this.state.settingNew+this.state.upgrade);
         return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9',position:'relative'}}>
-                <View style={{width:DeviceInfo.width,height:DeviceInfo.height/3,backgroundColor:'white',position:'absolute'}}/>
+            <View style={{flex:1,backgroundColor:'#FAFAFA'}}>
                 <ScrollView
-                    contentContainerStyle={{backgroundColor:'#F9F9F9'}}>
-                    <TouchableOpacity style={styles.login_wrapper} onPress={this.login.bind(this)}>
+                    contentContainerStyle={{backgroundColor:'#FAFAFA'}}>
+                    <TouchableOpacity  onPress={this.login.bind(this)}>
+                        <Image style={styles.login_wrapper} source={require('../../img/Rectangle.png')}>
+
                         <View style={{flexDirection:'row'}}>
                             <Image style={styles.head_img} source={this.state.avatar}/>
                             <View style={styles.login_title_wrapper}>
@@ -385,19 +389,22 @@ export default class MinePage extends BComponent {
                                 </Text>
                             </View>
                         </View>
-                        <Image style={styles.left_bu} source={require('../../img/left_button.png')}/>
+                            <Image style={styles.left_bu} source={require('../../img/right_white_btn.png')}/>
+
+                        </Image>
+
                     </TouchableOpacity>
                     <CommenCell
-                        leftText="我的订单"
-                        style={{marginTop:9}}
-                        onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
-                        rightText={this.state.orderCount}
-                    />
-                    <CommenCell
-                        leftText="企业信息"
+                        leftText="我的企业"
                         onPress = {this._goto.bind(this,'CompanySurveyPage','企业概况')}
                         rightText={this.state.companyCount}
                     />
+                    <CommenCell
+                        leftText="我的订单"
+                        onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
+                        rightText={this.state.orderCount}
+                    />
+
                     {/*<CommenCell*/}
                         {/*leftText="消息"*/}
                         {/*onPress = {this._goto.bind(this,'MessagePage','消息')}*/}
@@ -423,6 +430,10 @@ export default class MinePage extends BComponent {
                         style={{marginTop:9}}
                         onPress = {this._call.bind(this,'')}
                     />
+                    <CommenCell
+                        leftText="加盟合作"
+                        onPress={this._goColumnDetail.bind(this)}
+                    />
 
                     {/*<CommenCell*/}
                         {/*leftText="查看日志"*/}
@@ -439,6 +450,12 @@ export default class MinePage extends BComponent {
 
         )
     }
+
+    _goColumnDetail(){
+        UMTool.onEvent('leagueCooperation')
+        pushJump(this.props.navigator, H5_URL+'invest','加盟合作');
+    }
+
     _call(){
         Linking.openURL('tel:400-107-0110')
     }
@@ -551,9 +568,12 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         width:SCREEN_WIDTH,
         paddingHorizontal:20,
-        paddingTop:Platform.OS==='ios'?70:50,
+        height:180/375*SCREEN_WIDTH,
         paddingBottom:20,
-        backgroundColor:'#FFFFFF',
+        paddingTop:180/375*SCREEN_WIDTH - 90,
+
+        backgroundColor:'transparent',
+        marginTop:Platform.OS === 'ios' ?isIphoneX()?-35: -20 : 0,
         justifyContent:'space-between'
     },
 
@@ -569,11 +589,11 @@ const styles = StyleSheet.create({
     },
     login:{
         fontSize:18,
-        color:'#333333',
+        color:'#FFFFFF',
     },
     company:{
         fontSize:14,
-        color:'#999999'
+        color:'#FFFFFF'
     },
     left_bu:{
         resizeMode: "contain",

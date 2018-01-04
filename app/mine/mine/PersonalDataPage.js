@@ -16,6 +16,8 @@ import {
     StyleSheet
 } from 'react-native';
 import BComponent from '../../base';
+import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
+import YellowNavigatorBar from '../setting/YellowNavigatorBar';
 
 const deviceWidth = Dimensions.get('window').width;
 export default class HomePage extends BComponent {
@@ -27,7 +29,12 @@ export default class HomePage extends BComponent {
             phone: '', //手机号
             avatar: require('../../img/head_img.png'),// 头像
         };
+
     }
+
+    static navigatorStyle = {
+        navBarHidden: true, // 隐藏默认的顶部导航栏
+    };
 
     componentWillMount() {
         UserInfoStore.isLogined().then(
@@ -84,12 +91,21 @@ export default class HomePage extends BComponent {
 
     render() {
         return (
-            <ScrollView style={styles.container}>
-                <View style={styles.headportrait}>
-                    <Text style={styles.textstyle}>
-                        头像
-                    </Text>
-                    <Image source={this.state.avatar} style={styles.imageCircle}/>
+            <View style={[styles.container,{flex:1,position:'relative'}]}>
+                <YellowNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} title="个人资料" />
+
+
+                <View>
+                    <Image style={styles.headportrait} source={require('../../img/Rectangle.png')}>
+
+                        <View style={{width:SCREEN_WIDTH,height:60, flexDirection:'row',alignItems:'center',justifyContent: 'space-between'}}>
+                            <Text style={[styles.textstyle,{color:'#ffffff'}]}>
+                                头像
+                            </Text>
+                            <Image source={this.state.avatar} style={styles.imageCircle}/>
+                        </View>
+
+                    </Image>
                 </View>
 
                 <View style={styles.contentlist}>
@@ -120,7 +136,6 @@ export default class HomePage extends BComponent {
                         </Text>
                     </View>
                 </View>
-
                 <View style={[styles.contentlist]}>
                     <Text style={styles.textstyle}>
                         微信号
@@ -130,7 +145,9 @@ export default class HomePage extends BComponent {
                     </Text>
                 </View>
 
-            </ScrollView>
+
+            </View>
+
         )
     }
 
@@ -143,13 +160,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     headportrait: {
-        height: 96,
+        height: 180/375*SCREEN_WIDTH,
         width: deviceWidth,
-        backgroundColor: 'white',
-        marginTop: 10,
+        backgroundColor: 'transparent',
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
+        paddingTop:180/375*SCREEN_WIDTH - 90,
+
+
     },
     textstyle: {
         fontSize: 16,

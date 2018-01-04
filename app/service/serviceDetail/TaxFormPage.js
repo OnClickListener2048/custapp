@@ -21,6 +21,9 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
 import demoData from './local/TaxFormPage.json'
 
+import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
+import TimeSearchBar from '../view/TimeSearchBar'
+
 export default class TaxFormPage extends BComponent {
 
     constructor(props){
@@ -36,6 +39,10 @@ export default class TaxFormPage extends BComponent {
         }
 
     }
+    static navigatorStyle = {
+        navBarHidden: true, // 隐藏默认的顶部导航栏
+        tabBarHidden: true, // 默认隐藏底部标签栏
+    };
     componentWillUnmount() {
         UMTool.onEvent('t_return')
     }
@@ -110,75 +117,12 @@ export default class TaxFormPage extends BComponent {
                     leftNum=""
                     rightDes=""
                     rightNum=""
-                    year={this.state.year}
-                    month={this.state.month}
-                    _showTimer={this._showTimer.bind(this)}
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="纳税表明细"/>
+                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="纳税表明细"/>
 
             </View>
         )
     }
-
-    // _listHeaderComponent(){
-    //     let options = {
-    //         width: 260,
-    //         height: 260,
-    //         color: '#2980B9',
-    //         r: 100,
-    //         R: 130,
-    //         animate: {
-    //             type: 'oneByOne',
-    //             duration: 2000,
-    //             fillTransition: 3
-    //         },
-    //         label:{color:''}
-    //
-    //     }
-    //     let colorArr=[
-    //         '#EA4931',
-    //         '#FFAE00',
-    //         '#4287FF',
-    //         '#00C3B0'
-    //     ]
-    //     return(
-    //         <View style={{width:DeviceInfo.width,backgroundColor:'white'}}>
-    //             <View style={{width:DeviceInfo.width,height:260,marginTop:70,alignItems:'center'}}>
-    //                 <View style={{width:260,height:260,position:'relative'}}>
-    //                     <Pie data={this.state.data}
-    //                          options={options}
-    //                          accessorKey="population"
-    //                          pallete={
-    //                              [
-    //                                  {'r':234,'g':73,'b':49},
-    //                                  {'r':255,'g':174,'b':0},
-    //                                  {'r':66,'g':135,'b':255},
-    //                                  {'r':0,'g':195,'b':176},
-    //                              ]
-    //                          }
-    //
-    //                     />
-    //                     <View style={{width:130,height:130,position:'absolute',top:65,left:65,justifyContent:'center',alignItems:'center'}}>
-    //                         <Text style={{fontSize:18,color:'#333333'}}>本月累计</Text>
-    //                         <Text style={{fontSize:20,color:'#EA4931',fontWeight:'bold'}}>{this.state.total}</Text>
-    //                     </View>
-    //                 </View>
-    //             </View>
-    //             <View style={{flexDirection:'row',width:DeviceInfo.width,justifyContent:'space-around',marginTop:37,marginBottom:10}}>
-    //                 {
-    //                     this.state.data.map((item,index)=>{
-    //                         return(
-    //                             <View  key={index} style={{flexDirection:'row',alignItems:'center'}}>
-    //                                 <View style={{width:10,height:10,borderRadius:10,backgroundColor:colorArr[index]}}></View>
-    //                                 <Text style={{fontSize:12,color:'#999999',marginLeft:5}}>{item.name}</Text>
-    //                             </View>
-    //                         )
-    //                     })
-    //                 }
-    //             </View>
-    //         </View>
-    //     )
-    // }
 
     _renderItem(item){
         return(
@@ -202,6 +146,13 @@ export default class TaxFormPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="纳税表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <TimeSearchBar
+                    year={this.state.year}
+                    month={this.state.month}
+                    isDemo = {this.props.is_demo}
+                    callback = {this._callback.bind(this)}
+                />
                 <FlatList
                     renderItem={this._renderItem.bind(this)}
                     ListHeaderComponent={this._listHeaderComponent.bind(this)}
@@ -212,17 +163,18 @@ export default class TaxFormPage extends BComponent {
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                <ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                {/*<ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>*/}
             </View>
         )
     }
     _callback(year,month){
-        this.loadData(year+'-'+month)
-        this.props.callback && this.props.callback(year,month,true)
+
         this.setState({
             year,
             month
         })
+        this.loadData(year+'-'+month)
+        this.props.callback && this.props.callback(year,month,true)
     }
 
 }

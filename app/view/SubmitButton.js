@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Text, StyleSheet, TouchableNativeFeedback, Platform} from 'react-native';
+import {View, Text, StyleSheet, TouchableNativeFeedback, Platform, Image, TouchableWithoutFeedback} from 'react-native';
 import Button from 'apsl-react-native-button';
 import px2dp from '../util/index';
 
@@ -12,34 +12,58 @@ export default class SubmitButton extends Component {
     };
 
     render() {
-        return (
-            <Button
-                style={styles.buttonViewEnabled}
-                disabledStyle={styles.buttonView}
-                isDisabled={!this.props.isEnabled}
-                onPress={this.props.onPress}
-                textStyle={styles.loginText}>
-                {this.props.text}
-            </Button>
-        );
+        return this.props.isEnabled ?
+            (
+
+                <TouchableWithoutFeedback onPress={this.props.onPress}>
+                    <Image source={require('../img/Rectangle.png')} style={styles.buttonView}>
+
+                        <Text style={styles.loginText}>{this.props.text}</Text>
+                    </Image>
+                </TouchableWithoutFeedback>
+            )
+            :
+            (
+                <TouchableWithoutFeedback onPress={this.props.onPress}>
+                    <View style={styles.buttonViewDisabled}>
+                        <Text style={styles.loginTextDisabled}>{this.props.text}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+            );
     }
 }
 
 const styles = StyleSheet.create({
     buttonView: {
-        backgroundColor: '#e6e6e6',
+        backgroundColor: 'transparent',
         margin: 0,
-        borderRadius: 22,
+        borderRadius: 2,
         justifyContent: 'center',
         alignSelf: 'center',
+        alignItems: 'center',
         height: px2dp(88),
         width: px2dp(600),
         marginTop: px2dp(45),
         borderWidth: 0,
     },
 
+
+    buttonViewDisabled: {
+        backgroundColor: 'transparent',
+        margin: 0,
+        borderRadius: 2,
+        borderColor: '#CEAF72',
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+        height: px2dp(88),
+        width: px2dp(600),
+        marginTop: px2dp(45),
+    },
+
     buttonViewEnabled: {
-        backgroundColor: '#ef0c35',
+        backgroundColor: 'transparent',
         margin: 0,
         borderRadius: 22,
         justifyContent: 'center',
@@ -62,8 +86,16 @@ const styles = StyleSheet.create({
     },
 
     loginText: {
-        fontSize: 15,
+        fontSize: 18,
         color: '#FFFFFF',
+        marginTop: 10,
+        marginBottom: 10,
+        textAlign: 'center'
+    },
+
+    loginTextDisabled: {
+        fontSize: 18,
+        color: '#CEAF72',
         marginTop: 10,
         marginBottom: 10,
         textAlign: 'center'

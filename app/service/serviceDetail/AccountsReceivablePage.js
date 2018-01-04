@@ -19,6 +19,8 @@ import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
 import demoData from './local/AccountsReceivablePage.json'
+import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
+import TimeSearchBar from '../view/TimeSearchBar'
 
 export default class AccountsReceivablePage extends BComponent {
     constructor(props) {
@@ -36,6 +38,12 @@ export default class AccountsReceivablePage extends BComponent {
         };
         this.openOptions=[];
     }
+
+    static navigatorStyle = {
+        navBarHidden: true, // 隐藏默认的顶部导航栏
+        tabBarHidden: true, // 默认隐藏底部标签栏
+    };
+
     componentWillUnmount() {
         UMTool.onEvent('r_return')
     }
@@ -129,11 +137,10 @@ export default class AccountsReceivablePage extends BComponent {
                     leftNum={this.state.start_account}
                     rightDes="期末"
                     rightNum={this.state.end_account}
-                    year={this.state.year}
-                    month={this.state.month}
-                    _showTimer={this._showTimer.bind(this)}
+
+
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#E13238'}} text="应收账款明细"/>
+                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="应收账款明细"/>
             </View>
         )
     }
@@ -157,6 +164,13 @@ export default class AccountsReceivablePage extends BComponent {
     render() {
         return (
             <View style={{backgroundColor:'#f9f9f9',flex:1}}>
+                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="应收账款" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <TimeSearchBar
+                    year={this.state.year}
+                    month={this.state.month}
+                    isDemo = {this.props.is_demo}
+                    callback = {this._callback.bind(this)}
+                />
                 <ExpanableList
                     ListHeaderComponent = {this._listHeaderComponent.bind(this)}
                     dataSource={this.state.dataSource}
@@ -169,7 +183,7 @@ export default class AccountsReceivablePage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
-                <ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>
+                {/*<ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>*/}
                 <PLPActivityIndicator isShow={this.state.isLoading} />
 
             </View>

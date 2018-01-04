@@ -12,6 +12,7 @@ import {
     KeyboardAvoidingView,
     Keyboard,
     Text,
+    Platform,
     Image,
     Linking,
     TextInput,
@@ -23,6 +24,8 @@ const deviceWidth = Dimensions.get('window').width;
 import Toast from 'react-native-root-toast'
 const window = Dimensions.get('window');
 import Modal from '../view/Modalbox';
+import DeviceInfo from 'react-native-device-info';
+
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 import * as apis from '../apis';
 import * as URI from "uri-js";
@@ -76,6 +79,9 @@ export default class WebViewPage extends BComponent {
         this.updateArea = this.updateArea.bind(this);
         this.updateName = this.updateName.bind(this);
         this.updateMmessage = this.updateMmessage.bind(this);
+        this.appendURL = this.appendURL.bind(this);
+
+
     }
 
     // 小屏键盘显示适配
@@ -113,9 +119,10 @@ export default class WebViewPage extends BComponent {
     }
     _onLoadEnd(){
         this.setState({ progress:1 });
+        let urlStr = this.appendURL();
 
-
-        let components = URI.parse(this.props.url);
+        // this.props.url
+        let components = URI.parse(urlStr);
         let query = components.query;
         let passProps = {};
         if (query) {
@@ -228,12 +235,39 @@ export default class WebViewPage extends BComponent {
         );
     }
 
+    appendURL(){
+        let urlStr = this.props.url;
+        if (this.props.url.indexOf("pilipa") !== -1 || this.props.url.indexOf("i-counting") !== -1) {
+            if (this.props.url.indexOf("?") !== -1) {
+                //包含
+                if (this.props.url.indexOf("&") !== -1) {
+                    urlStr = urlStr + '&userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+                } else {
+                    urlStr = urlStr + 'userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+
+                }
+            } else {
+                urlStr = urlStr + '?userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+
+            }
+        }
+        console.log('当前访问的网页地址是' + urlStr);
+
+        return urlStr;
+    }
+
     render(){
+
+
+
+        let urlStr = this.appendURL();
+
+
         return(
             <View style={{flex:1,backgroundColor:'#ebebeb',position:'relative'}}>
                 <WebView
                     injectedJavaScript={patchPostMessageJsCode}
-                    source={{uri:this.props.url}}
+                    source={{uri:urlStr}}
                     onLoad = {() => {console.log('webview onLoad')}}
                     onLoadEnd = {this._onLoadEnd.bind(this)}
                     onMessage={this._handleMessage}

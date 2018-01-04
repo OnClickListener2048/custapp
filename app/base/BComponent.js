@@ -18,7 +18,7 @@ import {
     InteractionManager,
     Platform,
     BackAndroid,
-    ToastAndroid,
+    ToastAndroid
 } from 'react-native';
 import Toast from 'react-native-root-toast';
 import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
@@ -35,6 +35,7 @@ export default class BComponent extends Component {
         this.state = {
             isPushing: false,// 是否跳转中
         };
+
         // 自定义左侧返回按钮
         if(this.props.navigator) {
             //this.props.testID === 'MessagePage' ||隐藏message页（不在tab中显示）恢复返回键
@@ -49,7 +50,7 @@ export default class BComponent extends Component {
                             buttonFontSize: 18, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
                             // buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
                             id: 'goBack',
-                            icon: require('../img/left.png'),
+                            icon: require('../img/arrow_left_white.png'),
                         }], // see "Adding buttons to the navigator" below for format (optional)
                     // rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
                     animated: false // does the change have transition animation or does it happen immediately (optional)

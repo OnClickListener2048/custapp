@@ -11,6 +11,10 @@ export const DEBUG = __DEV__;
 // export const IN_DEBUGGER = DEBUG && !!window.navigator.userAgent;
 console.log('DEBUG=', DEBUG);// 说明: __DEV__ 的值是自动设置的, 无需import
 export const RN_VERSION = '1.3.0';
+export const PRIMARY_YELLOW = '#C6A567';
+export const PRIMARY_RED = '#C5191F';
+export const PRIMARY_BLACK = '#252525';
+
 
 // 获取屏幕尺寸
 let {width, height} = Dimensions.get('window');
@@ -44,11 +48,11 @@ export let KEY_USER_INFO = 'KEY_USER_INFO';// 用户基本信息
 
 // 顶部导航栏默认风格设置(react-native-navigation)
 export const DEFAULT_NAVIGATOR_STYLE = {
-    navBarButtonColor: '#323232',// 顶部按钮颜色
-    navBarTextColor: '#323232',// 顶部导航栏文字颜色
+    navBarButtonColor: '#FFFFFF',// 顶部按钮颜色
+    navBarTextColor: '#FFFFFF',// 顶部导航栏文字颜色
     navBarTextFontSize: 18, // 顶部导航栏文字大小
     navBarTitleTextCentered: true, // Android 有效, 默认是不居中的标题栏
-    navBarBackgroundColor: '#FAFAFA',
+    navBarBackgroundColor: PRIMARY_BLACK,
 };
 
 // 底部Tab栏的颜色(react-native-navigation)
@@ -63,17 +67,14 @@ export const tabsStyle = {
     // tabFontFamily: 'BioRhyme-Bold',
 };
 
-export const PRIMARY_YELLOW = '#C6A567';
-export const PRIMARY_RED = '#C5191F';
-export const PRIMARY_BLACK = '#252525';
 
 // App 的默认样式(react-native-navigation)
 export const appStyle = {
-        navBarButtonColor: '#323232',// 顶部按钮颜色
-        navBarTextColor: '#323232',// 顶部导航栏文字颜色
+        navBarButtonColor: '#FFFFFF',// 顶部按钮颜色
+        navBarTextColor: '#FFFFFF',// 顶部导航栏文字颜色
         navBarTextFontSize: 18, // 顶部导航栏文字大小
         navBarTitleTextCentered: true, // Android 有效, 默认是不居中的标题栏
-        navBarBackgroundColor: '#FAFAFA',
+        navBarBackgroundColor: PRIMARY_BLACK,
         tabBarBackgroundColor: '#FFFFFF',
         tabBarButtonColor: '#CBCBCB',
         tabBarSelectedButtonColor: '#333333',
