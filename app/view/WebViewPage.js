@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
     btnTouchContainer: {
         flexDirection: 'row',
         height:50,
-        width:(SCREEN_WIDTH - 4)/2
+        width:SCREEN_WIDTH/2.0
     },
 
     btnContainer: {
