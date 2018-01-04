@@ -474,7 +474,7 @@ export default class HomePage extends BComponent {
                                                     <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,pro)}>
                                                         <View style={{justifyContent:'center',alignItems:'center',width,marginLeft,
                                                             height:width}}>
-                                                            <Image style={{width:64, height:64}} source={pro.logo }/>
+                                                            <Image  source={pro.logo }/>
                                                             <Text  style={{marginTop:15,fontSize:setSpText(16),color:'#666666',marginBottom:20}}>{pro.title}</Text>
                                                         </View>
                                                     </TouchableOpacity>
@@ -486,7 +486,7 @@ export default class HomePage extends BComponent {
                                             item.productArr.map((pro, i) => {
                                                 return(
                                                     <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,pro)}>
-                                                        <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,height:68,marginTop:10}} source={pro.logo }>
+                                                        <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',marginTop:10}} source={pro.logo }>
                                                             <Text style={{backgroundColor:'transparent',fontSize:setSpText(22),color:'white',fontWeight:'bold'}}>{pro.title}</Text>
                                                         </Image>
                                                     </TouchableOpacity>

@@ -81,7 +81,7 @@ export default class MyOrderPage extends BComponent {
                 })}>
                     <View style={{width:DeviceInfo.width*0.6,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                         <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
-                        <Image source={require('../../img/change_arrow.png')}/>
+                        <Image source={require('../../img/change_arrow_white.png')}/>
                     </View>
 
                 </TouchableOpacity>
