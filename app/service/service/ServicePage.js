@@ -18,6 +18,7 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PLPCustomNavBar from '../../view/PLPCustomNavBar'
 import {isIphoneX} from '../../util/iphoneX-helper'
+import Toast from 'react-native-root-toast'
 import Alert from "react-native-alert";
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBar from '../view/TimeSearchBar'
@@ -330,7 +331,7 @@ export default class ServicePage extends BComponent {
                             },
                         }]);
                 }}>
-                    <View style={{width:deviceWidth*0.7,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                    <View style={{width:deviceWidth*0.5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                         <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
                         <Image   source={require('../../img/change_arrow_white.png')}/>
                     </View>
@@ -352,7 +353,6 @@ export default class ServicePage extends BComponent {
                     year={this.state.year}
                     month={this.state.month}
                     callback = {this._callback.bind(this)}
-                    isDemo = {this.state.is_demo}
                 />
                 <ScrollView
                     refreshControl={

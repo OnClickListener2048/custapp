@@ -53,7 +53,7 @@ export default class MyOrderPage extends BComponent {
         return (
             <TouchableWithoutFeedback onPress={()=>this.props.navigator.pop()}>
                 <View style={{width:50,height:44, justifyContent:'center'}}>
-                    <Image style={{marginLeft:10}} source={require('../../img/left.png')} />
+                    <Image style={{marginLeft:10}} source={require('../../img/arrow_left_white.png')} />
                 </View>
             </TouchableWithoutFeedback>
 
@@ -80,7 +80,7 @@ export default class MyOrderPage extends BComponent {
                     }
                 })}>
                     <View style={{width:DeviceInfo.width*0.6,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
                         <Image source={require('../../img/change_arrow.png')}/>
                     </View>
 
@@ -88,7 +88,7 @@ export default class MyOrderPage extends BComponent {
             )
         }else{
             return (
-                <Text style={{fontSize:setSpText(18),fontWeight:'bold'}}>{this.state.title}</Text>
+                <Text style={{fontSize:setSpText(18),fontWeight:'bold',color:'white'}}>{this.state.title}</Text>
             )
         }
     }

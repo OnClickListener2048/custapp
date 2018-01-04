@@ -14,6 +14,8 @@ import {
 import {isIphoneX} from '../../util/iphoneX-helper'
 import Picker from 'react-native-picker';
 const {width, height} = Dimensions.get('window');
+import Alert from "react-native-alert";
+import Toast from 'react-native-root-toast'
 
 /**
  * 顶部导航栏, 带左右按钮和中间定制.
@@ -40,7 +42,7 @@ export default class ServiceNavigatorBar extends Component {
         if(this.props.isSecondLevel){
             return (
                 <TouchableWithoutFeedback onPress={()=>this.props.navigator.pop()}>
-                    <View style={{width:64,height:44, justifyContent:'center',paddingLeft:14}}>
+                    <View style={{width:64,height:44, justifyContent:'center'}}>
                         <Image style={{marginLeft:10}} source={require('../../img/arrow_left_white.png')} />
                     </View>
                 </TouchableWithoutFeedback>
@@ -49,7 +51,7 @@ export default class ServiceNavigatorBar extends Component {
         }else{
             if (this.props.leftItem === undefined){
                 return(
-                    <View style={{width:64,height:44, justifyContent:'center',paddingLeft:14}}/>
+                    <View style={{width:64,height:44, justifyContent:'center'}}/>
                 )
             }
             return this.props.leftItem();
@@ -74,8 +76,8 @@ export default class ServiceNavigatorBar extends Component {
         if(this.props.isSecondLevel){
             return (
                 <TouchableWithoutFeedback onPress={()=>{this._showDataPicker()}}>
-                    <View style={{width:64,height:44,justifyContent:'center',alignItems:'center',paddingRight:14}} >
-                        <Text style={{fontSize:18,color:'white'}}>{this.props.year}</Text>
+                    <View style={{width:64,height:44,justifyContent:'center',alignItems:'center'}} >
+                        <Text style={{fontSize:18,color:'white',borderWidth:1,borderColor:'white',paddingVertical:3,paddingHorizontal:5,borderRadius:5}}>{this.props.year}</Text>
                     </View>
                 </TouchableWithoutFeedback>
             )
@@ -83,8 +85,8 @@ export default class ServiceNavigatorBar extends Component {
             if (this.props.rightItem === undefined){
                 return(
                     <TouchableWithoutFeedback onPress={()=>{this._showDataPicker()}}>
-                        <View style={{width:64,height:44,justifyContent:'center',alignItems:'center',paddingRight:20}} >
-                            <Text style={{fontSize:18,color:'white'}}>{this.props.year}</Text>
+                        <View style={{width:64,height:44,justifyContent:'center',alignItems:'center'}} >
+                            <Text style={{fontSize:16,color:'white',borderWidth:1,borderColor:'white',paddingVertical:3,paddingHorizontal:5,borderRadius:5}}>{this.props.year}</Text>
                         </View>
                     </TouchableWithoutFeedback>
                 )
@@ -94,7 +96,28 @@ export default class ServiceNavigatorBar extends Component {
 
     }
     _showDataPicker =() =>{
-        if (this.props.isDemo == 1)return
+        if (this.props.isDemo == 1){
+            if(this.props.isSecondLevel){
+                Toast.show('当前为演示数据！')
+
+            }else{
+                Alert.alert('提示', '立即登录查看您公司的财务数据', [{
+                    text: "再看看",
+                    onPress: ()=>{
+                        console.log('you clicked cancel');
+                    },
+                    color:'#999999'
+                },
+                    {
+                        text: "登录",
+                        onPress: ()=>{
+                            loginJumpSingleton.goToLogin(this.props.navigator);
+                        },
+                    }]);
+            }
+
+            return
+        }
         Picker.init({
             pickerData: this.yearArr,
             selectedValue: [this.props.year],

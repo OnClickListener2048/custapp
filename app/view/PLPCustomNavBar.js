@@ -10,9 +10,8 @@ import {
     Platform,
 } from 'react-native';
 import {isIphoneX} from '../util/iphoneX-helper'
-
 const {width, height} = Dimensions.get('window');
-
+import {PRIMARY_BLACK} from '../config'
 /**
  * 顶部导航栏, 带左右按钮和中间定制.
  */
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     container: {
         width:width,
         height:Platform.OS === 'ios' ? isIphoneX()?90:64 : 44,
-        backgroundColor:'#FAFAFA',
+        backgroundColor:PRIMARY_BLACK,
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',

@@ -166,7 +166,6 @@ export default class ProfitStatementPage extends BComponent {
                 <TimeSearchBar
                     year={this.state.year}
                     month={this.state.month}
-                    isDemo = {this.props.is_demo}
                     callback = {this._callback.bind(this)}
                 />
                 <FlatList
@@ -200,7 +199,7 @@ class Cell extends Component{
     render(){
         return(
             <View style={[{width:DeviceInfo.width,height:85,backgroundColor:'white',paddingLeft:13,flexDirection:'row',alignItems:'center'},this.props.item.index==0?{marginTop:0}:{marginTop:10}]}>
-                <View style={[{width:30,height:85,justifyContent:'center',alignItems:'center'},this.props.item.index%2==0?{backgroundColor:'#EB5B47'}:{backgroundColor:'#C6A567'}]}>
+                <View style={[{width:30,height:85,justifyContent:'center',alignItems:'center'},this.props.item.index%2==0?{backgroundColor:'#C6A567'}:{backgroundColor:'#EB5B47'}]}>
                     <Text style={{fontSize:setSpText(16),color:'white'}}>{this.props.item.item.date}</Text>
                     <Text style={{fontSize:setSpText(16),color:'white',marginTop:5}}>月</Text>
                 </View>
