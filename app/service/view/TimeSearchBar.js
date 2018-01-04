@@ -61,7 +61,6 @@ export default class TimeSearchBar extends Component {
             <View style={{width:DeviceInfo.width,height:40,position:'relative',backgroundColor:'#D9C298',}}>
                 <ScrollView
                     horizontal = {true}
-                    scrollEnabled = {this.props.isDemo == 1?false:true}
                     showsHorizontalScrollIndicator = {false}
                     onMomentumScrollEnd = {this._onMomentumScrollEnd.bind(this)}
                     ref={(scrollView) => { this._scrollView = scrollView; }}

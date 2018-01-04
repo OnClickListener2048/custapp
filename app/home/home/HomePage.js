@@ -31,49 +31,53 @@ import {isIphoneX} from '../../util/iphoneX-helper'
 
 import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
-const col = 4
-const itemMargin = scaleSize(10)
-const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 
 
+const itemBorder = 1
 
 const headerData = [
     {
-        title:'注册公司',
-        logo:require('../../img/register.png'),
-        url:H5_URL+'register?showFooterTab=true',
-        eventId:'registerCompany'
+        title:'热门产品',
+        UItype:1,
+        productArr:[
+            {
+                title:'注册公司',
+                logo:require('../../img/register.png'),
+                url:H5_URL+'register?showFooterTab=true',
+                eventId:'registerCompany'
+            },
+            {
+                title:'记账报税',
+                logo:require('../../img/Accounting.png'),
+                url:H5_URL+'accounting?showFooterTab=true',
+                eventId:'accountingAndTax'
+            },
+            {
+                title:'企业变更',
+                logo:require('../../img/changeConpany.png'),
+                url:H5_URL+'change?showFooterTab=true',
+                eventId:'enterpriseChange'
+            },
+        ],
     },
     {
-        title:'记账报税',
-        logo:require('../../img/Accounting.png'),
-        url:H5_URL+'accounting?showFooterTab=true',
-        eventId:'accountingAndTax'
+        title:'实用工具',
+        UItype:2,
+        productArr:[
+            {
+                title:'免费核名',
+                logo:require('../../img/check_name.png'),
+                url:'pilipa://view.company.check',
+                eventId:'homepage_checkname'
+            },
+            {
+                title:'发票验真',
+                logo:require('../../img/fapiao.png'),
+                url:'',
+                eventId:'Invoice truth'
+            },
+        ],
     },
-    {
-        title:'企业变更',
-        logo:require('../../img/changeConpany.png'),
-        url:H5_URL+'change?showFooterTab=true',
-        eventId:'enterpriseChange'
-    },
-    {
-        title:'财务报表',
-        logo:require('../../img/Finance.png'),
-        url:'pilipa://tab.service',
-        eventId:'financialReport'
-    },
-    {
-        title:'免费核名',
-        logo:require('../../img/check_name.png'),
-        url:'pilipa://view.company.check',
-        eventId:'homepage_checkname'
-    },
-    {
-        title:'加盟合作',
-        logo:require('../../img/registerConpany1.png'),
-        url:H5_URL+'invest',
-        eventId:'leagueCooperation'
-    }
 ]
 const footData = [
     {
@@ -273,48 +277,48 @@ export default class HomePage extends BComponent {
         );
     }
 
-    _listEmptyComponent(){
-        let h = 0;
-        if (DeviceInfo.OS === 'ios'){
-            h = DeviceInfo.height-64-(DeviceInfo.width*ImageScale)-110*2;
-        }else{
-            h = DeviceInfo.height-44-(DeviceInfo.width*ImageScale)-110*2;
-        }
-
-            if(this.state.loadState == 'no-data'){
-                return(
-                    <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
-                        <Text style={{fontSize:setSpText(15),color:'#999999'}}>暂时没有查到相关数据</Text>
-                        <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请致电客服热线:400-107-0110</Text>
-                    </View>
-                )
-            }else if(this.state.loadState == 'no-net'){
-                return(
-                    <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
-                        <Text style={{fontSize:setSpText(15),color:'#999999'}}>网络请求失败</Text>
-                        <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请检查您的网络</Text>
-                    </View>
-                )
-
-            }else if(this.state.loadState == 'error'){
-                return(
-                    <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
-                        <Text style={{fontSize:setSpText(15),color:'#999999'}}>网络请求失败</Text>
-                        <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请检查您的网络</Text>
-                    </View>
-                )
-            }else{
-                //成功
-                return(
-                    <View style={{width:DeviceInfo.width, height:h,backgroundColor:'white'}}>
-
-                    </View>
-                )
-            }
-
-
-
-    }
+    // _listEmptyComponent(){
+    //     let h = 0;
+    //     if (DeviceInfo.OS === 'ios'){
+    //         h = DeviceInfo.height-64-(DeviceInfo.width*ImageScale)-110*2;
+    //     }else{
+    //         h = DeviceInfo.height-44-(DeviceInfo.width*ImageScale)-110*2;
+    //     }
+    //
+    //         if(this.state.loadState == 'no-data'){
+    //             return(
+    //                 <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
+    //                     <Text style={{fontSize:setSpText(15),color:'#999999'}}>暂时没有查到相关数据</Text>
+    //                     <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请致电客服热线:400-107-0110</Text>
+    //                 </View>
+    //             )
+    //         }else if(this.state.loadState == 'no-net'){
+    //             return(
+    //                 <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
+    //                     <Text style={{fontSize:setSpText(15),color:'#999999'}}>网络请求失败</Text>
+    //                     <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请检查您的网络</Text>
+    //                 </View>
+    //             )
+    //
+    //         }else if(this.state.loadState == 'error'){
+    //             return(
+    //                 <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
+    //                     <Text style={{fontSize:setSpText(15),color:'#999999'}}>网络请求失败</Text>
+    //                     <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请检查您的网络</Text>
+    //                 </View>
+    //             )
+    //         }else{
+    //             //成功
+    //             return(
+    //                 <View style={{width:DeviceInfo.width, height:h,backgroundColor:'white'}}>
+    //
+    //                 </View>
+    //             )
+    //         }
+    //
+    //
+    //
+    // }
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
@@ -325,7 +329,7 @@ export default class HomePage extends BComponent {
                     stickySectionHeadersEnabled={false}
                     ListHeaderComponent={this._listHeaderComponent.bind(this)}
                     ListFooterComponent={this._listFooterComponent.bind(this)}
-                    ListEmptyComponent={this._listEmptyComponent.bind(this)}
+                    // ListEmptyComponent={this._listEmptyComponent.bind(this)}
                     onRefresh={this._onRefresh.bind(this)}
                     refreshing={this.state.isRefreshing}
                 >
@@ -340,14 +344,38 @@ export default class HomePage extends BComponent {
     _renderItem (item) {
 
         if(item.item.type == '1'){
+            let col = 4
+            let itemMargin = 0
+            let itemWidth = (deviceWidth - itemMargin*(col+1))/col
             return(
-                <View style={{flexDirection:'row',flexWrap:'wrap',flex:1,paddingBottom:10,backgroundColor:'white'}}>
+                <View style={{flexDirection:'row',flexWrap:'wrap',flex:1,backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#f9f9f9'}}>
                     {
                         item.item.data.map((item, i) => {
+
+                            let borderStyle = {}
+                            if(i%col == (col-1)){
+                                borderStyle = {
+                                    borderBottomWidth:itemBorder,
+                                    borderBottomColor:'#f9f9f9'
+                                }
+                            }else{
+                                borderStyle = {
+                                    borderRightWidth:itemBorder,
+                                    borderRightColor:'#f9f9f9',
+                                    borderBottomWidth:itemBorder,
+                                    borderBottomColor:'#f9f9f9'
+                                }
+                            }
+                            // let borderStyle = {
+                            //     borderRightWidth:1,
+                            //     borderRightColor:'#f9f9f9',
+                            //     borderBottomWidth:1,
+                            //     borderBottomColor:'#f9f9f9'
+                            // }
                             return(
                                 <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
-                                    <View style={{width:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'}}>
-                                        <Image resizeMode="contain" style={{marginTop:10, width:25,height:25}} source={{uri:item.icon}}/>
+                                    <View style={[{width:itemWidth,height:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'},borderStyle]}>
+                                        <Image resizeMode="contain" style={{marginTop:10, width:28,height:28}} source={{uri:item.icon}}/>
                                         <Text style={{marginTop:15,marginBottom:10,fontSize:setSpText(14),color:'#666666'}}>{item.name}</Text>
                                     </View>
                                 </TouchableOpacity>
@@ -357,6 +385,41 @@ export default class HomePage extends BComponent {
                 </View>
             )
         }else if(item.item.type == '2'){
+            // let col = 2
+            // let itemMargin = 0
+            // let itemWidth = (deviceWidth - itemMargin*(col+1))/col
+            //
+            // return (
+            //     <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#f9f9f9'}}>
+            //         {
+            //             item.item.data.map((item, i) => {
+            //                 let borderStyle = {}
+            //                 if(i%col == (col-1)){
+            //                     borderStyle = {
+            //                         borderBottomWidth:itemBorder,
+            //                         borderBottomColor:'#f9f9f9'
+            //                     }
+            //                 }else{
+            //                     borderStyle = {
+            //                         borderRightWidth:itemBorder,
+            //                         borderRightColor:'#f9f9f9',
+            //                         borderBottomWidth:1,
+            //                         borderBottomColor:'#f9f9f9'
+            //                     }
+            //                 }
+            //                 return(
+            //                     <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
+            //                         <View style={[{width:itemWidth,height:itemWidth*0.42,marginLeft:itemMargin,justifyContent:'center',alignItems:'center',flexDirection:'row'},borderStyle]}>
+            //                             <Image resizeMode="contain" style={{ width:28,height:28}} source={{uri:item.icon}}/>
+            //                             <Text style={{fontSize:setSpText(14),color:'#666666',marginLeft:10}}>{item.name}</Text>
+            //                         </View>
+            //                     </TouchableOpacity>
+            //                 )
+            //             })
+            //         }
+            //
+            //     </View>
+            // )
             return (
                 <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',paddingBottom:20,backgroundColor:'white'}}>
                     {
@@ -381,26 +444,7 @@ export default class HomePage extends BComponent {
     }
     _listFooterComponent(){
         return(
-            <View style={{backgroundColor:'white'}}>
-                <View style={{width:deviceWidth,height:10,backgroundColor:'#F9F9F9'}}/>
-                <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap'}}>
-                    {
-                        footData.map((item,index)=>{
-                            return (
-                                <View key={index} style={[{width:deviceWidth/3,flexDirection:'row',padding:10,justifyContent:'center',alignItems:'center'},index<3?{borderBottomWidth:1.5,borderBottomColor:'#f9f9f9'}:{},index%3<2?{borderRightWidth:1.5,borderRightColor:'#f9f9f9'}:{}]}>
-                                    <Image resizeMode="contain" style={{width:25, height:25}} source={item.logo}/>
-                                    <Text style={{fontSize:setSpText(14), color:'#333333',marginLeft:10}}>{item.title}</Text>
-                                </View>
-                            )
-                        })
-                    }
-                    <View style={{width:deviceWidth,justifyContent:'center',alignItems:'center',padding:30,backgroundColor:'#F9F9F9'}}>
-                        <Text style={{color:'#F9990A',fontSize:setSpText(18)}}>小企业财税管家</Text>
-                        <Text style={{fontSize:12,color:'#999999',marginTop:5}}>热线电话：400-107-0110</Text>
-                    </View>
-                </View>
-            </View>
-
+            <View style={{height:10}}/>
         )
     }
     _renderSectionHeader(item){
@@ -411,25 +455,57 @@ export default class HomePage extends BComponent {
     _listHeaderComponent(){
 
         let col = 3;
-        let marginLeft= 40;
+        let marginLeft= 0;
         let width = (deviceWidth - marginLeft*(col+1))/col
 
         return(
             <View style={{width:DeviceInfo.width, marginTop:DeviceInfo.OS==='ios'?isIphoneX()?0:-20:0}}>
                 {this._renderBannerView()}
-                <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
+                <View style={{flexDirection:'row',width:deviceWidth,flexWrap:'wrap'}}>
                     {
                         headerData.map((item,i)=>{
                             return(
-                                <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,item)}>
-                                    <View style={{justifyContent:'center',alignItems:'center',width,marginLeft}}>
-                                        <Image style={{marginTop:20,width:width-20, height:width-20}} source={item.logo }/>
-                                        <Text  style={{marginTop:15,fontSize:setSpText(12),color:'#666666',marginBottom:20}}>{item.title}</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                <View style={{backgroundColor:'white',width:deviceWidth,marginTop:i?10:0}}>
+                                    <SectionHeader style={{marginTop:10}} text ={item.title} />
+                                    {item.UItype === 1 ?<View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
+                                        {
+                                            item.productArr.map((pro,i)=>{
+                                                return(
+                                                    <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,pro)}>
+                                                        <View style={{justifyContent:'center',alignItems:'center',width,marginLeft,
+                                                            height:width}}>
+                                                            <Image style={{width:64, height:64}} source={pro.logo }/>
+                                                            <Text  style={{marginTop:15,fontSize:setSpText(16),color:'#666666',marginBottom:20}}>{pro.title}</Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                )
+                                            })
+                                        }
+                                    </View>:<View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',paddingBottom:20,backgroundColor:'white'}}>
+                                        {
+                                            item.productArr.map((pro, i) => {
+                                                return(
+                                                    <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,pro)}>
+                                                        <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,height:68,marginTop:10}} source={pro.logo }>
+                                                            <Text style={{backgroundColor:'transparent',fontSize:setSpText(22),color:'white',fontWeight:'bold'}}>{pro.title}</Text>
+                                                        </Image>
+                                                    </TouchableOpacity>
+                                                )
+                                            })
+                                        }
+
+                                    </View>}
+                                </View>
                             )
                         })
                     }
+                    <View style={{width:deviceWidth,paddingTop:10,backgroundColor:'#f9f9f9',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <View style={{height:DeviceInfo.onePR,backgroundColor:'#D8D8D8',width:24,marginRight:15}}/>
+                        <Text style={{color:'#999999',fontSize:setSpText(18)}}>
+                            小企业的财税管家
+                        </Text>
+                        <View style={{height:DeviceInfo.onePR,backgroundColor:'#D8D8D8',width:24,marginLeft:15}}/>
+                    </View>
                 </View>
             </View>
 
@@ -482,11 +558,22 @@ export default class HomePage extends BComponent {
     _goProductDetail(item){
 
         UMTool.onEvent(item.eventId)
-        pushJump(this.props.navigator, item.url,item.name);
+        if(item.url){
+            pushJump(this.props.navigator, item.url,item.name);
+
+        }else{
+            Toast.show('敬请期待')
+
+        }
     }
     _goColumnDetail(index,item){
         UMTool.onEvent(item.eventId)
-        pushJump(this.props.navigator, item.url,item.title);
+        if(item.url){
+            pushJump(this.props.navigator, item.url,item.title);
+
+        }else{
+            Toast.show('敬请期待')
+        }
     }
 
 

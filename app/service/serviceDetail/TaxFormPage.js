@@ -150,7 +150,6 @@ export default class TaxFormPage extends BComponent {
                 <TimeSearchBar
                     year={this.state.year}
                     month={this.state.month}
-                    isDemo = {this.props.is_demo}
                     callback = {this._callback.bind(this)}
                 />
                 <FlatList

@@ -168,7 +168,6 @@ export default class CashFlowPage extends BComponent {
             <View style={{backgroundColor:'#f9f9f9',flex:1}}>
                 <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="现金流" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
-                    isDemo = {this.props.is_demo}
                     year={this.state.year}
                     month={this.state.month}
                     callback = {this._callback.bind(this)}
