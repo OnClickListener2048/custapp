@@ -81,7 +81,7 @@ export default class HeaderView extends Component {
                             {leftNum}
                         </Text>
                     </View>
-                    <View style={[styles.wrapper3,{width:DeviceInfo.onePR,height:30,backgroundColor:'#F9F9F9'}]}/>
+                    <View style={[styles.wrapper3,{width:DeviceInfo.onePR,height:30,backgroundColor:'#F9F9F9',marginTop:30}]}/>
                     <View style={styles.wrapper3}>
                         <Text style={styles.te3}>
                             {rightDes}
