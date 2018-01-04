@@ -4055,9 +4055,9 @@ react-dom@16.0.0-alpha.12:
     object-assign "^4.1.0"
     prop-types "^15.5.6"
 
-react-native-actionsheet@^2.3.0:
-  version "2.3.0"
-  resolved "http://registry.npm.taobao.org/react-native-actionsheet/download/react-native-actionsheet-2.3.0.tgz#a9552a356dc5939829062353804d5e5609e8f969"
+"react-native-actionsheet@github:pilipa-cn/react-native-actionsheet#2.3.0.1":
+  version "2.3.0.1"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-actionsheet/tar.gz/af427422c7b134fb5b43c07c9d0de60cb7dab1fd"
 
 "react-native-alert@github:pilipa-cn/react-native-alert-cust#v1.0.2":
   version "1.0.2"
