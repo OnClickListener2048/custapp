@@ -160,11 +160,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     headportrait: {
-        height: 180/375*SCREEN_WIDTH,
+        height: 157/375*SCREEN_WIDTH,
         width: deviceWidth,
         backgroundColor: 'transparent',
         flexDirection: 'row',
-        paddingTop:180/375*SCREEN_WIDTH - 90,
+        paddingTop:157/375*SCREEN_WIDTH - 90,
 
 
     },

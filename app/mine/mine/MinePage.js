@@ -375,25 +375,26 @@ export default class MinePage extends BComponent {
             <View style={{flex:1,backgroundColor:'#FAFAFA'}}>
                 <ScrollView
                     contentContainerStyle={{backgroundColor:'#FAFAFA'}}>
-                    <TouchableOpacity  onPress={this.login.bind(this)}>
                         <Image style={styles.login_wrapper} source={require('../../img/Rectangle.png')}>
+                            <TouchableOpacity  onPress={this.login.bind(this)}>
 
                         <View style={{flexDirection:'row'}}>
                             <Image style={styles.head_img} source={this.state.avatar}/>
                             <View style={styles.login_title_wrapper}>
-                                <Text style={styles.login}>
+                                <Text style={[styles.login,{marginTop:this.state.company.length > 0 ? 0: 10}]}>
                                     {this.state.phone || this.state.userName}
                                 </Text>
-                                <Text numberOfLines={1} style={styles.company}>
-                                    {this.state.company}
+                                <Text numberOfLines={1} style={[styles.company,{marginTop:2}]}>
+                                    {this.state.company.length > 0 ?'公司名称:' + this.state.company : this.state.company}
                                 </Text>
                             </View>
-                        </View>
                             <Image style={styles.left_bu} source={require('../../img/right_white_btn.png')}/>
+
+                        </View>
+                            </TouchableOpacity>
 
                         </Image>
 
-                    </TouchableOpacity>
                     <CommenCell
                         leftText="我的企业"
                         onPress = {this._goto.bind(this,'CompanySurveyPage','企业概况')}
@@ -432,6 +433,7 @@ export default class MinePage extends BComponent {
                         // style={{marginTop:9}}
                         onPress = {this._call.bind(this,'')}
                     />
+
                     <CommenCell
                         leftText="加盟合作"
                         onPress={this._goColumnDetail.bind(this)}
@@ -570,12 +572,12 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         width:SCREEN_WIDTH,
         paddingHorizontal:20,
-        height:180/375*SCREEN_WIDTH,
+        height:157/375*SCREEN_WIDTH,
         paddingBottom:20,
-        paddingTop:180/375*SCREEN_WIDTH - 90,
+        paddingTop:157/375*SCREEN_WIDTH - 90,
 
         backgroundColor:'transparent',
-        marginTop:Platform.OS === 'ios' ?isIphoneX()?-35: -20 : -20,
+        marginTop:Platform.OS === 'ios' ?isIphoneX()?-35: -20 : 0,
         justifyContent:'space-between'
     },
 
@@ -586,7 +588,7 @@ const styles = StyleSheet.create({
     },
     login_title_wrapper:{
         width:SCREEN_WIDTH-30-70-22,
-        marginTop:13,
+        marginTop:11,
         marginLeft:10
     },
     login:{
