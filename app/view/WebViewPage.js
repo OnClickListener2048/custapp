@@ -256,12 +256,12 @@ export default class WebViewPage extends BComponent {
         return urlStr;
     }
 
+
     render(){
 
 
 
         let urlStr = this.appendURL();
-
 
         return(
             <View style={{flex:1,backgroundColor:'#ebebeb',position:'relative'}}>
@@ -272,6 +272,11 @@ export default class WebViewPage extends BComponent {
                     onLoadEnd = {this._onLoadEnd.bind(this)}
                     onMessage={this._handleMessage}
                     ref={webview => this.webview = webview}
+                    renderError={(e) => {
+                        if (e) {
+                        return;
+                        }
+                    }}
                 />
                 {
                     this.state.isShowProgress?<Progress.Bar
