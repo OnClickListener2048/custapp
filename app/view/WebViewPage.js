@@ -247,7 +247,7 @@ export default class WebViewPage extends BComponent {
 
                 }
             } else {
-                urlStr = urlStr + '?&userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+                urlStr = urlStr + '?userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
 
             }
         }
