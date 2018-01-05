@@ -278,7 +278,7 @@ export default class HomePage extends BComponent {
                 <View style={{width: DeviceInfo.width}}>
                     <Image source={require('../../img/verify_name.png')} style={{
                         width: deviceWidth, justifyContent: 'center',
-                        alignItems: 'center', marginTop: DeviceInfo.OS === 'ios' ? 20 : 0
+                        alignItems: 'center', marginTop: 0
                     }}>
                         {/*<Text style={{backgroundColor:'transparent',fontSize:24,color:'white',fontWeight:'bold'}}>公司名称查询</Text>*/}
                         {/*<Text style={{backgroundColor:'transparent',fontSize:24,color:'white',fontWeight:'bold'}}>提升工商注册通过率</Text>*/}
