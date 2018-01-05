@@ -96,11 +96,77 @@ export default class ServiceNavigatorBar extends Component {
 
     }
     _showDataPicker =() =>{
-        if (this.props.isDemo == 1){
-            if(this.props.isSecondLevel){
+
+        if(this.props.isSecondLevel){
+            //二级页面
+            if(this.props.isDemo == 1){
+                //演示数据
                 Toast.show('当前为演示数据！')
 
             }else{
+                //真实数据
+                Picker.init({
+                    pickerData: this.yearArr,
+                    selectedValue: [this.props.year],
+                    pickerConfirmBtnText:'确定',
+                    pickerCancelBtnText:'取消',
+                    pickerTitleText:'请选择年份',
+                    pickerTitleColor:[255,255,255,1],
+                    pickerConfirmBtnColor:[102,75,20,1],
+                    pickerCancelBtnColor:[102,75,20,1],
+                    pickerToolBarBg:[206,175,114,1],
+                    pickerBg:[255,255,255,1],
+                    onPickerConfirm: data => {
+                        if(this.props.year == data[0])return
+
+                        if(data[0] == this.year){
+                            this.props.callback && this.props.callback(data[0],this.month)
+
+                        }else{
+                            this.props.callback && this.props.callback(data[0],'12')
+
+                        }
+                    },
+                });
+                Picker.show();
+            }
+        }else{
+            //一级页面
+            if(this.props.isLogin){
+                //登录
+                if(this.props.isDemo == 1){
+                    //演示数据
+                    Toast.show('当前为演示数据！')
+
+                }else{
+                    //真实数据
+                    Picker.init({
+                        pickerData: this.yearArr,
+                        selectedValue: [this.props.year],
+                        pickerConfirmBtnText:'确定',
+                        pickerCancelBtnText:'取消',
+                        pickerTitleText:'请选择年份',
+                        pickerTitleColor:[255,255,255,1],
+                        pickerConfirmBtnColor:[102,75,20,1],
+                        pickerCancelBtnColor:[102,75,20,1],
+                        pickerToolBarBg:[206,175,114,1],
+                        pickerBg:[255,255,255,1],
+                        onPickerConfirm: data => {
+                            if(this.props.year == data[0])return
+
+                            if(data[0] == this.year){
+                                this.props.callback && this.props.callback(data[0],this.month)
+
+                            }else{
+                                this.props.callback && this.props.callback(data[0],'12')
+
+                            }
+                        },
+                    });
+                    Picker.show();
+                }
+            }else{
+                //未登录
                 Alert.alert('提示', '立即登录查看您公司的财务数据', [{
                     text: "再看看",
                     onPress: ()=>{
@@ -116,32 +182,7 @@ export default class ServiceNavigatorBar extends Component {
                     }]);
             }
 
-            return
         }
-        Picker.init({
-            pickerData: this.yearArr,
-            selectedValue: [this.props.year],
-            pickerConfirmBtnText:'确定',
-            pickerCancelBtnText:'取消',
-            pickerTitleText:'请选择年份',
-            pickerTitleColor:[255,255,255,1],
-            pickerConfirmBtnColor:[102,75,20,1],
-            pickerCancelBtnColor:[102,75,20,1],
-            pickerToolBarBg:[206,175,114,1],
-            pickerBg:[255,255,255,1],
-            onPickerConfirm: data => {
-                if(this.props.year == data[0])return
-
-                if(data[0] == this.year){
-                    this.props.callback && this.props.callback(data[0],this.month)
-
-                }else{
-                    this.props.callback && this.props.callback(data[0],'12')
-
-                }
-            },
-        });
-        Picker.show();
     }
     render() {
         return (
