@@ -36,7 +36,7 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
-  [NEHTTPEye setEnabled:YES];
+//  [NEHTTPEye setEnabled:YES];
 //  [DCLog setLogViewEnabled:YES];
 
    /** 友盟统计 */

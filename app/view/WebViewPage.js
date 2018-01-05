@@ -114,7 +114,7 @@ export default class WebViewPage extends BComponent {
 
     componentDidMount() {
         this.setState({ progress:0.95 });
-        console.log('-----',this.props.navigator)
+        // console.log('-----',this.props.navigator)
 
     }
     _onLoadEnd(){
@@ -134,7 +134,7 @@ export default class WebViewPage extends BComponent {
         // 通过 forEach 方法拿到数组中每个元素,将元素与参数的值进行拼接处理,并且放入 paramsArray 中
         paramsKeyArray.forEach(key => passPropsFinal[key] =  passProps[key] );
 
-        console.log( "网页信息后缀是否包含 showFooterTab = ", passPropsFinal['showFooterTab']);
+        // console.log( "网页信息后缀是否包含 showFooterTab = ", passPropsFinal['showFooterTab']);
 
         if (passPropsFinal['showFooterTab'] == 'true'){
             this.setState({isShowTabButton: true});
@@ -149,7 +149,7 @@ export default class WebViewPage extends BComponent {
 
         },second)
 
-        console.log('webview _onLoadEnd');
+        // console.log('webview _onLoadEnd');
         this.webview.postMessage(++this.data);
     }
     callPhone(){
@@ -245,7 +245,7 @@ export default class WebViewPage extends BComponent {
                 urlStr = urlStr + '?&userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
             }
         }
-        console.log('当前访问的网页地址是' + urlStr);
+        // console.log('当前访问的网页地址是' + urlStr);
 
         return urlStr;
     }
