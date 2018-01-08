@@ -400,11 +400,13 @@ export default class MinePage extends BComponent {
                         leftText="我的企业"
                         onPress = {this._goto.bind(this,'ChangeCompanyPage','我的企业')}
                         rightText={this.state.companyCount}
+                        style={{marginTop:9}}
                     />
                     <CommenCell
                         leftText="我的订单"
                         onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
                         style={{marginBottom:9}}
+                        underLine={false}
                         rightText={this.state.orderCount}
 
                     />
@@ -421,12 +423,14 @@ export default class MinePage extends BComponent {
                         <CommenCell
                         leftText="设置"
                         style={{marginBottom:9}}
+                        underLine={false}
                         onPress = {this._goto.bind(this,'SettingPage','设置')}
 
                         />:
                         <CommenCell
                             leftText="设置"
                             style={{marginBottom:9}}
+                            underLine={false}
                             leftTextIcon={require('../../img/new_icon.png')}
                             onPress = {this._goto.bind(this,'SettingPage','设置')}
 
@@ -441,11 +445,13 @@ export default class MinePage extends BComponent {
                     <CommenCell
                         leftText="加盟合作"
                         onPress={this._goColumnDetail.bind(this)}
+                        underLine={false}
 
                     />
 
                     <CommenCell
                         leftText="我要续费"
+                        underLine={false}
                         onPress={this._goFee.bind(this,'')}
                         style={{marginTop:9}}
                     />
