@@ -24,6 +24,7 @@ import Toast from 'react-native-root-toast';
 import {isIphoneX} from '../../util/iphoneX-helper'
 
 import * as apis from '../../apis';
+import Alert from "react-native-alert";
 
 export default class MinePage extends BComponent {
 
@@ -397,14 +398,17 @@ export default class MinePage extends BComponent {
 
                     <CommenCell
                         leftText="我的企业"
-                        onPress = {this._goto.bind(this,'CompanySurveyPage','企业概况')}
+                        onPress = {this._goto.bind(this,'ChangeCompanyPage','我的企业')}
                         rightText={this.state.companyCount}
+                        style={{marginTop:9}}
                     />
                     <CommenCell
                         leftText="我的订单"
                         onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
                         style={{marginBottom:9}}
+                        underLine={false}
                         rightText={this.state.orderCount}
+
                     />
 
                     {/*<CommenCell*/}
@@ -419,13 +423,17 @@ export default class MinePage extends BComponent {
                         <CommenCell
                         leftText="设置"
                         style={{marginBottom:9}}
+                        underLine={false}
                         onPress = {this._goto.bind(this,'SettingPage','设置')}
-                    />:
+
+                        />:
                         <CommenCell
                             leftText="设置"
                             style={{marginBottom:9}}
+                            underLine={false}
                             leftTextIcon={require('../../img/new_icon.png')}
                             onPress = {this._goto.bind(this,'SettingPage','设置')}
+
                         />}
 
                     <CommenCell
@@ -437,6 +445,15 @@ export default class MinePage extends BComponent {
                     <CommenCell
                         leftText="加盟合作"
                         onPress={this._goColumnDetail.bind(this)}
+                        underLine={false}
+
+                    />
+
+                    <CommenCell
+                        leftText="我要续费"
+                        underLine={false}
+                        onPress={this._goFee.bind(this,'')}
+                        style={{marginTop:9}}
                     />
 
                     {/*<CommenCell*/}
@@ -463,6 +480,34 @@ export default class MinePage extends BComponent {
     _call(){
         Linking.openURL('tel:400-107-0110')
     }
+
+    _goFee(){
+        Alert.alert('提示', '提交后，客服将于24小时内联系拨打您的手机号码', [{
+            text: "取消",
+            onPress: ()=>{
+                console.log('you clicked cancel');
+            },
+            color:'#999999'
+        },
+            {
+                text: "提交",
+                onPress: ()=>{
+                    Toast.show('提交成功！')
+                    apis.fee().then(
+                        (responseData) => {
+                            if (responseData.code == 0) {
+                                console.log('我要续费提交成功');
+                            }
+                        },
+                        (e) => {
+                            console.log('我要续费提交失败');
+                        }
+                    );
+
+                },
+            }]);
+    }
+
     _goto(screen, title ){
         if(screen === '')return;
 
