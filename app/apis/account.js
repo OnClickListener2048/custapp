@@ -72,6 +72,12 @@ export function about() {
     return postApi('/app/v0/about');
 }
 
+// 我要续费
+export function fee() {
+    return postApi('/api/v1/applypays');
+}
+
+
 // iOS 提审登陆信息
 export function mobilelogin() {
     return getApi('/api/v1/user/mobilelogin/option');

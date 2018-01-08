@@ -24,6 +24,7 @@ import Toast from 'react-native-root-toast';
 import {isIphoneX} from '../../util/iphoneX-helper'
 
 import * as apis from '../../apis';
+import Alert from "react-native-alert";
 
 export default class MinePage extends BComponent {
 
@@ -437,6 +438,13 @@ export default class MinePage extends BComponent {
                     <CommenCell
                         leftText="加盟合作"
                         onPress={this._goColumnDetail.bind(this)}
+
+                    />
+
+                    <CommenCell
+                        leftText="我要续费"
+                        onPress={this._goFee.bind(this,'')}
+                        style={{marginTop:9}}
                     />
 
                     {/*<CommenCell*/}
@@ -463,6 +471,34 @@ export default class MinePage extends BComponent {
     _call(){
         Linking.openURL('tel:400-107-0110')
     }
+
+    _goFee(){
+        Alert.alert('提示', '提交后，客服将于24小时内联系拨打您的手机号码', [{
+            text: "取消",
+            onPress: ()=>{
+                console.log('you clicked cancel');
+            },
+            color:'#999999'
+        },
+            {
+                text: "提交",
+                onPress: ()=>{
+                    Toast.show('提交成功！')
+                    apis.fee().then(
+                        (responseData) => {
+                            if (responseData.code == 0) {
+                                console.log('我要续费提交成功');
+                            }
+                        },
+                        (e) => {
+                            console.log('我要续费提交失败');
+                        }
+                    );
+
+                },
+            }]);
+    }
+
     _goto(screen, title ){
         if(screen === '')return;
 
