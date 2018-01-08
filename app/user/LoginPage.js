@@ -106,20 +106,20 @@ export default class LoginPage extends Component {
         this.setState({isInWechatLoading: true, loading: true});
         let loading = SActivityIndicator.show(true, "尝试微信登录中...");
 
-        let _timer = setTimeout(() => {
-            SActivityIndicator.hide(loading);
-            if (this.state.isInWechatLoading) {
-                this.setState({isInWechatLoading: false});//10秒后可点击返回
-                this.setState({loading: false});
-                Toast.show("操作超时");
-            }
-            clearTimeout(_timer);
-        }, 10000);
+        // let _timer = setTimeout(() => {
+        //     SActivityIndicator.hide(loading);
+        //     if (this.state.isInWechatLoading) {
+        //         this.setState({isInWechatLoading: false});//10秒后可点击返回
+        //         this.setState({loading: false});
+        //         Toast.show("操作超时");
+        //     }
+        //     clearTimeout(_timer);
+        // }, 10000);
 
 
         WeChat.sendAuthRequest(scope, state).then(
             res => {
-                console.log(JSON.stringify(res));
+                console.log("wechat sendAuthRequest()", JSON.stringify(res));
                 // {"code":"071Na2zw1jxpWb0Q1kzw1Al0zw1Na2zh","state":"wechat_sdk_demo","appid":"wx16da5000356a9497","errCode":0,"type":"SendAuth.Resp"}
                 // fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
                 //
