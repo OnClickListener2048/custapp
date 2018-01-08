@@ -21,15 +21,16 @@ import JPushModule from 'jpush-react-native';
 import ActionSheet from 'react-native-actionsheet';
 
 const CANCEL_INDEX = 0;
-const DESTRUCTIVE_INDEX = 3;
+const DESTRUCTIVE_INDEX = 4;
 
 const options = [
     '取消',
     '线上 www.pilipa.cn',
-    <Text style={{color: 'gray'}}>测试 x-www.i-counting.cn</Text>
+    '测试 x-www.i-counting.cn',
+    '清除设置'
 ];
 
-const title = <Text style={{color: '#000', fontSize: 18}}>请选择要切换的服务器, 切换后请重启App</Text>
+const title = '请选择要切换的服务器, 切换后请重启App';
 
 export default class SettingPage extends BComponent {
 
@@ -149,15 +150,24 @@ export default class SettingPage extends BComponent {
         this.ActionSheet.show();
     };
 
+    // 处理域名切换
     handleActionSheetPress = (i) => {
         console.log(i);
-        if(i === 1) {
-            Preferences.set('CONFIG_SERVER', 'https://www.pilipa.cn').then();
-        } else if(i === 2) {
-            Preferences.set('CONFIG_SERVER', 'https://x-www.i-counting.cn').then();
-        }
+        try {
+            if (i === 1) {
+                Preferences.set('CONFIG_SERVER', 'https://www.pilipa.cn').then();
+            } else if (i === 2) {
+                Preferences.set('CONFIG_SERVER', 'https://x-www.i-counting.cn').then();
+            } else if (i === 2) {
+                Preferences.remove('CONFIG_SERVER').then();
+            }
 
-        Toast.show("请重启App来使切换后的域名配置生效");
+            if (i !== 0) {
+                Toast.show("请手动重启App来使切换后的域名配置生效");
+            }
+        } catch (e) {
+            Toast.show("切换失败, 出错了");
+        }
     };
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together

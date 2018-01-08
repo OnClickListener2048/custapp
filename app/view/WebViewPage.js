@@ -69,6 +69,8 @@ export default class WebViewPage extends BComponent {
             name:'', //姓名
             message:'', //提交意见消息
             navigatorTitle:this.props.navigatorTitle,          //标题名称
+            UMTrack: '',     // 原生跳转到此网页传过来的埋点信息
+
         }
         this._handleMessage = this._handleMessage.bind(this);
 
@@ -98,12 +100,25 @@ export default class WebViewPage extends BComponent {
 
     componentWillMount() {
 
+        this.initNavigator()
         // 发送通知
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+
     }
+    initNavigator(){
+        this.props.navigator.setButtons({
+            rightButtons: [{title:'分享',id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+        });
+    }
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event)
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+            if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
 
-
+            }
+        }
+    }
 
     componentWillUnmount() {
         // 发送通知
@@ -114,7 +129,7 @@ export default class WebViewPage extends BComponent {
 
     componentDidMount() {
         this.setState({ progress:0.95 });
-        console.log('-----',this.props.navigator)
+        // console.log('-----',this.props.navigator)
 
     }
     _onLoadEnd(){
@@ -134,7 +149,7 @@ export default class WebViewPage extends BComponent {
         // 通过 forEach 方法拿到数组中每个元素,将元素与参数的值进行拼接处理,并且放入 paramsArray 中
         paramsKeyArray.forEach(key => passPropsFinal[key] =  passProps[key] );
 
-        console.log( "网页信息后缀是否包含 showFooterTab = ", passPropsFinal['showFooterTab']);
+        // console.log( "网页信息后缀是否包含 showFooterTab = ", passPropsFinal['showFooterTab']);
 
         if (passPropsFinal['showFooterTab'] == 'true'){
             this.setState({isShowTabButton: true});
@@ -149,14 +164,24 @@ export default class WebViewPage extends BComponent {
 
         },second)
 
-        console.log('webview _onLoadEnd');
+        // console.log('webview _onLoadEnd');
         this.webview.postMessage(++this.data);
     }
     callPhone(){
+        if (this.props.UMTrack.length > 0){
+            UMTool.onEvent(this.props.UMTrack + '_Consulting');
+
+        }
+
         Linking.openURL('tel:4001070110')
     }
 
     onlineMessage(){
+        if (this.props.UMTrack.length > 0){
+            // console.log('当前的埋点是:' + this.props.UMTrack);
+            UMTool.onEvent(this.props.UMTrack + '_OnMessage');
+
+        }
         //在线留言
         this.refs.modal3.open()
     }
@@ -245,7 +270,7 @@ export default class WebViewPage extends BComponent {
                 urlStr = urlStr + '?&userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
             }
         }
-        console.log('当前访问的网页地址是' + urlStr);
+        // console.log('当前访问的网页地址是' + urlStr);
 
         return urlStr;
     }
@@ -404,7 +429,7 @@ const styles = StyleSheet.create({
     btnTouchContainer: {
         flexDirection: 'row',
         height:50,
-        width:(SCREEN_WIDTH - 4)/2
+        width:SCREEN_WIDTH/2.0
     },
 
     btnContainer: {

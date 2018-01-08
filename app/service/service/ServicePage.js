@@ -299,7 +299,7 @@ export default class ServicePage extends BComponent {
                             tapBackgroundToDismiss:true
                         }
                     })}>
-                        <View style={{width:deviceWidth*0.7,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <View style={{width:deviceWidth*0.55,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
                             <Image source={require('../../img/change_arrow_white.png')}/>
                         </View>
@@ -331,7 +331,7 @@ export default class ServicePage extends BComponent {
                             },
                         }]);
                 }}>
-                    <View style={{width:deviceWidth*0.5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                    <View style={{width:deviceWidth*0.55,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                         <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
                         <Image   source={require('../../img/change_arrow_white.png')}/>
                     </View>
@@ -348,7 +348,7 @@ export default class ServicePage extends BComponent {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
-                <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo} isLogin={this.state.isLogin}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
                     year={this.state.year}
                     month={this.state.month}
