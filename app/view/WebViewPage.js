@@ -98,12 +98,25 @@ export default class WebViewPage extends BComponent {
 
     componentWillMount() {
 
+        this.initNavigator()
         // 发送通知
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+
     }
+    initNavigator(){
+        this.props.navigator.setButtons({
+            rightButtons: [{title:'分享',id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+        });
+    }
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event)
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+            if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
 
-
+            }
+        }
+    }
 
     componentWillUnmount() {
         // 发送通知
