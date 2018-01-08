@@ -35,7 +35,7 @@ pushJumpDataHome.forEach(data => {
  * @param urlStr - pilipa://view.services/cashflow?companyid=<111>&date=<2016-06>
  * @param urlTitle - 网页标题
  */
-export default function pushJump(navigator, urlStr, urlTitle = '网页') {
+export default function pushJump(navigator, urlStr, urlTitle = '网页',UMTrack = '') {
     try {
         let components = URI.parse(urlStr);
         console.log( "跳转目标 components = ", components);
@@ -51,7 +51,8 @@ export default function pushJump(navigator, urlStr, urlTitle = '网页') {
                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps:{
                         url:urlStr,
-                        navigatorTitle:urlTitle
+                        navigatorTitle:urlTitle,
+                        UMTrack:UMTrack
                     }
                 });
             }

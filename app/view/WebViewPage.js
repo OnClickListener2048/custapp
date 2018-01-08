@@ -69,6 +69,8 @@ export default class WebViewPage extends BComponent {
             name:'', //姓名
             message:'', //提交意见消息
             navigatorTitle:this.props.navigatorTitle,          //标题名称
+            UMTrack: '',     // 原生跳转到此网页传过来的埋点信息
+
         }
         this._handleMessage = this._handleMessage.bind(this);
 
@@ -166,10 +168,20 @@ export default class WebViewPage extends BComponent {
         this.webview.postMessage(++this.data);
     }
     callPhone(){
+        if (this.props.UMTrack.length > 0){
+            UMTool.onEvent(this.props.UMTrack + '_Consulting');
+
+        }
+
         Linking.openURL('tel:4001070110')
     }
 
     onlineMessage(){
+        if (this.props.UMTrack.length > 0){
+            // console.log('当前的埋点是:' + this.props.UMTrack);
+            UMTool.onEvent(this.props.UMTrack + '_OnMessage');
+
+        }
         //在线留言
         this.refs.modal3.open()
     }
