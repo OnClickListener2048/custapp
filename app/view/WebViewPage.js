@@ -25,6 +25,7 @@ import Toast from 'react-native-root-toast'
 const window = Dimensions.get('window');
 import Modal from '../view/Modalbox';
 import DeviceInfo from 'react-native-device-info';
+import * as WeChat from'react-native-wechat'
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 import * as apis from '../apis';
@@ -35,6 +36,7 @@ export const SCREEN_HEIGHT = window.height;
 export const SCREEN_WIDTH = window.width;
 
 const patchPostMessageFunction = function() {
+
     var originalPostMessage = window.postMessage;
 
     var patchedPostMessage = function(message, targetOrigin, transfer) {
@@ -55,7 +57,10 @@ const html ="";
 
 export default class WebViewPage extends BComponent {
     static defaultProps = {
-        url:''
+        url:'',
+        shareTitle:'噼里啪智能财税',
+        shareDescription:''
+
     };
     constructor(props) {
         super(props);
@@ -108,14 +113,14 @@ export default class WebViewPage extends BComponent {
     }
     initNavigator(){
         this.props.navigator.setButtons({
-            rightButtons: [{title:'分享',id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+            rightButtons: [{icon: require('../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
         });
     }
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         super.onNavigatorEvent(event)
         if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
             if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
-
+                this.refs.shareModel.open()
             }
         }
     }
@@ -260,14 +265,14 @@ export default class WebViewPage extends BComponent {
         );
     }
 
-    appendURL(){
+    appendURL(platform = 'app'){
         let urlStr = this.props.url;
         if (this.props.url.indexOf("pilipa") !== -1 || this.props.url.indexOf("i-counting") !== -1) {
             if (this.props.url.indexOf("?") !== -1) {
                 //包含
-                urlStr = urlStr + '&userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+                urlStr = urlStr + '&userAgent=custapp&platform='+platform+'&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
             } else {
-                urlStr = urlStr + '?&userAgent=custapp&platform=app&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+                urlStr = urlStr + '?&userAgent=custapp&platform='+platform+'&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
             }
         }
         // console.log('当前访问的网页地址是' + urlStr);
@@ -400,14 +405,71 @@ export default class WebViewPage extends BComponent {
                     </TouchableWithoutFeedback>
 
                 </Modal>
+                <Modal style={{height:187,backgroundColor:'#EDEDED'}} position={"bottom"} ref={"shareModel"}>
+                    <Text style={{fontSize:18,padding:16,textAlign:'center',color:'#666666'}}>分享</Text>
+                    <View style={{paddingLeft:70,paddingRight:70,flex:1,justifyContent:'space-around', alignItems:'center',flexDirection:'row',borderTopWidth:1,borderTopColor:'#E1E1E1'}}>
+                        <TouchableOpacity onPress={()=>{this._share('friend')}}>
+                            <View style={{alignItems:'center'}}>
+                                <Image source={require('../img/share_friend.png')}/>
+                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>分享微信</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{this._share('circle')}}>
+                            <View style={{alignItems:'center'}}>
+                                <Image source={require('../img/share_circle.png')}/>
+                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>分享朋友圈</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
             </View>
         )
     }
+    _share (type,title) {
+        let urlStr = this.appendURL();
+
+        if(type == 'friend'){
+            WeChat.isWXAppInstalled()
+                .then((isInstalled) => {
+                    if (isInstalled) {
+                        WeChat.shareToSession({
+                            title:this.props.shareTitle,
+                            description:this.props.shareDescription,
+                            type: 'news',
+                            webpageUrl: urlStr
+                        })
+                            .catch((error) => {
+                                // alert(error.message);
+                            });
+                    } else {
+                        // alert('没有安装微信软件，请您安装微信之后再试');
+                    }
+                });
+
+        }else{
+            WeChat.isWXAppInstalled()
+                .then((isInstalled) => {
+
+                    if (isInstalled) {
+
+                        WeChat.shareToTimeline({
+                            title:this.props.shareTitle,
+                            description:this.props.shareDescription,
+                            type: 'news',
+                            webpageUrl: urlStr
+                        })
+                            .catch((error) => {
+                                // alert(error.message);
+                            });
+                    } else {
+                        // alert('没有安装微信软件，请您安装微信之后再试');
+                    }
+                });
+        }
+    }
     _handleMessage(e) {
         // console.log('网页发送的信息',e.nativeEvent.data)
-
         UMTool.onEvent(e.nativeEvent.data)
-
     }
 
 }

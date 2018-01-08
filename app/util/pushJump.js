@@ -35,7 +35,7 @@ pushJumpDataHome.forEach(data => {
  * @param urlStr - pilipa://view.services/cashflow?companyid=<111>&date=<2016-06>
  * @param urlTitle - 网页标题
  */
-export default function pushJump(navigator, urlStr, urlTitle = '网页',UMTrack = '') {
+export default function pushJump(navigator, urlStr, urlTitle = '噼里啪智能财税',shareTitle='',shareDescription='',UMTrack = '') {
     try {
         let components = URI.parse(urlStr);
         console.log( "跳转目标 components = ", components);
@@ -52,7 +52,9 @@ export default function pushJump(navigator, urlStr, urlTitle = '网页',UMTrack 
                     passProps:{
                         url:urlStr,
                         navigatorTitle:urlTitle,
-                        UMTrack:UMTrack
+                        UMTrack:UMTrack,
+                        shareTitle:shareTitle,
+                        shareDescription:shareDescription
                     }
                 });
             }

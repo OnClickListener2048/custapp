@@ -457,7 +457,7 @@ export default class MinePage extends BComponent {
 
     _goColumnDetail(){
         UMTool.onEvent('leagueCooperation')
-        pushJump(this.props.navigator, H5_URL+'invest','加盟合作');
+        pushJump(this.props.navigator, H5_URL+'invest','加盟合作','噼里啪智能财税','加盟合作');
     }
 
     _call(){

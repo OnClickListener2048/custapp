@@ -556,13 +556,13 @@ export default class HomePage extends BComponent {
     }
     _goBannerDetail(item){
         UMTool.onEvent(item.eventsid)
-        pushJump(this.props.navigator, item.url,item.name,item.eventId);
+        pushJump(this.props.navigator, item.url,item.name,'噼里啪智能财税',item.name,item.eventId);
     }
     _goProductDetail(item){
 
         UMTool.onEvent(item.eventId)
         if(item.url){
-            pushJump(this.props.navigator, item.url,item.name,item.eventId);
+            pushJump(this.props.navigator, item.url,item.name,'噼里啪智能财税',item.name,item.eventId);
 
         }else{
             Toast.show('即将上线，敬请期待...')
@@ -572,7 +572,7 @@ export default class HomePage extends BComponent {
     _goColumnDetail(index,item){
         UMTool.onEvent(item.eventId)
         if(item.url){
-            pushJump(this.props.navigator, item.url,item.title,item.eventId);
+            pushJump(this.props.navigator, item.url,item.title,'噼里啪智能财税',item.title,item.eventId);
 
         }else{
             Toast.show('即将上线，敬请期待...')

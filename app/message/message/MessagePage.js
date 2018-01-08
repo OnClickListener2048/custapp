@@ -75,7 +75,7 @@ export default class MessagePage extends BComponent {
                     if (this.state.jpushMessage) {
                         // console.log('嘎嘎嘎2', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
 
-                        pushJump(this.props.navigator, this.state.jpushMessage.url);
+                        pushJump(this.props.navigator, this.state.jpushMessage.url,this.state.jpushMessage.title,this.state.jpushMessage.title,this.state.jpushMessage.content);
 
                         this.setState({
                             jpushMessage: ''
@@ -187,7 +187,7 @@ export default class MessagePage extends BComponent {
 
                 // pushJump(this.props.navigator, message.url);
                 if(NavigatorSelected){
-                    pushJump(NavigatorSelected, message.url);
+                    pushJump(NavigatorSelected, message.url,message.title,message.title,message.content);
 
                 }
 
@@ -232,7 +232,7 @@ export default class MessagePage extends BComponent {
                         // });
                         // pushJump(this.props.navigator, obj.url);
                         if(NavigatorSelected){
-                            pushJump(NavigatorSelected, obj.url);
+                            pushJump(NavigatorSelected, obj.url,obj.url,obj.title,obj.title,obj.content);
                         }
                         clearTimeout(this._timer);
                     }, 500);
@@ -406,8 +406,7 @@ export default class MessagePage extends BComponent {
 
     _jumpWithUrl(item){
 
-
-        pushJump(this.props.navigator, item.url);
+        pushJump(this.props.navigator, item.url,item.title,item.title,item.content);
     }
 
     _readed(item){
