@@ -356,10 +356,12 @@ export default class LoginPage extends Component {
                     // responseData.user.mobilePhone = '18877775555';// 调试
 
                     if (responseData.user.mobilePhone) {
+                        //responseData.user.mobilePhone = '18888888888';
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
                         //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '18099990000' responseData.user.mobilePhone
                         loading = SActivityIndicator.show(true, "读取公司信息中...")
+
                         apis.getCompany(responseData.user.mobilePhone).then(
                             (companyInfo) => {
                                 console.log("公司信息读取返回", companyInfo);
