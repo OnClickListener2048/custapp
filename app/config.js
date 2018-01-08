@@ -4,7 +4,7 @@
 
 import { Dimensions} from 'react-native';
 import './storage/Preferences.js';
-export const DEBUG = false ;// 开发包, 上线前请务必改为false
+export const DEBUG = true ;// 开发包, 上线前请务必改为false
 
 console.log('__DEV__开发模式', __DEV__);// 说明: __DEV__ 的值是自动设置的, 无需import
 // 参考: https://stackoverflow.com/questions/34315274/react-native-detect-dev-or-production-env
@@ -45,6 +45,7 @@ if(DEBUG) {// 测试环境变量, 上线时应删除
 
 export let API_BASE_URL = `${SCHEME}://${DOMAIN_API}`;// API服务基础地址
 
+// 读取调试开关切换后的域名
 if(DEBUG) {
     Preferences.get('CONFIG_SERVER').then(
         v => {
