@@ -15,6 +15,7 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
+import Alert from "react-native-alert";
 
 import CompanyInfoCell from './CompanyInfoCell'
 import BComponent from '../../base/BComponent'
@@ -62,28 +63,39 @@ export default class ChangeCompanyPage extends BComponent {
         );
     }
 
-    _press(item){
+    _alert(item){
         if (item.id === this.state.selectedCompanyId) {
-            this.props.navigator.dismissLightBox()
-            this.props.callback && this.props.callback()
             return;
         }
 
+        let tipStr = '是否设置\"' + item.name + '\"为默认看账企业'
+        Alert.alert('提示', tipStr, [{
+            text: "确认",
+            onPress: ()=>{
+                this._press(item);
+            },
+        },{
+            text: "取消",
+            onPress: ()=>{
+                console.log('you clicked cancel');
+            },
+            color:'#999999'
+        }]);
+    }
+
+    _press(item){
+
         this.setState({
             selectedCompanyId:item.id
-        })
+        });
 
         UserInfoStore.setCompany(item).then(
             (user) => {
                 console.log("公司信息保存成功");
                 DeviceEventEmitter.emit('ChangeCompany');
-                this.props.navigator.dismissLightBox()
-                this.props.callback && this.props.callback()
             },
             (e) => {
                 console.log("公司信息保存错误:", e);
-                this.props.navigator.dismissLightBox()
-                this.props.callback && this.props.callback()
             },
         );
 
@@ -113,7 +125,7 @@ export default class ChangeCompanyPage extends BComponent {
                                 this.state.dataSource.map((item,index)=>{
                                     return(
                                             <CompanyInfoCell
-                                                leftSelectBtnOnPress={this._press.bind(this,item)}
+                                                leftSelectBtnOnPress={this._alert.bind(this,item)}
                                                 rightBtnOnPress={this._pushToCompanySurveyPage.bind(this,item)}
                                                 underLine={(index === this.state.dataSource.length - 1 && this.state.dataSource.length > 0) ? false : true}
                                                 isClick ={false}
