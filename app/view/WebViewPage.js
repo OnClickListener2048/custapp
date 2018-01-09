@@ -31,10 +31,9 @@ const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方
 import * as apis from '../apis';
 import * as URI from "uri-js";
 import queryString from "query-string";
-
+let imgUrl = 'https://x-www.i-counting.cn/logo.png'
 export const SCREEN_HEIGHT = window.height;
 export const SCREEN_WIDTH = window.width;
-
 const patchPostMessageFunction = function() {
 
     var originalPostMessage = window.postMessage;
@@ -430,6 +429,7 @@ export default class WebViewPage extends BComponent {
         if (this.appendURL('wxapp').indexOf('showFooterTab=true') !== -1){
             urlStr = this.appendURL('wxapp').replace(/showFooterTab=true/g, "showFooterTab=false")
         }
+
         if(type == 'friend'){
             WeChat.isWXAppInstalled()
                 .then((isInstalled) => {
@@ -438,13 +438,16 @@ export default class WebViewPage extends BComponent {
                             title:this.props.shareTitle,
                             description:this.props.shareDescription,
                             type: 'news',
-                            webpageUrl: urlStr
+                            webpageUrl: urlStr,
+                            thumbImage:imgUrl
                         })
                             .catch((error) => {
                                 // alert(error.message);
                             });
                     } else {
                         // alert('没有安装微信软件，请您安装微信之后再试');
+                        Toast.show('没有安装微信软件，请您安装微信之后再试')
+
                     }
                 });
 
@@ -458,13 +461,16 @@ export default class WebViewPage extends BComponent {
                             title:this.props.shareTitle,
                             description:this.props.shareDescription,
                             type: 'news',
-                            webpageUrl: urlStr
+                            webpageUrl: urlStr,
+                            thumbImage:imgUrl
                         })
                             .catch((error) => {
                                 // alert(error.message);
                             });
                     } else {
                         // alert('没有安装微信软件，请您安装微信之后再试');
+                        Toast.show('没有安装微信软件，请您安装微信之后再试')
+
                     }
                 });
         }
