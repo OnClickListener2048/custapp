@@ -113,33 +113,18 @@ export default class ChangeCompanyPage extends BComponent {
                                 this.state.dataSource.map((item,index)=>{
                                     return(
                                             <CompanyInfoCell
-                                                leftTextStyle={{left: 4,width: SCREEN_WIDTH - 90 - 70}}
                                                 leftSelectBtnOnPress={this._press.bind(this,item)}
                                                 rightBtnOnPress={this._pushToCompanySurveyPage.bind(this,item)}
 
-                                                leftImgStyle = {{left: 0}}
                                                 underLine={(index === this.state.dataSource.length - 1 && this.state.dataSource.length > 0) ? false : true}
-                                                style={{width: SCREEN_WIDTH,height:52,backgroundColor:'#ffffff'}}
                                                 isClick ={false}
                                                 isRightBtnClick ={true}
 
                                                 leftIcon = {item.id==this.state.selectedCompanyId?require('../../img/com_choose_select.png'):require('../../img/com_choose_normal.png')}
                                                 leftText= {item.name}
-                                                leftTextNumLine = {2}
-                                                rightView = {
-                                                    <View style={{width: 90,height:50,flexDirection:'row', alignItems:'center',}}>
-                                                        <View style={{width: 42,borderRadius:2,height:20,backgroundColor:'#E2D4B7',
-                                                            justifyContent: 'center'}}>
-                                                        <Text  style={{color:'#ffffff',textAlign:'center',fontSize:10}}>服务中</Text>
-                                                        </View>
-                                                        <View style={{marginLeft:5,width: 42,borderRadius:2,height:20,backgroundColor:'#B0B0B0',
-                                                            justifyContent: 'center'}}>
-                                                            <Text  style={{color:'#ffffff',textAlign:'center',fontSize:10}}>被授权</Text>
-                                                        </View>
+                                                surviveText = {'服务中'}
+                                                ownerText = {'被授权'}
 
-
-                                                    </View>
-                                                }
                                             />
 
                                     )

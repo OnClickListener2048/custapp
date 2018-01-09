@@ -16,36 +16,21 @@ import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 export default class CompanyInfoCell extends Component {
     static defaultProps = {
         isClick:true,//是否可以点击，  true自带右侧箭头
-        onPress:function() {//点击事件
-
-        },
         isRightBtnClick:true,//是否可以点击，  true自带右侧箭头
-        rightBtnOnPress:function() {//右边按钮点击事件
-
-        },
-
-        leftSelectBtnOnPress:function() {//按钮点击事件
-
-        },
 
 
-        leftTextNumLine : 0, //左侧文本行数
+        onPress:function() {},//点击事件
+        rightBtnOnPress:function() {},//右边按钮点击事件
+        leftSelectBtnOnPress:function() {}, //按钮点击事件
+
+
         leftText:'',//左侧文字内容
-        leftTextStyle:{},//左侧文字样式
-        leftImgStyle:{},//左侧图片样式
         leftIcon:null,//左侧图片  本地图片传require（），网络图片传字符串
-        leftIconTouch:false,//左边图标是否可点击，默认不可点
-        leftTextIcon:null,//左侧图片(靠文字右侧图片)  本地图片传require（），网络图片传字符串
 
-        centerTextStyle:{}, //中间文字样式
-        centerText:'',//中间文字内容
-        rightText:'',//右侧副标题内容
-        closeRightIcon:false,//默认不关闭右侧图标
-        rightTextStyle:{},//右侧副标题样式
         underLine:true,//是否有分割线
         underLineStyle:{},//分割线样式自定义
-        style:{},//最外层盒子样式自定义 设置高 背景类似属性
-        rightView:null
+        surviveText:'',
+        ownerText:''
     };
 
     render() {
@@ -58,27 +43,14 @@ export default class CompanyInfoCell extends Component {
             }
         }
 
-        if(this.props.isClick){
-            //可以点击
-            return(
-                <TouchableOpacity onPress = {() => {this.props.onPress()}} >
-                    <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
-                        {this._renderLeftView()}
-                        {this._renderCenterView()}
-                        {this._renderRightView()}
-                    </View>
-                </TouchableOpacity>
-            );
-        }else{
-            //不可以点击
-            return(
-                <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
-                    {this._renderLeftView()}
-                    {this._renderCenterView()}
-                    {this._renderRightView()}
-                </View>
-            );
-        }
+
+        return(
+            <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
+                {this._renderLeftView()}
+                {this._renderRightView()}
+            </View>
+        );
+
     }
 
     _renderLeftView(){
@@ -87,7 +59,7 @@ export default class CompanyInfoCell extends Component {
 
         return (<View style = {styles.leftViewStyle}>
             <TouchableOpacity style={[styles.leftImgStyle, this.props.leftImgStyle,{width : 36 ,height:36,alignItems:'center',justifyContent:'center' }]} onPress = {() => {this.props.leftSelectBtnOnPress()}}>
-                <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
+                <Image resizeMode="center" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                        source={this.props.leftIcon}/>
             </TouchableOpacity>
         </View>)
@@ -97,20 +69,7 @@ export default class CompanyInfoCell extends Component {
 
     }
 
-    _renderCenterView(){
 
-        return(
-            <TouchableOpacity style={[styles.centerViewStyle]} onPress = {() => {this.props.rightBtnOnPress()}}>
-
-            <View style = {[styles.centerViewStyle]}>
-                <Text numberOfLines={2} style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
-            </View>
-            </TouchableOpacity>
-
-        );
-
-
-    }
 
     _renderRightView(){
 
@@ -120,8 +79,22 @@ export default class CompanyInfoCell extends Component {
 
                 <View style = {styles.rightViewStyle}>
 
-                        <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
-                    {this.props.rightView}
+                    <Image resizeMode = "center" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
+                    <View style={{width: 90,height:50,flexDirection:'row', alignItems:'center',}}>
+                        <View style={{width: 42,borderRadius:2,height:20,backgroundColor:'#E2D4B7',
+                            justifyContent: 'center'}}>
+                            <Text  style={{color:'#ffffff',textAlign:'center',fontSize:10}}>{this.props.surviveText}</Text>
+                        </View>
+                        <View style={{marginLeft:5,width: 42,borderRadius:2,height:20,backgroundColor:'#B0B0B0',
+                            justifyContent: 'center'}}>
+                            <Text  style={{color:'#ffffff',textAlign:'center',fontSize:10}}>{this.props.ownerText}</Text>
+                        </View>
+
+
+                    </View>
+
+                    <Text numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
+
                 </View>
                 </TouchableOpacity>
 
@@ -167,7 +140,7 @@ const styles = StyleSheet.create({
     },
 
     rightViewStyle:{
-        marginRight:4,
+        flex:1,
 
         flexDirection:'row-reverse',
         // 侧轴居中
@@ -179,17 +152,16 @@ const styles = StyleSheet.create({
     },
 
     leftTextStyle:{
-        fontSize:16,
-        color:'#333333'
-    },
-    centerTextStyle:{
+        flex:1,
+        marginLeft:2,
+        marginRight:6,
         fontSize:16,
         color:'#333333'
     },
 
     rightImgStyle:{ // 左边的图片
-        marginLeft:10,
-
+        width:26,
+        height:26
         // 圆角
     },
 
