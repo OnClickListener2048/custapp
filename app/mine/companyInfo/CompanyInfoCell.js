@@ -1,5 +1,5 @@
 /**
- * Created by zhuangzihao on 2017/9/18.
+ * Created by jinglan on 2018/1/9.
  */
 import React, { Component } from 'react';
 import {
@@ -11,14 +11,25 @@ import {
     TouchableOpacity,
 
 } from 'react-native';
-import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../config';
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 
-export default class CommenCell extends Component {
+export default class CompanyInfoCell extends Component {
     static defaultProps = {
         isClick:true,//是否可以点击，  true自带右侧箭头
         onPress:function() {//点击事件
 
         },
+        isRightBtnClick:true,//是否可以点击，  true自带右侧箭头
+        rightBtnOnPress:function() {//右边按钮点击事件
+
+        },
+
+        leftSelectBtnOnPress:function() {//按钮点击事件
+
+        },
+
+
+        leftTextNumLine : 0, //左侧文本行数
         leftText:'',//左侧文字内容
         leftTextStyle:{},//左侧文字样式
         leftImgStyle:{},//左侧图片样式
@@ -72,79 +83,28 @@ export default class CommenCell extends Component {
 
     _renderLeftView(){
 
-        if(this.props.leftIcon === null&&this.props.leftTextIcon === null){
-            //左边没图片
-            return(
-                <View style = {styles.leftViewStyle}>
-                    <Text numberOfLines={1} style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
-                </View>
-            );
-        }else if(this.props.leftIcon !== null&&this.props.leftTextIcon === null){
-            //左边有图片
-            if(typeof (this.props.leftIcon) == 'string'){
-                return(
-                    <View style = {styles.leftViewStyle}>
-                        {this.props.leftIconTouch?
-                            <TouchableOpacity onPress = {() => {this.props.onIconPress()}}>
-                                <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle]} source={{uri:this.props.leftIcon}} />
-                            </TouchableOpacity>
-                            :
-                            <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle]} source={{uri:this.props.leftIcon}} />
-
-                        }
-                        <Text style = {[styles.leftTextStyle,this.props.leftTextStyle,{marginLeft:10}]}>{this.props.leftText}</Text>
-                    </View>
-                );
-            }else {
-                return (
-                    <View style={styles.leftViewStyle}>
-                        {this.props.leftIconTouch?
-                            <TouchableOpacity onPress = {() => {this.props.onIconPress()}}>
-                                <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
-                                       source={this.props.leftIcon}/>
-                            </TouchableOpacity>
-                            :
-                            <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
-                                   source={this.props.leftIcon}/>
-                        }
-
-                        <Text style={[styles.leftTextStyle, this.props.leftTextStyle, {marginLeft: 10}]}>{this.props.leftText}</Text>
-                    </View>
-                )
-            }
-        }else if(this.props.leftIcon === null&&this.props.leftTextIcon !== null){
-            //左边有图片
-            if(typeof (this.props.leftTextIcon) == 'string'){
-                return(
-                    <View style = {styles.leftViewStyle}>
-                        <Text  style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
-                        <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle,{marginLeft:10}]} source={{uri:this.props.leftTextIcon}} />
-
-                    </View>
-                );
-            }else {
-                return(
-                    <View style = {styles.leftViewStyle}>
-                        <Text style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
-                        <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle,{marginLeft:10}]} source={this.props.leftTextIcon} />
-
-                    </View>
-                )
-            }
 
 
-        }
+        return (<View style = {styles.leftViewStyle}>
+            <TouchableOpacity style={[styles.leftImgStyle, this.props.leftImgStyle,{width : 36 ,height:36,alignItems:'center',justifyContent:'center' }]} onPress = {() => {this.props.leftSelectBtnOnPress()}}>
+                <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
+                       source={this.props.leftIcon}/>
+            </TouchableOpacity>
+            <Text numberOfLines={2} style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+        </View>)
+
+
 
 
     }
 
     _renderCenterView(){
 
-            return(
-                <View style = {styles.centerViewStyle}>
-                    <Text style = {[styles.centerTextStyle,this.props.centerTextStyle]}>{this.props.centerText}</Text>
-                </View>
-            );
+        return(
+            <View style = {styles.centerViewStyle}>
+                <Text style = {[styles.centerTextStyle,this.props.centerTextStyle]}>{this.props.centerText}</Text>
+            </View>
+        );
 
 
     }
@@ -157,9 +117,20 @@ export default class CommenCell extends Component {
             return(
                 <View style = {styles.rightViewStyle}>
                     {!this.props.closeRightIcon&&//控制右侧图标显示、隐藏
-                    <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../img/left_button.png')} />
+                    <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
                     }
                     <Text style = {[styles.rightTextStyle,this.props.rightTextStyle,{marginRight:10}]}>{this.props.rightText}</Text>
+                    {this.props.rightView}
+                </View>
+            );
+        }else if(this.props.isRightBtnClick){
+            //不可以点击
+            return(
+                <View style = {styles.rightViewStyle}>
+                    <TouchableOpacity style = {[styles.rightImgStyle,{width:36,height:36}]} onPress = {() => {this.props.rightBtnOnPress()}}>
+                        <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
+                    </TouchableOpacity>
+                    <Text style = {[styles.rightTextStyle,this.props.rightTextStyle]}>{this.props.rightText}</Text>
                     {this.props.rightView}
                 </View>
             );
@@ -186,13 +157,13 @@ const styles = StyleSheet.create({
         // 垂直居中
         alignItems:'center',
         // 高度
-         height:51/375.0*SCREEN_WIDTH,
+        height:51/375.0*SCREEN_WIDTH,
         // height:51,
 
         // 下边框
         // borderBottomColor:'#e8e8e8',
         // borderBottomWidth:0.5,
-        paddingLeft:14,
+        paddingLeft:2,
         paddingRight:14
     },
     leftViewStyle:{
