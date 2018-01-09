@@ -115,16 +115,13 @@ export default class ChangeCompanyPage extends BComponent {
                                             <CompanyInfoCell
                                                 leftSelectBtnOnPress={this._press.bind(this,item)}
                                                 rightBtnOnPress={this._pushToCompanySurveyPage.bind(this,item)}
-
                                                 underLine={(index === this.state.dataSource.length - 1 && this.state.dataSource.length > 0) ? false : true}
                                                 isClick ={false}
                                                 isRightBtnClick ={true}
-
                                                 leftIcon = {item.id==this.state.selectedCompanyId?require('../../img/com_choose_select.png'):require('../../img/com_choose_normal.png')}
                                                 leftText= {item.name}
                                                 surviveText = {'服务中'}
                                                 ownerText = {'被授权'}
-
                                             />
 
                                     )
