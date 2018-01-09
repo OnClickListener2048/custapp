@@ -525,7 +525,7 @@ export default class MinePage extends BComponent {
             UserInfoStore.getCompanyArr().then(
                 (companyArr) => {
                     console.log('companyArr-----',companyArr)
-                    if(companyArr && companyArr.length>1){
+                    if(companyArr && companyArr.length >= 1){
                         //多家
                         this.push({
                             screen: screen,
