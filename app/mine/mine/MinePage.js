@@ -520,24 +520,20 @@ export default class MinePage extends BComponent {
             }
         }
 
-        if(screen == 'CompanySurveyPage'){
+        if(screen == 'ChangeCompanyPage'){
 
             UserInfoStore.getCompanyArr().then(
                 (companyArr) => {
                     console.log('companyArr-----',companyArr)
                     if(companyArr && companyArr.length>1){
                         //多家
-                        this.props.navigator.showLightBox({
-                            screen: "ChangeCompanyLightBox",
-                            passProps: {
-                                callback: this.changeCallBack,
-                            },
-                            style: {
-                                backgroundBlur: 'none',
-                                backgroundColor: 'rgba(0,0,0,0.5)',
-                                tapBackgroundToDismiss:true
-                            }
+                        this.push({
+                            screen: screen,
+                            title:title,
+                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                         });
+
+
                     }else{
                         //一家或者没有
                         this.push({
@@ -550,7 +546,7 @@ export default class MinePage extends BComponent {
                 (e) => {
                     //一家或者没有
                     this.push({
-                        screen: screen,
+                        screen: 'CompanySurveyPage',
                         title:title,
                         backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     });
