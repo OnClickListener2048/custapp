@@ -96,18 +96,20 @@ export default class ChangeCompanyPage extends BComponent {
                 <View style={{flex:1}}>
 
 
-                        <ScrollView style={{width: SCREEN_WIDTH,backgroundColor:'orange'}}>
+                        <ScrollView style={{width: SCREEN_WIDTH,backgroundColor:'#FAFAFA'}}>
                             {
                                 this.state.dataSource.map((item,index)=>{
                                     return(
                                         <TouchableOpacity key={index} onPress={this._press.bind(this,item)}>
                                             <CommenCell
-                                                leftTextStyle={{width: SCREEN_WIDTH*0.7}}
+                                                leftTextStyle={{left: 4,width: SCREEN_WIDTH - 100 - 100}}
+                                                leftImgStyle = {{left: 4}}
                                                 underLine={false}
-                                                style={{width: SCREEN_WIDTH,backgroundColor:'green'}}
-                                                leftText={item.name}
+                                                style={{width: SCREEN_WIDTH,backgroundColor:'#ffffff'}}
                                                 isClick ={false}
-                                                rightView = {item.id==this.state.selectedCompanyId?<Image source={require('../../img/choose_seleted.png')}/>:<Image source={require('../../img/choose_normal.png')}/>}
+                                                leftIcon = {item.id==this.state.selectedCompanyId?require('../../img/com_choose_select.png'):require('../../img/com_choose_normal.png')}
+                                                leftText= {item.name}
+                                                leftTextNumLine = {2}
                                             />
                                         </TouchableOpacity>
 

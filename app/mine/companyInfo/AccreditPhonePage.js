@@ -68,8 +68,8 @@ export default class AccreditPhonePage extends BComponent {
 
                                 rightButtons: [
                                     {
-                                        icon: require('../../img/more_btn.png'),
-                                        buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+                                        icon: require('../../img/share.png'),
+                                        buttonColor: 'white', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
                                         buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
                                         buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
                                         id: 'more'
@@ -220,7 +220,7 @@ export default class AccreditPhonePage extends BComponent {
                 rightButtons: [
                     {
                         title: '取消',
-                        buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+                        buttonColor: 'white', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
                         buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
                         buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
                         id: 'cancel'
@@ -339,8 +339,8 @@ export default class AccreditPhonePage extends BComponent {
     static navigatorButtons = {
         rightButtons: [
             {
-                icon: require('../../img/more_btn.png'),
-                buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+                icon: require('../../img/share.png'),
+                buttonColor: 'white', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
                 buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
                 buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
                 id: 'more'
@@ -361,8 +361,8 @@ export default class AccreditPhonePage extends BComponent {
                 this.props.navigator.setButtons({
                     rightButtons: [
                         {
-                            icon: require('../../img/more_btn.png'),
-                            buttonColor: 'black', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+                            icon: require('../../img/share.png'),
+                            buttonColor: 'white', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
                             buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
                             buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
                             id: 'more'

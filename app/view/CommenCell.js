@@ -19,6 +19,7 @@ export default class CommenCell extends Component {
         onPress:function() {//点击事件
 
         },
+        leftTextNumLine : 0, //左侧文本行数
         leftText:'',//左侧文字内容
         leftTextStyle:{},//左侧文字样式
         leftImgStyle:{},//左侧图片样式
@@ -108,7 +109,7 @@ export default class CommenCell extends Component {
                                    source={this.props.leftIcon}/>
                         }
 
-                        <Text
+                        <Text numberOfLines={this.props.leftTextNumLine}
                             style={[styles.leftTextStyle, this.props.leftTextStyle, {marginLeft: 10}]}>{this.props.leftText}</Text>
                     </View>
                 )
@@ -118,7 +119,7 @@ export default class CommenCell extends Component {
             if(typeof (this.props.leftTextIcon) == 'string'){
                 return(
                     <View style = {styles.leftViewStyle}>
-                        <Text style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                        <Text  style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
                         <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle,{marginLeft:10}]} source={{uri:this.props.leftTextIcon}} />
 
                     </View>
