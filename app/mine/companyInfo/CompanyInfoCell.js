@@ -90,7 +90,6 @@ export default class CompanyInfoCell extends Component {
                 <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                        source={this.props.leftIcon}/>
             </TouchableOpacity>
-            <Text numberOfLines={2} style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
         </View>)
 
 
@@ -101,9 +100,13 @@ export default class CompanyInfoCell extends Component {
     _renderCenterView(){
 
         return(
-            <View style = {styles.centerViewStyle}>
-                <Text style = {[styles.centerTextStyle,this.props.centerTextStyle]}>{this.props.centerText}</Text>
+            <TouchableOpacity style={[styles.centerViewStyle]} onPress = {() => {this.props.rightBtnOnPress()}}>
+
+            <View style = {[styles.centerViewStyle]}>
+                <Text numberOfLines={2} style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
             </View>
+            </TouchableOpacity>
+
         );
 
 
@@ -111,38 +114,20 @@ export default class CompanyInfoCell extends Component {
 
     _renderRightView(){
 
-        if(this.props.isClick){
+            //不可以点击
+            return(
+                <TouchableOpacity style={[styles.rightViewStyle]} onPress = {() => {this.props.rightBtnOnPress()}}>
 
-            //可以点击
-            return(
                 <View style = {styles.rightViewStyle}>
-                    {!this.props.closeRightIcon&&//控制右侧图标显示、隐藏
-                    <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
-                    }
-                    <Text style = {[styles.rightTextStyle,this.props.rightTextStyle,{marginRight:10}]}>{this.props.rightText}</Text>
-                    {this.props.rightView}
-                </View>
-            );
-        }else if(this.props.isRightBtnClick){
-            //不可以点击
-            return(
-                <View style = {styles.rightViewStyle}>
-                    <TouchableOpacity style = {[styles.rightImgStyle,{width:36,height:36}]} onPress = {() => {this.props.rightBtnOnPress()}}>
+
                         <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
-                    </TouchableOpacity>
-                    <Text style = {[styles.rightTextStyle,this.props.rightTextStyle]}>{this.props.rightText}</Text>
                     {this.props.rightView}
                 </View>
+                </TouchableOpacity>
+
+
             );
-        }else{
-            //不可以点击
-            return(
-                <View style = {styles.rightViewStyle}>
-                    <Text style = {[styles.rightTextStyle,this.props.rightTextStyle]}>{this.props.rightText}</Text>
-                    {this.props.rightView}
-                </View>
-            );
-        }
+
     }
 
 }
@@ -151,7 +136,7 @@ const styles = StyleSheet.create({
         // 主轴的方向
         flexDirection:'row',
         // 主轴的对齐方式
-        justifyContent:'space-between',
+        // justifyContent:'space-between',
         // 背景颜色
         backgroundColor:'white',
         // 垂直居中
@@ -163,8 +148,7 @@ const styles = StyleSheet.create({
         // 下边框
         // borderBottomColor:'#e8e8e8',
         // borderBottomWidth:0.5,
-        paddingLeft:2,
-        paddingRight:14
+
     },
     leftViewStyle:{
         // 主轴的方向
@@ -178,9 +162,13 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         // 侧轴居中
         alignItems:'center',
+        height:51/375.0*SCREEN_WIDTH,
+
     },
 
     rightViewStyle:{
+        marginRight:4,
+
         flexDirection:'row-reverse',
         // 侧轴居中
         alignItems:'center',
@@ -200,6 +188,7 @@ const styles = StyleSheet.create({
     },
 
     rightImgStyle:{ // 左边的图片
+        marginLeft:10,
 
         // 圆角
     },
