@@ -44,8 +44,9 @@ export default class CompanySurveyPage extends BComponent {
             if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
                 console.log("跳转传值", this.state.companyid);
                 // 获取公司地址
-                UserInfoStore.getCompany().then(
-                    (company) => {
+                const company = this.props.company;
+                // UserInfoStore.getCompany().then(
+                //     (company) => {
                         console.log('company', company);
                         if (company) {
                             console.log("授权手机号" + company.id);
@@ -69,8 +70,8 @@ export default class CompanySurveyPage extends BComponent {
                             );
                         }
 
-                    }
-                );
+                //     }
+                // );
 
             }
         }
