@@ -425,9 +425,11 @@ export default class WebViewPage extends BComponent {
             </View>
         )
     }
-    _share (type,title) {
-        let urlStr = this.appendURL();
-
+    _share (type) {
+        let urlStr = this.appendURL('wxapp');
+        if (this.appendURL('wxapp').indexOf('showFooterTab=true') !== -1){
+            urlStr = this.appendURL('wxapp').replace(/showFooterTab=true/g, "showFooterTab=false")
+        }
         if(type == 'friend'){
             WeChat.isWXAppInstalled()
                 .then((isInstalled) => {
