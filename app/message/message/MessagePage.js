@@ -75,7 +75,7 @@ export default class MessagePage extends BComponent {
                     if (this.state.jpushMessage) {
                         // console.log('嘎嘎嘎2', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
 
-                        pushJump(this.props.navigator, this.state.jpushMessage.url,this.state.jpushMessage.title,this.state.jpushMessage.title,this.state.jpushMessage.content);
+                        pushJump(this.props.navigator, this.state.jpushMessage.url,this.state.jpushMessage.title?this.state.jpushMessage.title:'噼里啪智能财税',this.state.jpushMessage.title?this.state.jpushMessage.title:'噼里啪智能财税'.title,this.state.jpushMessage.content);
 
                         this.setState({
                             jpushMessage: ''
@@ -187,7 +187,7 @@ export default class MessagePage extends BComponent {
 
                 // pushJump(this.props.navigator, message.url);
                 if(NavigatorSelected){
-                    pushJump(NavigatorSelected, message.url,message.title,message.title,message.content);
+                    pushJump(NavigatorSelected, message.url,message.title?message.title:'噼里啪智能财税',message.title?message.title:'噼里啪智能财税',message.content);
 
                 }
 
@@ -406,7 +406,7 @@ export default class MessagePage extends BComponent {
 
     _jumpWithUrl(item){
 
-        pushJump(this.props.navigator, item.url,item.title,item.title,item.content);
+        pushJump(this.props.navigator, item.url,item.title?item.title:'噼里啪智能财税',item.title?item.title:'噼里啪智能财税',item.content);
     }
 
     _readed(item){
