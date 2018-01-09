@@ -53,6 +53,7 @@ export default class LoginPage extends Component {
 
     constructor(props) {
         super(props);
+        global._inWechatCallback = false;// 是否在微信回调中, 全局变量, TODO, 所有全局变量集中存储
 
         this.state = {
             mobile: '',     // 手机号
@@ -99,12 +100,13 @@ export default class LoginPage extends Component {
         }
     }
 
+
     // 执行登陆操作
     _doWeChatLogin = () => {
         let scope = 'snsapi_userinfo';
         let state = 'wechat_sdk_demo';
-        this.setState({isInWechatLoading: true, loading: true});
-        let loading = SActivityIndicator.show(true, "尝试微信登录中...");
+        // this.setState({isInWechatLoading: true, loading: true});
+        // let loading = SActivityIndicator.show(true, "尝试微信登录中...");
 
         // let _timer = setTimeout(() => {
         //     SActivityIndicator.hide(loading);
@@ -116,9 +118,14 @@ export default class LoginPage extends Component {
         //     clearTimeout(_timer);
         // }, 10000);
 
-
         WeChat.sendAuthRequest(scope, state).then(
             res => {
+                if(global._inWechatCallback) {
+                    console.log("已经在微信回调中");
+                    return;
+                }
+
+                global._inWechatCallback = true;
                 console.log("wechat sendAuthRequest()", JSON.stringify(res));
                 // {"code":"071Na2zw1jxpWb0Q1kzw1Al0zw1Na2zh","state":"wechat_sdk_demo","appid":"wx16da5000356a9497","errCode":0,"type":"SendAuth.Resp"}
                 // fetch('https://x-id.i-counting.cn/ua/wechat/callback?code='+res.code).then(response=>{
@@ -129,9 +136,9 @@ export default class LoginPage extends Component {
                 // }
                 apis.wechatToken(res.code).then(
                     responseData => {
-                        SActivityIndicator.hide(loading);
+                        // SActivityIndicator.hide(loading);
                         console.log('wechat token responseData', responseData);
-                        this.setState({isInWechatLoading: false});
+                        // this.setState({isInWechatLoading: false});
                         let result = JSON.parse(responseData);
                         if (result.code === 0 && result.access_token) {
                             console.log('save access_token');
@@ -151,6 +158,8 @@ export default class LoginPage extends Component {
                             this.setState({isInWechatLoading: false});
                             this.setState({loading: false});
                         }
+
+                        global._inWechatCallback = false;
                     },
                     e => {
                         this.setState({isInWechatLoading: false});
@@ -158,15 +167,17 @@ export default class LoginPage extends Component {
                         console.log('出错了', e);
                         SActivityIndicator.hide(loading);
                         this.setState({loading: false});
+                        global._inWechatCallback = false;
                     },
                 );
             },
             e => {
-                this.setState({isInWechatLoading: false});
-                this.setState({loading: false});
+                // this.setState({isInWechatLoading: false});
+                // this.setState({loading: false});
                 Toast.show("对不起, 操作已取消或失败, 请稍候重试");
                 console.log('出错了', e);
-                SActivityIndicator.hide(loading);
+                // SActivityIndicator.hide(loading);
+                global._inWechatCallback = false;
             });
     };
 
