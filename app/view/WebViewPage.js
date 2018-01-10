@@ -410,20 +410,20 @@ export default class WebViewPage extends BComponent {
                         <TouchableOpacity onPress={()=>{this._share('friend')}}>
                             <View style={{alignItems:'center'}}>
                                 <Image source={require('../img/share_friend.png')}/>
-                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>分享微信</Text>
+                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>微信好友</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>{this._share('circle')}}>
                             <View style={{alignItems:'center'}}>
                                 <Image source={require('../img/share_circle.png')}/>
-                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>分享朋友圈</Text>
+                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>朋友圈</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
                 </Modal>
             </View>
         )
-        
+
     }
     _share (type) {
         let urlStr = this.appendURL('wxapp');
