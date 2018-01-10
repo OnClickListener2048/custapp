@@ -132,8 +132,8 @@ export default class ChangeCompanyPage extends BComponent {
                                                 isRightBtnClick ={true}
                                                 leftIcon = {item.id==this.state.selectedCompanyId?require('../../img/com_choose_select.png'):require('../../img/com_choose_normal.png')}
                                                 leftText= {item.name}
-                                                surviveText = {'服务中'}
-                                                ownerText = {'被授权'}
+                                                surviveText = {item.service_tag}
+                                                ownerText = {item.owner_tag}
                                             />
 
                                     )
