@@ -70,16 +70,16 @@ export default class ChangeCompanyPage extends BComponent {
 
         let tipStr = '是否设置\"' + item.name + '\"为默认看账企业'
         Alert.alert('提示', tipStr, [{
-            text: "确认",
-            onPress: ()=>{
-                this._press(item);
-            },
-        },{
             text: "取消",
             onPress: ()=>{
                 console.log('you clicked cancel');
             },
             color:'#999999'
+        },{
+            text: "确认",
+            onPress: ()=>{
+                this._press(item);
+            },
         }]);
     }
 
