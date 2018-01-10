@@ -423,6 +423,7 @@ export default class WebViewPage extends BComponent {
                 </Modal>
             </View>
         )
+        
     }
     _share (type) {
         let urlStr = this.appendURL('wxapp');
