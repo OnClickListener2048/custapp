@@ -384,20 +384,21 @@ export default class LoginPage extends Component {
 
                                     let tmpCompaniesArr = companyInfo.list;
 
+                                    if (companyInfo.applypay) {
+                                        UserInfoStore.setApplyPay(JSON.stringify(companyInfo.applypay)).then(
+                                            (applypay) => {
+                                                console.log("公司是否显示续费按钮保存成功");
+                                                this.pop();
 
-                                    UserInfoStore.setApplyPay(JSON.stringify(companyInfo.applypay)).then(
-                                        (applypay) => {
-                                            console.log("公司是否显示续费按钮保存成功");
-                                            this.pop();
-
-                                        },
-                                        (e) => {
-                                            console.log("公司是否显示续费按钮保存错误:", e);
-                                            this.pop();
+                                            },
+                                            (e) => {
+                                                console.log("公司是否显示续费按钮保存错误:", e);
+                                                this.pop();
 
 
-                                        },
-                                    );
+                                            },
+                                        );
+                                    }
 
                                     UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
                                         (user) => {
