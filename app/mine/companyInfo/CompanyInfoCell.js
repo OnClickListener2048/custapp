@@ -84,7 +84,7 @@ export default class CompanyInfoCell extends Component {
                         }
                         {this.props.ownerText.length > 0 &&
                         <View style={{
-                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',
+                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',opacity:0.5,
                             justifyContent: 'center'
                         }}>
                             <Text style={{

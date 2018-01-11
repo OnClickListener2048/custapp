@@ -449,12 +449,6 @@ export default class MinePage extends BComponent {
 
                     />
 
-                    <CommenCell
-                        leftText="我要续费"
-                        underLine={false}
-                        onPress={this._goFee.bind(this,'')}
-                        style={{marginTop:9}}
-                    />
 
                     {/*<CommenCell*/}
                         {/*leftText="查看日志"*/}
@@ -481,37 +475,7 @@ export default class MinePage extends BComponent {
         Linking.openURL('tel:400-107-0110')
     }
 
-    _goFee(){
-        Alert.alert('提示', '提交后，客服将于24小时内联系拨打您的手机号码', [{
-            text: "取消",
-            onPress: ()=>{
-                console.log('you clicked cancel');
-            },
-            color:'#999999'
-        },
-            {
-                text: "提交",
-                onPress: ()=>{
 
-                    apis.fee().then(
-                        (responseData) => {
-                            if (responseData.code == 0) {
-                                console.log('我要续费提交成功');
-                                Toast.show('提交成功！')
-                            }else{
-                                Toast.show('提交失败！')
-                            }
-                        },
-                        (e) => {
-                            console.log('我要续费提交失败');
-                            Toast.show('提交失败！')
-
-                        }
-                    );
-
-                },
-            }]);
-    }
 
     _goto(screen, title ){
         if(screen === '')return;
@@ -530,7 +494,7 @@ export default class MinePage extends BComponent {
             UserInfoStore.getCompanyArr().then(
                 (companyArr) => {
                     console.log('companyArr-----',companyArr)
-                    if(companyArr && companyArr.length >= 1){
+                    // if(companyArr && companyArr.length >= 1){
                         //多家
                         this.push({
                             screen: screen,
@@ -539,14 +503,7 @@ export default class MinePage extends BComponent {
                         });
 
 
-                    }else{
-                        //一家或者没有
-                        this.push({
-                            screen: screen,
-                            title:title,
-                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                        });
-                    }
+
                 },
                 (e) => {
                     //一家或者没有

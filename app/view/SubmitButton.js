@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         alignItems: 'center',
-        height: px2dp(88),
+        height: 44,
         width: px2dp(600),
         marginTop: px2dp(45),
         borderWidth: 0,

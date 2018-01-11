@@ -16,6 +16,9 @@ import {
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
 import Alert from "react-native-alert";
+import SubmitButton from "../../view/SubmitButton";
+import * as apis from '../../apis';
+import Toast from 'react-native-root-toast';
 
 import CompanyInfoCell from './CompanyInfoCell'
 import BComponent from '../../base/BComponent'
@@ -25,20 +28,23 @@ export default class ChangeCompanyPage extends BComponent {
         super(props);
         this.state = {
             dataSource:[],
+            isShowButton:false,
             selectedCompanyId:'2'
         };
+
+
 
         UserInfoStore.getCompanyArr().then(
             (companyArr) => {
                 if (companyArr) {
 
+
                     if (companyArr && companyArr.length > 0) {
                         let arr = JSON.parse(JSON.stringify(companyArr))
                         this.setState({dataSource: arr});
+                        }
 
 
-
-                    }
                 }else {
                     console.log("读取数组为空");
 
@@ -61,6 +67,17 @@ export default class ChangeCompanyPage extends BComponent {
                 console.log("读取信息错误:", e);
             },
         );
+
+        UserInfoStore.getApplyPay().then(
+            (applyPay) => {
+                console.log('applyPay返回值为applyPay=', applyPay);
+                    this.setState({isShowButton: applyPay == 'true'});
+
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
     }
 
     _alert(item){
@@ -68,7 +85,10 @@ export default class ChangeCompanyPage extends BComponent {
             return;
         }
 
+
         let tipStr = '是否设置\"' + item.name + '\"为默认看账企业'
+
+
         Alert.alert('提示', tipStr, [{
             text: "取消",
             onPress: ()=>{
@@ -81,6 +101,39 @@ export default class ChangeCompanyPage extends BComponent {
                 this._press(item);
             },
         }]);
+
+    }
+
+    _goFee(){
+        Alert.alert('提示', '提交后，客服将于24小时内联系拨打您的手机号码', [{
+            text: "取消",
+            onPress: ()=>{
+                console.log('you clicked cancel');
+            },
+            color:'#999999'
+        },
+            {
+                text: "提交",
+                onPress: ()=>{
+
+                    apis.fee().then(
+                        (responseData) => {
+                            if (responseData.code == 0) {
+                                console.log('我要续费提交成功');
+                                Toast.show('提交成功！')
+                            }else{
+                                Toast.show('提交失败！')
+                            }
+                        },
+                        (e) => {
+                            console.log('我要续费提交失败');
+                            Toast.show('提交失败！')
+
+                        }
+                    );
+
+                },
+            }]);
     }
 
     _press(item){
@@ -117,10 +170,10 @@ export default class ChangeCompanyPage extends BComponent {
     render() {
         return (
             <TouchableWithoutFeedback onPress={()=>this.props.navigator.dismissLightBox()}>
-                <View style={{flex:1}}>
+                <View style={{flex:1,backgroundColor:'#fafafa'}}>
 
 
-                        <ScrollView style={{width: SCREEN_WIDTH,backgroundColor:'#FAFAFA'}}>
+                        <ScrollView style={{width: SCREEN_WIDTH,height:this.state.isShowButton === true ? SCREEN_HEIGHT - 44 - 40 : SCREEN_HEIGHT,backgroundColor:'#fafafa'}}>
                             {
                                 this.state.dataSource.map((item,index)=>{
                                     return(
@@ -140,6 +193,18 @@ export default class ChangeCompanyPage extends BComponent {
                                 })
                             }
                         </ScrollView>
+
+                    {this.state.isShowButton === true &&
+                    <SubmitButton onPress={this._goFee}
+                                  isEnabled={true}
+
+                                  text="我要续费"
+                    />}
+                    {this.state.isShowButton === true &&
+
+                    <View style = {{justifyContent:'center',alignItems:'center',backgroundColor:'#fafafa',height:20}}/>}
+
+
                 </View>
             </TouchableWithoutFeedback>
         );

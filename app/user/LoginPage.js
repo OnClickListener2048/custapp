@@ -367,7 +367,7 @@ export default class LoginPage extends Component {
                     // responseData.user.mobilePhone = '18877775555';// 调试
 
                     if (responseData.user.mobilePhone) {
-                        // responseData.user.mobilePhone = '18888888888';
+                        //responseData.user.mobilePhone = '18888888888';
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
                         //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '18099990000' responseData.user.mobilePhone
@@ -384,7 +384,21 @@ export default class LoginPage extends Component {
 
                                     let tmpCompaniesArr = companyInfo.list;
 
-                                    //需要注掉到时候
+
+                                    UserInfoStore.setApplyPay(JSON.stringify(companyInfo.applypay)).then(
+                                        (applypay) => {
+                                            console.log("公司是否显示续费按钮保存成功");
+                                            this.pop();
+
+                                        },
+                                        (e) => {
+                                            console.log("公司是否显示续费按钮保存错误:", e);
+                                            this.pop();
+
+
+                                        },
+                                    );
+
                                     UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
                                         (user) => {
                                             console.log("公司信息保存成功");
@@ -419,6 +433,7 @@ export default class LoginPage extends Component {
                                 } else {
                                     UserInfoStore.removeCompany().then();
                                     UserInfoStore.removeCompanyArr().then();
+                                    UserInfoStore.removeApplyPay().then();
                                     this.pop();
 
                                 }
@@ -428,6 +443,7 @@ export default class LoginPage extends Component {
                                 this.setState({loading: false});
                                 UserInfoStore.removeCompany().then();
                                 UserInfoStore.removeCompanyArr().then();
+                                UserInfoStore.removeApplyPay().then();
 
                                 console.log("公司信息读取错误返回:", e);
                                 this.pop();
