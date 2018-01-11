@@ -173,7 +173,7 @@ export default class ChangeCompanyPage extends BComponent {
                 <View style={{flex:1,backgroundColor:'#fafafa'}}>
 
 
-                        <ScrollView style={{width: SCREEN_WIDTH,height:this.state.isShowButton === true ? SCREEN_HEIGHT - 44 - 40 : SCREEN_HEIGHT,backgroundColor:'#fafafa'}}>
+                        <ScrollView style={{width: SCREEN_WIDTH,height:this.state.isShowButton === true ? SCREEN_HEIGHT - 50 - 40 : SCREEN_HEIGHT,backgroundColor:'#fafafa'}}>
                             {
                                 this.state.dataSource.map((item,index)=>{
                                     return(
