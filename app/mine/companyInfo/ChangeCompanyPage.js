@@ -78,10 +78,13 @@ export default class ChangeCompanyPage extends BComponent {
 
 
     _loadData(){
+        let loading = SActivityIndicator.show(true, "载入中...");
 
 
         apis.getCompany(this.state.userMobile).then(
             (companyInfo) => {
+                SActivityIndicator.hide(loading);
+
                 if (companyInfo && companyInfo.list) {
 
                     let tmpCompaniesArr = companyInfo.list;
@@ -109,7 +112,6 @@ export default class ChangeCompanyPage extends BComponent {
 
                     UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
                         (user) => {
-
                         },
                         (e) => {
 
