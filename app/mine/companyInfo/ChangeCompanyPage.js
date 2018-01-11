@@ -29,32 +29,14 @@ export default class ChangeCompanyPage extends BComponent {
         this.state = {
             dataSource:[],
             isShowButton:false,
+            userMobile:'',
             selectedCompanyId:'2'
         };
 
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
 
-        UserInfoStore.getCompanyArr().then(
-            (companyArr) => {
-                if (companyArr) {
 
-
-                    if (companyArr && companyArr.length > 0) {
-                        let arr = JSON.parse(JSON.stringify(companyArr))
-                        this.setState({dataSource: arr});
-                        }
-
-
-                }else {
-                    console.log("读取数组为空");
-
-
-                }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
-        );
 
         UserInfoStore.getCompany().then(
             (company) => {
@@ -68,17 +50,128 @@ export default class ChangeCompanyPage extends BComponent {
             },
         );
 
-        UserInfoStore.getApplyPay().then(
-            (applyPay) => {
-                console.log('applyPay返回值为applyPay=', applyPay);
-                    this.setState({isShowButton: applyPay == 'true'});
+    }
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        // console.log('ApplicationCenterPage event.type', event.type);
+        //console.log('ApplicationCenterPage event.type', event.id);
+        super.onNavigatorEvent(event)
+        if (event.id === 'willAppear') {
 
+            UserInfoStore.getUserInfo().then(
+                (user) => {
+
+                    if (user && user.mobilePhone.length>0) {
+                        this.setState({userMobile: user.mobilePhone,
+                                        });
+                        this._loadData();
+
+                    }
+                },
+                (e) => {
+                    console.log("读取信息错误:", e);
+                },
+            );
+
+        }
+    }
+
+
+
+    _loadData(){
+
+
+        apis.getCompany(this.state.userMobile).then(
+            (companyInfo) => {
+                if (companyInfo && companyInfo.list) {
+
+                    let tmpCompaniesArr = companyInfo.list;
+
+                    if (companyInfo.applypay) {
+                        this.setState({isShowButton: companyInfo.applypay == true});
+
+                        UserInfoStore.setApplyPay(JSON.stringify(companyInfo.applypay)).then(
+                            (applypay) => {
+
+                            },
+                            (e) => {
+
+                            },
+                        );
+                    }
+
+
+                    if (tmpCompaniesArr && tmpCompaniesArr.length > 0) {
+
+                        this.setState({dataSource: tmpCompaniesArr});
+                    }
+
+
+
+                    UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+                        (user) => {
+
+                        },
+                        (e) => {
+
+                        },
+                    );
+
+
+
+                    let isFind = false;
+
+                    if (tmpCompaniesArr.length > 0) {
+
+                        for (let i = 0; i < tmpCompaniesArr.length; i++){
+                            let companyInfo = tmpCompaniesArr[i];
+                            if (companyInfo.id === this.state.selectedCompanyId){
+                                isFind = true;
+                                break;
+                            }
+
+                            if (i == tmpCompaniesArr.length-1 && isFind === false){
+
+                                let selectCompanyInfo = tmpCompaniesArr[0];
+                                UserInfoStore.setCompany(selectCompanyInfo).then(
+                                    (user) => {
+                                        console.log("公司信息保存成功");
+                                        // 选中我的页面
+                                        this.setState({selectedCompanyId: selectCompanyInfo.id});
+
+
+                                    },
+                                    (e) => {
+
+                                    },
+                                );
+                            }
+                        }
+
+
+
+                    } else {
+
+                    }
+
+
+                } else {
+                    UserInfoStore.removeCompany().then();
+                    UserInfoStore.removeCompanyArr().then();
+                    UserInfoStore.removeApplyPay().then();
+
+                }
             },
             (e) => {
-                console.log("读取信息错误:", e);
+                UserInfoStore.removeCompany().then();
+                UserInfoStore.removeCompanyArr().then();
+                UserInfoStore.removeApplyPay().then();
+
             },
         );
     }
+
+
+
 
     _alert(item){
         if (item.id === this.state.selectedCompanyId) {
