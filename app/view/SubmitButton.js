@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',
         height: 50,
-        width: 345,
+        width: SCREEN_WIDTH - 30,
         marginTop: px2dp(45),
         borderWidth: 0,
     },
