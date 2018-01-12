@@ -7,9 +7,10 @@ import LoginPage from './user/LoginPage';
 import HomePage from './home/home/HomePage';
 import VerifyNamePage from './home/VerifyName/VerifyNamePage';
 import PersonalDataPage from './mine/mine/PersonalDataPage';
-import MessagePage from './message/message/MessagePage';
 import VerifyResultPage from './home/VerifyName/VerifyResultPage';
+import MessagePage from './message/message/MessagePage';
 
+import ServiceMessagePage from './message/message/ServiceMessagePage';
 
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
@@ -60,6 +61,7 @@ export default function () {
     reg('VerifyResultPage', () => VerifyResultPage);
     reg('PersonalDataPage', () => PersonalDataPage);
     reg('MessagePage', () => MessagePage);
+    reg('ServiceMessagePage', () => ServiceMessagePage);
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
     reg('FirstBindPhonePage', () => FirstBindPhonePage);

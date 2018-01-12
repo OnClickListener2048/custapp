@@ -367,7 +367,7 @@ export default class LoginPage extends Component {
                     // responseData.user.mobilePhone = '18877775555';// 调试
 
                     if (responseData.user.mobilePhone) {
-                        // responseData.user.mobilePhone = '18888888888';
+                        //responseData.user.mobilePhone = '18888888888';
                         UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
                         UserInfoStore.setUserInfo(responseData.user).then();
                         //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '18099990000' responseData.user.mobilePhone
