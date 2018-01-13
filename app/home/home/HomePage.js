@@ -63,6 +63,7 @@ const footData = [
     }
 ]
 import BannerView from '../../view/BannerView'
+import * as WeChat from "react-native-wechat";
 
 export default class HomePage extends BComponent {
 
@@ -107,28 +108,7 @@ export default class HomePage extends BComponent {
     }
 
     componentWillMount() {
-        console.log(Platform.OS, '读取审核开关');
-        // 只针对ios处理
-        if(Platform.OS === 'ios') {
-            console.log(Platform.OS, '读取审核开关');
-            //读取审核开关
-            apis.mobilelogin().then(
-                v => {
-                    console.log(Platform.OS, '读取审核开关返回值', v);
-                    UserInfoStore.setMobileLoginInfo(v).then();
-                }, e => {
-                    // Toast.show("读取审核开关" + e);
-                    console.log("读取审核开关" + e);
-                    // 读取失败或者弱网一直打开微信登录
-                    UserInfoStore.removeMobileLoginInfo().then();
-                }
-            );
-        } else {
-            // Android一直打开微信登录
-            // 读取失败或者弱网一直打开微信登录
-            UserInfoStore.removeMobileLoginInfo().then();
-        }
-
+        this._checkWechatLogin();
         headerData = [
             {
                 title:'热门产品',
@@ -174,6 +154,46 @@ export default class HomePage extends BComponent {
             },
         ]
     }
+
+    // 初始化苹果审核微信登录开关信息
+    _checkWechatLogin = () => {
+        // 只针对ios处理
+        if(Platform.OS === 'ios') {
+            let mobileLoginInfo = {code: 0, open: true, mobile: "18777777777", passwd: "123456", token: "191c7e2d-b1ea-4956-801f-5cd647884904"};
+            console.log(Platform.OS, '读取审核开关');
+
+            WeChat.isWXAppInstalled().then(
+                v => {
+                    if (!v) {// 未安装微信, 直接打开手机登陆界面
+                        console.log(Platform.OS, '未安装微信, 审核开关设置为手机登陆');
+                        UserInfoStore.setMobileLoginInfo(mobileLoginInfo).then();
+                    } else {
+                        //读取审核开关
+                        apis.mobilelogin().then(
+                            v => {
+                                console.log(Platform.OS, '读取审核开关返回值', v);
+                                UserInfoStore.setMobileLoginInfo(v).then();
+                            }, e => {
+                                console.log("读取审核开关" + e);
+                                // 读取失败或者弱网一直打开微信登录
+                                UserInfoStore.removeMobileLoginInfo().then();
+                            }
+                        );
+                    }
+                },
+                e => {
+                    // 微信安装检测失败, 直接打开手机登陆界面, 防止iOS审核失败
+                    console.log(e);
+                    UserInfoStore.setMobileLoginInfo(mobileLoginInfo).then();
+                }
+            );
+        } else {
+            // Android一直打开微信登录
+            UserInfoStore.removeMobileLoginInfo().then();
+        }
+
+
+    };
 
     componentWillUnmount() {
         this.subscription.remove();
