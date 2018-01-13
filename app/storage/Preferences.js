@@ -19,11 +19,13 @@ const Preferences = {
 
     set: async function (key: string,
                          value: string) {
-        try {
-            await AsyncStorage.setItem(key, value);
-        } catch (error) {
-            // Error saving data
-            console.log("Save data failed:", error);
+        if(value) {
+            try {
+                await AsyncStorage.setItem(key, value);
+            } catch (error) {
+                // Error saving data
+                console.log("Save data failed:", key, "=", value, " ", error);
+            }
         }
     },
 

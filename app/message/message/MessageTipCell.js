@@ -1,6 +1,4 @@
-/**
- * Created by jinglan on 2018/1/9.
- */
+
 import React, { Component } from 'react';
 import {
 
@@ -13,7 +11,7 @@ import {
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 
-export default class CompanyInfoCell extends Component {
+export default class MessageTipCell extends Component {
     static defaultProps = {
         isClick:true,//是否可以点击，  true自带右侧箭头
         isRightBtnClick:true,//是否可以点击，  true自带右侧箭头
@@ -40,19 +38,21 @@ export default class CompanyInfoCell extends Component {
         }
 
         return(
-            <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
+            <TouchableOpacity  onPress = {() => {this.props.onPress()}}>
+
+            <View style = {[styles.container,underlineStyle,this.props.underLineStyle]}>
                 {this._renderLeftView()}
                 {this._renderRightView()}
             </View>
+            </TouchableOpacity>
+
         );
     }
 
     _renderLeftView(){
         return (<View style = {styles.leftViewStyle}>
-            <TouchableOpacity style={[styles.leftImgStyle, this.props.leftImgStyle,{width : 36 ,height:36,alignItems:'center',justifyContent:'center' }]} onPress = {() => {this.props.leftSelectBtnOnPress()}}>
                 <Image resizeMode="center" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                        source={this.props.leftIcon}/>
-            </TouchableOpacity>
         </View>)
     }
 
@@ -66,7 +66,6 @@ export default class CompanyInfoCell extends Component {
         }
 
         return(
-            <TouchableOpacity style={[styles.rightViewStyle]} onPress = {() => {this.props.rightBtnOnPress()}}>
                 <View style = {styles.rightViewStyle}>
                     <Image resizeMode = "center" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
                     {tipBtnCount > 0 &&
@@ -98,7 +97,6 @@ export default class CompanyInfoCell extends Component {
                     }
                     <Text numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
                 </View>
-            </TouchableOpacity>
         );
     }
 }
@@ -120,6 +118,8 @@ const styles = StyleSheet.create({
 
     leftViewStyle:{
         // 主轴的方向
+        marginLeft:15,
+        marginRight:15,
         flexDirection:'row',
         // 侧轴居中
         alignItems:'center',

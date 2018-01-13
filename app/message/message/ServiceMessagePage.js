@@ -1,8 +1,8 @@
 /**
- * Created by zhuangzihao on 2017/9/8.
+ * Created by jinglan on 2018/1/12.
  */
+
 import React, {Component} from 'react';
-import {navToMainTab} from '../../navigation';
 import pushJump from '../../util/pushJump';
 
 import {
@@ -16,13 +16,14 @@ import {
 } from 'react-native';
 import MessageCustomCell from './MessageCell'
 import JPushModule from 'jpush-react-native';
+import Swipeout from "react-native-swipeout"
 import * as apis from '../../apis';
 import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
-import MessageTipCell from './MessageTipCell';
-import RefreshListView, {RefreshState} from '../../view/RefreshListView'
+import Toast from 'react-native-root-toast';
 
-export default class MessagePage extends BComponent {
+import RefreshListView, {RefreshState} from '../../view/RefreshListView'
+export default class ServiceMessagePage extends BComponent {
 
     constructor(props) {
         super(props);
@@ -49,12 +50,12 @@ export default class MessagePage extends BComponent {
 
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-         // console.log('ApplicationCenterPage event.type', event.type);
+        // console.log('ApplicationCenterPage event.type', event.type);
         //console.log('ApplicationCenterPage event.type', event.id);
         super.onNavigatorEvent(event)
         if (event.id === 'willAppear') {
             if(NavigatorSelected || NavigatorSelected)
-            NavigatorSelected = this.props.navigator;
+                NavigatorSelected = this.props.navigator;
         }
         if(event.id === 'didAppear'){
 
@@ -86,7 +87,7 @@ export default class MessagePage extends BComponent {
             }
 
 
-            this._clearBadgeNum();
+            this._clearUnreadedNum();
 
         }
 
@@ -112,6 +113,8 @@ export default class MessagePage extends BComponent {
         }
 
         this.refreshEmitter = DeviceEventEmitter.addListener('ReloadMessage', () => {
+            //收到登录后的通知需要刷新消息页面
+            this.onHeaderRefresh();
             //如果在消息页面则不显示badge红点提示,否则要在消息的tab显示红点数字提示
             if (this.state.isAppear === true){
                 this.props.navigator.setTabBadge({
@@ -159,6 +162,7 @@ export default class MessagePage extends BComponent {
                 }else {
                     this._loadUnreadedNum();
                 }
+                this.onHeaderRefresh()
             });
 
             //收到通知刷新自定义消息
@@ -171,6 +175,7 @@ export default class MessagePage extends BComponent {
                 }else {
                     this._loadUnreadedNum();
                 }
+                this.onHeaderRefresh()
             });
             //应用未杀死 点击通知栏
             this.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
@@ -201,6 +206,7 @@ export default class MessagePage extends BComponent {
                         this._loadUnreadedNum();
 
                     }
+                    this.onHeaderRefresh()
                 });
                 //收到通知
                 this.recieveAndroidJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
@@ -212,6 +218,7 @@ export default class MessagePage extends BComponent {
                     }else {
                         this._loadUnreadedNum();
                     }
+                    this.onHeaderRefresh()
                 });
 
                 //点击通知栏
@@ -245,6 +252,7 @@ export default class MessagePage extends BComponent {
                 console.log('MinePage logined', logined,this.state.logined);
 
                 if (logined === true){
+                    this.onHeaderRefresh();
                     this._loadUnreadedNum()
                 }else {
                     this.setState({
@@ -264,7 +272,7 @@ export default class MessagePage extends BComponent {
 
 
 
-    _clearBadgeNum(){
+    _clearUnreadedNum(){
 
         if (this.state.unReadNum === 0){
             return;
@@ -274,10 +282,32 @@ export default class MessagePage extends BComponent {
             badge: null
         });
 
+        if(!NetInfoSingleton.isConnected) {
+            return;
+        }
+
+        apis.putClearMessageUnReadedNum().then(
+            (responseData) => {
+
+                if(responseData.code === 0){
+                    this.setState({
+                        unReadNum:0,
+                    });
+                    this.props.navigator.setTabBadge({
+                        badge: null
+                    });
+
+                }else{
+                }
+            },
+            (e) => {
+
+            },
+        );
     }
 
 
-    //TODO 通知消息数量加服务消息数量自己算
+
     _loadUnreadedNum(){
 
         if(!NetInfoSingleton.isConnected) {
@@ -308,50 +338,168 @@ export default class MessagePage extends BComponent {
         );
     }
 
-    _gotoServiceMessagePage(){
-        this.push({
-            screen: 'ServiceMessagePage',
-            title:'服务消息',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-        });
+
+    loadData(page=1,pageSize=10){
+
+
+        if(!NetInfoSingleton.isConnected) {
+            return;
+        }
+
+        if(page===1){
+            this.setState({refreshState: RefreshState.HeaderRefreshing})
+
+        }else{
+            this.setState({refreshState: RefreshState.FooterRefreshing})
+        }
+
+        apis.loadMessageData(pageSize,page).then(
+            (responseData) => {
+
+                if(responseData.code === 0){
+                    let newList = responseData.list;
+
+                    let dataList = page === 1 ? newList : [...this.state.dataList, ...newList]
+                    this.setState({
+                        dataList: dataList,
+                        refreshState:responseData.list.length < pageSize ? RefreshState.NoMoreData : RefreshState.Idle,
+                    });
+
+                    if (page === 1 && this.state.dataList.length === 0){
+
+                        this.setState({
+                            initStatus:'no-data'
+                        })
+
+                    }else if (this.state.initStatus !== 'initSucess'){
+                        this.setState({
+                            initStatus:'initSucess'
+                        })
+                    }
+
+                }else{
+
+                    if (this.state.dataList.length === 0){
+                        this.setState({
+                            initStatus:'error'
+                        })
+                    }
+                    this.setState({refreshState: RefreshState.Failure})
+                }
+            },
+            (e) => {
+                if (this.state.dataList.length === 0){
+                    this.setState({
+                        initStatus:'error'
+                    })
+                }
+
+                this.setState({refreshState: RefreshState.Failure})
+            },
+        );
     }
 
-    _gotoNotifyMessagePage(){
-        this.push({
-            screen: 'ServiceMessagePage',
-            title:'通知助手',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-        });
+    _reloadPage(){
+        this._isLogined();
+
     }
+
+
+    _jumpWithUrl(item){
+
+        pushJump(this.props.navigator, item.url,item.title?item.title:'噼里啪智能财税',item.title?item.title:'噼里啪智能财税',item.content);
+    }
+
+    _readed(item){
+
+        if (item.readed === true){
+            return;
+        }
+        apis.putMessageReaded().then(
+            (responseData) => {
+
+                if(responseData.code === 0){
+                    item.readed = true;
+                    let data = [];
+                    this.state.dataList.forEach(row => {
+                        data.push(Object.assign({}, row));
+                    });
+
+                    this.setState({
+                        dataList:data,
+                    });
+                    this.state.unReadNum--;
+                    this.props.navigator.setTabBadge({
+                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
+                    });
+                }else{
+                }
+            },
+            (e) => {
+
+            },
+        );
+
+    }
+
+
+
+    _goto(item){
+
+        this.props.navigator.push({
+            screen: 'SystemMessagePage',
+            title:'消息详情',
+            passProps:{
+                item
+            }
+        });
+
+    }
+
+    onHeaderRefresh = () => {
+        this.page=1;
+        this.loadData(this.page)
+    };
+
+    onFooterRefresh = () => {
+        this.page++;
+        this.loadData(this.page)
+    };
+
+    renderCell = (info) => {
+        return(
+            <TouchableOpacity onPress={this._jumpWithUrl.bind(this,info.item)}>
+                <MessageCustomCell
+                    messageTitle={info.item.title}
+                    messageSubTitle={info.item.content}
+                    messageTime={info.item.createDate}
+                    isRead={false}
+                />
+            </TouchableOpacity>
+        )
+    };
 
     render() {
 
+        if(this.state.initStatus === 'initSucess') {
             return (
                 <View style={styles.container}>
-                    <MessageTipCell
-                        onPress={this._gotoNotifyMessagePage.bind(this)}
-                        underLine={true}
-                        isClick ={true}
-                        isRightBtnClick ={true}
-                        leftIcon = {require('../../img/notifyMessageIcon.png')}
-                        leftText= {'通知助手'}
+                    <RefreshListView
+                        data={this.state.dataList}
+                        keyExtractor = {(item, index) => index}
+                        renderItem={this.renderCell.bind(this)}
+                        refreshState={this.state.refreshState}
+                        onHeaderRefresh={this.onHeaderRefresh}
+                        onFooterRefresh={this.onFooterRefresh}
+                        contentContainerStyle={{paddingTop:10,backgroundColor:'#f1f1f1'}}
                     />
-                    <MessageTipCell
-                        onPress={this._gotoServiceMessagePage.bind(this)}
-                        underLine={false}
-                        isClick ={true}
-                        isRightBtnClick ={true}
-                        leftIcon = {require('../../img/serviceMessageIcon.png')}
-                        leftText= {'服务消息'}
-                    />
-
                 </View>
             )
-        // }else {
-        //     return(
-        //         <DefaultView onPress={()=>this._reloadPage()} type ={this.state.initStatus}/>
-        //     )
-        // }
+        }else {
+            return(
+                <DefaultView onPress={()=>this._reloadPage()} type ={this.state.initStatus}/>
+            )
+        }
 
     }
 
@@ -361,7 +509,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // marginTop: Platform.OS == 'ios' ? 20 : 0,
-        backgroundColor:'#F1F1F1'
+        backgroundColor:'#f1f1f1'
     },
     title: {
         fontSize: 18,

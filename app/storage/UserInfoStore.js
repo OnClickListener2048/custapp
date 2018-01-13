@@ -12,6 +12,8 @@ let UPGRADE_SETTING = "UPGRADE_SETTING";//版本更新设置new
 let NEW_VERSION = "NEW_VERSION";//线上最新版本
 let LAST_USER_PHONE = "LAST_USER_PHONE";// 上次登陆后的用户手机号
 const KEY_COMPANY_INFO = "KEY_COMPANY_INFO";// 公司信息
+const KEY_COMPANY_ApplyPay = "KEY_COMPANY_APPLYPAY";// 是否显示续费按钮
+
 const KEY_COMPANYARR_INFOS = "KEY_COMPANYARR_INFOS";// 公司信息数组
 const KEY_MOBILE_INFO = "KEY_MOBILE_INFO";// 苹果审核开关
 
@@ -114,6 +116,20 @@ UserInfoStore.getJPushID = async function () {
 UserInfoStore.setJPushID = async function (value: string) {
     return Preferences.set(KEY_JPUSH_ID, value);
 };
+
+UserInfoStore.getApplyPay = async function () {
+    return await Preferences.get(KEY_COMPANY_ApplyPay);
+};
+
+UserInfoStore.setApplyPay = async function (value: object) {
+    return Preferences.set(KEY_COMPANY_ApplyPay, value);
+};
+
+UserInfoStore.removeApplyPay = async function () {
+    return Preferences.remove(KEY_COMPANY_ApplyPay);
+};
+
+
 
 UserInfoStore.getCompany = async function () {
     // return await Preferences.get(KEY_COMPANY_INFO);

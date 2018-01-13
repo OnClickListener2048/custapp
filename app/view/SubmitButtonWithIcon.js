@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {View, Text, StyleSheet, TouchableNativeFeedback, Platform, Image, TouchableWithoutFeedback} from 'react-native';
 import Button from 'apsl-react-native-button';
 import px2dp from '../util/index';
+import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../config';
 
 // 登陆页等的底部动作按钮
 export default class SubmitButtonWithIcon extends Component {
@@ -51,8 +52,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         alignItems: 'center',
-        height: px2dp(88),
-        width: px2dp(600),
+        height: 50,
+        width: SCREEN_WIDTH - 30,
         marginTop: px2dp(45),
         borderWidth: 0,
     },
@@ -64,8 +65,8 @@ const styles = StyleSheet.create({
         borderRadius: 22,
         justifyContent: 'center',
         alignSelf: 'center',
-        height: px2dp(88),
-        width: px2dp(600),
+        height: 50,
+        width: SCREEN_WIDTH - 30,
         marginTop: px2dp(0),
         borderWidth: 0,
     },
@@ -76,8 +77,8 @@ const styles = StyleSheet.create({
         borderRadius: 22,
         justifyContent: 'center',
         alignSelf: 'center',
-        height: px2dp(88),
-        width: px2dp(600),
+        height: 50,
+        width: SCREEN_WIDTH - 30,
         marginTop: px2dp(45)
     },
 
