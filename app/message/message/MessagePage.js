@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // marginTop: Platform.OS == 'ios' ? 20 : 0,
-        backgroundColor:'#f9f9f9'
+        backgroundColor:'#F1F1F1'
     },
     title: {
         fontSize: 18,

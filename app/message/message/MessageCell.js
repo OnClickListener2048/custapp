@@ -28,18 +28,43 @@ export default class MessageCell extends Component {
         return (
             <View
                 style={styles.rowStyle}>
+
+                <View style={[styles.timeRowStyle]}>
+
+                    <View style={{height:25,flexDirection: 'row',
+                        alignItems:'center',opacity:0.5,borderRadius:3,marginTop:8,marginBottom:10,
+                        justifyContent:'center',backgroundColor:'#CDCDCD'}}>
+
+                        <Text
+                            textAlign='center'
+                            numberOfLines={1}
+                            style={[{fontSize: 12, marginLeft :15,marginRight :15 , color : '#666666'}] }>{messageTime}</Text>
+                    </View>
+
+                </View>
+                <Image style={styles.imageRowStyle} source={require('../../img/verify_name.png')}>
+
+                </Image>
+
                 <View
                     style={styles.topRowStyle}>
                 <Text
                     textAlign='left'
                     numberOfLines={1}
-                    style={[{fontSize: 16, marginLeft : 15 ,color : isRead === false ? '#333333' : '#999999'}] }>{messageTitle}</Text>
+                    style={[{fontSize: 17, marginLeft : 15 ,color : '#333333'}] }>{messageTitle}</Text>
 
-                <Text
-                    textAlign='left'
-                    numberOfLines={1}
-                    style={[{fontSize: 14, marginRight :15 , color : isRead === false ? '#333333' : '#999999'}] }>{messageTime}</Text>
+
                 </View>
+
+                <View
+                    style={[styles.subtitleRowStyle]}>
+                    <Text
+                        textAlign='left'
+                        numberOfLines={2}
+                        style={[{fontSize: 13, marginLeft : 15 ,marginRight : 15 ,color : '#999999'}] }>基地开发日复日反馈反馈反馈反馈翻翻看分开发就发个i诶日反馈反馈反馈反馈翻翻看分开发就发个i日反馈反馈反馈反馈翻翻看分开发就发个i诶额诶地方放就分开速度飞快发快递方式方法大家风范就</Text>
+
+                </View>
+
                 <View
                     style={styles.lineStyle}>
                 </View>
@@ -50,12 +75,12 @@ export default class MessageCell extends Component {
                         numberOfLines={0}
 
                         style={[{fontSize: 14,lineHeight: 20,marginTop: Platform.OS==='ios'?14:12,marginBottom: Platform.OS==='ios'?14:12,
-                            marginLeft : 14 ,width :SCREEN_WIDTH - 43 - 14,color : isRead === false ? '#333333' : '#999999'}] }>
-                        {messageSubTitle}
+                            marginLeft : 14 ,color : '#666666'}] }>
+                        查看详情
                     </Text>
                     <Image
                         source={require('../../img/left_button.png')}
-                        style={[{marginRight: 15,width: 10,height:15}]}/>
+                        style={[{marginRight: 10,width: 10,height:15}]}/>
                 </View>
 
 
