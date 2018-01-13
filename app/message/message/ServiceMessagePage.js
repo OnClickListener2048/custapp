@@ -491,7 +491,7 @@ export default class ServiceMessagePage extends BComponent {
                         refreshState={this.state.refreshState}
                         onHeaderRefresh={this.onHeaderRefresh}
                         onFooterRefresh={this.onFooterRefresh}
-                        contentContainerStyle={{paddingTop:20,backgroundColor:'#f9f9f9'}}
+                        contentContainerStyle={{paddingTop:10,backgroundColor:'#f1f1f1'}}
                     />
                 </View>
             )
@@ -509,7 +509,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // marginTop: Platform.OS == 'ios' ? 20 : 0,
-        backgroundColor:'#f9f9f9'
+        backgroundColor:'#f1f1f1'
     },
     title: {
         fontSize: 18,
