@@ -112,7 +112,6 @@ export default class TimeSearchBar extends Component {
                         })
                     }
                 </ScrollView>
-                <Image style={{position:'absolute',left:SCREEN_WIDTH/2-5,bottom:8}} source={require('../../img/ChangeMonthTriangle.png')} />
                 <View style={{position:'absolute',left:0,right:0,bottom:0,width:SCREEN_WIDTH,height:DeviceInfo.onePR,backgroundColor:'rgba(255, 255, 255, 0.3)'}}/>
             </View>
         )
