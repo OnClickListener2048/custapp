@@ -77,7 +77,7 @@ export default class ServiceNavigatorBar extends Component {
             return (
                 <TouchableWithoutFeedback onPress={()=>{this._showDataPicker()}}>
                     <View style={{width:64,height:44,justifyContent:'center',alignItems:'center'}} >
-                        <Text style={{fontSize:18,color:'white',borderWidth:1,borderColor:'white',paddingVertical:3,paddingHorizontal:5,borderRadius:5}}>{this.props.year}</Text>
+                        <Text style={{ width:54,height:18,lineHeight:18,fontSize:12,color:'white',borderWidth:1,borderColor:'white',textAlign:'center'}}>{this.props.year}</Text>
                     </View>
                 </TouchableWithoutFeedback>
             )
@@ -86,7 +86,7 @@ export default class ServiceNavigatorBar extends Component {
                 return(
                     <TouchableWithoutFeedback onPress={()=>{this._showDataPicker()}}>
                         <View style={{width:64,height:44,justifyContent:'center',alignItems:'center'}} >
-                            <Text style={{fontSize:16,color:'white',borderWidth:1,borderColor:'white',paddingVertical:3,paddingHorizontal:5,borderRadius:5}}>{this.props.year}</Text>
+                            <Text style={{width:54,height:18,lineHeight:18,fontSize:12,color:'white',borderWidth:1,borderColor:'white',textAlign:'center'}}>{this.props.year}</Text>
                         </View>
                     </TouchableWithoutFeedback>
                 )

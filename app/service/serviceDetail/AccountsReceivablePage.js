@@ -117,14 +117,14 @@ export default class AccountsReceivablePage extends BComponent {
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
-            <ServiceCell style={{backgroundColor:'#f9f9f9',paddingTop:26,paddingBottom:26}} underLine={true} title={rowItem.name} item1_name="期初" item2_name="期末" item1_money={rowItem.start} item2_money={rowItem.end}/>
+            <ServiceCell style={{backgroundColor:'#f9f9f9'}} underLine={true} title={rowItem.name} item1_name="期初" item2_name="期末" item1_money={rowItem.start} item2_money={rowItem.end}/>
         )
 
     };
     _renderSection (section, sectionId) {
         let dic = this.state.dataSource[sectionId]
         return(
-            <ServiceCell isOpen={this.openOptions[sectionId]}  isHeader={dic.others.length>0} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="期初" item2_name="期末" item1_money={dic.start} item2_money={dic.end}/>
+            <ServiceCell isOpen={this.openOptions[sectionId]} underLine={true}   isHeader={dic.others.length>0} title={dic.name} titleStyle={{color:'#E13238'}} item1_name="期初" item2_name="期末" item1_money={dic.start} item2_money={dic.end}/>
 
         )
     };

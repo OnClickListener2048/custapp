@@ -81,7 +81,7 @@ export default class HeaderView extends Component {
                             {leftNum}
                         </Text>
                     </View>
-                    <View style={[styles.wrapper3,{width:DeviceInfo.onePR,height:30,backgroundColor:'#F9F9F9',marginTop:30}]}/>
+                    <View style={[styles.wrapper3,{width:DeviceInfo.onePR,height:30,backgroundColor:'rgba(255, 255, 255, 0.3)',marginTop:35}]}/>
                     <View style={styles.wrapper3}>
                         <Text style={styles.te3}>
                             {rightDes}
@@ -122,13 +122,13 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     te1:{
-        fontSize:16,
-        color:'#ffffff',
+        fontSize:14,
+        color:'rgba(255, 255, 255, 0.7)',
         backgroundColor:'transparent'
     },
     te2:{
         fontSize:32,
-        color:"#ffffff",
+        color:'rgba(255, 255, 255,1)',
         backgroundColor:'transparent',
         marginTop:5
     },
@@ -148,12 +148,12 @@ const styles = StyleSheet.create({
     },
     te3:{
         fontSize:12,
-        color:'rgba(255, 255, 255, 0.8)',
+        color:'rgba(255, 255, 255, 0.7)',
         backgroundColor:'transparent',
     },
     te4:{
         fontSize:18,
-        color:'#ffffff',
+        color:'rgba(255, 255, 255,1)',
         backgroundColor:'transparent',
         marginTop:5
     }
