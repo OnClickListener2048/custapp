@@ -54,8 +54,8 @@ export default class MessageTipCell extends Component {
                 <Image resizeMode="center" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                        source={this.props.leftIcon}/>
 
-            <View  style={{backgroundColor:'red',flexDirection:'row',minWidth:12,height:12,marginLeft:-5,marginTop:-14,borderRadius:6,justifyContent:'center'}}>
-                <Text numberOfLines={1} style={{color:'#ffffff',fontSize:9,height:9,backgroundColor:'blue',marginTop:1}}>1</Text>
+            <View  style={{backgroundColor:'red',flexDirection:'row',width:14,height:14,marginLeft:-5,marginTop:-14,borderRadius:7,justifyContent:'center',alignItems:'center'}}>
+                <Text numberOfLines={1} style={{color:'#ffffff',fontSize:9,backgroundColor:'transparent'}}>8</Text>
             </View>
         </View>)
     }
