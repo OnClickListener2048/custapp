@@ -18,6 +18,7 @@ import {
 import BComponent from '../../base';
 import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
 import YellowNavigatorBar from '../setting/YellowNavigatorBar';
+import CommenCell from "../../view/CommenCell";
 
 const deviceWidth = Dimensions.get('window').width;
 export default class HomePage extends BComponent {
@@ -108,14 +109,16 @@ export default class HomePage extends BComponent {
                     </Image>
                 </View>
 
-                <View style={styles.contentlist}>
-                    <Text style={styles.textstyle}>
-                        手机号
-                    </Text>
-                    <Text style={styles.textContentStyle}>
-                        {this.state.phone}
-                    </Text>
-                </View>
+                <CommenCell
+                    leftText='手机号'
+                    rightText={this.state.phone}
+                    style={{marginTop:10}}
+                    onPress={ () => {
+                        this.props.navigator.push({
+                        screen: 'BindPhonePage',
+                        title:'更改手机号'
+                    });}}
+                />
 
                 <View style={{height: 0.5, backgroundColor: '#ECECEC'}}/>
 
