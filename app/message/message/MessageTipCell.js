@@ -50,12 +50,13 @@ export default class MessageTipCell extends Component {
     }
 
     _renderLeftView(){
+
         return (<View style = {styles.leftViewStyle}>
                 <Image resizeMode="center" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                        source={this.props.leftIcon}/>
 
-            <View  style={{backgroundColor:'red',flexDirection:'row',width:14,height:14,marginLeft:-5,marginTop:-14,borderRadius:7,justifyContent:'center',alignItems:'center'}}>
-                <Text numberOfLines={1} style={{color:'#ffffff',fontSize:9,backgroundColor:'transparent'}}>8</Text>
+            <View  style={{backgroundColor:'red',flexDirection:'row',minWidth:12,height:12,marginLeft:-5,marginTop:-14,borderRadius:6}}>
+                <Text numberOfLines={1} style={{color:'#ffffff',minWidth:12,fontSize:9,backgroundColor:'transparent',textAlign:'center',height:12,lineHeight:12}}>8</Text>
             </View>
         </View>)
     }
