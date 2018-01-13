@@ -75,12 +75,12 @@ export default class MessageCell extends Component {
                         numberOfLines={0}
 
                         style={[{fontSize: 14,lineHeight: 20,marginTop: Platform.OS==='ios'?14:12,marginBottom: Platform.OS==='ios'?14:12,
-                            marginLeft : 14 ,width :SCREEN_WIDTH - 43 - 14,color : '#666666'}] }>
+                            marginLeft : 14 ,color : '#666666'}] }>
                         查看详情
                     </Text>
                     <Image
                         source={require('../../img/left_button.png')}
-                        style={[{marginRight: 15,width: 10,height:15}]}/>
+                        style={[{marginRight: 10,width: 10,height:15}]}/>
                 </View>
 
 
