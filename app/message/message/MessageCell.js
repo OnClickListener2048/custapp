@@ -74,10 +74,11 @@ export default class MessageCell extends Component {
                         textAlign='left'
                         numberOfLines={0}
 
-                        style={[{fontSize: 14,lineHeight: 20,marginTop: Platform.OS==='ios'?14:12,marginBottom: Platform.OS==='ios'?14:12,
+                        style={[{fontSize: 14,lineHeight: 20,flex:1,marginTop: Platform.OS==='ios'?14:12,marginBottom: Platform.OS==='ios'?14:12,
                             marginLeft : 14 ,color : '#666666'}] }>
                         查看详情
                     </Text>
+                    <View style={{marginRight: 8,width: 8,height:8,backgroundColor:'#F22027',borderRadius:4}}></View>
                     <Image
                         source={require('../../img/left_button.png')}
                         style={[{marginRight: 10,width: 10,height:15}]}/>
