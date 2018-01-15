@@ -6,6 +6,8 @@ import {StyleSheet, View, Text, Dimensions, Button,Image,TouchableOpacity,Device
 import CommenCell from '../view/CommenCell'
 import BComponent from '../base/BComponent'
 import {deviceHeight,deviceWidth} from "../util/ScreenUtil";
+import * as apis from '../apis';
+import Toast from 'react-native-root-toast'
 class Lightbox extends BComponent {
 
     constructor(props) {
@@ -18,26 +20,13 @@ class Lightbox extends BComponent {
         UserInfoStore.getCompanyArr().then(
             (companyArr) => {
                 if (companyArr) {
-                    console.log('走你companyArr', companyArr);
-                    console.log('走你companyArrLength', companyArr.length);
 
                     if (companyArr && companyArr.length > 0) {
-                        console.log('走你dataSource', this.state.dataSource);
                         let arr = JSON.parse(JSON.stringify(companyArr))
-                        console.log('走你arr', arr);
-
                         this.setState({dataSource: arr});
-
-
-                        console.log('走你arr', arr);
-
-                        console.log('走你dataSource', this.state.dataSource);
-
                     }
                 }else {
                     console.log("读取数组为空");
-
-
                 }
             },
             (e) => {
@@ -47,7 +36,6 @@ class Lightbox extends BComponent {
 
         UserInfoStore.getCompany().then(
             (company) => {
-                console.log('走你company', company);
                 if (company && company.infos && company.infos.length>0) {
                     this.setState({selectedCompanyId: company.id});
                 }
@@ -61,27 +49,44 @@ class Lightbox extends BComponent {
     _press(item){
         if (item.id === this.state.selectedCompanyId) {
             this.props.navigator.dismissLightBox()
-            this.props.callback && this.props.callback()
+            // this.props.callback && this.props.callback()
             return;
         }
+        apis.changeCompany(item.id).then(
+            (responseData) => {
 
-        this.setState({
-            selectedCompanyId:item.id
-        })
+                if(responseData.code == 0){
+                    //切换成功
+                    this.setState({
+                        selectedCompanyId:item.id
+                    })
 
-        UserInfoStore.setCompany(item).then(
-            (user) => {
-                console.log("公司信息保存成功");
-                DeviceEventEmitter.emit('ChangeCompany');
-                this.props.navigator.dismissLightBox()
-                this.props.callback && this.props.callback()
+                    UserInfoStore.setCompany(item).then(
+                        (user) => {
+                            console.log("公司信息保存成功");
+                            DeviceEventEmitter.emit('ChangeCompany');
+                            this.props.navigator.dismissLightBox()
+                            // this.props.callback && this.props.callback()
+                        },
+                        (e) => {
+                            console.log("公司信息保存错误:", e);
+                            this.props.navigator.dismissLightBox()
+                            // this.props.callback && this.props.callback()
+                        },
+                    );
+                }else{
+                    this.props.navigator.dismissLightBox()
+                    Toast.show('切换公司失败')
+                }
+
             },
             (e) => {
-                console.log("公司信息保存错误:", e);
                 this.props.navigator.dismissLightBox()
-                this.props.callback && this.props.callback()
+                Toast.show('切换公司失败')
+
             },
         );
+        //切换公司
 
 
     }

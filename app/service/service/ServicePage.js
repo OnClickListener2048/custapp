@@ -380,10 +380,10 @@ export default class ServicePage extends BComponent {
                                 let borderRightWidth = 0
                                 let borderBottomWidth = 0
                                 if (index !=2){
-                                    borderRightWidth = 1
+                                    borderRightWidth = DeviceInfo.onePR
                                 }
                                 if(index <3){
-                                    borderBottomWidth = 1
+                                    borderBottomWidth = DeviceInfo.onePR
                                 }
 
                                 return(
