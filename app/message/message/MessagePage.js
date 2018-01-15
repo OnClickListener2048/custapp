@@ -41,6 +41,11 @@ export default class MessagePage extends BComponent {
         };
         this.page =1;
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this._setNotifyCellNewNum = this._setNotifyCellNewNum.bind(this);
+        this._setServiceCellNewNum = this._setServiceCellNewNum.bind(this);
+        this._resetNotifyNum = this._resetNotifyNum.bind(this);
+        this._resetServiceNum = this._resetServiceNum.bind(this);
+
 
     }
 
@@ -114,11 +119,7 @@ export default class MessagePage extends BComponent {
     componentDidMount() {
 
         //打开即可
-        if(!NetInfoSingleton.isConnected) {
-            this.setState({
-                initStatus:'no-net'
-            })
-        }else{
+        if(NetInfoSingleton.isConnected) {
             this._isLogined();
         }
 
@@ -235,10 +236,7 @@ export default class MessagePage extends BComponent {
 
                     let obj = JSON.parse(message.extras)
                     this._timer = setTimeout(() => {
-                        // this.props.navigator.switchToTab({
-                        //     tabIndex: 2
-                        // });
-                        // pushJump(this.props.navigator, obj.url);
+
                         if(NavigatorSelected){
                             pushJump(NavigatorSelected, obj.url,obj.url,obj.title,obj.title,obj.content);
                         }
@@ -252,44 +250,16 @@ export default class MessagePage extends BComponent {
     }
 
 
-    _resetNotifyMessageArr(item){
-
-        //TODO 判断是哪种数据
-        //服务类的
 
 
 
-
-        //通知类的
-        let tmpArr = [];
-        tmpArr[0] = item;
-
-        UserInfoStore.getNotifyMessageArr().then(
-            (messageArr) => {
-                if (messageArr) {
-
-                    if (messageArr.length > 0) {
-                        this.messageArr.forEach(row => {
-                            tmpArr.push(Object.assign({}, row));
-                        });
-                    }
-
-                    UserInfoStore.setNotifyMessageArr(tmpArr).then(
-                        (newList) => {
-
-                            console.log("保存数据成功嘎嘎嘎:", newList);
-
-                        },
-                        (e) => {
-                        },
-                    );
-
-
-                    UserInfoStore.setNotifyMessageNewNum(tmpArr.length).then(
-                        (newList) => {
-
-                            console.log("保存新的通知消息长度成功嘎嘎嘎:");
-
+    _resetNotifyNum(){
+        UserInfoStore.getNotifyMessageNewNum().then(
+            (num) => {
+                if (num) {
+                    this._setNotifyCellNewNum(num + 1);
+                    UserInfoStore.setNotifyMessageNewNum(num + 1).then(
+                        (num) => {
                         },
                         (e) => {
                         },
@@ -300,11 +270,74 @@ export default class MessagePage extends BComponent {
                 console.log("读取信息错误:", e);
             },
         );
-
-
     }
 
+    _resetServiceNum(){
+        UserInfoStore.getServiceMessageNewNum().then(
+            (num) => {
+                if (num) {
+                    this._setServiceCellNewNum(num + 1);
+                    UserInfoStore.setServiceMessageNewNum(num + 1).then(
+                        (num) => {
+                        },
+                        (e) => {
+                        },
+                    );
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
+    }
 
+    _resetNotifyMessageArr(item){
+        //服务类的
+        if(item.isGroup === false) {
+            this._resetServiceNum();
+        }else if (item.isGroup === true) {
+            //通知类的
+            this._resetNotifyNum();
+
+            let tmpArr = [];
+            tmpArr[0] = item;
+
+            UserInfoStore.getNotifyMessageArr().then(
+                (messageArr) => {
+                    if (messageArr) {
+
+                        if (messageArr.length > 0) {
+                            this.messageArr.forEach(row => {
+                                tmpArr.push(Object.assign({}, row));
+                            });
+                        }
+
+                        UserInfoStore.setNotifyMessageArr(tmpArr).then(
+                            (newList) => {
+                                console.log("保存数据成功嘎嘎嘎:", newList);
+                            },
+                            (e) => {
+                            },
+                        );
+
+
+                        UserInfoStore.setNotifyMessageNewNum(tmpArr.length).then(
+                            (newList) => {
+
+                                console.log("保存新的通知消息长度成功嘎嘎嘎:");
+
+                            },
+                            (e) => {
+                            },
+                        );
+                    }
+                },
+                (e) => {
+                    console.log("读取信息错误:", e);
+                },
+            );
+        }
+    }
 
     _isLogined(){
         UserInfoStore.isLogined().then(
@@ -313,9 +346,6 @@ export default class MessagePage extends BComponent {
                 if (logined === true){
                     this._loadUnreadedNum()
                 }else {
-                    this.setState({
-                        initStatus:'no-data'
-                    });
                     this.props.navigator.setTabBadge({
                         badge: null
                     });
@@ -326,8 +356,6 @@ export default class MessagePage extends BComponent {
             }
         );
     }
-
-
 
 
     _clearBadgeNum(){
@@ -343,7 +371,8 @@ export default class MessagePage extends BComponent {
     }
 
 
-    //TODO 通知消息数量加服务消息数量自己算
+
+    //不在本页的情况下请求这个接口 显示tabBadge
     _loadUnreadedNum(){
 
         if(!NetInfoSingleton.isConnected) {
@@ -355,15 +384,34 @@ export default class MessagePage extends BComponent {
 
                 if(responseData.code === 0){
 
+                    UserInfoStore.getNotifyMessageNewNum().then(
+                        (num) => {
+                            if (num) {
+                                this.setState({
+                                    unReadNum:responseData.unread + num,
+                                });
 
-                    this.setState({
-                        unReadNum:responseData.unread,
-                    });
+                                this.props.navigator.setTabBadge({
+                                    badge: this.state.unReadNum + num <= 0 ? null : this.state.unReadNum + num// 数字气泡提示, 设置为null会删除
+                                });
 
-                    this.props.navigator.setTabBadge({
-                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
-                    });
+                            }
+                        },
+                        (e) => {
+                            console.log("读取信息错误:", e);
+                        },
+                    );
 
+
+
+
+                    UserInfoStore.setServiceMessageNewNum(responseData.unread).then(
+                        (num) => {
+
+                        },
+                        (e) => {
+                        },
+                    );
 
                 }else{
                 }
@@ -386,8 +434,10 @@ export default class MessagePage extends BComponent {
 
 
     _gotoServiceMessagePage(){
-        UserInfoStore.setNotifyMessageNewNum(0).then(
-            (newList) => {
+        UserInfoStore.setServiceMessageNewNum(0).then(
+            (num) => {
+
+                this._setServiceCellNewNum(0);
 
                 this.setState({
                     isGotoSubVC : true,
@@ -407,18 +457,28 @@ export default class MessagePage extends BComponent {
 
     }
 
+    _setServiceCellNewNum(num){
+        if(this.refs.serviceCell) {
+            this.refs.serviceCell.setNewNum(num);
+        }
+    }
+
+    _setNotifyCellNewNum(num){
+        if(this.refs.notifyCell) {
+            this.refs.notifyCell.setNewNum(num);
+        }
+    }
+
     _gotoNotifyMessagePage(){
-        UserInfoStore.setServiceMessageNewNum(0).then(
-            (newList) => {
+        UserInfoStore.setNotifyMessageNewNum(0).then(
+            (num) => {
                 this.setState({
                     isGotoSubVC : true,
                     notifyNewNum:3
                 });
 
 
-                if(this.refs.notifyCell) {
-                    this.refs.notifyCell.setNewNum(3);
-                }
+                this._setNotifyCellNewNum(0);
 
 
                 this.push({
@@ -437,7 +497,7 @@ export default class MessagePage extends BComponent {
 
             return (
                 <View style={styles.container}>
-                    <MessageTipCell
+                    <MessageTipCell ref="notifyCell"
                         onPress={this._gotoNotifyMessagePage.bind(this)}
                         underLine={true}
                         isClick ={true}
@@ -446,7 +506,7 @@ export default class MessagePage extends BComponent {
                         leftText= {'通知助手'}
                         messageNum={this.state.serviceNewNum}
                     />
-                    <MessageTipCell ref="notifyCell"
+                    <MessageTipCell ref="serviceCell"
                         onPress={this._gotoServiceMessagePage.bind(this)}
                         underLine={false}
                         isClick ={true}
