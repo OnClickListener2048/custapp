@@ -50,20 +50,18 @@ export default class ServiceMessagePage extends BComponent {
 
 
 
-    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        // console.log('ApplicationCenterPage event.type', event.type);
-        //console.log('ApplicationCenterPage event.type', event.id);
+    onNavigatorEvent(event) {
         super.onNavigatorEvent(event)
+        if (event.id === 'willAppear') {
+            this.listener = this.refreshEmitter = DeviceEventEmitter.addListener('ReloadServiceMessageList', () => {
+                this._isLogined();
 
-        if(event.id === 'didAppear'){
-
-
-            this._clearUnreadedNum();
+            });
+        }
+        if(event.id === 'willDisappear'){
+            this.listener.remove();
 
         }
-
-
-
     }
     componentDidMount() {
 
@@ -88,9 +86,6 @@ export default class ServiceMessagePage extends BComponent {
             })
         });
 
-
-
-
     }
 
 
@@ -102,11 +97,11 @@ export default class ServiceMessagePage extends BComponent {
         UserInfoStore.isLogined().then(
             logined => {
                 this.setState({logined:logined});
-                console.log('MinePage logined', logined,this.state.logined);
 
                 if (logined === true){
                     this.onHeaderRefresh();
-                    this._loadUnreadedNum()
+                    this._clearUnreadedNum();
+
                 }else {
                     this.setState({
                         initStatus:'no-data'
@@ -151,36 +146,6 @@ export default class ServiceMessagePage extends BComponent {
     }
 
 
-
-    _loadUnreadedNum(){
-
-        if(!NetInfoSingleton.isConnected) {
-            return;
-        }
-
-        apis.loadMessageUnReadedNum().then(
-            (responseData) => {
-
-                if(responseData.code === 0){
-
-
-                    this.setState({
-                        unReadNum:responseData.unread,
-                    });
-
-                    this.props.navigator.setTabBadge({
-                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
-                    });
-
-
-                }else{
-                }
-            },
-            (e) => {
-
-            },
-        );
-    }
 
 
     loadData(page=1,pageSize=10){
