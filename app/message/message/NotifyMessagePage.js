@@ -74,46 +74,28 @@ export default class NotifyMessagePage extends BComponent {
                 });
                 if(Platform.OS === 'ios') {
 
-                    // console.log('嘎嘎嘎1', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
                     if (this.state.jpushMessage) {
-                        // console.log('嘎嘎嘎2', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
-
                         pushJump(this.props.navigator, this.state.jpushMessage.url,this.state.jpushMessage.title?this.state.jpushMessage.title:'噼里啪智能财税',this.state.jpushMessage.title?this.state.jpushMessage.title:'噼里啪智能财税'.title,this.state.jpushMessage.content);
 
                         this.setState({
                             jpushMessage: ''
                         });
-
-
                     }
                 }
             }
-
-
             this._clearUnreadedNum();
-
         }
-
-
 
         if(event.id === 'willDisappear'){
             this.setState({
                 isAppear : false
             })
-
         }
-
     }
-    componentDidMount() {
 
-        //打开即可
-        if(!NetInfoSingleton.isConnected) {
-            this.setState({
-                initStatus:'no-net'
-            })
-        }else{
-            this._isLogined();
-        }
+    componentDidMount() {
+        this.refreshListData();
+
 
         this.refreshEmitter = DeviceEventEmitter.addListener('ReloadMessage', () => {
             //收到登录后的通知需要刷新消息页面
@@ -248,34 +230,13 @@ export default class NotifyMessagePage extends BComponent {
 
 
 
-    _isLogined(){
-        UserInfoStore.isLogined().then(
-            logined => {
-                this.setState({logined:logined});
-                console.log('MinePage logined', logined,this.state.logined);
-
-                if (logined === true){
-                    this.onHeaderRefresh();
-                    this._loadUnreadedNum()
-                }else {
-                    this.setState({
-                        initStatus:'no-data'
-                    });
-                    this.props.navigator.setTabBadge({
-                        badge: null
-                    });
-                }
-            },
-            e => {
-
-            }
-        );
-    }
 
 
 
 
     _clearUnreadedNum(){
+        //TODO 这里清空通知消息数量
+        return;
 
         if (this.state.unReadNum === 0){
             return;
@@ -311,101 +272,40 @@ export default class NotifyMessagePage extends BComponent {
 
 
 
-    _loadUnreadedNum(){
 
-        if(!NetInfoSingleton.isConnected) {
-            return;
-        }
+    refreshListData(){
+        console.log("tmpArr嘎嘎嘎到这里000");
 
-        apis.loadMessageUnReadedNum().then(
-            (responseData) => {
+        UserInfoStore.getNotifyMessageArr().then(
+            (messageArr) => {
 
-                if(responseData.code === 0){
+                console.log("tmpArr嘎嘎嘎到这里:",messageArr);
 
+                if (messageArr) {
 
-                    this.setState({
-                        unReadNum:responseData.unread,
-                    });
-
-                    this.props.navigator.setTabBadge({
-                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
-                    });
-
-
-                }else{
-                }
-            },
-            (e) => {
-
-            },
-        );
-    }
-
-
-    loadData(page=1,pageSize=10){
-
-
-        if(!NetInfoSingleton.isConnected) {
-            return;
-        }
-
-        if(page===1){
-            this.setState({refreshState: RefreshState.HeaderRefreshing})
-
-        }else{
-            this.setState({refreshState: RefreshState.FooterRefreshing})
-        }
-
-        apis.loadMessageData(pageSize,page).then(
-            (responseData) => {
-
-                if(responseData.code === 0){
-                    let newList = responseData.list;
-
-                    let dataList = page === 1 ? newList : [...this.state.dataList, ...newList]
-                    this.setState({
-                        dataList: dataList,
-                        refreshState:responseData.list.length < pageSize ? RefreshState.NoMoreData : RefreshState.Idle,
-                    });
-
-                    if (page === 1 && this.state.dataList.length === 0){
-
+                    if (messageArr.length > 0){
+                        this.setState({
+                            initStatus:'initSucess',
+                            dataList : messageArr,
+                            refreshState : RefreshState.NoMoreData,
+                        });
+                    }else if (messageArr.length === 0){
                         this.setState({
                             initStatus:'no-data'
                         })
-
-                    }else if (this.state.initStatus !== 'initSucess'){
-                        this.setState({
-                            initStatus:'initSucess'
-                        })
                     }
-
-                }else{
-
-                    if (this.state.dataList.length === 0){
-                        this.setState({
-                            initStatus:'error'
-                        })
-                    }
-                    this.setState({refreshState: RefreshState.Failure})
                 }
             },
             (e) => {
-                if (this.state.dataList.length === 0){
-                    this.setState({
-                        initStatus:'error'
-                    })
-                }
 
-                this.setState({refreshState: RefreshState.Failure})
+                this.setState({
+                    initStatus:'error'
+                })
+
             },
         );
     }
 
-    _reloadPage(){
-        this._isLogined();
-
-    }
 
 
     _jumpWithUrl(item){
@@ -418,34 +318,18 @@ export default class NotifyMessagePage extends BComponent {
         if (item.readed === true){
             return;
         }
-        apis.putMessageReaded().then(
-            (responseData) => {
 
-                if(responseData.code === 0){
-                    item.readed = true;
-                    let data = [];
-                    this.state.dataList.forEach(row => {
-                        data.push(Object.assign({}, row));
-                    });
 
-                    this.setState({
-                        dataList:data,
-                    });
-                    this.state.unReadNum--;
-                    this.props.navigator.setTabBadge({
-                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
-                    });
-                }else{
-                }
-            },
-            (e) => {
+        item.readed = true;
+        let data = [];
+        this.state.dataList.forEach(row => {
+            data.push(Object.assign({}, row));
+        });
 
-            },
-        );
-
+        this.setState({
+            dataList:data,
+        });
     }
-
-
 
     _goto(item){
 
@@ -456,18 +340,7 @@ export default class NotifyMessagePage extends BComponent {
                 item
             }
         });
-
     }
-
-    onHeaderRefresh = () => {
-        this.page=1;
-        this.loadData(this.page)
-    };
-
-    onFooterRefresh = () => {
-        this.page++;
-        this.loadData(this.page)
-    };
 
     renderCell = (info) => {
         return(
@@ -492,15 +365,14 @@ export default class NotifyMessagePage extends BComponent {
                         keyExtractor = {(item, index) => index}
                         renderItem={this.renderCell.bind(this)}
                         refreshState={this.state.refreshState}
-                        onHeaderRefresh={this.onHeaderRefresh}
-                        onFooterRefresh={this.onFooterRefresh}
                         contentContainerStyle={{paddingTop:10,backgroundColor:'#f1f1f1'}}
+                        isheaderrefresh={false}
                     />
                 </View>
             )
         }else {
             return(
-                <DefaultView onPress={()=>this._reloadPage()} type ={this.state.initStatus}/>
+                <DefaultView  type ={this.state.initStatus}/>
             )
         }
 

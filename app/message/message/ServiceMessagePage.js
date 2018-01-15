@@ -359,7 +359,23 @@ export default class ServiceMessagePage extends BComponent {
                 if(responseData.code === 0){
                     let newList = responseData.list;
 
-                    let dataList = page === 1 ? newList : [...this.state.dataList, ...newList]
+
+                    UserInfoStore.setNotifyMessageArr(newList).then(
+                        (newList) => {
+                            console.log("嘎嘎嘎");
+
+
+                        },
+                        (e) => {
+                            console.log("公司信息保存错误:", e);
+
+                        },
+                    );
+
+
+
+
+                    let dataList = page === 1 ? newList : [...this.state.dataList, ...newList];
                     this.setState({
                         dataList: dataList,
                         refreshState:responseData.list.length < pageSize ? RefreshState.NoMoreData : RefreshState.Idle,

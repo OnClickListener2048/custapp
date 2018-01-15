@@ -30,8 +30,11 @@ export default class MessagePage extends BComponent {
         this.state = {
             dataList: [],
             unReadNum: 0,
+            notifyNewNum: 0,
+            serviceNewNum: 0,
             logined : false,
             isAppear : false,
+            isGotoSubVC : false,
             refreshState: RefreshState.Idle,
             jpushMessage:'',
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
@@ -59,10 +62,16 @@ export default class MessagePage extends BComponent {
         if(event.id === 'didAppear'){
 
 
+
+
             if(Platform.OS === 'ios') {
                 JPushModule.setBadge(0, (badgeNumber) => {
                 });
             }
+
+            this.setState({
+                isGotoSubVC : false,
+            });
 
             if (this.state.isAppear === false){
                 this.setState({
@@ -72,7 +81,6 @@ export default class MessagePage extends BComponent {
 
                     // console.log('嘎嘎嘎1', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
                     if (this.state.jpushMessage) {
-                        // console.log('嘎嘎嘎2', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
 
                         pushJump(this.props.navigator, this.state.jpushMessage.url,this.state.jpushMessage.title?this.state.jpushMessage.title:'噼里啪智能财税',this.state.jpushMessage.title?this.state.jpushMessage.title:'噼里啪智能财税'.title,this.state.jpushMessage.content);
 
@@ -93,10 +101,13 @@ export default class MessagePage extends BComponent {
 
 
         if(event.id === 'willDisappear'){
-            this.setState({
-                isAppear : false
-            })
 
+
+            if (this.state.isGotoSubVC === false){
+                this.setState({
+                    isAppear : false
+                })
+            }
         }
 
     }
@@ -137,17 +148,6 @@ export default class MessagePage extends BComponent {
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
 
-
-            //应用杀死 点击通知跳转
-            this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
-                this.setState({
-                    jpushMessage : message
-                });
-                this.props.navigator.switchToTab({
-                    //因为应用杀死的情况下直接点开不会走viewwillAppear,所以强制跳转到本页面走viewwillAppear然后在viewwillAppear执行相关操作
-                    tabIndex: 2
-                });
-            });
             //收到自定义消息 刷新消息
             this.recieveiOSCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
                 console.log("receive notification: " + JSON.stringify(message));
@@ -159,6 +159,9 @@ export default class MessagePage extends BComponent {
                 }else {
                     this._loadUnreadedNum();
                 }
+
+                //两种cell新消息数字 加入缓存数据
+                this._resetNotifyMessageArr(message);
             });
 
             //收到通知刷新自定义消息
@@ -171,16 +174,24 @@ export default class MessagePage extends BComponent {
                 }else {
                     this._loadUnreadedNum();
                 }
+                this._resetNotifyMessageArr(message);
+
             });
+
+            //应用杀死 点击通知跳转
+            this.refreshEmitter = DeviceEventEmitter.addListener('ClickJPushMessage', (message) => {
+                this.setState({
+                    jpushMessage : message
+                });
+                this.props.navigator.switchToTab({
+                    //因为应用杀死的情况下直接点开不会走viewwillAppear,所以强制跳转到本页面走viewwillAppear然后在viewwillAppear执行相关操作
+                    tabIndex: 2
+                });
+            });
+
             //应用未杀死 点击通知栏
             this.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                 console.log("点击击通知自测通知自测 " + JSON.stringify(message));
-
-                // this.props.navigator.switchToTab({
-                //     tabIndex: 2
-                // });
-
-                // pushJump(this.props.navigator, message.url);
                 if(NavigatorSelected){
                     pushJump(NavigatorSelected, message.url,message.title?message.title:'噼里啪智能财税',message.title?message.title:'噼里啪智能财税',message.content);
 
@@ -201,6 +212,8 @@ export default class MessagePage extends BComponent {
                         this._loadUnreadedNum();
 
                     }
+                    this._resetNotifyMessageArr(message.extras);
+
                 });
                 //收到通知
                 this.recieveAndroidJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
@@ -212,6 +225,8 @@ export default class MessagePage extends BComponent {
                     }else {
                         this._loadUnreadedNum();
                     }
+                    this._resetNotifyMessageArr(message.extras);
+
                 });
 
                 //点击通知栏
@@ -237,13 +252,64 @@ export default class MessagePage extends BComponent {
     }
 
 
+    _resetNotifyMessageArr(item){
+
+        //TODO 判断是哪种数据
+        //服务类的
+
+
+
+
+        //通知类的
+        let tmpArr = [];
+        tmpArr[0] = item;
+
+        UserInfoStore.getNotifyMessageArr().then(
+            (messageArr) => {
+                if (messageArr) {
+
+                    if (messageArr.length > 0) {
+                        this.messageArr.forEach(row => {
+                            tmpArr.push(Object.assign({}, row));
+                        });
+                    }
+
+                    UserInfoStore.setNotifyMessageArr(tmpArr).then(
+                        (newList) => {
+
+                            console.log("保存数据成功嘎嘎嘎:", newList);
+
+                        },
+                        (e) => {
+                        },
+                    );
+
+
+                    UserInfoStore.setNotifyMessageNewNum(tmpArr.length).then(
+                        (newList) => {
+
+                            console.log("保存新的通知消息长度成功嘎嘎嘎:");
+
+                        },
+                        (e) => {
+                        },
+                    );
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
+
+
+    }
+
+
 
     _isLogined(){
         UserInfoStore.isLogined().then(
             logined => {
                 this.setState({logined:logined});
-                console.log('MinePage logined', logined,this.state.logined);
-
                 if (logined === true){
                     this._loadUnreadedNum()
                 }else {
@@ -308,20 +374,63 @@ export default class MessagePage extends BComponent {
         );
     }
 
+    _clearNotifyMessageNum(){
+
+    }
+
+    _clearServiceMessageNum(){
+
+    }
+
+
+
+
     _gotoServiceMessagePage(){
-        this.push({
-            screen: 'ServiceMessagePage',
-            title:'服务消息',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-        });
+        UserInfoStore.setNotifyMessageNewNum(0).then(
+            (newList) => {
+
+                this.setState({
+                    isGotoSubVC : true,
+                    serviceNewNum : 0
+                });
+
+                this.push({
+                    screen: 'ServiceMessagePage',
+                    title:'服务消息',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                    callback: this._clearServiceMessageNum.bind(this),
+                });
+            },
+            (e) => {
+            },
+        );
+
     }
 
     _gotoNotifyMessagePage(){
-        this.push({
-            screen: 'ServiceMessagePage',
-            title:'通知助手',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-        });
+        UserInfoStore.setServiceMessageNewNum(0).then(
+            (newList) => {
+                this.setState({
+                    isGotoSubVC : true,
+                    notifyNewNum:3
+                });
+
+
+                if(this.refs.notifyCell) {
+                    this.refs.notifyCell.setNewNum(3);
+                }
+
+
+                this.push({
+                    screen: 'NotifyMessagePage',
+                    title:'通知助手',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                    callback: this._clearNotifyMessageNum.bind(this),
+                });
+            },
+            (e) => {
+            },
+        );
     }
 
     render() {
@@ -335,14 +444,16 @@ export default class MessagePage extends BComponent {
                         isRightBtnClick ={true}
                         leftIcon = {require('../../img/notifyMessageIcon.png')}
                         leftText= {'通知助手'}
+                        messageNum={this.state.serviceNewNum}
                     />
-                    <MessageTipCell
+                    <MessageTipCell ref="notifyCell"
                         onPress={this._gotoServiceMessagePage.bind(this)}
                         underLine={false}
                         isClick ={true}
                         isRightBtnClick ={true}
                         leftIcon = {require('../../img/serviceMessageIcon.png')}
                         leftText= {'服务消息'}
+                        messageNum={this.state.notifyNewNum}
                     />
 
                 </View>
