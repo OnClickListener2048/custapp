@@ -65,8 +65,8 @@ export default class BannerView extends Component{
                     showsHorizontalScrollIndicator = {false}
                     pagingEnabled = {true}
                     onMomentumScrollEnd = {this._onMomentumScrollEnd.bind(this)}
-                    onTouchStart={this._onTouchStart.bind(this)}
-                    onTouchEnd={this._onTouchEnd.bind(this)}
+                    onScrollBeginDrag={this._onScrollBeginDrag.bind(this)}
+                    onScrollEndDrag={this._onScrollEndDrag.bind(this)}
                 >
 
                     {
@@ -116,10 +116,10 @@ export default class BannerView extends Component{
 
 
 
-    _onTouchStart(){
+    _onScrollBeginDrag(){
         clearInterval(this._timer);
     }
-    _onTouchEnd(){
+    _onScrollEndDrag(){
         this._beginTime()
     }
     _beginTime(){
