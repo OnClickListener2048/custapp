@@ -415,10 +415,7 @@ export default class MinePage extends BComponent {
                         {/*leftText="消息"*/}
                         {/*onPress = {this._goto.bind(this,'MessagePage','消息')}*/}
                     {/*/>*/}
-                    <CommenCell
-                        leftText="账号与安全"
-                        onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
-                    />
+
                     {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)||!this.state.upgrade?
                         <CommenCell
                         leftText="设置"
