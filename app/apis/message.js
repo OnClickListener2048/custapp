@@ -24,3 +24,5 @@ export function loadMessageUnReadedNum( ) {
 export function putClearMessageUnReadedNum( ) {
     return putEx('/api/v1/messages/clear');
 }
+
+
