@@ -25,7 +25,7 @@ import Toast from 'react-native-root-toast'
 import pushJump from '../../util/pushJump';
 
 import Swiper from 'react-native-swiper';
-
+import ViewPagerWrapper from '../../view/ViewPagerWrapper'
 const ImageScale = 0.42
 import {isIphoneX} from '../../util/iphoneX-helper'
 
@@ -86,22 +86,8 @@ export default class HomePage extends BComponent {
 
     onNavigatorEvent(event) {
         super.onNavigatorEvent(event);
-        if(DeviceInfo.OS === 'android'){
-            if (event.id === 'willAppear') {
-                NavigatorSelected = this.props.navigator;
-                this.setState({
-                    visible: true
-                });
-            }
-            if (event.id === 'willDisappear') {
-                this.setState({
-                    visible: false
-                });
-            }
-        }else{
-            if (event.id === 'willAppear') {
-                NavigatorSelected = this.props.navigator;
-            }
+        if (event.id === 'willAppear') {
+            NavigatorSelected = this.props.navigator;
         }
 
     }
@@ -480,7 +466,7 @@ export default class HomePage extends BComponent {
         )
     }
     _renderBannerView(){
-        if(this.state.visible){
+        if(Platform.OS === 'ios'){
             return(
                 <Swiper
                     style={{height:deviceWidth*ImageScale}}
@@ -505,8 +491,59 @@ export default class HomePage extends BComponent {
                 </Swiper>
             );
         }else{
-            return <View style={{height:deviceWidth*ImageScale}}/>
+            return(
+                <ViewPagerWrapper navigator={this.props.navigator}>
+                    <Swiper
+                        style={{height:deviceWidth*ImageScale}}
+                        loop = {true}
+                        autoplayTimeout={5}
+                        autoplay = {true}
+                        index = {0}
+                        showsPagination = {true}
+                        paginationStyle={{bottom:5}}
+                        dot={<View style={{backgroundColor:'rgba(0,0,0,.2)', width: 6, height: 6,borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+                        activeDot={<View style={{backgroundColor: '#323232', width: 6, height: 6, borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+                    >
+                        {
+                            this.state.bannerData.map((item,index)=>{
+                                return(
+                                    <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
+                                        <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
+                                    </TouchableWithoutFeedback>
+                                )
+                            })
+                        }
+                    </Swiper>
+                </ViewPagerWrapper>
+            )
         }
+        // if(this.state.visible){
+        //     return(
+        //         <Swiper
+        //             style={{height:deviceWidth*ImageScale}}
+        //             loop = {true}
+        //             autoplayTimeout={5}
+        //             autoplay = {true}
+        //             index = {0}
+        //             showsPagination = {true}
+        //             paginationStyle={{bottom:5}}
+        //             dot={<View style={{backgroundColor:'rgba(0,0,0,.2)', width: 6, height: 6,borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+        //             activeDot={<View style={{backgroundColor: '#323232', width: 6, height: 6, borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+        //         >
+        //             {
+        //                 this.state.bannerData.map((item,index)=>{
+        //                     return(
+        //                         <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
+        //                             <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
+        //                         </TouchableWithoutFeedback>
+        //                     )
+        //                 })
+        //             }
+        //         </Swiper>
+        //     );
+        // }else{
+        //     return <View style={{height:deviceWidth*ImageScale}}/>
+        // }
 
 
     }
