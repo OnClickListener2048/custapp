@@ -29,6 +29,7 @@ import SubmitButton from "../../view/SubmitButton";
 import {Navigation} from 'react-native-navigation';
 import Alert from "react-native-alert";
 import random from "../../util/random";
+import loadUserInfo from '../../util/LoadUserInfoUtil'
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -97,71 +98,80 @@ export default class BindPhonePage extends BComponent {
 
     // 读取用户信息
     readUserInfo() {
-        apis.userInfo().then(
-            (responseData) => {
-                console.log("用户信息读取成功返回:", JSON.stringify(responseData));
-                if (responseData && responseData.user) {
-
-                    if(responseData.user.mobilePhone) {
-                        UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
-                        UserInfoStore.setUserInfo(responseData.user).then();
-
-                        apis.getCompany(responseData.user.mobilePhone).then(
-                            (companyInfo) => {
-                                if (companyInfo && companyInfo.list) {
-
-                                    let tmpCompaniesArr = companyInfo.list;
-
-                                    if (tmpCompaniesArr.length > 0) {
-
-                                        UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
-                                            (user) => {
-                                                console.log("公司信息保存成功");
-                                            },
-                                            (e) => {
-                                                console.log("公司信息保存错误:", e);
-                                            },
-                                        );
-
-                                        UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
-                                            (user) => {
-                                                console.log("公司信息保存成功");
-                                                DeviceEventEmitter.emit('ChangeCompany');
-
-                                            },
-                                            (e) => {
-                                                console.log("公司信息保存错误:", e);
-                                            },
-                                        );
-                                    }else{
-
-                                        this._removeCompanyInfo()
-
-                                    }
-
-
-                                }else{
-
-                                    this._removeCompanyInfo()
-
-                                }
-                            },
-                            (e) => {
-
-                                // Toast.show('公司信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
-
-                            },
-                        );
-                    }
-                } else {
-                    console.log("OK ===> LoginPage:");
+        let _this = this;
+        loadUserInfo({
+            type:'bind',
+            callback: function(res){
+                if(res.code == 0){
+                    DeviceEventEmitter.emit('ChangeCompany');
                 }
             },
-            (e) => {
-                console.log("用户信息读取错误返回:", e);
-                // Toast.show('用户信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
-            },
-        );
+        })
+        // apis.userInfo().then(
+        //     (responseData) => {
+        //         console.log("用户信息读取成功返回:", JSON.stringify(responseData));
+        //         if (responseData && responseData.user) {
+        //
+        //             if(responseData.user.mobilePhone) {
+        //                 UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
+        //                 UserInfoStore.setUserInfo(responseData.user).then();
+        //
+        //                 apis.getCompany(responseData.user.mobilePhone).then(
+        //                     (companyInfo) => {
+        //                         if (companyInfo && companyInfo.list) {
+        //
+        //                             let tmpCompaniesArr = companyInfo.list;
+        //
+        //                             if (tmpCompaniesArr.length > 0) {
+        //
+        //                                 UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+        //                                     (user) => {
+        //                                         console.log("公司信息保存成功");
+        //                                     },
+        //                                     (e) => {
+        //                                         console.log("公司信息保存错误:", e);
+        //                                     },
+        //                                 );
+        //
+        //                                 UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+        //                                     (user) => {
+        //                                         console.log("公司信息保存成功");
+        //                                         DeviceEventEmitter.emit('ChangeCompany');
+        //
+        //                                     },
+        //                                     (e) => {
+        //                                         console.log("公司信息保存错误:", e);
+        //                                     },
+        //                                 );
+        //                             }else{
+        //
+        //                                 this._removeCompanyInfo()
+        //
+        //                             }
+        //
+        //
+        //                         }else{
+        //
+        //                             this._removeCompanyInfo()
+        //
+        //                         }
+        //                     },
+        //                     (e) => {
+        //
+        //                         // Toast.show('公司信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+        //
+        //                     },
+        //                 );
+        //             }
+        //         } else {
+        //             console.log("OK ===> LoginPage:");
+        //         }
+        //     },
+        //     (e) => {
+        //         console.log("用户信息读取错误返回:", e);
+        //         // Toast.show('用户信息读取失败', {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+        //     },
+        // );
     }
     _removeCompanyInfo(){
         UserInfoStore.removeCompany().then((s)=>{

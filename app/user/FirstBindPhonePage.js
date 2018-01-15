@@ -34,6 +34,7 @@ import AdapterUI from '../util/AdapterUI'
 import BComponent from "../base/BComponent";
 import errorText from '../util/ErrorMsg';
 import random from "../util/random";
+import loadUserInfo from '../util/LoadUserInfoUtil'
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -103,68 +104,77 @@ export default class FirstBindPhonePage extends BComponent {
 
     // 读取用户信息
     readUserInfo() {
-        apis.userInfo().then(
-            (responseData) => {
-                console.log("用户信息读取成功返回:", JSON.stringify(responseData));
-                if (responseData && responseData.user) {
-                    if (responseData.user.mobilePhone) {
-                        UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
-                        UserInfoStore.setUserInfo(responseData.user).then();
-                        apis.getCompany(responseData.user.mobilePhone).then(
-                            (companyInfo) => {
-                                console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
-                                if (companyInfo && companyInfo.list) {
-                                    console.log("公司信息保存中....", companyInfo.list);
-                                    let tmpCompaniesArr = companyInfo.list;
-
-                                    //需要注掉到时候
-                                    if (tmpCompaniesArr.length > 0) {
-
-                                        UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
-                                            (user) => {
-                                                console.log("公司信息保存成功");
-                                            },
-                                            (e) => {
-                                                console.log("公司信息保存错误:", e);
-                                            },
-                                        );
-
-                                        UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
-                                            (user) => {
-                                                console.log("公司信息保存成功");
-                                                DeviceEventEmitter.emit('ChangeCompany');
-
-                                            },
-                                            (e) => {
-                                                console.log("公司信息保存错误:", e);
-                                            },
-                                        );
-                                    }
-                                }
-                            },
-                            (e) => {
-                                Toast.show('公司信息读取失败', {
-                                    position: Toast.positions.CENTER,
-                                    duration: Toast.durations.LONG,
-                                    backgroundColor: 'red'
-                                });
-                                console.log("公司信息读取错误返回:", e);
-                            },
-                        );
-                    }
-                } else {
-                    console.log("OK ===> LoginPage:");
+        let _this = this;
+        loadUserInfo({
+            type:'bind',
+            callback: function(res){
+                if(res.code == 0){
+                    DeviceEventEmitter.emit('ChangeCompany');
                 }
             },
-            (e) => {
-                console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取失败', {
-                    position: Toast.positions.CENTER,
-                    duration: Toast.durations.LONG,
-                    backgroundColor: 'red'
-                });
-            },
-        );
+        })
+        // apis.userInfo().then(
+        //     (responseData) => {
+        //         console.log("用户信息读取成功返回:", JSON.stringify(responseData));
+        //         if (responseData && responseData.user) {
+        //             if (responseData.user.mobilePhone) {
+        //                 UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
+        //                 UserInfoStore.setUserInfo(responseData.user).then();
+        //                 apis.getCompany(responseData.user.mobilePhone).then(
+        //                     (companyInfo) => {
+        //                         console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
+        //                         if (companyInfo && companyInfo.list) {
+        //                             console.log("公司信息保存中....", companyInfo.list);
+        //                             let tmpCompaniesArr = companyInfo.list;
+        //
+        //                             //需要注掉到时候
+        //                             if (tmpCompaniesArr.length > 0) {
+        //
+        //                                 UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+        //                                     (user) => {
+        //                                         console.log("公司信息保存成功");
+        //                                     },
+        //                                     (e) => {
+        //                                         console.log("公司信息保存错误:", e);
+        //                                     },
+        //                                 );
+        //
+        //                                 UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+        //                                     (user) => {
+        //                                         console.log("公司信息保存成功");
+        //                                         DeviceEventEmitter.emit('ChangeCompany');
+        //
+        //                                     },
+        //                                     (e) => {
+        //                                         console.log("公司信息保存错误:", e);
+        //                                     },
+        //                                 );
+        //                             }
+        //                         }
+        //                     },
+        //                     (e) => {
+        //                         Toast.show('公司信息读取失败', {
+        //                             position: Toast.positions.CENTER,
+        //                             duration: Toast.durations.LONG,
+        //                             backgroundColor: 'red'
+        //                         });
+        //                         console.log("公司信息读取错误返回:", e);
+        //                     },
+        //                 );
+        //             }
+        //         } else {
+        //             console.log("OK ===> LoginPage:");
+        //         }
+        //     },
+        //     (e) => {
+        //         console.log("用户信息读取错误返回:", e);
+        //         Toast.show('用户信息读取失败', {
+        //             position: Toast.positions.CENTER,
+        //             duration: Toast.durations.LONG,
+        //             backgroundColor: 'red'
+        //         });
+        //     },
+        // );
     }
 
     // 修改绑定手机号

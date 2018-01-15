@@ -76,7 +76,6 @@ export default class HomePage extends BComponent {
             isFirstRefresh:true,
             isLoading:true,
             bannerData:[],
-            visible: true
         };
     }
     static navigatorStyle = {
@@ -224,12 +223,12 @@ export default class HomePage extends BComponent {
                     for (let i = 0; i<responseData.list.length;i++){
                         let section = {};
                         section.title = responseData.list[i].name;
-                        section.key = i;
+                        section.key = 'section'+ i;
                         //showtype
                         section.data = [{data:responseData.list[i].products,type:responseData.list[i].showtype?responseData.list[i].showtype:'1'}];
                         for(let j=0;j<section.data.length;j++){
 
-                            section.data[j].key = j
+                            section.data[j].key = 'row'+ j
                         }
                         dataSource.push(section)
                     }
@@ -419,7 +418,7 @@ export default class HomePage extends BComponent {
                     {
                         headerData.map((item,i)=>{
                             return(
-                                <View style={{backgroundColor:'white',width:deviceWidth,marginTop:i?10:0}}>
+                                <View key={i} style={{backgroundColor:'white',width:deviceWidth,marginTop:i?10:0}}>
                                     <SectionHeader style={{marginTop:10}} text ={item.title} />
                                     {item.UItype === 1 ?<View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
                                         {
@@ -517,34 +516,6 @@ export default class HomePage extends BComponent {
                 </ViewPagerWrapper>
             )
         }
-        // if(this.state.visible){
-        //     return(
-        //         <Swiper
-        //             style={{height:deviceWidth*ImageScale}}
-        //             loop = {true}
-        //             autoplayTimeout={5}
-        //             autoplay = {true}
-        //             index = {0}
-        //             showsPagination = {true}
-        //             paginationStyle={{bottom:5}}
-        //             dot={<View style={{backgroundColor:'rgba(0,0,0,.2)', width: 6, height: 6,borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
-        //             activeDot={<View style={{backgroundColor: '#323232', width: 6, height: 6, borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
-        //         >
-        //             {
-        //                 this.state.bannerData.map((item,index)=>{
-        //                     return(
-        //                         <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
-        //                             <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
-        //                         </TouchableWithoutFeedback>
-        //                     )
-        //                 })
-        //             }
-        //         </Swiper>
-        //     );
-        // }else{
-        //     return <View style={{height:deviceWidth*ImageScale}}/>
-        // }
-
 
     }
     _goBannerDetail(item){

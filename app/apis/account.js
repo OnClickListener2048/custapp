@@ -51,7 +51,12 @@ export async function getVerifyVCodeImage(device = '', type = '1') {
 export function getCompany(mobile = '') {
     return getApi('/api/v1.01/companies', {mobile});
 }
-
+/**
+ * 获取公司信息
+ */
+export function changeCompany(id = '') {
+    return postApi('/api/v1.01/companies/'+id);
+}
 // 问题反馈
 export function sendFeedback({message = '', userName = ''}) {
   return postApi('/app/v0/feedback', {message, userName});
