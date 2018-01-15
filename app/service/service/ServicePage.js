@@ -1,4 +1,5 @@
 /**
+ * 服务标签页
  * Created by liufei on 2017/9/25.
  */
 import React, {Component} from 'react';
@@ -387,7 +388,7 @@ export default class ServicePage extends BComponent {
 
                                 return(
                                     <TouchableOpacity key={index} onPress = {this._goServiceDetail.bind(this,item)}>
-                                        <View style={[{width:itemWidth, marginLeft:marg,backgroundColor:'white',height:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'#F9F9F9',borderRightWidth,borderBottomWidth}]}>
+                                        <View style={[{width:itemWidth, marginLeft:marg,backgroundColor:'white',height:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'#D7D7D7',borderRightWidth,borderBottomWidth}]}>
                                             <Image resizeMode="contain" source={item.logo} />
                                             <Text style={{color:'#333333',fontSize:setSpText(14), marginTop:13}}>{item.title}</Text>
                                         </View>

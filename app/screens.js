@@ -11,6 +11,8 @@ import VerifyResultPage from './home/VerifyName/VerifyResultPage';
 import MessagePage from './message/message/MessagePage';
 
 import ServiceMessagePage from './message/message/ServiceMessagePage';
+import NotifyMessagePage from './message/message/NotifyMessagePage';
+
 
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
@@ -62,6 +64,7 @@ export default function () {
     reg('PersonalDataPage', () => PersonalDataPage);
     reg('MessagePage', () => MessagePage);
     reg('ServiceMessagePage', () => ServiceMessagePage);
+    reg('NotifyMessagePage', () => NotifyMessagePage);
     reg('MinePage', () => MinePage);
     reg('ServicePage', () => ServicePage);
     reg('FirstBindPhonePage', () => FirstBindPhonePage);

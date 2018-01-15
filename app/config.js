@@ -31,9 +31,8 @@ export let DOMAIN_API = 'www.pilipa.cn';
 if(DEBUG) {// 测试环境变量, 上线时应删除
 
     SCHEME = 'https';
-    // DOMAIN_API = 'www-rc.i-counting.cn';
 
-    DOMAIN_API = 'x-www.i-counting.cn';
+    //DOMAIN_API = 'x-www.i-counting.cn';// 打补丁时的测试域名
     H5_URL = 'https://x-www.i-counting.cn/'
     //单
     // SCHEME = 'http';

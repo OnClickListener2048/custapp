@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Component,PropTypes } from 'react';
 import {
 
     StyleSheet,
@@ -15,6 +15,7 @@ export default class MessageTipCell extends Component {
     static defaultProps = {
         isClick:true,//是否可以点击，  true自带右侧箭头
         isRightBtnClick:true,//是否可以点击，  true自带右侧箭头
+        messageNum:0,
 
         onPress:function() {},//点击事件
         rightBtnOnPress:function() {},//右边按钮点击事件
@@ -25,10 +26,17 @@ export default class MessageTipCell extends Component {
         underLine:true,//是否有分割线
         surviveText:'',
         ownerText:'',
-        underLineStyle:{}//分割线样式自定义
+        underLineStyle:{},//分割线样式自定义
     };
 
+
+
+    setNewNum(messageNum) {
+        this.setState({messageNum : messageNum});
+    }
+
     render() {
+
         let underlineStyle = {};
         if(this.props.underLine){
             underlineStyle = {
@@ -55,51 +63,19 @@ export default class MessageTipCell extends Component {
                 <Image resizeMode="center" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                        source={this.props.leftIcon}/>
 
-            <View  style={{backgroundColor:'red',flexDirection:'row',minWidth:12,height:12,marginLeft:-5,marginTop:-14,borderRadius:6}}>
-                <Text numberOfLines={1} style={{color:'#ffffff',minWidth:12,fontSize:9,backgroundColor:'transparent',textAlign:'center',height:12,lineHeight:12}}>8</Text>
-            </View>
+            {this.props.messageNum > 0 && <View  style={{backgroundColor:'red',flexDirection:'row',minWidth:12,height:12,marginLeft:-5,marginTop:-14,borderRadius:6}}>
+                <Text numberOfLines={1} style={{color:'#ffffff',minWidth:10,marginLeft:1,marginRight:1,fontSize:9,backgroundColor:'transparent',textAlign:'center',height:12,lineHeight:12}}>
+                    {this.props.messageNum}</Text>
+            </View>}
         </View>)
     }
 
     _renderRightView(){
-        let tipBtnCount = 0;
-        if (this.props.surviveText.length > 0){
-            tipBtnCount++;
-        }
-        if (this.props.ownerText.length > 0){
-            tipBtnCount++;
-        }
+
 
         return(
                 <View style = {styles.rightViewStyle}>
                     <Image resizeMode = "center" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
-                    {tipBtnCount > 0 &&
-                    <View style={{width: 47 * tipBtnCount, flexDirection: 'row', alignItems: 'center',}}>
-                        {this.props.surviveText.length > 0 && <View style={{
-                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#E2D4B7',
-                            justifyContent: 'center'
-                        }}>
-                            <Text style={{
-                                color: '#ffffff',
-                                textAlign: 'center',
-                                fontSize: 10
-                            }}>{this.props.surviveText}</Text>
-                        </View>
-                        }
-                        {this.props.ownerText.length > 0 &&
-                        <View style={{
-                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',opacity:0.5,
-                            justifyContent: 'center'
-                        }}>
-                            <Text style={{
-                                color: '#ffffff',
-                                textAlign: 'center',
-                                fontSize: 10
-                            }}>{this.props.ownerText}</Text>
-                        </View>
-                        }
-                    </View>
-                    }
                     <Text numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
                 </View>
         );
