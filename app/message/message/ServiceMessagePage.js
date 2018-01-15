@@ -258,6 +258,8 @@ export default class ServiceMessagePage extends BComponent {
         if (item.readed === true){
             return;
         }
+
+        this._jumpWithUrl(item);
         apis.putMessageReaded().then(
             (responseData) => {
 
@@ -287,17 +289,7 @@ export default class ServiceMessagePage extends BComponent {
 
 
 
-    _goto(item){
 
-        this.props.navigator.push({
-            screen: 'SystemMessagePage',
-            title:'消息详情',
-            passProps:{
-                item
-            }
-        });
-
-    }
 
     onHeaderRefresh = () => {
         this.page=1;
@@ -311,12 +303,12 @@ export default class ServiceMessagePage extends BComponent {
 
     renderCell = (info) => {
         return(
-            <TouchableOpacity onPress={this._jumpWithUrl.bind(this,info.item)}>
+            <TouchableOpacity onPress={this._readed.bind(this,info.item)}>
                 <MessageCustomCell
                     messageTitle={info.item.title}
                     messageSubTitle={info.item.content}
                     messageTime={info.item.createDate}
-                    isRead={false}
+                    isRead={info.item.readed}
                 />
             </TouchableOpacity>
         )
@@ -335,6 +327,7 @@ export default class ServiceMessagePage extends BComponent {
                         onHeaderRefresh={this.onHeaderRefresh}
                         onFooterRefresh={this.onFooterRefresh}
                         contentContainerStyle={{paddingTop:10,backgroundColor:'#f1f1f1'}}
+
                     />
                 </View>
             )

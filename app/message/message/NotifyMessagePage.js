@@ -136,27 +136,27 @@ export default class NotifyMessagePage extends BComponent {
         this.setState({
             dataList:data,
         });
-    }
 
-    _goto(item){
 
-        this.props.navigator.push({
-            screen: 'SystemMessagePage',
-            title:'消息详情',
-            passProps:{
-                item
-            }
-        });
+        UserInfoStore.setNotifyMessageArr(data).then(
+            (data) => {
+                this._jumpWithUrl.bind(item);
+                console.log("保存新是否已读的数据:", data);
+
+            },
+            (e) => {
+            },
+        );
     }
 
     renderCell = (info) => {
         return(
-            <TouchableOpacity onPress={this._jumpWithUrl.bind(this,info.item)}>
+            <TouchableOpacity onPress={this._readed.bind(this,info.item)}>
                 <MessageCustomCell
                     messageTitle={info.item.title}
                     messageSubTitle={info.item.content}
                     messageTime={info.item.createDate}
-                    isRead={false}
+                    isRead={info.item.readed}
                 />
             </TouchableOpacity>
         )
