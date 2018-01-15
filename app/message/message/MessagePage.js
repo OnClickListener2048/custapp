@@ -66,9 +66,6 @@ export default class MessagePage extends BComponent {
         }
         if(event.id === 'didAppear'){
 
-
-
-
             if(Platform.OS === 'ios') {
                 JPushModule.setBadge(0, (badgeNumber) => {
                 });
@@ -83,30 +80,19 @@ export default class MessagePage extends BComponent {
                     isAppear : true
                 });
                 if(Platform.OS === 'ios') {
-
-                    // console.log('嘎嘎嘎1', this.state.jpushMessage, this.state.jpushMessage.length, this.state.jpushMessage.length > 0)
                     if (this.state.jpushMessage) {
-
                         pushJump(this.props.navigator, this.state.jpushMessage.url,this.state.jpushMessage.title?this.state.jpushMessage.title:'噼里啪智能财税',this.state.jpushMessage.title?this.state.jpushMessage.title:'噼里啪智能财税'.title,this.state.jpushMessage.content);
 
                         this.setState({
                             jpushMessage: ''
                         });
-
-
                     }
                 }
             }
-
-
             this._clearBadgeNum();
-
         }
 
-
-
         if(event.id === 'willDisappear'){
-
 
             if (this.state.isGotoSubVC === false){
                 this.setState({
@@ -143,8 +129,6 @@ export default class MessagePage extends BComponent {
                 initStatus:'no-data'
             })
         });
-
-
 
         //notifyJSDidLoad  新版本安卓如下写法才可监听到消息回调
         if(Platform.OS === 'ios'){
@@ -295,6 +279,9 @@ export default class MessagePage extends BComponent {
         //服务类的
         if(item.isGroup === false) {
             this._resetServiceNum();
+            DeviceEventEmitter.emit('ReloadServiceMessageList');
+
+
         }else if (item.isGroup === true) {
             //通知类的
             this._resetNotifyNum();
@@ -315,6 +302,8 @@ export default class MessagePage extends BComponent {
                         UserInfoStore.setNotifyMessageArr(tmpArr).then(
                             (newList) => {
                                 console.log("保存数据成功嘎嘎嘎:", newList);
+                                DeviceEventEmitter.emit('ReloadNotifyMessageList');
+
                             },
                             (e) => {
                             },
@@ -383,7 +372,6 @@ export default class MessagePage extends BComponent {
             (responseData) => {
 
                 if(responseData.code === 0){
-
                     UserInfoStore.getNotifyMessageNewNum().then(
                         (num) => {
                             if (num) {
@@ -394,7 +382,6 @@ export default class MessagePage extends BComponent {
                                 this.props.navigator.setTabBadge({
                                     badge: this.state.unReadNum + num <= 0 ? null : this.state.unReadNum + num// 数字气泡提示, 设置为null会删除
                                 });
-
                             }
                         },
                         (e) => {
@@ -402,12 +389,8 @@ export default class MessagePage extends BComponent {
                         },
                     );
 
-
-
-
                     UserInfoStore.setServiceMessageNewNum(responseData.unread).then(
                         (num) => {
-
                         },
                         (e) => {
                         },
@@ -430,33 +413,6 @@ export default class MessagePage extends BComponent {
 
     }
 
-
-
-
-    _gotoServiceMessagePage(){
-        UserInfoStore.setServiceMessageNewNum(0).then(
-            (num) => {
-
-                this._setServiceCellNewNum(0);
-
-                this.setState({
-                    isGotoSubVC : true,
-                    serviceNewNum : 0
-                });
-
-                this.push({
-                    screen: 'ServiceMessagePage',
-                    title:'服务消息',
-                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    callback: this._clearServiceMessageNum.bind(this),
-                });
-            },
-            (e) => {
-            },
-        );
-
-    }
-
     _setServiceCellNewNum(num){
         if(this.refs.serviceCell) {
             this.refs.serviceCell.setNewNum(num);
@@ -467,6 +423,26 @@ export default class MessagePage extends BComponent {
         if(this.refs.notifyCell) {
             this.refs.notifyCell.setNewNum(num);
         }
+    }
+
+    _gotoServiceMessagePage(){
+        UserInfoStore.setServiceMessageNewNum(0).then(
+            (num) => {
+                this._setServiceCellNewNum(0);
+                this.setState({
+                    isGotoSubVC : true,
+                    serviceNewNum : 0
+                });
+                this.push({
+                    screen: 'ServiceMessagePage',
+                    title:'服务消息',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                    callback: this._clearServiceMessageNum.bind(this),
+                });
+            },
+            (e) => {
+            },
+        );
     }
 
     _gotoNotifyMessagePage(){

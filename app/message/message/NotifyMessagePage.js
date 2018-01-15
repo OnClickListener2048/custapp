@@ -41,6 +41,8 @@ export default class NotifyMessagePage extends BComponent {
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
         };
         this.page =1;
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this._isLogined = this._isLogined().bind(this);
     }
 
     static navigatorStyle = {
@@ -49,38 +51,41 @@ export default class NotifyMessagePage extends BComponent {
     };
 
 
+    onNavigatorEvent(event) {
 
+        super.onNavigatorEvent(event)
+        if (event.id === 'willAppear') {
+            this.listener = this.refreshEmitter = DeviceEventEmitter.addListener('ReloadNotifyMessageList', () => {
+                this._isLogined();
+            });
+        }
+        if(event.id === 'willDisappear'){
+            this.listener.remove();
+        }
+    }
 
     componentDidMount() {
-        this.refreshListData();
-
-        this.refreshEmitter = DeviceEventEmitter.addListener('ReloadMessage', () => {
-            //收到登录后的通知需要刷新消息页面
-            this.onHeaderRefresh();
-            //如果在消息页面则不显示badge红点提示,否则要在消息的tab显示红点数字提示
-            if (this.state.isAppear === true){
-                this.props.navigator.setTabBadge({
-                    badge: null
-                });
-            }else {
-                this._loadUnreadedNum();
-            }
-        });
-
-        this.refreshEmitter = DeviceEventEmitter.addListener('ClearMessage', () => {
-            //收到退出后的通知需要清空消息页面,并置badge为空不提示红点
-            this.props.navigator.setTabBadge({
-                badge: null
-            });
-            this.setState({
-                initStatus:'no-data'
-            })
-        });
+        this._isLogined();
 
     }
 
 
+    _isLogined(){
+        UserInfoStore.isLogined().then(
+            logined => {
+                if (logined === true){
+                    this.refreshListData();
+                }else {
+                    this.setState({
+                        initStatus:'no-data'
+                    })
+                }
+            },
+            e => {
 
+            }
+        );
+    }
 
 
     refreshListData(){
