@@ -291,7 +291,7 @@ export default class MessagePage extends BComponent {
     }
 
     _resetNotifyMessageArr(item){
-        
+
         //服务类的
         if(item.isGroup === false) {
             this._resetServiceNum();

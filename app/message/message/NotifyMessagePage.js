@@ -167,7 +167,7 @@ export default class NotifyMessagePage extends BComponent {
                         renderItem={this.renderCell.bind(this)}
                         refreshState={this.state.refreshState}
                         contentContainerStyle={{paddingTop:10,backgroundColor:'#f1f1f1'}}
-                        isheaderrefresh={false}
+                        onHeaderRefresh={this.refreshListData.bind(this)}
                     />
                 </View>
             )
