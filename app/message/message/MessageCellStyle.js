@@ -31,9 +31,6 @@ const styles = StyleSheet.create({
         height: 150.0/(345 + 30)*SCREEN_WIDTH,
         width:SCREEN_WIDTH - 30,
         backgroundColor: 'white',
-        flexDirection: 'row',
-        alignItems:'center',
-        justifyContent:'center',
     },
 
 

@@ -64,13 +64,16 @@ export default class ServiceMessagePage extends BComponent {
         }
     }
     componentDidMount() {
-
         //打开即可
         if(!NetInfoSingleton.isConnected) {
+            console.log("嘎嘎嘎_componentDidMount1");
+
             this.setState({
                 initStatus:'no-net'
             })
         }else{
+            console.log("嘎嘎嘎_componentDidMount2");
+
             this._isLogined();
         }
 
@@ -97,7 +100,6 @@ export default class ServiceMessagePage extends BComponent {
         UserInfoStore.isLogined().then(
             logined => {
                 this.setState({logined:logined});
-
                 if (logined === true){
                     this.onHeaderRefresh();
                     this._clearUnreadedNum();
@@ -149,7 +151,6 @@ export default class ServiceMessagePage extends BComponent {
 
 
     loadData(page=1,pageSize=10){
-
 
         if(!NetInfoSingleton.isConnected) {
             return;
@@ -221,13 +222,13 @@ export default class ServiceMessagePage extends BComponent {
     _readed(item){
 
         if (item.readed === true){
+            this._jumpWithUrl(item);
             return;
         }
 
         this._jumpWithUrl(item);
-        apis.putMessageReaded().then(
+        apis.postMessageReaded(item._id).then(
             (responseData) => {
-
                 if(responseData.code === 0){
                     item.readed = true;
                     let data = [];
@@ -258,6 +259,8 @@ export default class ServiceMessagePage extends BComponent {
 
     onHeaderRefresh = () => {
         this.page=1;
+        console.log("嘎嘎嘎_onHeaderRefresh");
+
         this.loadData(this.page)
     };
 
@@ -274,6 +277,7 @@ export default class ServiceMessagePage extends BComponent {
                     messageSubTitle={info.item.content}
                     messageTime={info.item.createDate}
                     isRead={info.item.readed}
+                    img={info.item.img}
                 />
             </TouchableOpacity>
         )

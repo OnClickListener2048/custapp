@@ -42,7 +42,6 @@ export default class NotifyMessagePage extends BComponent {
         };
         this.page =1;
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-        this._isLogined = this._isLogined().bind(this);
     }
 
     static navigatorStyle = {
@@ -66,13 +65,12 @@ export default class NotifyMessagePage extends BComponent {
 
     componentDidMount() {
         this._isLogined();
-
     }
-
 
     _isLogined(){
         UserInfoStore.isLogined().then(
             logined => {
+
                 if (logined === true){
                     this.refreshListData();
                 }else {
@@ -82,42 +80,32 @@ export default class NotifyMessagePage extends BComponent {
                 }
             },
             e => {
-
             }
         );
     }
 
-
     refreshListData(){
-
         UserInfoStore.getNotifyMessageArr().then(
             (messageArr) => {
-
-                if (messageArr) {
-
-                    if (messageArr.length > 0){
+                if (messageArr && messageArr.length > 0) {
                         this.setState({
                             initStatus:'initSucess',
                             dataList : messageArr,
                             refreshState : RefreshState.NoMoreData,
                         });
-                    }else if (messageArr.length === 0){
+                }else{
                         this.setState({
                             initStatus:'no-data'
                         })
-                    }
                 }
             },
             (e) => {
-
                 this.setState({
                     initStatus:'error'
                 })
-
             },
         );
     }
-
 
 
     _jumpWithUrl(item){
@@ -128,9 +116,9 @@ export default class NotifyMessagePage extends BComponent {
     _readed(item){
 
         if (item.readed === true){
+            this._jumpWithUrl(item);
             return;
         }
-
 
         item.readed = true;
         let data = [];
@@ -145,7 +133,7 @@ export default class NotifyMessagePage extends BComponent {
 
         UserInfoStore.setNotifyMessageArr(data).then(
             (data) => {
-                this._jumpWithUrl.bind(item);
+                this._jumpWithUrl.bind(this,item);
                 console.log("保存新是否已读的数据:", data);
 
             },
@@ -162,6 +150,7 @@ export default class NotifyMessagePage extends BComponent {
                     messageSubTitle={info.item.content}
                     messageTime={info.item.createDate}
                     isRead={info.item.readed}
+                    img={info.item.img}
                 />
             </TouchableOpacity>
         )

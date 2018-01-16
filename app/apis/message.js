@@ -7,19 +7,14 @@ export function loadMessageData(count = 10, page = 1) {
 }
 
 
-export function putMessageReaded() {
-    return putEx('/api/v1/messages/01');
+export function postMessageReaded(id = '') {
+    return postApi('/api/v1/messages/' + id);
 }
 
-export function deleteMessageItem( id = '') {
-    return deleteApi('/api/mock/messages/:'+id);
-}
-
-// 获取所有未读消息数
+// 获取服务的新消息数
 export function loadMessageUnReadedNum( ) {
-    return getApi('/api/v1/messages/unread');
+    return getApi('/api/v1/messages/new');
 }
-
 
 export function putClearMessageUnReadedNum( ) {
     return putEx('/api/v1/messages/clear');

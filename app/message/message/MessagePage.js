@@ -372,13 +372,15 @@ export default class MessagePage extends BComponent {
             (responseData) => {
 
                 if(responseData.code === 0){
+                    this._setServiceCellNewNum(responseData.count);
+
                     UserInfoStore.getNotifyMessageNewNum().then(
                         (num) => {
                             if (num) {
                                 this.setState({
-                                    unReadNum:responseData.unread + num,
+                                    unReadNum:responseData.count + num,
                                 });
-
+                                this._setNotifyCellNewNum(num);
                                 this.props.navigator.setTabBadge({
                                     badge: this.state.unReadNum + num <= 0 ? null : this.state.unReadNum + num// 数字气泡提示, 设置为null会删除
                                 });
@@ -389,7 +391,7 @@ export default class MessagePage extends BComponent {
                         },
                     );
 
-                    UserInfoStore.setServiceMessageNewNum(responseData.unread).then(
+                    UserInfoStore.setServiceMessageNewNum(responseData.count).then(
                         (num) => {
                         },
                         (e) => {
@@ -437,7 +439,6 @@ export default class MessagePage extends BComponent {
                     screen: 'ServiceMessagePage',
                     title:'服务消息',
                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    callback: this._clearServiceMessageNum.bind(this),
                 });
             },
             (e) => {
@@ -450,7 +451,7 @@ export default class MessagePage extends BComponent {
             (num) => {
                 this.setState({
                     isGotoSubVC : true,
-                    notifyNewNum:3
+                    notifyNewNum:0
                 });
 
 

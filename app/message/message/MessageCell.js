@@ -19,12 +19,14 @@ export default class MessageCell extends Component {
         isRead: PropTypes.isRead,
         messageTitle: PropTypes.string,
         messageSubTitle: PropTypes.string,
-        messageTime: PropTypes.string
+        messageTime: PropTypes.string,
+        img: PropTypes.string
+
     };
 
     render() {
         // const { style} = this.props
-        const {messageTitle, messageSubTitle,messageTime,isRead} = this.props
+        const {messageTitle, messageSubTitle,messageTime,isRead,img} = this.props
         return (
             <View
                 style={styles.rowStyle}>
@@ -42,9 +44,13 @@ export default class MessageCell extends Component {
                     </View>
 
                 </View>
-                <Image style={styles.imageRowStyle} source={require('../../img/verify_name.png')}>
 
-                </Image>
+                { img.length > 0 &&
+                    <Image resizeMode="center" style={styles.imageRowStyle} source={{uri:img}}>
+
+                    </Image>
+                }
+
 
                 <View
                     style={styles.topRowStyle}>
@@ -61,7 +67,7 @@ export default class MessageCell extends Component {
                     <Text
                         textAlign='left'
                         numberOfLines={2}
-                        style={[{fontSize: 13, marginLeft : 15 ,marginRight : 15 ,color : '#999999'}] }>基地开发日复日反馈反馈反馈反馈翻翻看分开发就发个i诶日反馈反馈反馈反馈翻翻看分开发就发个i日反馈反馈反馈反馈翻翻看分开发就发个i诶额诶地方放就分开速度飞快发快递方式方法大家风范就</Text>
+                        style={[{fontSize: 13, marginLeft : 15 ,marginRight : 15 ,color : '#999999'}] }>{messageSubTitle}</Text>
 
                 </View>
 
@@ -78,7 +84,7 @@ export default class MessageCell extends Component {
                             marginLeft : 14 ,color : '#666666'}] }>
                         查看详情
                     </Text>
-                    <View style={{marginRight: 8,width: 8,height:8,backgroundColor:'#F22027',borderRadius:4}}></View>
+                    { isRead === false && <View style={{marginRight: 8, width: 8, height: 8, backgroundColor: '#F22027', borderRadius: 4}}></View>}
                     <Image
                         source={require('../../img/left_button.png')}
                         style={[{marginRight: 10,width: 10,height:15}]}/>
