@@ -30,8 +30,6 @@ export default class MessagePage extends BComponent {
         this.state = {
             dataList: [],
             unReadNum: 0,
-            notifyNewNum: 0,
-            serviceNewNum: 0,
             logined : false,
             isAppear : false,
             isGotoSubVC : false,
@@ -276,35 +274,10 @@ export default class MessagePage extends BComponent {
                         (e) => {
                         },
                     );
-                }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
-        );
-    }
-
-    _resetNotifyMessageArr(item){
-
-        this._resetNotifyNum();
-
-        let tmpArr = [];
-
-        UserInfoStore.getNotifyMessageArr().then(
-            (messageArr) => {
-
-                if (messageArr) {
-                    if (messageArr.length > 0) {
-                        tmpArr[0] = messageArr[0];
-                        messageArr.forEach(row => {
-
-                            tmpArr.push(Object.assign({}, row));
-                        });
-                    }
-
-                    UserInfoStore.setNotifyMessageArr(tmpArr).then(
-                        (newList) => {
-                            DeviceEventEmitter.emit('ReloadNotifyMessageList');
+                }else {
+                    this._setServiceCellNewNum(1);
+                    UserInfoStore.setServiceMessageNewNum(1).then(
+                        (num) => {
                         },
                         (e) => {
                         },
@@ -315,6 +288,49 @@ export default class MessagePage extends BComponent {
                 console.log("读取信息错误:", e);
             },
         );
+    }
+
+    _resetNotifyMessageArr(item){
+        
+        //服务类的
+        if(item.isGroup === false) {
+            this._resetServiceNum();
+            DeviceEventEmitter.emit('ReloadServiceMessageList');
+
+
+        }else if (item.isGroup === true) {
+            //通知类的
+            this._resetNotifyNum();
+
+            let tmpArr = [];
+            tmpArr[0] = item;
+
+            UserInfoStore.getNotifyMessageArr().then(
+                (messageArr) => {
+
+                    if (messageArr) {
+                        if (messageArr.length > 0) {
+                            messageArr.forEach(row => {
+
+                                tmpArr.push(Object.assign({}, row));
+                            });
+                        }
+
+                        UserInfoStore.setNotifyMessageArr(tmpArr).then(
+                            (newList) => {
+                                DeviceEventEmitter.emit('ReloadNotifyMessageList');
+                            },
+                            (e) => {
+                            },
+                        );
+                    }
+                },
+                (e) => {
+                    console.log("读取信息错误:", e);
+                },
+            );
+
+        }
     }
 
     _isLogined(){
@@ -417,7 +433,6 @@ export default class MessagePage extends BComponent {
                 this._setServiceCellNewNum(0);
                 this.setState({
                     isGotoSubVC : true,
-                    serviceNewNum : 0
                 });
                 this.push({
                     screen: 'ServiceMessagePage',
@@ -433,15 +448,10 @@ export default class MessagePage extends BComponent {
     _gotoNotifyMessagePage(){
         UserInfoStore.setNotifyMessageNewNum(0).then(
             (num) => {
+                this._setNotifyCellNewNum(0);
                 this.setState({
                     isGotoSubVC : true,
-                    notifyNewNum:0
                 });
-
-
-                this._setNotifyCellNewNum(0);
-
-
                 this.push({
                     screen: 'NotifyMessagePage',
                     title:'通知助手',
@@ -464,7 +474,6 @@ export default class MessagePage extends BComponent {
                         isRightBtnClick ={true}
                         leftIcon = {require('../../img/notifyMessageIcon.png')}
                         leftText= {'通知助手'}
-                        messageNum={this.state.serviceNewNum}
                     />
                     <MessageTipCell ref="serviceCell"
                         onPress={this._gotoServiceMessagePage.bind(this)}
@@ -473,7 +482,6 @@ export default class MessagePage extends BComponent {
                         isRightBtnClick ={true}
                         leftIcon = {require('../../img/serviceMessageIcon.png')}
                         leftText= {'服务消息'}
-                        messageNum={this.state.notifyNewNum}
                     />
 
                 </View>
