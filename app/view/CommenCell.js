@@ -1,4 +1,5 @@
 /**
+ * 通用项目单元格
  * Created by zhuangzihao on 2017/9/18.
  */
 import React, { Component } from 'react';
@@ -12,6 +13,7 @@ import {
 
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../config';
+
 
 export default class CommenCell extends Component {
     static defaultProps = {
@@ -81,7 +83,7 @@ export default class CommenCell extends Component {
             );
         }else if(this.props.leftIcon !== null&&this.props.leftTextIcon === null){
             //左边有图片
-            if(typeof (this.props.leftIcon) == 'string'){
+            if(typeof (this.props.leftIcon) === 'string'){
                 return(
                     <View style = {styles.leftViewStyle}>
                         {this.props.leftIconTouch?

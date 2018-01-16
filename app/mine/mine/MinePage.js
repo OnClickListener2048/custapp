@@ -400,12 +400,14 @@ export default class MinePage extends BComponent {
                         </Image>
 
                     <CommenCell
+                        leftIcon={require('../../img/myCorp.png')}
                         leftText="我的企业"
                         onPress = {this._goto.bind(this,'ChangeCompanyPage','我的企业')}
                         rightText={this.state.companyCount}
                         style={{marginTop:9}}
                     />
                     <CommenCell
+                        leftIcon={require('../../img/orders.png')}
                         leftText="我的订单"
                         onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
                         style={{marginBottom:9}}
@@ -419,36 +421,38 @@ export default class MinePage extends BComponent {
                         {/*onPress = {this._goto.bind(this,'MessagePage','消息')}*/}
                     {/*/>*/}
 
-                    {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)||!this.state.upgrade?
-                        <CommenCell
-                        leftText="设置"
-                        style={{marginBottom:9}}
-                        underLine={false}
-                        onPress = {this._goto.bind(this,'SettingPage','设置')}
-
-                        />:
-                        <CommenCell
-                            leftText="设置"
-                            style={{marginBottom:9}}
-                            underLine={false}
-                            leftTextIcon={require('../../img/new_icon.png')}
-                            onPress = {this._goto.bind(this,'SettingPage','设置')}
-
-                        />}
-
                     <CommenCell
+                        leftIcon={require('../../img/customerService.png')}
                         leftText="联系客服"
                         // style={{marginTop:9}}
                         onPress = {this._call.bind(this,'')}
                     />
 
                     <CommenCell
+                        leftIcon={require('../../img/bizPartner.png')}
                         leftText="加盟合作"
                         onPress={this._goColumnDetail.bind(this)}
                         underLine={false}
-
+                        style={{marginBottom:9}}
                     />
 
+                    {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)||!this.state.upgrade?
+                        <CommenCell
+                            leftIcon={require('../../img/settings.png')}
+                            leftText="设置"
+
+                            underLine={false}
+                            onPress = {this._goto.bind(this,'SettingPage','设置')}
+
+                        />:
+                        <CommenCell
+                            leftIcon={require('../../img/settings.png')}
+                            leftText="设置"
+                            underLine={false}
+                            leftTextIcon={require('../../img/new_icon.png')}
+                            onPress = {this._goto.bind(this,'SettingPage','设置')}
+
+                        />}
 
                     {/*<CommenCell*/}
                         {/*leftText="查看日志"*/}
