@@ -37,7 +37,6 @@ export default class ChangeCompanyPage extends BComponent {
 
 
 
-
         UserInfoStore.getCompany().then(
             (company) => {
                 console.log('走你company', company);
@@ -233,17 +232,34 @@ export default class ChangeCompanyPage extends BComponent {
 
     _press(item){
 
-        this.setState({
-            selectedCompanyId:item.id
-        });
+        if(item.id === this.state.selectedCompanyId)return
 
-        UserInfoStore.setCompany(item).then(
-            (user) => {
-                console.log("公司信息保存成功");
-                DeviceEventEmitter.emit('ChangeCompany');
+        apis.changeCompany(item.id).then(
+            (responseData) => {
+
+                if(responseData.code == 0){
+                    //切换成功
+                    this.setState({
+                        selectedCompanyId:item.id
+                    });
+
+                    UserInfoStore.setCompany(item).then(
+                        (user) => {
+                            console.log("公司信息保存成功");
+                            DeviceEventEmitter.emit('ChangeCompany');
+                        },
+                        (e) => {
+                            console.log("公司信息保存错误:", e);
+                        },
+                    );
+                }else{
+                    Toast.show('切换公司失败')
+                }
+
             },
             (e) => {
-                console.log("公司信息保存错误:", e);
+                Toast.show('切换公司失败')
+
             },
         );
 

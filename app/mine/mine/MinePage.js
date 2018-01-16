@@ -130,54 +130,57 @@ export default class MinePage extends BComponent {
                                 //由于公司获取接口经常失败这里再次调用接口检查一下  获取公司
                                 // apis.getCompany(user.mobilePhone).then(
                                 //     (companyInfo) => {
-                                //         if (companyInfo) {
+                                //         if (companyInfo && companyInfo.list && companyInfo.list.length>0) {
+                                //             //接口有公司
                                 //             let tmpCompaniesArr = companyInfo.list;
-                                //             UserInfoStore.getCompanyArr().then(
-                                //                 (companyArr) => {
-                                //                     //接口返回与本地存储数据不一样  （之前登录后调企业接口出错的情况）
-                                //                     if (JSON.stringify(tmpCompaniesArr) != JSON.stringify(companyArr)) {
                                 //
-                                //                         if(tmpCompaniesArr && tmpCompaniesArr.length>0){
-                                //                             this.getOrderNumber(tmpCompaniesArr[0].id,tmpCompaniesArr[0].type)
-                                //                             //有公司
-                                //                             UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
-                                //                                 (s) => {
-                                //                                     console.log("公司信息保存成功");
-                                //                                 },
-                                //                                 (e) => {
-                                //                                     console.log("公司信息保存错误:", e);
-                                //                                 },
-                                //                             );
+                                //             let index = 0;
+                                //             for(let i = 0 ;i<tmpCompaniesArr.length;i++){
+                                //                 let dic = tmpCompaniesArr[i]
+                                //                 if(dic.default){
+                                //                     index = i;
+                                //                     break
+                                //                 }
+                                //             }
+                                //             let netCompany = tmpCompaniesArr[index]
+                                //             UserInfoStore.getCompany().then(
+                                //                 (company) => {
+                                //                     console.log('company', company);
+                                //                     if(!(company && (company.id == netCompany.id))){
                                 //
-                                //                             UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
-                                //                                 (s) => {
-                                //                                     console.log("公司信息保存成功");
-                                //                                     this.setState({company: tmpCompaniesArr[0].infos[0].value});
-                                //                                     DeviceEventEmitter.emit('ChangeCompany');
+                                //                         this.getOrderNumber(netCompany.id,netCompany.type)
+                                //                         UserInfoStore.setCompanyArr(tmpCompaniesArr).then();
+                                //                         UserInfoStore.setCompany(netCompany).then();
+                                //                         this.setState({company: netCompany.infos[0].value});
+                                //                         DeviceEventEmitter.emit('ChangeCompany');
                                 //
-                                //                                 },
-                                //                                 (e) => {
-                                //                                     console.log("公司信息保存错误:", e);
-                                //                                 },
-                                //                             );
-                                //                         }else{
-                                //                             this.getOrderNumber()
-                                //
-                                //                             //没公司
-                                //                             UserInfoStore.removeCompany().then((s)=>{
-                                //                                 this.setState({company: '',companyCount:''});
-                                //                                 DeviceEventEmitter.emit('ChangeCompany');
-                                //                             },(e)=>{
-                                //
-                                //                             });
-                                //                             UserInfoStore.removeCompanyArr().then();
-                                //                         }
                                 //                     }
+                                //
                                 //                 },
                                 //                 (e) => {
-                                //
+                                //                     console.log("读取信息错误:", e);
                                 //                 },
                                 //             );
+                                //
+                                //         }else{
+                                //             //接口没公司
+                                //             UserInfoStore.getCompany().then(
+                                //                 (company) => {
+                                //                     //本地有公司 其实没公司
+                                //                     if(company){
+                                //                         this.getOrderNumber()
+                                //                         //没公司
+                                //                         UserInfoStore.removeCompany().then();
+                                //                         UserInfoStore.removeCompanyArr().then();
+                                //                         this.setState({company: '',companyCount:''});
+                                //                         DeviceEventEmitter.emit('ChangeCompany');
+                                //                     }
+                                //
+                                //                 },
+                                //                 (e) => {
+                                //                 },
+                                //             );
+                                //
                                 //         }
                                 //     },
                                 //     (e) => {
