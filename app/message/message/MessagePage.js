@@ -238,11 +238,20 @@ export default class MessagePage extends BComponent {
 
 
     _resetNotifyNum(){
+
         UserInfoStore.getNotifyMessageNewNum().then(
             (num) => {
                 if (num) {
                     this._setNotifyCellNewNum(num + 1);
                     UserInfoStore.setNotifyMessageNewNum(num + 1).then(
+                        (num) => {
+                        },
+                        (e) => {
+                        },
+                    );
+                }else {
+                    this._setNotifyCellNewNum(1);
+                    UserInfoStore.setNotifyMessageNewNum(1).then(
                         (num) => {
                         },
                         (e) => {
@@ -276,56 +285,36 @@ export default class MessagePage extends BComponent {
     }
 
     _resetNotifyMessageArr(item){
-        //服务类的
-        if(item.isGroup === false) {
-            this._resetServiceNum();
-            DeviceEventEmitter.emit('ReloadServiceMessageList');
 
+        this._resetNotifyNum();
 
-        }else if (item.isGroup === true) {
-            //通知类的
-            this._resetNotifyNum();
+        let tmpArr = [];
 
-            let tmpArr = [];
-            tmpArr[0] = item;
+        UserInfoStore.getNotifyMessageArr().then(
+            (messageArr) => {
 
-            UserInfoStore.getNotifyMessageArr().then(
-                (messageArr) => {
-                    if (messageArr) {
+                if (messageArr) {
+                    if (messageArr.length > 0) {
+                        tmpArr[0] = messageArr[0];
+                        messageArr.forEach(row => {
 
-                        if (messageArr.length > 0) {
-                            this.messageArr.forEach(row => {
-                                tmpArr.push(Object.assign({}, row));
-                            });
-                        }
-
-                        UserInfoStore.setNotifyMessageArr(tmpArr).then(
-                            (newList) => {
-                                console.log("保存数据成功嘎嘎嘎:", newList);
-                                DeviceEventEmitter.emit('ReloadNotifyMessageList');
-
-                            },
-                            (e) => {
-                            },
-                        );
-
-
-                        UserInfoStore.setNotifyMessageNewNum(tmpArr.length).then(
-                            (newList) => {
-
-                                console.log("保存新的通知消息长度成功嘎嘎嘎:");
-
-                            },
-                            (e) => {
-                            },
-                        );
+                            tmpArr.push(Object.assign({}, row));
+                        });
                     }
-                },
-                (e) => {
-                    console.log("读取信息错误:", e);
-                },
-            );
-        }
+
+                    UserInfoStore.setNotifyMessageArr(tmpArr).then(
+                        (newList) => {
+                            DeviceEventEmitter.emit('ReloadNotifyMessageList');
+                        },
+                        (e) => {
+                        },
+                    );
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
     }
 
     _isLogined(){
@@ -373,7 +362,6 @@ export default class MessagePage extends BComponent {
 
                 if(responseData.code === 0){
                     this._setServiceCellNewNum(responseData.count);
-
                     UserInfoStore.getNotifyMessageNewNum().then(
                         (num) => {
                             if (num) {
@@ -382,7 +370,7 @@ export default class MessagePage extends BComponent {
                                 });
                                 this._setNotifyCellNewNum(num);
                                 this.props.navigator.setTabBadge({
-                                    badge: this.state.unReadNum + num <= 0 ? null : this.state.unReadNum + num// 数字气泡提示, 设置为null会删除
+                                    badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
                                 });
                             }
                         },
@@ -407,14 +395,6 @@ export default class MessagePage extends BComponent {
         );
     }
 
-    _clearNotifyMessageNum(){
-
-    }
-
-    _clearServiceMessageNum(){
-
-    }
-
     _setServiceCellNewNum(num){
         if(this.refs.serviceCell) {
             this.refs.serviceCell.setNewNum(num);
@@ -423,7 +403,11 @@ export default class MessagePage extends BComponent {
 
     _setNotifyCellNewNum(num){
         if(this.refs.notifyCell) {
+            console.log("到这里呢999");
+
             this.refs.notifyCell.setNewNum(num);
+            console.log("到这里呢000");
+
         }
     }
 
@@ -462,7 +446,6 @@ export default class MessagePage extends BComponent {
                     screen: 'NotifyMessagePage',
                     title:'通知助手',
                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                    callback: this._clearNotifyMessageNum.bind(this),
                 });
             },
             (e) => {

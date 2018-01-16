@@ -27,12 +27,19 @@ export default class MessageTipCell extends Component {
         surviveText:'',
         ownerText:'',
         underLineStyle:{},//分割线样式自定义
+
     };
 
 
 
+
     setNewNum(messageNum) {
-        this.setState({messageNum : messageNum});
+        console.log("到这里呢777",messageNum);
+
+        this.props.messageNum = messageNum;
+
+        console.log("到这里呢666");
+
     }
 
     render() {

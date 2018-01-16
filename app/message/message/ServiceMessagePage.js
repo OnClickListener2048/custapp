@@ -39,7 +39,6 @@ export default class ServiceMessagePage extends BComponent {
         };
         this.page =1;
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-        this._needRefreshData = this._needRefreshData.bind(this);
 
     }
 
@@ -66,14 +65,10 @@ export default class ServiceMessagePage extends BComponent {
     componentDidMount() {
         //打开即可
         if(!NetInfoSingleton.isConnected) {
-            console.log("嘎嘎嘎_componentDidMount1");
-
             this.setState({
                 initStatus:'no-net'
             })
         }else{
-            console.log("嘎嘎嘎_componentDidMount2");
-
             this._isLogined();
         }
 
@@ -88,11 +83,6 @@ export default class ServiceMessagePage extends BComponent {
                 initStatus:'no-data'
             })
         });
-
-    }
-
-
-    _needRefreshData(item){
 
     }
 
