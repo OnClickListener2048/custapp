@@ -119,35 +119,40 @@ export default class ChangeCompanyPage extends BComponent {
 
 
 
-                    let isFind = false;
+                    // let isFind = false;
 
                     if (tmpCompaniesArr.length > 0) {
-
+                        let index = 0;
                         for (let i = 0; i < tmpCompaniesArr.length; i++){
                             let companyInfo = tmpCompaniesArr[i];
-                            if (companyInfo.id === this.state.selectedCompanyId){
-                                isFind = true;
+                            if(companyInfo.default){
+                                index = i;
                                 break;
                             }
-
-                            if (i == tmpCompaniesArr.length-1 && isFind === false){
-
-                                let selectCompanyInfo = tmpCompaniesArr[0];
-                                UserInfoStore.setCompany(selectCompanyInfo).then(
-                                    (user) => {
-                                        console.log("公司信息保存成功");
-                                        // 选中我的页面
-                                        this.setState({selectedCompanyId: selectCompanyInfo.id});
-
-
-                                    },
-                                    (e) => {
-
-                                    },
-                                );
-                            }
+                            // if (companyInfo.id === this.state.selectedCompanyId){
+                            //     isFind = true;
+                            //     break;
+                            // }
+                            //
+                            // if (i == tmpCompaniesArr.length-1 && isFind === false){
+                            //
+                            //     let selectCompanyInfo = tmpCompaniesArr[0];
+                            //     UserInfoStore.setCompany(selectCompanyInfo).then(
+                            //         (user) => {
+                            //             console.log("公司信息保存成功");
+                            //             // 选中我的页面
+                            //             this.setState({selectedCompanyId: selectCompanyInfo.id});
+                            //
+                            //
+                            //         },
+                            //         (e) => {
+                            //
+                            //         },
+                            //     );
+                            // }
                         }
-
+                        this.setState({selectedCompanyId: tmpCompaniesArr[index].id});
+                        UserInfoStore.setCompany(tmpCompaniesArr[index]).then();
 
 
                     } else {
