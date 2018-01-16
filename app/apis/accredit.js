@@ -12,11 +12,11 @@ export function getAccreditMobile(companyId = '',ownerMobile = '') {
 }
 
 // 授权手机号看账
-export async function addAccreditMobile(ownerMobile = '',mobile = '',companyId = '') {
-    return await postApi('/api/v1/auth/account', {ownerMobile,mobile,companyId});
+export async function addAccreditMobile(ownerMobile = '',mobile = '',companyId = '',companyName = '') {
+    return await postApi('/api/v1/auth/account', {ownerMobile,mobile,companyId,companyName});
 }
 
 // 取消手机号的看账权限
-export async function deleteAccreditMobile(ownerMobile = '',mobile = '',companyId = '') {
-    return await deleteApi('/api/v1/auth/account', {ownerMobile,mobile,companyId});
+export async function deleteAccreditMobile(ownerMobile = '',mobile = '',companyId = '',companyName='') {
+    return await deleteApi('/api/v1/auth/account', {ownerMobile,mobile,companyId,companyName});
 }

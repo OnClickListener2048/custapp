@@ -27,6 +27,7 @@ export default class AccreditPhonePage extends BComponent {
             loadState:'success',
             isAcceditModal:false,//添加授权、取消授权下拉框（默认不显示）
             companyid:this.props.companyid,//公司ID
+            companyname:this.props.companyname,//公司名称
             ownerMobile:this.props.ownerMobile,//本次登录手机号
         };
         // if you want to listen on navigator events, set this up
@@ -51,7 +52,7 @@ export default class AccreditPhonePage extends BComponent {
 
             return;
         }
-        console.log("企业详情页传值=",this.props.companyid,this.props.ownerMobile);
+        console.log("企业详情页传值=",this.props.companyid,this.props.companyname,this.props.ownerMobile);
         var loading = SActivityIndicator.show(true, "加载中...");
         apis.getAccreditMobile(this.props.companyid,this.props.ownerMobile).then(
             (responseData) => {
@@ -117,7 +118,7 @@ export default class AccreditPhonePage extends BComponent {
             return;
         }
 
-        apis.deleteAccreditMobile(this.props.ownerMobile,mobile,this.props.companyid).then(
+        apis.deleteAccreditMobile(this.props.ownerMobile,mobile,this.props.companyid,this.props.companyname).then(
             (responseData) => {
                 if (responseData.code === 0) {//删除成功刷新页面
                     this._onLoadPhone();
@@ -390,7 +391,7 @@ export default class AccreditPhonePage extends BComponent {
             return;
         }
 
-        apis.addAccreditMobile(this.props.ownerMobile,mobile,this.props.companyid).then(
+        apis.addAccreditMobile(this.props.ownerMobile,mobile,this.props.companyid,this.props.companyname).then(
             (responseData) => {
                 if (responseData.code === 0) {//添加成功刷新页面
                     this._onLoadPhone();
