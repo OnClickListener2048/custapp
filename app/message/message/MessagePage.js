@@ -32,10 +32,9 @@ export default class MessagePage extends BComponent {
             unReadNum: 0,
             logined : false,
             isAppear : false,
-            isGotoSubVC : false,
-            newNotifyNum : 0,
-            newServiceNum : 0,
             refreshState: RefreshState.Idle,
+            newServiceNum : 0,
+            newNotifyNum : 0,
             jpushMessage:'',
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
         };
@@ -46,6 +45,7 @@ export default class MessagePage extends BComponent {
         this._resetNotifyNum = this._resetNotifyNum.bind(this);
         this._resetServiceNum = this._resetServiceNum.bind(this);
         this._resetBadgeNum = this._resetBadgeNum.bind(this);
+
 
 
     }
@@ -71,14 +71,12 @@ export default class MessagePage extends BComponent {
                 JPushModule.setBadge(0, (badgeNumber) => {
                 });
             }
-
-            this.setState({
-                isGotoSubVC : false,
-                newServiceNum :0,
-                newNotifyNum : 0,
-        });
+            this.props.navigator.setTabBadge({
+                badge: null
+            });
 
             if (this.state.isAppear === false){
+                //这里的逻辑是为了未打开APP的时候点击了推送消息做跳转的逻辑
                 this.setState({
                     isAppear : true
                 });
@@ -97,11 +95,10 @@ export default class MessagePage extends BComponent {
 
         if(event.id === 'willDisappear'){
 
-            if (this.state.isGotoSubVC === false){
                 this.setState({
                     isAppear : false
                 })
-            }
+
         }
 
     }
@@ -236,13 +233,21 @@ export default class MessagePage extends BComponent {
         }
     }
 
-
     _resetBadgeNum(){
-        if (this.state.isAppear !== true){
+
+
+        if (this.state.isAppear === false){
+
+
             this.props.navigator.setTabBadge({
                 badge: this.state.newServiceNum + this.state.newNotifyNum <= 0 ? null : this.state.newServiceNum + this.state.newNotifyNum, // 数字气泡提示, 设置为null会删除
             });
+        }else {
+            this.props.navigator.setTabBadge({
+                badge: null // 数字气泡提示, 设置为null会删除
+            });
         }
+
     }
 
     _resetNotifyNum(){
@@ -251,7 +256,7 @@ export default class MessagePage extends BComponent {
             (num) => {
                 if (num) {
                     this._setNotifyCellNewNum(num + 1);
-                    this.setState({newNotifyNum:num + 1});
+
                     UserInfoStore.setNotifyMessageNewNum(num + 1).then(
                         (num) => {
                         },
@@ -260,7 +265,7 @@ export default class MessagePage extends BComponent {
                     );
                 }else {
                     this._setNotifyCellNewNum(1);
-                    this.setState({newNotifyNum:1});
+
                     UserInfoStore.setNotifyMessageNewNum(1).then(
                         (num) => {
                         },
@@ -268,7 +273,6 @@ export default class MessagePage extends BComponent {
                         },
                     );
                 }
-                this._resetBadgeNum()
 
             },
             (e) => {
@@ -282,8 +286,6 @@ export default class MessagePage extends BComponent {
             (num) => {
                 if (num) {
                     this._setServiceCellNewNum(num + 1);
-                    this.setState({newServiceNum:num + 1});
-
                     UserInfoStore.setServiceMessageNewNum(num + 1).then(
                         (num) => {
                         },
@@ -292,8 +294,6 @@ export default class MessagePage extends BComponent {
                     );
                 }else {
                     this._setServiceCellNewNum(1);
-                    this.setState({newServiceNum:1});
-
                     UserInfoStore.setServiceMessageNewNum(1).then(
                         (num) => {
                         },
@@ -301,7 +301,6 @@ export default class MessagePage extends BComponent {
                         },
                     );
                 }
-                this._resetBadgeNum()
 
 
             },
@@ -441,12 +440,17 @@ export default class MessagePage extends BComponent {
     }
 
     _setServiceCellNewNum(num){
+        this.setState({newServiceNum:num});
+        this._resetBadgeNum();
+
         if(this.refs.serviceCell) {
             this.refs.serviceCell.setNewNum(num);
         }
     }
 
     _setNotifyCellNewNum(num){
+        this.setState({newNotifyNum:num});
+        this._resetBadgeNum();
         if(this.refs.notifyCell) {
             console.log("到这里呢999");
 
@@ -460,9 +464,7 @@ export default class MessagePage extends BComponent {
         UserInfoStore.setServiceMessageNewNum(0).then(
             (num) => {
                 this._setServiceCellNewNum(0);
-                this.setState({
-                    isGotoSubVC : true,
-                });
+
                 this.push({
                     screen: 'ServiceMessagePage',
                     title:'服务消息',
@@ -478,9 +480,7 @@ export default class MessagePage extends BComponent {
         UserInfoStore.setNotifyMessageNewNum(0).then(
             (num) => {
                 this._setNotifyCellNewNum(0);
-                this.setState({
-                    isGotoSubVC : true,
-                });
+
                 this.push({
                     screen: 'NotifyMessagePage',
                     title:'通知助手',
@@ -515,12 +515,6 @@ export default class MessagePage extends BComponent {
 
                 </View>
             )
-        // }else {
-        //     return(
-        //         <DefaultView onPress={()=>this._reloadPage()} type ={this.state.initStatus}/>
-        //     )
-        // }
-
     }
 
 }
