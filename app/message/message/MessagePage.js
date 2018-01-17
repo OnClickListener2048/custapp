@@ -33,6 +33,8 @@ export default class MessagePage extends BComponent {
             logined : false,
             isAppear : false,
             isGotoSubVC : false,
+            newNotifyNum : 0,
+            newServiceNum : 0,
             refreshState: RefreshState.Idle,
             jpushMessage:'',
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
@@ -43,6 +45,7 @@ export default class MessagePage extends BComponent {
         this._setServiceCellNewNum = this._setServiceCellNewNum.bind(this);
         this._resetNotifyNum = this._resetNotifyNum.bind(this);
         this._resetServiceNum = this._resetServiceNum.bind(this);
+        this._resetBadgeNum = this._resetBadgeNum.bind(this);
 
 
     }
@@ -71,7 +74,9 @@ export default class MessagePage extends BComponent {
 
             this.setState({
                 isGotoSubVC : false,
-            });
+                newServiceNum :0,
+                newNotifyNum : 0,
+        });
 
             if (this.state.isAppear === false){
                 this.setState({
@@ -232,8 +237,13 @@ export default class MessagePage extends BComponent {
     }
 
 
-
-
+    _resetBadgeNum(){
+        if (this.state.isAppear !== true){
+            this.props.navigator.setTabBadge({
+                badge: this.state.newServiceNum + this.state.newNotifyNum <= 0 ? null : this.state.newServiceNum + this.state.newNotifyNum, // 数字气泡提示, 设置为null会删除
+            });
+        }
+    }
 
     _resetNotifyNum(){
 
@@ -241,6 +251,7 @@ export default class MessagePage extends BComponent {
             (num) => {
                 if (num) {
                     this._setNotifyCellNewNum(num + 1);
+                    this.setState({newNotifyNum:num + 1});
                     UserInfoStore.setNotifyMessageNewNum(num + 1).then(
                         (num) => {
                         },
@@ -249,6 +260,7 @@ export default class MessagePage extends BComponent {
                     );
                 }else {
                     this._setNotifyCellNewNum(1);
+                    this.setState({newNotifyNum:1});
                     UserInfoStore.setNotifyMessageNewNum(1).then(
                         (num) => {
                         },
@@ -256,6 +268,8 @@ export default class MessagePage extends BComponent {
                         },
                     );
                 }
+                this._resetBadgeNum()
+
             },
             (e) => {
                 console.log("读取信息错误:", e);
@@ -268,6 +282,8 @@ export default class MessagePage extends BComponent {
             (num) => {
                 if (num) {
                     this._setServiceCellNewNum(num + 1);
+                    this.setState({newServiceNum:num + 1});
+
                     UserInfoStore.setServiceMessageNewNum(num + 1).then(
                         (num) => {
                         },
@@ -276,6 +292,8 @@ export default class MessagePage extends BComponent {
                     );
                 }else {
                     this._setServiceCellNewNum(1);
+                    this.setState({newServiceNum:1});
+
                     UserInfoStore.setServiceMessageNewNum(1).then(
                         (num) => {
                         },
@@ -283,6 +301,9 @@ export default class MessagePage extends BComponent {
                         },
                     );
                 }
+                this._resetBadgeNum()
+
+
             },
             (e) => {
                 console.log("读取信息错误:", e);
@@ -316,6 +337,14 @@ export default class MessagePage extends BComponent {
                             });
                         }
 
+                        UserInfoStore.setNotifyMessageArr(tmpArr).then(
+                            (newList) => {
+                                DeviceEventEmitter.emit('ReloadNotifyMessageList');
+                            },
+                            (e) => {
+                            },
+                        );
+                    }else {
                         UserInfoStore.setNotifyMessageArr(tmpArr).then(
                             (newList) => {
                                 DeviceEventEmitter.emit('ReloadNotifyMessageList');
