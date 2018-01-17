@@ -45,7 +45,7 @@ export default class MessageCell extends Component {
 
                 </View>
 
-                { img.length > 0 &&
+                { img && img.length > 0 &&
                     <Image resizeMode="center" style={styles.imageRowStyle} source={{uri:img}}>
 
                     </Image>
