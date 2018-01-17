@@ -30,7 +30,6 @@ export default class ServiceMessagePage extends BComponent {
 
         this.state = {
             dataList: [],
-            unReadNum: 0,
             logined : false,
             isAppear : false,
             refreshState: RefreshState.Idle,
@@ -98,9 +97,7 @@ export default class ServiceMessagePage extends BComponent {
                     this.setState({
                         initStatus:'no-data'
                     });
-                    this.props.navigator.setTabBadge({
-                        badge: null
-                    });
+
                 }
             },
             e => {
@@ -121,12 +118,6 @@ export default class ServiceMessagePage extends BComponent {
             (responseData) => {
 
                 if(responseData.code === 0){
-                    this.setState({
-                        unReadNum:0,
-                    });
-                    this.props.navigator.setTabBadge({
-                        badge: null
-                    });
 
                 }else{
                 }
@@ -229,10 +220,7 @@ export default class ServiceMessagePage extends BComponent {
                     this.setState({
                         dataList:data,
                     });
-                    this.state.unReadNum--;
-                    this.props.navigator.setTabBadge({
-                        badge: this.state.unReadNum <= 0 ? null : this.state.unReadNum // 数字气泡提示, 设置为null会删除
-                    });
+
                 }else{
                 }
             },
