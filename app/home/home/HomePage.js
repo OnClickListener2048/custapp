@@ -324,7 +324,7 @@ export default class HomePage extends BComponent {
             let itemMargin = 0
             let itemWidth = (deviceWidth - itemMargin*(col+1))/col
             return(
-                <View style={{flexDirection:'row',flexWrap:'wrap',flex:1,backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#f9f9f9'}}>
+                <View style={{flexDirection:'row',flexWrap:'wrap',flex:1,backgroundColor:'white'}}>
                     {
                         item.item.data.map((item, i) => {
 
@@ -332,14 +332,15 @@ export default class HomePage extends BComponent {
                             if(i%col == (col-1)){
                                 borderStyle = {
                                     borderBottomWidth:itemBorder,
-                                    borderBottomColor:'#f9f9f9'
+                                    borderBottomColor:'#D7D7D7'
                                 }
                             }else{
                                 borderStyle = {
                                     borderRightWidth:itemBorder,
-                                    borderRightColor:'#f9f9f9',
+                                    borderRightColor:'#D7D7D7',
                                     borderBottomWidth:itemBorder,
-                                    borderBottomColor:'#f9f9f9'
+                                    borderBottomColor:'#D7D7D7',
+                                    borderTopWidth:itemBorder,borderTopColor:'#D7D7D7'
                                 }
                             }
                             // let borderStyle = {
