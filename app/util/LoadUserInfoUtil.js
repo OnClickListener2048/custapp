@@ -5,6 +5,7 @@ import * as apis from '../apis';
 import JPushModule from 'jpush-react-native'
 import Alert from "react-native-alert";
 import Toast from 'react-native-root-toast';
+import {DeviceEventEmitter} from "react-native";
 var LoadUserInfoCallBack = {
     type:'bind',//bind 绑定手机号时  login登录时
     callback: function(code){
@@ -52,7 +53,7 @@ export default function loadUserInfo(LoadUserInfoCallBack){
                         console.log('设置分组失败')
                     })
                 }
-                // responseData.user.mobilePhone = '18877775555';// 调试
+                responseData.user.mobilePhone = '15566667777';// 调试
                 if (responseData.user.mobilePhone) {
                     //responseData.user.mobilePhone = '18888888888';
                     UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
@@ -79,7 +80,7 @@ export default function loadUserInfo(LoadUserInfoCallBack){
                                 }
 
                                 UserInfoStore.setCompanyArr(tmpCompaniesArr).then();
-                                let index = 0;
+                                let index = -1;
                                 for(let i=0;i<tmpCompaniesArr.length;i++){
                                     let dic = tmpCompaniesArr[i]
                                     if(dic.default){
@@ -87,16 +88,33 @@ export default function loadUserInfo(LoadUserInfoCallBack){
                                         break;
                                     }
                                 }
+
+                                // 如果服务端没有返回默认公司, 就在这里设置为第0个, 然后发回服务端进行更新
+                                if(index === -1) {
+                                    index = 0;
+                                    if(tmpCompaniesArr && tmpCompaniesArr[index]) {
+                                        apis.changeCompany(tmpCompaniesArr[index].id).then(
+                                            (responseData) => {
+                                                console.log('自动设置默认公司成功', responseData);
+                                            },
+                                            (e) => {
+                                                console.log('自动设置默认公司失败');
+                                            },
+                                        );
+                                    }
+                                }
+
                                 UserInfoStore.setCompany(tmpCompaniesArr[index]).then();
+
                                 successCode.code = 0;
-                                successCode.userType = 2
+                                successCode.userType = 2;
                                 LoadUserInfoCallBack.callback(successCode)
                             } else {
                                 UserInfoStore.removeCompany().then();
                                 UserInfoStore.removeCompanyArr().then();
                                 UserInfoStore.removeApplyPay().then();
                                 successCode.code = 0;
-                                successCode.userType = 1
+                                successCode.userType = 1;
                                 LoadUserInfoCallBack.callback(successCode)
                             }
                             // this.pop();
