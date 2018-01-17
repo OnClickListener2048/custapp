@@ -242,7 +242,7 @@ export default class ChangeCompanyPage extends BComponent {
         apis.changeCompany(item.id).then(
             (responseData) => {
 
-                if(responseData.code == 0){
+                if(responseData.code === 0){
                     //切换成功
                     this.setState({
                         selectedCompanyId:item.id
