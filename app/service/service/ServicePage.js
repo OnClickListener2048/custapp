@@ -116,6 +116,8 @@ export default class ServicePage extends BComponent {
         });
 
     }
+
+
     componentWillUnmount() {
         this.refreshEmitter.remove();
     }
