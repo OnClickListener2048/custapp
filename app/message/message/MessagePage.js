@@ -197,7 +197,9 @@ export default class MessagePage extends BComponent {
                         this._loadUnreadedNum();
 
                     }
-                    this._resetNotifyMessageArr(message.extras);
+                    let obj = JSON.parse(message.extras)
+
+                    this._resetNotifyMessageArr(obj);
 
                 });
                 //收到通知
@@ -210,7 +212,9 @@ export default class MessagePage extends BComponent {
                     }else {
                         this._loadUnreadedNum();
                     }
-                    this._resetNotifyMessageArr(message.extras);
+                    let obj = JSON.parse(message.extras)
+
+                    this._resetNotifyMessageArr(obj);
 
                 });
 
