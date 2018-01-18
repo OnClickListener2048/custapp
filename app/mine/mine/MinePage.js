@@ -491,7 +491,6 @@ export default class MinePage extends BComponent {
     }
 
 
-
     _goto(screen, title ){
         if(screen === '')return;
 
