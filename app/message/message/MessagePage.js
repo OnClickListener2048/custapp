@@ -316,22 +316,15 @@ export default class MessagePage extends BComponent {
 
     _resetNotifyMessageArr(item){
 
-
-
-        console.log('item.isGroup = ' + item.isGroup + 'item = ' + item);
-
         //服务类的
         if(item.isGroup === false) {
             this._resetServiceNum();
             DeviceEventEmitter.emit('ReloadServiceMessageList');
 
-
         }else if (item.isGroup === true) {
 
             //通知类的
             this._resetNotifyNum();
-            alert('到了设置数字的后面');
-
             let tmpArr = [];
             const currentTimestamp = new Date().getTime();
             item.timeTamp = currentTimestamp;
