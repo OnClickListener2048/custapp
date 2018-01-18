@@ -65,8 +65,19 @@ export default class MinePage extends BComponent {
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
             NavigatorSelected = this.props.navigator;
-            this.initPage();
+            // this.initPage();
         }
+    }
+
+    componentDidMount() {
+        this.initPage()
+        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
+            this.initPage()
+        });
+    }
+
+    componentWillUnmount() {
+        this.refreshEmitter.remove();
     }
     //查公司接口超级慢 页面每次进入 调一次
     initPage(){
@@ -128,62 +139,65 @@ export default class MinePage extends BComponent {
                                     })
                                 })
                                 //由于公司获取接口经常失败这里再次调用接口检查一下  获取公司
-                                apis.getCompany(user.mobilePhone).then(
-                                    (companyInfo) => {
-                                        if (companyInfo) {
-                                            let tmpCompaniesArr = companyInfo.list;
-                                            UserInfoStore.getCompanyArr().then(
-                                                (companyArr) => {
-                                                    //接口返回与本地存储数据不一样  （之前登录后调企业接口出错的情况）
-                                                    if (JSON.stringify(tmpCompaniesArr) != JSON.stringify(companyArr)) {
-
-                                                        if(tmpCompaniesArr && tmpCompaniesArr.length>0){
-                                                            this.getOrderNumber(tmpCompaniesArr[0].id,tmpCompaniesArr[0].type)
-                                                            //有公司
-                                                            UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
-                                                                (s) => {
-                                                                    console.log("公司信息保存成功");
-                                                                },
-                                                                (e) => {
-                                                                    console.log("公司信息保存错误:", e);
-                                                                },
-                                                            );
-
-                                                            UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
-                                                                (s) => {
-                                                                    console.log("公司信息保存成功");
-                                                                    this.setState({company: tmpCompaniesArr[0].infos[0].value});
-                                                                    DeviceEventEmitter.emit('ChangeCompany');
-
-                                                                },
-                                                                (e) => {
-                                                                    console.log("公司信息保存错误:", e);
-                                                                },
-                                                            );
-                                                        }else{
-                                                            this.getOrderNumber()
-
-                                                            //没公司
-                                                            UserInfoStore.removeCompany().then((s)=>{
-                                                                this.setState({company: '',companyCount:''});
-                                                                DeviceEventEmitter.emit('ChangeCompany');
-                                                            },(e)=>{
-
-                                                            });
-                                                            UserInfoStore.removeCompanyArr().then();
-                                                        }
-                                                    }
-                                                },
-                                                (e) => {
-
-                                                },
-                                            );
-                                        }
-                                    },
-                                    (e) => {
-
-                                    },
-                                );
+                                // apis.getCompany(user.mobilePhone).then(
+                                //     (companyInfo) => {
+                                //         if (companyInfo && companyInfo.list && companyInfo.list.length>0) {
+                                //             //接口有公司
+                                //             let tmpCompaniesArr = companyInfo.list;
+                                //
+                                //             let index = 0;
+                                //             for(let i = 0 ;i<tmpCompaniesArr.length;i++){
+                                //                 let dic = tmpCompaniesArr[i]
+                                //                 if(dic.default){
+                                //                     index = i;
+                                //                     break
+                                //                 }
+                                //             }
+                                //             let netCompany = tmpCompaniesArr[index]
+                                //             UserInfoStore.getCompany().then(
+                                //                 (company) => {
+                                //                     console.log('company', company);
+                                //                     if(!(company && (company.id == netCompany.id))){
+                                //
+                                //                         this.getOrderNumber(netCompany.id,netCompany.type)
+                                //                         UserInfoStore.setCompanyArr(tmpCompaniesArr).then();
+                                //                         UserInfoStore.setCompany(netCompany).then();
+                                //                         this.setState({company: netCompany.infos[0].value});
+                                //                         DeviceEventEmitter.emit('ChangeCompany');
+                                //
+                                //                     }
+                                //
+                                //                 },
+                                //                 (e) => {
+                                //                     console.log("读取信息错误:", e);
+                                //                 },
+                                //             );
+                                //
+                                //         }else{
+                                //             //接口没公司
+                                //             UserInfoStore.getCompany().then(
+                                //                 (company) => {
+                                //                     //本地有公司 其实没公司
+                                //                     if(company){
+                                //                         this.getOrderNumber()
+                                //                         //没公司
+                                //                         UserInfoStore.removeCompany().then();
+                                //                         UserInfoStore.removeCompanyArr().then();
+                                //                         this.setState({company: '',companyCount:''});
+                                //                         DeviceEventEmitter.emit('ChangeCompany');
+                                //                     }
+                                //
+                                //                 },
+                                //                 (e) => {
+                                //                 },
+                                //             );
+                                //
+                                //         }
+                                //     },
+                                //     (e) => {
+                                //
+                                //     },
+                                // );
                             } else{
                                 this.reset();
                             }
@@ -397,12 +411,14 @@ export default class MinePage extends BComponent {
                         </Image>
 
                     <CommenCell
+                        leftIcon={require('../../img/myCorp.png')}
                         leftText="我的企业"
                         onPress = {this._goto.bind(this,'ChangeCompanyPage','我的企业')}
                         rightText={this.state.companyCount}
                         style={{marginTop:9}}
                     />
                     <CommenCell
+                        leftIcon={require('../../img/orders.png')}
                         leftText="我的订单"
                         onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
                         style={{marginBottom:9}}
@@ -415,46 +431,39 @@ export default class MinePage extends BComponent {
                         {/*leftText="消息"*/}
                         {/*onPress = {this._goto.bind(this,'MessagePage','消息')}*/}
                     {/*/>*/}
-                    <CommenCell
-                        leftText="账号与安全"
-                        onPress = {this._goto.bind(this,'AccountAndSecurity','账号与安全')}
-                    />
-                    {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)||!this.state.upgrade?
-                        <CommenCell
-                        leftText="设置"
-                        style={{marginBottom:9}}
-                        underLine={false}
-                        onPress = {this._goto.bind(this,'SettingPage','设置')}
-
-                        />:
-                        <CommenCell
-                            leftText="设置"
-                            style={{marginBottom:9}}
-                            underLine={false}
-                            leftTextIcon={require('../../img/new_icon.png')}
-                            onPress = {this._goto.bind(this,'SettingPage','设置')}
-
-                        />}
 
                     <CommenCell
+                        leftIcon={require('../../img/customerService.png')}
                         leftText="联系客服"
                         // style={{marginTop:9}}
                         onPress = {this._call.bind(this,'')}
                     />
 
                     <CommenCell
+                        leftIcon={require('../../img/bizPartner.png')}
                         leftText="加盟合作"
                         onPress={this._goColumnDetail.bind(this)}
                         underLine={false}
-
+                        style={{marginBottom:9}}
                     />
 
-                    <CommenCell
-                        leftText="我要续费"
-                        underLine={false}
-                        onPress={this._goFee.bind(this,'')}
-                        style={{marginTop:9}}
-                    />
+                    {Platform.OS === 'ios'||(this.state.updateIcon===false||!this.state.settingNew)||!this.state.upgrade?
+                        <CommenCell
+                            leftIcon={require('../../img/settings.png')}
+                            leftText="设置"
+
+                            underLine={false}
+                            onPress = {this._goto.bind(this,'SettingPage','设置')}
+
+                        />:
+                        <CommenCell
+                            leftIcon={require('../../img/settings.png')}
+                            leftText="设置"
+                            underLine={false}
+                            leftTextIcon={require('../../img/new_icon.png')}
+                            onPress = {this._goto.bind(this,'SettingPage','设置')}
+
+                        />}
 
                     {/*<CommenCell*/}
                         {/*leftText="查看日志"*/}
@@ -481,36 +490,6 @@ export default class MinePage extends BComponent {
         Linking.openURL('tel:400-107-0110')
     }
 
-    _goFee(){
-        Alert.alert('提示', '提交后，客服将于24小时内联系拨打您的手机号码', [{
-            text: "取消",
-            onPress: ()=>{
-                console.log('you clicked cancel');
-            },
-            color:'#999999'
-        },
-            {
-                text: "提交",
-                onPress: ()=>{
-
-                        apis.fee().then(
-                            (responseData) => {
-                                if (responseData.code == 0) {
-                                    console.log('我要续费提交成功');
-                                    Toast.show('提交成功！')
-                                } else {
-                                    Toast.show('提交失败！')
-                                }
-                            },
-                            (e) => {
-                                console.log(e);
-                                Toast.show('提交失败！')
-
-                            }
-                        );
-                },
-            }]);
-    }
 
     _goto(screen, title ){
         if(screen === '')return;
@@ -529,7 +508,7 @@ export default class MinePage extends BComponent {
             UserInfoStore.getCompanyArr().then(
                 (companyArr) => {
                     console.log('companyArr-----',companyArr)
-                    if(companyArr && companyArr.length >= 1){
+                    // if(companyArr && companyArr.length >= 1){
                         //多家
                         this.push({
                             screen: screen,
@@ -538,14 +517,7 @@ export default class MinePage extends BComponent {
                         });
 
 
-                    }else{
-                        //一家或者没有
-                        this.push({
-                            screen: screen,
-                            title:title,
-                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                        });
-                    }
+
                 },
                 (e) => {
                     //一家或者没有

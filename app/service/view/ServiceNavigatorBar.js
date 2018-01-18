@@ -9,7 +9,8 @@ import {
     Dimensions,
     Platform,
     TouchableWithoutFeedback,
-    Image
+    Image,
+    PixelRatio
 } from 'react-native';
 import {isIphoneX} from '../../util/iphoneX-helper'
 import Picker from 'react-native-picker';
@@ -76,8 +77,8 @@ export default class ServiceNavigatorBar extends Component {
         if(this.props.isSecondLevel){
             return (
                 <TouchableWithoutFeedback onPress={()=>{this._showDataPicker()}}>
-                    <View style={{width:64,height:44,justifyContent:'center',alignItems:'center'}} >
-                        <Text style={{fontSize:18,color:'white',borderWidth:1,borderColor:'white',paddingVertical:3,paddingHorizontal:5,borderRadius:5}}>{this.props.year}</Text>
+                    <View style={{width:64,height:44,justifyContent:'center',alignItems:'center', marginRight: 1}} >
+                        <Text style={{ width:54,height:20,lineHeight:20,fontSize:18,color:'white',borderWidth:1 / PixelRatio.get(),borderColor:'white',textAlign:'center'}}>{this.props.year}</Text>
                     </View>
                 </TouchableWithoutFeedback>
             )
@@ -85,8 +86,8 @@ export default class ServiceNavigatorBar extends Component {
             if (this.props.rightItem === undefined){
                 return(
                     <TouchableWithoutFeedback onPress={()=>{this._showDataPicker()}}>
-                        <View style={{width:64,height:44,justifyContent:'center',alignItems:'center'}} >
-                            <Text style={{fontSize:16,color:'white',borderWidth:1,borderColor:'white',paddingVertical:3,paddingHorizontal:5,borderRadius:5}}>{this.props.year}</Text>
+                        <View style={{width:64,height:44,justifyContent:'center',alignItems:'center', marginRight: 1}} >
+                            <Text style={{width:54,height:20,lineHeight:20,fontSize:18,color:'white',borderWidth:1 / PixelRatio.get(),borderColor:'white', alignSelf:'center', textAlign:'center'}}>{this.props.year}</Text>
                         </View>
                     </TouchableWithoutFeedback>
                 )

@@ -14,6 +14,7 @@ import {
     StyleSheet,
     Animated,
     Platform,
+    PixelRatio,
     TouchableWithoutFeedback
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
@@ -25,15 +26,13 @@ import Toast from 'react-native-root-toast'
 import pushJump from '../../util/pushJump';
 
 import Swiper from 'react-native-swiper';
-
 const ImageScale = 0.42
 import {isIphoneX} from '../../util/iphoneX-helper'
 
 import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
 
-
-const itemBorder = 1
+const itemBorder = 1 / PixelRatio.get()
 
 let headerData = null;// 延迟到willmount时初始化, 解决切换域名带来得问题
 const footData = [
@@ -63,6 +62,7 @@ const footData = [
     }
 ]
 import BannerView from '../../view/BannerView'
+import * as WeChat from "react-native-wechat";
 
 export default class HomePage extends BComponent {
 
@@ -75,9 +75,8 @@ export default class HomePage extends BComponent {
             isFirstRefresh:true,
             isLoading:true,
             bannerData:[],
-            visible: true
+            width: Dimensions.get('window').width,
         };
-        this._index = 0
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -86,49 +85,17 @@ export default class HomePage extends BComponent {
 
     onNavigatorEvent(event) {
         super.onNavigatorEvent(event);
-        if(DeviceInfo.OS === 'android'){
-            if (event.id === 'willAppear') {
-                NavigatorSelected = this.props.navigator;
-                this.setState({
-                    visible: true
-                });
-            }
-            if (event.id === 'willDisappear') {
-                this.setState({
-                    visible: false
-                });
-            }
-        }else{
-            if (event.id === 'willAppear') {
-                NavigatorSelected = this.props.navigator;
+        if (event.id === 'willAppear') {
+            NavigatorSelected = this.props.navigator;
+            if(Platform.OS === 'android'){
+                this._reattach();
             }
         }
 
     }
 
     componentWillMount() {
-        console.log(Platform.OS, '读取审核开关');
-        // 只针对ios处理
-        if(Platform.OS === 'ios') {
-            console.log(Platform.OS, '读取审核开关');
-            //读取审核开关
-            apis.mobilelogin().then(
-                v => {
-                    console.log(Platform.OS, '读取审核开关返回值', v);
-                    UserInfoStore.setMobileLoginInfo(v).then();
-                }, e => {
-                    // Toast.show("读取审核开关" + e);
-                    console.log("读取审核开关" + e);
-                    // 读取失败或者弱网一直打开微信登录
-                    UserInfoStore.removeMobileLoginInfo().then();
-                }
-            );
-        } else {
-            // Android一直打开微信登录
-            // 读取失败或者弱网一直打开微信登录
-            UserInfoStore.removeMobileLoginInfo().then();
-        }
-
+        this._checkWechatLogin();
         headerData = [
             {
                 title:'热门产品',
@@ -175,6 +142,46 @@ export default class HomePage extends BComponent {
         ]
     }
 
+    // 初始化苹果审核微信登录开关信息
+    _checkWechatLogin = () => {
+        // 只针对ios处理
+        if(Platform.OS === 'ios') {
+            let mobileLoginInfo = {code: 0, open: true, mobile: "18777777777", passwd: "123456", token: "191c7e2d-b1ea-4956-801f-5cd647884904"};
+            console.log(Platform.OS, '读取审核开关');
+
+            WeChat.isWXAppInstalled().then(
+                v => {
+                    if (!v) {// 未安装微信, 直接打开手机登陆界面
+                        console.log(Platform.OS, '未安装微信, 审核开关设置为手机登陆');
+                        UserInfoStore.setMobileLoginInfo(mobileLoginInfo).then();
+                    } else {
+                        //读取审核开关
+                        apis.mobilelogin().then(
+                            v => {
+                                console.log(Platform.OS, '读取审核开关返回值', v);
+                                UserInfoStore.setMobileLoginInfo(v).then();
+                            }, e => {
+                                console.log("读取审核开关" + e);
+                                // 读取失败或者弱网一直打开微信登录
+                                UserInfoStore.removeMobileLoginInfo().then();
+                            }
+                        );
+                    }
+                },
+                e => {
+                    // 微信安装检测失败, 直接打开手机登陆界面, 防止iOS审核失败
+                    console.log(e);
+                    UserInfoStore.setMobileLoginInfo(mobileLoginInfo).then();
+                }
+            );
+        } else {
+            // Android一直打开微信登录
+            UserInfoStore.removeMobileLoginInfo().then();
+        }
+
+
+    };
+
     componentWillUnmount() {
         this.subscription.remove();
     }
@@ -207,19 +214,28 @@ export default class HomePage extends BComponent {
         apis.loadHomeData(type).then(
             (responseData) => {
                 if(responseData.code == 0){
+
                     //成功后处理数据
                     let dataSource = [];
+                    let section = {
+                        key:responseData.list,
+                        data:[{type:'header'}]
+                    }
+                    dataSource.push(section)
+
                     for (let i = 0; i<responseData.list.length;i++){
                         let section = {};
                         section.title = responseData.list[i].name;
-                        section.key = i;
+                        section.key = 'section'+ i;
                         //showtype
                         section.data = [{data:responseData.list[i].products,type:responseData.list[i].showtype?responseData.list[i].showtype:'1'}];
                         for(let j=0;j<section.data.length;j++){
-                            section.data[j].key = j
+
+                            section.data[j].key = 'row'+ j
                         }
-                        dataSource[i] = section
+                        dataSource.push(section)
                     }
+
                     //修改状态
                     if(responseData.list.length == 0){
                         //没数据
@@ -280,48 +296,7 @@ export default class HomePage extends BComponent {
         );
     }
 
-    // _listEmptyComponent(){
-    //     let h = 0;
-    //     if (DeviceInfo.OS === 'ios'){
-    //         h = DeviceInfo.height-64-(DeviceInfo.width*ImageScale)-110*2;
-    //     }else{
-    //         h = DeviceInfo.height-44-(DeviceInfo.width*ImageScale)-110*2;
-    //     }
-    //
-    //         if(this.state.loadState == 'no-data'){
-    //             return(
-    //                 <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
-    //                     <Text style={{fontSize:setSpText(15),color:'#999999'}}>暂时没有查到相关数据</Text>
-    //                     <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请致电客服热线:400-107-0110</Text>
-    //                 </View>
-    //             )
-    //         }else if(this.state.loadState == 'no-net'){
-    //             return(
-    //                 <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
-    //                     <Text style={{fontSize:setSpText(15),color:'#999999'}}>网络请求失败</Text>
-    //                     <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请检查您的网络</Text>
-    //                 </View>
-    //             )
-    //
-    //         }else if(this.state.loadState == 'error'){
-    //             return(
-    //                 <View style={{width:DeviceInfo.width, height:h,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
-    //                     <Text style={{fontSize:setSpText(15),color:'#999999'}}>网络请求失败</Text>
-    //                     <Text style={{fontSize:setSpText(15),color:'#999999',marginTop:10}}>请检查您的网络</Text>
-    //                 </View>
-    //             )
-    //         }else{
-    //             //成功
-    //             return(
-    //                 <View style={{width:DeviceInfo.width, height:h,backgroundColor:'white'}}>
-    //
-    //                 </View>
-    //             )
-    //         }
-    //
-    //
-    //
-    // }
+
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
@@ -330,7 +305,7 @@ export default class HomePage extends BComponent {
                     renderSectionHeader={this._renderSectionHeader.bind(this)}
                     sections={this.state.dataSource}
                     stickySectionHeadersEnabled={false}
-                    ListHeaderComponent={this._listHeaderComponent.bind(this)}
+                    // ListHeaderComponent={this._listHeaderComponent.bind(this)}
                     ListFooterComponent={this._listFooterComponent.bind(this)}
                     // ListEmptyComponent={this._listEmptyComponent.bind(this)}
                     onRefresh={this._onRefresh.bind(this)}
@@ -344,37 +319,35 @@ export default class HomePage extends BComponent {
     _onRefresh(){
         this.loadData()
     }
-    _renderItem (item) {
+    _renderItem (row) {
 
-        if(item.item.type == '1'){
+
+        if(row.item.type == '1'){
             let col = 4
             let itemMargin = 0
             let itemWidth = (deviceWidth - itemMargin*(col+1))/col
             return(
-                <View style={{flexDirection:'row',flexWrap:'wrap',flex:1,backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#f9f9f9'}}>
+                <View style={{flexDirection:'row',flexWrap:'wrap',flex:1,backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#D7D7D7'}}>
                     {
-                        item.item.data.map((item, i) => {
+                        row.item.data.map((item, i) => {
 
                             let borderStyle = {}
                             if(i%col == (col-1)){
                                 borderStyle = {
                                     borderBottomWidth:itemBorder,
-                                    borderBottomColor:'#f9f9f9'
+                                    borderBottomColor:'#D7D7D7'
                                 }
                             }else{
                                 borderStyle = {
                                     borderRightWidth:itemBorder,
-                                    borderRightColor:'#f9f9f9',
+                                    borderRightColor:'#D7D7D7',
                                     borderBottomWidth:itemBorder,
-                                    borderBottomColor:'#f9f9f9'
+                                    borderBottomColor:'#D7D7D7',
                                 }
                             }
-                            // let borderStyle = {
-                            //     borderRightWidth:1,
-                            //     borderRightColor:'#f9f9f9',
-                            //     borderBottomWidth:1,
-                            //     borderBottomColor:'#f9f9f9'
-                            // }
+                            if(parseInt(i/col) == (Math.ceil(row.item.data.length/col)-1)){
+                                borderStyle.borderBottomColor = 'transparent'
+                            }
                             return(
                                 <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
                                     <View style={[{width:itemWidth,height:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'},borderStyle]}>
@@ -387,46 +360,12 @@ export default class HomePage extends BComponent {
                     }
                 </View>
             )
-        }else if(item.item.type == '2'){
-            // let col = 2
-            // let itemMargin = 0
-            // let itemWidth = (deviceWidth - itemMargin*(col+1))/col
-            //
-            // return (
-            //     <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#f9f9f9'}}>
-            //         {
-            //             item.item.data.map((item, i) => {
-            //                 let borderStyle = {}
-            //                 if(i%col == (col-1)){
-            //                     borderStyle = {
-            //                         borderBottomWidth:itemBorder,
-            //                         borderBottomColor:'#f9f9f9'
-            //                     }
-            //                 }else{
-            //                     borderStyle = {
-            //                         borderRightWidth:itemBorder,
-            //                         borderRightColor:'#f9f9f9',
-            //                         borderBottomWidth:1,
-            //                         borderBottomColor:'#f9f9f9'
-            //                     }
-            //                 }
-            //                 return(
-            //                     <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
-            //                         <View style={[{width:itemWidth,height:itemWidth*0.42,marginLeft:itemMargin,justifyContent:'center',alignItems:'center',flexDirection:'row'},borderStyle]}>
-            //                             <Image resizeMode="contain" style={{ width:28,height:28}} source={{uri:item.icon}}/>
-            //                             <Text style={{fontSize:setSpText(14),color:'#666666',marginLeft:10}}>{item.name}</Text>
-            //                         </View>
-            //                     </TouchableOpacity>
-            //                 )
-            //             })
-            //         }
-            //
-            //     </View>
-            // )
+        }else if(row.item.type == '2'){
+
             return (
                 <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',paddingBottom:20,backgroundColor:'white'}}>
                     {
-                        item.item.data.map((item, i) => {
+                        row.item.data.map((item, i) => {
                             return(
                                 <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
                                     <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,height:68,marginTop:10}} source={{uri:item.icon}}>
@@ -439,9 +378,14 @@ export default class HomePage extends BComponent {
 
                 </View>
             )
+        }else if(row.item.type == 'header'){
+            return <View>
+                {this._listHeaderComponent()}
+            </View>
         }else{
-            return null
+            return <View />
         }
+
 
 
     }
@@ -451,9 +395,15 @@ export default class HomePage extends BComponent {
         )
     }
     _renderSectionHeader(item){
-        return(
-            <SectionHeader style={{marginTop:10}} text ={item.section.title} />
-        )
+
+        if(item.section.title){
+            return(
+                <SectionHeader style={{marginTop:10}} text ={item.section.title} />
+            )
+        }else {
+            return <View />
+        }
+
     }
     _listHeaderComponent(){
 
@@ -468,7 +418,7 @@ export default class HomePage extends BComponent {
                     {
                         headerData.map((item,i)=>{
                             return(
-                                <View style={{backgroundColor:'white',width:deviceWidth,marginTop:i?10:0}}>
+                                <View key={i} style={{backgroundColor:'white',width:deviceWidth,marginTop:i?10:0}}>
                                     <SectionHeader style={{marginTop:10}} text ={item.title} />
                                     {item.UItype === 1 ?<View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
                                         {
@@ -515,27 +465,18 @@ export default class HomePage extends BComponent {
         )
     }
     _renderBannerView(){
-
-        // return(
-        //     <BannerView
-        //         style={{height:deviceWidth*ImageScale}}
-        //         bannerData = {this.state.bannerData}
-        //         imageKey="img"
-        //     />
-        // )
-        if(this.state.visible){
+        if(Platform.OS === 'ios'){
             return(
                 <Swiper
                     style={{height:deviceWidth*ImageScale}}
                     loop = {true}
                     autoplayTimeout={5}
                     autoplay = {true}
-                    index={this._index}
+                    index = {0}
                     showsPagination = {true}
                     paginationStyle={{bottom:5}}
                     dot={<View style={{backgroundColor:'rgba(0,0,0,.2)', width: 6, height: 6,borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
                     activeDot={<View style={{backgroundColor: '#323232', width: 6, height: 6, borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
-                    onIndexChanged ={(index)=>{this._index = index}}
                 >
                     {
                         this.state.bannerData.map((item,index)=>{
@@ -549,9 +490,32 @@ export default class HomePage extends BComponent {
                 </Swiper>
             );
         }else{
-            return <View style={{height:deviceWidth*ImageScale}}/>
+            return(
+                <View style={{width: this.state.width, flex: 1}}>
+                    <Swiper
+                        style={{height:deviceWidth*ImageScale}}
+                        loop = {true}
+                        autoplayTimeout={5}
+                        autoplay = {true}
+                        index = {0}
+                        showsPagination = {true}
+                        paginationStyle={{bottom:5}}
+                        dot={<View style={{backgroundColor:'rgba(0,0,0,.2)', width: 6, height: 6,borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+                        activeDot={<View style={{backgroundColor: '#323232', width: 6, height: 6, borderRadius: 3, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+                    >
+                        {
+                            this.state.bannerData.map((item,index)=>{
+                                return(
+                                    <TouchableWithoutFeedback key={index} onPress = {this._goBannerDetail.bind(this,item)}>
+                                        <Image resizeMode="cover" source={{uri:item.img}} style={{width:deviceWidth,height:DeviceInfo.width*ImageScale}} />
+                                    </TouchableWithoutFeedback>
+                                )
+                            })
+                        }
+                    </Swiper>
+                </View>
+            )
         }
-
 
     }
     _goBannerDetail(item){
@@ -578,7 +542,15 @@ export default class HomePage extends BComponent {
             Toast.show('即将上线，敬请期待...')
         }
     }
+    _x = 0.5
 
+    _reattach = () => {
+        this.setState({
+            width: this.state.width - this._x,
+        }, () => {
+            this._x *= -1;
+        });
+    }
 
 }
 

@@ -43,5 +43,10 @@
     "title": "应付账款",
     "uri": "pilipa://view.services/accounts/payable",
     "screen": "AccountsPayablePage"
+  },
+  {
+    "title": "我的企业",
+    "uri": "pilipa://view.company.list",
+    "screen": "ChangeCompanyPage"
   }
 ]

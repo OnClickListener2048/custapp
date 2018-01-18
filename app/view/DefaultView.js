@@ -47,8 +47,7 @@ export default class DefaultView extends Component {
             return(
                 <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>
                     <Image source={require('../img/no_message.png')}/>
-                    <Text style={{fontSize:15,color:'#999999',marginTop:50}}>暂时没有查到相关数据,请过些时日再查看</Text>
-                    <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>
+                    <Text style={{fontSize:15,color:'#999999',marginTop:50}}>您还没有任何相关数据</Text>
                 </TouchableOpacity>
             )
         }else if (this.props.type == 'no-MessageData'){
@@ -56,7 +55,7 @@ export default class DefaultView extends Component {
             return(
                 <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>
                     <Image source={require('../img/no_message.png')}/>
-                    <Text style={{fontSize:15,color:'#999999',marginTop:50}}>您目前暂无系统消息</Text>
+                    <Text style={{fontSize:15,color:'#999999',marginTop:50}}>您目前没有任何消息</Text>
                 </TouchableOpacity>
             )
         } else if (this.props.type == 'no-ProgressData'){
@@ -64,8 +63,7 @@ export default class DefaultView extends Component {
                 return(
                     <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>
                         <Image source={require('../img/no_message.png')}/>
-                        <Text style={{fontSize:15,color:'#999999',marginTop:50}}>您的订单正在处理中，请稍后再查看</Text>
-                        <Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线：400-107-0110</Text>
+                        <Text style={{fontSize:15,color:'#999999',marginTop:50}}>您的订单正在处理中，请稍后查看</Text>
                     </TouchableOpacity>
                 )
         } else if(this.props.type == 'no-net'){

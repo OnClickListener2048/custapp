@@ -231,6 +231,7 @@ export default class SettingPage extends BComponent {
                         UserInfoStore.removeCompany().then();
                         UserInfoStore.removeCompanyArr().then();
                         UserInfoStore.removeLastUserPhone().then();
+                        UserInfoStore.removeApplyPay().then();
                         UserInfoStore.removeUserInfo().then(
                             v => {
                                 UserInfoStore.removeCompany().then(

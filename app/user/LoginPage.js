@@ -37,7 +37,7 @@ import AdapterUI from '../util/AdapterUI'
 import SubmitButtonWithIcon from "../view/SubmitButtonWithIcon";
 import JPushModule from 'jpush-react-native'
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
-
+import loadUserInfo from '../util/LoadUserInfoUtil'
 export default class LoginPage extends Component {
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -338,137 +338,169 @@ export default class LoginPage extends Component {
 
     // 读取用户信息
     readUserInfo() {
-        let loading = SActivityIndicator.show(true, "载入中...");
-        apis.userInfo().then(
-            (responseData) => {
-                SActivityIndicator.hide(loading);
-                /*
-                {"code":0,"user":{"username":"8018b38a-1836-44ab-a0c9-9cf00a623e50","nickname":"Changjiong.Liu","email":null,"name":"Changjiong.Liu","mobilePhone":null,"sex":"1","avatar":"http://wx.qlogo.cn/mmopen/vi_32/ajNVdqHZLLDtt0ic4ia8rpMribw4y8JeobBuhu3hdibFJOjU4FxXLkSC28Jbg46K4LbPaGEXoLhOetGBFzx1baadPg/0","roles":["USER_INFO"]}}
-                */
-                console.log("用户信息读取成功返回:", JSON.stringify(responseData));
-                if (responseData && responseData.user) {
-                    if(responseData.user.username){
-                        let alias = responseData.user.username.replace(/-/g, "_")
-                        JPushModule.setAlias(alias,function () {
-                            console.log('绑定成功',alias)
-                        },function () {
-                            console.log('绑定失败')
-                        })
-
-                    }
-                    if(responseData.user.group){
-                        JPushModule.setTags(responseData.user.group,function () {
-                            console.log('设置分组成功')
-                        },function () {
-                            console.log('设置分组失败')
-                        })
-                    }
-
-                    // responseData.user.mobilePhone = '18877775555';// 调试
-
-                    if (responseData.user.mobilePhone) {
-                        // responseData.user.mobilePhone = '18888888888';
-                        UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
-                        UserInfoStore.setUserInfo(responseData.user).then();
-                        //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '18099990000' responseData.user.mobilePhone
-                        loading = SActivityIndicator.show(true, "读取公司信息中...")
-
-                        apis.getCompany(responseData.user.mobilePhone).then(
-                            (companyInfo) => {
-                                console.log("公司信息读取返回", companyInfo);
-                                SActivityIndicator.hide(loading);
-                                this.setState({loading: false});
-                                if (companyInfo && companyInfo.list) {
-
-                                    console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
-
-                                    let tmpCompaniesArr = companyInfo.list;
-
-                                    //需要注掉到时候
-                                    UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
-                                        (user) => {
-                                            console.log("公司信息保存成功");
-                                            this.pop();
-
-                                        },
-                                        (e) => {
-                                            console.log("公司信息保存错误:", e);
-                                            this.pop();
-
-
-                                        },
-                                    );
-                                    if (tmpCompaniesArr.length > 0) {
-                                        UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
-                                            (user) => {
-                                                console.log("公司信息保存成功");
-                                                // 选中我的页面
-
-                                                this.pop();
-
-                                            },
-                                            (e) => {
-
-                                                this.pop();
-                                            },
-                                        );
-                                    } else {
-                                        this.pop();// bug 修复: 无公司数据时不能返回
-
-                                    }
-                                } else {
-                                    UserInfoStore.removeCompany().then();
-                                    UserInfoStore.removeCompanyArr().then();
-                                    this.pop();
-
-                                }
-                            },
-                            (e) => {
-                                SActivityIndicator.hide(loading);
-                                this.setState({loading: false});
-                                UserInfoStore.removeCompany().then();
-                                UserInfoStore.removeCompanyArr().then();
-
-                                console.log("公司信息读取错误返回:", e);
-                                this.pop();
-                            },
-                        );
-                    } else {
-                        this.setState({loading: false});
-                        // 没有手机号, 强制转往绑定手机页面
-                        UserInfoStore.removeLastUserPhone().then();
-                        UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
-                            (user) => {
-                                console.log("用户信息保存OK");
-                                this.props.navigator.push({
-                                    screen: 'FirstBindPhonePage',
-                                    title: ''
-                                });
-                            },
-                            (e) => {
-                                console.log("用户信息保存错误:", e);
-                                // this.pop();
-                            },
-                        );
-                    }
-
-
-                } else {
-                    Alert.alert("用户信息返回为空, 请重试", JSON.stringify(responseData));
-                    this.setState({loading: false});
+        let _this = this;
+        loadUserInfo({
+            type:'login',
+            callback: function(res){
+                _this.setState({loading: false});
+                if(res.code == 0 && res.userType == 0){
+                    _this.props.navigator.push({
+                        screen: 'FirstBindPhonePage',
+                        title: ''
+                    });
+                }else{
+                    _this.pop();
                 }
             },
-            (e) => {
-                SActivityIndicator.hide(loading);
-                this.setState({loading: false});
-                console.log("用户信息读取错误返回:", e);
-                Toast.show('用户信息读取失败' + errorText(e), {
-                    position: Toast.positions.CENTER,
-                    duration: Toast.durations.LONG,
-                    backgroundColor: 'red'
-                });
-            },
-        );
+        })
+        // let loading = SActivityIndicator.show(true, "载入中...");
+        // apis.userInfo().then(
+        //     (responseData) => {
+        //         SActivityIndicator.hide(loading);
+        //         /*
+        //         {"code":0,"user":{"username":"8018b38a-1836-44ab-a0c9-9cf00a623e50","nickname":"Changjiong.Liu","email":null,"name":"Changjiong.Liu","mobilePhone":null,"sex":"1","avatar":"http://wx.qlogo.cn/mmopen/vi_32/ajNVdqHZLLDtt0ic4ia8rpMribw4y8JeobBuhu3hdibFJOjU4FxXLkSC28Jbg46K4LbPaGEXoLhOetGBFzx1baadPg/0","roles":["USER_INFO"]}}
+        //         */
+        //         console.log("用户信息读取成功返回:", JSON.stringify(responseData));
+        //         if (responseData && responseData.user) {
+        //             if(responseData.user.username){
+        //                 let alias = responseData.user.username.replace(/-/g, "_")
+        //                 JPushModule.setAlias(alias,function () {
+        //                     console.log('绑定成功',alias)
+        //                 },function () {
+        //                     console.log('绑定失败')
+        //                 })
+        //
+        //             }
+        //             if(responseData.user.group){
+        //                 JPushModule.setTags(responseData.user.group,function () {
+        //                     console.log('设置分组成功')
+        //                 },function () {
+        //                     console.log('设置分组失败')
+        //                 })
+        //             }
+        //
+        //             // responseData.user.mobilePhone = '18877775555';// 调试
+        //
+        //             if (responseData.user.mobilePhone) {
+        //                 //responseData.user.mobilePhone = '18888888888';
+        //                 UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
+        //                 UserInfoStore.setUserInfo(responseData.user).then();
+        //                 //修改这个参数得到公司信息数据 responseData.user.mobilePhone   '18099990000' responseData.user.mobilePhone
+        //                 loading = SActivityIndicator.show(true, "读取公司信息中...")
+        //
+        //                 apis.getCompany(responseData.user.mobilePhone).then(
+        //                     (companyInfo) => {
+        //                         console.log("公司信息读取返回", companyInfo);
+        //                         SActivityIndicator.hide(loading);
+        //                         this.setState({loading: false});
+        //                         if (companyInfo && companyInfo.list) {
+        //
+        //                             console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
+        //
+        //                             let tmpCompaniesArr = companyInfo.list;
+        //
+        //                             if (companyInfo.applypay) {
+        //                                 UserInfoStore.setApplyPay(JSON.stringify(companyInfo.applypay)).then(
+        //                                     (applypay) => {
+        //                                         console.log("公司是否显示续费按钮保存成功");
+        //                                         this.pop();
+        //
+        //                                     },
+        //                                     (e) => {
+        //                                         console.log("公司是否显示续费按钮保存错误:", e);
+        //                                         this.pop();
+        //
+        //
+        //                                     },
+        //                                 );
+        //                             }
+        //
+        //                             UserInfoStore.setCompanyArr(tmpCompaniesArr).then(
+        //                                 (user) => {
+        //                                     console.log("公司信息保存成功");
+        //                                     this.pop();
+        //
+        //                                 },
+        //                                 (e) => {
+        //                                     console.log("公司信息保存错误:", e);
+        //                                     this.pop();
+        //
+        //
+        //                                 },
+        //                             );
+        //                             if (tmpCompaniesArr.length > 0) {
+        //                                 UserInfoStore.setCompany(tmpCompaniesArr[0]).then(
+        //                                     (user) => {
+        //                                         console.log("公司信息保存成功");
+        //                                         // 选中我的页面
+        //
+        //                                         this.pop();
+        //
+        //                                     },
+        //                                     (e) => {
+        //
+        //                                         this.pop();
+        //                                     },
+        //                                 );
+        //                             } else {
+        //                                 this.pop();// bug 修复: 无公司数据时不能返回
+        //
+        //                             }
+        //                         } else {
+        //                             UserInfoStore.removeCompany().then();
+        //                             UserInfoStore.removeCompanyArr().then();
+        //                             UserInfoStore.removeApplyPay().then();
+        //                             this.pop();
+        //
+        //                         }
+        //                     },
+        //                     (e) => {
+        //                         SActivityIndicator.hide(loading);
+        //                         this.setState({loading: false});
+        //                         UserInfoStore.removeCompany().then();
+        //                         UserInfoStore.removeCompanyArr().then();
+        //                         UserInfoStore.removeApplyPay().then();
+        //
+        //                         console.log("公司信息读取错误返回:", e);
+        //                         this.pop();
+        //                     },
+        //                 );
+        //             } else {
+        //                 this.setState({loading: false});
+        //                 // 没有手机号, 强制转往绑定手机页面
+        //                 UserInfoStore.removeLastUserPhone().then();
+        //                 UserInfoStore.setUserInfo(responseData.user).then(// 保存成功后再跳转
+        //                     (user) => {
+        //                         console.log("用户信息保存OK");
+        //                         this.props.navigator.push({
+        //                             screen: 'FirstBindPhonePage',
+        //                             title: ''
+        //                         });
+        //                     },
+        //                     (e) => {
+        //                         console.log("用户信息保存错误:", e);
+        //                         // this.pop();
+        //                     },
+        //                 );
+        //             }
+        //
+        //
+        //         } else {
+        //             Alert.alert("用户信息返回为空, 请重试", JSON.stringify(responseData));
+        //             this.setState({loading: false});
+        //         }
+        //     },
+        //     (e) => {
+        //         SActivityIndicator.hide(loading);
+        //         this.setState({loading: false});
+        //         console.log("用户信息读取错误返回:", e);
+        //         Toast.show('用户信息读取失败' + errorText(e), {
+        //             position: Toast.positions.CENTER,
+        //             duration: Toast.durations.LONG,
+        //             backgroundColor: 'red'
+        //         });
+        //     },
+        // );
     }
 
     updateMobile(mobile) {

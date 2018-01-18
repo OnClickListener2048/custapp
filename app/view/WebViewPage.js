@@ -269,15 +269,36 @@ export default class WebViewPage extends BComponent {
         if (this.props.url.indexOf("pilipa") !== -1 || this.props.url.indexOf("i-counting") !== -1) {
             if (this.props.url.indexOf("?") !== -1) {
                 //包含
-                urlStr = urlStr + '&userAgent=custapp&platform='+platform+'&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+                urlStr = urlStr + '&userAgent=custapp&plpplatform='+platform+'&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
             } else {
-                urlStr = urlStr + '?&userAgent=custapp&platform='+platform+'&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
+                urlStr = urlStr + '?&userAgent=custapp&plpplatform='+platform+'&client=' + Platform.OS + '&version=' + DeviceInfo.getVersion();
             }
         }
         // console.log('当前访问的网页地址是' + urlStr);
 
         return urlStr;
     }
+
+    /**
+     * 微信分享URL加工.
+     */
+    makeWXURL = () => {
+        let urlStr = this.props.url;
+        if (this.props.url.indexOf("pilipa") !== -1 || this.props.url.indexOf("i-counting") !== -1) {
+            if (this.props.url.indexOf("?") !== -1) {
+                //包含
+                urlStr = urlStr + '&pilipa=wxapp';
+            } else {
+                urlStr = urlStr + '?&pilipa=wxapp';
+            }
+        }
+
+        if (urlStr.indexOf('showFooterTab=true') !== -1){
+            urlStr = urlStr.replace(/showFooterTab=true/g, "showFooterTab=false");
+        }
+
+        return urlStr;
+    };
 
 
     render(){
@@ -410,27 +431,25 @@ export default class WebViewPage extends BComponent {
                         <TouchableOpacity onPress={()=>{this._share('friend')}}>
                             <View style={{alignItems:'center'}}>
                                 <Image source={require('../img/share_friend.png')}/>
-                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>分享微信</Text>
+                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>微信好友</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>{this._share('circle')}}>
                             <View style={{alignItems:'center'}}>
                                 <Image source={require('../img/share_circle.png')}/>
-                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>分享朋友圈</Text>
+                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>朋友圈</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
                 </Modal>
             </View>
         )
+
     }
     _share (type) {
-        let urlStr = this.appendURL('wxapp');
-        if (this.appendURL('wxapp').indexOf('showFooterTab=true') !== -1){
-            urlStr = this.appendURL('wxapp').replace(/showFooterTab=true/g, "showFooterTab=false")
-        }
+        let urlStr = this.makeWXURL();
 
-        if(type == 'friend'){
+        if(type === 'friend'){
             WeChat.isWXAppInstalled()
                 .then((isInstalled) => {
                     if (isInstalled) {

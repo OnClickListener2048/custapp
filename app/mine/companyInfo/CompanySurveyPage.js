@@ -27,7 +27,8 @@ export default class CompanySurveyPage extends BComponent {
             phone: null,
             loadState: '',
             owner: false, //是否有权限授权,默认无授权
-            company :this.props.company
+            company :this.props.company,
+            companyid:'',
         };
     }
 
@@ -49,7 +50,7 @@ export default class CompanySurveyPage extends BComponent {
                 //     (company) => {
                         console.log('company', company);
                         if (company) {
-                            console.log("授权手机号" + company.id);
+                            console.log("授权手机号" + company.id+company.name);
                             this.setState({companyid: company.id});
                             //获取当前授权人的手机号
                             UserInfoStore.getLastUserPhone().then(
@@ -63,6 +64,7 @@ export default class CompanySurveyPage extends BComponent {
                                         backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                                         passProps: {
                                             companyid: company.id,
+                                            companyname:company.name,
                                             ownerMobile: mobile,
                                         },
                                     });

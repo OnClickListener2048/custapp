@@ -12,8 +12,17 @@ let UPGRADE_SETTING = "UPGRADE_SETTING";//版本更新设置new
 let NEW_VERSION = "NEW_VERSION";//线上最新版本
 let LAST_USER_PHONE = "LAST_USER_PHONE";// 上次登陆后的用户手机号
 const KEY_COMPANY_INFO = "KEY_COMPANY_INFO";// 公司信息
+const KEY_COMPANY_ApplyPay = "KEY_COMPANY_APPLYPAY";// 是否显示续费按钮
+
 const KEY_COMPANYARR_INFOS = "KEY_COMPANYARR_INFOS";// 公司信息数组
 const KEY_MOBILE_INFO = "KEY_MOBILE_INFO";// 苹果审核开关
+
+
+
+const KEY_NOTIFY_MESSAGE_INFOS = "KEY_NOTIFY_MESSAGE_INFOS";// 通知助手消息列表
+const KEY_NOTIFY_MESSAGE_NEWNUM = "KEY_NOTIFY_MESSAGE_NEWNUM";// 通知助手最新消息数量
+const KEY_SERVICE_MESSAGE_NEWNUM = "KEY_SERVICE_MESSAGE_NEWNUM";// 服务消息最新消息数量
+
 
 // 返回是否已登陆
 UserInfoStore.isLogined = async function (): boolean {
@@ -115,6 +124,20 @@ UserInfoStore.setJPushID = async function (value: string) {
     return Preferences.set(KEY_JPUSH_ID, value);
 };
 
+UserInfoStore.getApplyPay = async function () {
+    return await Preferences.get(KEY_COMPANY_ApplyPay);
+};
+
+UserInfoStore.setApplyPay = async function (value: object) {
+    return Preferences.set(KEY_COMPANY_ApplyPay, value);
+};
+
+UserInfoStore.removeApplyPay = async function () {
+    return Preferences.remove(KEY_COMPANY_ApplyPay);
+};
+
+
+
 UserInfoStore.getCompany = async function () {
     // return await Preferences.get(KEY_COMPANY_INFO);
     let value = await Preferences.get(KEY_COMPANY_INFO);
@@ -150,6 +173,70 @@ UserInfoStore.getCompanyArr = async function () {
     }
     return value;
 };
+
+
+
+
+UserInfoStore.setNotifyMessageArr = async function (value: object) {
+    return Preferences.set(KEY_NOTIFY_MESSAGE_INFOS, JSON.stringify(value));
+};
+
+UserInfoStore.removeNotifyMessageArr = async function () {
+    return Preferences.remove(KEY_NOTIFY_MESSAGE_INFOS);
+};
+
+UserInfoStore.getNotifyMessageArr = async function () {
+    let value = await Preferences.get(KEY_NOTIFY_MESSAGE_INFOS);
+    if (value !== null) {
+        return JSON.parse(value);
+    }
+    return value;
+};
+
+
+
+
+
+UserInfoStore.setNotifyMessageNewNum = async function (value: object) {
+    return Preferences.set(KEY_NOTIFY_MESSAGE_NEWNUM, JSON.stringify(value));
+};
+
+UserInfoStore.getNotifyMessageNewNum = async function () {
+    let value = await Preferences.get(KEY_NOTIFY_MESSAGE_NEWNUM);
+    if (value) {
+        console.log('getNotifyNewNum', value);
+        return JSON.parse(value);
+    }
+    return value;
+};
+
+UserInfoStore.removeNotifyMessageNewNum = async function () {
+    return Preferences.remove(KEY_NOTIFY_MESSAGE_NEWNUM);
+};
+
+
+
+
+UserInfoStore.setServiceMessageNewNum = async function (value: object) {
+    return Preferences.set(KEY_SERVICE_MESSAGE_NEWNUM, JSON.stringify(value));
+};
+
+UserInfoStore.getServiceMessageNewNum = async function () {
+    let value = await Preferences.get(KEY_SERVICE_MESSAGE_NEWNUM);
+    if (value) {
+        console.log('getServiceNewNum', value);
+        return JSON.parse(value);
+    }
+    return value;
+};
+
+UserInfoStore.removeServiceMessageNewNum = async function () {
+    return Preferences.remove(KEY_SERVICE_MESSAGE_NEWNUM);
+};
+
+
+
+
 
 UserInfoStore.setMobileLoginInfo = async function (value: object) {
  return Preferences.set(KEY_MOBILE_INFO, JSON.stringify(value));

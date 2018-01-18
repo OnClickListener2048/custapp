@@ -96,7 +96,7 @@ export default class UpdateLightBox extends BComponent {
             if(this.props.isForce) {
                 Alert.alert("更新已开始", "安装包已在后台下载, 请等待升级到最新版");
             } else {
-                alert("安装包已在后台下载, 请等待下载完成后安装");
+                Toast.show("安装包已在后台下载, 请等待下载完成后安装");
             }
             this.setState({inProgress: true});
                 // 下载最新Apk

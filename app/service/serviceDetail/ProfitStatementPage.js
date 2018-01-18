@@ -205,14 +205,14 @@ class Cell extends Component{
                 </View>
                 <View style={{flex:1,borderRightWidth:0.5,borderRightColor:'#dcdcdc',justifyContent:'center',alignItems:'center'}}>
                     <Text style={{fontSize:setSpText(14),color:'#999999'}}>利润</Text>
-                    <Text style={{color:'#E13238',fontSize:setSpText(20),marginTop:5}}>{this.props.item.item.profit}</Text>
+                    <Text style={{color:'#E13238',fontSize:setSpText(20),marginTop:10}}>{this.props.item.item.profit}</Text>
                 </View>
                 <View style={{flex:1,justifyContent:'space-between',paddingLeft:15}}>
                     <View style={{flexDirection:'row', alignItems:'center'}}>
                         <Text style={{fontSize:setSpText(14),color:'#999999'}}>收入</Text>
                         <Text style={{fontSize:setSpText(16),color:'#333333',marginLeft:9}}>{this.props.item.item.income}</Text>
                     </View>
-                    <View style={{flexDirection:'row' ,alignItems:'center'}}>
+                    <View style={{flexDirection:'row' ,alignItems:'center',marginTop:10}}>
                         <Text style={{fontSize:setSpText(14),color:'#999999'}}>支出</Text>
                         <Text style={{fontSize:setSpText(16),color:'#333333',marginLeft:9}}>{this.props.item.item.expenditure}</Text>
                     </View>

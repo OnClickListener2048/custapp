@@ -67,9 +67,9 @@ export default class TimeSearchBar extends Component {
                     snapToInterval = {monthWidth}
                 >
                     {
-                        ['',''].map(()=>{
+                        ['',''].map((item,index)=>{
                             return(
-                                <View style={{width:monthWidth}} />
+                                <View key={'left'+index} style={{width:monthWidth}} />
                             )
                         })
                     }
@@ -105,15 +105,14 @@ export default class TimeSearchBar extends Component {
                         })
                     }
                     {
-                        ['',''].map(()=>{
+                        ['',''].map((item,index)=>{
                             return(
-                                <View style={{width:monthWidth}} />
+                                <View key={'right'+index} style={{width:monthWidth}} />
                             )
                         })
                     }
                 </ScrollView>
-                <Image style={{position:'absolute',left:SCREEN_WIDTH/2-5,bottom:8}} source={require('../../img/ChangeMonthTriangle.png')} />
-                <View style={{position:'absolute',left:0,right:0,bottom:0,width:SCREEN_WIDTH,height:DeviceInfo.onePR,backgroundColor:'#FFFFFF'}}/>
+                <View style={{position:'absolute',left:0,right:0,bottom:0,width:SCREEN_WIDTH,height:DeviceInfo.onePR,backgroundColor:'rgba(255, 255, 255, 0.3)'}}/>
             </View>
         )
     }
