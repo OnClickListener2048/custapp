@@ -189,21 +189,21 @@ export default class MessagePage extends BComponent {
         }else{
             JPushModule.notifyJSDidLoad(() => {
                 //收到自定义消息
-                this.recieveAndroidCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
-                    console.log("receive notification: " + JSON.stringify(message));
-                    if (this.state.isAppear === true){
-                        this.props.navigator.setTabBadge({
-                            badge: null
-                        });
-                    }else {
-                        this._loadUnreadedNum();
-
-                    }
-                    let obj = JSON.parse(message.extras)
-
-                    this._resetNotifyMessageArr(obj);
-
-                });
+                // this.recieveAndroidCustomJPushEvent = JPushModule.addReceiveCustomMsgListener((message) => {
+                //     console.log("receive notification: " + JSON.stringify(message));
+                //     if (this.state.isAppear === true){
+                //         this.props.navigator.setTabBadge({
+                //             badge: null
+                //         });
+                //     }else {
+                //         this._loadUnreadedNum();
+                //
+                //     }
+                //     let obj = JSON.parse(message.extras)
+                //
+                //     this._resetNotifyMessageArr(obj);
+                //
+                // });
                 //收到通知
                 this.recieveAndroidJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
                     console.log("receive notification: " + JSON.stringify(message));
@@ -319,15 +319,7 @@ export default class MessagePage extends BComponent {
     _resetNotifyMessageArr(item){
 
 
-        alert('messageid' + this.state.jpushMessageId + 'itemId' + item._j_msgid);
 
-
-
-        if (item._j_msgid == this.state.jpushMessageId){
-            return;
-        }
-
-        this.setState({jpushMessageId:item._j_msgid});
 
         //服务类的
         if(item.isGroup === false) {
@@ -338,7 +330,6 @@ export default class MessagePage extends BComponent {
             //通知类的
 
             //自己维护 _id 与 时间
-            item._id = item._j_msgid;
             const currentTimestamp = new Date().getTime();
             item.timeTamp = currentTimestamp;
 
