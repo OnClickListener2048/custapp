@@ -403,7 +403,6 @@ export default class ServicePage extends BComponent {
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                {/*<ChooseTimerModal style={{marginTop:DeviceInfo.OS=='ios'?isIphoneX()?90:64:44}} disabled={this.state.is_demo == '1'?true:false} ref="ChooseTimerModal" yearSelected={this.state.year} monthSelected={this.state.month} callback ={this._callback.bind(this)}/>*/}
             </View>
 
         )

@@ -26,7 +26,7 @@ const window = Dimensions.get('window');
 import Modal from '../view/Modalbox';
 import DeviceInfo from 'react-native-device-info';
 import * as WeChat from'react-native-wechat'
-
+import DefaultView from '../view/DefaultView'
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 import * as apis from '../apis';
 import * as URI from "uri-js";
@@ -66,6 +66,7 @@ export default class WebViewPage extends BComponent {
         this.state={
             progress:0,
             isShowProgress:true,
+            netState:true,
             isShowTabButton:false,
             isShowkeyBoard:false,
             mobile: '',     // 手机号
@@ -163,7 +164,9 @@ export default class WebViewPage extends BComponent {
 
         let _this = this;
         this._hiddenProgresssTimer = setTimeout(function () {
-            _this.setState({ isShowProgress:false });
+            _this.setState({ isShowProgress:false,
+                netState:NetInfoSingleton.isConnected
+            });
             clearTimeout(this._hiddenProgresssTimer);
 
         },second)
@@ -303,30 +306,32 @@ export default class WebViewPage extends BComponent {
 
     render(){
 
-
-
         let urlStr = this.appendURL();
 
         return(
             <View style={{flex:1,backgroundColor:'#ebebeb',position:'relative'}}>
-                <WebView
-                    injectedJavaScript={patchPostMessageJsCode}
-                    source={{uri:urlStr}}
-                    onLoad = {() => {console.log('webview onLoad')}}
-                    onLoadEnd = {this._onLoadEnd.bind(this)}
-                    onMessage={this._handleMessage}
-                    ref={webview => this.webview = webview}
-                    renderError={(e) => {
-                        if (e) {
-                        return;
-                        }
-                    }}
-                    onShouldStartLoadWithRequest={(e) => {
-                        console.log('onShouldStartLoadWithRequest ', e.url);
-                        let scheme = e.url.split('://')[0];
-                        return scheme === 'http' || scheme === 'https';
-                    }}
-                />
+                {
+                    this.state.netState?<WebView
+                        injectedJavaScript={patchPostMessageJsCode}
+                        source={{uri:urlStr}}
+                        onLoad = {() => {console.log('webview onLoad')}}
+                        onLoadEnd = {this._onLoadEnd.bind(this)}
+                        onMessage={this._handleMessage}
+                        ref={webview => this.webview = webview}
+                        renderError={(e) => {
+                            if (e) {
+                                return;
+                            }
+                        }}
+                        onShouldStartLoadWithRequest={(e) => {
+                            console.log('onShouldStartLoadWithRequest ', e.url);
+                            let scheme = e.url.split('://')[0];
+                            return scheme === 'http' || scheme === 'https';
+                        }}
+                    />:<DefaultView type ={'no-net'}/>
+
+                }
+
                 {
                     this.state.isShowProgress?<Progress.Bar
                         width={deviceWidth}
