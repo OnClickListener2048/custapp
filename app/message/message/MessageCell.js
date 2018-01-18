@@ -27,6 +27,7 @@ export default class MessageCell extends Component {
     render() {
         // const { style} = this.props
         const {messageTitle, messageSubTitle,messageTime,isRead,img} = this.props
+
         return (
             <View
                 style={styles.rowStyle}>
@@ -45,7 +46,7 @@ export default class MessageCell extends Component {
 
                 </View>
 
-                { img && img.length > 0 &&
+                { img !== null && (img !== undefined) && (img.length>0) &&
                     <Image resizeMode="center" style={styles.imageRowStyle} source={{uri:img}}>
 
                     </Image>

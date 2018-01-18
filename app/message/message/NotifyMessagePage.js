@@ -212,11 +212,11 @@ export default class NotifyMessagePage extends BComponent {
         return(
             <TouchableOpacity onPress={this._readed.bind(this,info.item)}>
                 <MessageCustomCell
-                    messageTitle={info.item.title}
-                    messageSubTitle={info.item.content}
-                    messageTime={info.item.createDate}
-                    isRead={info.item.readed}
-                    img={info.item.img}
+                     messageTitle={info.item.title}
+                     messageSubTitle={info.item.content}
+                     messageTime={info.item.createDate}
+                     isRead={info.item.readed}
+                     img={info.item.img}
                 />
             </TouchableOpacity>
         )
