@@ -322,22 +322,34 @@ export default class MessagePage extends BComponent {
             DeviceEventEmitter.emit('ReloadServiceMessageList');
 
         }else if (item.isGroup === true) {
-
             //通知类的
-            this._resetNotifyNum();
-            let tmpArr = [];
+
+            //自己维护 _id 与 时间
+            item._id = item._j_msgid;
             const currentTimestamp = new Date().getTime();
             item.timeTamp = currentTimestamp;
-            tmpArr[0] = item;
 
             UserInfoStore.getNotifyMessageArr().then(
                 (messageArr) => {
 
                     if (messageArr) {
                         if (messageArr.length > 0) {
-                            messageArr.forEach(row => {
 
+                            for (let i = 0 ; i < messageArr.length ; i++){
+                                let tmpItem = messageArr[i];
+                                if (tmpItem._id === item._id){
+                                    return;
+                                }
+                            }
+
+                            this._resetNotifyNum();
+                            let tmpArr = [];
+
+                            tmpArr[0] = item;
+
+                            messageArr.forEach(row => {
                                 tmpArr.push(Object.assign({}, row));
+
                             });
                         }
 
@@ -349,6 +361,12 @@ export default class MessagePage extends BComponent {
                             },
                         );
                     }else {
+
+                        this._resetNotifyNum();
+                        let tmpArr = [];
+                        tmpArr[0] = item;
+
+
                         UserInfoStore.setNotifyMessageArr(tmpArr).then(
                             (newList) => {
                                 DeviceEventEmitter.emit('ReloadNotifyMessageList');

@@ -132,16 +132,6 @@ export default class NotifyMessagePage extends BComponent {
                             let  todayTime = moment(item.timeTamp).format("HH:mm")
 
                             item.createDate = '昨天' + todayTime;
-                        }else if (timeMinus  <= monthTimeMinus){
-                            //昨天的
-                            let  todayTime = moment(item.timeTamp).format("DD日 HH:mm")
-
-                            item.createDate = todayTime;
-                        }else if (timeMinus  <= yesterdayTimeMinus){
-                            //昨天的
-                            let  todayTime = moment(item.timeTamp).format("MM月DD日 HH:mm")
-
-                            item.createDate = '昨天' + todayTime;
                         }else {
                             //正常显示
 
