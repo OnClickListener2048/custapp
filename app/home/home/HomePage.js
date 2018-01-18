@@ -25,13 +25,11 @@ import Toast from 'react-native-root-toast'
 import pushJump from '../../util/pushJump';
 
 import Swiper from 'react-native-swiper';
-import ViewPagerWrapper from '../../view/ViewPagerWrapper'
 const ImageScale = 0.42
 import {isIphoneX} from '../../util/iphoneX-helper'
 
 import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
-
 
 const itemBorder = 1
 
@@ -76,6 +74,7 @@ export default class HomePage extends BComponent {
             isFirstRefresh:true,
             isLoading:true,
             bannerData:[],
+            width: Dimensions.get('window').width,
         };
     }
     static navigatorStyle = {
@@ -87,6 +86,9 @@ export default class HomePage extends BComponent {
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
             NavigatorSelected = this.props.navigator;
+            if(Platform.OS === 'android'){
+                this._reattach();
+            }
         }
 
     }
@@ -492,7 +494,7 @@ export default class HomePage extends BComponent {
             );
         }else{
             return(
-                <ViewPagerWrapper navigator={this.props.navigator}>
+                <View style={{width: this.state.width, flex: 1}}>
                     <Swiper
                         style={{height:deviceWidth*ImageScale}}
                         loop = {true}
@@ -514,7 +516,7 @@ export default class HomePage extends BComponent {
                             })
                         }
                     </Swiper>
-                </ViewPagerWrapper>
+                </View>
             )
         }
 
@@ -543,7 +545,15 @@ export default class HomePage extends BComponent {
             Toast.show('即将上线，敬请期待...')
         }
     }
+    _x = 0.5
 
+    _reattach = () => {
+        this.setState({
+            width: this.state.width - this._x,
+        }, () => {
+            this._x *= -1;
+        });
+    }
 
 }
 
