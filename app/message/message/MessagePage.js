@@ -318,10 +318,15 @@ export default class MessagePage extends BComponent {
 
     _resetNotifyMessageArr(item){
 
+
+        alert('messageid' + this.state.jpushMessageId + 'itemId' + item._j_msgid);
+
+
+
         if (item._j_msgid == this.state.jpushMessageId){
             return;
         }
-        
+
         this.setState({jpushMessageId:item._j_msgid});
 
         //服务类的
@@ -347,13 +352,8 @@ export default class MessagePage extends BComponent {
 
                     if (messageArr) {
                         if (messageArr.length > 0) {
-
-
-
-
                             messageArr.forEach(row => {
                                 tmpArr.push(Object.assign({}, row));
-
                             });
                         }
 
