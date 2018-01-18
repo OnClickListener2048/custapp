@@ -36,6 +36,8 @@ export default class MessagePage extends BComponent {
             newServiceNum : 0,
             newNotifyNum : 0,
             jpushMessage:'',
+            jpushMessageId:'',
+
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
         };
         this.page =1;
@@ -316,6 +318,12 @@ export default class MessagePage extends BComponent {
 
     _resetNotifyMessageArr(item){
 
+        if (item._j_msgid == this.state.jpushMessageId){
+            return;
+        }
+        
+        this.setState({jpushMessageId:item._j_msgid});
+
         //服务类的
         if(item.isGroup === false) {
             this._resetServiceNum();
@@ -329,23 +337,19 @@ export default class MessagePage extends BComponent {
             const currentTimestamp = new Date().getTime();
             item.timeTamp = currentTimestamp;
 
+
+            this._resetNotifyNum();
+            let tmpArr = [];
+            tmpArr[0] = item;
+
             UserInfoStore.getNotifyMessageArr().then(
                 (messageArr) => {
 
                     if (messageArr) {
                         if (messageArr.length > 0) {
 
-                            for (let i = 0 ; i < messageArr.length ; i++){
-                                let tmpItem = messageArr[i];
-                                if (tmpItem._id === item._id){
-                                    return;
-                                }
-                            }
 
-                            this._resetNotifyNum();
-                            let tmpArr = [];
 
-                            tmpArr[0] = item;
 
                             messageArr.forEach(row => {
                                 tmpArr.push(Object.assign({}, row));
@@ -361,11 +365,6 @@ export default class MessagePage extends BComponent {
                             },
                         );
                     }else {
-
-                        this._resetNotifyNum();
-                        let tmpArr = [];
-                        tmpArr[0] = item;
-
 
                         UserInfoStore.setNotifyMessageArr(tmpArr).then(
                             (newList) => {
