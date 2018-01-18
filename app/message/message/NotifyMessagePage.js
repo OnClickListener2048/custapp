@@ -24,6 +24,7 @@ import * as apis from '../../apis';
 import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
 import Toast from 'react-native-root-toast';
+import moment from 'moment';
 
 import RefreshListView, {RefreshState} from '../../view/RefreshListView'
 export default class NotifyMessagePage extends BComponent {
@@ -84,10 +85,75 @@ export default class NotifyMessagePage extends BComponent {
         );
     }
 
+
+
     refreshListData(){
         UserInfoStore.getNotifyMessageArr().then(
             (messageArr) => {
                 if (messageArr && messageArr.length > 0) {
+
+                    for (let i = 0 ; i < messageArr.length ; i++){
+                        let item = messageArr[i];
+                        const currentTimestamp = new Date().getTime();
+
+                        var todayZeroTime = new Date(new Date().setHours(0, 0, 0, 0));  //今天零点的时间
+
+                        let timeMinus = (currentTimestamp - item.timeTamp) / 1000;  //数据的时间差值
+
+                        let todayTimeMinus = (currentTimestamp - todayZeroTime) / 1000;   //今天天的差值
+
+                        let yesterdayTimeMinus = todayTimeMinus + 86400;   //昨天的差值 一天是86400秒
+
+
+
+                        var today2 = new Date();//获得当前日期
+                        var theYear = today2.getFullYear();//获得年份
+                        var theMonth = today2.getMonth();//此方法获得的月份是从0---11，所以要加1才是当前月份
+
+
+
+                        var yearZeroTime = new Date(new Date().setFullYear(theYear,0,0));
+
+                        var monthZeroTime = new Date(new Date().setMonth(theMonth,0));
+
+                        let monthTimeMinus = (currentTimestamp - monthZeroTime) / 1000;   //当月的差值
+
+                        let yearTimeMinus = (currentTimestamp - yearZeroTime) / 1000;   //当年的差值
+
+
+                        if (timeMinus <= todayTimeMinus){
+                            //今天的
+                            let  todayTime = moment(item.timeTamp).format("HH:mm")
+
+                            item.createDate = todayTime;
+
+                        }else if (timeMinus  <= yesterdayTimeMinus){
+                            //昨天的
+                            let  todayTime = moment(item.timeTamp).format("HH:mm")
+
+                            item.createDate = '昨天' + todayTime;
+                        }else if (timeMinus  <= monthTimeMinus){
+                            //昨天的
+                            let  todayTime = moment(item.timeTamp).format("DD日 HH:mm")
+
+                            item.createDate = todayTime;
+                        }else if (timeMinus  <= yesterdayTimeMinus){
+                            //昨天的
+                            let  todayTime = moment(item.timeTamp).format("MM月DD日 HH:mm")
+
+                            item.createDate = '昨天' + todayTime;
+                        }else {
+                            //正常显示
+
+                            let  todayTime = moment(item.timeTamp).format("YYYY年MM月DD日 HH:mm")
+
+                            item.createDate = todayTime;
+                        }
+
+
+                    }
+
+
                         this.setState({
                             initStatus:'initSucess',
                             dataList : messageArr,

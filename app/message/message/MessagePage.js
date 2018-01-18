@@ -323,6 +323,8 @@ export default class MessagePage extends BComponent {
             this._resetNotifyNum();
 
             let tmpArr = [];
+            const currentTimestamp = new Date().getTime();
+            item.timeTamp = currentTimestamp;
             tmpArr[0] = item;
 
             UserInfoStore.getNotifyMessageArr().then(
