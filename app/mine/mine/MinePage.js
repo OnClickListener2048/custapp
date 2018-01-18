@@ -493,22 +493,21 @@ export default class MinePage extends BComponent {
                 text: "提交",
                 onPress: ()=>{
 
-                    apis.fee().then(
-                        (responseData) => {
-                            if (responseData.code == 0) {
-                                console.log('我要续费提交成功');
-                                Toast.show('提交成功！')
-                            }else{
+                        apis.fee().then(
+                            (responseData) => {
+                                if (responseData.code == 0) {
+                                    console.log('我要续费提交成功');
+                                    Toast.show('提交成功！')
+                                } else {
+                                    Toast.show('提交失败！')
+                                }
+                            },
+                            (e) => {
+                                console.log(e);
                                 Toast.show('提交失败！')
+
                             }
-                        },
-                        (e) => {
-                            console.log('我要续费提交失败');
-                            Toast.show('提交失败！')
-
-                        }
-                    );
-
+                        );
                 },
             }]);
     }
