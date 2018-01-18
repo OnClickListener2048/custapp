@@ -299,7 +299,7 @@ export default class HomePage extends BComponent {
 
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <SectionList
                     renderItem={this._renderItem.bind(this)}
                     renderSectionHeader={this._renderSectionHeader.bind(this)}
@@ -452,7 +452,7 @@ export default class HomePage extends BComponent {
                             )
                         })
                     }
-                    <View style={{width:deviceWidth,paddingTop:10,backgroundColor:'#f9f9f9',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                    <View style={{width:deviceWidth,paddingTop:10,backgroundColor:'#F1F1F1',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                         <View style={{height:DeviceInfo.onePR,backgroundColor:'#D8D8D8',width:24,marginRight:15}}/>
                         <Text style={{color:'#999999',fontSize:setSpText(18)}}>
                             小企业的财税管家

@@ -251,8 +251,8 @@ export default class ColumnDetailPage extends BComponent {
         })
         if(this.state.loadState == 'success'){
             return(
-                <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#f9f9f9'}} >
-                    <Animated.View  style={{backgroundColor:'#f9f9f9',paddingBottom:10,paddingTop:10,marginTop}}>
+                <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#F1F1F1'}} >
+                    <Animated.View  style={{backgroundColor:'#F1F1F1',paddingBottom:10,paddingTop:10,marginTop}}>
                         <Image  style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.state.itemSelected.cover}}/>
                         <View style={{backgroundColor:'white', marginTop:-13,marginLeft:10,marginRight:10,paddingTop:10,paddingBottom:20,flexDirection:'row',flexWrap:'wrap',borderRadius:3}}>
                             {
@@ -301,11 +301,11 @@ export default class ColumnDetailPage extends BComponent {
                         </TouchableOpacity>
                     </View>
                     <Modal onBackClick={()=>Keyboard.dismiss()} backdropPressToClose={!this.state.isShowkeyBoard}
-                           style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
+                           style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#F1F1F1',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
                            position={"center"} ref={"modal3"}>
                         <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
-                            <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
+                            <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#F1F1F1',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
                                 <View  style={[{height: 479 - 20, width: SCREEN_WIDTH - 76,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
 
                                     <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]}
@@ -363,8 +363,8 @@ export default class ColumnDetailPage extends BComponent {
         }else{
             return(
 
-                <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#f9f9f9'}} >
-                    <Animated.View  style={{backgroundColor:'#f9f9f9',paddingBottom:10,paddingTop:10,marginTop}}>
+                <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#F1F1F1'}} >
+                    <Animated.View  style={{backgroundColor:'#F1F1F1',paddingBottom:10,paddingTop:10,marginTop}}>
                         <Image  style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.state.itemSelected.cover}}/>
                         <View style={{backgroundColor:'white', marginTop:-13,marginLeft:10,marginRight:10,paddingTop:10,paddingBottom:20,flexDirection:'row',flexWrap:'wrap',borderRadius:3}}>
                             {
@@ -413,11 +413,11 @@ export default class ColumnDetailPage extends BComponent {
                         </TouchableOpacity>
                     </View>
                     <Modal onBackClick={()=>Keyboard.dismiss()} backdropPressToClose={!this.state.isShowkeyBoard}
-                           style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
+                           style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#F1F1F1',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
                            position={"center"} ref={"modal3"}>
                         <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
-                            <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
+                            <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#F1F1F1',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
                                 <view>
 
                                 </view>

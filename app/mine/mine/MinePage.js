@@ -387,9 +387,9 @@ export default class MinePage extends BComponent {
     render(){
         console.log("new是否显示的settingNew="+this.state.settingNew+this.state.upgrade);
         return(
-            <View style={{flex:1,backgroundColor:'#FAFAFA'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ScrollView
-                    contentContainerStyle={{backgroundColor:'#FAFAFA'}}>
+                    contentContainerStyle={{backgroundColor:'#F1F1F1'}}>
                         <Image style={styles.login_wrapper} source={require('../../img/Rectangle.png')}>
                             <TouchableOpacity  onPress={this.login.bind(this)}>
 
@@ -400,7 +400,7 @@ export default class MinePage extends BComponent {
                                     {this.state.phone || this.state.userName}
                                 </Text>
                                 <Text numberOfLines={1} style={[styles.company,{marginTop:2}]}>
-                                    {this.state.company.length > 0 ?'公司名称:' + this.state.company : this.state.company}
+                                    {this.state.company}
                                 </Text>
                             </View>
                             <Image style={styles.left_bu} source={require('../../img/right_white_btn.png')}/>

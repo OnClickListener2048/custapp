@@ -15,7 +15,7 @@ export default class SystemMessagePage extends BComponent {
     };
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <View style={{width:DeviceInfo.width,height:48,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                     <Image source={require('../../img/tip.png')}/>
                     <Text style={{fontSize:14,color:'#333333',marginLeft:5}}>{this.props.item.title}</Text>

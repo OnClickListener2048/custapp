@@ -40,9 +40,9 @@ export default class AccountAndSecurity extends BComponent {
 
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ScrollView
-                    contentContainerStyle={{backgroundColor:'#F9F9F9'}}
+                    contentContainerStyle={{backgroundColor:'#F1F1F1'}}
                 >
                     <CommenCell
                         leftText={'更改手机号    '+this.state.phone}

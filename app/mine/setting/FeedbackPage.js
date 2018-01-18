@@ -67,7 +67,7 @@ export default class FeedbackPage extends BComponent {
 
     render() {
         return (
-            <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+            <View style={{flex: 1, backgroundColor: '#F1F1F1'}}>
                 <ScrollView>
                     <CommentCell
                         leftText="称呼"

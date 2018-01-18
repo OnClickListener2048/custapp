@@ -183,7 +183,7 @@ export default class AboutPilipaPage extends BComponent {
     render(){
         var  textConnent = "噼里啪"+this.state.oldVersion;
         return(
-            <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+            <View style={{flex: 1, backgroundColor: '#F1F1F1'}}>
                 <ScrollView>
                     <View style={styles.container}>
                         <Image resizeMode = "contain" style = {{marginTop:24}} source={require("../../img/pilipa_icon.png")} />
@@ -230,7 +230,7 @@ export default class AboutPilipaPage extends BComponent {
 const styles = StyleSheet.create({
     container:{
         flexDirection: 'column',
-        backgroundColor:'#f9f9f9',
+        backgroundColor:'#F1F1F1',
         flex:1,
         alignItems:'center',
     },

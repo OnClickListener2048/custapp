@@ -74,7 +74,7 @@ export default class SettingPage extends BComponent {
 
     render() {
         return (
-            <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+            <View style={{flex: 1, backgroundColor: '#F1F1F1'}}>
                 <ScrollView>
                     {Platform.OS === 'ios'||this.state.updateIcon === false ?
                         <CommentCell

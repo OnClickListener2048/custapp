@@ -350,7 +350,7 @@ export default class ServicePage extends BComponent {
 
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo} isLogin={this.state.isLogin}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
                     year={this.state.year}
