@@ -65,8 +65,15 @@ export default class MinePage extends BComponent {
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
             NavigatorSelected = this.props.navigator;
-            this.initPage();
+            // this.initPage();
         }
+    }
+
+    componentDidMount() {
+        this.initPage()
+        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
+            this.initPage()
+        });
     }
     //查公司接口超级慢 页面每次进入 调一次
     initPage(){

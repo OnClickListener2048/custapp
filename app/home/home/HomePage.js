@@ -14,6 +14,7 @@ import {
     StyleSheet,
     Animated,
     Platform,
+    PixelRatio,
     TouchableWithoutFeedback
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
@@ -31,7 +32,7 @@ import {isIphoneX} from '../../util/iphoneX-helper'
 import {H5_URL} from '../../config'
 const deviceWidth = Dimensions.get('window').width;
 
-const itemBorder = 1
+const itemBorder = 1 / PixelRatio.get()
 
 let headerData = null;// 延迟到willmount时初始化, 解决切换域名带来得问题
 const footData = [
@@ -318,17 +319,17 @@ export default class HomePage extends BComponent {
     _onRefresh(){
         this.loadData()
     }
-    _renderItem (item) {
+    _renderItem (row) {
 
 
-        if(item.item.type == '1'){
+        if(row.item.type == '1'){
             let col = 4
             let itemMargin = 0
             let itemWidth = (deviceWidth - itemMargin*(col+1))/col
             return(
-                <View style={{flexDirection:'row',flexWrap:'wrap',flex:1,backgroundColor:'white'}}>
+                <View style={{flexDirection:'row',flexWrap:'wrap',flex:1,backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#D7D7D7'}}>
                     {
-                        item.item.data.map((item, i) => {
+                        row.item.data.map((item, i) => {
 
                             let borderStyle = {}
                             if(i%col == (col-1)){
@@ -342,15 +343,11 @@ export default class HomePage extends BComponent {
                                     borderRightColor:'#D7D7D7',
                                     borderBottomWidth:itemBorder,
                                     borderBottomColor:'#D7D7D7',
-                                    borderTopWidth:itemBorder,borderTopColor:'#D7D7D7'
                                 }
                             }
-                            // let borderStyle = {
-                            //     borderRightWidth:1,
-                            //     borderRightColor:'#f9f9f9',
-                            //     borderBottomWidth:1,
-                            //     borderBottomColor:'#f9f9f9'
-                            // }
+                            if(parseInt(i/col) == (Math.ceil(row.item.data.length/col)-1)){
+                                borderStyle.borderBottomColor = 'transparent'
+                            }
                             return(
                                 <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
                                     <View style={[{width:itemWidth,height:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'},borderStyle]}>
@@ -363,12 +360,12 @@ export default class HomePage extends BComponent {
                     }
                 </View>
             )
-        }else if(item.item.type == '2'){
+        }else if(row.item.type == '2'){
 
             return (
                 <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',paddingBottom:20,backgroundColor:'white'}}>
                     {
-                        item.item.data.map((item, i) => {
+                        row.item.data.map((item, i) => {
                             return(
                                 <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
                                     <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,height:68,marginTop:10}} source={{uri:item.icon}}>
@@ -381,7 +378,7 @@ export default class HomePage extends BComponent {
 
                 </View>
             )
-        }else if(item.item.type == 'header'){
+        }else if(row.item.type == 'header'){
             return <View>
                 {this._listHeaderComponent()}
             </View>
