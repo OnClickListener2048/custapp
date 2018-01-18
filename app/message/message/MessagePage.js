@@ -314,7 +314,7 @@ export default class MessagePage extends BComponent {
 
 
 
-        alert('item.isGroup = ' + item.isGroup);
+        console.log('item.isGroup = ' + item.isGroup + 'item = ' + item);
 
         //服务类的
         if(item.isGroup === false) {
