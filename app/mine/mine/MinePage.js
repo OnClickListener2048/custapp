@@ -125,7 +125,6 @@ export default class MinePage extends BComponent {
                                             }
                                         }else{
                                             //本地没公司 （接口有公司 本地没公司）
-                                            alert(1)
                                             UserInfoStore.setCompany(netCompany).then();
                                             this.setState({company: netCompany.infos[0].value});
                                             DeviceEventEmitter.emit('ChangeCompany');
