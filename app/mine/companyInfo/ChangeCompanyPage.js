@@ -19,6 +19,7 @@ import Alert from "react-native-alert";
 import SubmitButton from "../../view/SubmitButton";
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast';
+import DefaultView from '../../view/DefaultView'
 
 import CompanyInfoCell from './CompanyInfoCell'
 import BComponent from '../../base/BComponent'
@@ -30,6 +31,7 @@ export default class ChangeCompanyPage extends BComponent {
             dataSource:[],
             isShowButton:false,
             userMobile:'',
+            initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
             selectedCompanyId:'2'
         };
 
@@ -77,6 +79,15 @@ export default class ChangeCompanyPage extends BComponent {
 
 
     _loadData(){
+
+        if(!NetInfoSingleton.isConnected) {
+            this.setState({
+                initStatus:'no-net'
+            })
+            return;
+        }
+
+
         let loading = SActivityIndicator.show(true, "载入中...");
 
 
@@ -104,7 +115,13 @@ export default class ChangeCompanyPage extends BComponent {
 
                     if (tmpCompaniesArr && tmpCompaniesArr.length > 0) {
 
-                        this.setState({dataSource: tmpCompaniesArr});
+                        this.setState({
+                            initStatus:'initSucess',
+                            dataSource: tmpCompaniesArr});
+                    }else {
+                        this.setState({
+                            initStatus:'no-data',
+                            });
                     }
 
 
@@ -164,10 +181,15 @@ export default class ChangeCompanyPage extends BComponent {
                     UserInfoStore.removeCompany().then();
                     UserInfoStore.removeCompanyArr().then();
                     UserInfoStore.removeApplyPay().then();
-
+                    this.setState({
+                        initStatus:'no-data',
+                    });
                 }
             },
             (e) => {
+                this.setState({
+                    initStatus:'error',
+                });
                 UserInfoStore.removeCompany().then();
                 UserInfoStore.removeCompanyArr().then();
                 UserInfoStore.removeApplyPay().then();
@@ -284,46 +306,61 @@ export default class ChangeCompanyPage extends BComponent {
     }
 
     render() {
-        return (
-            <TouchableWithoutFeedback onPress={()=>this.props.navigator.dismissLightBox()}>
-                <View style={{flex:1,backgroundColor:'#fafafa'}}>
+        if (this.state.initStatus === 'initSucess') {
+            return (
+                <TouchableWithoutFeedback onPress={() => this.props.navigator.dismissLightBox()}>
+                    <View style={{flex: 1, backgroundColor: '#fafafa'}}>
 
 
-                        <ScrollView style={{width: SCREEN_WIDTH,height:this.state.isShowButton === true ? SCREEN_HEIGHT - 50 - 40 : SCREEN_HEIGHT,backgroundColor:'#fafafa'}}>
+                        <ScrollView style={{
+                            width: SCREEN_WIDTH,
+                            height: this.state.isShowButton === true ? SCREEN_HEIGHT - 50 - 40 : SCREEN_HEIGHT,
+                            backgroundColor: '#fafafa'
+                        }}>
                             {
-                                this.state.dataSource.map((item,index)=>{
-                                    return(
-                                            <CompanyInfoCell
-                                                leftSelectBtnOnPress={this._alert.bind(this,item)}
-                                                rightBtnOnPress={this._pushToCompanySurveyPage.bind(this,item)}
-                                                underLine={(index === this.state.dataSource.length - 1 && this.state.dataSource.length > 0) ? false : true}
-                                                isClick ={false}
-                                                isRightBtnClick ={true}
-                                                leftIcon = {item.id==this.state.selectedCompanyId?require('../../img/com_choose_select.png'):require('../../img/com_choose_normal.png')}
-                                                leftText= {item.name}
-                                                surviveText = {item.service_tag}
-                                                ownerText = {item.owner_tag}
-                                            />
+                                this.state.dataSource.map((item, index) => {
+                                    return (
+                                        <CompanyInfoCell
+                                            leftSelectBtnOnPress={this._alert.bind(this, item)}
+                                            rightBtnOnPress={this._pushToCompanySurveyPage.bind(this, item)}
+                                            underLine={(index === this.state.dataSource.length - 1 && this.state.dataSource.length > 0) ? false : true}
+                                            isClick={false}
+                                            isRightBtnClick={true}
+                                            leftIcon={item.id == this.state.selectedCompanyId ? require('../../img/com_choose_select.png') : require('../../img/com_choose_normal.png')}
+                                            leftText={item.name}
+                                            surviveText={item.service_tag}
+                                            ownerText={item.owner_tag}
+                                        />
 
                                     )
                                 })
                             }
                         </ScrollView>
 
-                    {this.state.isShowButton === true &&
-                    <SubmitButton onPress={this._goFee}
-                                  isEnabled={true}
+                        {this.state.isShowButton === true &&
+                        <SubmitButton onPress={this._goFee}
+                                      isEnabled={true}
 
-                                  text="我要续费"
-                    />}
-                    {this.state.isShowButton === true &&
+                                      text="我要续费"
+                        />}
+                        {this.state.isShowButton === true &&
 
-                    <View style = {{justifyContent:'center',alignItems:'center',backgroundColor:'#fafafa',height:20}}/>}
+                        <View style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: '#fafafa',
+                            height: 20
+                        }}/>}
 
 
-                </View>
-            </TouchableWithoutFeedback>
-        );
+                    </View>
+                </TouchableWithoutFeedback>
+            )
+        } else {
+            return (
+                <DefaultView type={this.state.initStatus}/>
+            )
+        }
     }
 
 }

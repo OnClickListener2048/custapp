@@ -258,6 +258,7 @@ export default class BindPhonePage extends BComponent {
                     }}>
                         <TextInput style={{fontSize: 14, padding: 0}}
                                    placeholder="请输入新手机号"
+                                   placeholderTextColor='#c8c8c8'
                                    underlineColorAndroid='transparent'
                                    maxLength={11}
                                    keyboardType='numeric'
@@ -340,6 +341,7 @@ export default class BindPhonePage extends BComponent {
                             <TextInput
                                 style={{fontSize: 14, padding: 0}}
                                 placeholder="请输入验证码"
+                                placeholderTextColor='#c8c8c8'
                                 underlineColorAndroid='transparent'
                                 value={this.state.smsCode}
                                 editable={this.state.timerButtonClicked && this.state.vCodeInputValid}

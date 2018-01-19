@@ -87,6 +87,7 @@ export default class WebViewPage extends BComponent {
         this.updateName = this.updateName.bind(this);
         this.updateMmessage = this.updateMmessage.bind(this);
         this.appendURL = this.appendURL.bind(this);
+        this._canShowTabButton = this._canShowTabButton.bind(this);
 
 
     }
@@ -134,14 +135,26 @@ export default class WebViewPage extends BComponent {
 
     componentDidMount() {
         this.setState({ progress:0.95 });
+
+        this.showTabTimer = setTimeout(async()=>{
+            await  this._canShowTabButton();  //5秒后判断可不可以显示
+            clearTimeout(this.showTabTimer);
+        },5000);
+
+
         // console.log('-----',this.props.navigator)
 
     }
-    _onLoadEnd(){
-        this.setState({ progress:1 });
+
+
+    _canShowTabButton(){
+
+        if (this.state.isShowTabButton === true){
+            return;
+        }
+
         let urlStr = this.appendURL();
 
-        // this.props.url
         let components = URI.parse(urlStr);
         let query = components.query;
         let passProps = {};
@@ -160,7 +173,13 @@ export default class WebViewPage extends BComponent {
             this.setState({isShowTabButton: true});
 
         }
+    }
 
+
+    _onLoadEnd(){
+        this.setState({ progress:1 });
+
+        this._canShowTabButton();
 
         let _this = this;
         this._hiddenProgresssTimer = setTimeout(function () {
@@ -350,7 +369,7 @@ export default class WebViewPage extends BComponent {
                         onPress={() => {
                             this.callPhone()
                         }}>
-                        <View style={[styles.btnContainer,{backgroundColor:'#E13238'}]}>
+                        <View style={[styles.btnContainer,{backgroundColor:'#C5191F'}]}>
                             <Text style={styles.textContainer}>{'免费咨询'}</Text>
                         </View>
                     </TouchableOpacity>
@@ -360,7 +379,7 @@ export default class WebViewPage extends BComponent {
                         onPress={() => {
                             this.onlineMessage()
                         }}>
-                        <View  style={[styles.btnContainer,{backgroundColor:'#E19F0E'}]}>
+                        <View  style={[styles.btnContainer,{backgroundColor:'#fca900'}]}>
                             <Text style={styles.textContainer}>{'在线留言'}</Text>
                         </View>
                     </TouchableOpacity>

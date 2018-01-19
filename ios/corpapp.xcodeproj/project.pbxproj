@@ -409,6 +409,13 @@
 			remoteGlobalIDString = CC2128051F2F1A7500262541;
 			remoteInfo = ZTAlertView;
 		};
+		CC57DB3F2011EAC6004FEB70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9761A060D3E4B639FD9DCE3 /* Interactable.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CC0127971E3ACC3900B23C9F;
+			remoteInfo = Interactable;
+		};
 		E3065E2E1EF0E23700294B0D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EFB551CEB7F94865B4EF767B /* ReactNativeNavigation.xcodeproj */;
@@ -1042,6 +1049,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		CC57DB3C2011EAC6004FEB70 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CC57DB402011EAC6004FEB70 /* libInteractable.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		E3065E0D1EF0E23700294B0D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1201,7 +1216,7 @@
 					ProjectRef = 30A2278CAF08454197B1F6EB /* imageCropPicker.xcodeproj */;
 				},
 				{
-					ProductGroup = 4CDA3FDF2011C1E300E1D76F /* Products */;
+					ProductGroup = CC57DB3C2011EAC6004FEB70 /* Products */;
 					ProjectRef = C9761A060D3E4B639FD9DCE3 /* Interactable.xcodeproj */;
 				},
 				{
@@ -1600,6 +1615,13 @@
 			fileType = archive.ar;
 			path = libZTAlertView.a;
 			remoteRef = CC304DCC1F31EAAB0061CB00 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CC57DB402011EAC6004FEB70 /* libInteractable.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libInteractable.a;
+			remoteRef = CC57DB3F2011EAC6004FEB70 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		E3065E2F1EF0E23700294B0D /* libReactNativeNavigation.a */ = {
