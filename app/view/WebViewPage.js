@@ -88,8 +88,6 @@ export default class WebViewPage extends BComponent {
         this.updateMmessage = this.updateMmessage.bind(this);
         this.appendURL = this.appendURL.bind(this);
         this._canShowTabButton = this._canShowTabButton.bind(this);
-
-
     }
 
     // 小屏键盘显示适配
@@ -101,6 +99,7 @@ export default class WebViewPage extends BComponent {
     _keyboardDidHide() {
 
         this.setState({isShowkeyBoard: false});
+
     }
 
 
@@ -136,10 +135,11 @@ export default class WebViewPage extends BComponent {
     componentDidMount() {
         this.setState({ progress:0.95 });
 
-        this.showTabTimer = setTimeout(async()=>{
-            await  this._canShowTabButton();  //5秒后判断可不可以显示
-            clearTimeout(this.showTabTimer);
-        },5000);
+        let _this = this;
+        this.tabButtonTimer = setTimeout(function () {
+            _this._canShowTabButton();
+            clearTimeout(this.tabButtonTimer);
+        },5000)
 
 
         // console.log('-----',this.props.navigator)
