@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Text, StyleSheet, TouchableNativeFeedback, Platform, Image, TouchableWithoutFeedback} from 'react-native';
+import {View, Text, StyleSheet, TouchableNativeFeedback, Platform, Image, TouchableOpacity} from 'react-native';
 import Button from 'apsl-react-native-button';
 import px2dp from '../util/index';
 import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../config';
@@ -16,20 +16,20 @@ export default class SubmitButton extends Component {
         return this.props.isEnabled ?
             (
 
-                <TouchableWithoutFeedback onPress={this.props.onPress}>
+                <TouchableOpacity onPress={this.props.onPress}>
                     <Image source={require('../img/Rectangle.png')} style={styles.buttonView}>
 
                         <Text style={styles.loginText}>{this.props.text}</Text>
                     </Image>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
             )
             :
             (
-                <TouchableWithoutFeedback onPress={this.props.onPress}>
+                <TouchableOpacity onPress={this.props.onPress}>
                     <View style={styles.buttonViewDisabled}>
                         <Text style={styles.loginTextDisabled}>{this.props.text}</Text>
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
             );
     }
 }
