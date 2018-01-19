@@ -498,7 +498,8 @@ export default class ServicePage extends BComponent {
     }
     _goWeb(){
         if(this.state.url){
-            pushJump(this.props.navigator,this.state.url,'我的年的报表');
+            UMTool.onEvent('2017accountTable')
+            pushJump(this.props.navigator,this.state.url,'年度报表');
         }
     }
 
