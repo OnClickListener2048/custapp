@@ -363,7 +363,7 @@ export default class WebViewPage extends BComponent {
                         animationConfig={{duration:second}}
                     />:null
                 }
-                {this.state.progress === 1 && this.state.isShowTabButton === true && <View style={styles.tabViewContainer}>
+                {this.state.isShowTabButton === true && <View style={styles.tabViewContainer}>
                     <TouchableOpacity
                         style={styles.btnTouchContainer}
                         onPress={() => {
