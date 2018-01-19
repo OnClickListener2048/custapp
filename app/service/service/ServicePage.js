@@ -13,7 +13,10 @@ import {
     Image,
     Platform,
     TouchableOpacity,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Animated,
+    Dimensions,
+    TouchableWithoutFeedback
 } from 'react-native';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -50,12 +53,11 @@ const serviceData = [
         jumpPage:'AccountsPayablePage'
     }
 ]
+import pushJump from '../../util/pushJump';
 
 const col = 3
 const marg = 0
 const itemWidth = (deviceWidth - marg*(col+1))/ col
-
-
 import {
     Header,
     CustomHeader,
@@ -72,6 +74,15 @@ import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import demoData from '../serviceDetail/local/ProfitStatementPage.json'
 import {deviceHeight, deviceWidth} from "../../util/ScreenUtil";
+
+
+
+
+import Interactable from 'react-native-interactable';
+
+const widthFactor = SCREEN_WIDTH / 375;
+const heightFactor = (SCREEN_HEIGHT - 75) / 667;
+
 export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
@@ -89,12 +100,19 @@ export default class ServicePage extends BComponent {
             isLoading:true,
             title:'噼里啪财税演示公司',
             isCompanies:false,
-            isLogin:false
+            isLogin:false,
+            icon:'',//入口图标
+            url:'',//h5地址
+            isShow:true//是否显示入口
 
         };
         // this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
         this.toClose=this.toClose.bind(this);
+
+        this._deltaX = new Animated.Value(0);
+        this._deltaY = new Animated.Value(0);
+        this._faceScale = new Animated.Value(1);
 
     }
     static navigatorStyle = {
@@ -131,6 +149,7 @@ export default class ServicePage extends BComponent {
                             console.log('company', company);
                             if (company && company.id) {
                                 this.companyid = company.id
+                                this.initYearReport(company.id)
                                 //判断是否是多加公司
                                 UserInfoStore.getCompanyArr().then(
                                     (companyArr) => {
@@ -154,6 +173,8 @@ export default class ServicePage extends BComponent {
                                 //没有公司
                                 this.companyid = undefined
                                 this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
+                                this.initYearReport(this.companyid)
+
                             }
 
                             this.loadData(this.state.year+'-'+this.state.month)
@@ -161,6 +182,7 @@ export default class ServicePage extends BComponent {
                         },
                         (e) => {
                             this.companyid = undefined
+                            this.initYearReport(this.companyid)
                             this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
                             this.loadData(this.state.year+'-'+this.state.month)
                         },
@@ -168,6 +190,7 @@ export default class ServicePage extends BComponent {
                 } else {
                     //未登录
                     this.companyid = undefined
+                    this.initYearReport(this.companyid)
                     this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
                     this.loadData(this.state.year+'-'+this.state.month)
 
@@ -176,11 +199,43 @@ export default class ServicePage extends BComponent {
             e => {
                 //未登录
                 this.companyid = undefined
+                this.initYearReport(this.companyid)
                 this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
                 this.loadData(this.state.year+'-'+this.state.month)
             }
         );
 
+    }
+    initYearReport(id){
+
+        if(id){
+            apis.loadYearReport(id).then((responseData)=>{
+                if(responseData.code == 0 && responseData.data){
+
+                    this.setState({
+                        icon:responseData.data.icon,
+                        url:responseData.data.url,
+                        isShow:responseData.data.isShow,
+                    })
+                }else{
+                    this.setState({
+                        isShow:false,
+                    })
+                }
+            },(e)=>{
+                alert(JSON.stringify(e))
+
+                this.setState({
+                    isShow:false,
+                })
+            })
+        }else{
+
+            this.setState({
+                isShow:false,
+            })
+
+        }
     }
     initNavigationBar(isCompanies=false,title='噼里啪财税演示公司',isLogin=false,is_demo='1'){
 
@@ -348,6 +403,7 @@ export default class ServicePage extends BComponent {
 
     }
 
+
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
@@ -402,11 +458,51 @@ export default class ServicePage extends BComponent {
                     </View>
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
+                {this._renderYearReport()}
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
 
         )
     }
+    _renderYearReport(){
+
+        if(this.state.isShow){
+
+            return(
+                <View
+                    pointerEvents='box-none'
+                    style={styles.container}>
+                    <Interactable.View
+                        snapPoints={[
+                            {x: -140*widthFactor, y: 20*heightFactor}, {x: -140*widthFactor, y: -120*heightFactor}, {x: -140*widthFactor, y:  160*heightFactor}, {x: -140*widthFactor, y: -250*heightFactor}, {x: -140*widthFactor, y: 290*heightFactor},
+                            {x:  140*widthFactor, y: 20*heightFactor}, {x:  140*widthFactor, y:  160*heightFactor}, {x:  140*widthFactor, y: -120*heightFactor}, {x:  140*widthFactor, y: -250*heightFactor}, {x:  140*widthFactor, y: 290*heightFactor}]}
+                        dragWithSpring={{tension: 2000, damping: 0.5}}
+
+                        animatedValueX={this._deltaX}
+                        animatedValueY={this._deltaY}
+                        initialPosition={{x: (SCREEN_WIDTH/2-40)*widthFactor-20, y: (SCREEN_HEIGHT/4)*heightFactor}}>
+                        <Animated.View
+                            style={[styles.head, {
+                                transform: [{
+                                    scale: this._faceScale
+                                }]
+                            }]}>
+                            <TouchableWithoutFeedback onPress = {this._goWeb.bind(this)}>
+                                <Image style={styles.image} source={{uri:this.state.icon}} />
+                            </TouchableWithoutFeedback>
+                        </Animated.View>
+                    </Interactable.View>
+                </View>
+            )
+
+        }
+    }
+    _goWeb(){
+        if(this.state.url){
+            pushJump(this.props.navigator,this.state.url,'我的年的报表');
+        }
+    }
+
 
     _callback(year,month,isRefresh=false){
         this.setState({
@@ -547,5 +643,21 @@ const styles = StyleSheet.create({
     },
 
 
+    container: {
+        width:SCREEN_WIDTH,
+        height:SCREEN_HEIGHT,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor:'transparent',
+        position:'absolute'
+    },
+    head: {
+        width: 60,
+        height: 60,
 
+    },
+    image: {
+        width: 60,
+        height: 60,
+    },
 });

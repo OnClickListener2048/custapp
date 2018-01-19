@@ -35,4 +35,9 @@ export function loadTaxForm(companyid,date='') {
 
     return getApi('/api/v1/services/tax',params);
 }
+//获取是否展示年报
+export function loadYearReport(companyid) {
+
+    return getApi('/api/v1/annual/report/show/',{id:companyid});
+}
 
