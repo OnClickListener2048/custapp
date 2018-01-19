@@ -223,7 +223,6 @@ export default class ServicePage extends BComponent {
                     })
                 }
             },(e)=>{
-                alert(JSON.stringify(e))
 
                 this.setState({
                     isShow:false,
