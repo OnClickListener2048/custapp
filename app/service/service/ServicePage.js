@@ -213,12 +213,11 @@ export default class ServicePage extends BComponent {
         if(id){
             apis.loadYearReport(id).then((responseData)=>{
                 if(responseData.code == 0 && responseData.data){
-
                     this.setState({
                         iconUrl:responseData.data.icon.url,//入口图标
                         iconWidth:responseData.data.icon.width,
                         iconHeight:responseData.data.icon.height,
-                        url:responseData.data.url,
+                        url:responseData.data.h5,
                         isShow:responseData.data.isShow,
                     })
                 }else{
