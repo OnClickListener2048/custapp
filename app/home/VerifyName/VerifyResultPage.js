@@ -96,7 +96,7 @@ export default class VerifyResultPage extends BComponent {
     renderHeader = () => {
         return(
 
-            <View style={{height: 56, width:deviceWidth,backgroundColor:'#f9f9f9',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+            <View style={{height: 56, width:deviceWidth,backgroundColor:'#F1F1F1',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                 <Text
                     textAlign='left'
                     numberOfLines={1}
@@ -125,7 +125,7 @@ export default class VerifyResultPage extends BComponent {
     renderRisk(){
         return(
 
-        <View style={{flex:1,flexDirection:'column',backgroundColor:'#f9f9f9'}}>
+        <View style={{flex:1,flexDirection:'column',backgroundColor:'#F1F1F1'}}>
                        <View style={{height: 56, width:deviceWidth,flexDirection:'row',alignItems:'center'}}>
                 <Text
                     textAlign='left'
@@ -168,7 +168,7 @@ export default class VerifyResultPage extends BComponent {
     renderSuccess(){
         return(
 
-            <View style={{flex:1,flexDirection:'column',backgroundColor:'#f9f9f9'}}>
+            <View style={{flex:1,flexDirection:'column',backgroundColor:'#F1F1F1'}}>
                 <View style={{height: 56, width:deviceWidth,flexDirection:'row',alignItems:'center'}}>
                     <Text
                         textAlign='left'
@@ -200,7 +200,7 @@ export default class VerifyResultPage extends BComponent {
 
     render() {
         return (
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 {this.state.fetchState === 'checkRisk' && this.renderRisk()}
                 {this.state.fetchState === 'checkSuccess' && this.renderSuccess()}
             </View>

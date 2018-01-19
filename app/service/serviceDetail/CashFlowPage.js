@@ -120,7 +120,7 @@ export default class CashFlowPage extends BComponent {
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
-            <ServiceCell style={{backgroundColor:'#f9f9f9'}} underLine={true} title={rowItem.name} item1_money={rowItem.start} item2_money={rowItem.end}/>
+            <ServiceCell style={{backgroundColor:'#F1F1F1'}} underLine={true} title={rowItem.name} item1_money={rowItem.start} item2_money={rowItem.end}/>
         )
 
     };
@@ -143,7 +143,7 @@ export default class CashFlowPage extends BComponent {
                     rightDes="期末"
                     rightNum={this.state.balance_end}
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="现金流明细"/>
+                <SectionHeader style={{backgroundColor:'#F1F1F1'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="现金流明细"/>
             </View>
         )
     }
@@ -165,7 +165,7 @@ export default class CashFlowPage extends BComponent {
     }
     render() {
         return (
-            <View style={{backgroundColor:'#f9f9f9',flex:1}}>
+            <View style={{backgroundColor:'#F1F1F1',flex:1}}>
                 <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="现金流" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
                     year={this.state.year}

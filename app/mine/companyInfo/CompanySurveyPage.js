@@ -177,7 +177,7 @@ export default class CompanySurveyPage extends BComponent {
     render(){
         console.log("输出企业信息数据，"+this.state.dataSource);
         return (
-            <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+            <View style={{flex: 1, backgroundColor: '#F1F1F1'}}>
                 {this.state.loadState == 'success'?
                     <SectionList
                     renderItem={this._renderItem.bind(this)}

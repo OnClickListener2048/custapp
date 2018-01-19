@@ -187,7 +187,7 @@ export default class ProductDetailPage extends BComponent {
             outputRange: [0, -DeviceInfo.width*0.4]
         })
         return(
-            <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#f9f9f9'}}>
+            <View {...this._panResponder.panHandlers} style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <Animated.View style={{marginTop}}>
                     <Image style={{width:DeviceInfo.width,height:DeviceInfo.width*0.4}} source={{uri:this.props.item.cover}}/>
                 </Animated.View>
@@ -215,11 +215,11 @@ export default class ProductDetailPage extends BComponent {
                 </View>
 
                 <Modal onBackClick={()=>Keyboard.dismiss()} backdropPressToClose={!this.state.isShowkeyBoard}
-                    style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#f9f9f9',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
+                    style={ {height: 479, width: SCREEN_WIDTH - 56, backgroundColor:'#F1F1F1',justifyContent: 'center', alignItems: 'center', marginTop: -30}}
                     position={"center"} ref={"modal3"}>
                     <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
-                    <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
+                    <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{flex: 1, backgroundColor:'#F1F1F1',width: SCREEN_WIDTH - 56,flexDirection: 'column',alignItems:'center'}]}>
                         <View  style={[{height: 479 - 20, width: SCREEN_WIDTH - 76,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
 
                         <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 30}]}

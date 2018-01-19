@@ -244,7 +244,7 @@ export default class BindPhonePage extends BComponent {
     render() {
         return (
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
-                <View style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+                <View style={{flex: 1, backgroundColor: '#F1F1F1'}}>
                     <Text
                         style={{padding: 17, color: '#333333', fontSize: 14, width: SCREEN_WIDTH, textAlign: 'center'}}>当前手机号{this.state.phone}</Text>
                     <View style={{

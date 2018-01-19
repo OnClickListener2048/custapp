@@ -137,7 +137,7 @@ export default class ProfitStatementPage extends BComponent {
 
 
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="利润表明细"/>
+                <SectionHeader style={{backgroundColor:'#F1F1F1'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="利润表明细"/>
             </View>
         )
     }
@@ -161,7 +161,7 @@ export default class ProfitStatementPage extends BComponent {
     render(){
 
         return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="利润表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
                     year={this.state.year}

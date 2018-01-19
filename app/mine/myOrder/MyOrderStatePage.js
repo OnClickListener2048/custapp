@@ -96,6 +96,6 @@ export default class MyOrderStatePage extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f9f9f9'
+        backgroundColor: '#F1F1F1'
     }
 });

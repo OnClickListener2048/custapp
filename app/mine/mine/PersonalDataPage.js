@@ -120,33 +120,13 @@ export default class HomePage extends BComponent {
                     });}}
                 />
 
-                <View style={{height: 0.5, backgroundColor: '#ECECEC'}}/>
+                <CommenCell
+                    leftText='微信号'
+                    rightText={this.state.userName}
+                    closeRightIcon={true}
+                    underLine={false}
+                />
 
-                <View style={{
-                    width: deviceWidth,
-                    height: 50.5,
-                    backgroundColor: 'white',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
-                    <View style={[styles.contentlist, {marginTop: 0}]}>
-                        <Text style={styles.textstyle}>
-                            公司名称
-                        </Text>
-                        <Text style={[styles.textContentStyle,{width:deviceWidth-16*4-5-15*2,textAlign:'right'}]}>
-                            {this.state.company}
-                            {/*一路顺风软件信息技术有限公司北京分公司技术研究院*/}
-                        </Text>
-                    </View>
-                </View>
-                <View style={[styles.contentlist]}>
-                    <Text style={styles.textstyle}>
-                        微信号
-                    </Text>
-                    <Text style={styles.textContentStyle}>
-                        {this.state.userName}
-                    </Text>
-                </View>
 
 
             </View>
@@ -159,7 +139,7 @@ export default class HomePage extends BComponent {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F9F9F9',
+        backgroundColor: '#F1F1F1',
         flexDirection: 'column'
     },
     headportrait: {

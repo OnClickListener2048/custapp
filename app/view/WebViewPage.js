@@ -373,7 +373,7 @@ export default class WebViewPage extends BComponent {
 
                     <TouchableWithoutFeedback onPress={dismissKeyboard}>
 
-                        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{marginTop:10,height: 439 - 20, backgroundColor:'#f9f9f9',width: SCREEN_WIDTH - 75,flexDirection: 'column',alignItems:'center'}]}>
+                        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={0} style={[{marginTop:10,height: 439 - 20, backgroundColor:'#F1F1F1',width: SCREEN_WIDTH - 75,flexDirection: 'column',alignItems:'center'}]}>
                             <View  style={[{height: 439 - 20 - 20, width: SCREEN_WIDTH - 75 - 15,marginTop:10, backgroundColor:'#ffffff',flexDirection: 'column',alignItems:'center'}]}>
 
                                 <TextInput underlineColorAndroid='transparent' placeholderTextColor={'#666666'} style={[styles.textInputStyle,{marginTop: 20}]}

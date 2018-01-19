@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     bzLogo: {
         resizeMode: "contain",
         borderWidth: 0,
-        borderColor: "#f9f9f9",
+        borderColor: "#F1F1F1",
         alignSelf: 'center',
         width: 180,
         height: 64

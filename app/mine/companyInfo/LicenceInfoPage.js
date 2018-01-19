@@ -36,17 +36,17 @@ export default class LicenceInfoPage extends BComponent {
 
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 {this.props.licenceinfo.valid_time !== '' && this.props.licenceinfo.valid_time !== undefined
                 ||this.props.licenceinfo.img !== '' &&this.props.licenceinfo.img !== undefined?
                 <ScrollView>
                     {this.props.licenceinfo.img !== '' && this.props.licenceinfo.img !== undefined ?
-                        <View style={{width:DeviceInfo.width,backgroundColor:'#F9F9F9',alignItems:'center',justifyContent:'center',
+                        <View style={{width:DeviceInfo.width,backgroundColor:'#F1F1F1',alignItems:'center',justifyContent:'center',
                         height:this.state.imgheight===0||this.state.imgheight===null?(DeviceInfo.width+16)/2:this.state.imgheight+16}}>
                             <ImageLoad
                                 placeholderStyle={{width: DeviceInfo.width - 16, height: this.state.imgheight}}
                                 style={{
-                                    backgroundColor: '#F9F9F9', width: DeviceInfo.width - 16,
+                                    backgroundColor: '#F1F1F1', width: DeviceInfo.width - 16,
                                     height: this.state.imgheight === 0 || this.state.imgheight === null ? (DeviceInfo.width - 16) / 2 : this.state.imgheight - 4
                                 }}
                                 loadingStyle={{size: 'small', color: 'black'}}
@@ -54,12 +54,12 @@ export default class LicenceInfoPage extends BComponent {
                                 source={{uri: this.props.licenceinfo.img + ""}}
                             />
                     </View>:
-                        <View style={{width:DeviceInfo.width,backgroundColor:'#F9F9F9',alignItems:'center',justifyContent:'center',
+                        <View style={{width:DeviceInfo.width,backgroundColor:'#F1F1F1',alignItems:'center',justifyContent:'center',
                             height:(DeviceInfo.width+16)/2}}>
                         <ImageLoad
                             placeholderStyle={{width: DeviceInfo.width - 16, height: this.state.imgheight}}
                             style={{
-                                backgroundColor: '#F9F9F9', width: DeviceInfo.width - 16,
+                                backgroundColor: '#F1F1F1', width: DeviceInfo.width - 16,
                                 height: (DeviceInfo.width - 16) / 2
                             }}
                             loadingStyle={{size: 'small', color: 'black'}}
@@ -85,7 +85,7 @@ export default class LicenceInfoPage extends BComponent {
                     </View>
                     }
                 </ScrollView>:
-                    <View style={{backgroundColor:'#f9f9f9',
+                    <View style={{backgroundColor:'#F1F1F1',
                         justifyContent:'center',
                         alignItems:'center',
                         flex:1,

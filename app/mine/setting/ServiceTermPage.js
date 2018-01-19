@@ -136,7 +136,7 @@ export default class ServiceTermPage extends BComponent {
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#f9f9f9',
+        backgroundColor:'#F1F1F1',
         flex: 1,
         paddingTop:10,
 

@@ -117,7 +117,7 @@ export default class AccountsReceivablePage extends BComponent {
     _renderRow (rowItem, rowId, sectionId) {
 
         return(
-            <ServiceCell style={{backgroundColor:'#f9f9f9'}} underLine={true} title={rowItem.name} item1_name="期初" item2_name="期末" item1_money={rowItem.start} item2_money={rowItem.end}/>
+            <ServiceCell style={{backgroundColor:'#F1F1F1'}} underLine={true} title={rowItem.name} item1_name="期初" item2_name="期末" item1_money={rowItem.start} item2_money={rowItem.end}/>
         )
 
     };
@@ -140,7 +140,7 @@ export default class AccountsReceivablePage extends BComponent {
 
 
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="应收账款明细"/>
+                <SectionHeader style={{backgroundColor:'#F1F1F1'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="应收账款明细"/>
             </View>
         )
     }
@@ -163,7 +163,7 @@ export default class AccountsReceivablePage extends BComponent {
     }
     render() {
         return (
-            <View style={{backgroundColor:'#f9f9f9',flex:1}}>
+            <View style={{backgroundColor:'#F1F1F1',flex:1}}>
                 <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="应收账款" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
                     year={this.state.year}

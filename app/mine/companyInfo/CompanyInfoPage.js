@@ -71,9 +71,9 @@ export default class CompanyInfoPage extends BComponent {
 
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#F9F9F9'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ScrollView
-                    contentContainerStyle={{backgroundColor:'#F9F9F9'}}
+                    contentContainerStyle={{backgroundColor:'#F1F1F1'}}
                 >
                     <CommenCell
                         leftText="企业概况"

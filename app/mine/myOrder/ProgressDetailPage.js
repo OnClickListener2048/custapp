@@ -201,7 +201,7 @@ export default class ProgressDetailPage extends BComponent {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'#F9F9F9',
+        backgroundColor:'#F1F1F1',
     },
     line:{
         height:0.25,

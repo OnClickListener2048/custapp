@@ -118,7 +118,7 @@ export default class TaxFormPage extends BComponent {
                     rightDes=""
                     rightNum=""
                 />
-                <SectionHeader style={{backgroundColor:'#f9f9f9'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="纳税表明细"/>
+                <SectionHeader style={{backgroundColor:'#F1F1F1'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="纳税表明细"/>
 
             </View>
         )
@@ -145,7 +145,7 @@ export default class TaxFormPage extends BComponent {
     render(){
 
         return(
-            <View style={{flex:1,backgroundColor:'#f9f9f9'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="纳税表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBar
                     year={this.state.year}

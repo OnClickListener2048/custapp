@@ -104,7 +104,7 @@ export default class DefaultView extends Component {
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#f9f9f9',
+        backgroundColor:'#F1F1F1',
         justifyContent:'center',
         alignItems:'center',
         flex:1
