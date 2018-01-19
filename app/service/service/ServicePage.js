@@ -101,9 +101,11 @@ export default class ServicePage extends BComponent {
             title:'噼里啪财税演示公司',
             isCompanies:false,
             isLogin:false,
-            icon:'',//入口图标
+            iconUrl:'',//入口图标
+            iconWidth:'',
+            iconHeight:'',
             url:'',//h5地址
-            isShow:true//是否显示入口
+            isShow:false//是否显示入口
 
         };
         // this._renderBody=this._renderBody.bind(this);
@@ -213,8 +215,10 @@ export default class ServicePage extends BComponent {
                 if(responseData.code == 0 && responseData.data){
 
                     this.setState({
-                        icon:responseData.data.icon,
-                        url:responseData.data.url,
+                        iconUrl:responseData.data.icon.url,//入口图标
+                        iconWidth:responseData.data.icon.width,
+                        iconHeight:responseData.data.icon.height,
+                        url:responseData.data.h5,
                         isShow:responseData.data.isShow,
                     })
                 }else{
@@ -223,7 +227,6 @@ export default class ServicePage extends BComponent {
                     })
                 }
             },(e)=>{
-
                 this.setState({
                     isShow:false,
                 })
@@ -481,13 +484,13 @@ export default class ServicePage extends BComponent {
                         animatedValueY={this._deltaY}
                         initialPosition={{x: (SCREEN_WIDTH/2-40)*widthFactor-20, y: (SCREEN_HEIGHT/4)*heightFactor}}>
                         <Animated.View
-                            style={[styles.head, {
+                            style={[{width:this.state.iconWidth, height:this.state.iconHeight}, {
                                 transform: [{
                                     scale: this._faceScale
                                 }]
                             }]}>
                             <TouchableWithoutFeedback onPress = {this._goWeb.bind(this)}>
-                                <Image style={styles.image} source={{uri:this.state.icon}} />
+                                <Image style={{width:this.state.iconWidth, height:this.state.iconHeight}} source={{uri:this.state.iconUrl}} />
                             </TouchableWithoutFeedback>
                         </Animated.View>
                     </Interactable.View>
@@ -650,14 +653,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor:'transparent',
         position:'absolute'
-    },
-    head: {
-        width: 60,
-        height: 60,
-
-    },
-    image: {
-        width: 60,
-        height: 60,
     },
 });
