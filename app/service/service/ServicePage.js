@@ -218,7 +218,7 @@ export default class ServicePage extends BComponent {
                         iconUrl:responseData.data.icon.url,//入口图标
                         iconWidth:responseData.data.icon.width,
                         iconHeight:responseData.data.icon.height,
-                        url:responseData.data.h5,
+                        url:responseData.data.url,
                         isShow:responseData.data.isShow,
                     })
                 }else{
@@ -502,7 +502,7 @@ export default class ServicePage extends BComponent {
     _goWeb(){
         if(this.state.url){
             UMTool.onEvent('2017accountTable')
-            pushJump(this.props.navigator,this.state.url,'年度报表');
+            pushJump(this.props.navigator,this.state.url,'年度报表','噼里啪智能财税','年度报表');
         }
     }
 
