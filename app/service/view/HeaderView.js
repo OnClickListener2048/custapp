@@ -75,7 +75,7 @@ export default class HeaderView extends Component {
                 <View style={styles.wrapper2}>
                     <View style={styles.wrapper3}>
                         <Text style={styles.te3}>
-                            {leftDes}
+                            {leftDes}(元)
                         </Text>
                         <Text style={styles.te4}>
                             {leftNum}
@@ -84,7 +84,7 @@ export default class HeaderView extends Component {
                     <View style={[styles.wrapper3,{width:DeviceInfo.onePR,height:30,backgroundColor:'rgba(255, 255, 255, 0.3)',marginTop:35}]}/>
                     <View style={styles.wrapper3}>
                         <Text style={styles.te3}>
-                            {rightDes}
+                            {rightDes}(元)
                         </Text>
                         <Text style={styles.te4}>
                             {rightNum}
@@ -100,7 +100,7 @@ export default class HeaderView extends Component {
             return (
                 <View style={styles.wrapper1}>
                     <Text style={styles.te1}>
-                        {topDes}
+                        {topDes}(元)
                     </Text>
                     <Text style={styles.te2}>
                         {topNum}
