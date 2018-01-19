@@ -350,7 +350,7 @@ export default class WebViewPage extends BComponent {
                         onPress={() => {
                             this.callPhone()
                         }}>
-                        <View style={[styles.btnContainer,{backgroundColor:'#E13238'}]}>
+                        <View style={[styles.btnContainer,{backgroundColor:'#C5191F'}]}>
                             <Text style={styles.textContainer}>{'免费咨询'}</Text>
                         </View>
                     </TouchableOpacity>
@@ -360,7 +360,7 @@ export default class WebViewPage extends BComponent {
                         onPress={() => {
                             this.onlineMessage()
                         }}>
-                        <View  style={[styles.btnContainer,{backgroundColor:'#E19F0E'}]}>
+                        <View  style={[styles.btnContainer,{backgroundColor:'#fca900'}]}>
                             <Text style={styles.textContainer}>{'在线留言'}</Text>
                         </View>
                     </TouchableOpacity>
