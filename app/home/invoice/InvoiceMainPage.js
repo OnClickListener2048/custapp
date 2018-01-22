@@ -22,7 +22,7 @@ export default class InvoiceMainPage extends BComponent {
     constructor(props){
         super(props)
         this.scan=this.scan.bind(this);
-        this.check=this.scan.bind(this);
+        this.check=this.check.bind(this);
     }
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
@@ -30,7 +30,7 @@ export default class InvoiceMainPage extends BComponent {
     };
     //开始扫描
     scan(){
-        this.props.navigator.push({
+        this.push({
             title: '扫一扫',
             screen: 'QRCodeScreenPage',
             passProps:{
@@ -43,7 +43,12 @@ export default class InvoiceMainPage extends BComponent {
 
     //手工录入查验
     check(){
-
+        this.push({
+            title: '发票验真',
+            screen: 'InvoiceInputPage',
+            passProps:{
+            }
+        });
     }
 
     render(){

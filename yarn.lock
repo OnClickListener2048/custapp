@@ -4073,6 +4073,13 @@ react-native-blur@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/react-native-blur/download/react-native-blur-2.0.0.tgz#284b3abfb42c2d90924aa15f494ccb88d6055342"
 
+react-native-camera@^0.13.0:
+  version "0.13.0"
+  resolved "http://registry.npm.taobao.org/react-native-camera/download/react-native-camera-0.13.0.tgz#7a612eb0de14978c53c22d2211a44a9e4a6ee618"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+
 react-native-clear-cache@1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/react-native-clear-cache/download/react-native-clear-cache-1.0.0.tgz#fb4cde15785f5501ad278339c24adf35d0027b82"
@@ -4195,7 +4202,7 @@ react-native-scrollable-mixin@^1.0.1:
   resolved "http://registry.npm.taobao.org/react-native-scrollable-mixin/download/react-native-scrollable-mixin-1.0.1.tgz#34a32167b64248594154fd0d6a8b03f22740548e"
 
 "react-native-scrollable-tab-view@github:pilipa-cn/react-native-scrollable-tab-view#v0.7.4-pilipa-2":
-  version "0.7.4-pilipa-2"
+  version v0.7.4-pilipa-2
   resolved "https://codeload.github.com/pilipa-cn/react-native-scrollable-tab-view/tar.gz/80783d721693dd733333599884fe52c16c2f41b5"
   dependencies:
     react-timer-mixin "^0.13.3"

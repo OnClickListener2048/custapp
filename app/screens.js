@@ -5,6 +5,7 @@ import { Navigation } from 'react-native-navigation';
 import LoginPage from './user/LoginPage';
 
 import HomePage from './home/home/HomePage';
+import InvoiceInputPage from './home/home/InvoiceInputPage';
 import VerifyNamePage from './home/VerifyName/VerifyNamePage';
 import PersonalDataPage from './mine/mine/PersonalDataPage';
 import VerifyResultPage from './home/VerifyName/VerifyResultPage';
@@ -104,6 +105,7 @@ export default function () {
     reg('AccreditInputBox', () => AccreditInputBox);
     reg('QRCodeScreenPage', () => QRCodeScreenPage);
     reg('InvoiceMainPage', () => InvoiceMainPage);
+    reg('InvoiceInputPage', () => InvoiceInputPage);
 
 
 }
