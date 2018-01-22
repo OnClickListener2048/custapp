@@ -28,7 +28,9 @@ export default class HomeTipBox extends BComponent {
 
     render() {
         return (
-            <View style={{justifyContent:'center',alignItems:'center'}}>
+            <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:deviceWidth,height:deviceHeight}} onPress={()=>{this._cancelBtnClick()}}>
+
+            <View style={{justifyContent:'center',alignItems:'center',width:deviceWidth,height:deviceHeight}}>
                 {this.props.imgUrl !== null && (this.props.imgUrl !== undefined) && (this.props.imgUrl.length>0) &&
 
                 <View style={{width:this.props.imgWidth * 375 / deviceWidth - 10 , height:40,flexDirection:'row-reverse'}}>
@@ -54,6 +56,8 @@ export default class HomeTipBox extends BComponent {
 
 
             </View>
+            </TouchableOpacity>
+
         );
     }
 
