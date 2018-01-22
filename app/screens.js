@@ -54,6 +54,9 @@ import LogViewer from "./mine/setting/LogViewer";
 
 import UpdateLightBox from './view/UpdateLightBox'
 import AccreditInputBox from './mine/companyInfo/AccreditInputBox'
+import HomeTipBox from './view/HomeTipBox'
+
+
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -97,6 +100,7 @@ export default function () {
     reg('ChangeCompanyLightBox', () => ChangeCompanyLightBox);
     reg('LogViewer', () => LogViewer);
     reg('UpdateLightBox', () => UpdateLightBox);
+    reg('HomeTipBox', () => HomeTipBox);
     reg('AccreditInputBox', () => AccreditInputBox);
 
 

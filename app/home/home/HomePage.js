@@ -187,6 +187,25 @@ export default class HomePage extends BComponent {
     }
 
     componentDidMount(){
+
+
+        UserInfoStore.isLogined().then(
+            logined => {
+
+                if (logined === true){
+                    this.props.navigator.switchToTab({
+                        //登录情况下 启动直接跳转到服务页
+                        tabIndex: 1
+                    });
+                }else {
+                    this.showTipBox()
+                }
+            }
+        );
+
+
+
+
         this.loadData();
         // 登陆处理
         this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
@@ -194,6 +213,28 @@ export default class HomePage extends BComponent {
             loginJumpSingleton.goToLogin(this.props.navigator);
         });
 
+    }
+
+    showTipBox(){
+        // this.props.navigator.showLightBox({
+        //     screen: "HomeTipBox",
+        //     passProps: {
+        //         onClose: this.dismissLightBox,
+        //
+        //         imgUrl:'https://assets.pilipa.cn/app/customerFrontend/static/media/logo.af3fba37.png',
+        //         jumpUrl:'pilipa://tab.service',
+        //         imgHeight: 8,
+        //         imgWidth:5
+        //
+        //
+        //     },
+        //     overrideBackPress: true, // 拦截返回键
+        //     style: {
+        //         backgroundBlur: 'none',
+        //         backgroundColor: 'rgba(0,0,0,0.5)',
+        //         tapBackgroundToDismiss:true
+        //     }
+        // })
     }
 
     loadData(type = '0'){
