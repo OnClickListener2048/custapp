@@ -6,6 +6,9 @@ import BComponent from '../../base/BComponent';
 import InvoiceInputView from "../VerifyName/view/InvoiceInputView";
 import {StyleSheet,Button,ScrollView,View,FlatList,Text,TouchableOpacity,Image,TouchableWithoutFeedback} from 'react-native';
 import SinglePickerView from "../VerifyName/view/SinglePickerView";
+import SubmitButtonWithIcon from "../../view/SubmitButtonWithIcon";
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
+import SubmitButton from "../../view/SubmitButton";
 
 export default class TestPage extends BComponent {
 
@@ -59,6 +62,16 @@ export default class TestPage extends BComponent {
         })
     }
 
+    //点击查验
+    _verifyTap(){
+
+    }
+
+    //点击重置
+    _resetTap(){
+
+    }
+
     render(){
         return(
             <ScrollView style={styles.container}>
@@ -86,8 +99,25 @@ export default class TestPage extends BComponent {
 
                 </View>
 
-                <Button style={styles.buttonStyle} title="查验" ></Button>
-        <Button style={styles.whiteButtonStyle} title="重置"></Button>
+                <View style={{marginTop:50}}>
+                    <SubmitButton
+                        isEnabled={true}
+                        text="查验"
+                        buttonStyle={{width:SCREEN_WIDTH-40,height:50}}
+                        onPress={() => {
+                            this._verifyTap()
+                        }}
+                    />
+                    <SubmitButton
+                        isEnabled={false}
+                        text="重置"
+                        buttonStyle={{width:SCREEN_WIDTH-30}}
+                        onPress={() => {
+                            this._resetTap()
+                        }}
+
+                    />
+                </View>
             </ScrollView>
         )
     }
