@@ -199,6 +199,8 @@ export default class HomePage extends BComponent {
                     });
                 }else {
                     this._loadBoxData()
+
+
                 }
             }
         );
@@ -338,8 +340,29 @@ export default class HomePage extends BComponent {
             (responseData) => {
                 if(responseData.code == 0 ){
 
+                    let data = responseData.data;
 
-                    this.showTipBox(responseData.login,responseData.img.url,responseData.url,responseData.img.proportion.height,responseData.img.proportion.width)
+                    UserInfoStore.getTipboxID().then(
+                        (boxId) => {
+
+                            if (boxId !== data.id){
+
+                                UserInfoStore.setTipboxID(data.id).then(
+                                    (data) => {
+                                    },
+                                    (e) => {
+                                    },
+                                );
+
+                                this.showTipBox(data.id,data.login,data.img.url,data.url,data.img.size.height,data.img.size.width)
+
+                            }
+                        },
+                        (e) => {
+
+                        },
+                    );
+
 
 
                 }
@@ -352,16 +375,19 @@ export default class HomePage extends BComponent {
     }
 
 
-    tipBoxBtnClick(isLogin,jumpUrl){
+    tipBoxBtnClick(boxId,isLogin,jumpUrl){
+
+        UserInfoStore.setTipboxID(boxId).then(
+            (boxId) => {
+            },
+            (e) => {
+            },
+        );
+
         if (isLogin === true){
-            //跳转到登录页面然后完成相应的操作后跳转到服务页面
-            //未登录
+            //未登录,跳转到登录页面然后完成相应的操作后跳转到服务页面
             let _this = this;
             loginJumpSingleton.goToLogin(this.props.navigator,function () {
-                _this.props.navigator.switchToTab({
-                    tabIndex: 2
-                });
-
                 pushJump(_this.props.navigator, jumpUrl);
             });
         }else {
@@ -369,10 +395,11 @@ export default class HomePage extends BComponent {
         }
     }
 
-    showTipBox(isLogin,imgUrl,jumpUrl,imgHeight,imgWidth){
+    showTipBox(boxId,isLogin,imgUrl,jumpUrl,imgHeight,imgWidth){
         this.props.navigator.showLightBox({
             screen: "HomeTipBox",
             passProps: {
+                boxId:boxId,
                 onClose: this.dismissLightBox,
                 isLogin:isLogin,
                 imgUrl:imgUrl,
