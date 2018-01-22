@@ -11,6 +11,7 @@ export default class SubmitButtonWithIcon extends Component {
         onPress: PropTypes.func, // 点击事件
         text: PropTypes.string, // 按钮文本
         buttonStyle: View.propTypes.style,
+        textStyle:View.propTypes.style,//文字样式
         img:PropTypes.object//左侧显示的图片，默认为微信icon
     };
 
@@ -29,7 +30,7 @@ export default class SubmitButtonWithIcon extends Component {
                                source={this.props.img}/>
 
                         <Text
-                            style={[styles.loginText]}
+                            style={[styles.loginText,this.props.textStyle]}
                             allowFontScaling={false}
                             key={this.props.text}>
                             {this.props.text}

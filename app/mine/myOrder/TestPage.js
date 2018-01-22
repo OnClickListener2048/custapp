@@ -36,6 +36,8 @@ export default class TestPage extends Component {
                     isEnabled={true}
                     text="开始扫描"
                     img={require('../../img/scan_icon.png')}
+                    buttonStyle={{width:SCREEN_WIDTH-40}}
+                    textStyle={{ marginLeft: 10}}
 
 
                 />
@@ -43,6 +45,7 @@ export default class TestPage extends Component {
                 <SubmitButton
                     isEnabled={false}
                     text="手工录入查验"
+                    buttonStyle={{width:335,}}
 
                 />
             </View>
