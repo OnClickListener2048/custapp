@@ -355,9 +355,17 @@ export default class HomePage extends BComponent {
     tipBoxBtnClick(isLogin,jumpUrl){
         if (isLogin === true){
             //跳转到登录页面然后完成相应的操作后跳转到服务页面
+            //未登录
+            let _this = this;
+            loginJumpSingleton.goToLogin(this.props.navigator,function () {
+                _this.props.navigator.switchToTab({
+                    tabIndex: 2
+                });
+
+                pushJump(_this.props.navigator, jumpUrl);
+            });
         }else {
             pushJump(this.props.navigator, jumpUrl);
-
         }
     }
 
