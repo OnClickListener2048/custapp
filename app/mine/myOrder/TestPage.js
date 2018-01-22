@@ -3,7 +3,8 @@
  */
 
 
-import CheckInfoItemTwo from "../../view/CheckInfoItemTwo";
+import SubmitButtonWithIcon from "../../view/SubmitButtonWithIcon";
+import SubmitButton from "../../view/SubmitButton";
 import CheckInfoItemFour from "../../view/CheckInfoItemFour";
 
 import React, {Component,PropTypes} from 'react';
@@ -30,10 +31,19 @@ export default class TestPage extends Component {
                     isShowLine={true}
                 />
 
-                <CheckInfoItemTwo
-                    name="名称"
-                    value="北京科技有限公司"
-                    isShowLine={true}
+                <View style={{marginRight:100,marginLeft:100}}>
+                <SubmitButtonWithIcon
+                    isEnabled={true}
+                    text="开始扫描"
+                    img={require('../../img/scan_icon.png')}
+
+
+                />
+                </View>
+                <SubmitButton
+                    isEnabled={false}
+                    text="手工录入查验"
+
                 />
             </View>
         )
