@@ -49,6 +49,14 @@ const tabsMain = [
         title: '我的',
         isIntercept:true,//添加iOS拦截tabbar点击拦截，true为拦截，配合基类event.id === 'bottomTabSelected使用
         navigatorStyle,
+    },
+    {
+        label: '测试',
+        screen: 'TestPage',
+        icon: require('./img/mine_normal.png'),
+        selectedIcon: require('./img/mine_selected.png'),
+        title: '测试',
+        navigatorStyle,
     }
 ];
 
