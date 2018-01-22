@@ -198,7 +198,7 @@ export default class HomePage extends BComponent {
                         tabIndex: 1
                     });
                 }else {
-                    this.showTipBox()
+                    this._loadBoxData()
                 }
             }
         );
@@ -215,27 +215,7 @@ export default class HomePage extends BComponent {
 
     }
 
-    showTipBox(){
-        // this.props.navigator.showLightBox({
-        //     screen: "HomeTipBox",
-        //     passProps: {
-        //         onClose: this.dismissLightBox,
-        //
-        //         imgUrl:'https://assets.pilipa.cn/app/customerFrontend/static/media/logo.af3fba37.png',
-        //         jumpUrl:'pilipa://tab.service',
-        //         imgHeight: 8,
-        //         imgWidth:5
-        //
-        //
-        //     },
-        //     overrideBackPress: true, // 拦截返回键
-        //     style: {
-        //         backgroundBlur: 'none',
-        //         backgroundColor: 'rgba(0,0,0,0.5)',
-        //         tapBackgroundToDismiss:true
-        //     }
-        // })
-    }
+
 
     loadData(type = '0'){
         // let loading
@@ -261,7 +241,7 @@ export default class HomePage extends BComponent {
                     let section = {
                         key:responseData.list,
                         data:[{type:'header'}]
-                    }
+                    };
                     dataSource.push(section)
 
                     for (let i = 0; i<responseData.list.length;i++){
@@ -349,6 +329,59 @@ export default class HomePage extends BComponent {
 
             },
         );
+    }
+
+    _loadBoxData(){
+        // loadHomeTipBoxInfo
+
+        apis.loadHomeTipBoxInfo().then(
+            (responseData) => {
+                if(responseData.code == 0 ){
+
+
+                    this.showTipBox(responseData.login,responseData.img.url,responseData.url,responseData.img.proportion.height,responseData.img.proportion.width)
+
+
+                }
+            },
+            (e) => {
+
+            },
+        );
+
+    }
+
+
+    tipBoxBtnClick(isLogin,jumpUrl){
+        if (isLogin === true){
+            //跳转到登录页面然后完成相应的操作后跳转到服务页面
+        }else {
+            pushJump(this.props.navigator, jumpUrl);
+
+        }
+    }
+
+    showTipBox(isLogin,imgUrl,jumpUrl,imgHeight,imgWidth){
+        this.props.navigator.showLightBox({
+            screen: "HomeTipBox",
+            passProps: {
+                onClose: this.dismissLightBox,
+                isLogin:isLogin,
+                imgUrl:imgUrl,
+                jumpUrl:jumpUrl,
+                imgHeight: imgHeight,
+                imgWidth:imgWidth,
+                callback:this.tipBoxBtnClick.bind(this)
+
+            },
+
+            overrideBackPress: true, // 拦截返回键
+            style: {
+                backgroundBlur: 'none',
+                backgroundColor: 'rgba(0,0,0,0.6)',
+                tapBackgroundToDismiss:true
+            }
+        })
     }
 
 
