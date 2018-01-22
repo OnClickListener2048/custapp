@@ -106,15 +106,38 @@ export default class WebViewPage extends BComponent {
     componentWillMount() {
 
         this.initNavigator()
+
         // 发送通知
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
 
     }
     initNavigator(){
-        this.props.navigator.setButtons({
-            rightButtons: [{icon: require('../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
-        });
+        if(Platform.OS === 'ios') {
+            UserInfoStore.getMobileLoginInfo().then(
+                v => {
+                    if(v && v.open) {
+                        this.props.navigator.setButtons({
+                            rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                        });
+                    } else {
+                        this.props.navigator.setButtons({
+                            rightButtons: [{icon: require('../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+                        });
+                    }
+                }, e => {
+                    this.props.navigator.setButtons({
+                        rightButtons: [{icon: require('../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+                    });
+                }
+            );
+        } else {
+            // Android一直打开微信登录
+            this.props.navigator.setButtons({
+                rightButtons: [{icon: require('../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+            });
+        }
+
     }
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         super.onNavigatorEvent(event)

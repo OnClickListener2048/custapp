@@ -243,7 +243,8 @@ export default class HomePage extends BComponent {
                             loadState:'no-data',
                             isLoading:false,
                             isFirstRefresh:false,
-                            isRefreshing:false
+                            isRefreshing:false,
+                            dataSource:dataSource
                         })
                     }else{
                         //成功
@@ -259,11 +260,18 @@ export default class HomePage extends BComponent {
 
                 }else{
                     //加载失败
+                    let dataSource = [];
+                    let section = {
+                        key:0,
+                        data:[{type:'header'}]
+                    }
+                    dataSource.push(section)
                     this.setState({
                         loadState:'error',
                         isLoading:false,
                         isRefreshing:false,
                         isFirstRefresh:false,
+                        dataSource:dataSource
                     })
                     Toast.show(responseData.msg?responseData.msg:'加载失败！')
 
@@ -271,13 +279,19 @@ export default class HomePage extends BComponent {
             },
             (e) => {
                 Toast.show('加载失败！');
-
+                let dataSource = [];
+                let section = {
+                    key:0,
+                    data:[{type:'header'}]
+                }
+                dataSource.push(section)
                 //加载失败
                 this.setState({
                     loadState:NetInfoSingleton.isConnected?'error':'no-net',
                     isLoading:false,
                     isRefreshing:false,
                     isFirstRefresh:false,
+                    dataSource:dataSource
                 })
             },
         );
