@@ -54,6 +54,8 @@ import LogViewer from "./mine/setting/LogViewer";
 
 import UpdateLightBox from './view/UpdateLightBox'
 import AccreditInputBox from './mine/companyInfo/AccreditInputBox'
+import QRCodeScreenPage from './view/QRCodeScreenPage'
+
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -98,6 +100,6 @@ export default function () {
     reg('LogViewer', () => LogViewer);
     reg('UpdateLightBox', () => UpdateLightBox);
     reg('AccreditInputBox', () => AccreditInputBox);
-
+    reg('QRCodeScreenPage', () => QRCodeScreenPage);
 
 }

@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 import com.wix.interactable.Interactable;
-
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import cn.pilipa.alert.PLPAlertPackage;
 import com.beefe.picker.PickerViewPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -165,7 +165,8 @@ public class MainApplication extends NavigationApplication {
                 new UmengReactPackage(),
                 new WeChatPackage(),
                 new Interactable(),
-                new ClearCachePackage()
+                new ClearCachePackage(),
+                new RCTCameraPackage()
         );
     }
 

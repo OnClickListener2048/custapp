@@ -140,6 +140,17 @@ export default class HomePage extends BComponent {
                 ],
             },
         ]
+
+        this.props.navigator.push({
+            title: '扫一扫',
+            screen: 'QRCodeScreenPage',
+            passProps:{
+                callback:function (data) {
+                    alert(JSON.stringify(data))
+                }
+            }
+        });
+
     }
 
     // 初始化苹果审核微信登录开关信息
