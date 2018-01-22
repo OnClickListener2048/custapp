@@ -338,7 +338,7 @@ export default class HomePage extends BComponent {
 
         apis.loadHomeTipBoxInfo().then(
             (responseData) => {
-                if(responseData.code == 0 ){
+                if(responseData.code == 0 && responseData.data ){
 
                     let data = responseData.data;
 
