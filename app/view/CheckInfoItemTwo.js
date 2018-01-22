@@ -21,7 +21,7 @@ export default class CheckInfoItemTwo extends Component {
     static propTypes = {
         name: PropTypes.string,//名称
         value:PropTypes.string,//内容
-        isShowLine:PropTypes.boolean//是否显示分割线
+        isShowLine:PropTypes.bool//是否显示分割线
     };
 
     static defaultProps = {
@@ -42,13 +42,13 @@ export default class CheckInfoItemTwo extends Component {
     render(){
         const {name,value,isShowLine} = this.props
         return(
-           <View style={styles.container}>
-               <View style={styles.wrap1}>
-                   <Text style={styles.text1}>
-                       {name}：
-                   </Text>
+          <View style={styles.container}>
+              <View style={styles.wrap1}>
+                  <Text style={styles.text1}>
+                      {name}：
+                  </Text>
                    <Text style={styles.text2}>
-                       {value}
+                      {value}
                    </Text>
                </View>
                {this._isShowLine(isShowLine)}
