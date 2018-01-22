@@ -22,7 +22,7 @@ export default class InvoiceMainPage extends BComponent {
     constructor(props){
         super(props)
         this.scan=this.scan.bind(this);
-        this.check=this.scan.bind(this);
+        this.check=this.check.bind(this);
     }
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
