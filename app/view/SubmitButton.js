@@ -10,6 +10,7 @@ export default class SubmitButton extends Component {
         isEnabled: PropTypes.bool, // 是否启用
         onPress: PropTypes.func, // 点击事件
         text: PropTypes.string, // 按钮文本
+        buttonStyle: View.propTypes.style,//按钮样式
     };
 
     render() {
@@ -26,7 +27,7 @@ export default class SubmitButton extends Component {
             :
             (
                 <TouchableOpacity onPress={this.props.onPress}>
-                    <View style={styles.buttonViewDisabled}>
+                    <View style={[styles.buttonViewDisabled,this.props.buttonStyle]}>
                         <Text style={styles.loginTextDisabled}>{this.props.text}</Text>
                     </View>
                 </TouchableOpacity>

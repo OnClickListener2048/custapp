@@ -57,6 +57,8 @@ import AccreditInputBox from './mine/companyInfo/AccreditInputBox'
 import QRCodeScreenPage from './view/QRCodeScreenPage'
 
 
+import InvoiceMainPage from './home/invoice/InvoiceMainPage'
+
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -101,5 +103,7 @@ export default function () {
     reg('UpdateLightBox', () => UpdateLightBox);
     reg('AccreditInputBox', () => AccreditInputBox);
     reg('QRCodeScreenPage', () => QRCodeScreenPage);
+    reg('InvoiceMainPage', () => InvoiceMainPage);
+
 
 }

@@ -4109,6 +4109,10 @@ react-native-image-pan-zoom@^2.0.1:
   version "2.0.7"
   resolved "http://registry.npm.taobao.org/react-native-image-pan-zoom/download/react-native-image-pan-zoom-2.0.7.tgz#76605310626c965895e9fe285d353feb47da6ec1"
 
+react-native-interactable@^0.1.7:
+  version "0.1.7"
+  resolved "http://registry.npm.taobao.org/react-native-interactable/download/react-native-interactable-0.1.7.tgz#c785688ea6ec7c4ef443e715d145c6862ae210da"
+
 react-native-invertible-scroll-view@^1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/react-native-invertible-scroll-view/download/react-native-invertible-scroll-view-1.1.0.tgz#bfd50a3f5d66ca12639b7c7a9844ceddd1d16890"

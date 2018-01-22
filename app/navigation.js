@@ -49,7 +49,8 @@ const tabsMain = [
         title: '我的',
         isIntercept:true,//添加iOS拦截tabbar点击拦截，true为拦截，配合基类event.id === 'bottomTabSelected使用
         navigatorStyle,
-    }
+    },
+
 ];
 
 // 转到初始化页面 main.LaunchPage

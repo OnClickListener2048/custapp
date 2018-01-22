@@ -11,7 +11,13 @@ export default class SubmitButtonWithIcon extends Component {
         onPress: PropTypes.func, // 点击事件
         text: PropTypes.string, // 按钮文本
         buttonStyle: View.propTypes.style,
+        textStyle:View.propTypes.style,//文字样式
+        img:PropTypes.object//左侧显示的图片，默认为微信icon
     };
+
+    static defaultProps = {
+        img:require('../img/wechat.png')//默认展示微信icon
+    }
 
     render() {
 
@@ -21,10 +27,10 @@ export default class SubmitButtonWithIcon extends Component {
                     <Image source={require('../img/Rectangle.png')}
                            style={[styles.buttonView, this.props.buttonStyle]}>
                         <Image style={[styles.wechart_icon, {justifyContent: 'flex-start'}]}
-                               source={require('../img/wechat.png')}/>
+                               source={this.props.img}/>
 
                         <Text
-                            style={[styles.loginText]}
+                            style={[styles.loginText,this.props.textStyle]}
                             allowFontScaling={false}
                             key={this.props.text}>
                             {this.props.text}
