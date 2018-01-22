@@ -16,18 +16,29 @@ import {
 
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
-
-export default class InvoiceMainPage extends Component {
+import BComponent from '../../base'
+export default class InvoiceMainPage extends BComponent {
 
     constructor(props){
         super(props)
         this.scan=this.scan.bind(this);
         this.check=this.scan.bind(this);
     }
-
+    static navigatorStyle = {
+        navBarHidden: false, // 隐藏默认的顶部导航栏
+        tabBarHidden: true, // 默认隐藏底部标签栏
+    };
     //开始扫描
     scan(){
-
+        this.props.navigator.push({
+            title: '扫一扫',
+            screen: 'QRCodeScreenPage',
+            passProps:{
+                callback:function (data) {
+                    alert(JSON.stringify(data))
+                }
+            }
+        });
     }
 
     //手工录入查验

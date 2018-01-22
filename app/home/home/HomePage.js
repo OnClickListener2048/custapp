@@ -141,15 +141,7 @@ export default class HomePage extends BComponent {
             },
         ]
 
-        this.props.navigator.push({
-            title: '扫一扫',
-            screen: 'QRCodeScreenPage',
-            passProps:{
-                callback:function (data) {
-                    alert(JSON.stringify(data))
-                }
-            }
-        });
+
 
     }
 
@@ -555,7 +547,6 @@ export default class HomePage extends BComponent {
 
         }else{
             Toast.show('即将上线，敬请期待...')
-
         }
     }
     _goColumnDetail(index,item){
@@ -564,7 +555,15 @@ export default class HomePage extends BComponent {
             pushJump(this.props.navigator, item.url,item.title,'噼里啪智能财税',item.title,item.eventId);
 
         }else{
-            Toast.show('即将上线，敬请期待...')
+            if(item.title == '发票验真'){
+                this.props.navigator.push({
+                    title: '发票验真',
+                    screen: 'InvoiceMainPage',
+                });
+            }else{
+                Toast.show('即将上线，敬请期待...')
+
+            }
         }
     }
     _x = 0.5
