@@ -30,6 +30,11 @@ export default class InvoiceInputView extends Component {
     };
 
 
+    _clearTextInput(){
+        this.refs.invoiceInputText.clear();
+    }
+
+
 
     render(){
         return(
@@ -37,7 +42,9 @@ export default class InvoiceInputView extends Component {
                 <View style={styles.registerNumStyle}>
                 <View style={styles.textInputContainer}>
                     <View style={[styles.textInputWrapper]}>
-                        <TextInput underlineColorAndroid='transparent'
+                        <TextInput
+                                   ref = {"invoiceInputText"}
+                                   underlineColorAndroid='transparent'
                                    value={this.state.content}
                                    editable={this.props.textEditable}
                                    maxLength = {this.props.maxLength}
