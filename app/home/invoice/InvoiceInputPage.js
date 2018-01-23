@@ -56,6 +56,7 @@ export default class TestPage extends BComponent {
     rendercheckCodeInput(textType,textName,textContent,maxLength){
         return(
             <InvoiceInputView
+                ref = {textType}
                 callback={this._isNotEmpty}
                 contentType={textType}
                 textName={textName}
@@ -69,6 +70,7 @@ export default class TestPage extends BComponent {
     renderNumberInput(textType,textName,textContent,maxLength){
         return(
             <InvoiceInputView
+                ref = {textType}
                 callback={this._isNotEmpty}
                 contentType={textType}
                 textName={textName}
@@ -126,6 +128,11 @@ export default class TestPage extends BComponent {
             amount:'',
             invoiceType:'04',
         })
+
+        this.refs.codeInputValue._clearTextInput()
+        this.refs.numberInputValue._clearTextInput()
+        this.refs.checkCodeInputValue._clearTextInput()
+
     }
 
     render(){
