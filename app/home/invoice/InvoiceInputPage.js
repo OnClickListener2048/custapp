@@ -10,6 +10,7 @@ import SubmitButtonWithIcon from "../../view/SubmitButtonWithIcon";
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import SubmitButton from "../../view/SubmitButton";
 import Alert from "react-native-alert";
+import InvoiceType from "../../view/invoiceType"
 
 export default class TestPage extends BComponent {
 
@@ -27,6 +28,7 @@ export default class TestPage extends BComponent {
             checkCodeInputValue: '',//校验码
             textContent:'校验码：',//校验码or金额
             inputContent:'请输入校验码后六位',//输入框提示信息
+            textType:'0',//0为校验码 1为金额
         };
         this._verifyTap = this._verifyTap.bind(this);
         this._resetTap = this._resetTap.bind(this);
@@ -116,6 +118,30 @@ export default class TestPage extends BComponent {
         switch(contentType){
             case 'codeInputValue':
                 this.setState({codeInputValue:content})
+                if(content.length===10||content.length===12){
+                    console.log("显示发票号码："+content);
+                    this.setState({invoiceType:InvoiceType.getReceiptType(content)})
+                    if(this.state.invoiceType==='01'||this.state.invoiceType==='02'||this.state.invoiceType==='03'){//金额
+                        if(this.state.textType!=="1"){
+                            this.setState({
+                                checkCodeInputValue:'',
+                                amount:''
+                            })
+                        }
+
+                        this.setState({textType:'1'})
+
+                    }else {//校验码if(this.state.invoiceType==='04'||this.state.invoiceType==='10'||this.state.invoiceType==='11')
+                        if(this.state.textType!=="0"){
+                            this.setState({
+                                checkCodeInputValue:'',
+                                amount:''
+                            })
+                        }
+                        this.setState({textType:'0'})
+
+                    }
+                }
                 break;
             case 'numberInputValue':
                 this.setState({numberInputValue:content})
@@ -256,11 +282,16 @@ export default class TestPage extends BComponent {
                                           callback={this._corpTypeBtnClick.bind(this)}/>
                     </View>
 
-                    <View style={styles.invoiceCheck_wrp}>
-                        <Text style={styles.text_name} >校验码：</Text>
-                        {this.rendercheckCodeInput('checkCodeInputValue','请输入后六位校验码',this.state.checkCodeInputValue,6)}
+                    {this.state.textType==='1'?<View style={styles.invoiceCheck_wrp}>
+                        <Text style={styles.text_name} >金额：</Text>
+                        {this.renderNumberInput('amount','请输入不含税金额',this.state.amount,20)}
 
-                    </View>
+                    </View>:<View style={styles.invoiceCheck_wrp}>
+                        <Text style={styles.text_name} >校验码：</Text>
+                        {this.rendercheckCodeInput('checkCodeInputValue','请输入校验码后六位',this.state.checkCodeInputValue,6)}
+
+                    </View>}
+
 
                     <View style={{marginTop:50}}>
                         <SubmitButton
