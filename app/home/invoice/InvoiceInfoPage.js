@@ -70,7 +70,7 @@ export default class InvoiceInfoPage extends BComponent {
         //     FPJE:'33.96',//arr[4]发票金额
         //     JYM:'413936'//arr[6]校验码后六位
         // }
-        
+
         apis.verifyInvoice(this.props.step,params).then((responseData)=>{
             if(responseData.code == 0 && responseData.data){
                 this.setState({
