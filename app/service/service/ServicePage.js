@@ -26,6 +26,7 @@ import Toast from 'react-native-root-toast'
 import Alert from "react-native-alert";
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBar from '../view/TimeSearchBar'
+import TimeSearchBarTest from '../view/TimeSearchBarTest'
 const serviceData = [
     {
         title:'现金流',
@@ -105,7 +106,8 @@ export default class ServicePage extends BComponent {
             iconWidth:'',
             iconHeight:'',
             url:'',//h5地址
-            isShow:false//是否显示入口
+            isShow:false,//是否显示入口
+            select:'2017-01'
 
         };
         // this._renderBody=this._renderBody.bind(this);
@@ -179,14 +181,14 @@ export default class ServicePage extends BComponent {
 
                             }
 
-                            this.loadData(this.state.year+'-'+this.state.month)
+                            this.loadData(this.state.month)
 
                         },
                         (e) => {
                             this.companyid = undefined
                             this.initYearReport(this.companyid)
                             this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
-                            this.loadData(this.state.year+'-'+this.state.month)
+                            this.loadData(this.state.month)
                         },
                     );
                 } else {
@@ -194,7 +196,7 @@ export default class ServicePage extends BComponent {
                     this.companyid = undefined
                     this.initYearReport(this.companyid)
                     this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                    this.loadData(this.state.year+'-'+this.state.month)
+                    this.loadData(this.state.month)
 
                 }
             },
@@ -203,7 +205,7 @@ export default class ServicePage extends BComponent {
                 this.companyid = undefined
                 this.initYearReport(this.companyid)
                 this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                this.loadData(this.state.year+'-'+this.state.month)
+                this.loadData(this.state.month)
             }
         );
 
@@ -337,7 +339,7 @@ export default class ServicePage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.year+'-'+this.state.month,true)
+        this.loadData(this.state.month,true)
 
     }
     _titleItem(){
@@ -409,9 +411,8 @@ export default class ServicePage extends BComponent {
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo} isLogin={this.state.isLogin}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
-                <TimeSearchBar
-                    year={this.state.year}
-                    month={this.state.month}
+                <TimeSearchBarTest
+                    month={this.state.select}
                     callback = {this._callback.bind(this)}
                 />
                 <ScrollView
@@ -506,12 +507,11 @@ export default class ServicePage extends BComponent {
     }
 
 
-    _callback(year,month,isRefresh=false){
+    _callback(month,isRefresh=false){
         this.setState({
-            year,
-            month
+            select:month
         })
-        this.loadData(year+'-'+month)
+        this.loadData(month)
 
     }
     _goServiceDetail(item){
@@ -521,7 +521,6 @@ export default class ServicePage extends BComponent {
             title:item.title,
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
-                year:this.state.year,
                 month:this.state.month,
                 callback:this._callback.bind(this),
                 companyid:this.companyid,
