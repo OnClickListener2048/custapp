@@ -33,12 +33,12 @@ export default class InvoiceInfoPage extends BComponent {
         };
     }
     static defaultProps = {
-        codeInputValue:'011001600211',
-        numberInputValue:'25236205',
-        dateTime:'20170701',
-        invoiceType:'10',
-        amount:'33.96',
-        checkCodeInputValue:'413936'
+        codeInputValue:'',
+        numberInputValue:'',
+        dateTime:'',
+        invoiceType:'',
+        amount:'',
+        checkCodeInputValue:''
     };
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
@@ -52,7 +52,6 @@ export default class InvoiceInfoPage extends BComponent {
             FPHM:this.props.numberInputValue,//arr[3]发票号码
             KPRQ:this.props.dateTime,//arr[5]日期
             FPLX:this.props.invoiceType,//arr[1]发票类型
-
         }
         if(this.props.amount){
             params.FPJE = this.props.amount
