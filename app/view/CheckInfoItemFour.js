@@ -74,7 +74,7 @@ export default class CheckInfoItemFour extends Component {
 const styles = StyleSheet.create({
     container:{
         backgroundColor:'#FFFFFF',
-        marginLeft:15
+        paddingLeft:15
     },
     wrap1:{
         width:SCREEN_WIDTH,
