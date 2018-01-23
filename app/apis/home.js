@@ -12,3 +12,8 @@ export function loadHomeBanner() {
     //v1
     return getApi('/api/v1/banners');
 }
+
+export function loadHomeTipBoxInfo() {
+    return getApi('/api/v1/activity/home');
+}
+

@@ -17,6 +17,7 @@ const KEY_COMPANY_ApplyPay = "KEY_COMPANY_APPLYPAY";// 是否显示续费按钮
 const KEY_COMPANYARR_INFOS = "KEY_COMPANYARR_INFOS";// 公司信息数组
 const KEY_MOBILE_INFO = "KEY_MOBILE_INFO";// 苹果审核开关
 
+const KEY_HOME_CLICKED_TIPBOX = "KEY_HOME_CLICKED_TIPBOX";// 已经点击了首页的弹窗提示
 
 
 const KEY_NOTIFY_MESSAGE_INFOS = "KEY_NOTIFY_MESSAGE_INFOS";// 通知助手消息列表
@@ -124,6 +125,7 @@ UserInfoStore.setJPushID = async function (value: string) {
     return Preferences.set(KEY_JPUSH_ID, value);
 };
 
+//是否需要展示续费按钮
 UserInfoStore.getApplyPay = async function () {
     return await Preferences.get(KEY_COMPANY_ApplyPay);
 };
@@ -136,6 +138,18 @@ UserInfoStore.removeApplyPay = async function () {
     return Preferences.remove(KEY_COMPANY_ApplyPay);
 };
 
+//是否已经点击过首页的弹层框
+UserInfoStore.getTipboxID = async function () {
+    return await Preferences.get(KEY_HOME_CLICKED_TIPBOX);
+};
+
+UserInfoStore.setTipboxID = async function (value: object) {
+    return Preferences.set(KEY_HOME_CLICKED_TIPBOX, value);
+};
+
+UserInfoStore.removeTipboxID = async function () {
+    return Preferences.remove(KEY_HOME_CLICKED_TIPBOX);
+};
 
 
 UserInfoStore.getCompany = async function () {
