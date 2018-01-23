@@ -11,6 +11,7 @@ import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import SubmitButton from "../../view/SubmitButton";
 import Alert from "react-native-alert";
 import InvoiceType from "../../view/invoiceType"
+import SectionHeader from "../../view/SectionHeader";
 
 export default class TestPage extends BComponent {
 
@@ -210,10 +211,10 @@ export default class TestPage extends BComponent {
         }else if(parseInt(nowData)-parseInt(this.state.dateFormat)>10000||this.state.dateTime==='--'){//只支持一年内发票查验
             this._AlertErrorMsg('只支持一年内发票查验');
 
-        }else if((this.state.invoiceType==='04'||this.state.invoiceType==='10'||this.state.invoiceType==='11')&&this.state.checkCodeInputValue.length!==6){//后六位校验码
+        }else if(this.state.textType==='0'&&this.state.checkCodeInputValue.length!==6){//后六位校验码
             this._AlertErrorMsg('请输入校验码后六位');
 
-        }else if((this.state.invoiceType==='01'||this.state.invoiceType==='02'||this.state.invoiceType==='03')&&this.state.amount.length===0){//金额
+        }else if(this.state.textType==='1'&&this.state.amount.length===0){//金额
             this._AlertErrorMsg('请输入不含税金额');
 
         }else{//全部符合条件跳转
@@ -226,7 +227,7 @@ export default class TestPage extends BComponent {
                     codeInputValue:this.state.codeInputValue,
                     numberInputValue:this.state.numberInputValue,
                     checkCodeInputValue:this.state.checkCodeInputValue,
-                    dateTime:this.state.dateTime,
+                    dateTime:this.state.dateFormat,
                     invoiceType:this.state.invoiceType,
                     amount:this.state.amount,
                     step:2,
@@ -275,6 +276,7 @@ export default class TestPage extends BComponent {
             return(
             <ScrollView style={styles.container}>
                 <View>
+                    <SectionHeader style={{backgroundColor:'#E8E2D6'}} text ={'基础信息'} textStyle={{color:'#AE915A'}} />
                     <View style={styles.invoiceCheck_wrp}>
                         <Text style={styles.text_name} >发票代码：</Text>
                         {this.renderNumberInput('codeInputValue','请输入发票代码',this.state.codeInputValue,12)}
