@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import BComponent from '../../base'
+import invoice_data from './invoice_data.json'
 export default class InvoiceInfoPage extends BComponent {
 
     constructor(props){
@@ -25,7 +26,9 @@ export default class InvoiceInfoPage extends BComponent {
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
     //开始扫描
+    componentDidMount() {
 
+    }
 
     render(){
         return(

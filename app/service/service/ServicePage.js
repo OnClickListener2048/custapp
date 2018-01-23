@@ -16,7 +16,6 @@ import {
     DeviceEventEmitter,
     Animated,
     Dimensions,
-    TouchableWithoutFeedback
 } from 'react-native';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -115,6 +114,9 @@ export default class ServicePage extends BComponent {
         this._deltaX = new Animated.Value(0);
         this._deltaY = new Animated.Value(0);
         this._faceScale = new Animated.Value(1);
+
+        this.start = 0;
+        this.end = 0;
 
     }
     static navigatorStyle = {
@@ -478,9 +480,9 @@ export default class ServicePage extends BComponent {
                             {x: -140*widthFactor, y: 20*heightFactor}, {x: -140*widthFactor, y: -120*heightFactor}, {x: -140*widthFactor, y:  160*heightFactor}, {x: -140*widthFactor, y: -250*heightFactor}, {x: -140*widthFactor, y: 290*heightFactor},
                             {x:  140*widthFactor, y: 20*heightFactor}, {x:  140*widthFactor, y:  160*heightFactor}, {x:  140*widthFactor, y: -120*heightFactor}, {x:  140*widthFactor, y: -250*heightFactor}, {x:  140*widthFactor, y: 290*heightFactor}]}
                         dragWithSpring={{tension: 2000, damping: 0.5}}
-
                         animatedValueX={this._deltaX}
                         animatedValueY={this._deltaY}
+                        onDrag={this.onDrawer.bind(this)}
                         initialPosition={{x: (SCREEN_WIDTH/2-40)*widthFactor-20, y: (SCREEN_HEIGHT/4)*heightFactor}}>
                         <Animated.View
                             style={[{width:this.state.iconWidth, height:this.state.iconHeight}, {
@@ -488,9 +490,9 @@ export default class ServicePage extends BComponent {
                                     scale: this._faceScale
                                 }]
                             }]}>
-                            <TouchableWithoutFeedback onPress = {this._goWeb.bind(this)}>
+                            <TouchableOpacity onPress = {this._goWeb.bind(this)}>
                                 <Image style={{width:this.state.iconWidth, height:this.state.iconHeight}} source={{uri:this.state.iconUrl}} />
-                            </TouchableWithoutFeedback>
+                            </TouchableOpacity>
                         </Animated.View>
                     </Interactable.View>
                 </View>
@@ -498,8 +500,24 @@ export default class ServicePage extends BComponent {
 
         }
     }
+    onDrawer(e){
+        if(e.nativeEvent.state == 'start'){
+            this.start = e.nativeEvent.y
+        }
+        if(e.nativeEvent.state == 'end'){
+            this.end = e.nativeEvent.y
+            let result = Math.abs(this.end - this.start)
+            if((Platform.OS==='android') && result<1){
+                //点击事件
+                if(this.state.url){
+                    UMTool.onEvent('2017accountTable')
+                    pushJump(this.props.navigator,this.state.url,'年度报表','噼里啪智能财税','年度报表');
+                }
+            }
+        }
+    }
     _goWeb(){
-        if(this.state.url){
+        if((Platform.OS==='ios') && this.state.url){
             UMTool.onEvent('2017accountTable')
             pushJump(this.props.navigator,this.state.url,'年度报表','噼里啪智能财税','年度报表');
         }
