@@ -17,6 +17,7 @@ export default class TestPage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
+            result:'',//二维码扫描信息
             isPickerOpen:false,
             result:'',//二维码返回code
             codeInputValue: '',//发票代码
@@ -37,32 +38,37 @@ export default class TestPage extends BComponent {
     }
 
     componentWillMount() {
-        if(false){
-            // this.result=option.result
-            // //解析，读取展示二维码信息
-            // const arr=option.result.split(",");
-            // this.codeInputValue= arr[2],
-            //     this.numberInputValue= arr[3],
-            //     this.checkCodeInputValue= arr[6]>6?arr[6].substring(arr[6].length-6,arr[6].length):arr[6]
-            // //格式化日期
-            // for(var i=0;i<arr[5].length;i++){
-            //     var str = arr[5].split('');
-            //     for (var i = 0; i < str.length; i++){
-            //         if(i===3||i===5)
-            //             str[i] += '-';
-            //     }
-            // }
-            // this.dateTime = str.join('')
-            // this.dateFormat = arr[5];
-            // this.invoiceType = arr[1];
-            // this.amount = arr[4];
-            // if(this.invoiceType==='01'||this.invoiceType==='02'||this.invoiceType==='03'){//金额
-            //     this.textContent="金额："
-            //     this.inputContent = "请输入不含税金额"
-            // }else if(this.invoiceType==='04'||this.invoiceType==='10'||this.invoiceType==='11'){//校验码
-            //     this.textContent="校验码："
-            //     this.inputContent = "请输入校验码后六位"
-            // }
+        if(this.props.result){
+            //解析，读取展示二维码信息
+            const arr=this.props.result.split(",");
+            //格式化日期
+            for(var i=0;i<arr[5].length;i++){
+                var str = arr[5].split('');
+                for (var i = 0; i < str.length; i++){
+                    if(i===3||i===5)
+                        str[i] += '-';
+                }
+            }
+            this.setState({
+                codeInputValue:arr[2],
+                numberInputValue:arr[3],
+                checkCodeInputValue:arr[6]>6?arr[6].substring(arr[6].length-6,arr[6].length):arr[6],
+                dateTime:str.join(''),
+                dateFormat:arr[5],
+                invoiceType:arr[1],
+                amount:arr[4]
+            })
+
+            if(this.invoiceType==='01'||this.invoiceType==='02'||this.invoiceType==='03'){//金额
+                this.setState({textType:'1'})
+
+            }else if(this.invoiceType==='04'||this.invoiceType==='10'||this.invoiceType==='11'){//校验码
+                this.setState({textType:'0'})
+
+            }else{
+                this.setState({textType:'0'})
+
+            }
         }else {
             function formatTime(date) {
                 var year = date.getFullYear()
@@ -159,8 +165,8 @@ export default class TestPage extends BComponent {
     _corpTypeBtnClick(){
         this.setState({
             isPickerOpen : this.refs.datapicker.state.isPickerOpen,
-            dateTime:this.refs.datapicker.state.valueFormat,
-            dateFormat:this.refs.datapicker.state.value,
+            dateTime:this.refs.datapicker.state.dateTime,
+            dateFormat:this.refs.datapicker.state.dateFormat,
         })
     }
 
@@ -251,11 +257,15 @@ export default class TestPage extends BComponent {
             checkCodeInputValue:'',
             amount:'',
             invoiceType:'04',
+            textType:'0'
         })
 
         this.refs.codeInputValue._clearTextInput();
         this.refs.numberInputValue._clearTextInput();
-        this.refs.checkCodeInputValue._clearTextInput();
+        if(this.state.textType==='1')
+            this.refs.amount._clearTextInput();
+        else
+            this.refs.checkCodeInputValue._clearTextInput();
         this.refs.datapicker.setDateTime(nowTime(new Date()));
 
     }
