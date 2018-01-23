@@ -59,7 +59,6 @@ export default class InvoiceInfoPage extends BComponent {
         if(this.props.checkCodeInputValue){
             params.JYM = this.props.checkCodeInputValue
         }
-
         //const res = {result:"01,10,011001600211,25236205,33.96,20170701,70438474151372413936,AD3C,"};
         // let params = {
         //     FPDM:'011001600211',//arr[2]发票代码
@@ -69,7 +68,6 @@ export default class InvoiceInfoPage extends BComponent {
         //     FPJE:'33.96',//arr[4]发票金额
         //     JYM:'413936'//arr[6]校验码后六位
         // }
-
         apis.verifyInvoice(this.props.step,params).then((responseData)=>{
             if(responseData.code == 0 && responseData.data){
                 this.setState({
@@ -125,15 +123,10 @@ export default class InvoiceInfoPage extends BComponent {
                 rowDic.key = [Map[key]]
                 rowDic.value =''
 
-                if(key == 'ZFBZ'){
-                    rowDic.value='作废'
-                }
                 if(data[key]){
-                    if(key == 'ZFBZ'){
-                        rowDic.value=data[key]=='Y'?'作废':'未作废'
-                    }else{
-                        rowDic.value = data[key].replace(/(^\s*)|(\s*$)/g, "")
-                    }
+
+                    rowDic.value = data[key].replace(/(^\s*)|(\s*$)/g, "")
+
                     if(key === 'ZZSSL'){//增值税税率或征收率+%
                         rowDic.value = data[key]+'%'
                     }
@@ -159,7 +152,7 @@ export default class InvoiceInfoPage extends BComponent {
 
     render(){
         return(
-            <View>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <SectionList
                     sections={this.state.dataSource}
                     renderItem={this._renderItem.bind(this)}
