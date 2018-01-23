@@ -40,6 +40,11 @@ export default class SinglePickerView extends Component {
         this.setState({dateFormat: dateFormat});
     }
 
+    setDateTime(dateTime) {
+        this.setState({dateTime: dateTime});
+    }
+
+
     componentWillReceiveProps(props) {
         if(this.state.isPickerOpen===false){
             this.setState({
