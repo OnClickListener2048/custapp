@@ -31,7 +31,7 @@ const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方
 import * as apis from '../apis';
 import * as URI from "uri-js";
 import queryString from "query-string";
-let imgUrl = 'https://assets.pilipa.cn/www/images/public/share_logo.png'
+let imgUrl = 'https://assets.pilipa.cn/public/logo/share.png';// 分享图片Logo地址
 export const SCREEN_HEIGHT = window.height;
 export const SCREEN_WIDTH = window.width;
 const patchPostMessageFunction = function() {

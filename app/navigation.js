@@ -25,11 +25,11 @@ const tabsMain = [
         navigatorStyle
     },
     {
-        label: '服务',
+        label: '公司',
         screen: 'ServicePage',
         icon: require('./img/service_normal.png'),
         selectedIcon: require('./img/service_selected.png'),
-        title: '服务',
+        title: '公司',
         navigatorStyle
     },
     {
