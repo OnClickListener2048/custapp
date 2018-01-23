@@ -64,7 +64,13 @@ export default class TestPage extends BComponent {
 
     //点击查验
     _verifyTap(){
-
+        this.push({
+            title: '发票信息',
+            screen: 'InvoiceInfoPage',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+            passProps:{
+            }
+        });
     }
 
     //点击重置

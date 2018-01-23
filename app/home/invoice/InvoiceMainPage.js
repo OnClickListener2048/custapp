@@ -33,6 +33,7 @@ export default class InvoiceMainPage extends BComponent {
         this.push({
             title: '扫一扫',
             screen: 'QRCodeScreenPage',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
                 callback:function (data) {
                     alert(JSON.stringify(data))
@@ -46,6 +47,7 @@ export default class InvoiceMainPage extends BComponent {
         this.push({
             title: '发票验真',
             screen: 'InvoiceInputPage',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
             }
         });
