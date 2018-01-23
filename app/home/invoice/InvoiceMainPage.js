@@ -44,14 +44,15 @@ export default class InvoiceMainPage extends BComponent {
 
     //开始扫描
     scan(){
+        let _this = this
         this.push({
             title: '扫一扫',
             screen: 'QRCodeScreenPage',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
                 callback:function (data) {
-                    alert(JSON.stringify(data))
-                    const arr=data.split(",");
+                    // alert(JSON.stringify(data))
+                    const arr=data.data.split(",");
                     let params = {
                         FPDM:arr[2],//arr[2]发票代码
                         FPHM:arr[3],//arr[3]发票号码
@@ -68,7 +69,7 @@ export default class InvoiceMainPage extends BComponent {
 
                         console.log('success:',responseData)
                         if (responseData.data !== null && responseData.data !== undefined && responseData.data !== '') {//直接进入详情true
-                            this.push({
+                            _this.push({
                                 title: '发票信息',
                                 screen: 'InvoiceInfoPage',
                                 backButtonHidden: true, // 是否隐藏返回按钮 (可选)
@@ -111,7 +112,7 @@ export default class InvoiceMainPage extends BComponent {
                             } else if (parseInt(nowData) - parseInt(dataTime) > 10000) {//只支持一年内发票查验
                                 this._AlertErrorMsg('只支持一年内发票查验');
                             } else {
-                                this.push({
+                                _this.push({
                                     title: '发票验真',
                                     screen: 'InvoiceInputPage',
                                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
