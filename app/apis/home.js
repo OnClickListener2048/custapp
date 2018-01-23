@@ -1,7 +1,7 @@
 /**
  * Created by zhuangzihao on 2017/9/29.
  */
-import {getApi} from './common';
+import {getApi,postApi} from './common';
 //产品数据
 export function loadHomeData(type = '0') {
     //v1
@@ -15,5 +15,8 @@ export function loadHomeBanner() {
 
 export function loadHomeTipBoxInfo() {
     return getApi('/api/v1/activity/home');
+}
+export function verifyInvoice(step = '1',params) {
+    return postApi('/api/v1/receipt/verify?step=' + step,params);
 }
 
