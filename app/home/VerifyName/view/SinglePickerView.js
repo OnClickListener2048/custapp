@@ -22,9 +22,9 @@ export default class SinglePickerView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: '',
+            dateFormat: '',
             isPickerOpen:this.props.isPickerOpen,
-            valueFormat:this.props.valueFormat,//2018-01-22
+            dateTime:this.props.dateTime,//2018-01-22
             valuePicker:'',//2018年1月22日
         }
 
@@ -32,12 +32,12 @@ export default class SinglePickerView extends Component {
     }
 
     static propTypes = {
-        valueFormat: PropTypes.string,//显示值
+        dateTime: PropTypes.string,//显示值
         onPress: PropTypes.func,// 点击回调
     };
 
-    setValue(value) {
-        this.setState({value: value});
+    setValue(dateFormat) {
+        this.setState({dateFormat: dateFormat});
     }
 
     componentWillReceiveProps(props) {
@@ -85,18 +85,18 @@ export default class SinglePickerView extends Component {
         return date;
     }
 
-    //将时间2018-01-22格式改为数组：[ '2018年', '01月','22日']
-    _dataPiackerList(value){
+    //将时间当前日期格式改为数组：[ '2018年', '01月','22日']
+    _dataPiackerList(){
+        var date = new Date();
         var valueList = [];
-        console.log("输出传值=="+value);
-        if(value!==undefined&&value!=='--'&&value!==''){
-            var strlist = value.split('-');
-            for(let i=0;i<strlist.length;i++){
-                if(i===0) valueList.push(strlist[i]+'年');
-                if(i===1) valueList.push(strlist[i]+'月');
-                if(i===2) valueList.push(strlist[i]+'日');
-            }
+        function nowNumber(n) {
+            n = n.toString()
+            return n[1] ? n : '0' + n
         }
+        valueList.push(date.getFullYear().toString()+'年');
+        valueList.push(nowNumber((date.getMonth()+ 1)).toString()+'月');
+        valueList.push(nowNumber(date.getDate()).toString()+'日');
+
         return valueList;
     }
 
@@ -115,7 +115,7 @@ export default class SinglePickerView extends Component {
             pickerCancelBtnColor: [0, 0 ,0, 1],
             pickerBg :  [0xff, 0xff ,0xff, 1],
             pickerData: this._createDateData(),
-            selectedValue: this._dataPiackerList(this.props.valueFormat),
+            selectedValue: this._dataPiackerList(),
             onPickerCancel: pickedValue => {
                 this.setState({
                     isPickerOpen : false,
@@ -139,8 +139,8 @@ export default class SinglePickerView extends Component {
                 }
                 this.setState({
                     isPickerOpen : false,
-                    value:strValue,//纯数字日期
-                    valueFormat:strFormat,//加 - - 日期
+                    dateFormat:strValue,//纯数字日期
+                    dateTime:strFormat,//加 - - 日期
                     valuePicker:pickedValue,//加 年 月 日 日期
                 });
                 console.log('Confirm Area', pickedValue[0], pickedIndex+strValue+strFormat);
@@ -161,7 +161,7 @@ export default class SinglePickerView extends Component {
                     <Text numberOfLines={1} style={[{
                             fontSize:17,
                         color: '#333333',
-                    }]}>{this.state.valueFormat}</Text>
+                    }]}>{this.state.dateTime}</Text>
             </TouchableOpacity>
         );
     }
