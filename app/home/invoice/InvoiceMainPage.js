@@ -117,7 +117,7 @@ export default class InvoiceMainPage extends BComponent {
                                     screen: 'InvoiceInputPage',
                                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                                     passProps:{
-                                        result:responseData.data
+                                        result:data.data
                                     }
                                 });
                             }
