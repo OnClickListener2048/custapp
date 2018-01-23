@@ -3,7 +3,7 @@
  * Created by beansoft on 2017/5/19.
  */
 
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {
     BackAndroid,
     DeviceEventEmitter,
@@ -42,6 +42,10 @@ export default class LoginPage extends Component {
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 隐藏默认的底部Tab栏
+    };
+
+    static propTypes = {
+        callback: PropTypes.func, // 登陆后的回调, 可选
     };
 
     // usage: this.focusField('smsCodeInput');
@@ -343,10 +347,13 @@ export default class LoginPage extends Component {
             type:'login',
             callback: function(res){
                 _this.setState({loading: false});
-                if(res.code == 0 && res.userType == 0){
+                if(res.code === 0 && res.userType === 0){
                     _this.props.navigator.push({
                         screen: 'FirstBindPhonePage',
-                        title: ''
+                        title: '',
+                        passProps: {
+                            callback: _this.props.callback
+                        }
                     });
                 }else{
                     _this.pop();

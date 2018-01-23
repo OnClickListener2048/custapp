@@ -57,9 +57,11 @@ import UpdateLightBox from './view/UpdateLightBox'
 import AccreditInputBox from './mine/companyInfo/AccreditInputBox'
 import QRCodeScreenPage from './view/QRCodeScreenPage'
 
-
 import InvoiceMainPage from './home/invoice/InvoiceMainPage'
 import InvoiceInfoPage from './home/invoice/InvoiceInfoPage'
+
+import HomeTipBox from './view/HomeTipBox'
+
 
 
 export default function () {
@@ -104,6 +106,7 @@ export default function () {
     reg('ChangeCompanyLightBox', () => ChangeCompanyLightBox);
     reg('LogViewer', () => LogViewer);
     reg('UpdateLightBox', () => UpdateLightBox);
+    reg('HomeTipBox', () => HomeTipBox);
     reg('AccreditInputBox', () => AccreditInputBox);
     reg('QRCodeScreenPage', () => QRCodeScreenPage);
     reg('InvoiceMainPage', () => InvoiceMainPage);
