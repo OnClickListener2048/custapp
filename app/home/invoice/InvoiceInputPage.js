@@ -253,9 +253,10 @@ export default class TestPage extends BComponent {
             invoiceType:'04',
         })
 
-        this.refs.codeInputValue._clearTextInput()
-        this.refs.numberInputValue._clearTextInput()
-        this.refs.checkCodeInputValue._clearTextInput()
+        this.refs.codeInputValue._clearTextInput();
+        this.refs.numberInputValue._clearTextInput();
+        this.refs.checkCodeInputValue._clearTextInput();
+        this.refs.datapicker.setDateTime(nowTime(new Date()));
 
     }
 
