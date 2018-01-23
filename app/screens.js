@@ -5,7 +5,7 @@ import { Navigation } from 'react-native-navigation';
 import LoginPage from './user/LoginPage';
 
 import HomePage from './home/home/HomePage';
-import InvoiceInputPage from './home/home/InvoiceInputPage';
+import InvoiceInputPage from './home/invoice/InvoiceInputPage';
 import VerifyNamePage from './home/VerifyName/VerifyNamePage';
 import PersonalDataPage from './mine/mine/PersonalDataPage';
 import VerifyResultPage from './home/VerifyName/VerifyResultPage';
@@ -57,8 +57,12 @@ import UpdateLightBox from './view/UpdateLightBox'
 import AccreditInputBox from './mine/companyInfo/AccreditInputBox'
 import QRCodeScreenPage from './view/QRCodeScreenPage'
 
-
 import InvoiceMainPage from './home/invoice/InvoiceMainPage'
+import InvoiceInfoPage from './home/invoice/InvoiceInfoPage'
+
+import HomeTipBox from './view/HomeTipBox'
+
+
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -102,10 +106,12 @@ export default function () {
     reg('ChangeCompanyLightBox', () => ChangeCompanyLightBox);
     reg('LogViewer', () => LogViewer);
     reg('UpdateLightBox', () => UpdateLightBox);
+    reg('HomeTipBox', () => HomeTipBox);
     reg('AccreditInputBox', () => AccreditInputBox);
     reg('QRCodeScreenPage', () => QRCodeScreenPage);
     reg('InvoiceMainPage', () => InvoiceMainPage);
     reg('InvoiceInputPage', () => InvoiceInputPage);
+    reg('InvoiceInfoPage', () => InvoiceInfoPage);
 
 
 }

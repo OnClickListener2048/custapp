@@ -46,8 +46,14 @@ export default class QRCodeScreenPage extends BComponent {
         if(this.state.Recognize) return
         this.props.navigator.pop()
         let _this = this;
-        this.setState({Recognize:true},()=>{
-            _this.props.callback && this.props.callback(e)
+        _this.setState({Recognize:true},()=>{
+
+            _this._timer = setTimeout(function () {
+                _this.props.callback && _this.props.callback(e)
+                clearTimeout(_this._timer);
+
+            },500)
         })
+
     }
 }

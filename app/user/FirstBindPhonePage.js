@@ -1,5 +1,5 @@
 // 首次绑定手机号的界面
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {
     BackAndroid,
     DeviceEventEmitter,
@@ -42,6 +42,10 @@ export default class FirstBindPhonePage extends BComponent {
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 隐藏默认的底部Tab栏
+    };
+
+    static propTypes = {
+        callback: PropTypes.func, // 登陆后的回调, 可选
     };
 
     // usage: this.focusField('smsCodeInput');
@@ -108,7 +112,7 @@ export default class FirstBindPhonePage extends BComponent {
         loadUserInfo({
             type:'bind',
             callback: function(res){
-                if(res.code == 0){
+                if(res.code === 0){
                     DeviceEventEmitter.emit('ChangeCompany');
                 }
             },
@@ -196,6 +200,7 @@ export default class FirstBindPhonePage extends BComponent {
                                     console.log("PhoneBind popToRoot");
                                     this.props.navigator.popToRoot();
                                 }
+                                this.props.callback && this.props.callback();// 执行登陆后动作回调
                             },
                         },]
                     , {cancelable: false});

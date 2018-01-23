@@ -190,6 +190,27 @@ export default class HomePage extends BComponent {
     }
 
     componentDidMount(){
+
+
+        UserInfoStore.isLogined().then(
+            logined => {
+
+                if (logined === true){
+                    this.props.navigator.switchToTab({
+                        //登录情况下 启动直接跳转到服务页
+                        tabIndex: 1
+                    });
+                }else {
+                    this._loadBoxData()
+
+
+                }
+            }
+        );
+
+
+
+
         this.loadData();
         // 登陆处理
         this.subscription = DeviceEventEmitter.addListener('goLoginPage', (data)=>{
@@ -198,6 +219,8 @@ export default class HomePage extends BComponent {
         });
 
     }
+
+
 
     loadData(type = '0'){
         // let loading
@@ -223,7 +246,7 @@ export default class HomePage extends BComponent {
                     let section = {
                         key:responseData.list,
                         data:[{type:'header'}]
-                    }
+                    };
                     dataSource.push(section)
 
                     for (let i = 0; i<responseData.list.length;i++){
@@ -311,6 +334,92 @@ export default class HomePage extends BComponent {
 
             },
         );
+    }
+
+    _loadBoxData(){
+        // loadHomeTipBoxInfo
+
+        apis.loadHomeTipBoxInfo().then(
+            (responseData) => {
+                if(responseData.code == 0 && responseData.data ){
+
+                    let data = responseData.data;
+
+                    UserInfoStore.getTipboxID().then(
+                        (boxId) => {
+
+                            if (boxId !== data.id){
+
+                                UserInfoStore.setTipboxID(data.id).then(
+                                    (data) => {
+                                    },
+                                    (e) => {
+                                    },
+                                );
+
+                                this.showTipBox(data.id,data.login,data.img.url,data.url,data.img.size.height,data.img.size.width)
+
+                            }
+                        },
+                        (e) => {
+
+                        },
+                    );
+
+
+
+                }
+            },
+            (e) => {
+
+            },
+        );
+
+    }
+
+
+    tipBoxBtnClick(boxId,isLogin,jumpUrl){
+
+        UserInfoStore.setTipboxID(boxId).then(
+            (boxId) => {
+            },
+            (e) => {
+            },
+        );
+
+        if (isLogin === true){
+            //未登录,跳转到登录页面然后完成相应的操作后跳转到服务页面
+            let _this = this;
+            loginJumpSingleton.goToLogin(this.props.navigator,function () {
+                pushJump(_this.props.navigator, jumpUrl);
+            });
+        }else {
+            pushJump(this.props.navigator, jumpUrl);
+        }
+    }
+
+    showTipBox(boxId,isLogin,imgUrl,jumpUrl,imgHeight,imgWidth){
+        this.props.navigator.showLightBox({
+            screen: "HomeTipBox",
+            passProps: {
+                boxId:boxId,
+                onClose: this.dismissLightBox,
+                isLogin:isLogin,
+                imgUrl:imgUrl,
+                jumpUrl:jumpUrl,
+                imgHeight: imgHeight,
+                imgWidth:imgWidth,
+                callback:this.tipBoxBtnClick.bind(this)
+
+            },
+
+            overrideBackPress: true, // 拦截返回键
+            style: {
+                backgroundBlur: 'none',
+                backgroundColor: 'rgba(0,0,0,0.6)',
+                tapBackgroundToDismiss:true
+            }
+        })
     }
 
 

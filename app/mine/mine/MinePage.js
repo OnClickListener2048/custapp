@@ -509,7 +509,7 @@ export default class MinePage extends BComponent {
 
                     <CommenCell
                         leftIcon={require('../../img/myCorp.png')}
-                        leftText="我的企业"
+                        leftText="我的公司"
                         onPress = {this._goto.bind(this,'ChangeCompanyPage','我的企业')}
                         rightText={this.state.companyCount}
                         style={{marginTop:9}}
