@@ -83,6 +83,54 @@ import Interactable from 'react-native-interactable';
 const widthFactor = SCREEN_WIDTH / 375;
 const heightFactor = (SCREEN_HEIGHT - 75) / 667;
 
+
+const timeArr = [
+    {
+        "relateDate": "2017-01",
+        "relateText": "2017年-1月"
+    },
+    {
+        "relateDate": "2016-12",
+        "relateText": "2016年-12月"
+    },
+    {
+        "relateDate": "2016-11",
+        "relateText": "2016年-11月"
+    },
+    {
+        "relateDate": "2016-10",
+        "relateText": "2016年-10月"
+    },
+    {
+        "relateDate": "2016-09",
+        "relateText": "2016年-9月"
+    },
+    {
+        "relateDate": "2016-08",
+        "relateText": "2016年-8月"
+    },
+    {
+        "relateDate": "2016-07",
+        "relateText": "2016年-7月"
+    },
+    {
+        "relateDate": "2016-06",
+        "relateText": "2016年-6月"
+    },
+    {
+        "relateDate": "2016-05",
+        "relateText": "2016年-5月"
+    },
+    {
+        "relateDate": "2016-04",
+        "relateText": "2016年-4月"
+    },
+    {
+        "relateDate": "2016-03",
+        "relateText": "2016年-3月"
+    }
+]
+
 export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
@@ -93,8 +141,6 @@ export default class ServicePage extends BComponent {
             income:'- -',//本月收入
             expenditure:'- -',//本月支出
             is_demo:1,//是否演示数据,1演示数据2非演示数据
-            year:today.getFullYear().toString(),
-            month:(today.getMonth() + 1).toString(),
             isRefreshing:false,
             isClose:false,
             isLoading:true,
@@ -106,7 +152,9 @@ export default class ServicePage extends BComponent {
             iconHeight:'',
             url:'',//h5地址
             isShow:false,//是否显示入口
-            select:'2017-01'
+
+            timeDateArr:timeArr,
+            timeIndex:timeArr.length-1
 
         };
         // this._renderBody=this._renderBody.bind(this);
@@ -414,7 +462,8 @@ export default class ServicePage extends BComponent {
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo} isLogin={this.state.isLogin}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBarTest
-                    month={this.state.select}
+                    timeDateArr = {this.state.timeDateArr}
+                    timeIndex = {this.state.timeIndex}
                     callback = {this._callback.bind(this)}
                 />
                 <ScrollView
@@ -525,11 +574,17 @@ export default class ServicePage extends BComponent {
     }
 
 
-    _callback(month,isRefresh=false){
+    _callback(index){
+        // this.setState({
+        //     select:month
+        // })
+        // this.loadData(month)
         this.setState({
-            select:month
+            timeIndex:index
         })
-        this.loadData(month)
+        // alert(this.state.timeDateArr[index].relateDate)
+        // this.loadData(this.state.timeDateArr[index].relateDate)
+
 
     }
     _goServiceDetail(item){

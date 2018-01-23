@@ -37,7 +37,7 @@ export default class TimeSearchBar extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        this._index = parseInt(nextProps['month'])-1
+        this._index = parseInt(nextProps['timeIndex'])
         if(Platform.OS === 'ios'){
             this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
 
@@ -69,15 +69,15 @@ export default class TimeSearchBar extends Component {
                         })
                     }
                     {
-                      this.monthArr.map((item,index)=>{
+                      this.props.timeDateArr.map((item,index)=>{
 
                             let color = '#664B14';
-                            (this.props.month  == item)?color = 'white':color = '#664B14'
+                            (this.props.timeIndex  == index)?color = 'white':color = '#664B14'
                             return(
                                 <TouchableWithoutFeedback key={index} onPress={()=>{this._selectMonth(index)}}>
                                     <View style={{width:monthWidth,justifyContent:'center',alignItems:'center',backgroundColor:'transparent',marginBottom:10}}>
                                         <Text style={{color,fontSize:16}}>
-                                            {item}
+                                            {item.relateText}
                                         </Text>
                                     </View>
                                 </TouchableWithoutFeedback>
@@ -98,13 +98,15 @@ export default class TimeSearchBar extends Component {
         )
     }
     _selectMonth(index){
+
         this._index = index
         this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: true})
         if(Platform.OS === 'android'){
+            this.props.callback && this.props.callback(this._index)
 
-            if(this.props.month !== (this.monthArr[this._index])){
-                this.props.callback && this.props.callback(this.monthArr[this._index])
-            }
+            // if(this.props.month !== (this.monthArr[this._index])){
+            //     this.props.callback && this.props.callback(this.timeDateArr[this._index],this._index)
+            // }
         }
     }
 
@@ -112,10 +114,9 @@ export default class TimeSearchBar extends Component {
         this._contentOffsetX = event.nativeEvent.contentOffset.x;
         this._index = Math.round(this._contentOffsetX / monthWidth);
         this._scrollView.scrollTo({x: monthWidth*this._index, y: 0, animated: true})
-        if(this.props.month !== (this.monthArr[this._index])){
+        this.props.callback && this.props.callback(this._index)
 
-            this.props.callback && this.props.callback(this.monthArr[this._index])
-        }
+
     }
 
 }
