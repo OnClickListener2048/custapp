@@ -70,21 +70,8 @@ export default class InvoiceInfoPage extends BComponent {
         //     FPJE:'33.96',//arr[4]发票金额
         //     JYM:'413936'//arr[6]校验码后六位
         // }
+        
         apis.verifyInvoice(this.props.step,params).then((responseData)=>{
-
-            console.log('success:',responseData)
->>>>>>> 5e2878d410f0d7cf55b3e6a65eb7d6b589d53c9e
-
-        //const res = {result:"01,10,011001600211,25236205,33.96,20170701,70438474151372413936,AD3C,"};
-        // let params = {
-        //     FPDM:'011001600211',//arr[2]发票代码
-        //     FPHM:'25236205',//arr[3]发票号码
-        //     KPRQ:'20170701',//arr[5]日期
-        //     FPLX:'10',//arr[1]发票类型
-        //     FPJE:'33.96',//arr[4]发票金额
-        //     JYM:'413936'//arr[6]校验码后六位
-        // }
-        apis.verifyInvoice('2',params).then((responseData)=>{
             if(responseData.code == 0 && responseData.data){
                 this.setState({
                     dataSource:this.dealInvoiceData(this.props.invoiceType,responseData.data),
