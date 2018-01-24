@@ -19,36 +19,12 @@ export default class TimeSearchBar extends Component {
 
     constructor(props){
         super(props)
-        this.monthArr = [
-            '2017-01',
-            '2017-02',
-            '2017-03',
-            '2017-04',
-            '2017-05',
-            '2017-06',
-            '2017-07',
-            '2017-08',
-            '2017-09',
-            '2017-10',
-            '2017-11',
-            '2017-12',
-            '2018-01',
-        ]
+        this._index = props.timeIndex
     }
 
     componentWillReceiveProps(nextProps){
         this._index = parseInt(nextProps['timeIndex'])
-        if(Platform.OS === 'ios'){
-            this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
-
-        }else{
-            this.timer = setTimeout(()=>{
-                this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
-
-                clearTimeout(this.timer);
-
-            },500)
-        }
+        this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
     }
 
     render(){
@@ -99,14 +75,12 @@ export default class TimeSearchBar extends Component {
     }
     _selectMonth(index){
 
+        if(index == this._index)return
         this._index = index
         this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: true})
         if(Platform.OS === 'android'){
-            this.props.callback && this.props.callback(this._index)
 
-            // if(this.props.month !== (this.monthArr[this._index])){
-            //     this.props.callback && this.props.callback(this.timeDateArr[this._index],this._index)
-            // }
+            this.props.callback && this.props.callback(this._index)
         }
     }
 
@@ -115,8 +89,6 @@ export default class TimeSearchBar extends Component {
         this._index = Math.round(this._contentOffsetX / monthWidth);
         this._scrollView.scrollTo({x: monthWidth*this._index, y: 0, animated: true})
         this.props.callback && this.props.callback(this._index)
-
-
     }
 
 }
