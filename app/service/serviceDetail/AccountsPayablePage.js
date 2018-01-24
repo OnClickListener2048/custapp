@@ -19,7 +19,7 @@ import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import demoData from './local/AccountsPayablePage.json'
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
-import TimeSearchBar from '../view/TimeSearchBar'
+import TimeSearchBarTest from '../view/TimeSearchBarTest'
 
 export default class AccountsPayablePage extends BComponent {
     constructor(props) {
@@ -29,10 +29,11 @@ export default class AccountsPayablePage extends BComponent {
             start_account:'- -',
             end_account:'- -',
             isRefreshing:false,
-            year:props.year,
-            month:props.month,
             isfirstRefresh:true,
-            isLoading:false
+            isLoading:false,
+
+            timeDateArr:props.timeDateArr,
+            timeIndex:props.timeIndex
 
         };
         this.openOptions=[];
@@ -45,7 +46,7 @@ export default class AccountsPayablePage extends BComponent {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(this.state.year+'-'+this.state.month,'2')
+            this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,'2')
         });
     }
     loadData(date='',type='2',isPull=false){
@@ -111,7 +112,7 @@ export default class AccountsPayablePage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.year+'-'+this.state.month,'2',true)
+        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,'2',true)
     }
     _renderRow (rowItem, rowId, sectionId) {
 
@@ -163,9 +164,9 @@ export default class AccountsPayablePage extends BComponent {
         return (
             <View style={{backgroundColor:'#F1F1F1',flex:1}}>
                 <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="应付账款" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
-                <TimeSearchBar
-                    year={this.state.year}
-                    month={this.state.month}
+                <TimeSearchBarTest
+                    timeDateArr = {this.state.timeDateArr}
+                    timeIndex = {this.state.timeIndex}
                     callback = {this._callback.bind(this)}
                 />
                 <ExpanableList
@@ -187,19 +188,14 @@ export default class AccountsPayablePage extends BComponent {
 
         );
     }
-    _callback(year,month){
-
-        this.loadData(year+'-'+month,'2')
-        this.props.callback && this.props.callback(year,month,true)
+    _callback(index){
         this.setState({
-            year,
-            month
+            timeIndex:index
         })
-
-
-
+        // alert(this.state.timeDateArr[index].relateDate)
+        this.loadData(this.state.timeDateArr[index].relateDate,'2')
+        this.props.callback && this.props.callback(index,true)
     }
-
 
     componentWillUnmount() {
         UMTool.onEvent('pay_return')

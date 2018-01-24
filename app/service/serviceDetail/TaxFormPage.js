@@ -22,7 +22,7 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import demoData from './local/TaxFormPage.json'
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
-import TimeSearchBar from '../view/TimeSearchBar'
+import TimeSearchBarTest from '../view/TimeSearchBarTest'
 
 export default class TaxFormPage extends BComponent {
 
@@ -32,10 +32,10 @@ export default class TaxFormPage extends BComponent {
             total:'- -',//本月累计
             data:[],
             isRefreshing:false,
-            year:props.year,
-            month:props.month,
             isfirstRefresh:true,
-            isLoading:false
+            isLoading:false,
+            timeDateArr:props.timeDateArr,
+            timeIndex:props.timeIndex
         }
 
     }
@@ -48,7 +48,7 @@ export default class TaxFormPage extends BComponent {
     }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(this.state.year+'-'+this.state.month)
+            this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
         });
     }
     loadData(date='',isPull=false){
@@ -100,7 +100,7 @@ export default class TaxFormPage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.year+'-'+this.state.month,true)
+        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
     }
     _showTimer(){
         this.refs.ChooseTimerModal._showTimer()
@@ -147,9 +147,9 @@ export default class TaxFormPage extends BComponent {
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="纳税表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
-                <TimeSearchBar
-                    year={this.state.year}
-                    month={this.state.month}
+                <TimeSearchBarTest
+                    timeDateArr = {this.state.timeDateArr}
+                    timeIndex = {this.state.timeIndex}
                     callback = {this._callback.bind(this)}
                 />
                 <FlatList
@@ -166,14 +166,13 @@ export default class TaxFormPage extends BComponent {
             </View>
         )
     }
-    _callback(year,month){
-
+    _callback(index){
         this.setState({
-            year,
-            month
+            timeIndex:index
         })
-        this.loadData(year+'-'+month)
-        this.props.callback && this.props.callback(year,month,true)
+        // alert(this.state.timeDateArr[index].relateDate)
+        this.loadData(this.state.timeDateArr[index].relateDate)
+        this.props.callback && this.props.callback(index,true)
     }
 
 }

@@ -20,7 +20,7 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
 import demoData from './local/AccountsReceivablePage.json'
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
-import TimeSearchBar from '../view/TimeSearchBar'
+import TimeSearchBarTest from '../view/TimeSearchBarTest'
 
 export default class AccountsReceivablePage extends BComponent {
     constructor(props) {
@@ -30,11 +30,11 @@ export default class AccountsReceivablePage extends BComponent {
             start_account:'- -',
             end_account:'- -',
             isRefreshing:false,
-            year:props.year,
-            month:props.month,
             isfirstRefresh:true,
-            isLoading:false
+            isLoading:false,
 
+            timeDateArr:props.timeDateArr,
+            timeIndex:props.timeIndex
         };
         this.openOptions=[];
     }
@@ -50,7 +50,7 @@ export default class AccountsReceivablePage extends BComponent {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(this.state.year+'-'+this.state.month,'1')
+            this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,'1')
         });
     }
     loadData(date='',type='1',isPull=false){
@@ -112,7 +112,7 @@ export default class AccountsReceivablePage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.year+'-'+this.state.month,'1',true)
+        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,'1',true)
     }
     _renderRow (rowItem, rowId, sectionId) {
 
@@ -165,9 +165,9 @@ export default class AccountsReceivablePage extends BComponent {
         return (
             <View style={{backgroundColor:'#F1F1F1',flex:1}}>
                 <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="应收账款" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
-                <TimeSearchBar
-                    year={this.state.year}
-                    month={this.state.month}
+                <TimeSearchBarTest
+                    timeDateArr = {this.state.timeDateArr}
+                    timeIndex = {this.state.timeIndex}
                     callback = {this._callback.bind(this)}
                 />
                 <ExpanableList
@@ -189,14 +189,14 @@ export default class AccountsReceivablePage extends BComponent {
 
         );
     }
-    _callback(year,month){
 
-        this.loadData(year+'-'+month,'1')
-        this.props.callback && this.props.callback(year,month,true)
+    _callback(index){
         this.setState({
-            year,
-            month
+            timeIndex:index
         })
+        // alert(this.state.timeDateArr[index].relateDate)
+        this.loadData(this.state.timeDateArr[index].relateDate,'1')
+        this.props.callback && this.props.callback(index,true)
     }
 
 }

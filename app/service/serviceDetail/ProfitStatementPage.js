@@ -17,7 +17,7 @@ import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
-import TimeSearchBar from '../view/TimeSearchBar'
+import TimeSearchBarTest from '../view/TimeSearchBarTest'
 
 import demoData from './local/ProfitStatementPage.json'
 export default class ProfitStatementPage extends BComponent {
@@ -29,10 +29,13 @@ export default class ProfitStatementPage extends BComponent {
             expenditure:'- -',
             dataSource:[],
             isRefreshing:false,
-            year:props.year,
-            month:props.month,
             isfirstRefresh:true,
-            isLoading:false
+            isLoading:false,
+
+            timeDateArr:props.timeDateArr,
+            timeIndex:props.timeIndex,
+
+
 
         };
     }
@@ -45,7 +48,7 @@ export default class ProfitStatementPage extends BComponent {
     }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(this.state.year+'-'+this.state.month)
+            this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
         });
     }
 
@@ -114,7 +117,7 @@ export default class ProfitStatementPage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.year+'-'+this.state.month,true)
+        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
     }
 
     _renderItem(item){
@@ -163,9 +166,9 @@ export default class ProfitStatementPage extends BComponent {
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="利润表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
-                <TimeSearchBar
-                    year={this.state.year}
-                    month={this.state.month}
+                <TimeSearchBarTest
+                    timeDateArr = {this.state.timeDateArr}
+                    timeIndex = {this.state.timeIndex}
                     callback = {this._callback.bind(this)}
                 />
                 <FlatList
@@ -183,14 +186,14 @@ export default class ProfitStatementPage extends BComponent {
             </View>
         )
     }
-    _callback(year,month){
-        this.loadData(year+'-'+month)
-        this.props.callback && this.props.callback(year,month,true)
-        this.setState({
-            year,
-            month
-        })
 
+    _callback(index){
+        this.setState({
+            timeIndex:index
+        })
+        // alert(this.state.timeDateArr[index].relateDate)
+        this.loadData(this.state.timeDateArr[index].relateDate)
+        this.props.callback && this.props.callback(index,true)
     }
 }
 

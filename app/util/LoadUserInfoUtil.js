@@ -53,7 +53,7 @@ export default function loadUserInfo(LoadUserInfoCallBack){
                         console.log('设置分组失败')
                     })
                 }
-                // responseData.user.mobilePhone = '15566667777';// 调试
+                responseData.user.mobilePhone = '15566667777';// 调试
                 if (responseData.user.mobilePhone) {
                     //responseData.user.mobilePhone = '18888888888';
                     UserInfoStore.setLastUserPhone(responseData.user.mobilePhone).then();
