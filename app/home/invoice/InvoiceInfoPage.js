@@ -72,7 +72,6 @@ export default class InvoiceInfoPage extends BComponent {
         // }
         apis.verifyInvoice(this.props.step,params).then((responseData)=>{
             SActivityIndicator.hide(loading);
-
             if(responseData.code == 0 && responseData.data){
                 this.setState({
                     dataSource:this.dealInvoiceData(this.props.invoiceType,responseData.data),
@@ -93,8 +92,11 @@ export default class InvoiceInfoPage extends BComponent {
                     , {cancelable: false});
             }
         },(e)=>{
+
             // console.log('error',e)
-            Alert.alert('识别失败', '',
+            SActivityIndicator.hide(loading);
+            let text = e.msg?e.msg:'识别失败'
+            Alert.alert(text, '',
                 [
                     {
                         text: '确定',

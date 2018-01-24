@@ -30,6 +30,7 @@ export default class TimeSearchBar extends Component {
     render(){
         return(
             <View style={{width:DeviceInfo.width,height:40,position:'relative',backgroundColor:'#D9C298',}}>
+
                 <ScrollView
                     horizontal = {true}
                     showsHorizontalScrollIndicator = {false}

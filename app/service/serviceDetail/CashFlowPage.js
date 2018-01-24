@@ -22,6 +22,7 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import dataDemo from './local/CashFlow.json'
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBar from '../view/TimeSearchBar'
+import TimeSearchBarTest from '../view/TimeSearchBarTest'
 
 export default class CashFlowPage extends BComponent {
 
@@ -33,10 +34,11 @@ export default class CashFlowPage extends BComponent {
             balance_end:'- -',
             dataSource:[],
             isRefreshing:false,
-            year:props.year,
-            month:props.month,
             isfirstRefresh:true,
-            isLoading:false
+            isLoading:false,
+
+            timeDateArr:props.timeDateArr,
+            timeIndex:props.timeIndex
 
         };
         this.openOptions=[];
@@ -50,7 +52,7 @@ export default class CashFlowPage extends BComponent {
     }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(this.state.year+'-'+this.state.month)
+            this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
         });
     }
     loadData(date='',isPull=false){
@@ -115,7 +117,7 @@ export default class CashFlowPage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.year+'-'+this.state.month,true)
+        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
     }
     _renderRow (rowItem, rowId, sectionId) {
 
@@ -167,9 +169,9 @@ export default class CashFlowPage extends BComponent {
         return (
             <View style={{backgroundColor:'#F1F1F1',flex:1}}>
                 <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="现金流" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
-                <TimeSearchBar
-                    year={this.state.year}
-                    month={this.state.month}
+                <TimeSearchBarTest
+                    timeDateArr = {this.state.timeDateArr}
+                    timeIndex = {this.state.timeIndex}
                     callback = {this._callback.bind(this)}
                 />
                 <ExpanableList
@@ -191,14 +193,14 @@ export default class CashFlowPage extends BComponent {
 
         );
     }
-    _callback(year,month){
-        this.loadData(year+'-'+month)
-        this.props.callback && this.props.callback(year,month,true)
-        this.setState({
-            year,
-            month
-        })
 
+    _callback(index){
+        this.setState({
+            timeIndex:index
+        })
+        // alert(this.state.timeDateArr[index].relateDate)
+        this.loadData(this.state.timeDateArr[index].relateDate)
+        this.props.callback && this.props.callback(index,true)
     }
 
 }

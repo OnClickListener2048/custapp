@@ -84,50 +84,54 @@ const widthFactor = SCREEN_WIDTH / 375;
 const heightFactor = (SCREEN_HEIGHT - 75) / 667;
 
 
-const timeArr = [
-    {
-        "relateDate": "2017-01",
-        "relateText": "2017年-1月"
-    },
+const demo = [
+
     {
         "relateDate": "2016-12",
-        "relateText": "2016年-12月"
+        "relateText": "2016年12月"
     },
     {
         "relateDate": "2016-11",
-        "relateText": "2016年-11月"
+        "relateText": "2016年11月"
     },
     {
         "relateDate": "2016-10",
-        "relateText": "2016年-10月"
+        "relateText": "2016年10月"
     },
     {
         "relateDate": "2016-09",
-        "relateText": "2016年-9月"
+        "relateText": "2016年9月"
     },
     {
         "relateDate": "2016-08",
-        "relateText": "2016年-8月"
+        "relateText": "2016年8月"
     },
     {
         "relateDate": "2016-07",
-        "relateText": "2016年-7月"
+        "relateText": "2016年7月"
     },
     {
         "relateDate": "2016-06",
-        "relateText": "2016年-6月"
+        "relateText": "2016年6月"
     },
     {
         "relateDate": "2016-05",
-        "relateText": "2016年-5月"
+        "relateText": "2016年5月"
     },
     {
         "relateDate": "2016-04",
-        "relateText": "2016年-4月"
+        "relateText": "2016年4月"
     },
     {
         "relateDate": "2016-03",
-        "relateText": "2016年-3月"
+        "relateText": "2016年3月"
+    },
+    {
+        "relateDate": "2016-02",
+        "relateText": "2016年2月"
+    }, {
+        "relateDate": "2016-01",
+        "relateText": "2016年1月"
     }
 ]
 
@@ -153,8 +157,8 @@ export default class ServicePage extends BComponent {
             url:'',//h5地址
             isShow:false,//是否显示入口
 
-            timeDateArr:timeArr,
-            timeIndex:timeArr.length-1
+            timeDateArr:[],
+            timeIndex:0
 
         };
         // this._renderBody=this._renderBody.bind(this);
@@ -189,6 +193,23 @@ export default class ServicePage extends BComponent {
 
     }
 
+    // componentWillMount() {
+    //     UserInfoStore.isLogined().then(
+    //         logined => {
+    //             if (logined) {
+    //                 //已经登录
+    //                 UserInfoStore.getCompany().then(
+    //                     (company) => {
+    //                         console.log('company', company);
+    //                         if (company && company.id) {
+    //                             this.initPayment(company.id)
+    //                         }
+    //                     }
+    //                 )
+    //             }
+    //         }
+    //     )
+    // }
 
     componentWillUnmount() {
         this.refreshEmitter.remove();
@@ -204,6 +225,7 @@ export default class ServicePage extends BComponent {
                             if (company && company.id) {
                                 this.companyid = company.id
                                 this.initYearReport(company.id)
+                                this.initPayment(company.id)
                                 //判断是否是多加公司
                                 UserInfoStore.getCompanyArr().then(
                                     (companyArr) => {
@@ -231,14 +253,17 @@ export default class ServicePage extends BComponent {
 
                             }
 
-                            this.loadData(this.state.month)
+                            if(this.state.timeDateArr.length!==0) {
+                                this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
+                            }
 
                         },
                         (e) => {
                             this.companyid = undefined
                             this.initYearReport(this.companyid)
                             this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
-                            this.loadData(this.state.month)
+                            if(this.state.timeDateArr.length!==0)
+                            this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
                         },
                     );
                 } else {
@@ -246,7 +271,8 @@ export default class ServicePage extends BComponent {
                     this.companyid = undefined
                     this.initYearReport(this.companyid)
                     this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                    this.loadData(this.state.month)
+                    if(this.state.timeDateArr.length!==0)
+                    this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
 
                 }
             },
@@ -255,11 +281,13 @@ export default class ServicePage extends BComponent {
                 this.companyid = undefined
                 this.initYearReport(this.companyid)
                 this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                this.loadData(this.state.month)
+                if(this.state.timeDateArr.length!==0)
+                this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
             }
         );
 
     }
+    //加载公司年报
     initYearReport(id){
 
         if(id){
@@ -290,6 +318,23 @@ export default class ServicePage extends BComponent {
 
         }
     }
+    //加载公司账期
+    initPayment(id){
+        apis.loadPayMent(id).then((responseData)=>{
+            if(responseData.code == 0 && responseData.list){
+                this.setState({
+                    timeDateArr:responseData.list,
+                    timeIndex:responseData.list.length-1
+                })
+            }else{
+                //请求失败
+            }
+        },(e)=>{
+            //请求失败
+        })
+    }
+
+
     initNavigationBar(isCompanies=false,title='噼里啪财税演示公司',isLogin=false,is_demo='1'){
 
         this.setState({
@@ -351,7 +396,9 @@ export default class ServicePage extends BComponent {
                             income:dic.income,
                             expenditure:dic.expenditure,
                             isRefreshing:false,
-                            isLoading:false
+                            isLoading:false,
+                            timeDateArr:demo,
+                            timeIndex:dic.date
                         })
                     }else{
                         this.setState({
@@ -389,7 +436,8 @@ export default class ServicePage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.month,true)
+        if(this.state.timeDateArr.length!==0)
+        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
 
     }
     _titleItem(){
@@ -460,7 +508,7 @@ export default class ServicePage extends BComponent {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo} isLogin={this.state.isLogin}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo} isLogin={this.state.isLogin}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} callback = {this._callback.bind(this)}/>
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
@@ -583,7 +631,7 @@ export default class ServicePage extends BComponent {
             timeIndex:index
         })
         // alert(this.state.timeDateArr[index].relateDate)
-        // this.loadData(this.state.timeDateArr[index].relateDate)
+        this.loadData(this.state.timeDateArr[index].relateDate)
 
 
     }
@@ -594,7 +642,8 @@ export default class ServicePage extends BComponent {
             title:item.title,
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
-                month:this.state.month,
+                timeDateArr:this.state.timeDateArr,
+                timeIndex:this.state.timeIndex,
                 callback:this._callback.bind(this),
                 companyid:this.companyid,
                 is_demo:this.state.is_demo
