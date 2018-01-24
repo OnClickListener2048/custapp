@@ -91,14 +91,18 @@ export default class TimeSearchBar extends Component {
             //向左
             if(this._index == 0)return
             this._index = this._index -1;
-            this.props.callback && this.props.callback(this._index)
+            this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: true})
+
 
         }else{
             //向右
             if(this._index == this.props.timeDateArr.length-1)return
             this._index = this._index+1
-            this.props.callback && this.props.callback(this._index)
+            this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: true})
 
+        }
+        if(Platform.OS === 'android'){
+            this.props.callback && this.props.callback(this._index)
         }
     }
     _selectMonth(index){
