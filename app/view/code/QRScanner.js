@@ -60,6 +60,7 @@ class QRScannerRectView extends Component {
             topWidth: 0,
             topHeight: 0,
             leftWidth: 0,
+            height:0,
             animatedValue: new Animated.Value(0),
         }
     }
@@ -143,6 +144,7 @@ class QRScannerRectView extends Component {
         let totalSize = e.layout;
         this.setState({
             topWidth: totalSize.width,
+            height: totalSize.height,
         })
     }
 
@@ -160,7 +162,7 @@ class QRScannerRectView extends Component {
         if (this.props.isCornerOffset) {
             return this.state.topHeight + this.props.rectHeight - this.props.cornerOffsetSize;
         } else {
-            return this.state.topHeight + this.props.rectHeight;
+            return this.state.height - this.state.topHeight;
         }
     }
 
