@@ -185,6 +185,8 @@ export default class InvoiceInfoPage extends BComponent {
                     sections={this.state.dataSource}
                     renderItem={this._renderItem.bind(this)}
                     renderSectionHeader={this._renderSectionHeader.bind(this)}
+                    stickySectionHeadersEnabled={false}
+
                 />
             </View>
         )
@@ -210,27 +212,27 @@ export default class InvoiceInfoPage extends BComponent {
                             if(this.props.invoiceType == '01' || this.props.invoiceType == '04' || this.props.invoiceType == '10'){
                                 return(
                                     <View key={index}>
-                                        {item.HWMC?<CheckInfoItemTwo name={'货物或应税劳务、服务名称:'} value={item.HWMC}/>:null}
-                                        {item.GGXH?<CheckInfoItemTwo name={'规格型号:'} value={item.GGXH}/>:null}
-                                        <CheckInfoItemFour name1="单位:" value1={item.DW} name2="数量:" value2={item.SL} />
-                                        <CheckInfoItemFour name1="单价:" value1={item.DJ} name2="金额:" value2={item.JE} />
-                                        <CheckInfoItemFour name1="税率:" value1={item.SLV+'%'} name2="税额:" value2={item.SE} />
+                                        {item.HWMC?<CheckInfoItemTwo name={'货物或应税劳务、服务名称'} value={item.HWMC}/>:null}
+                                        {item.GGXH?<CheckInfoItemTwo name={'规格型号'} value={item.GGXH}/>:null}
+                                        <CheckInfoItemFour name1="单位" value1={item.DW} name2="数量" value2={item.SL} />
+                                        <CheckInfoItemFour name1="单价" value1={item.DJ} name2="金额" value2={item.JE} />
+                                        <CheckInfoItemFour name1="税率" value1={item.SLV+'%'} name2="税额" value2={item.SE} />
                                     </View>
                                 )
                             }else if(this.props.invoiceType == '02'){
                                 return(
                                     <View key={index}>
-                                        {item.FYXM?<CheckInfoItemTwo name={'费用项目:'} value={item.FYXM}/>:null}
-                                        {item.JE?<CheckInfoItemTwo name={'金额:'} value={item.JE}/>:null}
+                                        {item.FYXM?<CheckInfoItemTwo name={'费用项目'} value={item.FYXM}/>:null}
+                                        {item.JE?<CheckInfoItemTwo name={'金额'} value={item.JE}/>:null}
                                     </View>
                                 )
                             }else if(this.props.invoiceType == '11'){
                                 return(
                                     <View key={index}>
-                                        {item.XM?<CheckInfoItemTwo name={'项目:'} value={item.XM}/>:null}
-                                        {item.SL?<CheckInfoItemTwo name={'数量:'} value={item.SL}/>:null}
-                                        {item.HSDJ?<CheckInfoItemTwo name={'含税单价:'} value={item.HSDJ}/>:null}
-                                        {item.HSJE?<CheckInfoItemTwo name={'含税金额:'} value={item.HSJE}/>:null}
+                                        {item.XM?<CheckInfoItemTwo name={'项目'} value={item.XM}/>:null}
+                                        {item.SL?<CheckInfoItemTwo name={'数量'} value={item.SL}/>:null}
+                                        {item.HSDJ?<CheckInfoItemTwo name={'含税单价'} value={item.HSDJ}/>:null}
+                                        {item.HSJE?<CheckInfoItemTwo name={'含税金额'} value={item.HSJE}/>:null}
                                     </View>
                                 )
                             }else{

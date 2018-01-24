@@ -86,7 +86,7 @@ export default class InvoiceMainPage extends BComponent {
                             });
                         } else {//进入校验页面
                             //解析，读取展示二维码信息
-                            const arr = data.data.split(",");
+                            const arr =data.data.split(",");
                             const dataTime = arr[5];
 
                             function formatTime(date) {
