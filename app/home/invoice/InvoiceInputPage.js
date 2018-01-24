@@ -197,10 +197,10 @@ export default class TestPage extends BComponent {
         }
         const nowData = formatTime(new Date());
         if(this.state.codeInputValue.length!==10&&this.state.codeInputValue.length!==12){//发票代码为10或12位
-            this._AlertErrorMsg('发票代码书写错误');
+            this._AlertErrorMsg('发票代码输入错误');
 
         }else if(this.state.numberInputValue.length!==8){//发票号码为8位
-            this._AlertErrorMsg('发票号码书写错误');
+            this._AlertErrorMsg('发票号码输入错误');
 
         }else if(this.state.dateFormat===nowData){//当日发票次日可查验
             this._AlertErrorMsg('当日发票次日可查验');
