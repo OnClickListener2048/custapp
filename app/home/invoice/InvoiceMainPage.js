@@ -146,7 +146,7 @@ export default class InvoiceMainPage extends BComponent {
 
     render(){
         return(
-            <View>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <View style={{alignItems:'center'}}>
                     <Image
                         source={require('../../img/invoice_home_icon.png')}
