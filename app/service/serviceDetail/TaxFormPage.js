@@ -126,7 +126,7 @@ export default class TaxFormPage extends BComponent {
 
     _renderItem(item){
         return(
-            <CommonCell leftText={item.item.name} rightText={item.item.amount} isClick={false}/>
+            <CommonCell style={{marginTop:DeviceInfo.onePR}} leftText={item.item.name} rightText={item.item.amount} isClick={false}/>
         )
     }
     _listEmptyComponent(){
