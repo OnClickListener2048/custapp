@@ -21,6 +21,7 @@ import SectionHeader from '../../view/SectionHeader'
 import CheckInfoItemTwo from '../../view/CheckInfoItemTwo'
 import CheckInfoItemFour from '../../view/CheckInfoItemFour'
 
+import Alert from "react-native-alert";
 
 export default class InvoiceInfoPage extends BComponent {
 
@@ -46,6 +47,7 @@ export default class InvoiceInfoPage extends BComponent {
     };
     //开始扫描
     componentDidMount() {
+        let loading = SActivityIndicator.show(true, "加载中...");
 
         let params = {
             FPDM:this.props.codeInputValue,//arr[2]发票代码
@@ -69,14 +71,40 @@ export default class InvoiceInfoPage extends BComponent {
         //     JYM:'413936'//arr[6]校验码后六位
         // }
         apis.verifyInvoice(this.props.step,params).then((responseData)=>{
+            SActivityIndicator.hide(loading);
+
             if(responseData.code == 0 && responseData.data){
                 this.setState({
                     dataSource:this.dealInvoiceData(this.props.invoiceType,responseData.data),
                     goodsList:responseData.data.CHILDLIST?this.dealGoodsData(responseData.data.CHILDLIST):[]
                 })
+            }else{
+                let msg = responseData.msg?responseData.msg:'识别失败'
+                Alert.alert(msg, '',
+                    [
+                        {
+                            text: '确定',
+                            onPress: () => {
+                                if (this.props.navigator) {
+                                    this.props.navigator.pop();
+                                }
+                            },
+                        },]
+                    , {cancelable: false});
             }
         },(e)=>{
             // console.log('error',e)
+            Alert.alert('识别失败', '',
+                [
+                    {
+                        text: '确定',
+                        onPress: () => {
+                            if (this.props.navigator) {
+                                this.props.navigator.pop();
+                            }
+                        },
+                    },]
+                , {cancelable: false});
 
         })
     }
