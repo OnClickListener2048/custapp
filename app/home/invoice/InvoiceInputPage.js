@@ -115,7 +115,7 @@ export default class TestPage extends BComponent {
                 textName={textName}
                 content={textContent}
                 maxLength={maxLength}
-                keyboardType="number-pad"
+                keyboardType="numeric"
                 textEditable={true}/>
         )
 
