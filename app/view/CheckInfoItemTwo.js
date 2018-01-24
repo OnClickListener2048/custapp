@@ -45,7 +45,7 @@ export default class CheckInfoItemTwo extends Component {
           <View style={styles.container}>
               <View style={styles.wrap1}>
                   <Text style={styles.text1}>
-                      {name}：
+                      {name}:
                   </Text>
                    <Text style={styles.text2}>
                       {value}

@@ -52,7 +52,7 @@ export default class QRCodeScreenPage extends BComponent {
                 _this.props.callback && _this.props.callback(e)
                 clearTimeout(_this._timer);
 
-            },500)
+            },1000)
         })
 
     }
