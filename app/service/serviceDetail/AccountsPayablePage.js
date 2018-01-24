@@ -192,9 +192,8 @@ export default class AccountsPayablePage extends BComponent {
         this.setState({
             timeIndex:index
         })
-        // alert(this.state.timeDateArr[index].relateDate)
         this.loadData(this.state.timeDateArr[index].relateDate,'2')
-        this.props.callback && this.props.callback(index,true)
+        this.props.callback && this.props.callback(index)
     }
 
     componentWillUnmount() {

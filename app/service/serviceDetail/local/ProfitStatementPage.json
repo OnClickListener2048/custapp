@@ -22,58 +22,108 @@
       "expenditure": "114,000.00"
     },
     {
-      "date": "9",
+      "date": "09",
       "profit": "13,000.00",
       "income": "28,000.00",
       "expenditure": "15,000.00"
     },
     {
-      "date": "8",
+      "date": "08",
       "profit": "11,000.00",
       "income": "76,000.00",
       "expenditure": "65,000.00"
     },
     {
-      "date": "7",
+      "date": "07",
       "profit": "80,000.00",
       "income": "150,000.00",
       "expenditure": "70,000.00"
     },
     {
-      "date": "6",
+      "date": "06",
       "profit": "42,000.00",
       "income": "65,000.00",
       "expenditure": "23,000.00"
     },
     {
-      "date": "5",
+      "date": "05",
       "profit": "80,000.00",
       "income": "120,000.00",
       "expenditure": "40,000.00"
     },
     {
-      "date": "4",
+      "date": "04",
       "profit": "20,000.00",
       "income": "50,000.00",
       "expenditure": "30,000.00"
     },
     {
-      "date": "3",
+      "date": "03",
       "profit": "130,000.00",
       "income": "200,000.00",
       "expenditure": "70,000.00"
     },
     {
-      "date": "2",
+      "date": "02",
       "profit": "120,000.00",
       "income": "140,000.00",
       "expenditure": "20,000.00"
     },
     {
-      "date": "1",
+      "date": "01",
       "profit": "100,000.00",
       "income": "178,000.00",
       "expenditure": "78,000.00"
+    }
+  ],
+  "date":[
+
+    {
+      "relateDate": "2017-12",
+      "relateText": "2017年12月"
+    },
+    {
+      "relateDate": "2017-11",
+      "relateText": "2017年11月"
+    },
+    {
+      "relateDate": "2017-10",
+      "relateText": "2017年10月"
+    },
+    {
+      "relateDate": "2017-09",
+      "relateText": "2017年9月"
+    },
+    {
+      "relateDate": "2017-08",
+      "relateText": "2017年8月"
+    },
+    {
+      "relateDate": "2017-07",
+      "relateText": "2017年7月"
+    },
+    {
+      "relateDate": "2017-06",
+      "relateText": "2017年6月"
+    },
+    {
+      "relateDate": "2017-05",
+      "relateText": "2017年5月"
+    },
+    {
+      "relateDate": "2017-04",
+      "relateText": "2017年4月"
+    },
+    {
+      "relateDate": "2017-03",
+      "relateText": "2017年3月"
+    },
+    {
+      "relateDate": "2017-02",
+      "relateText": "2017年2月"
+    }, {
+      "relateDate": "2017-01",
+      "relateText": "2017年1月"
     }
   ]
 }

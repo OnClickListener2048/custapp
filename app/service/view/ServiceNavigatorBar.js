@@ -24,13 +24,7 @@ import Toast from 'react-native-root-toast'
 export default class ServiceNavigatorBar extends Component {
     constructor(props) {
         super(props);
-        let today = new Date();//获得当前日期
-        this.yearArr=[]
-        for (let i = 2010;i<=today.getFullYear();i++){
-            this.yearArr.push(i.toString())
-        }
-        this.year=today.getFullYear().toString()
-        this.month = today.getMonth() + 1
+
     }
     static propTypes = {
         leftItem:PropTypes.func,
@@ -50,11 +44,7 @@ export default class ServiceNavigatorBar extends Component {
 
             )
         }else{
-            if (this.props.leftItem === undefined){
-                return(
-                    <View style={{width:64,height:44, justifyContent:'center'}}/>
-                )
-            }
+            if (this.props.leftItem === undefined)return
             return this.props.leftItem();
         }
 
@@ -74,117 +64,17 @@ export default class ServiceNavigatorBar extends Component {
 
     // 右边
     renderRightItem() {
-        if(this.props.isSecondLevel){
-            return (
-                <TouchableWithoutFeedback onPress={()=>{this._showDataPicker()}}>
-                    <View style={{width:64,height:44,justifyContent:'center',alignItems:'center', marginRight: 1}} >
-                        <Text style={{ width:54,height:20,lineHeight:20,fontSize:18,color:'white',borderWidth:1 / PixelRatio.get(),borderColor:'white',textAlign:'center'}}>{this.props.year}</Text>
-                    </View>
-                </TouchableWithoutFeedback>
+        if(this.props.isSecondLevel) {
+            return(
+                <View style={{width:64,height:44,}}/>
             )
         }else{
-            if (this.props.rightItem === undefined){
-                return(
-                    <TouchableWithoutFeedback onPress={()=>{this._showDataPicker()}}>
-                        <View style={{width:64,height:44,justifyContent:'center',alignItems:'center', marginRight: 1}} >
-                            <Text style={{width:54,height:20,lineHeight:20,fontSize:18,color:'white',borderWidth:1 / PixelRatio.get(),borderColor:'white', alignSelf:'center', textAlign:'center'}}>{this.props.year}</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                )
-            }
+            if (this.props.rightItem === undefined) return;
             return this.props.rightItem();
         }
 
     }
-    _showDataPicker =() =>{
 
-        if(this.props.isSecondLevel){
-            //二级页面
-            if(this.props.isDemo == 1){
-                //演示数据
-                Toast.show('当前为演示数据！')
-
-            }else{
-                //真实数据
-                Picker.init({
-                    pickerData: this.yearArr,
-                    selectedValue: [this.props.year],
-                    pickerConfirmBtnText:'确定',
-                    pickerCancelBtnText:'取消',
-                    pickerTitleText:'请选择年份',
-                    pickerTitleColor:[255,255,255,1],
-                    pickerConfirmBtnColor:[102,75,20,1],
-                    pickerCancelBtnColor:[102,75,20,1],
-                    pickerToolBarBg:[206,175,114,1],
-                    pickerBg:[255,255,255,1],
-                    onPickerConfirm: data => {
-                        if(this.props.year == data[0])return
-
-                        if(data[0] == this.year){
-                            this.props.callback && this.props.callback(data[0],this.month)
-
-                        }else{
-                            this.props.callback && this.props.callback(data[0],'12')
-
-                        }
-                    },
-                });
-                Picker.show();
-            }
-        }else{
-            //一级页面
-            if(this.props.isLogin){
-                //登录
-                if(this.props.isDemo == 1){
-                    //演示数据
-                    Toast.show('当前为演示数据！')
-
-                }else{
-                    //真实数据
-                    Picker.init({
-                        pickerData: this.yearArr,
-                        selectedValue: [this.props.year],
-                        pickerConfirmBtnText:'确定',
-                        pickerCancelBtnText:'取消',
-                        pickerTitleText:'请选择年份',
-                        pickerTitleColor:[255,255,255,1],
-                        pickerConfirmBtnColor:[102,75,20,1],
-                        pickerCancelBtnColor:[102,75,20,1],
-                        pickerToolBarBg:[206,175,114,1],
-                        pickerBg:[255,255,255,1],
-                        onPickerConfirm: data => {
-                            if(this.props.year == data[0])return
-
-                            if(data[0] == this.year){
-                                this.props.callback && this.props.callback(data[0],this.month)
-
-                            }else{
-                                this.props.callback && this.props.callback(data[0],'12')
-
-                            }
-                        },
-                    });
-                    Picker.show();
-                }
-            }else{
-                //未登录
-                Alert.alert('提示', '立即登录查看您公司的财务数据', [{
-                    text: "再看看",
-                    onPress: ()=>{
-                        console.log('you clicked cancel');
-                    },
-                    color:'#999999'
-                },
-                    {
-                        text: "登录",
-                        onPress: ()=>{
-                            loginJumpSingleton.goToLogin(this.props.navigator);
-                        },
-                    }]);
-            }
-
-        }
-    }
     render() {
         return (
             <View style={styles.container}>

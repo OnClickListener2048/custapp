@@ -172,7 +172,7 @@ export default class TaxFormPage extends BComponent {
         })
         // alert(this.state.timeDateArr[index].relateDate)
         this.loadData(this.state.timeDateArr[index].relateDate)
-        this.props.callback && this.props.callback(index,true)
+        this.props.callback && this.props.callback(index)
     }
 
 }

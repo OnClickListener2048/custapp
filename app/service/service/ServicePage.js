@@ -84,70 +84,17 @@ const widthFactor = SCREEN_WIDTH / 375;
 const heightFactor = (SCREEN_HEIGHT - 75) / 667;
 
 
-const demo = [
-
-    {
-        "relateDate": "2016-12",
-        "relateText": "2016年12月"
-    },
-    {
-        "relateDate": "2016-11",
-        "relateText": "2016年11月"
-    },
-    {
-        "relateDate": "2016-10",
-        "relateText": "2016年10月"
-    },
-    {
-        "relateDate": "2016-09",
-        "relateText": "2016年9月"
-    },
-    {
-        "relateDate": "2016-08",
-        "relateText": "2016年8月"
-    },
-    {
-        "relateDate": "2016-07",
-        "relateText": "2016年7月"
-    },
-    {
-        "relateDate": "2016-06",
-        "relateText": "2016年6月"
-    },
-    {
-        "relateDate": "2016-05",
-        "relateText": "2016年5月"
-    },
-    {
-        "relateDate": "2016-04",
-        "relateText": "2016年4月"
-    },
-    {
-        "relateDate": "2016-03",
-        "relateText": "2016年3月"
-    },
-    {
-        "relateDate": "2016-02",
-        "relateText": "2016年2月"
-    }, {
-        "relateDate": "2016-01",
-        "relateText": "2016年1月"
-    }
-]
-
 export default class ServicePage extends BComponent {
     constructor(props) {
         super(props);
-        let today = new Date()
         this.state = {
-            // selectIndex:0,
             profit:'- -',//本月利润
             income:'- -',//本月收入
             expenditure:'- -',//本月支出
             is_demo:1,//是否演示数据,1演示数据2非演示数据
             isRefreshing:false,
             isClose:false,
-            isLoading:true,
+            isLoading:false,
             title:'噼里啪财税演示公司',
             isCompanies:false,
             isLogin:false,
@@ -193,24 +140,6 @@ export default class ServicePage extends BComponent {
 
     }
 
-    // componentWillMount() {
-    //     UserInfoStore.isLogined().then(
-    //         logined => {
-    //             if (logined) {
-    //                 //已经登录
-    //                 UserInfoStore.getCompany().then(
-    //                     (company) => {
-    //                         console.log('company', company);
-    //                         if (company && company.id) {
-    //                             this.initPayment(company.id)
-    //                         }
-    //                     }
-    //                 )
-    //             }
-    //         }
-    //     )
-    // }
-
     componentWillUnmount() {
         this.refreshEmitter.remove();
     }
@@ -225,7 +154,7 @@ export default class ServicePage extends BComponent {
                             if (company && company.id) {
                                 this.companyid = company.id
                                 this.initYearReport(company.id)
-                                this.initPayment(company.id)
+                                this.initPayment(this.companyid)
                                 //判断是否是多加公司
                                 UserInfoStore.getCompanyArr().then(
                                     (companyArr) => {
@@ -250,20 +179,14 @@ export default class ServicePage extends BComponent {
                                 this.companyid = undefined
                                 this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
                                 this.initYearReport(this.companyid)
-
+                                this.initPayment(this.companyid)
                             }
-
-                            if(this.state.timeDateArr.length!==0) {
-                                this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
-                            }
-
                         },
                         (e) => {
                             this.companyid = undefined
                             this.initYearReport(this.companyid)
                             this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
-                            if(this.state.timeDateArr.length!==0)
-                            this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
+                            this.initPayment(this.companyid)
                         },
                     );
                 } else {
@@ -271,8 +194,7 @@ export default class ServicePage extends BComponent {
                     this.companyid = undefined
                     this.initYearReport(this.companyid)
                     this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                    if(this.state.timeDateArr.length!==0)
-                    this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
+                    this.initPayment(this.companyid)
 
                 }
             },
@@ -281,8 +203,7 @@ export default class ServicePage extends BComponent {
                 this.companyid = undefined
                 this.initYearReport(this.companyid)
                 this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                if(this.state.timeDateArr.length!==0)
-                this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
+                this.initPayment(this.companyid)
             }
         );
 
@@ -320,18 +241,53 @@ export default class ServicePage extends BComponent {
     }
     //加载公司账期
     initPayment(id){
-        apis.loadPayMent(id).then((responseData)=>{
-            if(responseData.code == 0 && responseData.list){
-                this.setState({
-                    timeDateArr:responseData.list,
-                    timeIndex:responseData.list.length-1
-                })
-            }else{
+        if(id){
+            //有公司 真实数据
+            this.setState({
+                isLoading:true
+            })
+            apis.loadPayMent(id).then((responseData)=>{
+                // alert(JSON.stringify(responseData))
+                if(responseData.code == 0 && responseData.list && responseData.list.length>0){
+                    let timeDateArr = responseData.list
+                    let timeIndex = responseData.list.length-1
+                    this.setState({
+                        timeDateArr,
+                        timeIndex
+                    })
+                    this.loadData(timeDateArr[timeIndex].relateDate)
+                }else{
+                    //请求失败
+                    let timeDateArr = demoData.date
+                    let timeIndex = demoData.date.length-1
+                    this.setState({
+                        timeDateArr,
+                        timeIndex
+                    })
+                    this.loadData(timeDateArr[timeIndex].relateDate)
+                }
+            },(e)=>{
+                // alert(JSON.stringify(e))
                 //请求失败
-            }
-        },(e)=>{
-            //请求失败
-        })
+                let timeDateArr = demoData.date
+                let timeIndex = demoData.date.length-1
+                this.setState({
+                    timeDateArr,
+                    timeIndex
+                })
+                this.loadData(timeDateArr[timeIndex].relateDate)
+            })
+        }else{
+            //没公司 演示数据
+            let timeDateArr = demoData.date
+            let timeIndex = demoData.date.length-1
+            this.setState({
+                timeDateArr,
+                timeIndex
+            })
+            this.loadData(timeDateArr[timeIndex].relateDate)
+        }
+
     }
 
 
@@ -372,8 +328,7 @@ export default class ServicePage extends BComponent {
                     }else{
                         //演示数据
                         let arr = demoData.list;
-                        let today = new Date()
-                        let dic = arr[11-today.getMonth()]
+                        let dic = arr[this.state.timeIndex]
                         this.setState({
                             profit:dic.profit,
                             income:dic.income,
@@ -389,16 +344,13 @@ export default class ServicePage extends BComponent {
                     if(this.state.is_demo == 1){
                         //演示数据
                         let arr = demoData.list;
-                        let today = new Date()
-                        let dic = arr[11-today.getMonth()]
+                        let dic = arr[this.state.timeIndex]
                         this.setState({
                             profit:dic.profit,
                             income:dic.income,
                             expenditure:dic.expenditure,
                             isRefreshing:false,
                             isLoading:false,
-                            timeDateArr:demo,
-                            timeIndex:dic.date
                         })
                     }else{
                         this.setState({
@@ -406,8 +358,6 @@ export default class ServicePage extends BComponent {
                             isLoading:false
                         })
                     }
-
-
                     Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
@@ -416,8 +366,7 @@ export default class ServicePage extends BComponent {
                 if(this.state.is_demo == 1){
                     //演示数据
                     let arr = demoData.list;
-                    let today = new Date()
-                    let dic = arr[11-today.getMonth()]
+                    let dic = arr[this.state.timeIndex]
                     this.setState({
                         profit:dic.profit,
                         income:dic.income,
@@ -436,7 +385,6 @@ export default class ServicePage extends BComponent {
         );
     }
     _onRefresh(){
-        if(this.state.timeDateArr.length!==0)
         this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
 
     }
@@ -621,19 +569,12 @@ export default class ServicePage extends BComponent {
         }
     }
 
-
     _callback(index){
-        // this.setState({
-        //     select:month
-        // })
-        // this.loadData(month)
+
         this.setState({
             timeIndex:index
         })
-        // alert(this.state.timeDateArr[index].relateDate)
         this.loadData(this.state.timeDateArr[index].relateDate)
-
-
     }
     _goServiceDetail(item){
 

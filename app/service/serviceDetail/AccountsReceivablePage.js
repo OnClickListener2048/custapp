@@ -196,7 +196,7 @@ export default class AccountsReceivablePage extends BComponent {
         })
         // alert(this.state.timeDateArr[index].relateDate)
         this.loadData(this.state.timeDateArr[index].relateDate,'1')
-        this.props.callback && this.props.callback(index,true)
+        this.props.callback && this.props.callback(index)
     }
 
 }
