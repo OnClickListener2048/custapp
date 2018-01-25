@@ -249,6 +249,9 @@ android {
             output.outputFile = new File(oldFile.parent, releaseApkName);
         }
     }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 }
 
 def releaseTime() {
