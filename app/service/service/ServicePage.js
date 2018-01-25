@@ -612,49 +612,64 @@ export default class ServicePage extends BComponent {
             }
         )
     }
-
     _renderDemo(isDemo){
-        if(isDemo==1&&!this.state.isClose) {
-            return (
-                <View>
-                <View style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    width: DeviceInfo.width,
-                    height: 190,
-                    backgroundColor: 'rgba(00, 00, 00, 0.8)',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-                      pointerEvents='none'
-                >
-                    <Image style={styles.service_demo_img}
-                           source={require('../../img/service_demo_img.png')}
-                           >
-                    </Image>
-                </View>
-                    <View style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        width: DeviceInfo.width,
-                        height: 100,
-                        backgroundColor: 'transparent',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                          pointerEvents='box-none'
-                    >
-                        <TouchableOpacity onPress={()=>this.toClose()}>
-                        <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/service_demo_close.png')}/>
-                        </TouchableOpacity>
-                    </View>
-                </View>
 
-            );
+        if(this.state.isLogin){
+            //已经登录情况
+            if(isDemo == 1){
+                //演示数据
+            }else{
+                //真实数据
+            }
+        }else{
+            //未登录
         }
+
+        
     }
+
+    // _renderDemo(isDemo){
+    //     if(isDemo==1&&!this.state.isClose) {
+    //         return (
+    //             <View>
+    //             <View style={{
+    //                 position: 'absolute',
+    //                 bottom: 0,
+    //                 left: 0,
+    //                 width: DeviceInfo.width,
+    //                 height: 190,
+    //                 backgroundColor: 'rgba(00, 00, 00, 0.8)',
+    //                 justifyContent: 'center',
+    //                 alignItems: 'center',
+    //             }}
+    //                   pointerEvents='none'
+    //             >
+    //                 <Image style={styles.service_demo_img}
+    //                        source={require('../../img/service_demo_img.png')}
+    //                        >
+    //                 </Image>
+    //             </View>
+    //                 <View style={{
+    //                     position: 'absolute',
+    //                     bottom: 0,
+    //                     left: 0,
+    //                     width: DeviceInfo.width,
+    //                     height: 100,
+    //                     backgroundColor: 'transparent',
+    //                     justifyContent: 'center',
+    //                     alignItems: 'center',
+    //                 }}
+    //                       pointerEvents='box-none'
+    //                 >
+    //                     <TouchableOpacity onPress={()=>this.toClose()}>
+    //                     <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/service_demo_close.png')}/>
+    //                     </TouchableOpacity>
+    //                 </View>
+    //             </View>
+    //
+    //         );
+    //     }
+    // }
 }
 
 const styles = StyleSheet.create({
