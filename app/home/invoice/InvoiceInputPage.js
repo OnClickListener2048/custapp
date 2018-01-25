@@ -36,6 +36,8 @@ export default class TestPage extends BComponent {
         this._verifyTap = this._verifyTap.bind(this);
         this._resetTap = this._resetTap.bind(this);
         this._isNotEmpty = this._isNotEmpty.bind(this);
+        this.rendercheckCodeInput = this.rendercheckCodeInput.bind(this);
+        this.renderNumberInput = this.renderNumberInput.bind(this);
 
     }
 
@@ -126,15 +128,22 @@ export default class TestPage extends BComponent {
         switch(contentType){
             case 'codeInputValue':
                 this.setState({codeInputValue:content})
-                if(content.length===10||content.length===12){
+                if(content.length===10||content.length===12||content.length===11||content.length===9){
                     console.log("显示发票号码："+content);
-                    this.setState({invoiceType:InvoiceType.getReceiptType(content)})
-                    if(this.state.invoiceType==='01'||this.state.invoiceType==='02'||this.state.invoiceType==='03'){//金额
+                    this.setState({
+                        invoiceType:InvoiceType.getReceiptType(content)
+                    })
+                    const type = InvoiceType.getReceiptType(content);
+                    if(type==='01'||type==='02'||type==='03'){//金额
                         if(this.state.textType!=="1"){
                             this.setState({
                                 checkCodeInputValue:'',
                                 amount:''
                             })
+
+
+                            this.refs.checkCodeInputValue._clearTextInput();
+
                         }
 
                         this.setState({textType:'1'})
@@ -145,6 +154,8 @@ export default class TestPage extends BComponent {
                                 checkCodeInputValue:'',
                                 amount:''
                             })
+                            this.refs.amount._clearTextInput();
+
                         }
                         this.setState({textType:'0'})
 
