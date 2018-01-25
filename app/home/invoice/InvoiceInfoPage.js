@@ -39,7 +39,9 @@ export default class InvoiceInfoPage extends BComponent {
         dateTime:'',
         invoiceType:'',
         amount:'',
-        checkCodeInputValue:''
+        checkCodeInputValue:'',
+        data:'',
+        msg:''
     };
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
@@ -47,20 +49,20 @@ export default class InvoiceInfoPage extends BComponent {
     };
     //开始扫描
     componentDidMount() {
-        let loading = SActivityIndicator.show(true, "加载中...");
-
-        let params = {
-            FPDM:this.props.codeInputValue,//arr[2]发票代码
-            FPHM:this.props.numberInputValue,//arr[3]发票号码
-            KPRQ:this.props.dateTime,//arr[5]日期
-            FPLX:this.props.invoiceType,//arr[1]发票类型
-        }
-        if(this.props.amount){
-            params.FPJE = this.props.amount
-        }
-        if(this.props.checkCodeInputValue){
-            params.JYM = this.props.checkCodeInputValue
-        }
+        // let loading = SActivityIndicator.show(true, "加载中...");
+        //
+        // let params = {
+        //     FPDM:this.props.codeInputValue,//arr[2]发票代码
+        //     FPHM:this.props.numberInputValue,//arr[3]发票号码
+        //     KPRQ:this.props.dateTime,//arr[5]日期
+        //     FPLX:this.props.invoiceType,//arr[1]发票类型
+        // }
+        // if(this.props.amount){
+        //     params.FPJE = this.props.amount
+        // }
+        // if(this.props.checkCodeInputValue){
+        //     params.JYM = this.props.checkCodeInputValue
+        // }
         //const res = {result:"01,10,011001600211,25236205,33.96,20170701,70438474151372413936,AD3C,"};
         // let params = {
         //     FPDM:'011001600211',//arr[2]发票代码
@@ -70,15 +72,16 @@ export default class InvoiceInfoPage extends BComponent {
         //     FPJE:'33.96',//arr[4]发票金额
         //     JYM:'413936'//arr[6]校验码后六位
         // }
-        apis.verifyInvoice(this.props.step,params).then((responseData)=>{
-            SActivityIndicator.hide(loading);
-            if(responseData.code == 0 && responseData.data){
+        // apis.verifyInvoice(this.props.step,params).then((responseData)=>{
+        //     SActivityIndicator.hide(loading);
+            if(this.props.data){
+                console.log("传值成功="+this.props.data);
                 this.setState({
-                    dataSource:this.dealInvoiceData(this.props.invoiceType,responseData.data),
-                    goodsList:responseData.data.CHILDLIST?this.dealGoodsData(responseData.data.CHILDLIST):[]
+                    dataSource:this.dealInvoiceData(this.props.invoiceType,this.props.data),
+                    goodsList:this.props.data.CHILDLIST?this.dealGoodsData(this.props.data.CHILDLIST):[]
                 })
             }else{
-                let msg = responseData.msg?responseData.msg:'识别失败'
+                let msg = this.props.msg?this.props.msg:'识别失败'
                 Alert.alert(msg, '',
                     [
                         {
@@ -91,24 +94,24 @@ export default class InvoiceInfoPage extends BComponent {
                         },]
                     , {cancelable: false});
             }
-        },(e)=>{
-
-            // console.log('error',e)
-            SActivityIndicator.hide(loading);
-            let text = e.msg?e.msg:'识别失败'
-            Alert.alert(text, '',
-                [
-                    {
-                        text: '确定',
-                        onPress: () => {
-                            if (this.props.navigator) {
-                                this.props.navigator.pop();
-                            }
-                        },
-                    },]
-                , {cancelable: false});
-
-        })
+        // },(e)=>{
+        //
+        //     // console.log('error',e)
+        //     SActivityIndicator.hide(loading);
+        //     let text = e.msg?e.msg:'识别失败'
+        //     Alert.alert(text, '',
+        //         [
+        //             {
+        //                 text: '确定',
+        //                 onPress: () => {
+        //                     if (this.props.navigator) {
+        //                         this.props.navigator.pop();
+        //                     }
+        //                 },
+        //             },]
+        //         , {cancelable: false});
+        //
+        // })
     }
     dealGoodsData(data){
         let newData = []

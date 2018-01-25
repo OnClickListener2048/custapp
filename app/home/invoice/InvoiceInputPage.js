@@ -12,6 +12,7 @@ import SubmitButton from "../../view/SubmitButton";
 import Alert from "react-native-alert";
 import InvoiceType from "../../view/invoiceType"
 import SectionHeader from "../../view/SectionHeader";
+import * as apis from '../../apis';
 
 export default class TestPage extends BComponent {
 
@@ -172,7 +173,7 @@ export default class TestPage extends BComponent {
     }
 
     //错误信息提示框
-    _AlertErrorMsg(content,){
+    _AlertErrorMsg(content){
         Alert.alert(content, '', [
             {
                 text: "确定",
@@ -218,21 +219,57 @@ export default class TestPage extends BComponent {
             this._AlertErrorMsg('请输入不含税金额');
 
         }else{//全部符合条件跳转
-            this.push({
-                title: '发票信息',
-                screen: 'InvoiceInfoPage',
-                backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                passProps:{
-                    status:false,
-                    codeInputValue:this.state.codeInputValue,
-                    numberInputValue:this.state.numberInputValue,
-                    checkCodeInputValue:this.state.checkCodeInputValue,
-                    dateTime:this.state.dateFormat,
-                    invoiceType:this.state.invoiceType,
-                    amount:this.state.amount,
-                    step:2,
+            let loading = SActivityIndicator.show(true, "加载中...");
+
+            let params = {
+                FPDM:this.state.codeInputValue,//arr[2]发票代码
+                FPHM:this.state.numberInputValue,//arr[3]发票号码
+                KPRQ:this.state.dateFormat,//arr[5]日期
+                FPLX:this.state.invoiceType,//arr[1]发票类型
+            }
+            if(this.state.amount){
+                params.FPJE = this.state.amount
+            }
+            if(this.state.checkCodeInputValue){
+                params.JYM = this.state.checkCodeInputValue
+            }
+            apis.verifyInvoice(2,params).then((responseData)=>{
+                SActivityIndicator.hide(loading);
+                if(responseData.code == 0 && responseData.data){
+                    this.push({
+                        title: '发票信息',
+                        screen: 'InvoiceInfoPage',
+                        backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                        // passProps:{
+                        //     status:false,
+                        //     codeInputValue:this.state.codeInputValue,
+                        //     numberInputValue:this.state.numberInputValue,
+                        //     checkCodeInputValue:this.state.checkCodeInputValue,
+                        //     dateTime:this.state.dateFormat,
+                        //     invoiceType:this.state.invoiceType,
+                        //     amount:this.state.amount,
+                        //     step:2,
+                        // }
+                        passProps:{
+                            data:responseData.data,
+                            msg:responseData.msg,
+                            invoiceType:this.state.invoiceType,
+
+                        }
+                    });
+                }else{
+                    let msg = responseData.msg?responseData.msg:'识别失败'
+                    this._AlertErrorMsg(msg);
                 }
-            });
+            },(e)=>{
+
+                // console.log('error',e)
+                SActivityIndicator.hide(loading);
+                let text = e.msg?e.msg:'识别失败'
+                this._AlertErrorMsg(text);
+
+            })
+
         }
 
     }
