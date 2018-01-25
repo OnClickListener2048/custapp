@@ -318,7 +318,7 @@ export default class TestPage extends BComponent {
                         <SubmitButton
                             isEnabled={false}
                             text="重置"
-                            buttonStyle={{width:SCREEN_WIDTH-30}}
+                            buttonStyle={{width:SCREEN_WIDTH-30,height:48}}
                             onPress={() => {
                                 this._resetTap()
                             }}
