@@ -14,7 +14,8 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    ScrollView
 
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
@@ -141,7 +142,7 @@ export default class InvoiceMainPage extends BComponent {
 
     render(){
         return(
-            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
+            <ScrollView style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <View style={{alignItems:'center'}}>
                     <Image
                         source={require('../../img/invoice_home_icon.png')}
@@ -175,7 +176,7 @@ export default class InvoiceMainPage extends BComponent {
 
                     />
                 </View>
-            </View>
+            </ScrollView>
         )
     }
 }
