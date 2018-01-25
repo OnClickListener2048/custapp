@@ -37,6 +37,7 @@ export default class TestPage extends BComponent {
         this._resetTap = this._resetTap.bind(this);
         this._isNotEmpty = this._isNotEmpty.bind(this);
         this.rendercheckCodeInput = this.rendercheckCodeInput.bind(this);
+        this.renderNumberInput = this.renderNumberInput.bind(this);
 
     }
 
@@ -141,8 +142,7 @@ export default class TestPage extends BComponent {
                             })
 
 
-                            //this.refs.checkCodeInputValue._clearTextInput();
-                            // this.refs.amount._clearTextInput();
+                            this.refs.checkCodeInputValue._clearTextInput();
 
                         }
 
@@ -154,8 +154,7 @@ export default class TestPage extends BComponent {
                                 checkCodeInputValue:'',
                                 amount:''
                             })
-                            //this.refs.checkCodeInputValue._clearTextInput();
-                            // this.refs.amount._clearTextInput();
+                            this.refs.amount._clearTextInput();
 
                         }
                         this.setState({textType:'0'})
