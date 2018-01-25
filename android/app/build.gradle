@@ -259,7 +259,6 @@ def releaseTime() {
 }
 
 dependencies {
-    compile project(':react-native-camera')
     compile project(':react-native-interactable')
     compile project(':react-native-spinkit')
     compile project(':react-native-svg')
@@ -283,6 +282,17 @@ dependencies {
     compile project(':react-native-wechat')
     compile project(':reactNativeClearCache')
     compile 'com.meituan.android.walle:library:1.1.5'// 瓦力
+    compile (project(':react-native-camera')) {
+            exclude group: "com.android.support"
+
+            // uncomment this if also com.google.android.gms:play-services-vision versions are conflicting
+            // this can happen if you use react-native-firebase
+            // exclude group: "com.google.android.gms"
+        }
+
+        compile ('com.android.support:exifinterface:26.0.1') {
+            force = true;
+        }
 }
 
 buildscript {

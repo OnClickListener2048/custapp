@@ -33,7 +33,6 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        tools:node="replace"
     >
 
         <provider
