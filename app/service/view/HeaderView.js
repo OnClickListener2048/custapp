@@ -95,7 +95,6 @@ export default class HeaderView extends Component {
 const styles = StyleSheet.create({
     wrapper:{
         width:SCREEN_WIDTH,
-
     },
     wrapper1:{
         marginTop:setSpText(25),

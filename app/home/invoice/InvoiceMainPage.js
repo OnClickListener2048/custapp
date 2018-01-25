@@ -164,7 +164,7 @@ export default class InvoiceMainPage extends BComponent {
                         isEnabled={true}
                         text="开始扫描"
                         img={require('../../img/scan_icon.png')}
-                        buttonStyle={{width:335,height:50}}
+                        buttonStyle={{width:SCREEN_WIDTH-30,height:50}}
                         textStyle={{ marginLeft: 10}}
                         onPress={() => {
                             this.scan()
@@ -173,7 +173,7 @@ export default class InvoiceMainPage extends BComponent {
                     <SubmitButton
                         isEnabled={false}
                         text="手工录入查验"
-                        buttonStyle={{width:335,height:50}}
+                        buttonStyle={{width:SCREEN_WIDTH-30,height:50}}
                         onPress={() => {
                             this.check()
                         }}

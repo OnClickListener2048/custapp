@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
         width: SCREEN_WIDTH - 30,
         marginTop: px2dp(45),
         borderWidth: 0,
+        resizeMode:'stretch'
     },
 
 
