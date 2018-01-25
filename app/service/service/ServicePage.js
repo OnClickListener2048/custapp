@@ -16,6 +16,7 @@ import {
     DeviceEventEmitter,
     Animated,
     Dimensions,
+    Linking
 } from 'react-native';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -612,64 +613,121 @@ export default class ServicePage extends BComponent {
             }
         )
     }
+
+    //联系客服
+    call(){
+        Linking.openURL('tel:400-107-0110')
+    }
+
+    //绑定手机号
+    bindPhone(){
+        loginJumpSingleton.goToLogin(this.props.navigator);
+    }
     _renderDemo(isDemo){
 
-        if(this.state.isLogin){
-            //已经登录情况
-            if(isDemo == 1){
-                //演示数据
+
+        if(!this.state.isClose){
+            if(this.state.isLogin){
+                //已经登录情况
+                if(isDemo == 1){
+                    //演示数据
+
+                    return (
+                        <View>
+                            <View style={{
+                                position: 'absolute',
+                                bottom: 0,
+                                left: 0,
+                                width: DeviceInfo.width,
+                                height: 200,
+                                backgroundColor: 'rgba(00, 00, 00, 0.8)',
+                                alignItems: 'center',
+                            }}
+                                  pointerEvents='none'
+                            >
+                                <Image style={styles.service_demo_img}
+                                       source={require('../../img/logined_kf.png')}
+                                >
+                                </Image>
+                            </View>
+                            <View style={{
+                                position: 'absolute',
+                                bottom: 0,
+                                left: 0,
+                                width: DeviceInfo.width,
+                                height: 110,
+                                backgroundColor: 'transparent',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection:'row',
+                            }}
+                                  pointerEvents='box-none'
+                            >
+                                <TouchableOpacity onPress={()=>this.call()}>
+                                    <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/logined_kf_button.png')}/>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={()=>this.toClose()}>
+                                    <Image style={{resizeMode : "contain",marginTop:18, marginLeft:20}} source={require('../../img/logined_look_button.png')}/>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+                    );
+                }
             }else{
-                //真实数据
+                //未登录
+                return (
+                    <View>
+                        <View style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            width: DeviceInfo.width,
+                            height: 200,
+                            backgroundColor: 'rgba(00, 00, 00, 0.8)',
+                            alignItems: 'center',
+                        }}
+                              pointerEvents='none'
+                        >
+                            <Image style={styles.service_demo_img}
+                                   source={require('../../img/unlogin_bind.png')}
+                            >
+                            </Image>
+                        </View>
+                        <View style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            width: DeviceInfo.width,
+                            height: 110,
+                            backgroundColor: 'transparent',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection:'row',
+                        }}
+                              pointerEvents='box-none'
+                        >
+                            <TouchableOpacity onPress={()=>this.bindPhone()}>
+                                <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/unlogin_bind_button.png')}/>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>this.toClose()}>
+                                <Image style={{resizeMode : "contain",marginTop:18, marginLeft:20}} source={require('../../img/unlogin_cancle_button.png')}/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                );
             }
-        }else{
-            //未登录
+        }else {
+            return null
         }
+
+
 
         
     }
 
-    // _renderDemo(isDemo){
-    //     if(isDemo==1&&!this.state.isClose) {
-    //         return (
-    //             <View>
-    //             <View style={{
-    //                 position: 'absolute',
-    //                 bottom: 0,
-    //                 left: 0,
-    //                 width: DeviceInfo.width,
-    //                 height: 190,
-    //                 backgroundColor: 'rgba(00, 00, 00, 0.8)',
-    //                 justifyContent: 'center',
-    //                 alignItems: 'center',
-    //             }}
-    //                   pointerEvents='none'
-    //             >
-    //                 <Image style={styles.service_demo_img}
-    //                        source={require('../../img/service_demo_img.png')}
-    //                        >
-    //                 </Image>
-    //             </View>
-    //                 <View style={{
-    //                     position: 'absolute',
-    //                     bottom: 0,
-    //                     left: 0,
-    //                     width: DeviceInfo.width,
-    //                     height: 100,
-    //                     backgroundColor: 'transparent',
-    //                     justifyContent: 'center',
-    //                     alignItems: 'center',
-    //                 }}
-    //                       pointerEvents='box-none'
-    //                 >
-    //                     <TouchableOpacity onPress={()=>this.toClose()}>
-    //                     <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/service_demo_close.png')}/>
-    //                     </TouchableOpacity>
-    //                 </View>
-    //             </View>
-    //
-    //         );
-    //     }
-    // }
+
 }
 
 const styles = StyleSheet.create({
@@ -730,6 +788,7 @@ const styles = StyleSheet.create({
         resizeMode : "contain",
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop:20,
         width:SCREEN_WIDTH-16
     },
 
