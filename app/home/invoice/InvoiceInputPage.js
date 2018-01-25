@@ -275,7 +275,6 @@ export default class TestPage extends BComponent {
         console.log("刷新数据。页面"+this.state.reset);
             return(
             <ScrollView style={styles.container}>
-                <View>
                     <SectionHeader style={{backgroundColor:'#E8E2D6'}} text ={'基础信息'} textStyle={{color:'#AE915A'}} />
                     <View style={styles.invoiceCheck_wrp}>
                         <Text style={styles.text_name} >发票代码：</Text>
@@ -306,7 +305,7 @@ export default class TestPage extends BComponent {
                     </View>}
 
 
-                    <View style={{marginTop:50}}>
+                    <View style={{marginTop:50,marginBottom:50}}>
                         <SubmitButton
                             isEnabled={true}
                             text="查验"
@@ -325,7 +324,6 @@ export default class TestPage extends BComponent {
 
                         />
                     </View>
-                </View>
             </ScrollView>
         )
     }
