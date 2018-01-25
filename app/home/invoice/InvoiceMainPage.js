@@ -74,14 +74,9 @@ export default class InvoiceMainPage extends BComponent {
                                 screen: 'InvoiceInfoPage',
                                 backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                                 passProps:{
-                                    status:false,
-                                    codeInputValue:arr[2],
-                                    numberInputValue:arr[3],
-                                    checkCodeInputValue:(arr[6] > 6 ? arr[6].substring(arr[6].length - 6, arr[6].length) : arr[6]),
-                                    dateTime:arr[5],
+                                    data:responseData.data,
+                                    msg:responseData.msg,
                                     invoiceType:arr[1],
-                                    amount:arr[4],
-                                    step:1,
                                 }
                             });
                         } else {//进入校验页面
