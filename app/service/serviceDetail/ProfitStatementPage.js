@@ -56,17 +56,15 @@ export default class ProfitStatementPage extends BComponent {
 
         if(this.props.is_demo=='1'){
 
-            let today = new Date()
+            let dic =demoData.list[this.state.timeIndex];
             let arr = [];
-
-            for (let i = today.getMonth();i>=0;i--){
-                let dic = demoData.list[11-i];
-                arr.push(dic);
+            for(let i=this.state.timeIndex;i<demoData.list.length;i++){
+                arr.push(demoData.list[i])
             }
             this.setState({
-                profit:arr[0].profit,
-                income:arr[0].income,
-                expenditure:arr[0].expenditure,
+                profit:dic.profit,
+                income:dic.income,
+                expenditure:dic.expenditure,
                 dataSource:arr,
             })
             return;
@@ -190,10 +188,11 @@ export default class ProfitStatementPage extends BComponent {
     _callback(index){
         this.setState({
             timeIndex:index
+        },()=>{
+            this.loadData(this.state.timeDateArr[index].relateDate)
+            this.props.callback && this.props.callback(index)
         })
         // alert(this.state.timeDateArr[index].relateDate)
-        this.loadData(this.state.timeDateArr[index].relateDate)
-        this.props.callback && this.props.callback(index)
     }
 }
 

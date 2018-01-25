@@ -94,7 +94,7 @@ export default class ServicePage extends BComponent {
             is_demo:1,//是否演示数据,1演示数据2非演示数据
             isRefreshing:false,
             isClose:false,
-            isLoading:false,
+            isLoading:true,
             title:'噼里啪财税演示公司',
             isCompanies:false,
             isLogin:false,
@@ -453,6 +453,7 @@ export default class ServicePage extends BComponent {
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo} isLogin={this.state.isLogin}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} callback = {this._callback.bind(this)}/>
+                {/*<View style={{backgroundColor:'#D9C298', width:DeviceInfo.width, height:DeviceInfo.height/2,position:'absolute',top:0,left:0}} />*/}
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
@@ -477,7 +478,8 @@ export default class ServicePage extends BComponent {
 
                     />
                     <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white',
-                        marginTop: 12}}>
+                        marginTop:12
+                    }}>
                         {
                             serviceData.map((item,index)=>{
                                 let borderRightWidth = 0
