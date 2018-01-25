@@ -265,7 +265,7 @@ export default class ServicePage extends BComponent {
                         timeDateArr,
                         timeIndex
                     })
-                    this.loadData(timeDateArr[timeIndex].relateDate)
+                    this.loadData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
                 }
             },(e)=>{
                 // alert(JSON.stringify(e))
@@ -276,7 +276,7 @@ export default class ServicePage extends BComponent {
                     timeDateArr,
                     timeIndex
                 })
-                this.loadData(timeDateArr[timeIndex].relateDate)
+                this.loadData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
             })
         }else{
             //没公司 演示数据
@@ -286,7 +286,7 @@ export default class ServicePage extends BComponent {
                 timeDateArr,
                 timeIndex
             })
-            this.loadData(timeDateArr[timeIndex].relateDate)
+            this.loadData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
         }
 
     }
@@ -625,7 +625,7 @@ export default class ServicePage extends BComponent {
             //未登录
         }
 
-        
+
     }
 
     // _renderDemo(isDemo){
