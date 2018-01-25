@@ -20,27 +20,8 @@ export default class HeaderView extends Component {
 
     constructor(props){
         super(props)
-        let today = new Date();//获得当前日期
         this._renderTop=this._renderTop.bind(this);
-        this.monthArr = [
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '10',
-            '11',
-            '12'
-        ]
-        this.nowMonthArr=[]
-        for (let j=1 ;j<=(today.getMonth() + 1);j++){
-            this.nowMonthArr.push(j.toString())
-        }
-        this.year=today.getFullYear().toString()
+
     }
 
     static defaultProps = {
@@ -117,17 +98,17 @@ const styles = StyleSheet.create({
 
     },
     wrapper1:{
-        marginTop:25,
+        marginTop:setSpText(25),
         justifyContent:'center',
         alignItems:'center',
     },
     te1:{
-        fontSize:14,
+        fontSize:setSpText(14),
         color:'rgba(255, 255, 255, 0.7)',
         backgroundColor:'transparent'
     },
     te2:{
-        fontSize:32,
+        fontSize:setSpText(32),
         color:'rgba(255, 255, 255,1)',
         backgroundColor:'transparent',
         marginTop:5
@@ -147,12 +128,12 @@ const styles = StyleSheet.create({
         marginTop:Platform.OS==='ios'?30:15
     },
     te3:{
-        fontSize:12,
+        fontSize:setSpText(12),
         color:'rgba(255, 255, 255, 0.7)',
         backgroundColor:'transparent',
     },
     te4:{
-        fontSize:18,
+        fontSize:setSpText(18),
         color:'rgba(255, 255, 255,1)',
         backgroundColor:'transparent',
         marginTop:5
