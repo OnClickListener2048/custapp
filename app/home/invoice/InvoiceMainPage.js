@@ -73,16 +73,6 @@ export default class InvoiceMainPage extends BComponent {
                                 title: '发票信息',
                                 screen: 'InvoiceInfoPage',
                                 backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                                // passProps:{
-                                //     status:false,
-                                //     codeInputValue:arr[2],
-                                //     numberInputValue:arr[3],
-                                //     checkCodeInputValue:(arr[6] > 6 ? arr[6].substring(arr[6].length - 6, arr[6].length) : arr[6]),
-                                //     dateTime:arr[5],
-                                //     invoiceType:arr[1],
-                                //     amount:arr[4],
-                                //     step:1,
-                                // }
                                 passProps:{
                                     data:responseData.data,
                                     msg:responseData.msg,

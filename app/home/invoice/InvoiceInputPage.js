@@ -240,16 +240,6 @@ export default class TestPage extends BComponent {
                         title: '发票信息',
                         screen: 'InvoiceInfoPage',
                         backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                        // passProps:{
-                        //     status:false,
-                        //     codeInputValue:this.state.codeInputValue,
-                        //     numberInputValue:this.state.numberInputValue,
-                        //     checkCodeInputValue:this.state.checkCodeInputValue,
-                        //     dateTime:this.state.dateFormat,
-                        //     invoiceType:this.state.invoiceType,
-                        //     amount:this.state.amount,
-                        //     step:2,
-                        // }
                         passProps:{
                             data:responseData.data,
                             msg:responseData.msg,
