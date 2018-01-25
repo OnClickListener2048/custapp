@@ -25,6 +25,7 @@ export default class SubmitButtonWithIcon extends Component {
             (
                 <TouchableOpacity onPress={this.props.onPress}>
                     <Image source={require('../img/Rectangle.png')}
+
                            style={[styles.buttonView, this.props.buttonStyle]}>
                         <Image style={[styles.wechart_icon, {justifyContent: 'flex-start'}]}
                                source={this.props.img}/>
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
         width: SCREEN_WIDTH - 30,
         marginTop: px2dp(45),
         borderWidth: 0,
+        resizeMode:'stretch'
     },
 
     buttonViewEnabled: {

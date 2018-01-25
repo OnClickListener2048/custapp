@@ -155,6 +155,7 @@ export default class ServicePage extends BComponent {
                                 this.companyid = company.id
                                 this.initYearReport(company.id)
                                 this.initPayment(this.companyid)
+
                                 //判断是否是多加公司
                                 UserInfoStore.getCompanyArr().then(
                                     (companyArr) => {
