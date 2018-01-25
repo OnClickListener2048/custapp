@@ -559,7 +559,7 @@ export default class ServicePage extends BComponent {
     }
     _goWeb(){
         if(this.state.url){
-            this.goto()
+            this._goto()
         }
     }
     _goto(){
