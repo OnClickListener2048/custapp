@@ -103,7 +103,7 @@ export default class ServicePage extends BComponent {
             iconHeight:'',
             url:'',//h5地址
             isShow:false,//是否显示入口
-
+            isGo:false,
             timeDateArr:[],
             timeIndex:0
 
@@ -446,10 +446,6 @@ export default class ServicePage extends BComponent {
                 </TouchableOpacity>
             )
         }
-
-
-
-
     }
 
 
@@ -555,20 +551,33 @@ export default class ServicePage extends BComponent {
             let result = Math.abs(this.end - this.start)
             if((Platform.OS==='android') && result<1){
                 //点击事件
-                if(this.state.url){
-                    UMTool.onEvent('2017accountTable')
-                    pushJump(this.props.navigator,this.state.url,'年度报表','噼里啪智能财税','年度报表');
-                }
+                this._goto()
             }
         }
     }
     _goWeb(){
-        if((Platform.OS==='ios') && this.state.url){
-            UMTool.onEvent('2017accountTable')
-            pushJump(this.props.navigator,this.state.url,'年度报表','噼里啪智能财税','年度报表');
+        if(this.state.url){
+            this.goto()
         }
     }
+    _goto(){
+        if (this.state.isGo === true) {
+            console.log("休息一下吧, 您的手速太快了");
+            return;
 
+        }
+        UMTool.onEvent('2017accountTable')
+        pushJump(this.props.navigator,this.state.url,'年度报表','噼里啪智能财税','年度报表');
+
+        this.setState({
+            isGo:true
+        })
+
+        this._timer = setTimeout(()=>{
+            this.setState({isGo:false})//0.5秒后可点击
+            clearTimeout(this._timer);
+        },500);
+    }
     _callback(index){
 
         this.setState({
