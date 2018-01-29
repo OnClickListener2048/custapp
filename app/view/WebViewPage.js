@@ -494,6 +494,7 @@ export default class WebViewPage extends BComponent {
 
     }
     _share (type) {
+
         let urlStr = this.makeWXURL();
 
         if(type === 'friend'){
