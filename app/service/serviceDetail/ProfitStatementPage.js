@@ -58,7 +58,7 @@ export default class ProfitStatementPage extends BComponent {
 
             let dic =demoData.list[this.state.timeIndex];
             let arr = [];
-            for(let i=this.state.timeIndex;i>=0;i--){
+            for(let i=this.state.timeIndex-1;i>=0;i--){
 
                 arr.push(demoData.list[demoData.list.length-1-i])
             }
