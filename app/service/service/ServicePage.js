@@ -521,8 +521,8 @@ export default class ServicePage extends BComponent {
 
                                                     return(
                                                         <TouchableOpacity key={index} onPress = {this._goServiceDetail.bind(this,item)}>
-                                                            <View style={[{width:deviceWidth/2, height:68,flexDirection:'row',justifyContent:'center',alignItems:'center'},borderBottomStyle,borderRightStyle]}>
-                                                                <Image resizeMode="contain" source={item.logo} />
+                                                            <View style={[{width:deviceWidth/2, height:68,flexDirection:'row',alignItems:'center'},borderBottomStyle,borderRightStyle]}>
+                                                                <Image resizeMode="contain" style={{marginLeft:41}} source={item.logo} />
                                                                 <Text style={{color:'#666666',fontSize:setSpText(16),marginLeft:9}}>{item.title}</Text>
                                                             </View>
                                                         </TouchableOpacity>
