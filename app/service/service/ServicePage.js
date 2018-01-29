@@ -27,34 +27,49 @@ import Alert from "react-native-alert";
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBar from '../view/TimeSearchBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
-const serviceData = [
+import SectionHeader from '../../view/SectionHeader'
+
+const serviceData =[
     {
-        title:'现金流',
-        logo:require('../../img/xianjinliu.png'),
-        jumpPage:'CashFlowPage'
+        title:'财',
+        style:'collection',
+        arr:[
+            {
+                title:'现金流',
+                logo:require('../../img/xianjinliu.png'),
+                jumpPage:'CashFlowPage'
+            },
+            {
+                title:'利润表',
+                logo:require('../../img/lirunbiao.png'),
+                jumpPage:'ProfitStatementPage'
+            },
+            {
+                title:'应收账款',
+                logo:require('../../img/yingshou.png'),
+                jumpPage:'AccountsReceivablePage'
+            },
+            {
+                title:'应付账款',
+                logo:require('../../img/yingfu.png'),
+                jumpPage:'AccountsPayablePage'
+            }
+        ]
     },
     {
-        title:'利润表',
-        logo:require('../../img/lirunbiao.png'),
-        jumpPage:'ProfitStatementPage'
-    },
-    {
-        title:'纳税表',
-        logo:require('../../img/nashuibiao.png'),
-        jumpPage:'TaxFormPage'
-    },
-    {
-        title:'应收账款',
-        logo:require('../../img/yingshou.png'),
-        jumpPage:'AccountsReceivablePage'
-    },
-    {
-        title:'应付账款',
-        logo:require('../../img/yingfu.png'),
-        jumpPage:'AccountsPayablePage'
+        title:'税',
+        style:'table',
+        arr:[
+            {
+                title:'纳税表',
+                logo:require('../../img/nashuibiao.png'),
+                jumpPage:'TaxFormPage'
+            }
+        ]
     }
 ]
 import pushJump from '../../util/pushJump';
+import CommenCell from '../../view/CommenCell'
 
 const col = 3
 const marg = 0
@@ -479,32 +494,64 @@ export default class ServicePage extends BComponent {
                         rightNum={this.state.expenditure}
 
                     />
-                    <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white',
-                        marginTop:12
-                    }}>
-                        {
-                            serviceData.map((item,index)=>{
-                                let borderRightWidth = 0
-                                let borderBottomWidth = 0
-                                if (index !=2){
-                                    borderRightWidth = DeviceInfo.onePR
-                                }
-                                if(index <3){
-                                    borderBottomWidth = DeviceInfo.onePR
-                                }
+                    {
+                        serviceData.map((item,index)=>{
+                            return(
+                                <View key = {index} style={{width:deviceWidth}}>
+                                    <SectionHeader style={{backgroundColor:'transparent'}} text ={item.title} />
+                                    {
+                                        item.style=='collection'?<View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white'}}>
+                                            {
+                                                item.arr.map((item,index)=>{
 
-                                return(
-                                    <TouchableOpacity key={index} onPress = {this._goServiceDetail.bind(this,item)}>
-                                        <View style={[{width:itemWidth, marginLeft:marg,backgroundColor:'white',height:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'#D7D7D7',borderRightWidth,borderBottomWidth}]}>
-                                            <Image resizeMode="contain" source={item.logo} />
-                                            <Text style={{color:'#333333',fontSize:setSpText(14), marginTop:13}}>{item.title}</Text>
+                                                    let borderBottomStyle = {}
+                                                    let borderRightStyle = {}
+                                                    if(index<2){
+                                                        borderBottomStyle = {
+                                                            borderBottomColor:'#D7D7D7',
+                                                            borderBottomWidth:DeviceInfo.onePR
+                                                        }
+                                                    }
+                                                    if(index == 0 || index == 2){
+                                                        borderRightStyle = {
+                                                            borderRightColor:'#D7D7D7',
+                                                            borderRightWidth:DeviceInfo.onePR
+                                                        }
+                                                    }
+
+                                                    return(
+                                                        <TouchableOpacity key={index} onPress = {this._goServiceDetail.bind(this,item)}>
+                                                            <View style={[{width:deviceWidth/2, height:68,flexDirection:'row',justifyContent:'center',alignItems:'center'},borderBottomStyle,borderRightStyle]}>
+                                                                <Image resizeMode="contain" source={item.logo} />
+                                                                <Text style={{color:'#666666',fontSize:setSpText(16),marginLeft:9}}>{item.title}</Text>
+                                                            </View>
+                                                        </TouchableOpacity>
+
+                                                    )
+                                                })
+                                            }
+                                        </View>:<View>
+                                            {
+                                                item.arr.map((item,index)=>{
+                                                    return(
+                                                        <CommenCell
+                                                            style={{height:68}}
+                                                            leftTextStyle={{color:'#666666'}}
+                                                            leftIcon={item.logo}
+                                                            leftText={item.title}
+                                                            underLine={false}
+                                                            onPress = {this._goServiceDetail.bind(this,item)}
+                                                        />
+                                                    )
+                                                })
+                                            }
+
                                         </View>
-                                    </TouchableOpacity>
-
-                                )
-                            })
-                        }
-                    </View>
+                                    }
+                                </View>
+                            )
+                        })
+                    }
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 {this._renderYearReport()}

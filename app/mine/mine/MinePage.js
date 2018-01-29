@@ -86,6 +86,7 @@ export default class MinePage extends BComponent {
                 if (user && user.mobilePhone) {
                     //获取当前公司
                     //由于公司获取接口经常失败这里再次调用接口检查一下  获取公司
+                    user.mobilePhone = '18766666666'
                     apis.getCompany(user.mobilePhone).then(
                         (companyInfo) => {
                             if (companyInfo && companyInfo.list && companyInfo.list.length>0) {

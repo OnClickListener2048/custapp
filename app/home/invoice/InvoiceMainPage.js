@@ -37,14 +37,13 @@ export default class InvoiceMainPage extends BComponent {
         if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
             if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
                 WeChat.shareAppletsToSession({
-                    webpageUrl:'http://www.baidu.com',
+                    webpageUrl:'https://www.pilipa.cn/',
                     userName:'gh_d0c02ea3ee2c',
                     path:'pages/home',
                     title:'发票验真',
-                    description:'小程序分享测试',
+                    description:'发票验真',
                     imageUrl:'https://assets.pilipa.cn/public/logo/share.png'
                 })
-
             }
         }
     }
