@@ -495,7 +495,7 @@ export default class ServicePage extends BComponent {
                         rightNum={this.state.expenditure}
 
                     />
-                    <CompanyProcessView currentNum={0}/>
+                    <CompanyProcessView currentNum={2}/>
                     {
                         serviceData.map((item,index)=>{
                             return(

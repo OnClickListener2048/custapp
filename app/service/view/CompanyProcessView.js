@@ -54,10 +54,10 @@ class CompanyProcessView extends Component{
     _circleYellowView(i){
         return <View style={{height:16,width:16,borderRadius:8,backgroundColor:'#D8C095',alignItems:'center', justifyContent:'center'}}>
 
-                {this.state.currentNum === 0 && <Image resizeMode = "center" source={require('../../img/companyProcess_end.png')}/>}
-                {this.state.currentNum === 4 && <Image resizeMode = "center" source={require('../../img/companyProcess_end.png')}/>}
+                {this.state.currentNum === 0 && i === 0 && <Image resizeMode = "center" source={require('../../img/companyProcess_end.png')}/>}
+                {this.state.currentNum === 4 && i === 4 && <Image resizeMode = "center" source={require('../../img/companyProcess_end.png')}/>}
 
-                {this.state.currentNum !== 0 && this.state.currentNum !== 4 && <Text style={{
+                {!(this.state.currentNum === 4 && i === 4) && !(this.state.currentNum === 0 && i === 0) && <Text style={{
                     color: '#ffffff',
                     textAlign: 'center',
                     borderRadius:8,
@@ -85,9 +85,26 @@ class CompanyProcessView extends Component{
 
     }
 
-    _renderLineView(){
+    _renderLineView(i){
 
-        return <View style = {{height:1,width:(SCREEN_WIDTH - 28 - 16 * 5 - 80)/4,backgroundColor:'#D8C095'}}/>
+
+        if (i < this.state.currentNum){
+            return <View style = {{height:1,width:(SCREEN_WIDTH - 28 - 16 * 5 - 80)/4,backgroundColor:'#D8C095'}}/>
+        }else if(i === this.state.currentNum){
+            return <View style = {{height:1,width:(SCREEN_WIDTH - 28 - 16 * 5 - 80)/4,flexDirection: 'row'}}>
+                <View style = {{height:1,flex:4.3,marginRight:4,backgroundColor:'#D8C095'}}/>
+                <View style = {{height:1,flex:2.1,marginRight:3,backgroundColor:'#D8C095'}}/>
+                <View style = {{height:1,flex:1.1,marginRight:2,backgroundColor:'#D8C095'}}/>
+                <View style = {{height:1,flex:0.3,marginRight:4,backgroundColor:'#D8C095'}}/>
+                <View style = {{height:1,flex:2,backgroundColor:'#E8E8E8'}}/>
+            </View>
+        }else{
+            return <View style = {{height:1,width:(SCREEN_WIDTH - 28 - 16 * 5 - 80)/4,backgroundColor:'#E8E8E8'}}/>
+
+        }
+
+
+
 
     }
 
@@ -96,13 +113,13 @@ class CompanyProcessView extends Component{
 
         return   <View style={styles.processImgTipView}>
             {this._renderCircleTipView(0,this.state.currentNum)}
-            {this._renderLineView()}
+            {this._renderLineView(0)}
             {this._renderCircleTipView(1,this.state.currentNum)}
-            {this._renderLineView()}
+            {this._renderLineView(1)}
             {this._renderCircleTipView(2,this.state.currentNum)}
-            {this._renderLineView()}
+            {this._renderLineView(2)}
             {this._renderCircleTipView(3,this.state.currentNum)}
-            {this._renderLineView()}
+            {this._renderLineView(3)}
             {this._renderCircleTipView(4,this.state.currentNum)}
         </View>
 
