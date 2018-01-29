@@ -28,6 +28,7 @@ import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBar from '../view/TimeSearchBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import SectionHeader from '../../view/SectionHeader'
+import CompanyProcessView from '../view/CompanyProcessView'
 
 const serviceData =[
     {
@@ -317,6 +318,7 @@ export default class ServicePage extends BComponent {
             is_demo
         })
     }
+
     loadData(date='',isPull=false){
         if(isPull){
             this.setState({
@@ -405,6 +407,21 @@ export default class ServicePage extends BComponent {
         this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
 
     }
+    //请求公司服务进度接口
+    loadCompanyProcessData(date=''){
+        apis.loadServiceCompanyProcessData(this.companyid,date).then(
+            (responseData) => {
+                //获取数据后更改公司查账进度
+                // if(this.refs.companyProcessView_Ref) {
+                // this.refs.companyProcessView_Ref.setCurrentNum(num);}
+
+            },
+            (e) => {
+
+            }
+        )
+    }
+    
     _titleItem(){
 
         if(this.state.isLogin){
@@ -466,6 +483,7 @@ export default class ServicePage extends BComponent {
     }
 
 
+
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
@@ -494,6 +512,7 @@ export default class ServicePage extends BComponent {
                         rightNum={this.state.expenditure}
 
                     />
+                    <CompanyProcessView ref="companyProcessView_Ref" currentNum={2}/>
                     {
                         serviceData.map((item,index)=>{
                             return(
