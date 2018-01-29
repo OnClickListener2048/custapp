@@ -28,6 +28,7 @@ import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBar from '../view/TimeSearchBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import SectionHeader from '../../view/SectionHeader'
+import CompanyProcessView from '../view/CompanyProcessView'
 
 const serviceData =[
     {
@@ -494,6 +495,7 @@ export default class ServicePage extends BComponent {
                         rightNum={this.state.expenditure}
 
                     />
+                    <CompanyProcessView currentNum={0}/>
                     {
                         serviceData.map((item,index)=>{
                             return(
