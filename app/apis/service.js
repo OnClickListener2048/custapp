@@ -10,6 +10,16 @@ export function loadServiceData(companyid,date='') {
     return getApi('/api/v1/services/summary',params);
 }
 
+
+export function loadServiceCompanyProcessData(id,relatedate='') {
+
+    let params = id?{id,relatedate}:{relatedate}
+
+    return getApi('/api/v1.01/companies/schedule',params);
+}
+
+
+
 //现金流
 export function loadCashFlow(companyid ,date='') {
     let params = companyid?{companyid,date}:{date}
