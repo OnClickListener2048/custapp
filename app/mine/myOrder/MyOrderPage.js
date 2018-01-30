@@ -32,197 +32,92 @@ export default class MyOrderPage extends BComponent {
             hang:[],//已驳回
             done:[],//已结束
             loadState:'success',
-            title:'我的订单',
-            isCompanies:false
         };
         this.loadData=this.loadData.bind(this);
-        this.initData=this.initData.bind(this);
     }
     static navigatorStyle = {
-        navBarHidden: true, // 隐藏默认的顶部导航栏
+        navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: true,
     };
 
     componentDidMount() {
-        this.initData()
-        this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
-            this.initData()
-        });
-    }
-    _leftItem(){
-        return (
-            <TouchableWithoutFeedback onPress={()=>this.props.navigator.pop()}>
-                <View style={{width:50,height:44, justifyContent:'center'}}>
-                    <Image style={{marginLeft:10}} source={require('../../img/arrow_left_white.png')} />
-                </View>
-            </TouchableWithoutFeedback>
-
-        )
-    }
-    _rightItem(){
-        return (
-            <View style={{width:50,height:44}} />
-        )
-    }
-    _titleItem(){
-
-        if(this.state.isCompanies){
-            return (
-                <TouchableOpacity onPress ={()=>this.props.navigator.showLightBox({
-                    screen: "ChangeCompanyLightBox",
-                    passProps: {
-                        onClose: this.dismissLightBox,
-                    },
-                    style: {
-                        backgroundBlur: 'none',
-                        backgroundColor: 'rgba(0,0,0,0.5)',
-                        tapBackgroundToDismiss:true
-                    }
-                })}>
-                    <View style={{width:DeviceInfo.width*0.6,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
-                        <Image source={require('../../img/change_arrow_white.png')}/>
-                    </View>
-
-                </TouchableOpacity>
-            )
-        }else{
-            return (
-                <Text style={{fontSize:setSpText(18),fontWeight:'bold',color:'white'}}>{this.state.title}</Text>
-            )
-        }
-    }
-    componentWillUnmount() {
-        this.refreshEmitter.remove();
+        this.loadData()
     }
 
-    initData(){
-        UserInfoStore.getCompany().then(
-            (company) => {
-                console.log('company', company);
-                if (company && company.id&&company.type) {
-                    this.companyid = company.id
-                    this.companytype=company.type
-
-                    //判断是否是多加公司
-                    UserInfoStore.getCompanyArr().then(
-                        (companyArr) => {
-                            if(companyArr && companyArr.length>1){
-                                //多家
-                                if (company && company.infos && company.infos[0] && company.infos[0].value) {
-
-                                    this.initNavigationBar(true,company.infos[0].value)
-
-                                }else{
-                                    this.initNavigationBar(true)
-                                }
-                            }else{
-                                //一家或者没有
-                                this.initNavigationBar(false)
-                            }
-                        },
-                        (e) => {
-                            //一家或者没有
-                            this.initNavigationBar(false)
-
-                        },
-                    );
-
-                }else{
-                    this.companyid = undefined
-                    this.companytype=undefined
-                    this.initNavigationBar(false)
-
-                }
-                this.loadData()
-
-            },
-            (e) => {
-                this.loadData()
-                console.log(e)
-                this.initNavigationBar(false)
-
-            },
-        );
-    }
-    initNavigationBar(isCompanies=false,title='我的订单'){
-
-        this.setState({
-            title:title,
-            isCompanies:isCompanies
-        })
-    }
     loadData(){
         //测试用
         // this.companyid='285729'
         // this.companytype=1
 
-        if(this.companyid!=null&&this.companyid!=undefined) {
-            var loading = SActivityIndicator.show(true, "加载中...");
-            apis.loadOrderListData(this.companyid,this.companytype).then(
-                (responseData) => {
-                    SActivityIndicator.hide(loading);
-                    if (responseData.code == 0) {
-                        var data = responseData.list;
-                        if (data != null && data != []) {
-                            var hang = [];
-                            var done = [];
-                            var doing = [];
-                            for (let i = 0; i < data.length; i++) {
-                                if (data[i].status == 9) {
-                                    hang.push(data[i]);
-                                } else if (data[i].status == 6||data[i].status == 5) {
-                                    done.push(data[i]);
+        UserInfoStore.getLastUserPhone().then(
+            (mobile) => {
+                if (mobile != null && mobile != undefined) {
+                    var loading = SActivityIndicator.show(true, "加载中...");
+                    apis.loadOrderListData(mobile).then(
+                        (responseData) => {
+                            SActivityIndicator.hide(loading);
+                            if (responseData.code == 0) {
+                                var data = responseData.list;
+                                if (data != null && data != []) {
+                                    var hang = [];
+                                    var done = [];
+                                    var doing = [];
+                                    for (let i = 0; i < data.length; i++) {
+                                        if (data[i].status == 9) {
+                                            hang.push(data[i]);
+                                        } else if (data[i].status == 6 || data[i].status == 5) {
+                                            done.push(data[i]);
+                                        } else {
+                                            doing.push(data[i])
+                                        }
+                                    }
+                                    this.setState({
+                                            data: data,
+                                            doing: doing,
+                                            hang: hang,
+                                            done: done,
+                                            loadState: 'success'
+                                        }
+                                    );
                                 } else {
-                                    doing.push(data[i])
+                                    this.setState({
+                                            data: [],
+                                            doing: [],
+                                            hang: [],
+                                            done: [],
+                                            loadState: 'success'
+                                        }
+                                    );
                                 }
-                            }
-                            this.setState({
-                                    data: data,
-                                    doing: doing,
-                                    hang: hang,
-                                    done: done,
-                                    loadState: 'success'
-                                }
-                            );
-                        } else {
-                            this.setState({
-                                    data: [],
-                                    doing: [],
-                                    hang: [],
-                                    done: [],
-                                    loadState: 'success'
-                                }
-                            );
-                        }
 
 
-                    }else{
-                        this.setState({
-                                loadState: 'error'
+                            } else {
+                                this.setState({
+                                        loadState: 'error'
+                                    }
+                                );
                             }
-                        );
-                    }
-                },
-                (e) => {
-                    SActivityIndicator.hide(loading);
+                        },
+                        (e) => {
+                            SActivityIndicator.hide(loading);
+                            this.setState({
+                                loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
+                            })
+                            console.log('error', e)
+
+                        },
+                    );
+                } else {
                     this.setState({
-                        loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
-                    })
-                    console.log('error', e)
-
-                },
-            );
-        }else{
-            this.setState({
-                    data: [],
-                    doing: [],
-                    hang: [],
-                    done: [],
-                    loadState: 'success'
+                            data: [],
+                            doing: [],
+                            hang: [],
+                            done: [],
+                            loadState: 'success'
+                        }
+                    );
                 }
-            );
-        }
+            });
     }
 
 
@@ -243,7 +138,6 @@ export default class MyOrderPage extends BComponent {
         if(this.state.loadState == 'success') {
             return (
                 <View style={{flex:1}}>
-                    <PLPCustomNavBar leftItem={this._leftItem.bind(this)} rightItem={this._rightItem.bind(this)} titleItem={this._titleItem.bind(this)} />
                     <ScrollableTabView
                         renderTabBar={() => <CustomTabBar/>}
                         style={styles.container}
@@ -287,11 +181,7 @@ export default class MyOrderPage extends BComponent {
             )
         }else{
             return(
-                <View style={{flex:1}}>
-                    <PLPCustomNavBar leftItem={this._leftItem.bind(this)} rightItem={this._rightItem.bind(this)} titleItem={this._titleItem.bind(this)} />
                     <DefaultView onPress={()=>this.loadData()} type ={this.state.loadState}/>
-
-                </View>
             )
         };
     }
