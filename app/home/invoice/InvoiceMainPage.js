@@ -7,11 +7,13 @@ import SubmitButtonWithIcon from "../../view/SubmitButtonWithIcon";
 import SubmitButton from "../../view/SubmitButton";
 import * as apis from '../../apis';
 import Alert from "react-native-alert";
+import * as WeChat from'react-native-wechat'
+import Toast from 'react-native-root-toast'
 
 import React, {Component,PropTypes} from 'react';
 import {
 
-    StyleSheet,
+    Platform,
     Text,
     View,
     Image,
@@ -31,6 +33,58 @@ export default class InvoiceMainPage extends BComponent {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event)
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+            if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
+                WeChat.isWXAppInstalled()
+                    .then((isInstalled) => {
+                        if (isInstalled) {
+                            WeChat.shareAppletsToSession({
+                                webpageUrl:'https://www.pilipa.cn/',
+                                userName:'gh_d0c02ea3ee2c',
+                                path:'pages/home',
+                                title:'发票验真',
+                                description:'发票验真',
+                                imageUrl:'https://assets.pilipa.cn/public/logo/share.png'
+                            })
+                        } else {
+                            // alert('没有安装微信软件，请您安装微信之后再试');
+                            Toast.show('没有安装微信软件，请您安装微信之后再试')
+
+                        }
+                    });
+
+            }
+        }
+    }
+    componentDidMount() {
+        if(Platform.OS === 'ios') {
+            UserInfoStore.getMobileLoginInfo().then(
+                v => {
+                    if(v && v.open) {
+                        this.props.navigator.setButtons({
+                            rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                        });
+                    } else {
+                        this.props.navigator.setButtons({
+                            rightButtons: [{icon: require('../../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+                        });
+                    }
+                }, e => {
+                    this.props.navigator.setButtons({
+                        rightButtons: [{icon: require('../../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+                    });
+                }
+            );
+        } else {
+            // Android一直打开微信登录
+            this.props.navigator.setButtons({
+                rightButtons: [{icon: require('../../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+            });
+        }
+
+    }
 
     //错误信息提示框
     _AlertErrorMsg(content){

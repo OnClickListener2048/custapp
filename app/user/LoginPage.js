@@ -16,28 +16,24 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     View,
-    ToastAndroid,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-
-
 // import ProgressiveInput from 'react-native-progressive-input';
 // 引入外部文件
-import TimerButton from "../view/TimerButton";
 import styles from './css/LoginPageStyle';
 import px2dp from '../util'
 import Toast from 'react-native-root-toast';
 import * as apis from '../apis';
 import {Navigation} from 'react-native-navigation';
-import {DEBUG, SCREEN_WIDTH} from '../config';
+import {SCREEN_WIDTH} from '../config';
 import Alert from "react-native-alert";
 import SubmitButton from "../view/SubmitButton";
 import * as WeChat from 'react-native-wechat';
-import AdapterUI from '../util/AdapterUI'
 import SubmitButtonWithIcon from "../view/SubmitButtonWithIcon";
-import JPushModule from 'jpush-react-native'
+import loadUserInfo from '../util/LoadUserInfoUtil';
+import {isMobile} from '../util/StringUtil';
+
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
-import loadUserInfo from '../util/LoadUserInfoUtil'
 export default class LoginPage extends Component {
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -185,27 +181,6 @@ export default class LoginPage extends Component {
             });
     };
 
-    BUTTONS = [
-        '账号密码登陆',
-        '微信登录',
-        '取消',
-    ];
-    DESTRUCTIVE_INDEX = 3;
-    CANCEL_INDEX = 2;
-
-    showActionSheet = () => {
-        ActionSheetIOS.showActionSheetWithOptions({
-                options: this.BUTTONS,
-                cancelButtonIndex: this.CANCEL_INDEX,
-            },
-            (buttonIndex) => {
-                this.setState({mobileLogin: buttonIndex === 0});
-                if (buttonIndex === 1) {
-                    this._doWeChatLogin();
-                }
-            });
-    };
-
 
     _goWechat() {
         WeChat.isWXAppInstalled().then(
@@ -269,22 +244,18 @@ export default class LoginPage extends Component {
                     // v.open = !v.open;// 调试开关反转
                     if(v) {
                         this.setState({openMobileLogin: v.open});
-                        this.setState({mobileLogin: v.open});
                         this.setState({openMobileInfo: v});
                     } else {
                         this.setState({openMobileLogin: false});
-                        this.setState({mobileLogin: false});
                     }
                 }, e => {
                     console.log(e);
                     this.setState({openMobileLogin: false});
-                    this.setState({mobileLogin: false});
                 }
             );
         } else {
             // Android一直打开微信登录
             this.setState({openMobileLogin: false});
-            this.setState({mobileLogin: false});
         }
 
 
@@ -512,7 +483,8 @@ export default class LoginPage extends Component {
 
     updateMobile(mobile) {
         mobile = mobile.replace(/[^\d]/g, '');// 过滤非数字输入
-        let mobileValid = mobile.length > 0 && (mobile.match(/^([0-9]{11})?$/)) !== null;
+        let mobileValid = isMobile(mobile);
+        console.log('mobileValid22', mobileValid);
         let mobileNotEmpty = mobile.length > 0;
         this.setState({mobile, mobileValid, mobileNotEmpty, vCode: ''});
     }
@@ -541,7 +513,7 @@ export default class LoginPage extends Component {
 
     // 渲染手机登陆界面
     renderMobileLogin = () => {
-        if (this.state.mobileLogin) {
+        if (this.state.openMobileLogin) {
             return (
                 <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
                     {backgroundColor: 'white'}]}
@@ -685,23 +657,6 @@ export default class LoginPage extends Component {
                     </KeyboardAvoidingView>
                     }
 
-                    {this.state.openMobileLogin && !this.state.mobileLogin &&
-                    <KeyboardAvoidingView behavior='padding' style={[styles.containerKeyboard,
-                        {backgroundColor: 'white'}]}
-                                          keyboardVerticalOffset={0}>
-                        <View style={{height: this.state.centerBlankHeight}}/>
-
-                        <Image style={[styles.wechart_icon, {justifyContent: 'center'}]}
-                               source={require('../img/cloud.png')}/>
-
-                        <SubmitButton onPress={this._goWechat}
-                                      isEnabled={true}
-                                      buttonStyle={{marginTop: this.state.submitButtonMarginTop}}
-                                      text="登录"
-                        />
-
-                    </KeyboardAvoidingView>
-                    }
                 </View>
             </TouchableWithoutFeedback>
         );

@@ -27,34 +27,50 @@ import Alert from "react-native-alert";
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBar from '../view/TimeSearchBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
-const serviceData = [
+import SectionHeader from '../../view/SectionHeader'
+import CompanyProcessView from '../view/CompanyProcessView'
+
+const serviceData =[
     {
-        title:'现金流',
-        logo:require('../../img/xianjinliu.png'),
-        jumpPage:'CashFlowPage'
+        title:'财',
+        style:'collection',
+        arr:[
+            {
+                title:'现金流',
+                logo:require('../../img/xianjinliu.png'),
+                jumpPage:'CashFlowPage'
+            },
+            {
+                title:'利润表',
+                logo:require('../../img/lirunbiao.png'),
+                jumpPage:'ProfitStatementPage'
+            },
+            {
+                title:'应收账款',
+                logo:require('../../img/yingshou.png'),
+                jumpPage:'AccountsReceivablePage'
+            },
+            {
+                title:'应付账款',
+                logo:require('../../img/yingfu.png'),
+                jumpPage:'AccountsPayablePage'
+            }
+        ]
     },
     {
-        title:'利润表',
-        logo:require('../../img/lirunbiao.png'),
-        jumpPage:'ProfitStatementPage'
-    },
-    {
-        title:'纳税表',
-        logo:require('../../img/nashuibiao.png'),
-        jumpPage:'TaxFormPage'
-    },
-    {
-        title:'应收账款',
-        logo:require('../../img/yingshou.png'),
-        jumpPage:'AccountsReceivablePage'
-    },
-    {
-        title:'应付账款',
-        logo:require('../../img/yingfu.png'),
-        jumpPage:'AccountsPayablePage'
+        title:'税',
+        style:'table',
+        arr:[
+            {
+                title:'纳税表',
+                logo:require('../../img/nashuibiao.png'),
+                jumpPage:'TaxFormPage'
+            }
+        ]
     }
 ]
 import pushJump from '../../util/pushJump';
+import CommenCell from '../../view/CommenCell'
 
 const col = 3
 const marg = 0
@@ -154,8 +170,8 @@ export default class ServicePage extends BComponent {
                             console.log('company', company);
                             if (company && company.id) {
                                 this.companyid = company.id
-                                this.initYearReport(company.id)
-                                this.initPayment(this.companyid)
+                                this.loadYearReportData(company.id)
+                                this.loadPaymentData(this.companyid)
 
                                 //判断是否是多加公司
                                 UserInfoStore.getCompanyArr().then(
@@ -180,38 +196,38 @@ export default class ServicePage extends BComponent {
                                 //没有公司
                                 this.companyid = undefined
                                 this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
-                                this.initYearReport(this.companyid)
-                                this.initPayment(this.companyid)
+                                this.loadYearReportData(this.companyid)
+                                this.loadPaymentData(this.companyid)
                             }
                         },
                         (e) => {
                             this.companyid = undefined
-                            this.initYearReport(this.companyid)
+                            this.loadYearReportData(this.companyid)
                             this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
-                            this.initPayment(this.companyid)
+                            this.loadPaymentData(this.companyid)
                         },
                     );
                 } else {
                     //未登录
                     this.companyid = undefined
-                    this.initYearReport(this.companyid)
+                    this.loadYearReportData(this.companyid)
                     this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                    this.initPayment(this.companyid)
+                    this.loadPaymentData(this.companyid)
 
                 }
             },
             e => {
                 //未登录
                 this.companyid = undefined
-                this.initYearReport(this.companyid)
+                this.loadYearReportData(this.companyid)
                 this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                this.initPayment(this.companyid)
+                this.loadPaymentData(this.companyid)
             }
         );
 
     }
     //加载公司年报
-    initYearReport(id){
+    loadYearReportData(id){
 
         if(id){
             apis.loadYearReport(id).then((responseData)=>{
@@ -242,7 +258,7 @@ export default class ServicePage extends BComponent {
         }
     }
     //加载公司账期
-    initPayment(id){
+    loadPaymentData(id){
         if(id){
             //有公司 真实数据
             this.setState({
@@ -257,7 +273,8 @@ export default class ServicePage extends BComponent {
                         timeDateArr,
                         timeIndex
                     })
-                    this.loadData(timeDateArr[timeIndex].relateDate)
+                    this.loadServiceData(timeDateArr[timeIndex].relateDate)
+                    this.loadCompanyProcessData(timeDateArr[timeIndex].relateDate)
                 }else{
                     //请求失败
                     let timeDateArr = demoData.date
@@ -266,7 +283,8 @@ export default class ServicePage extends BComponent {
                         timeDateArr,
                         timeIndex
                     })
-                    this.loadData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                    this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                    this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
                 }
             },(e)=>{
                 // alert(JSON.stringify(e))
@@ -277,7 +295,8 @@ export default class ServicePage extends BComponent {
                     timeDateArr,
                     timeIndex
                 })
-                this.loadData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
             })
         }else{
             //没公司 演示数据
@@ -287,7 +306,8 @@ export default class ServicePage extends BComponent {
                 timeDateArr,
                 timeIndex
             })
-            this.loadData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+            this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+            this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
         }
 
     }
@@ -302,7 +322,8 @@ export default class ServicePage extends BComponent {
             is_demo
         })
     }
-    loadData(date='',isPull=false){
+    //刷新账单数据
+    loadServiceData(date='',isPull=false){
         if(isPull){
             this.setState({
                 isRefreshing:true
@@ -386,10 +407,33 @@ export default class ServicePage extends BComponent {
             },
         );
     }
+    //下拉回调
     _onRefresh(){
-        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
+        this.loadServiceData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
+        this.loadCompanyProcessData(this.state.timeDateArr[this.state.timeIndex].relateDate)
+    }
+    //请求公司服务进度接口
+    loadCompanyProcessData(date=''){
+
+        if(this.companyid){
+            //真实数据
+            apis.loadServiceCompanyProcessData(this.companyid,date).then(
+                (responseData) => {
+                    //获取数据后更改公司查账进度
+                    // if(this.refs.companyProcessView_Ref) {
+                    // this.refs.companyProcessView_Ref.setCurrentNum(num);}
+
+                },
+                (e) => {
+
+                }
+            )
+        }else{
+            //演示数据
+        }
 
     }
+    
     _titleItem(){
 
         if(this.state.isLogin){
@@ -451,11 +495,11 @@ export default class ServicePage extends BComponent {
     }
 
 
+
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo} isLogin={this.state.isLogin}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} callback = {this._callback.bind(this)}/>
-                {/*<View style={{backgroundColor:'#D9C298', width:DeviceInfo.width, height:DeviceInfo.height/2,position:'absolute',top:0,left:0}} />*/}
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
@@ -479,32 +523,65 @@ export default class ServicePage extends BComponent {
                         rightNum={this.state.expenditure}
 
                     />
-                    <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white',
-                        marginTop:12
-                    }}>
-                        {
-                            serviceData.map((item,index)=>{
-                                let borderRightWidth = 0
-                                let borderBottomWidth = 0
-                                if (index !=2){
-                                    borderRightWidth = DeviceInfo.onePR
-                                }
-                                if(index <3){
-                                    borderBottomWidth = DeviceInfo.onePR
-                                }
+                    <CompanyProcessView ref="companyProcessView_Ref" currentNum={0}/>
+                    {
+                        serviceData.map((item,index)=>{
+                            return(
+                                <View key = {index} style={{width:deviceWidth}}>
+                                    <SectionHeader style={{backgroundColor:'transparent'}} text ={item.title} />
+                                    {
+                                        item.style=='collection'?<View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white'}}>
+                                            {
+                                                item.arr.map((item,index)=>{
 
-                                return(
-                                    <TouchableOpacity key={index} onPress = {this._goServiceDetail.bind(this,item)}>
-                                        <View style={[{width:itemWidth, marginLeft:marg,backgroundColor:'white',height:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'#D7D7D7',borderRightWidth,borderBottomWidth}]}>
-                                            <Image resizeMode="contain" source={item.logo} />
-                                            <Text style={{color:'#333333',fontSize:setSpText(14), marginTop:13}}>{item.title}</Text>
+                                                    let borderBottomStyle = {}
+                                                    let borderRightStyle = {}
+                                                    if(index<2){
+                                                        borderBottomStyle = {
+                                                            borderBottomColor:'#D7D7D7',
+                                                            borderBottomWidth:DeviceInfo.onePR
+                                                        }
+                                                    }
+                                                    if(index == 0 || index == 2){
+                                                        borderRightStyle = {
+                                                            borderRightColor:'#D7D7D7',
+                                                            borderRightWidth:DeviceInfo.onePR
+                                                        }
+                                                    }
+
+                                                    return(
+                                                        <TouchableOpacity key={index} onPress = {this._goServiceDetail.bind(this,item)}>
+                                                            <View style={[{width:deviceWidth/2, height:68,flexDirection:'row',alignItems:'center'},borderBottomStyle,borderRightStyle]}>
+                                                                <Image resizeMode="contain" style={{marginLeft:41}} source={item.logo} />
+                                                                <Text style={{color:'#666666',fontSize:setSpText(16),marginLeft:9}}>{item.title}</Text>
+                                                            </View>
+                                                        </TouchableOpacity>
+
+                                                    )
+                                                })
+                                            }
+                                        </View>:<View>
+                                            {
+                                                item.arr.map((item,index)=>{
+                                                    return(
+                                                        <CommenCell
+                                                            style={{height:68}}
+                                                            leftTextStyle={{color:'#666666'}}
+                                                            leftIcon={item.logo}
+                                                            leftText={item.title}
+                                                            underLine={false}
+                                                            onPress = {this._goServiceDetail.bind(this,item)}
+                                                        />
+                                                    )
+                                                })
+                                            }
+
                                         </View>
-                                    </TouchableOpacity>
-
-                                )
-                            })
-                        }
-                    </View>
+                                    }
+                                </View>
+                            )
+                        })
+                    }
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 {this._renderYearReport()}
@@ -587,7 +664,8 @@ export default class ServicePage extends BComponent {
         this.setState({
             timeIndex:index
         })
-        this.loadData(this.state.timeDateArr[index].relateDate)
+        this.loadServiceData(this.state.timeDateArr[index].relateDate)
+        this.loadCompanyProcessData(this.state.timeDateArr[index].relateDate)
     }
     _goServiceDetail(item){
 

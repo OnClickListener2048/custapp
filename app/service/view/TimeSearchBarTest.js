@@ -25,15 +25,26 @@ export default class TimeSearchBar extends Component {
 
     componentWillReceiveProps(nextProps){
         this._index = parseInt(nextProps['timeIndex'])
+        this._timer = setTimeout(()=>{
+            this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
+            console.log('componentWillReceiveProps',this._index)
+            clearTimeout(this._timer);
+        },500);
+    }
+
+    componentDidMount() {
+        this._index = parseInt(this.props.timeIndex)
+        console.log('componentDidMount',this._index)
+
         this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
     }
 
     render(){
         return(
-            <View style={{width:DeviceInfo.width,height:40,position:'relative',backgroundColor:'#D9C298'}}>
+            <View style={{width:DeviceInfo.width,height:50,position:'relative',backgroundColor:'#D9C298'}}>
                 <View style={{flexDirection:'row'}}>
                     <TouchableOpacity onPress={()=>{this._next('left')}}>
-                        <View style={{width:TriangleWidth,height:40,justifyContent:'center',alignItems:'center'}}>
+                        <View style={{width:TriangleWidth,height:50,justifyContent:'center',alignItems:'center'}}>
                             <Image source={require('../../img/left_next.png')}/>
                         </View>
                     </TouchableOpacity>
@@ -54,12 +65,12 @@ export default class TimeSearchBar extends Component {
                         {
                             this.props.timeDateArr.map((item,index)=>{
 
-                                let color = '#664B14';
-                                (this.props.timeIndex  == index)?color = 'white':color = '#664B14'
+                                let color = (this.props.timeIndex  == index)?'white':'#B5904E'
+                                let fontWeight = (this.props.timeIndex  == index)?'bold':'normal'
                                 return(
                                     <TouchableWithoutFeedback key={index} onPress={()=>{this._selectMonth(index)}}>
-                                        <View style={{width:monthWidth,justifyContent:'center',alignItems:'center',backgroundColor:'transparent'}}>
-                                            <Text style={{color,fontSize:setSpText(16)}}>
+                                        <View style={{width:monthWidth,justifyContent:'center',alignItems:'center',backgroundColor:'transparent',}}>
+                                            <Text style={{color,fontSize:setSpText(16),fontWeight}}>
                                                 {item.relateText}
                                             </Text>
                                         </View>
@@ -77,7 +88,7 @@ export default class TimeSearchBar extends Component {
                         }
                     </ScrollView>
                     <TouchableOpacity onPress={()=>{this._next('right')}}>
-                        <View style={{width:TriangleWidth,height:40,justifyContent:'center',alignItems:'center'}}>
+                        <View style={{width:TriangleWidth,height:50,justifyContent:'center',alignItems:'center'}}>
                             <Image source={require('../../img/right_next.png')}/>
                         </View>
                     </TouchableOpacity>
