@@ -170,8 +170,8 @@ export default class ServicePage extends BComponent {
                             console.log('company', company);
                             if (company && company.id) {
                                 this.companyid = company.id
-                                this.initYearReport(company.id)
-                                this.initPayment(this.companyid)
+                                this.loadYearReportData(company.id)
+                                this.loadPaymentData(this.companyid)
 
                                 //判断是否是多加公司
                                 UserInfoStore.getCompanyArr().then(
@@ -196,38 +196,38 @@ export default class ServicePage extends BComponent {
                                 //没有公司
                                 this.companyid = undefined
                                 this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
-                                this.initYearReport(this.companyid)
-                                this.initPayment(this.companyid)
+                                this.loadYearReportData(this.companyid)
+                                this.loadPaymentData(this.companyid)
                             }
                         },
                         (e) => {
                             this.companyid = undefined
-                            this.initYearReport(this.companyid)
+                            this.loadYearReportData(this.companyid)
                             this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
-                            this.initPayment(this.companyid)
+                            this.loadPaymentData(this.companyid)
                         },
                     );
                 } else {
                     //未登录
                     this.companyid = undefined
-                    this.initYearReport(this.companyid)
+                    this.loadYearReportData(this.companyid)
                     this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                    this.initPayment(this.companyid)
+                    this.loadPaymentData(this.companyid)
 
                 }
             },
             e => {
                 //未登录
                 this.companyid = undefined
-                this.initYearReport(this.companyid)
+                this.loadYearReportData(this.companyid)
                 this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
-                this.initPayment(this.companyid)
+                this.loadPaymentData(this.companyid)
             }
         );
 
     }
     //加载公司年报
-    initYearReport(id){
+    loadYearReportData(id){
 
         if(id){
             apis.loadYearReport(id).then((responseData)=>{
@@ -258,7 +258,7 @@ export default class ServicePage extends BComponent {
         }
     }
     //加载公司账期
-    initPayment(id){
+    loadPaymentData(id){
         if(id){
             //有公司 真实数据
             this.setState({
@@ -273,7 +273,8 @@ export default class ServicePage extends BComponent {
                         timeDateArr,
                         timeIndex
                     })
-                    this.loadData(timeDateArr[timeIndex].relateDate)
+                    this.loadServiceData(timeDateArr[timeIndex].relateDate)
+                    this.loadCompanyProcessData(timeDateArr[timeIndex].relateDate)
                 }else{
                     //请求失败
                     let timeDateArr = demoData.date
@@ -282,7 +283,8 @@ export default class ServicePage extends BComponent {
                         timeDateArr,
                         timeIndex
                     })
-                    this.loadData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                    this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                    this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
                 }
             },(e)=>{
                 // alert(JSON.stringify(e))
@@ -293,7 +295,8 @@ export default class ServicePage extends BComponent {
                     timeDateArr,
                     timeIndex
                 })
-                this.loadData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
             })
         }else{
             //没公司 演示数据
@@ -303,7 +306,8 @@ export default class ServicePage extends BComponent {
                 timeDateArr,
                 timeIndex
             })
-            this.loadData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+            this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+            this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
         }
 
     }
@@ -318,8 +322,8 @@ export default class ServicePage extends BComponent {
             is_demo
         })
     }
-
-    loadData(date='',isPull=false){
+    //刷新账单数据
+    loadServiceData(date='',isPull=false){
         if(isPull){
             this.setState({
                 isRefreshing:true
@@ -403,23 +407,31 @@ export default class ServicePage extends BComponent {
             },
         );
     }
+    //下拉回调
     _onRefresh(){
-        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
-
+        this.loadServiceData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
+        this.loadCompanyProcessData(this.state.timeDateArr[this.state.timeIndex].relateDate)
     }
     //请求公司服务进度接口
     loadCompanyProcessData(date=''){
-        apis.loadServiceCompanyProcessData(this.companyid,date).then(
-            (responseData) => {
-                //获取数据后更改公司查账进度
-                // if(this.refs.companyProcessView_Ref) {
-                // this.refs.companyProcessView_Ref.setCurrentNum(num);}
 
-            },
-            (e) => {
+        if(this.companyid){
+            //真实数据
+            apis.loadServiceCompanyProcessData(this.companyid,date).then(
+                (responseData) => {
+                    //获取数据后更改公司查账进度
+                    // if(this.refs.companyProcessView_Ref) {
+                    // this.refs.companyProcessView_Ref.setCurrentNum(num);}
 
-            }
-        )
+                },
+                (e) => {
+
+                }
+            )
+        }else{
+            //演示数据
+        }
+
     }
     
     _titleItem(){
@@ -653,7 +665,8 @@ export default class ServicePage extends BComponent {
         this.setState({
             timeIndex:index
         })
-        this.loadData(this.state.timeDateArr[index].relateDate)
+        this.loadServiceData(this.state.timeDateArr[index].relateDate)
+        this.loadCompanyProcessData(this.state.timeDateArr[index].relateDate)
     }
     _goServiceDetail(item){
 
