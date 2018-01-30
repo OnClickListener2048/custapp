@@ -8,6 +8,7 @@ import SubmitButton from "../../view/SubmitButton";
 import * as apis from '../../apis';
 import Alert from "react-native-alert";
 import * as WeChat from'react-native-wechat'
+import Toast from 'react-native-root-toast'
 
 import React, {Component,PropTypes} from 'react';
 import {
@@ -36,14 +37,24 @@ export default class InvoiceMainPage extends BComponent {
         super.onNavigatorEvent(event)
         if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
             if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
-                WeChat.shareAppletsToSession({
-                    webpageUrl:'https://www.pilipa.cn/',
-                    userName:'gh_d0c02ea3ee2c',
-                    path:'pages/home',
-                    title:'发票验真',
-                    description:'发票验真',
-                    imageUrl:'https://assets.pilipa.cn/public/logo/share.png'
-                })
+                WeChat.isWXAppInstalled()
+                    .then((isInstalled) => {
+                        if (isInstalled) {
+                            WeChat.shareAppletsToSession({
+                                webpageUrl:'https://www.pilipa.cn/',
+                                userName:'gh_d0c02ea3ee2c',
+                                path:'pages/home',
+                                title:'发票验真',
+                                description:'发票验真',
+                                imageUrl:'https://assets.pilipa.cn/public/logo/share.png'
+                            })
+                        } else {
+                            // alert('没有安装微信软件，请您安装微信之后再试');
+                            Toast.show('没有安装微信软件，请您安装微信之后再试')
+
+                        }
+                    });
+
             }
         }
     }
@@ -72,6 +83,7 @@ export default class InvoiceMainPage extends BComponent {
                 rightButtons: [{icon: require('../../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
             });
         }
+
     }
 
     //错误信息提示框

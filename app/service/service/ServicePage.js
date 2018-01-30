@@ -500,7 +500,6 @@ export default class ServicePage extends BComponent {
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {false} isDemo = {this.state.is_demo} isLogin={this.state.isLogin}  titleItem={this._titleItem.bind(this)} navigator={this.props.navigator} year={this.state.year} callback = {this._callback.bind(this)}/>
-                {/*<View style={{backgroundColor:'#D9C298', width:DeviceInfo.width, height:DeviceInfo.height/2,position:'absolute',top:0,left:0}} />*/}
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
@@ -524,7 +523,7 @@ export default class ServicePage extends BComponent {
                         rightNum={this.state.expenditure}
 
                     />
-                    <CompanyProcessView ref="companyProcessView_Ref" currentNum={2}/>
+                    <CompanyProcessView ref="companyProcessView_Ref" currentNum={0}/>
                     {
                         serviceData.map((item,index)=>{
                             return(
