@@ -86,7 +86,6 @@ export default class MinePage extends BComponent {
                 if (user && user.mobilePhone) {
                     //获取当前公司
                     //由于公司获取接口经常失败这里再次调用接口检查一下  获取公司
-                    user.mobilePhone = '18766666666'
                     apis.getCompany(user.mobilePhone).then(
                         (companyInfo) => {
                             if (companyInfo && companyInfo.list && companyInfo.list.length>0) {
@@ -236,66 +235,6 @@ export default class MinePage extends BComponent {
                                         companyCount:''
                                     })
                                 })
-                                //由于公司获取接口经常失败这里再次调用接口检查一下  获取公司
-                                // apis.getCompany(user.mobilePhone).then(
-                                //     (companyInfo) => {
-                                //         if (companyInfo && companyInfo.list && companyInfo.list.length>0) {
-                                //             //接口有公司
-                                //             let tmpCompaniesArr = companyInfo.list;
-                                //
-                                //             let index = 0;
-                                //             for(let i = 0 ;i<tmpCompaniesArr.length;i++){
-                                //                 let dic = tmpCompaniesArr[i]
-                                //                 if(dic.default){
-                                //                     index = i;
-                                //                     break
-                                //                 }
-                                //             }
-                                //             let netCompany = tmpCompaniesArr[index]
-                                //             UserInfoStore.getCompany().then(
-                                //                 (company) => {
-                                //                     console.log('company', company);
-                                //                     if(!(company && (company.id == netCompany.id))){
-                                //
-                                //                         this.getOrderNumber(netCompany.id,netCompany.type)
-                                //                         UserInfoStore.setCompanyArr(tmpCompaniesArr).then();
-                                //                         UserInfoStore.setCompany(netCompany).then();
-                                //                         this.setState({company: netCompany.infos[0].value});
-                                //                         DeviceEventEmitter.emit('ChangeCompany');
-                                //
-                                //                     }
-                                //
-                                //                 },
-                                //                 (e) => {
-                                //                     console.log("读取信息错误:", e);
-                                //                 },
-                                //             );
-                                //
-                                //         }else{
-                                //             //接口没公司
-                                //             UserInfoStore.getCompany().then(
-                                //                 (company) => {
-                                //                     //本地有公司 其实没公司
-                                //                     if(company){
-                                //                         this.getOrderNumber()
-                                //                         //没公司
-                                //                         UserInfoStore.removeCompany().then();
-                                //                         UserInfoStore.removeCompanyArr().then();
-                                //                         this.setState({company: '',companyCount:''});
-                                //                         DeviceEventEmitter.emit('ChangeCompany');
-                                //                     }
-                                //
-                                //                 },
-                                //                 (e) => {
-                                //                 },
-                                //             );
-                                //
-                                //         }
-                                //     },
-                                //     (e) => {
-                                //
-                                //     },
-                                // );
                             } else{
                                 this.reset();
                             }
