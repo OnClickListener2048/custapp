@@ -123,7 +123,6 @@ export default class ServicePage extends BComponent {
             isGo:false,
             timeDateArr:[],
             timeIndex:0
-
         };
         // this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
@@ -420,8 +419,10 @@ export default class ServicePage extends BComponent {
             apis.loadServiceCompanyProcessData(this.companyid,date).then(
                 (responseData) => {
                     //获取数据后更改公司查账进度
-                    // if(this.refs.companyProcessView_Ref) {
-                    // this.refs.companyProcessView_Ref.setCurrentNum(num);}
+                    let num = responseData.data;
+                    if(this.refs.companyProcessView_Ref) {
+                    this.refs.companyProcessView_Ref.setCurrentNum(num - 1);
+                    }
 
                 },
                 (e) => {
@@ -429,7 +430,9 @@ export default class ServicePage extends BComponent {
                 }
             )
         }else{
-            //演示数据
+            if(this.refs.companyProcessView_Ref) {
+                this.refs.companyProcessView_Ref.setCurrentNum(4);
+            }
         }
 
     }
@@ -523,7 +526,7 @@ export default class ServicePage extends BComponent {
                         rightNum={this.state.expenditure}
 
                     />
-                    <CompanyProcessView ref="companyProcessView_Ref" currentNum={0}/>
+                    <CompanyProcessView ref="companyProcessView_Ref" currentNum={-1}/>
                     {
                         serviceData.map((item,index)=>{
                             return(
