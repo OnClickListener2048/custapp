@@ -4262,6 +4262,7 @@ react-native-vector-icons@^4.1.1:
 "react-native-wechat@github:pilipa-cn/react-native-wechat#v1.0.3":
   version "1.0.2.2"
   resolved "https://codeload.github.com/pilipa-cn/react-native-wechat/tar.gz/e5f6e9d7cfb39748efb34d14dac3e4db36661920"
+
   dependencies:
     events "1.0.2"
 
