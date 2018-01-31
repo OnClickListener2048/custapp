@@ -4259,9 +4259,9 @@ react-native-vector-icons@^4.1.1:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-"react-native-wechat@github:pilipa-cn/react-native-wechat#v1.0.2":
-  version "1.0.1"
-  resolved "https://codeload.github.com/pilipa-cn/react-native-wechat/tar.gz/ddb03732f36e95526f7894e1ad44bbdb3fd21a1f"
+"react-native-wechat@github:pilipa-cn/react-native-wechat#v1.0.2.2":
+  version "1.0.2.2"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-wechat/tar.gz/044131ea27257204c3eb6a4df6a1d37b2488be9d"
   dependencies:
     events "1.0.2"
 
