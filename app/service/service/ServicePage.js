@@ -282,8 +282,8 @@ export default class ServicePage extends BComponent {
                         timeDateArr,
                         timeIndex
                     })
-                    this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
-                    this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                    this.loadServiceData(timeDateArr[timeIndex].relateDate)
+                    this.loadCompanyProcessData(timeDateArr[timeIndex].relateDate)
                 }
             },(e)=>{
                 // alert(JSON.stringify(e))
@@ -294,8 +294,8 @@ export default class ServicePage extends BComponent {
                     timeDateArr,
                     timeIndex
                 })
-                this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
-                this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                this.loadServiceData(timeDateArr[timeIndex].relateDate)
+                this.loadCompanyProcessData(timeDateArr[timeIndex].relateDate)
             })
         }else{
             //没公司 演示数据
@@ -413,7 +413,6 @@ export default class ServicePage extends BComponent {
     }
     //请求公司服务进度接口
     loadCompanyProcessData(date=''){
-
         if(this.companyid){
             //真实数据
             apis.loadServiceCompanyProcessData(this.companyid,date).then(

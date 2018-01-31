@@ -100,7 +100,7 @@ export default class MinePage extends BComponent {
                                     }
                                 }
                                 let netCompany = tmpCompaniesArr[index]
-                                this.getOrderNumber(netCompany.id,netCompany.type)
+                                // this.getOrderNumber(netCompany.id,netCompany.type)
                                 //判断公司数量
                                 if(tmpCompaniesArr.length != this.state.companyCount){
                                     //当前公司数量不一致
@@ -151,7 +151,6 @@ export default class MinePage extends BComponent {
                                     (company) => {
                                         //本地有公司 其实没公司
                                         if(company){
-                                            this.getOrderNumber()
                                             //没公司
                                             UserInfoStore.removeCompany().then();
                                             this.setState({company: ''});
@@ -195,6 +194,11 @@ export default class MinePage extends BComponent {
                                 if(user.avatar !== null) {
                                     this.setState({avatar: {uri:user.avatar}});
                                 }
+                                if(user.mobilePhone){
+                                    this.getOrderNumber(user.mobilePhone)
+                                }else{
+                                    this.getOrderNumber()
+                                }
                                 //获取当前公司
                                 UserInfoStore.getCompany().then(
                                     (company) => {
@@ -206,11 +210,11 @@ export default class MinePage extends BComponent {
                                             this.setState({company: ''});
                                         }
                                         //获取成更 根据公司ID 获取订单总数
-                                        if(company && company.id && company.type){
-                                            this.getOrderNumber(company.id,company.type)
-                                        }else{
-                                            this.getOrderNumber()
-                                        }
+                                        // if(company && company.id && company.type){
+                                        //     this.getOrderNumber(company.id,company.type)
+                                        // }else{
+                                        //     this.getOrderNumber()
+                                        // }
                                     },
                                     (e) => {
                                         console.log("读取信息错误:", e);
@@ -253,10 +257,10 @@ export default class MinePage extends BComponent {
     }
 
     //获取订单总数
-    getOrderNumber(id='',type=''){
-        if(id){
+    getOrderNumber(mobile){
+        if(mobile){
             //请求订单接口
-            apis.loadOrderListData(id,type).then(
+            apis.loadOrderListData(mobile).then(
                 (responseData) => {
                     if((responseData.code == 0)&&responseData.list&&responseData.list.length>0){
                         this.setState({
