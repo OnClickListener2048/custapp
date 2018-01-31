@@ -22,7 +22,7 @@ export function login( phone = '', smsCode = '') {
 
 // 发送手机验证码并校验图形验证码
 export async function sendVerifyCode(mobile = '', type = '1', imgcode = '', device = '') {
-    return postApi('/api/v1/verificodes/sms?mobile='+mobile+'&type='+type+'&imgcode='+imgcode + '&device='+device, {});
+    return postApi('/api/v1.01/verificodes/sms?mobile='+mobile+'&type='+type+'&imgcode='+imgcode + '&device='+device, {});
 }
 
 // 绑定关联新手机号
