@@ -51,6 +51,7 @@ export default class MyOrderPage extends BComponent {
 
         UserInfoStore.getLastUserPhone().then(
             (mobile) => {
+                console.log('订单手机号是',mobile);
                 if (mobile != null && mobile != undefined) {
                     var loading = SActivityIndicator.show(true, "加载中...");
                     apis.loadOrderListData(mobile).then(

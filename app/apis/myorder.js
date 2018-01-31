@@ -5,7 +5,7 @@
 import {getApi} from './common';
 
 export function loadOrderListData(mobile) {
-    return getApi('/api/v1/orders',{mobile});
+    return getApi('/api/v1.01/orders',{mobile});
 }
 
 export function loadOrderDetailData(id='') {
