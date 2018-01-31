@@ -61,6 +61,7 @@ import InvoiceMainPage from './home/invoice/InvoiceMainPage'
 import InvoiceInfoPage from './home/invoice/InvoiceInfoPage'
 
 import HomeTipBox from './view/HomeTipBox'
+import DebugPage from "./mine/debug/DebugPage";
 
 
 
@@ -112,6 +113,5 @@ export default function () {
     reg('InvoiceMainPage', () => InvoiceMainPage);
     reg('InvoiceInputPage', () => InvoiceInputPage);
     reg('InvoiceInfoPage', () => InvoiceInfoPage);
-
-
+    reg('DebugPage', () => DebugPage);
 }

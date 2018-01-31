@@ -123,7 +123,6 @@ export default class ServicePage extends BComponent {
             isGo:false,
             timeDateArr:[],
             timeIndex:0
-
         };
         // this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
@@ -283,8 +282,8 @@ export default class ServicePage extends BComponent {
                         timeDateArr,
                         timeIndex
                     })
-                    this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
-                    this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                    this.loadServiceData(timeDateArr[timeIndex].relateDate)
+                    this.loadCompanyProcessData(timeDateArr[timeIndex].relateDate)
                 }
             },(e)=>{
                 // alert(JSON.stringify(e))
@@ -295,8 +294,8 @@ export default class ServicePage extends BComponent {
                     timeDateArr,
                     timeIndex
                 })
-                this.loadServiceData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
-                this.loadCompanyProcessData(timeDateArr[demoData.date.length-1-timeIndex].relateDate)
+                this.loadServiceData(timeDateArr[timeIndex].relateDate)
+                this.loadCompanyProcessData(timeDateArr[timeIndex].relateDate)
             })
         }else{
             //没公司 演示数据
@@ -414,14 +413,15 @@ export default class ServicePage extends BComponent {
     }
     //请求公司服务进度接口
     loadCompanyProcessData(date=''){
-
         if(this.companyid){
             //真实数据
             apis.loadServiceCompanyProcessData(this.companyid,date).then(
                 (responseData) => {
                     //获取数据后更改公司查账进度
-                    // if(this.refs.companyProcessView_Ref) {
-                    // this.refs.companyProcessView_Ref.setCurrentNum(num);}
+                    let num = responseData.data;
+                    if(this.refs.companyProcessView_Ref) {
+                    this.refs.companyProcessView_Ref.setCurrentNum(num - 1);
+                    }
 
                 },
                 (e) => {
@@ -429,7 +429,9 @@ export default class ServicePage extends BComponent {
                 }
             )
         }else{
-            //演示数据
+            if(this.refs.companyProcessView_Ref) {
+                this.refs.companyProcessView_Ref.setCurrentNum(4);
+            }
         }
 
     }
@@ -523,7 +525,7 @@ export default class ServicePage extends BComponent {
                         rightNum={this.state.expenditure}
 
                     />
-                    <CompanyProcessView ref="companyProcessView_Ref" currentNum={0}/>
+                    <CompanyProcessView ref="companyProcessView_Ref" currentNum={-1}/>
                     {
                         serviceData.map((item,index)=>{
                             return(

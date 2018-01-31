@@ -1,7 +1,8 @@
 import {Navigation} from 'react-native-navigation';
 
-import {DEFAULT_NAVIGATOR_STYLE as navigatorStyle, tabsStyle, appStyle} from './config';
+import {DEFAULT_NAVIGATOR_STYLE as navigatorStyle, tabsStyle, appStyle, DEBUG} from './config';
 import registerScreens from './screens';
+import DebugPage from "./mine/debug/DebugPage";
 
 // screen related book keeping
 registerScreens();
@@ -51,6 +52,20 @@ const tabsMain = [
         navigatorStyle,
     },
 ];
+
+// 调试选项
+if(DEBUG) {
+    tabsMain.push(
+        {
+            label: '调试',
+            screen: 'DebugPage',
+            icon: require('./img/debug.png'),
+            title: '调试页面',
+            isIntercept:false,//添加iOS拦截tabbar点击拦截，true为拦截，配合基类event.id === 'bottomTabSelected使用
+            navigatorStyle,
+        }
+    );
+}
 
 // 转到初始化页面 main.LaunchPage
 // export function navToBootstrap({isReset = false} = {}) {
