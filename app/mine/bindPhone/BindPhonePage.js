@@ -3,6 +3,7 @@
  */
 /**
  修改手机号
+ TODO 获取图形验证码逻辑独立出去到基类中
  */
 import React, {Component} from 'react';
 
@@ -30,6 +31,7 @@ import {Navigation} from 'react-native-navigation';
 import Alert from "react-native-alert";
 import random from "../../util/random";
 import loadUserInfo from '../../util/LoadUserInfoUtil'
+import notEmpty from "../../util/StringUtil";
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -55,7 +57,8 @@ export default class BindPhonePage extends BComponent {
             vCode: '',         // 图片验证码
             picURL: null,// 图片验证码
             vCodeInputValid: false,
-            device:random(11) // 随机
+            device: random(11), // 随机
+            needVcode: false,// 是否需要图形验证码
         };
 
         this._doChangeVCode = this._doChangeVCode.bind(this);
@@ -75,7 +78,7 @@ export default class BindPhonePage extends BComponent {
                 console.log("读取信息错误:", e);
             },
         );
-        this._doChangeVCode();
+        // this._doChangeVCode();
     }
 
     componentDidMount() {
@@ -90,7 +93,11 @@ export default class BindPhonePage extends BComponent {
                     this.setState({picURL, vCode: '', vCodeInputValid: false});
                 },
                 e => {
-                    Toast.show('图形验证码' + errorText(e), {position: Toast.positions.CENTER, duration: Toast.durations.LONG, backgroundColor: 'red'});
+                    Toast.show('图形验证码' + errorText(e), {
+                        position: Toast.positions.CENTER,
+                        duration: Toast.durations.LONG,
+                        backgroundColor: 'red'
+                    });
                 }
             );
         }
@@ -100,9 +107,9 @@ export default class BindPhonePage extends BComponent {
     readUserInfo() {
         let _this = this;
         loadUserInfo({
-            type:'bind',
-            callback: function(res){
-                if(res.code == 0){
+            type: 'bind',
+            callback: function (res) {
+                if (res.code === 0) {
                     DeviceEventEmitter.emit('ChangeCompany');
                 }
             },
@@ -173,15 +180,17 @@ export default class BindPhonePage extends BComponent {
         //     },
         // );
     }
-    _removeCompanyInfo(){
-        UserInfoStore.removeCompany().then((s)=>{
+
+    _removeCompanyInfo() {
+        UserInfoStore.removeCompany().then((s) => {
             DeviceEventEmitter.emit('ChangeCompany');
-        },(e)=>{
+        }, (e) => {
 
         });
         UserInfoStore.removeCompanyArr().then();
 
     }
+
     // 修改绑定手机号
     _doSubmit() {
         let loading = SActivityIndicator.show(true, "");
@@ -227,15 +236,29 @@ export default class BindPhonePage extends BComponent {
     // 请求短信验证码
     _requestSMSCode(shouldStartCountting) {
         console.log('_requestSMSCode shouldStartCountting', shouldStartCountting);
-        if (this.state.newMobileValid && this.state.vCodeInputValid) {
+        if (this.state.newMobileValid) {
             apis.sendVerifyCode(this.state.newMobile, 1, this.state.vCode, this.state.device).then(
                 (responseData) => {
                     Toast.show('短信验证码已发送');
+                    this.setState({ vCode: '', needVcode: false});
                     // Toast.show('测试环境短信验证码:' + responseData.msg);
                     //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
                 }, (e) => {
-                    Toast.show(errorText(e));
+                    let errMsg = errorText(e);
+                    if(notEmpty(errMsg)) {
+                        Toast.show(errMsg);
+                    }
+
                     this.refs.timerButton.reset();
+
+                    try {
+                        let {code, imgcode} = e;
+                        if(code === 2) {
+                            let picURL = {uri: 'data:image/jpeg;base64,' + imgcode};
+                            this.setState({picURL, vCode: '', needVcode: true, vCodeInputValid: false});
+                        }
+                    } catch(e) {
+                    }
                 }
             );
         }
@@ -246,7 +269,13 @@ export default class BindPhonePage extends BComponent {
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
                 <View style={{flex: 1, backgroundColor: '#F1F1F1'}}>
                     <Text
-                        style={{padding: 17, color: '#333333', fontSize: 14, width: SCREEN_WIDTH, textAlign: 'center'}}>当前手机号{this.state.phone}</Text>
+                        style={{
+                            padding: 17,
+                            color: '#333333',
+                            fontSize: 14,
+                            width: SCREEN_WIDTH,
+                            textAlign: 'center'
+                        }}>当前手机号{this.state.phone}</Text>
                     <View style={{
                         width: SCREEN_WIDTH,
                         padding: 14,
@@ -288,47 +317,50 @@ export default class BindPhonePage extends BComponent {
                     </View>
 
                     {/*  图片验证码 */}
-                    <View style={styles.textInputContainer}>
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            width: SCREEN_WIDTH,
-                            padding: 14,
-                            paddingLeft: 30,
-                            paddingRight: 30,
-                            backgroundColor: '#FFFFFF',
-                            borderBottomWidth: 0.5,
-                            borderBottomColor: '#ececec'
-                        }}>
-                            <TextInput underlineColorAndroid='transparent'
-                                       ref="vCodeInput"
-                                       autoCorrect={false}
-
-                                       editable={this.state.newMobileValid}
-                                       secureTextEntry={false} maxLength={4} keyboardType='default'
-                                       style={[styles.codeInput, {paddingLeft: 0,}]}
-                                       placeholder={this.state.verifyText}
-                                       placeholderTextColor='#c8c8c8'
-                                       returnKeyType='done'
-                                       onChangeText={(vCode) => {
-                                           let vCodeInputValid = (vCode.length === 4);
-                                           this.setState({vCode, vCodeInputValid});
-                                           if (vCodeInputValid) {
-                                               dismissKeyboard();
-                                           }
-                                       }}
-
-                            />
-
-                            <TouchableWithoutFeedback onPress={() => {
-                                this._doChangeVCode()
+                    {
+                        this.state.needVcode &&
+                        <View style={styles.textInputContainer}>
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                width: SCREEN_WIDTH,
+                                padding: 14,
+                                paddingLeft: 30,
+                                paddingRight: 30,
+                                backgroundColor: '#FFFFFF',
+                                borderBottomWidth: 0.5,
+                                borderBottomColor: '#ececec'
                             }}>
-                                <Image style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
-                                       source={this.state.picURL}/>
-                            </TouchableWithoutFeedback>
+                                <TextInput underlineColorAndroid='transparent'
+                                           ref="vCodeInput"
+                                           autoCorrect={false}
 
+                                           editable={this.state.newMobileValid}
+                                           secureTextEntry={false} maxLength={4} keyboardType='default'
+                                           style={[styles.codeInput, {paddingLeft: 0,}]}
+                                           placeholder={this.state.verifyText}
+                                           placeholderTextColor='#c8c8c8'
+                                           returnKeyType='done'
+                                           onChangeText={(vCode) => {
+                                               let vCodeInputValid = (vCode.length === 4);
+                                               this.setState({vCode, vCodeInputValid});
+                                               if (vCodeInputValid) {
+                                                   dismissKeyboard();
+                                               }
+                                           }}
+
+                                />
+
+                                <TouchableWithoutFeedback onPress={() => {
+                                    // this._doChangeVCode()
+                                }}>
+                                    <Image style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
+                                           source={this.state.picURL}/>
+                                </TouchableWithoutFeedback>
+
+                            </View>
                         </View>
-                    </View>
+                    }
 
                     {/*  短信验证码 */}
                     <View style={{
@@ -344,7 +376,7 @@ export default class BindPhonePage extends BComponent {
                                 placeholderTextColor='#c8c8c8'
                                 underlineColorAndroid='transparent'
                                 value={this.state.smsCode}
-                                editable={this.state.timerButtonClicked && this.state.vCodeInputValid}
+                                editable={this.state.newMobileValid }
                                 secureTextEntry={false}
                                 maxLength={6}
                                 keyboardType='numeric'
@@ -367,19 +399,20 @@ export default class BindPhonePage extends BComponent {
 
                         <View style={{flexDirection: 'row-reverse', alignItems: 'center', width: DeviceInfo.width / 2}}>
                             <TimerButton
-                                enable={this.state.newMobileValid && this.state.vCodeInputValid}
+                                enable={this.state.newMobileValid}
                                 ref="timerButton"
                                 style={{width: 90, marginRight: 30}}
                                 textStyle={{fontSize: 12, color: '#6A6A6A'}}
                                 timerCount={60}
                                 onClick={(shouldStartCountting) => {
-                                    if (this.state.newMobileValid && this.state.vCodeInputValid) {
-                                        shouldStartCountting(true);
-                                        this.setState({timerButtonClicked: true});
-                                        this._requestSMSCode(shouldStartCountting);
-                                    } else {
+                                    if(this.state.needVcode && !this.state.vCodeInputValid) {
+                                        Toast.show("对不起, 请输入图形验证码");
                                         this.refs.timerButton.reset();
+                                        return;
                                     }
+                                    shouldStartCountting(true);
+                                    this.setState({timerButtonClicked: true});
+                                    this._requestSMSCode(shouldStartCountting);
                                 }}
                             />
                             <View style={{width: 1, height: 17, backgroundColor: '#ececec'}}/>
