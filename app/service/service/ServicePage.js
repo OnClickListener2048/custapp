@@ -523,6 +523,7 @@ export default class ServicePage extends BComponent {
                         leftNum={this.state.income}
                         rightDes="支出"
                         rightNum={this.state.expenditure}
+                        isService = {true}
 
                     />
                     <CompanyProcessView ref="companyProcessView_Ref" currentNum={-1}/>

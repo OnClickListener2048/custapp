@@ -25,6 +25,7 @@ export default class HeaderView extends Component {
     }
 
     static defaultProps = {
+        isService:false,//是否是
         hasTop:true,//是否有顶部的view
         hasBottom:true,//是否有底部view
         topDes:'',//顶部文字描述
@@ -36,10 +37,10 @@ export default class HeaderView extends Component {
     }
 
     render(){
-        const {hasTop,hasBottom} = this.props
+        const {hasTop,hasBottom,isService} = this.props
         return(
             <Image style={styles.wrapper}
-                   source={hasTop&&hasBottom?require('../../img/service_bg.png'):require('../../img/service_receive_bg.png')}>
+                   source={hasTop&&hasBottom?isService?require('../../img/service_hight_bg.png'):require('../../img/service_bg.png'):require('../../img/service_receive_bg.png')}>
 
                 {this._renderTop()}
                 {this._renderBottom()}
@@ -49,26 +50,26 @@ export default class HeaderView extends Component {
 
 
     _renderBottom(){
-        const {leftDes,leftNum,rightDes,rightNum,hasBottom} = this.props
+        const {leftDes,leftNum,rightDes,rightNum,hasBottom,isService} = this.props
 
         if(hasBottom){
             return(
-                <View style={styles.wrapper2}>
-                    <View style={styles.wrapper3}>
-                        <Text style={styles.te3}>
-                            {leftDes}(元)
-                        </Text>
+                <View style={[styles.wrapper2,isService?{bottom:30}:{}]}>
+                    <View style={isService?styles.wrapper3_service:styles.wrapper3}>
                         <Text style={styles.te4}>
                             {leftNum}
                         </Text>
-                    </View>
-                    <View style={[styles.wrapper3,{width:DeviceInfo.onePR,height:30,backgroundColor:'rgba(255, 255, 255, 0.3)',marginTop:35}]}/>
-                    <View style={styles.wrapper3}>
                         <Text style={styles.te3}>
-                            {rightDes}(元)
+                            {leftDes}(元)
                         </Text>
+                    </View>
+                    <View style={[isService?styles.wrapper3_service:styles.wrapper3,{width:DeviceInfo.onePR,height:30,backgroundColor:'rgba(255, 255, 255, 0.3)',marginTop:35}]}/>
+                    <View style={isService?styles.wrapper3_service:styles.wrapper3}>
                         <Text style={styles.te4}>
                             {rightNum}
+                        </Text>
+                        <Text style={styles.te3}>
+                            {rightDes}(元)
                         </Text>
                     </View>
                 </View>
@@ -80,12 +81,13 @@ export default class HeaderView extends Component {
         if(hasTop) {
             return (
                 <View style={styles.wrapper1}>
-                    <Text style={styles.te1}>
-                        {topDes}(元)
-                    </Text>
                     <Text style={styles.te2}>
                         {topNum}
                     </Text>
+                    <Text style={styles.te1}>
+                        {topDes}(元)
+                    </Text>
+
                 </View>
             );
         }
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
         width:SCREEN_WIDTH,
     },
     wrapper1:{
-        marginTop:setSpText(25),
+        marginTop:setSpText(20),
         justifyContent:'center',
         alignItems:'center',
     },
@@ -110,7 +112,6 @@ const styles = StyleSheet.create({
         fontSize:setSpText(32),
         color:'rgba(255, 255, 255,1)',
         backgroundColor:'transparent',
-        marginTop:5
     },
     wrapper2:{
         flexDirection:'row',
@@ -121,20 +122,26 @@ const styles = StyleSheet.create({
         left:0,
         width:SCREEN_WIDTH-40,
     },
+    wrapper3_service:{
+        justifyContent:'center',
+        // alignItems:'center',
+    },
     wrapper3:{
         justifyContent:'center',
-        alignItems:'center',
-        marginTop:Platform.OS==='ios'?30:15
+        // alignItems:'center',
+        marginTop:Platform.OS==='ios'?30:15,
+
     },
     te3:{
         fontSize:setSpText(12),
         color:'rgba(255, 255, 255, 0.7)',
         backgroundColor:'transparent',
+        marginTop:5,
     },
     te4:{
         fontSize:setSpText(18),
         color:'rgba(255, 255, 255,1)',
         backgroundColor:'transparent',
-        marginTop:5
+        fontWeight:'100'
     }
 });
