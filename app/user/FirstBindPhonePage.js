@@ -34,7 +34,8 @@ import AdapterUI from '../util/AdapterUI'
 import BComponent from "../base/BComponent";
 import errorText from '../util/ErrorMsg';
 import random from "../util/random";
-import loadUserInfo from '../util/LoadUserInfoUtil'
+import loadUserInfo from '../util/LoadUserInfoUtil';
+import notEmpty from "../util/StringUtil";
 
 const dismissKeyboard = require('dismissKeyboard');     // 获取键盘回收方法
 
@@ -68,7 +69,8 @@ export default class FirstBindPhonePage extends BComponent {
             vCode: '',         // 图片验证码
             picURL: null,// 图片验证码
             vCodeInputValid: false,
-            device: random(11) // 随机
+            device: random(11), // 随机
+            needVcode: false,// 是否需要图形验证码
         };
 
         this._doChangeVCode = this._doChangeVCode.bind(this);
@@ -78,7 +80,7 @@ export default class FirstBindPhonePage extends BComponent {
     }
 
     componentWillMount() {
-        this._doChangeVCode();
+        // this._doChangeVCode();
     }
 
     componentDidMount() {
@@ -232,12 +234,23 @@ export default class FirstBindPhonePage extends BComponent {
             apis.sendVerifyCode(this.state.newMobile, 1, this.state.vCode, this.state.device).then(
                 (responseData) => {
                     Toast.show('短信验证码已发送');
-                    // Toast.show('测试环境短信验证码:' + responseData.msg);
-                    // Toast.show('测试环境短信验证码 ' + responseData.msg,
-                    //     {position: Toast.positions.TOP, duration: Toast.durations.LONG, backgroundColor: 'green'});
+                    this.setState({ vCode: '', needVcode: false});
                 }, (e) => {
-                    Toast.show(errorText(e));
+                    let errMsg = errorText(e);
+                    if(notEmpty(errMsg)) {
+                        Toast.show(errMsg);
+                    }
+
                     this.refs.timerButton.reset();
+
+                    try {
+                        let {code, imgcode} = e;
+                        if(code === 2) {
+                            let picURL = {uri: 'data:image/jpeg;base64,' + imgcode};
+                            this.setState({picURL, vCode: '', needVcode: true, vCodeInputValid: false});
+                        }
+                    } catch(e) {
+                    }
                 }
             );
         }
@@ -329,37 +342,39 @@ export default class FirstBindPhonePage extends BComponent {
                         </View>
 
                         {/*  图片验证码 */}
+                        {
+                            this.state.needVcode &&
+                            <View style={styles.textInputContainer}>
 
-                        <View style={styles.textInputContainer}>
+                                <View style={styles.textInputWrapper}>
+                                    <TextInput underlineColorAndroid='transparent'
+                                               ref="vCodeInput"
+                                               autoCorrect={false}
+                                               value={this.state.vCode}
+                                               editable={this.state.newMobileValid}
+                                               secureTextEntry={false} maxLength={4} keyboardType='default'
+                                               style={styles.codeInput} placeholder='图形验证'
+                                               placeholderTextColor='#BABABA'
+                                               returnKeyType='done'
+                                               onChangeText={(vCode) => {
+                                                   let vCodeInputValid = (vCode.length === 4);
+                                                   this.setState({vCode, vCodeInputValid});
+                                                   if (vCodeInputValid) {
+                                                       dismissKeyboard();
+                                                   }
+                                               }}
+                                    />
 
-                            <View style={styles.textInputWrapper}>
-                                <TextInput underlineColorAndroid='transparent'
-                                           ref="vCodeInput"
-                                           autoCorrect={false}
-                                           value={this.state.vCode}
-                                           editable={this.state.newMobileValid}
-                                           secureTextEntry={false} maxLength={4} keyboardType='default'
-                                           style={styles.codeInput} placeholder='图形验证'
-                                           placeholderTextColor='#BABABA'
-                                           returnKeyType='done'
-                                           onChangeText={(vCode) => {
-                                               let vCodeInputValid = (vCode.length === 4);
-                                               this.setState({vCode, vCodeInputValid});
-                                               if (vCodeInputValid) {
-                                                   dismissKeyboard();
-                                               }
-                                           }}
-                                />
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        // this._doChangeVCode()
+                                    }}>
+                                        <Image style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
+                                               source={this.state.picURL}/>
+                                    </TouchableWithoutFeedback>
 
-                                <TouchableWithoutFeedback onPress={() => {
-                                    this._doChangeVCode()
-                                }}>
-                                    <Image style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
-                                           source={this.state.picURL}/>
-                                </TouchableWithoutFeedback>
-
+                                </View>
                             </View>
-                        </View>
+                        }
 
                         {/*  短信验证码 */}
                         <View style={styles.textInputContainer}>
@@ -368,7 +383,7 @@ export default class FirstBindPhonePage extends BComponent {
                                 <TextInput underlineColorAndroid='transparent'
                                            value={this.state.smsCode}
                                            ref="smsCodeInput"
-                                           editable={this.state.timerButtonClicked && this.state.vCodeInputValid}
+                                           editable={this.state.newMobileValid }
                                            secureTextEntry={false} maxLength={6} keyboardType='numeric'
                                            style={styles.codeInput} placeholder='短信验证'
                                            placeholderTextColor='#BABABA'
@@ -399,19 +414,20 @@ export default class FirstBindPhonePage extends BComponent {
                                     marginRight: 1
                                 }}/>
 
-                                <TimerButton enable={this.state.newMobileValid && this.state.vCodeInputValid}
+                                <TimerButton enable={this.state.newMobileValid}
                                              ref="timerButton"
                                              style={{width: 70, marginRight: 0, height: 44, alignSelf: 'flex-end',}}
                                              textStyle={{color: '#6A6A6A', alignSelf: 'flex-end'}}
                                              timerCount={60}
                                              onClick={(shouldStartCountting) => {
-                                                 if (this.state.newMobileValid && this.state.vCodeInputValid) {
-                                                     shouldStartCountting(true);
-                                                     this.setState({timerButtonClicked: true});
-                                                     this._requestSMSCode(shouldStartCountting);
-                                                 } else {
+                                                 if(this.state.needVcode && !this.state.vCodeInputValid) {
+                                                     Toast.show("对不起, 请输入图形验证码");
                                                      this.refs.timerButton.reset();
+                                                     return;
                                                  }
+                                                 shouldStartCountting(true);
+                                                 this.setState({timerButtonClicked: true});
+                                                 this._requestSMSCode(shouldStartCountting);
                                              }}/>
                             </View>
                         </View>

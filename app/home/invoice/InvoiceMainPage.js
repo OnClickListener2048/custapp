@@ -46,7 +46,9 @@ export default class InvoiceMainPage extends BComponent {
                                 path:'pages/home',
                                 title:'发票验真',
                                 description:'发票验真',
-                                imageUrl:'https://pilipa-ml.oss-cn-beijing.aliyuncs.com/public/public/company/xcxlogo.jpg'
+                                thumbImage:'https://pilipa-ml.oss-cn-beijing.aliyuncs.com/public/public/company/xcxlogo.jpg',
+                                type: 'miniProgram',
+                                appType: 0 // 预览版
                             })
                         } else {
                             // alert('没有安装微信软件，请您安装微信之后再试');

@@ -142,7 +142,7 @@ class CompanyProcessView extends Component{
                     <View style={styles.titleContainer}>
 
                         <Text style={{fontSize:12,textAlign:'center', justifyContent: 'center',color:this.state.currentNum >= 0 ? '#D8C095' : '#999999'}}>{'开始'}</Text>
-                        <Text style={{fontSize:12,textAlign:'center', justifyContent: 'center',color:this.state.currentNum >= 1 ? '#D8C095' : '#999999'}}>{'发票'}</Text>
+                        <Text style={{fontSize:12,textAlign:'center', justifyContent: 'center',color:this.state.currentNum >= 1 ? '#D8C095' : '#999999'}}>{'收票'}</Text>
                         <Text style={{fontSize:12,textAlign:'center', justifyContent: 'center',color:this.state.currentNum >= 2 ? '#D8C095' : '#999999'}}>{'记账'}</Text>
                         <Text style={{fontSize:12,textAlign:'center', justifyContent: 'center',color:this.state.currentNum >= 3 ? '#D8C095' : '#999999'}}>{'报税'}</Text>
                         <Text style={{fontSize:12,textAlign:'center', justifyContent: 'center',color:this.state.currentNum >= 4 ? '#D8C095' : '#999999'}}>{'完成'}</Text>
