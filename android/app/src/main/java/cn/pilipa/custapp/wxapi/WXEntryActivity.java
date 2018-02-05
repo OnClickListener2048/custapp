@@ -47,6 +47,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             // TODO 检查 App 是否正常启动运行, 如果载入完毕则返回, 否则先启动App的默认View入口
             if (MainActivity.appInited) {
                 finish();
+                System.out.println("*************** MainActivity.appInited onReq *******" + MainActivity.appInited);
+                Intent intent = getPackageManager()
+                        .getLaunchIntentForPackage(getPackageName());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             } else {
                 Intent intent = getPackageManager()
                         .getLaunchIntentForPackage(getPackageName());
