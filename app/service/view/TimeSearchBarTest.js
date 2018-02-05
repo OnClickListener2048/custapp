@@ -66,11 +66,10 @@ export default class TimeSearchBar extends Component {
                             this.props.timeDateArr.map((item,index)=>{
 
                                 let color = (this.props.timeIndex  == index)?'white':'#B5904E'
-                                let fontWeight = (this.props.timeIndex  == index)?'bold':'normal'
                                 return(
                                     <TouchableWithoutFeedback key={index} onPress={()=>{this._selectMonth(index)}}>
                                         <View style={{width:monthWidth,justifyContent:'center',alignItems:'center',backgroundColor:'transparent',}}>
-                                            <Text style={{color,fontSize:setSpText(16),fontWeight}}>
+                                            <Text style={{color,fontSize:setSpText(16)}}>
                                                 {item.relateText}
                                             </Text>
                                         </View>
