@@ -142,6 +142,5 @@ const styles = StyleSheet.create({
         fontSize:setSpText(18),
         color:'rgba(255, 255, 255,1)',
         backgroundColor:'transparent',
-        fontWeight:'100'
     }
 });
