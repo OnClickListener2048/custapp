@@ -16,6 +16,7 @@ import com.umeng.analytics.MobclickAgent;
 
 // 闪屏界面: R.layout.launch_screen
 public class MainActivity extends SplashActivity {
+    public static boolean appInited = false;
 
     /**
      * @return xml layout res id
@@ -28,6 +29,7 @@ public class MainActivity extends SplashActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appInited = true;
         JPushInterface.init(this);
         System.out.println("Init Jpush()");
         MobclickAgent.setDebugMode(true);
