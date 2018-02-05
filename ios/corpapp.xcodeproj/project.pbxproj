@@ -94,6 +94,9 @@
 		CC2CC0991F31EB340095871E /* libZTAlertView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC304DCD1F31EAAB0061CB00 /* libZTAlertView.a */; };
 		CC61DBB250EB4D718226FC4E /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C76485BF86C4964BE08A4EA /* UserNotifications.framework */; };
 		CC6C3EE41F18CA5B008447F9 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC6C3EE21F18CA4F008447F9 /* Bugly.framework */; };
+		CCEC42CB20280C33005F6FEF /* AlicloudUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCEC429A20280C32005F6FEF /* AlicloudUtils.framework */; };
+		CCEC42CC20280C33005F6FEF /* AlicloudHttpDNS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCEC42CA20280C33005F6FEF /* AlicloudHttpDNS.framework */; };
+		CCEC42CE20280C3B005F6FEF /* UTDID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCEC42CD20280C3A005F6FEF /* UTDID.framework */; };
 		E278AADE7D9E40A79ED6640F /* libInteractable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 737B9DC354AC4B7E9F427A58 /* libInteractable.a */; };
 		E3CA32B61EE01A4300220AD6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3CA32B41EE01A4300220AD6 /* LaunchScreen.xib */; };
 		F29D7CC2925A4496B1913BCB /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 640B128369894EABBAC72FB3 /* libRNVectorIcons.a */; };
@@ -565,6 +568,9 @@
 		CA3C5CECE05A4F17A69B0972 /* libimageCropPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libimageCropPicker.a; sourceTree = "<group>"; };
 		CC6C3EE21F18CA4F008447F9 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		CCCACC011F061FBE008FB508 /* corpapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = corpapp.entitlements; path = corpapp/corpapp.entitlements; sourceTree = "<group>"; };
+		CCEC429A20280C32005F6FEF /* AlicloudUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlicloudUtils.framework; sourceTree = "<group>"; };
+		CCEC42CA20280C33005F6FEF /* AlicloudHttpDNS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlicloudHttpDNS.framework; sourceTree = "<group>"; };
+		CCEC42CD20280C3A005F6FEF /* UTDID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UTDID.framework; sourceTree = "<group>"; };
 		CFD3BB77481F4C0BB6B897B0 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		D05F33EB41984C048DF6E6B3 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		D72E095FBA70460B976BC928 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -596,6 +602,7 @@
 				4CB73EE01F429D120018C00A /* libsqlite3.tbd in Frameworks */,
 				4CB73ED81F429BD70018C00A /* UMMobClick.framework in Frameworks */,
 				CC2CC0991F31EB340095871E /* libZTAlertView.a in Frameworks */,
+				CCEC42CE20280C3B005F6FEF /* UTDID.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -609,6 +616,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				83162DE51EFCC5450031CA7A /* RSKImageCropper.framework in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
+				CCEC42CC20280C33005F6FEF /* AlicloudHttpDNS.framework in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				113F564D53C8426DBADB98F8 /* libRNBlur.a in Frameworks */,
 				83162E071EFCC58A0031CA7A /* QBImagePicker.framework in Frameworks */,
@@ -636,6 +644,7 @@
 				B2485D899E1A4243A9CA9681 /* libRCTJCoreModule.a in Frameworks */,
 				E278AADE7D9E40A79ED6640F /* libInteractable.a in Frameworks */,
 				C741B36F6BA14C7DA6E83602 /* libRCTCamera.a in Frameworks */,
+				CCEC42CB20280C33005F6FEF /* AlicloudUtils.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -947,6 +956,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				CCEC42CD20280C3A005F6FEF /* UTDID.framework */,
+				CCEC42CA20280C33005F6FEF /* AlicloudHttpDNS.framework */,
+				CCEC429A20280C32005F6FEF /* AlicloudUtils.framework */,
 				4CB73ED71F429BD70018C00A /* UMMobClick.framework */,
 				83162DE11EFCC5450031CA7A /* ImageCropPickerSDK */,
 				13B07FAE1A68108700A75B9A /* corpapp */,
