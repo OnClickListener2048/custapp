@@ -122,7 +122,8 @@ export default class ServicePage extends BComponent {
             isShow:false,//是否显示入口
             isGo:false,
             timeDateArr:[],
-            timeIndex:0
+            timeIndex:0,
+            isLoaded:0,//0不显示View，1加载成功，2加载失败
         };
         // this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
@@ -360,6 +361,10 @@ export default class ServicePage extends BComponent {
                         })
                     }
 
+                    this.setState({
+                        isLoaded:1,
+                    })
+
                 }else{
 
 
@@ -381,6 +386,9 @@ export default class ServicePage extends BComponent {
                         })
                     }
                     Toast.show(responseData.msg?responseData.msg:'加载失败！')
+                    this.setState({
+                        isLoaded:2,
+                    })
                 }
             },
             (e) => {
@@ -403,6 +411,9 @@ export default class ServicePage extends BComponent {
                     })
                 }
                 Toast.show('加载失败！')
+                this.setState({
+                    isLoaded:2,
+                })
             },
         );
     }
@@ -705,14 +716,59 @@ export default class ServicePage extends BComponent {
         loginJumpSingleton.goToLogin(this.props.navigator);
     }
     _renderDemo(isDemo){
+        if(this.state.isLoaded==0){
+            return null;
+        }else if(this.state.isLoaded==1){
+            if(!this.state.isClose){
+                if(this.state.isLogin){
+                    //已经登录情况
+                    if(isDemo == 1){//已登录无公司
+                        //演示数据
 
+                        return (
+                            <View>
+                                <View style={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    left: 0,
+                                    width: DeviceInfo.width,
+                                    height: 200,
+                                    backgroundColor: 'rgba(00, 00, 00, 0.8)',
+                                    alignItems: 'center',
+                                }}
+                                      pointerEvents='none'
+                                >
+                                    <Image style={styles.service_demo_img}
+                                           source={require('../../img/logined_kf.png')}
+                                    >
+                                    </Image>
+                                </View>
+                                <View style={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    left: 0,
+                                    width: DeviceInfo.width,
+                                    height: 110,
+                                    backgroundColor: 'transparent',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flexDirection:'row',
+                                }}
+                                      pointerEvents='box-none'
+                                >
+                                    <TouchableOpacity onPress={()=>this.call()}>
+                                        <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/logined_kf_button.png')}/>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={()=>this.toClose()}>
+                                        <Image style={{resizeMode : "contain",marginTop:18, marginLeft:20}} source={require('../../img/logined_look_button.png')}/>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
 
-        if(!this.state.isClose){
-            if(this.state.isLogin){
-                //已经登录情况
-                if(isDemo == 1){
-                    //演示数据
-
+                        );
+                    }
+                }else{
+                    //未登录
                     return (
                         <View>
                             <View style={{
@@ -727,7 +783,7 @@ export default class ServicePage extends BComponent {
                                   pointerEvents='none'
                             >
                                 <Image style={styles.service_demo_img}
-                                       source={require('../../img/logined_kf.png')}
+                                       source={require('../../img/unlogin_bind.png')}
                                 >
                                 </Image>
                             </View>
@@ -744,64 +800,66 @@ export default class ServicePage extends BComponent {
                             }}
                                   pointerEvents='box-none'
                             >
-                                <TouchableOpacity onPress={()=>this.call()}>
-                                    <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/logined_kf_button.png')}/>
+                                <TouchableOpacity onPress={()=>this.bindPhone()}>
+                                    <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/unlogin_bind_button.png')}/>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={()=>this.toClose()}>
-                                    <Image style={{resizeMode : "contain",marginTop:18, marginLeft:20}} source={require('../../img/logined_look_button.png')}/>
+                                    <Image style={{resizeMode : "contain",marginTop:18, marginLeft:20}} source={require('../../img/unlogin_cancle_button.png')}/>
                                 </TouchableOpacity>
                             </View>
                         </View>
 
                     );
                 }
-            }else{
-                //未登录
-                return (
-                    <View>
-                        <View style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            left: 0,
-                            width: DeviceInfo.width,
-                            height: 200,
-                            backgroundColor: 'rgba(00, 00, 00, 0.8)',
-                            alignItems: 'center',
-                        }}
-                              pointerEvents='none'
-                        >
-                            <Image style={styles.service_demo_img}
-                                   source={require('../../img/unlogin_bind.png')}
-                            >
-                            </Image>
-                        </View>
-                        <View style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            left: 0,
-                            width: DeviceInfo.width,
-                            height: 110,
-                            backgroundColor: 'transparent',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection:'row',
-                        }}
-                              pointerEvents='box-none'
-                        >
-                            <TouchableOpacity onPress={()=>this.bindPhone()}>
-                                <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/unlogin_bind_button.png')}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>this.toClose()}>
-                                <Image style={{resizeMode : "contain",marginTop:18, marginLeft:20}} source={require('../../img/unlogin_cancle_button.png')}/>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                );
+            }else {
+                return null
             }
-        }else {
-            return null
+        }else{//请求失败显示演示数据
+            return (
+                <View>
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        width: DeviceInfo.width,
+                        height: 200,
+                        backgroundColor: 'rgba(00, 00, 00, 0.8)',
+                        alignItems: 'center',
+                    }}
+                          pointerEvents='none'
+                    >
+                        <Image style={styles.service_demo_img}
+                               source={require('../../img/unlogin_bind.png')}
+                        >
+                        </Image>
+                    </View>
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        width: DeviceInfo.width,
+                        height: 110,
+                        backgroundColor: 'transparent',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection:'row',
+                    }}
+                          pointerEvents='box-none'
+                    >
+                        <TouchableOpacity onPress={()=>this.bindPhone()}>
+                            <Image style={{resizeMode : "contain",marginTop:18}} source={require('../../img/unlogin_bind_button.png')}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.toClose()}>
+                            <Image style={{resizeMode : "contain",marginTop:18, marginLeft:20}} source={require('../../img/unlogin_cancle_button.png')}/>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+            );
         }
+
+
+
 
     }
 
