@@ -40,8 +40,7 @@ info_plist_name="Info"
 # 导出ipa所需要的plist文件路径 (默认为AdHocExportOptionsPlist.plist)
 ExportOptionsPlistPath="./PPAutoPackageScript/AdHocExportOptionsPlist.plist"
 
-#DNS路径参数配置相关
-network_path=../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/project.pbxproj
+
 
 # 返回上一级目录,进入项目工程目录
 cd ..
@@ -116,8 +115,15 @@ cp  ../app/modules/RCTRefreshControl.m  ../node_modules/react-native/React/Views
 rm -rf ../node_modules/react-native/Libraries/Network/RCTHTTPRequestHandler.mm
 cp  ../app/modules/RCTHTTPRequestHandler.mm  ../node_modules/react-native/Libraries/Network/
 
-#DNS相关配置信息修改
-sed -i ""  "s/FRAMEWORK_SEARCH_PATHS = \"\"/FRAMEWORK_SEARCH_PATHS = \"\$\(SRCROOT\)\/..\/..\/..\/..\/ios\"/g" $network_path
+#DNS XCode相关配置信息修改
+rm -rf ../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/project.pbxproj
+cp  ../app/modules/project.pbxproj  ../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/
+
+
+
+#DNS路径参数配置相关
+network_path=../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/project.pbxproj
+
 
 
 # 判断编译的项目类型是workspace还是project
