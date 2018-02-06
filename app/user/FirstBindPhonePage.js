@@ -461,7 +461,7 @@ export default class FirstBindPhonePage extends BComponent {
                         </TouchableWithoutFeedback>
 
                         <SubmitButton
-                            text='立即登录'
+                            text='立即绑定'
                             onPress={() => {
                                 this._doSubmit()
                             }}
