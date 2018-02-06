@@ -121,8 +121,9 @@ RCT_EXPORT_MODULE()
             if ([self isIpv6WithHostName:url.host]) {
                 self.request.URL = [NSURL URLWithString:originalUrl];
             }else{
-                self.request.URL = [NSURL URLWithString:newUrl];
-            }
+                //self.request.URL = [NSURL URLWithString:newUrl];
+              self.request.URL = [NSURL URLWithString:originalUrl];
+              }
             
             
             
