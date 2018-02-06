@@ -230,7 +230,7 @@ export default class FirstBindPhonePage extends BComponent {
     // 请求短信验证码
     _requestSMSCode(shouldStartCountting) {
         console.log('_requestSMSCode shouldStartCountting', shouldStartCountting);
-        if (this.state.newMobileValid && this.state.vCodeInputValid) {
+        if (this.state.newMobileValid) {
             apis.sendVerifyCode(this.state.newMobile, 1, this.state.vCode, this.state.device).then(
                 (responseData) => {
                     Toast.show('短信验证码已发送');
