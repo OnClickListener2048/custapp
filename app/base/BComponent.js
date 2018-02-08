@@ -22,6 +22,7 @@ import {
 } from 'react-native';
 import Toast from 'react-native-root-toast';
 import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../config';
+import debounce from "debounce";
 
 /**
  * 用法:
@@ -58,7 +59,10 @@ export default class BComponent extends Component {
             }
             this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
-            this.push = this.push.bind(this);
+            // 避免短时间内连续点击多次跳转处理
+            this.push =  debounce( (object) => {
+                this.props.navigator.push(object);
+            }, 1000, { leading: true, trailing: false });
         }
 
     }
@@ -91,6 +95,8 @@ export default class BComponent extends Component {
             clearTimeout(this._timer);
         },500);
     }
+
+
 
     // 子类请继承此方法, 不要忘了调用super.onNavigatorEvent(event);
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together

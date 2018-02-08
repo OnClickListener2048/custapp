@@ -39,9 +39,6 @@ info_plist_name="Info"
 
 # 导出ipa所需要的plist文件路径 (默认为AdHocExportOptionsPlist.plist)
 ExportOptionsPlistPath="./PPAutoPackageScript/AdHocExportOptionsPlist.plist"
-
-
-
 # 返回上一级目录,进入项目工程目录
 cd ..
 # 获取项目名称
@@ -106,24 +103,9 @@ else
 mkdir -pv $export_path
 fi
 
-# 替换下拉刷新控件
+
 rm -rf ../node_modules/react-native/React/Views/RCTRefreshControl.m
 cp  ../app/modules/RCTRefreshControl.m  ../node_modules/react-native/React/Views/
-
-
-#替换DNS文件
-rm -rf ../node_modules/react-native/Libraries/Network/RCTHTTPRequestHandler.mm
-cp  ../app/modules/RCTHTTPRequestHandler.mm  ../node_modules/react-native/Libraries/Network/
-
-#DNS XCode相关配置信息修改
-rm -rf ../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/project.pbxproj
-cp  ../app/modules/project.pbxproj  ../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/
-
-
-
-#DNS路径参数配置相关
-network_path=../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/project.pbxproj
-
 
 
 # 判断编译的项目类型是workspace还是project
