@@ -41,7 +41,6 @@ export default class ChangeCompanyPage extends BComponent {
 
         UserInfoStore.getCompany().then(
             (company) => {
-                console.log('走你company', company);
                 if (company && company.infos && company.infos.length>0) {
                     this.setState({selectedCompanyId: company.id});
                 }
@@ -296,7 +295,7 @@ export default class ChangeCompanyPage extends BComponent {
     _pushToCompanySurveyPage(item){
         this.push({
             screen: 'CompanySurveyPage',
-            title:'我的企业',
+            title:'我的公司',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps: {
                 company:item,
