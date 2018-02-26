@@ -140,7 +140,7 @@ export default class BComponent extends Component {
             }
 
 
-            let eventArr = ['homePage','message','service','personal'];
+            let eventArr = ['homePage','service','message','personal'];
             UMTool.onEvent(eventArr[event.selectedTabIndex])
         }
     }
