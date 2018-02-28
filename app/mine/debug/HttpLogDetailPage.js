@@ -21,7 +21,7 @@ import {DEBUG, API_BASE_URL} from '../../config'
 import JPushModule from 'jpush-react-native';
 import ActionSheet from 'react-native-actionsheet';
 import SectionHeader from "../../view/SectionHeader";
-
+import * as WeChat from 'react-native-wechat';
 
 const PRIMARY_COLOR = "#3b3b3b";
 const SELECT_COLOR = "#FFFF00";
@@ -52,21 +52,68 @@ export default class HttpLogDetailPage extends BComponent {
             animated: false // does the change have transition animation or does it happen immediately (optional)
         });
 
-        HttpLogDetailPage._renderLine = HttpLogDetailPage._renderLine.bind(this);
+        this._doWechatShare = this._doWechatShare.bind(this);
 
     }
 
     componentDidMount() {
     }
 
+
+    _doWechatShare() {
+        WeChat.isWXAppInstalled()
+            .then((isInstalled) => {
+                if (isInstalled) {
+                    WeChat.shareToSession({
+                        type: 'text',
+                        description: HttpLogDetailPage.httpLogToString(this.props.data)
+                    }).catch((error) => {
+
+                    });
+                } else {
+                    Toast.show('没有安装微信软件，请您安装微信之后再试')
+                }
+            });
+    }
+
+    static httpLogToString(httpLog) {
+        let text = '';
+        let resBody = httpLog.text;
+        if (httpLog.responseContentType.includes('json')) {
+            try {
+                resBody = JSON.stringify(JSON.parse(resBody), null, 4);
+            } catch (e) {
+
+            }
+        }
+
+        if (httpLog) {
+            text += 'URL: ' + httpLog.url + "\n";
+            text += 'Method: ' + httpLog.method + "\n";
+            text += 'Code: ' + httpLog.status + "\n";
+            text += '总耗时: ' + httpLog.duration + " 毫秒\n";
+            text += 'Content Type: ' + httpLog.responseContentType + " 毫秒\n";
+            text += '响应内容长度: ' + httpLog.responseContentLength + " 字节\n";
+            if (httpLog.errorMsg) {
+                text += '错误信息: ' + httpLog.errorMsg + "\n";
+            }
+            text += '请求表单参数:\n' + HttpLogDetailPage.objectToString(httpLog.params);
+            text += '响应头信息:\n' + httpLog.responseHeaders;
+            text += '请求头信息:\n' + httpLog.requestHeaders;
+            text += '响应信息:\n' + resBody;
+        }
+
+        return text;
+    }
+
     render() {
         let httpLog = this.props.data;
         let color = httpLog.ok ? 'green' : 'red';
         let resBody = httpLog.text;
-        if(httpLog.responseContentType.includes('json')) {
+        if (httpLog.responseContentType.includes('json')) {
             try {
                 resBody = JSON.stringify(JSON.parse(resBody), null, 4);
-            } catch(e) {
+            } catch (e) {
 
             }
         }
@@ -76,7 +123,12 @@ export default class HttpLogDetailPage extends BComponent {
                 <ScrollView>
 
 
-                    <SectionHeader style={{backgroundColor: '#E8E2D6'}} text={'概要'}
+                    <SubmitButton onPress={this._doWechatShare}
+                                  isEnabled={httpLog}
+                                  text="分享到微信"
+                    />
+
+                    <SectionHeader style={{backgroundColor: '#E8E2D6', marginTop: 10}} text={'概要'}
                                    textStyle={{color: 'black'}}/>
 
                     {
@@ -104,7 +156,7 @@ export default class HttpLogDetailPage extends BComponent {
                     }
 
                     {
-                        HttpLogDetailPage._renderLine('错误信息:', httpLog.errorMsg, 1,  color)
+                        HttpLogDetailPage._renderLine('错误信息:', httpLog.errorMsg, 1, color)
                     }
 
                     <SectionHeader style={{backgroundColor: '#E8E2D6'}} text={'请求表单参数'}
@@ -147,31 +199,31 @@ export default class HttpLogDetailPage extends BComponent {
      * @returns {*}
      * @private
      */
-    static _renderLine(title, message, numberOfLines=1, color='black', textAlign='right') {
-        if(!message) return null;
+    static _renderLine(title, message, numberOfLines = 1, color = 'black', textAlign = 'right') {
+        if (!message) return null;
         return (
-        <View style={{
-            flexDirection: "row",
-            flex: 1,
-            marginBottom: title? 4 : 10,
-            marginRight: 4,
-            marginLeft: 4
-        }}>
-            <Text style={{marginRight: 5, fontWeight: 'bold'}}>{title}</Text>
-            <Text
-                style={[
-                    styles.logRowMessage,
-                    styles.logRowMessageMain,
-                    {
-                        color: color,
-                        textAlign: textAlign
-                    },
-                ]}
+            <View style={{
+                flexDirection: "row",
+                flex: 1,
+                marginBottom: title ? 4 : 10,
+                marginRight: 4,
+                marginLeft: 4
+            }}>
+                <Text style={{marginRight: 5, fontWeight: 'bold'}}>{title}</Text>
+                <Text
+                    style={[
+                        styles.logRowMessage,
+                        styles.logRowMessageMain,
+                        {
+                            color: color,
+                            textAlign: textAlign
+                        },
+                    ]}
 
-                numberOfLines={numberOfLines}>
-                {message}
-            </Text>
-        </View>
+                    numberOfLines={numberOfLines}>
+                    {message}
+                </Text>
+            </View>
         )
     }
 
@@ -180,16 +232,15 @@ export default class HttpLogDetailPage extends BComponent {
      * @param obj
      * @returns {string}
      */
-    static objectToString(obj: Object):string {
+    static objectToString(obj: Object): string {
         let headerStr = '';
 
-        if(obj) {
+        if (obj) {
             // 获取 headers 内所有的 key
             let headersKeyArray = Object.keys(obj);
             // 通过 forEach 方法拿到数组中每个元素,将元素与参数的值进行拼接处理,并且放入 paramsArray 中
             headersKeyArray.forEach(key => {
-                console.log(key, '=', obj[key]);
-                headerStr += (key + ' : ' + obj[key] + '\n');
+                headerStr += (key + '=' + obj[key] + '\n');
             });
         } else {
             headerStr = '<无>';
@@ -197,22 +248,6 @@ export default class HttpLogDetailPage extends BComponent {
 
         return headerStr;
     }
-
-    _clear() {
-        clearManager.runClearCache(() => {
-
-            Toast.show("清除成功");
-            // setTimeout(function () {
-            //     Toast.hide(toast);
-            // }, 500);
-            this.setState({
-                cacheSize: '', //缓存大小
-                unit: ''  //缓存单位
-            })
-
-        });
-    }
-
 
 
     _httpLogView() {
