@@ -16,6 +16,7 @@ import HttpAdapterCustApp from './HttpAdapterCustApp';
 
 Http.setAdapter(new HttpAdapterCustApp());
 Http.timeout = 10*1000;// 10秒超时
+Http.setEnableLog(true, null);
 
 export default Http;
 

@@ -3439,6 +3439,10 @@ moment@^2.18.1:
   version "2.19.1"
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.19.1.tgz#56da1a2d1cbf01d38b7e1afc31c10bcfa1929167"
 
+moment@^2.19.1:
+  version "2.20.1"
+  resolved "http://registry.npm.taobao.org/moment/download/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+
 morgan@~1.6.1:
   version "1.6.1"
   resolved "http://registry.npm.taobao.org/morgan/download/morgan-1.6.1.tgz#5fd818398c6819cba28a7cd6664f292fe1c0bbf2"
@@ -4104,11 +4108,14 @@ react-native-easy-toast@^1.0.9:
   dependencies:
     prop-types "^15.5.10"
 
-"react-native-http@github:pilipa-cn/react-native-http#v1.1.4":
-  version "1.1.4"
-  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/dee63b30866a3c398eb4c2f77d30b6939fa5b9b6"
+"react-native-http@github:pilipa-cn/react-native-http#v1.1.5":
+  version "1.1.5"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/acc1cafd9384c5f9f497148aeb2c8d0633c378a8"
   dependencies:
+    debounce "^1.0.2"
+    json-stringify-safe "^5.0.1"
     moment "^2.18.1"
+    react-native-invertible-scroll-view "^1.1.0"
 
 "react-native-image-crop-picker@github:pilipa-cn/react-native-image-crop-picker#v0.14.2":
   version "0.14.2"
@@ -4204,7 +4211,7 @@ react-native-scrollable-mixin@^1.0.1:
   resolved "http://registry.npm.taobao.org/react-native-scrollable-mixin/download/react-native-scrollable-mixin-1.0.1.tgz#34a32167b64248594154fd0d6a8b03f22740548e"
 
 "react-native-scrollable-tab-view@github:pilipa-cn/react-native-scrollable-tab-view#v0.7.4-pilipa-2":
-  version v0.7.4-pilipa-2
+  version "0.7.4-pilipa-2"
   resolved "https://codeload.github.com/pilipa-cn/react-native-scrollable-tab-view/tar.gz/80783d721693dd733333599884fe52c16c2f41b5"
   dependencies:
     react-timer-mixin "^0.13.3"

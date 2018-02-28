@@ -24,6 +24,7 @@ export default class NetInfoSingleton {
             // 避免安卓经常首次fetch返回false导致显示网络不连接的BUG
             if(Platform.OS === 'ios') {
                 NetInfo.isConnected.fetch().done((_isConnected) => {
+                    if(__DEV__) _isConnected = true;
                     this.isConnected = _isConnected;
                     console.log('NetInfoSingleton: fetch isConnected=', _isConnected);
                 });
@@ -37,6 +38,7 @@ export default class NetInfoSingleton {
 
     _updateConnectionStatus(isConnected) {
         console.log('NetInfoSingleton: _updateConnectionStatus isConnected=', isConnected);
+        if(__DEV__) isConnected = true;
         if(!isConnected){
             Navigation.showInAppNotification({
                 screen: "Notification", // unique ID registered with Navigation.registerScreen

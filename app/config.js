@@ -4,7 +4,7 @@
 
 import { Dimensions} from 'react-native';
 import './storage/Preferences.js';
-export const DEBUG = false ;// 开发包, 上线前请务必改为false
+export const DEBUG = true ;// 开发包, 上线前请务必改为false
 
 console.log('__DEV__开发模式', __DEV__);// 说明: __DEV__ 的值是自动设置的, 无需import
 // 参考: https://stackoverflow.com/questions/34315274/react-native-detect-dev-or-production-env
@@ -30,10 +30,10 @@ export let WECHAT_APP_ID = 'wx16da5000356a9497';// 微信APP ID
 export let DOMAIN_API = 'www.pilipa.cn';
 if(DEBUG) {// 测试环境变量, 上线时应删除
 
-    SCHEME = 'https';
-
-    DOMAIN_API = 'x-www.i-counting.cn';// 打补丁时的测试域名
-    H5_URL = 'https://x-www.i-counting.cn/'
+    // SCHEME = 'https';
+    //
+    // DOMAIN_API = 'x-www.i-counting.cn';// 打补丁时的测试域名
+    // H5_URL = 'https://x-www.i-counting.cn/'
     //单
     // SCHEME = 'http';
     // DOMAIN_API = '192.168.200.150:3000';

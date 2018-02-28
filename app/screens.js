@@ -62,7 +62,8 @@ import InvoiceInfoPage from './home/invoice/InvoiceInfoPage'
 
 import HomeTipBox from './view/HomeTipBox'
 import DebugPage from "./mine/debug/DebugPage";
-
+import {HttpLogView}  from 'react-native-http';
+import HttpLogDetailPage from "./mine/debug/HttpLogDetailPage";
 
 
 export default function () {
@@ -114,4 +115,7 @@ export default function () {
     reg('InvoiceInputPage', () => InvoiceInputPage);
     reg('InvoiceInfoPage', () => InvoiceInfoPage);
     reg('DebugPage', () => DebugPage);
+    reg('HttpLogView', () => HttpLogView);
+    reg('HttpLogDetailPage', () => HttpLogDetailPage);
+
 }

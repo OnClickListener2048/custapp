@@ -305,6 +305,7 @@ export default class HomePage extends BComponent {
             },
             (e) => {
                 Toast.show('加载失败！');
+                console.log(e);
                 let dataSource = [];
                 let section = {
                     key:0,

@@ -58,6 +58,8 @@ export default class DebugPage extends BComponent {
         });
 
         this._updateOpenOrClose = this._updateOpenOrClose.bind(this);
+        this._httpLogViewDetail = this._httpLogViewDetail.bind(this);
+
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
@@ -115,6 +117,12 @@ export default class DebugPage extends BComponent {
                         cancelButtonIndex={CANCEL_INDEX}
                         destructiveButtonIndex={DESTRUCTIVE_INDEX}
                         onPress={this.handleActionSheetPress}
+                    />
+
+                    <CommentCell
+                        leftText='查看HTTP接口请求日志'
+                        style={{marginTop: 10}}
+                        onPress={this._httpLogView.bind(this)}
                     />
 
                 </ScrollView>
@@ -195,88 +203,29 @@ export default class DebugPage extends BComponent {
 
     }
 
-    _feedback() {
+    _httpLogView() {
         this.push({
-            screen: 'FeedbackPage',
-            title: '意见反馈',
-            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+            screen: 'HttpLogView',
+            title: 'HTTP网络请求',
+            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
+            passProps: {
+                //回调!
+                onHttpLogPress: this._httpLogViewDetail,
+            }
         });
     }
 
-    // 登出
-    _doLogout() {
-        Alert.alert('确定退出', '',
-            [
-                {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {
-                    text: '确定',
-                    onPress: () => {
-                        //删除jpush别名和标签
-                        JPushModule.cleanTags(function () {
-                            console.log('标签清除成功')
-                        });
-                        JPushModule.deleteAlias(function () {
-                            console.log('别名清除成功')
+    _httpLogViewDetail(data) {
+        console.log('_httpLogViewDetail', data);
 
-                        });
-                        DeviceEventEmitter.emit('ClearMessage');  //清空消息列表与未读消息数
-
-                        //删除本地存储信息
-                        UserInfoStore.removeCompany().then();
-                        UserInfoStore.removeCompanyArr().then();
-                        UserInfoStore.removeLastUserPhone().then();
-                        UserInfoStore.removeApplyPay().then();
-                        UserInfoStore.removeUserInfo().then(
-                            v => {
-                                UserInfoStore.removeCompany().then(
-                                    v => {
-                                        if (this.props.navigator) {
-                                            console.log("popToRoot");
-                                            DeviceEventEmitter.emit('ChangeCompany');
-                                            this.props.navigator.popToRoot();
-                                            if(Platform.OS === 'android'){
-                                                this.props.navigator.switchToTab({
-                                                    tabIndex: 0
-                                                });
-                                            }
-                                        }
-                                    },
-                                    e => {
-                                        if (this.props.navigator) {
-                                            console.log("popToRoot");
-                                            this.props.navigator.popToRoot();
-                                            if(Platform.OS === 'android'){
-                                                this.props.navigator.switchToTab({
-                                                    tabIndex: 0
-                                                });
-                                            }
-                                        }
-                                    }
-                                );
-                            },
-                            e => {
-                                if (this.props.navigator) {
-                                    console.log("popToRoot");
-                                    this.props.navigator.popToRoot();
-                                    if(Platform.OS === 'android'){
-                                        this.props.navigator.switchToTab({
-                                            tabIndex: 0
-                                        });
-                                    }
-                                    
-                                }
-                            }
-                        );
-
-                        if(Platform.OS === 'ios'){
-                            // 转到首页标签
-                            this.props.navigator.switchToTab({
-                                tabIndex: 0
-                            });
-                        }
-                    },
-                },]
-            , {cancelable: false});
+        this.push({
+            screen: 'HttpLogDetailPage',
+            title: 'HTTP数据详情',
+            backButtonHidden: false, // 是否隐藏返回按钮 (可选)
+            passProps: {
+                data:data
+            }
+        });
     }
 
 }
