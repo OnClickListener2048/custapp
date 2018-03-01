@@ -6,6 +6,7 @@ import LoginPage from './user/LoginPage';
 
 import HomePage from './home/home/HomePage';
 import InvoiceInputPage from './home/invoice/InvoiceInputPage';
+import AddInvoiceTitlePage from './home/invoice/AddInvoiceTitlePage';
 import VerifyNamePage from './home/VerifyName/VerifyNamePage';
 import PersonalDataPage from './mine/mine/PersonalDataPage';
 import VerifyResultPage from './home/VerifyName/VerifyResultPage';
@@ -113,6 +114,7 @@ export default function () {
     reg('QRCodeScreenPage', () => QRCodeScreenPage);
     reg('InvoiceMainPage', () => InvoiceMainPage);
     reg('InvoiceInputPage', () => InvoiceInputPage);
+    reg('AddInvoiceTitlePage', () => AddInvoiceTitlePage);
     reg('InvoiceInfoPage', () => InvoiceInfoPage);
     reg('DebugPage', () => DebugPage);
     reg('HttpLogView', () => HttpLogView);
