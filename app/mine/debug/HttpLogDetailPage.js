@@ -22,6 +22,7 @@ import JPushModule from 'jpush-react-native';
 import ActionSheet from 'react-native-actionsheet';
 import SectionHeader from "../../view/SectionHeader";
 import * as WeChat from 'react-native-wechat';
+import fs from 'react-native-fs';
 
 const PRIMARY_COLOR = "#3b3b3b";
 const SELECT_COLOR = "#FFFF00";
@@ -64,12 +65,37 @@ export default class HttpLogDetailPage extends BComponent {
         WeChat.isWXAppInstalled()
             .then((isInstalled) => {
                 if (isInstalled) {
-                    WeChat.shareToSession({
-                        type: 'text',
-                        description: HttpLogDetailPage.httpLogToString(this.props.data)
-                    }).catch((error) => {
 
-                    });
+                    let rootPath = Platform.OS === 'ios'? fs.DocumentDirectoryPath: fs.ExternalDirectoryPath;
+
+                    // create a path you want to write to
+                    let path = rootPath + '/_RNhttpLog.txt';
+                    // write the file
+                    fs.writeFile(path, HttpLogDetailPage.httpLogToString(this.props.data), 'utf8')
+                        .then((success) => {
+                            console.log('FILE WRITTEN!');
+
+                            WeChat.shareToSession({
+                                type: 'file',
+                                title: 'Http请求日志.txt', // WeChat app treat title as file name
+                                description: 'Http请求日志分享',
+                                mediaTagName: 'txt file',
+                                messageAction: undefined,
+                                messageExt: undefined,
+                                filePath: path,
+                                fileExtension: '.txt'
+                            });
+                        })
+                        .catch((err) => {
+                            console.log(err.message);
+                        });
+
+                    // WeChat.shareToSession({
+                    //     type: 'text',
+                    //     description: 'hello'
+                    // }).catch((error) => {
+                    //     Toast.show('分享失败' + error.message);
+                    // });
                 } else {
                     Toast.show('没有安装微信软件，请您安装微信之后再试')
                 }
