@@ -646,6 +646,7 @@ export default class HomePage extends BComponent {
 
     }
     _goBannerDetail(item){
+
         UMTool.onEvent(item.eventsid)
         pushJump(this.props.navigator, item.url,item.name,'噼里啪智能财税',item.name,item.eventId);
     }

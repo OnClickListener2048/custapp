@@ -156,10 +156,10 @@ export default class InvoiceInfoPage extends BComponent {
         }else if (type == '01' || type == '04' || type == '10' || type == '11'){
             paramStr = data.GFMC + ',' + data.XFMC
         }
-        UserInfoStore.getUserToken().then(
-            (token) => {
-                if(token){
-                    apis.verifyInvoiceIsSave(token,paramStr).then((res)=>{
+        UserInfoStore.getUserInfo().then(
+            (user) => {
+                if(user){
+                    apis.verifyInvoiceIsSave(user.username,paramStr).then((res)=>{
 
                         if(res.code == 0 && res.status && res.status.length >0 && this.checkData(type,res.status) ){
                             for (let index = 0 ; index < res.status.length ; index++){
