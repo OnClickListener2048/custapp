@@ -136,7 +136,6 @@ export default class AddInvoiceTitlePage extends BComponent {
                             }
 
                         })
-                        this.props.navigator.pop();
                     }else{
                         this._AlertErrorMsg(res.msg?res.msg:'保存失败');
 
@@ -176,7 +175,6 @@ export default class AddInvoiceTitlePage extends BComponent {
                                         }
 
                                     })
-                                    this.props.navigator.pop();
                                 }else{
                                     this._AlertErrorMsg(res.msg?res.msg:'保存失败');
 
