@@ -45,7 +45,8 @@ export default class MinePage extends BComponent {
             loginCSwitch:true,//默认开关关闭
             settingNew:true,//默认显示版本更新的new
             orderCount:'',
-            companyCount:''
+            companyCount:'',
+            invoiceCount:''
         };
 
         this.initPage = this.initPage.bind(this);
@@ -65,7 +66,6 @@ export default class MinePage extends BComponent {
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
             NavigatorSelected = this.props.navigator;
-            this.refreshCompany();
         }
     }
 
@@ -79,103 +79,102 @@ export default class MinePage extends BComponent {
     componentWillUnmount() {
         this.refreshEmitter.remove();
     }
-    refreshCompany(){
-        UserInfoStore.getUserInfo().then(
-            (user) => {
-                //有用户信息
-                if (user && user.mobilePhone) {
-                    //获取当前公司
-                    //由于公司获取接口经常失败这里再次调用接口检查一下  获取公司
-                    apis.getCompany(user.mobilePhone).then(
-                        (companyInfo) => {
-                            if (companyInfo && companyInfo.list && companyInfo.list.length>0) {
-                                //接口有公司
-                                let tmpCompaniesArr = companyInfo.list;
-                                let index = 0;
-                                for(let i = 0 ;i<tmpCompaniesArr.length;i++){
-                                    let dic = tmpCompaniesArr[i]
-                                    if(dic.default){
-                                        index = i;
-                                        break
-                                    }
-                                }
-                                let netCompany = tmpCompaniesArr[index]
-                                // this.getOrderNumber(netCompany.id,netCompany.type)
-                                //判断公司数量
-                                if(tmpCompaniesArr.length != this.state.companyCount){
-                                    //当前公司数量不一致
-                                    this.setState({
-                                        companyCount:tmpCompaniesArr.length
-                                    })
-                                    UserInfoStore.setCompanyArr(tmpCompaniesArr).then();
-
-                                }
-                                //判断当前选中公司与本地存储公司是否一致
-                                UserInfoStore.getCompany().then(
-                                    (company) => {
-                                        console.log('company', company);
-                                        //当前选中的公司跟接口公司不一样
-                                        if(company){
-                                            //本地有公司
-                                            if(company.id !== netCompany.id){
-                                                //本地公司与接口公司 id 不一致
-                                                UserInfoStore.setCompany(netCompany).then();
-                                                this.setState({company: netCompany.infos[0].value});
-                                                DeviceEventEmitter.emit('ChangeCompany');
-                                            }
-                                        }else{
-                                            //本地没公司 （接口有公司 本地没公司）
-                                            UserInfoStore.setCompany(netCompany).then();
-                                            this.setState({company: netCompany.infos[0].value});
-                                            DeviceEventEmitter.emit('ChangeCompany');
-                                        }
-
-                                    },
-                                    (e) => {
-                                        console.log("读取信息错误:", e);
-                                    },
-                                );
-
-                            }else{
-                                //接口没公司
-                                //判断公司数量是不是没有
-                                if(this.state.companyCount != ''){
-                                    //错误处理
-                                    this.setState({
-                                        companyCount:''
-                                    })
-                                    UserInfoStore.removeCompanyArr().then();
-                                }
-                                //获取本地选中公司数据
-                                UserInfoStore.getCompany().then(
-                                    (company) => {
-                                        //本地有公司 其实没公司
-                                        if(company){
-                                            //没公司
-                                            UserInfoStore.removeCompany().then();
-                                            this.setState({company: ''});
-                                            DeviceEventEmitter.emit('ChangeCompany');
-                                        }
-
-                                    },
-                                    (e) => {
-                                    },
-                                );
-
-                            }
-                        },
-                        (e) => {
-
-                        },
-                    );
-                }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
-        );
-    }
-    //查公司接口超级慢 页面每次进入 调一次
+    // refreshCompany(){
+    //     UserInfoStore.getUserInfo().then(
+    //         (user) => {
+    //             //有用户信息
+    //             if (user && user.mobilePhone) {
+    //                 //获取当前公司
+    //                 //由于公司获取接口经常失败这里再次调用接口检查一下  获取公司
+    //                 apis.getCompany(user.mobilePhone).then(
+    //                     (companyInfo) => {
+    //                         if (companyInfo && companyInfo.list && companyInfo.list.length>0) {
+    //                             //接口有公司
+    //                             let tmpCompaniesArr = companyInfo.list;
+    //                             let index = 0;
+    //                             for(let i = 0 ;i<tmpCompaniesArr.length;i++){
+    //                                 let dic = tmpCompaniesArr[i]
+    //                                 if(dic.default){
+    //                                     index = i;
+    //                                     break
+    //                                 }
+    //                             }
+    //                             let netCompany = tmpCompaniesArr[index]
+    //                             // this.getOrderNumber(netCompany.id,netCompany.type)
+    //                             //判断公司数量
+    //                             if(tmpCompaniesArr.length != this.state.companyCount){
+    //                                 //当前公司数量不一致
+    //                                 this.setState({
+    //                                     companyCount:tmpCompaniesArr.length
+    //                                 })
+    //                                 UserInfoStore.setCompanyArr(tmpCompaniesArr).then();
+    //
+    //                             }
+    //                             //判断当前选中公司与本地存储公司是否一致
+    //                             UserInfoStore.getCompany().then(
+    //                                 (company) => {
+    //                                     console.log('company', company);
+    //                                     //当前选中的公司跟接口公司不一样
+    //                                     if(company){
+    //                                         //本地有公司
+    //                                         if(company.id !== netCompany.id){
+    //                                             //本地公司与接口公司 id 不一致
+    //                                             UserInfoStore.setCompany(netCompany).then();
+    //                                             this.setState({company: netCompany.infos[0].value});
+    //                                             DeviceEventEmitter.emit('ChangeCompany');
+    //                                         }
+    //                                     }else{
+    //                                         //本地没公司 （接口有公司 本地没公司）
+    //                                         UserInfoStore.setCompany(netCompany).then();
+    //                                         this.setState({company: netCompany.infos[0].value});
+    //                                         DeviceEventEmitter.emit('ChangeCompany');
+    //                                     }
+    //
+    //                                 },
+    //                                 (e) => {
+    //                                     console.log("读取信息错误:", e);
+    //                                 },
+    //                             );
+    //
+    //                         }else{
+    //                             //接口没公司
+    //                             //判断公司数量是不是没有
+    //                             if(this.state.companyCount != ''){
+    //                                 //错误处理
+    //                                 this.setState({
+    //                                     companyCount:''
+    //                                 })
+    //                                 UserInfoStore.removeCompanyArr().then();
+    //                             }
+    //                             //获取本地选中公司数据
+    //                             UserInfoStore.getCompany().then(
+    //                                 (company) => {
+    //                                     //本地有公司 其实没公司
+    //                                     if(company){
+    //                                         //没公司
+    //                                         UserInfoStore.removeCompany().then();
+    //                                         this.setState({company: ''});
+    //                                         DeviceEventEmitter.emit('ChangeCompany');
+    //                                     }
+    //
+    //                                 },
+    //                                 (e) => {
+    //                                 },
+    //                             );
+    //
+    //                         }
+    //                     },
+    //                     (e) => {
+    //
+    //                     },
+    //                 );
+    //             }
+    //         },
+    //         (e) => {
+    //             console.log("读取信息错误:", e);
+    //         },
+    //     );
+    // }
     initPage(){
         UserInfoStore.isLogined().then(
             logined => {
@@ -185,6 +184,31 @@ export default class MinePage extends BComponent {
                     //未登录展示
                     this.reset();
                 }else{
+                    //获取订单 抬头  公司总数
+                    apis.loadMinePageNumber().then((responseData) =>{
+                        console.log('lalalalala-responseData',responseData)
+                        if(responseData.code == 0){
+                            this.setState({
+                                orderCount:responseData.data.orderCount,
+                                companyCount:responseData.data.companyCount,
+                                invoiceCount:responseData.data.titleCount
+                            })
+                        }else{
+                            this.setState({
+                                orderCount:'',
+                                companyCount:'',
+                                invoiceCount:''
+                            })
+                        }
+                    },(e)=>{
+                        console.log('lalalalala-error',e)
+                        this.setState({
+                            orderCount:'',
+                            companyCount:'',
+                            invoiceCount:''
+                        })
+                    })
+
                     //已登录获取用户信息
                     UserInfoStore.getUserInfo().then(
                         (user) => {
@@ -193,11 +217,6 @@ export default class MinePage extends BComponent {
                                 this.setState({userName: user.name, phone: user.mobilePhone});
                                 if(user.avatar !== null) {
                                     this.setState({avatar: {uri:user.avatar}});
-                                }
-                                if(user.mobilePhone){
-                                    this.getOrderNumber(user.mobilePhone)
-                                }else{
-                                    this.getOrderNumber()
                                 }
                                 //获取当前公司
                                 UserInfoStore.getCompany().then(
@@ -209,36 +228,13 @@ export default class MinePage extends BComponent {
                                         } else {
                                             this.setState({company: ''});
                                         }
-                                        //获取成更 根据公司ID 获取订单总数
-                                        // if(company && company.id && company.type){
-                                        //     this.getOrderNumber(company.id,company.type)
-                                        // }else{
-                                        //     this.getOrderNumber()
-                                        // }
+
                                     },
                                     (e) => {
                                         console.log("读取信息错误:", e);
                                     },
                                 );
-                                //获取公司数组
-                                UserInfoStore.getCompanyArr().then((companyArr)=>{
-                                    if(companyArr && companyArr.length){
-                                        //多个公司设置公司数组长度
-                                        this.setState({
-                                            companyCount:companyArr.length
-                                        })
-                                    }else{
-                                        //没有多个公司
-                                        this.setState({
-                                            companyCount:''
-                                        })
-                                    }
-                                },(e)=>{
-                                    //没有多个公司
-                                    this.setState({
-                                        companyCount:''
-                                    })
-                                })
+
                             } else{
                                 this.reset();
                             }
@@ -250,37 +246,14 @@ export default class MinePage extends BComponent {
                     );
                 }
             },(e)=>{
+                this.reset();
 
             }
         )
 
     }
 
-    //获取订单总数
-    getOrderNumber(mobile){
-        if(mobile){
-            //请求订单接口
-            apis.loadOrderListData(mobile).then(
-                (responseData) => {
-                    if((responseData.code == 0)&&responseData.list&&responseData.list.length>0){
-                        this.setState({
-                            orderCount:responseData.list.length
-                        })
-                    }else {
-                        this.setState({
-                            orderCount:''
-                        })
-                    }
-                },(e)=>{
 
-                }
-            )
-        }else{
-            this.setState({
-                orderCount:''
-            })
-        }
-    }
     reset() {
         this.setState({
             phone: '注册/登录', //手机号
@@ -303,7 +276,6 @@ export default class MinePage extends BComponent {
                     })
                 }})
         this._loginSwitch();
-        this.initPage();
     }
 
     _loginSwitch(){
