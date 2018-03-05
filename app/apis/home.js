@@ -1,7 +1,7 @@
 /**
  * Created by zhuangzihao on 2017/9/29.
  */
-import {getApi,postApi} from './common';
+import {getApi,postApi,putEx} from './common';
 //产品数据
 export function loadHomeData(type = '0') {
     //v1
@@ -25,7 +25,7 @@ export function verifyInvoiceIsSave(username,company) {
 }
 
 export function updateInvoiceInfo(_id,company) {
-    return putEx('/api/v1.01/invoice?_id='+_id,company);
+    return putEx('/api/v1.01/invoice/'+_id,company);
 }
 
 export function addInvoiceInfo(params) {

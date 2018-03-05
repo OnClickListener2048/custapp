@@ -4115,9 +4115,9 @@ react-native-fs@^2.9.11:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
 
-"react-native-http@github:pilipa-cn/react-native-http#v1.1.5":
-  version "1.1.5"
-  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/acc1cafd9384c5f9f497148aeb2c8d0633c378a8"
+"react-native-http@github:pilipa-cn/react-native-http#v1.1.6":
+  version "1.1.6"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/26d5dbbcad27ca8768e053bf1781fd69dcc4bf33"
   dependencies:
     debounce "^1.0.2"
     json-stringify-safe "^5.0.1"
@@ -4218,7 +4218,7 @@ react-native-scrollable-mixin@^1.0.1:
   resolved "http://registry.npm.taobao.org/react-native-scrollable-mixin/download/react-native-scrollable-mixin-1.0.1.tgz#34a32167b64248594154fd0d6a8b03f22740548e"
 
 "react-native-scrollable-tab-view@github:pilipa-cn/react-native-scrollable-tab-view#v0.7.4-pilipa-2":
-  version v0.7.4-pilipa-2
+  version "0.7.4-pilipa-2"
   resolved "https://codeload.github.com/pilipa-cn/react-native-scrollable-tab-view/tar.gz/80783d721693dd733333599884fe52c16c2f41b5"
   dependencies:
     react-timer-mixin "^0.13.3"
