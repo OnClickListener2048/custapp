@@ -25,11 +25,11 @@ export function verifyInvoiceIsSave(username,company) {
 }
 
 export function updateInvoiceInfo(_id,company) {
-    return putEx('/api/v1.01/invoice',{_id,company});
+    return putEx('/api/v1.01/invoice?_id='+_id,company);
 }
 
-export function addInvoiceInfo(company) {
-    return postApi('/api/v1.01/invoice',{company});
+export function addInvoiceInfo(params) {
+    return postApi('/api/v1.01/invoice', params);
 }
 
 
