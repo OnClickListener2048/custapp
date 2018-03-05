@@ -451,6 +451,7 @@ export default class MinePage extends BComponent {
 
                         </Image>
 
+
                     <CommenCell
                         leftIcon={require('../../img/myCorp.png')}
                         leftText="我的公司"
@@ -462,9 +463,17 @@ export default class MinePage extends BComponent {
                         leftIcon={require('../../img/orders.png')}
                         leftText="我的订单"
                         onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
+                        rightText={this.state.orderCount}
+
+                    />
+
+                    <CommenCell
+                        leftIcon={require('../../img/myInvoice.png')}
+                        leftText="我的抬头"
+                        onPress = {this._goto.bind(this,'InvoiceTitleListPage','公司抬头')}
+                        rightText={this.state.companyCount}
                         style={{marginBottom:9}}
                         underLine={false}
-                        rightText={this.state.orderCount}
 
                     />
 

@@ -23,3 +23,13 @@ export function verifyInvoice(step = '1',params) {
 export function verifyInvoiceIsSave(username,company) {
     return getApi('/api/v1.01/invoice/exist',{username,company});
 }
+
+export function updateInvoiceInfo(_id,company) {
+    return putEx('/api/v1.01/invoice',{_id,company});
+}
+
+export function addInvoiceInfo(company) {
+    return postApi('/api/v1.01/invoice',{company});
+}
+
+

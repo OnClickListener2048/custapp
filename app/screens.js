@@ -63,10 +63,12 @@ import InvoiceInfoPage from './home/invoice/InvoiceInfoPage'
 
 import HomeTipBox from './view/HomeTipBox'
 import DebugPage from "./mine/debug/DebugPage";
+import InvoiceTitleListPage from "./mine/invoice/InvoiceTitleListPage";
+
 import {HttpLogView}  from 'react-native-http';
 import HttpLogDetailPage from "./mine/debug/HttpLogDetailPage";
 
-
+import CheckInvoiceTitlePage from './mine/invoice/CheckInvoiceTitlePage'
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -115,6 +117,8 @@ export default function () {
     reg('InvoiceMainPage', () => InvoiceMainPage);
     reg('InvoiceInputPage', () => InvoiceInputPage);
     reg('AddInvoiceTitlePage', () => AddInvoiceTitlePage);
+    reg('InvoiceTitleListPage', () => InvoiceTitleListPage);
+    reg('CheckInvoiceTitlePage', () => CheckInvoiceTitlePage);
     reg('InvoiceInfoPage', () => InvoiceInfoPage);
     reg('DebugPage', () => DebugPage);
     reg('HttpLogView', () => HttpLogView);

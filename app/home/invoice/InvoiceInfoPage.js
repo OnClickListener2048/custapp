@@ -322,7 +322,7 @@ export default class InvoiceInfoPage extends BComponent {
         //AddInvoiceTitlePage
         this.push({
             screen:'AddInvoiceTitlePage',
-            title:'保存',
+            title:'编辑',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
                 company,

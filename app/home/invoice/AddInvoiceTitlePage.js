@@ -14,7 +14,7 @@ import SubmitButton from "../../view/SubmitButton";
 import Alert from "react-native-alert";
 import InvoiceType from "../../view/invoiceType"
 import SectionHeader from "../../view/SectionHeader";
-import * as apis from '../../apis';
+import * as apis from '../../apis/home';
 
 export default class AddInvoiceTitlePage extends BComponent {
 
@@ -84,7 +84,7 @@ export default class AddInvoiceTitlePage extends BComponent {
             this._AlertErrorMsg('请输入15-20位税号');
 
         }else {//保存数据并跳转详情
-            // let loading = SActivityIndicator.show(true, "加载中...");
+            let loading = SActivityIndicator.show(true, "加载中...");
 
             let params = {
                 company:this.state.companyName,//公司名称 (必填)
@@ -102,12 +102,99 @@ export default class AddInvoiceTitlePage extends BComponent {
             if(this.state.bankAccount){
                 params.account = this.state.bankAccount
             }
-
+            let _id = '';
+            let company= '';//公司名称
+            let taxID= '';//税号
+            let address = '';//地址
+            let mobile = '';//手机号
+            let bank = '';//开户行
+            let account = '';//银行账号
 
             if(this.state._id) {//修改数据提交
+                apis.updateInvoiceInfo(this.state._id,params).then((res)=>{
+                    SActivityIndicator.hide(loading);
+                    if(res.code == 0){
+                        _id = this.state._id;
+                        company= res.company;//公司名称
+                        taxID= res.taxID;//税号
+                        address = res.address;//地址
+                        mobile = res.mobile;//手机号
+                        bank = res.bank;//开户行
+                        account = res.account;//银行账号
+                        this.push({
+                            screen:'CheckInvoiceTitlePage',
+                            title:'发票抬头',
+                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                            passProps:{
+                                _id,
+                                company,
+                                taxID,
+                                address,
+                                mobile,
+                                bank,
+                                account,
+                            }
 
+                        })
+                    }else{
+                        this._AlertErrorMsg(res.msg?res.msg:'保存失败');
+
+                    }
+                },(e)=>{
+                    SActivityIndicator.hide(loading);
+                    this._AlertErrorMsg(e.msg?e.msg:'保存失败');
+
+                })
             }else{//添加保存
+                UserInfoStore.getUserToken().then(
+                    (token) => {
+                        if(token){
+                            params.username = token
+                            apis.addInvoiceInfo(params).then((res)=>{
+                                SActivityIndicator.hide(loading);
+                                if(res.code == 0){
+                                    _id = res._id;
+                                    company= res.company;//公司名称
+                                    taxID= res.taxID;//税号
+                                    address = res.address;//地址
+                                    mobile = res.mobile;//手机号
+                                    bank = res.bank;//开户行
+                                    account = res.account;//银行账号
+                                    this.push({
+                                        screen:'CheckInvoiceTitlePage',
+                                        title:'发票抬头',
+                                        backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                                        passProps:{
+                                            _id,
+                                            company,
+                                            taxID,
+                                            address,
+                                            mobile,
+                                            bank,
+                                            account,
+                                        }
 
+                                    })
+
+                                }else{
+                                    this._AlertErrorMsg(res.msg?res.msg:'保存失败');
+
+                                }
+                            },(e)=>{
+                                SActivityIndicator.hide(loading);
+                                this._AlertErrorMsg(e.msg?e.msg:'保存失败');
+
+                            })
+                        }else{
+
+
+                        }
+
+                    },
+                    (e) => {
+
+                    }
+                );
             }
         }
     }
