@@ -20,3 +20,6 @@ export function verifyInvoice(step = '1',params) {
     return postApi('/api/v1/receipt/verify?step=' + step,params);
 }
 
+export function verifyInvoiceIsSave(username,company) {
+    return getApi('/api/v1.01/invoice/exist',{username,company});
+}
