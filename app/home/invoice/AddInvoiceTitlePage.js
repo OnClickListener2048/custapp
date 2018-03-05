@@ -37,40 +37,36 @@ export default class AddInvoiceTitlePage extends BComponent {
     }
 
     componentWillMount() {
-        if(!this.props.result){
-            return;
-
-        }
-        if(this.props.result._id){
+        if(this.props._id){
             this.setState({
-                _id:this.props.result._id,
-                companyName:this.props.result.company,
-                dutyParagraph:this.props.result.taxID,
-                companyAddress:this.props.result.address,
-                phoneNumber:this.props.result.mobile,
-                depositBank:this.props.result.bank,
-                bankAccount:this.props.result.account,
+                _id:this.props._id,
+                companyName:this.props.company,
+                dutyParagraph:this.props.taxID,
+                companyAddress:this.props.address,
+                phoneNumber:this.props.mobile,
+                depositBank:this.props.bank,
+                bankAccount:this.props.account,
 
             })
 
         }else{
-            if(this.props.result.company)
-                this.setState({companyName:this.props.result.company})
+            if(this.props.company)
+                this.setState({companyName:this.props.company})
 
-            if(this.props.result.taxID)
-                this.setState({dutyParagraph:this.props.result.taxID})
+            if(this.props.taxID)
+                this.setState({dutyParagraph:this.props.taxID})
 
-            if(this.props.result.address)
-                this.setState({companyAddress:this.props.result.address})
+            if(this.props.address)
+                this.setState({companyAddress:this.props.address})
 
-            if(this.props.result.mobile)
-                this.setState({phoneNumber:this.props.result.mobile})
+            if(this.props.mobile)
+                this.setState({phoneNumber:this.props.mobile})
 
-            if(this.props.result.bank)
-                this.setState({depositBank:this.props.result.bank})
+            if(this.props.bank)
+                this.setState({depositBank:this.props.bank})
 
-            if(this.props.result.account)
-                this.setState({bankAccount:this.props.result.account})
+            if(this.props.account)
+                this.setState({bankAccount:this.props.account})
 
         }
     }
