@@ -45,16 +45,30 @@ export default class InvoiceTitleListPage extends BComponent {
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
 
-
-
-    onNavigatorEvent(event) {
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         super.onNavigatorEvent(event)
-        if (event.id === 'willAppear') {
-
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+            if (event.id == 'AddInvoiceTitle') { // this is the same id field from the static navigatorButtons definition
+                this.push({
+                    screen: 'AddInvoiceTitlePage',
+                    title:'编辑',
+                    passProps: {
+                        //回调!
+                        callback: this.loadData,
+                        backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                    }
+                });
+            }
         }
-
     }
+
+
+
     componentDidMount() {
+        this.props.navigator.setButtons({
+            rightButtons: [{icon: require('../../img/addInvoiceTitle.png'),id:'AddInvoiceTitle'}], // see "Adding buttons to the navigator" below for format (optional)
+        });
+
         //打开即可
         if(!NetInfoSingleton.isConnected) {
             this.setState({
@@ -77,6 +91,7 @@ export default class InvoiceTitleListPage extends BComponent {
         });
 
     }
+
 
     _isLogined(){
         UserInfoStore.isLogined().then(
@@ -109,8 +124,6 @@ export default class InvoiceTitleListPage extends BComponent {
         }
 
         this.setState({refreshState: RefreshState.HeaderRefreshing})
-
-
 
         UserInfoStore.getUserToken().then(
             (tocken) => {
@@ -147,7 +160,7 @@ export default class InvoiceTitleListPage extends BComponent {
 
 
 
-                                let dataList = newList;
+                                let dataList = exampleList;
                                 this.setState({
                                     dataList: dataList,
                                     refreshState:RefreshState.NoMoreData,
@@ -190,13 +203,6 @@ export default class InvoiceTitleListPage extends BComponent {
 
         );
 
-
-
-
-
-
-
-
     }
 
     _reloadPage(){
@@ -205,27 +211,17 @@ export default class InvoiceTitleListPage extends BComponent {
     }
 
 
-    _readed(item){
-
-        pushJump(this.props.navigator, item.url,item.title?item.title:'噼里啪智能财税',item.title?item.title:'噼里啪智能财税',item.content);
-
-    }
-
-
-    _pushToAddInvoiceTitlePage(){
+    _clickCell(item){
         this.push({
-            screen: 'AddInvoiceTitlePage',
-            title:'编辑',
+            screen: '',
+            title:'',
             passProps: {
                 //回调!
-                callback: this.loadData,
+                id: item._id,
             }
         });
-
-
-
-
     }
+
 
 
     onHeaderRefresh = () => {
@@ -237,7 +233,7 @@ export default class InvoiceTitleListPage extends BComponent {
 
     renderCell = (info) => {
         return(
-            <TouchableOpacity onPress={this._readed.bind(this,info.item)}>
+            <TouchableOpacity onPress={this._clickCell.bind(this,info.item)}>
                 <InvoiceTitleCell
                     invoiceTitle={info.item.company}
                     invoiceSubTitle={info.item.taxID}
@@ -261,28 +257,11 @@ export default class InvoiceTitleListPage extends BComponent {
                         contentContainerStyle={{paddingTop:10,backgroundColor:'#f1f1f1'}}
 
                     />
-                    <SubmitButton onPress={this._pushToAddInvoiceTitlePage.bind(this)}
-                                  isEnabled={true}
-
-                                  text="添加发票抬头"
-                    />
                 </View>
             )
         }else {
             return(
-
-
-                <View style={styles.container}>
-                    <DefaultView onPress={()=>this._reloadPage()} type ={this.state.initStatus}/>
-                    <SubmitButton onPress={this._pushToAddInvoiceTitlePage.bind(this)}
-                                  isEnabled={true}
-
-                                  text="添加发票抬头"
-                    />
-
-                </View>
-
-
+                <DefaultView onPress={()=>this._reloadPage()} type ={this.state.initStatus}/>
             )
         }
 
