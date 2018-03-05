@@ -1,7 +1,7 @@
 /**
  * Created by zhuangzihao on 2017/9/29.
  */
-import {getApi,postApi} from './common';
+import {getApi,postApi,putEx} from './common';
 //产品数据
 export function loadHomeData(type = '0') {
     //v1
