@@ -319,7 +319,21 @@ export default class InvoiceInfoPage extends BComponent {
             account = item.data[5].value
 
         }
-        console.log('company:',company,'taxID:',taxID,'address:',address,'mobile:',mobile,'bank:',bank,'account:',account)
+        //AddInvoiceTitlePage
+        this.push({
+            screen:'AddInvoiceTitlePage',
+            title:'保存',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+            passProps:{
+                company,
+                taxID,
+                address,
+                mobile,
+                bank,
+                account
+            }
+
+        })
     }
 }
 
