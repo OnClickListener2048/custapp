@@ -450,6 +450,13 @@ export default class MinePage extends BComponent {
                             </TouchableOpacity>
 
                         </Image>
+                    <CommenCell
+                        leftIcon={require('../../img/myCorp.png')}
+                        leftText="公司抬头"
+                        onPress = {this._goto.bind(this,'InvoiceTitleListPage','公司抬头')}
+                        rightText={this.state.companyCount}
+                        style={{marginTop:9}}
+                    />
 
                     <CommenCell
                         leftIcon={require('../../img/myCorp.png')}
