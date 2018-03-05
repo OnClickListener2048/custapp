@@ -122,7 +122,7 @@ export default class AddInvoiceTitlePage extends BComponent {
                         bank = res.bank;//开户行
                         account = res.account;//银行账号
                         this.push({
-                            screen:'AddInvoiceTitlePage',
+                            screen:'CheckInvoiceTitlePage',
                             title:'发票抬头',
                             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                             passProps:{
@@ -161,7 +161,7 @@ export default class AddInvoiceTitlePage extends BComponent {
                                     bank = res.bank;//开户行
                                     account = res.account;//银行账号
                                     this.push({
-                                        screen:'AddInvoiceTitlePage',
+                                        screen:'CheckInvoiceTitlePage',
                                         title:'发票抬头',
                                         backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                                         passProps:{
