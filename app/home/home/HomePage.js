@@ -669,6 +669,7 @@ export default class HomePage extends BComponent {
                 this.props.navigator.push({
                     title: '发票验真',
                     screen: 'InvoiceMainPage',
+                    // screen: 'AddInvoiceTitlePage',
                 });
             }else{
                 Toast.show('即将上线，敬请期待...')

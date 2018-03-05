@@ -8,6 +8,8 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
+
+import com.rnfs.RNFSPackage;
 import com.wix.interactable.Interactable;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import cn.pilipa.alert.PLPAlertPackage;
@@ -166,7 +168,8 @@ public class MainApplication extends NavigationApplication {
                 new WeChatPackage(),
                 new Interactable(),
                 new ClearCachePackage(),
-                new RCTCameraPackage()
+                new RCTCameraPackage(),
+                new RNFSPackage()
         );
     }
 

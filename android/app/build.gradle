@@ -259,6 +259,7 @@ def releaseTime() {
 }
 
 dependencies {
+    compile project(':react-native-fs')
     compile project(':react-native-interactable')
     compile project(':react-native-spinkit')
     compile project(':react-native-svg')
