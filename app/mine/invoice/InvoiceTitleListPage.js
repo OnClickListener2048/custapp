@@ -125,11 +125,11 @@ export default class InvoiceTitleListPage extends BComponent {
 
         this.setState({refreshState: RefreshState.HeaderRefreshing})
 
-        UserInfoStore.getUserToken().then(
-            (tocken) => {
-                //有用户信息
-                if (tocken) {
-                    apis.loadInvoiceTitleListInfo(tocken).then(
+
+        UserInfoStore.getUserInfo().then(
+            (user) => {
+                if(user){
+                    apis.loadInvoiceTitleListInfo(user.username).then(
                         (responseData) => {
 
                             if(responseData.code === 0){
@@ -138,7 +138,7 @@ export default class InvoiceTitleListPage extends BComponent {
 
                                 let exampleList = [
                                     {
-                                        '_id': '0',
+                                        '_id': '01',
                                         'company': 'fjdklajflkajfklajflakdjffakdfjalkdjfakldjfkladjflkadjfkaljfakldfjakljfkajdffd',
                                         'taxID': '9113232058302930294462',
                                         'address': '北京北京市朝阳区小清路25号1101',
@@ -160,7 +160,7 @@ export default class InvoiceTitleListPage extends BComponent {
 
 
 
-                                let dataList = exampleList;
+                                let dataList = newList;
                                 this.setState({
                                     dataList: dataList,
                                     refreshState:RefreshState.NoMoreData,

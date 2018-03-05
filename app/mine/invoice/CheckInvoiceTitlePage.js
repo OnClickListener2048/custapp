@@ -8,6 +8,8 @@ import {StyleSheet,Button,ScrollView,View,FlatList,Text,TouchableOpacity,Image,T
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import SubmitButton from "../../view/SubmitButton";
 import Alert from "react-native-alert";
+import Toast from 'react-native-root-toast';
+
 import * as apis from '../../apis';
 
 export default class CheckInvoiceTitlePage extends BComponent {
@@ -45,23 +47,42 @@ export default class CheckInvoiceTitlePage extends BComponent {
                     )
 
                 }else{
-                    //请求失败
+                    Toast.show("数据请求失败");
                 }
             },
             (e) => {
-                //请求失败
+                Toast.show("数据请求失败");
             },
         )
     }
 
     //编辑
     edit(){
-
+        this.push({
+            screen: 'AddInvoiceTitlePage',
+            title:'编辑',
+            passProps: {
+                _id: this.state._id,
+                company:this.state.company,
+                taxID:this.state.taxID,
+                address:this.state.address,
+                mobile:this.state.mobile,
+                bank:this.state.bank,
+                account:this.state.account,
+            }
+        });
     }
 
     //删除
     del(){
-
+        Alert.alert('', '删除成功', [{
+            text: "确定",
+            onPress: ()=>{
+                Toast.show("删除成功"); ;
+            },
+            color:'#C6A567'
+        },
+        ]);
     }
 
 
