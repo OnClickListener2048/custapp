@@ -213,8 +213,8 @@ export default class InvoiceTitleListPage extends BComponent {
 
     _clickCell(item){
         this.push({
-            screen: '',
-            title:'',
+            screen: 'CheckInvoiceTitlePage',
+            title:'我的抬头',
             passProps: {
                 //回调!
                 id: item._id,

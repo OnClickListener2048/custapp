@@ -8,15 +8,50 @@ import {StyleSheet,Button,ScrollView,View,FlatList,Text,TouchableOpacity,Image,T
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import SubmitButton from "../../view/SubmitButton";
 import Alert from "react-native-alert";
-import * as apis from '../../apis/index';
+import * as apis from '../../apis';
 
 export default class CheckInvoiceTitlePage extends BComponent {
 
     constructor(props) {
         super(props);
         this.state = {
+            _id:'',//发票抬头id
+            company:'',//公司名称
+            taxID:'',//税号
+            address:'',//公司地址
+            mobile:'',//公司电话
+            bank:'',//开户银行
+            account:'',//银行账户
 
         };
+    }
+
+
+    componentWillMount() {
+
+        apis.loadInvoiceDetialData(this.props.id).then(
+            (responseData) => {
+
+                if (responseData.code === 0) {
+                    this.setState({
+                        _id:responseData.data._id,
+                        company:responseData.data.company,
+                        taxID:responseData.data.taxID,
+                        address:responseData.data.address,
+                        mobile:responseData.data.mobile,
+                        bank:responseData.data.bank,
+                        account:responseData.data.account
+                        }
+                    )
+
+                }else{
+                    //请求失败
+                }
+            },
+            (e) => {
+                //请求失败
+            },
+        )
     }
 
     //编辑
@@ -35,57 +70,58 @@ export default class CheckInvoiceTitlePage extends BComponent {
         return(
 
             <ScrollView style={styles.container}>
-                <View style={styles.wrp}>
+                <View style={[styles.wrp,{paddingTop:20}]}>
                     <Text style={styles.text_title}>
-                        名  称：
+                        名        称：
                     </Text>
                     <Text style={styles.text_context}>
-                        北京爱康定
+                        {this.state.company}
                     </Text>
-                    <View style={[styles.line,{marginLeft:20}]}/>
+
                 </View>
+                <View style={[styles.line,{marginLeft:20}]}/>
                 <View style={styles.wrp}>
                     <Text style={styles.text_title}>
-                        税  号：
+                        税        号：
                     </Text>
                     <Text style={styles.text_context}>
-                        1998899388
+                        {this.state.taxID}
                     </Text>
-                    <View style={[styles.line,{marginLeft:20}]}/>
                 </View>
+                <View style={[styles.line,{marginLeft:20}]}/>
                 <View style={styles.wrp}>
                     <Text style={styles.text_title}>
                        单位地址：
                     </Text>
                     <Text style={styles.text_context}>
-                        北京市朝阳区
+                        {this.state.address}
                     </Text>
-                    <View style={[styles.line,{marginLeft:20}]}/>
                 </View>
+                <View style={[styles.line,{marginLeft:20}]}/>
                 <View style={styles.wrp}>
                     <Text style={styles.text_title}>
                         电话号码：
                     </Text>
                     <Text style={styles.text_context}>
-                        0108893893
+                        {this.state.mobile}
                     </Text>
-                    <View style={[styles.line,{marginLeft:20}]}/>
                 </View>
+                <View style={[styles.line,{marginLeft:20}]}/>
                 <View style={styles.wrp}>
                     <Text style={styles.text_title}>
                         开户银行：
                     </Text>
                     <Text style={styles.text_context}>
-                        中国银行
+                        {this.state.bank}
                     </Text>
-                    <View style={[styles.line,{marginLeft:20}]}/>
                 </View>
+                <View style={[styles.line,{marginLeft:20}]}/>
                 <View style={styles.wrp}>
                     <Text style={styles.text_title}>
                         银行账户：
                     </Text>
                     <Text style={styles.text_context}>
-                        62267788778
+                        {this.state.account}
                     </Text>
                 </View>
 
@@ -128,15 +164,16 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         width:SCREEN_WIDTH,
         height:50,
-        paddingLeft:20
+        paddingLeft:20,
+        alignItems:'center'
     },
     text_title:{
         color:'#000000',
-        fontSize:14,
+        fontSize:16,
     },
     text_context:{
         color:'#333333',
-        fontSize:14,
+        fontSize:16,
         marginLeft:30
     },
     line:{
