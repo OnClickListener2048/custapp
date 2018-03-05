@@ -10,7 +10,8 @@ import {
     Text,
     View,
     Image,
-    SectionList
+    SectionList,
+    TouchableOpacity
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import BComponent from '../../base'
@@ -19,6 +20,8 @@ import ExpanableList from '../../view/ExpanableList'
 import SectionHeader from '../../view/SectionHeader'
 import CheckInfoItemTwo from '../../view/CheckInfoItemTwo'
 import CheckInfoItemFour from '../../view/CheckInfoItemFour'
+import * as apis from '../../apis';
+import util from "../../util/invoiceTool"
 
 import Alert from "react-native-alert";
 
@@ -50,9 +53,14 @@ export default class InvoiceInfoPage extends BComponent {
     componentDidMount() {
             if(this.props.data){
                 console.log("传值成功="+this.props.data);
-                this.setState({
-                    dataSource:this.dealInvoiceData(this.props.invoiceType,this.props.data),
-                    goodsList:this.props.data.CHILDLIST?this.dealGoodsData(this.props.data.CHILDLIST):[]
+                let _this = this
+
+                this.dealIsSaved(this.props.invoiceType,this.props.data,this.dealInvoiceData(this.props.invoiceType,this.props.data),function (arr) {
+                    console.log('hahahah',arr)
+                    _this.setState({
+                        dataSource:arr,
+                        goodsList:_this.props.data.CHILDLIST?_this.dealGoodsData(_this.props.data.CHILDLIST):[]
+                    })
                 })
             }else{
                 let msg = this.props.msg?this.props.msg:'识别失败'
@@ -103,19 +111,19 @@ export default class InvoiceInfoPage extends BComponent {
             //组标题
             sectionDic.key = section[i]['sectionTitle'];
             sectionDic.isCoverGoods = section[i]['isCoverGoods']
+            sectionDic.isSaved = section[i]['isSaved']
+            sectionDic.isShowSaveStatus = section[i]['isShowSaveStatus']
+
             //创建组的行数组
             let rowArr = []
             //循环
             for(let j = 0;j<section[i]['arr'].length;j++){
                 let rowDic = {}
                 let key = section[i]['arr'][j]
-                rowDic.key = [Map[key]]
+                rowDic.key = Map[key]
                 rowDic.value =''
-
                 if(data[key]){
-
                     rowDic.value = data[key].replace(/(^\s*)|(\s*$)/g, "")
-
                     if(key === 'ZZSSL'){//增值税税率或征收率+%
                         rowDic.value = data[key]+'%'
                     }
@@ -138,7 +146,76 @@ export default class InvoiceInfoPage extends BComponent {
         }
         return newData
     }
+    dealIsSaved(type,data,arr,callback){
+        let paramStr = ''
 
+        if(type == '02'){
+            paramStr = data.CYRMC + ',' + data.SPFMC + ',' + data.SHRMC + ',' + data.FHRMC
+        }else if (type == '03'){
+            paramStr = data.GHDW + ',' + data.XHDWMC
+        }else if (type == '01' || type == '04' || type == '10' || type == '11'){
+            paramStr = data.GFMC + ',' + data.XFMC
+        }
+        UserInfoStore.getUserToken().then(
+            (token) => {
+                if(token){
+                    apis.verifyInvoiceIsSave(token,paramStr).then((res)=>{
+
+                        if(res.code == 0 && res.status && res.status.length >0 && this.checkData(type,res.status) ){
+                            for (let index = 0 ; index < res.status.length ; index++){
+                                if(res.status[index]){
+                                    arr[index+1].isSaved = true
+                                }
+                                if(!arr[index+1].data[1].value){
+                                    arr[index+1].isShowSaveStatus = false
+                                }
+
+                            }
+                            callback(arr)
+                        }else{
+                            for(let index = 0; index <arr.length ; index++){
+                                arr[index].isShowSaveStatus = false
+                                arr.isSaved = false
+                            }
+                            callback(arr)
+                        }
+
+
+                    },(e)=>{
+                        for(let index = 0; index <arr.length ; index++){
+                            arr[index].isShowSaveStatus = false
+                            arr.isSaved = false
+                        }
+                        callback(arr)
+                    })
+                }else{
+                    for(let index = 0; index <arr.length ; index++){
+                        arr[index].isShowSaveStatus = false
+                        arr.isSaved = false
+                    }
+                    callback(arr)
+
+                }
+
+            },
+            (e) => {
+                for(let index = 0; index <arr.length ; index++){
+                    arr[index].isShowSaveStatus = false
+                    arr.isSaved = false
+                }
+                callback(arr)
+            },
+        );
+
+    }
+    checkData(type,arr){
+        if(type == '01' || type == '03' || type == '04' || type == '10' || type == '11'){
+            if(arr.length == 2)return true
+        }else{
+            if(arr.length == 4)return true
+        }
+        return false
+    }
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
@@ -155,7 +232,7 @@ export default class InvoiceInfoPage extends BComponent {
     _renderItem (info) {
 
         if(info.item.value){
-            let text = info.item.key[0]
+            let text = info.item.key
             return(
                 <CheckInfoItemTwo name={text} value={info.item.value}/>
             )
@@ -208,10 +285,42 @@ export default class InvoiceInfoPage extends BComponent {
             )
         }else{
             return(
-                <SectionHeader style={{backgroundColor:'#E8E2D6'}} text ={info.section.key} textStyle={{color:'#AE915A'}} />
+                <SectionHeader
+                    style={{backgroundColor:'#E8E2D6'}}
+                    text ={info.section.key}
+                    textStyle={{color:'#AE915A'}}
+                    rightView = {info.section.isShowSaveStatus?info.section.isSaved?<Text style={{fontSize:16,color:'#999999'}}>已保存</Text>:<TouchableOpacity onPress={()=>{this.saveClick(info.section)}}><View
+                        style={{backgroundColor:'#ffffff',borderWidth:1,borderColor:'#C6A567',width:77,height:30,borderRadius:15,justifyContent:'center',alignItems:'center'}}><Text style={{fontSize:16,color:'#AE915A'}}>保存</Text></View></TouchableOpacity>:null}
+                />
             )
         }
     };
+    saveClick (item) {
+
+        let company= ''//公司名称
+        let taxID= ''//税号
+        let address = ''//地址
+        let mobile = ''//手机号
+        let bank = ''//开户行
+        let account = ''//银行账号
+        company = item.data[0].value
+        taxID = item.data[1].value
+
+        if(this.props.invoiceType == '01' || this.props.invoiceType == '04' || this.props.invoiceType == '10'){
+            address = util.addressAndPhone(item.data[2].value).address
+            mobile = util.addressAndPhone(item.data[2].value).phone
+            bank = util.bankAddressAndAccount(item.data[3].value).address
+            account = util.bankAddressAndAccount(item.data[3].value).account
+        }
+        if(this.props.invoiceType == '03'){
+            mobile = item.data[2].value
+            address = item.data[3].value
+            bank = item.data[4].value
+            account = item.data[5].value
+
+        }
+        console.log('company:',company,'taxID:',taxID,'address:',address,'mobile:',mobile,'bank:',bank,'account:',account)
+    }
 }
 
 
