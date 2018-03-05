@@ -217,6 +217,7 @@ export default class InvoiceTitleListPage extends BComponent {
             title:'我的抬头',
             passProps: {
                 //回调!
+                callback: this.loadData,
                 id: item._id,
             }
         });
