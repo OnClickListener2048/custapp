@@ -5,9 +5,9 @@
 
 import React from 'react';
 import BComponent from '../../base/BComponent';
-import InvoiceInputView from "../VerifyName/view/InvoiceInputView";
+import InvoiceInputView from "../../home/VerifyName/view/InvoiceInputView";
 import {StyleSheet,Button,ScrollView,View,FlatList,Text,TouchableOpacity,Image,TouchableWithoutFeedback} from 'react-native';
-import SinglePickerView from "../VerifyName/view/SinglePickerView";
+import SinglePickerView from "../../home/VerifyName/view/SinglePickerView";
 import SubmitButtonWithIcon from "../../view/SubmitButtonWithIcon";
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import SubmitButton from "../../view/SubmitButton";
@@ -136,6 +136,7 @@ export default class AddInvoiceTitlePage extends BComponent {
                             }
 
                         })
+                        this.props.navigator.pop();
                     }else{
                         this._AlertErrorMsg(res.msg?res.msg:'保存失败');
 
@@ -146,10 +147,10 @@ export default class AddInvoiceTitlePage extends BComponent {
 
                 })
             }else{//添加保存
-                UserInfoStore.getUserToken().then(
-                    (token) => {
-                        if(token){
-                            params.username = token
+                UserInfoStore.getUserInfo().then(
+                    (user) => {
+                        if(user){
+                            params.username = user.username
                             apis.addInvoiceInfo(params).then((res)=>{
                                 SActivityIndicator.hide(loading);
                                 if(res.code == 0){
@@ -175,7 +176,7 @@ export default class AddInvoiceTitlePage extends BComponent {
                                         }
 
                                     })
-
+                                    this.props.navigator.pop();
                                 }else{
                                     this._AlertErrorMsg(res.msg?res.msg:'保存失败');
 
