@@ -5,11 +5,10 @@
 import React from 'react';
 import BComponent from '../../base/BComponent';
 import {StyleSheet,Button,ScrollView,View,FlatList,Text,TouchableOpacity,Image,TouchableWithoutFeedback} from 'react-native';
-import SubmitButtonWithIcon from "../../view/SubmitButtonWithIcon";
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import SubmitButton from "../../view/SubmitButton";
 import Alert from "react-native-alert";
-import * as apis from '../../apis';
+import * as apis from '../../apis/index';
 
 export default class CheckInvoiceTitlePage extends BComponent {
 
