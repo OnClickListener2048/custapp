@@ -33,6 +33,8 @@
       {
         "sectionTitle":"基础信息",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "FPDM",
           "FPHM",
@@ -44,6 +46,8 @@
       {
         "sectionTitle":"购买方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "GFMC",
           "GFSBH",
@@ -54,6 +58,8 @@
       {
         "sectionTitle":"销售方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "XFMC",
           "XFSBH",
@@ -64,6 +70,8 @@
       {
         "sectionTitle":"发票明细",
         "isCoverGoods":true,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "JE",
           "SE",
@@ -107,6 +115,8 @@
       {
         "sectionTitle":"基础信息",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "FPDM",
           "FPHM",
@@ -116,6 +126,8 @@
       {
         "sectionTitle":"承经人",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "CYRMC",
           "CYRSBH"
@@ -124,6 +136,8 @@
       {
         "sectionTitle":"售票方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "SPFMC",
           "SPFSBH"
@@ -132,6 +146,8 @@
       {
         "sectionTitle":"发货人",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "SHRMC",
           "SHRSBH"
@@ -140,6 +156,8 @@
       {
         "sectionTitle":"收货人",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "FHRMC",
           "FHRSBH"
@@ -148,6 +166,8 @@
       {
         "sectionTitle":"发票明细",
         "isCoverGoods":true,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "HJJE",
           "YSHWXX",
@@ -203,6 +223,8 @@
       {
         "sectionTitle":"基本信息",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "FPDM",
           "FPHM",
@@ -213,15 +235,33 @@
       {
         "sectionTitle":"购买方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "GHDW",
-          "SFZHM",
-          "GFSBH"
+          "GFSBH",
+          "SFZHM"
+        ]
+      },
+      {
+        "sectionTitle":"销售方",
+        "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
+        "arr":[
+          "XHDWMC",
+          "NSRSBH",
+          "DH",
+          "DZ",
+          "KHYH",
+          "ZH"
         ]
       },
       {
         "sectionTitle":"车辆信息",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "CLLX",
           "CPXH",
@@ -237,20 +277,10 @@
         ]
       },
       {
-        "sectionTitle":"销售方",
-        "isCoverGoods":false,
-        "arr":[
-          "XHDWMC",
-          "DH",
-          "NSRSBH",
-          "ZH",
-          "DZ",
-          "KHYH"
-        ]
-      },
-      {
         "sectionTitle":"发票明细",
         "isCoverGoods":true,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "ZZSSL",
           "ZZSSE",
@@ -296,6 +326,8 @@
       {
         "sectionTitle":"基础信息",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "FPDM",
           "FPHM",
@@ -307,6 +339,8 @@
       {
         "sectionTitle":"购买方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "GFMC",
           "GFSBH",
@@ -317,6 +351,8 @@
       {
         "sectionTitle":"销售方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "XFMC",
           "XFSBH",
@@ -327,6 +363,8 @@
       {
         "sectionTitle":"发票明细",
         "isCoverGoods":true,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "JE",
           "SE",
@@ -370,6 +408,8 @@
       {
         "sectionTitle":"基础信息",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "FPDM",
           "FPHM",
@@ -379,6 +419,8 @@
       {
         "sectionTitle":"购买方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "GFMC",
           "GFSH",
@@ -389,6 +431,8 @@
       {
         "sectionTitle":"销售方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "XFMC",
           "XFSH",
@@ -399,6 +443,8 @@
       {
         "sectionTitle":"发票明细",
         "isCoverGoods":true,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "JYM",
           "SE",
@@ -437,6 +483,8 @@
       {
         "sectionTitle":"基础信息",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "FPDM",
           "FPHM",
@@ -446,24 +494,28 @@
       {
         "sectionTitle":"购买方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "GFMC",
           "GFSH"
-
         ]
       },
       {
         "sectionTitle":"销售方",
         "isCoverGoods":false,
+        "isSaved":false,
+        "isShowSaveStatus":true,
         "arr":[
           "XFMC",
           "XFSH"
-
         ]
       },
       {
         "sectionTitle":"发票明细",
         "isCoverGoods":true,
+        "isSaved":false,
+        "isShowSaveStatus":false,
         "arr":[
           "JQBH",
           "SE",
@@ -477,5 +529,3 @@
     ]
   }
 }
-
-
