@@ -1,7 +1,7 @@
 /**
  * Created by zhuangzihao on 2018/3/5.
  */
-import {postApi, getApi,deleteApi,putEx} from './common';
+import {getApi} from './common';
 
 
 // 获取订单 公司 抬头 个数
