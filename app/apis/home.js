@@ -25,7 +25,7 @@ export function verifyInvoiceIsSave(username,company) {
 }
 
 export function updateInvoiceInfo(_id,company) {
-    return putEx('/api/v1.01/invoice?_id='+_id,company);
+    return putEx('/api/v1.01/invoice/'+_id,company);
 }
 
 export function addInvoiceInfo(params) {
