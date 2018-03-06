@@ -135,7 +135,7 @@ export default class CheckInvoiceTitlePage extends BComponent {
         apis.deleteInvoiceTitle(this.props.id).then(
             (responseData) => {
                 if (responseData.code === 0) {//删除成功刷新页面
-                    Alert.alert('', '删除成功', [{
+                    Alert.alert('删除成功', '', [{
                         text: "确定",
                         onPress: ()=>{
                             // this.push({
@@ -305,7 +305,6 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         width:SCREEN_WIDTH,
         alignItems:'center',
-        paddingRight:20
     },
     text_title:{
         color:'#000000',
@@ -318,9 +317,9 @@ const styles = StyleSheet.create({
         color:'#333333',
         fontSize:16,
         marginLeft:30,
-        marginRight:10,
         marginTop:10,
-        marginBottom:10
+        marginBottom:10,
+        width:SCREEN_WIDTH-20-30-90
     },
     line:{
         height:1,
