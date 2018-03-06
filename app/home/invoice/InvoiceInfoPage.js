@@ -56,7 +56,6 @@ export default class InvoiceInfoPage extends BComponent {
                 let _this = this
 
                 this.dealIsSaved(this.props.invoiceType,this.props.data,this.dealInvoiceData(this.props.invoiceType,this.props.data),function (arr) {
-                    console.log('hahahah',arr)
                     _this.setState({
                         dataSource:arr,
                         goodsList:_this.props.data.CHILDLIST?_this.dealGoodsData(_this.props.data.CHILDLIST):[]
