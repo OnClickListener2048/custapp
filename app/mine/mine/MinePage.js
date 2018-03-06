@@ -66,6 +66,7 @@ export default class MinePage extends BComponent {
         super.onNavigatorEvent(event);
         if (event.id === 'willAppear') {
             NavigatorSelected = this.props.navigator;
+            this.refreshCount()
         }
     }
 
@@ -79,8 +80,7 @@ export default class MinePage extends BComponent {
     componentWillUnmount() {
         this.refreshEmitter.remove();
     }
-
-    initPage(){
+    refreshCount(){
         UserInfoStore.isLogined().then(
             logined => {
                 //设置登录状态
@@ -91,7 +91,6 @@ export default class MinePage extends BComponent {
                 }else{
                     //获取订单 抬头  公司总数
                     apis.loadMinePageNumber().then((responseData) =>{
-                        console.log('lalalalala-responseData',responseData)
                         if(responseData.code == 0){
                             this.setState({
                                 orderCount:responseData.data.orderCount,
@@ -106,7 +105,6 @@ export default class MinePage extends BComponent {
                             })
                         }
                     },(e)=>{
-                        console.log('lalalalala-error',e)
                         this.setState({
                             orderCount:'',
                             companyCount:'',
@@ -114,6 +112,23 @@ export default class MinePage extends BComponent {
                         })
                     })
 
+                }
+            },(e)=>{
+                this.reset();
+
+            }
+        )
+    }
+    initPage(){
+        UserInfoStore.isLogined().then(
+            logined => {
+                //设置登录状态
+                this.setState({logined:logined});
+                if(!logined) {
+                    //未登录展示
+                    this.reset();
+                }else{
+                    
                     //已登录获取用户信息
                     UserInfoStore.getUserInfo().then(
                         (user) => {
@@ -166,7 +181,8 @@ export default class MinePage extends BComponent {
             company: '请立即注册或登录',//公司名称
             logined: false,// 是否已登陆
             orderCount:'',//订单总数
-            companyCount:''//公司总数
+            companyCount:'',//公司总数
+            invoiceCount:''
         });
     }
 
