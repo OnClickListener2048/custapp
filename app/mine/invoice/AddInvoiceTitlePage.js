@@ -121,21 +121,8 @@ export default class AddInvoiceTitlePage extends BComponent {
                         mobile = res.mobile;//手机号
                         bank = res.bank;//开户行
                         account = res.account;//银行账号
-                        this.push({
-                            screen:'CheckInvoiceTitlePage',
-                            title:'发票抬头',
-                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                            passProps:{
-                                id,
-                                company,
-                                taxID,
-                                address,
-                                mobile,
-                                bank,
-                                account,
-                            }
+                        this.props.navigator.pop();
 
-                        })
                     }else{
                         this._AlertErrorMsg(res.msg?res.msg:'保存失败');
 
@@ -160,6 +147,8 @@ export default class AddInvoiceTitlePage extends BComponent {
                                     mobile = res.mobile;//手机号
                                     bank = res.bank;//开户行
                                     account = res.account;//银行账号
+                                    this.props.navigator.pop();
+
                                     this.push({
                                         screen:'CheckInvoiceTitlePage',
                                         title:'发票抬头',
