@@ -82,6 +82,9 @@ export default class InvoiceInfoPage extends BComponent {
                     , {cancelable: false});
             }
     }
+    componentWillUnmount() {
+        this.refreshEmitter.remove();
+    }
     dealGoodsData(data){
         let newData = []
         for(let i = 0;i<data.length;i++){
