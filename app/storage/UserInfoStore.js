@@ -24,6 +24,7 @@ const KEY_NOTIFY_MESSAGE_INFOS = "KEY_NOTIFY_MESSAGE_INFOS";// 通知助手消�
 const KEY_NOTIFY_MESSAGE_NEWNUM = "KEY_NOTIFY_MESSAGE_NEWNUM";// 通知助手最新消息数量
 const KEY_SERVICE_MESSAGE_NEWNUM = "KEY_SERVICE_MESSAGE_NEWNUM";// 服务消息最新消息数量
 
+const KEY_FORCE_LOGOUT = "KEY_FORCE_LOGOUT";// 强制退出登录
 
 // 返回是否已登陆
 UserInfoStore.isLogined = async function (): boolean {
@@ -188,9 +189,6 @@ UserInfoStore.getCompanyArr = async function () {
     return value;
 };
 
-
-
-
 UserInfoStore.setNotifyMessageArr = async function (value: object) {
     return Preferences.set(KEY_NOTIFY_MESSAGE_INFOS, JSON.stringify(value));
 };
@@ -206,10 +204,6 @@ UserInfoStore.getNotifyMessageArr = async function () {
     }
     return value;
 };
-
-
-
-
 
 UserInfoStore.setNotifyMessageNewNum = async function (value: object) {
     return Preferences.set(KEY_NOTIFY_MESSAGE_NEWNUM, JSON.stringify(value));
@@ -228,9 +222,6 @@ UserInfoStore.removeNotifyMessageNewNum = async function () {
     return Preferences.remove(KEY_NOTIFY_MESSAGE_NEWNUM);
 };
 
-
-
-
 UserInfoStore.setServiceMessageNewNum = async function (value: object) {
     return Preferences.set(KEY_SERVICE_MESSAGE_NEWNUM, JSON.stringify(value));
 };
@@ -248,10 +239,6 @@ UserInfoStore.removeServiceMessageNewNum = async function () {
     return Preferences.remove(KEY_SERVICE_MESSAGE_NEWNUM);
 };
 
-
-
-
-
 UserInfoStore.setMobileLoginInfo = async function (value: object) {
  return Preferences.set(KEY_MOBILE_INFO, JSON.stringify(value));
 };
@@ -267,6 +254,23 @@ UserInfoStore.getMobileLoginInfo = async function () {
 
 UserInfoStore.removeMobileLoginInfo = async function () {
     return Preferences.remove(KEY_MOBILE_INFO);
+};
+
+/**
+ * 设置强制退出状态.
+ * @param value bool
+ * @returns {Promise<*|Promise<void>>}
+ */
+UserInfoStore.setForceLogout = async function (value: object) {
+    return Preferences.set(KEY_FORCE_LOGOUT, value);
+};
+
+UserInfoStore.getForceLogout = async function () {
+    return await Preferences.get(KEY_FORCE_LOGOUT);
+};
+
+UserInfoStore.removeForceLogout = async function () {
+    return Preferences.remove(KEY_FORCE_LOGOUT);
 };
 
 global.UserInfoStore = UserInfoStore;// 全局可用

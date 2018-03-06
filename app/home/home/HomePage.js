@@ -61,7 +61,7 @@ const footData = [
         "logo":require('../../img/peace.png')
     }
 ]
-import BannerView from '../../view/BannerView'
+
 import * as WeChat from "react-native-wechat";
 
 export default class HomePage extends BComponent {
@@ -191,23 +191,34 @@ export default class HomePage extends BComponent {
 
     componentDidMount(){
 
-
         UserInfoStore.isLogined().then(
             logined => {
-
                 if (logined === true){
-                    this.props.navigator.switchToTab({
-                        //登录情况下 启动直接跳转到服务页
-                        tabIndex: 1
-                    });
-                }else {
-                    this._loadBoxData()
-
-
+                    // getForceLogout
+                    UserInfoStore.getForceLogout().then(
+                        v => {
+                            console.log("getForceLogout", v);
+                            if(v) {
+                                this.props.navigator.switchToTab({
+                                    //登录情况下 启动直接跳转到服务页
+                                    tabIndex: 1
+                                });
+                            } else {
+                                loginJumpSingleton.doLogout(this.props.navigator);
+                                UserInfoStore.setForceLogout(true).then();
+                            }
+                        }, e => {
+                            this.props.navigator.switchToTab({
+                                //登录情况下 启动直接跳转到服务页
+                                tabIndex: 1
+                            });
+                        }
+                    );
+                } else {
+                    this._loadBoxData();
                 }
             }
         );
-
 
 
 
@@ -666,7 +677,7 @@ export default class HomePage extends BComponent {
             pushJump(this.props.navigator, item.url,item.title,'噼里啪智能财税',item.title,item.eventId);
 
         }else{
-            if(item.title == '发票验真'){
+            if(item.title === '发票验真'){
                 this.props.navigator.push({
                     title: '发票验真',
                     screen: 'InvoiceMainPage',
@@ -678,7 +689,8 @@ export default class HomePage extends BComponent {
             }
         }
     }
-    _x = 0.5
+
+    _x = 0.5;
 
     _reattach = () => {
         this.setState({
