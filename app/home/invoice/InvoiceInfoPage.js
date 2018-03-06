@@ -5,7 +5,7 @@
 
 import React, {Component,PropTypes} from 'react';
 import {
-
+    DeviceEventEmitter,
     StyleSheet,
     Text,
     View,
@@ -49,7 +49,7 @@ export default class InvoiceInfoPage extends BComponent {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
-    _callback = () =>{
+    initData (){
         let _this = this
 
         this.dealIsSaved(this.props.invoiceType,this.props.data,this.dealInvoiceData(this.props.invoiceType,this.props.data),function (arr) {
@@ -63,14 +63,10 @@ export default class InvoiceInfoPage extends BComponent {
     componentDidMount() {
             if(this.props.data){
                 console.log("传值成功="+this.props.data);
-                let _this = this
-
-                this.dealIsSaved(this.props.invoiceType,this.props.data,this.dealInvoiceData(this.props.invoiceType,this.props.data),function (arr) {
-                    _this.setState({
-                        dataSource:arr,
-                        goodsList:_this.props.data.CHILDLIST?_this.dealGoodsData(_this.props.data.CHILDLIST):[]
-                    })
-                })
+                this.initData()
+                this.refreshEmitter = DeviceEventEmitter.addListener('ReloadInvoiceTitleState', () => {
+                    this.initData()
+                });
             }else{
                 let msg = this.props.msg?this.props.msg:'识别失败'
                 Alert.alert(msg, '',
@@ -340,7 +336,6 @@ export default class InvoiceInfoPage extends BComponent {
                 mobile,
                 bank,
                 account,
-                callback:this._callback
             }
 
         })

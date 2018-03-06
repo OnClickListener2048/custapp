@@ -6,7 +6,7 @@
 import React from 'react';
 import BComponent from '../../base/BComponent';
 import InvoiceInputView from "../../home/VerifyName/view/InvoiceInputView";
-import {StyleSheet,Button,ScrollView,View,FlatList,Text,TouchableOpacity,Image,TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet,Button,ScrollView,View,FlatList,Text,TouchableOpacity,Image,DeviceEventEmitter} from 'react-native';
 import SinglePickerView from "../../home/VerifyName/view/SinglePickerView";
 import SubmitButtonWithIcon from "../../view/SubmitButtonWithIcon";
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
@@ -122,10 +122,11 @@ export default class AddInvoiceTitlePage extends BComponent {
                         mobile = res.mobile;//手机号
                         bank = res.bank;//开户行
                         account = res.account;//银行账号
-                        let callback = this.props.callback;
-                        if(callback) {
-                            callback();
-                        }
+                        // let callback = this.props.callback;
+                        // if(callback) {
+                        //     callback();
+                        // }
+                        DeviceEventEmitter.emit('ReloadInvoiceTitleState');
                         this.props.navigator.pop();
 
                     }else{
@@ -153,10 +154,12 @@ export default class AddInvoiceTitlePage extends BComponent {
                                     bank = res.bank;//开户行
                                     account = res.account;//银行账号
                                     //回调刷新
-                                    let callback = this.props.callback;
-                                    if(callback) {
-                                        callback();
-                                    }
+                                    // let callback = this.props.callback;
+                                    // if(callback) {
+                                    //     callback();
+                                    // }
+                                    DeviceEventEmitter.emit('ReloadInvoiceTitleState');
+
                                     this.props.navigator.pop();
 
                                     this._timer = setTimeout(() => {

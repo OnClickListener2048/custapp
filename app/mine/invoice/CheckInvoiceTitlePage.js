@@ -11,7 +11,8 @@ import {
     Platform,
     Text,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    DeviceEventEmitter
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import SubmitButton from "../../view/SubmitButton";
@@ -143,10 +144,12 @@ export default class CheckInvoiceTitlePage extends BComponent {
                             //     title:'公司抬头',
                             // });
 
-                            let callback = this.props.callback;
-                            if(callback) {
-                                callback();
-                            }
+                            // let callback = this.props.callback;
+                            // if(callback) {
+                            //     callback();
+                            // }
+                            DeviceEventEmitter.emit('ReloadInvoiceTitleState');
+
 
                             this.props.navigator.pop();
 
