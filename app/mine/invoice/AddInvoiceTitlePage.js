@@ -102,7 +102,7 @@ export default class AddInvoiceTitlePage extends BComponent {
             if(this.state.bankAccount){
                 params.account = this.state.bankAccount
             }
-            let _id = '';
+            let id = '';
             let company= '';//公司名称
             let taxID= '';//税号
             let address = '';//地址
@@ -114,28 +114,15 @@ export default class AddInvoiceTitlePage extends BComponent {
                 apis.updateInvoiceInfo(this.state._id,params).then((res)=>{
                     SActivityIndicator.hide(loading);
                     if(res.code == 0){
-                        _id = this.state._id;
+                        id = this.state._id;
                         company= res.company;//公司名称
                         taxID= res.taxID;//税号
                         address = res.address;//地址
                         mobile = res.mobile;//手机号
                         bank = res.bank;//开户行
                         account = res.account;//银行账号
-                        this.push({
-                            screen:'CheckInvoiceTitlePage',
-                            title:'发票抬头',
-                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                            passProps:{
-                                _id,
-                                company,
-                                taxID,
-                                address,
-                                mobile,
-                                bank,
-                                account,
-                            }
+                        this.props.navigator.pop();
 
-                        })
                     }else{
                         this._AlertErrorMsg(res.msg?res.msg:'保存失败');
 
@@ -153,19 +140,21 @@ export default class AddInvoiceTitlePage extends BComponent {
                             apis.addInvoiceInfo(params).then((res)=>{
                                 SActivityIndicator.hide(loading);
                                 if(res.code == 0){
-                                    _id = res._id;
+                                    id = res._id;
                                     company= res.company;//公司名称
                                     taxID= res.taxID;//税号
                                     address = res.address;//地址
                                     mobile = res.mobile;//手机号
                                     bank = res.bank;//开户行
                                     account = res.account;//银行账号
+                                    this.props.navigator.pop();
+
                                     this.push({
                                         screen:'CheckInvoiceTitlePage',
                                         title:'发票抬头',
                                         backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                                         passProps:{
-                                            _id,
+                                            id,
                                             company,
                                             taxID,
                                             address,

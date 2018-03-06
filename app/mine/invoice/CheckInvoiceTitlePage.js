@@ -119,14 +119,37 @@ export default class CheckInvoiceTitlePage extends BComponent {
 
     //删除
     del(){
-        Alert.alert('', '删除成功', [{
-            text: "确定",
-            onPress: ()=>{
-                Toast.show("删除成功"); ;
+        apis.deleteInvoiceTitle(this.props.id).then(
+            (responseData) => {
+                if (responseData.code === 0) {//删除成功刷新页面
+                    Alert.alert('', '删除成功', [{
+                        text: "确定",
+                        onPress: ()=>{
+                            // this.push({
+                            //     screen: 'InvoiceTitleListPage',
+                            //     title:'公司抬头',
+                            // });
+
+                            let callback = this.props.callback;
+                            if(callback) {
+                                callback();
+                            }
+
+                            this.props.navigator.pop();
+
+                        },
+                        color:'#C6A567'
+                    },
+                    ]);
+                }else{
+                    Toast.show("删除失败");
+                }
             },
-            color:'#C6A567'
-        },
-        ]);
+            (e) => {
+                Toast.show("删除失败");
+            },
+        );
+
     }
     _share(){
         let shareStr = ''
