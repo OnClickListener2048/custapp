@@ -348,7 +348,7 @@ export default class MinePage extends BComponent {
                         leftIcon={require('../../img/myInvoice.png')}
                         leftText="我的抬头"
                         onPress = {this._goto.bind(this,'InvoiceTitleListPage','公司抬头')}
-                        rightText={this.state.companyCount}
+                        rightText={this.state.invoiceCount}
                         style={{marginBottom:9}}
                         underLine={false}
 
