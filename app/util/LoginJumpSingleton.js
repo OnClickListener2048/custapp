@@ -79,7 +79,7 @@ export default class LoginJumpSingleton {
                         text: '确定',
                         onPress: () => {
                             this.isJumpingLogout = false;
-
+                            this.doLogout(navigator);
                         },
                     },]
                 , {cancelable: false});
