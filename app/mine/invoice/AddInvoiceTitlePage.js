@@ -178,7 +178,7 @@ export default class AddInvoiceTitlePage extends BComponent {
                                             }
                                         })
                                             clearTimeout(this._timer);
-                                    }, 500);
+                                    }, 700);
                                 }else{
                                     this._AlertErrorMsg(res.msg?res.msg:'保存失败');
 

@@ -198,14 +198,12 @@ export default class CheckInvoiceTitlePage extends BComponent {
 
 
     render(){
-        var title=Platform.OS === 'ios'?'抬        头：':'抬          头：';
-        var taxId=Platform.OS === 'ios'?'税        号：':'税          号：';
         return(
             <View style={{flex:1}}>
                 <ScrollView style={styles.container}>
                     <View style={styles.wrp}>
                         <Text style={styles.text_title}>
-                            {title}
+                            抬&#12288;&#12288;头：
                         </Text>
                         <Text style={styles.text_context}>
                             {this.state.company}
@@ -215,7 +213,7 @@ export default class CheckInvoiceTitlePage extends BComponent {
                     <View style={[styles.line,{marginLeft:20}]}/>
                     <View style={styles.wrp}>
                         <Text style={styles.text_title}>
-                            {taxId}
+                            税&#12288;&#12288;号：
                         </Text>
                         <Text style={styles.text_context}>
                             {this.state.taxID}

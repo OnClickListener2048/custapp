@@ -32,11 +32,11 @@ export default class InvoiceTitleCell extends Component {
                     <Text
                         textAlign='left'
                         numberOfLines={1}
-                        style={[{fontSize: 17,marginTop:14, marginLeft : 10 ,marginRight : 0,color : '#333333'}] }>{invoiceTitle}</Text>
+                        style={[{fontSize: 17,marginTop:14, marginLeft : 16 ,marginRight : 0,color : '#333333'}] }>{invoiceTitle}</Text>
                     <Text
                         textAlign='left'
                         numberOfLines={2}
-                        style={[{fontSize: 17, marginLeft : 10 , marginRight : 0 ,marginTop:6,marginBottom:14, color : '#333333'}] }>{'税号:' + invoiceSubTitle}</Text>
+                        style={[{fontSize: 17, marginLeft : 16 , marginRight : 0 ,marginTop:8,marginBottom:14, color : '#333333'}] }>{'税号:  ' + invoiceSubTitle}</Text>
 
                 </View>
 
