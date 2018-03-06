@@ -37,6 +37,7 @@ export default class InvoiceTitleListPage extends BComponent {
         };
         this.page =1;
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this._CallBackRefresh = this._CallBackRefresh.bind(this);
 
     }
 
@@ -54,7 +55,7 @@ export default class InvoiceTitleListPage extends BComponent {
                     title:'编辑',
                     passProps: {
                         //回调!
-                        callback: this.loadData,
+                        callback: this._CallBackRefresh,
                         backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     }
                 });
@@ -114,7 +115,9 @@ export default class InvoiceTitleListPage extends BComponent {
     }
 
 
-
+    _CallBackRefresh(){
+        this.loadData()
+    }
 
 
     loadData(){
@@ -217,7 +220,7 @@ export default class InvoiceTitleListPage extends BComponent {
             title:'我的抬头',
             passProps: {
                 //回调!
-                callback: this.loadData,
+                callback: this._CallBackRefresh,
                 id: item._id,
             }
         });
