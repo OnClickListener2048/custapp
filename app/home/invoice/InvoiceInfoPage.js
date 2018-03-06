@@ -49,6 +49,16 @@ export default class InvoiceInfoPage extends BComponent {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
+    _callback = () =>{
+        let _this = this
+
+        this.dealIsSaved(this.props.invoiceType,this.props.data,this.dealInvoiceData(this.props.invoiceType,this.props.data),function (arr) {
+            _this.setState({
+                dataSource:arr,
+                goodsList:_this.props.data.CHILDLIST?_this.dealGoodsData(_this.props.data.CHILDLIST):[]
+            })
+        })
+    }
     //开始扫描
     componentDidMount() {
             if(this.props.data){
@@ -329,7 +339,8 @@ export default class InvoiceInfoPage extends BComponent {
                 address,
                 mobile,
                 bank,
-                account
+                account,
+                callback:this._callback
             }
 
         })
