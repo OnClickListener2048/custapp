@@ -42,10 +42,6 @@ export default class InvoiceTitleListPage extends BComponent {
 
     }
 
-    static navigatorStyle = {
-        navBarHidden: false, // 隐藏默认的顶部导航栏
-        tabBarHidden: true, // 默认隐藏底部标签栏
-    };
 
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
         super.onNavigatorEvent(event)
@@ -54,6 +50,7 @@ export default class InvoiceTitleListPage extends BComponent {
                 this.push({
                     screen: 'AddInvoiceTitlePage',
                     title:'添加',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps: {
                         //回调!
                         callback: this._CallBackRepush,
@@ -116,17 +113,17 @@ export default class InvoiceTitleListPage extends BComponent {
     }
 
 
+
     _CallBackRefresh(){
         this.loadData()
     }
     _CallBackRepush(id,company,taxID,address,mobile,bank,account){
-
+        this.loadData();
         this._timer = setTimeout(() => {
-
             this.push({
                 screen:'CheckInvoiceTitlePage',
                 title:'我的抬头',
-                // backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                 passProps:{
                     id,
                     company,
@@ -162,32 +159,6 @@ export default class InvoiceTitleListPage extends BComponent {
 
                             if(responseData.code === 0){
                                 let newList = responseData.list;
-
-
-                                let exampleList = [
-                                    {
-                                        '_id': '01',
-                                        'company': 'fjdklajflkajfklajflakdjffakdfjalkdjfakldjfkladjflkadjfkaljfakldfjakljfkajdffd',
-                                        'taxID': '9113232058302930294462',
-                                        'address': '北京北京市朝阳区小清路25号1101',
-                                        'mobile': '13188888888',
-                                        'bank': '建设银行',
-                                        'account': '100000010000001000'
-                                    },
-                                    {
-                                        '_id': '1',
-                                        'company': '北京爱康鼎科技有限公司',
-                                        'taxID': '9113232058302930294463',
-                                        'address': '北京北京市朝阳区小清路25号1102',
-                                        'mobile': '13188888888',
-                                        'bank': '建设银行',
-                                        'account': '100000010000001001'
-                                    },
-                                ];
-
-
-
-
                                 let dataList = newList;
                                 this.setState({
                                     dataList: dataList,
@@ -243,6 +214,7 @@ export default class InvoiceTitleListPage extends BComponent {
         this.push({
             screen: 'CheckInvoiceTitlePage',
             title:'我的抬头',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps: {
                 //回调!
                 callback: this._CallBackRefresh,
