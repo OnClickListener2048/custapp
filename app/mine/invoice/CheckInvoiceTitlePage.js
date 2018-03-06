@@ -167,11 +167,11 @@ export default class CheckInvoiceTitlePage extends BComponent {
     _share(){
         let shareStr = ''
         if(this.state.company) shareStr = shareStr + "名称:" +  this.state.company + ';'
-        if(this.state.company) shareStr = shareStr + "税号:" +  this.state.taxID + ';'
-        if(this.state.company) shareStr = shareStr + "单位地址:" +  this.state.address + ';'
-        if(this.state.company) shareStr = shareStr + "电话号码:" +  this.state.mobile + ';'
-        if(this.state.company) shareStr = shareStr + "开户银行:" +  this.state.bank + ';'
-        if(this.state.company) shareStr = shareStr + "银行账户:" +  this.state.account + ';'
+        if(this.state.taxID) shareStr = shareStr + "税号:" +  this.state.taxID + ';'
+        if(this.state.address) shareStr = shareStr + "单位地址:" +  this.state.address + ';'
+        if(this.state.mobile) shareStr = shareStr + "电话号码:" +  this.state.mobile + ';'
+        if(this.state.bank) shareStr = shareStr + "开户银行:" +  this.state.bank + ';'
+        if(this.state.account) shareStr = shareStr + "银行账户:" +  this.state.account + ';'
 
         WeChat.isWXAppInstalled()
             .then((isInstalled) => {
