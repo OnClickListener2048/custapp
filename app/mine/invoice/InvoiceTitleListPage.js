@@ -38,7 +38,6 @@ export default class InvoiceTitleListPage extends BComponent {
         this.page =1;
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
         this._CallBackRefresh = this._CallBackRefresh.bind(this);
-        this._CallBackRepush = this._CallBackRepush.bind(this);
 
     }
 
@@ -53,7 +52,7 @@ export default class InvoiceTitleListPage extends BComponent {
                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps: {
                         //回调!
-                        callback: this._CallBackRepush,
+                        callback: this._CallBackRefresh,
                         backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     }
                 });
@@ -116,30 +115,6 @@ export default class InvoiceTitleListPage extends BComponent {
 
     _CallBackRefresh(){
         this.loadData()
-    }
-    _CallBackRepush(id,company,taxID,address,mobile,bank,account){
-        this.loadData();
-        this._timer = setTimeout(() => {
-            this.push({
-                screen:'CheckInvoiceTitlePage',
-                title:'我的抬头',
-                backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-                passProps:{
-                    id,
-                    company,
-                    taxID,
-                    address,
-                    mobile,
-                    bank,
-                    account,
-                }
-
-            })
-             clearTimeout(this._timer);
-        }, 500);
-
-
-
     }
 
     loadData(){

@@ -16,6 +16,7 @@ import InvoiceType from "../../view/invoiceType"
 import SectionHeader from "../../view/SectionHeader";
 import * as apis from '../../apis/home';
 
+
 export default class AddInvoiceTitlePage extends BComponent {
 
     constructor(props) {
@@ -152,17 +153,29 @@ export default class AddInvoiceTitlePage extends BComponent {
                                     bank = res.bank;//开户行
                                     account = res.account;//银行账号
                                     //回调刷新
-                                    // let callback = this.props.callback;
-                                    // if(callback) {
-                                    //     callback();
-                                    // }
-
                                     let callback = this.props.callback;
                                     if(callback) {
-                                        callback(id,company,taxID,address,mobile,bank,account);
+                                        callback();
                                     }
-
                                     this.props.navigator.pop();
+
+                                    this._timer = setTimeout(() => {
+                                        this.push({
+                                            screen:'CheckInvoiceTitlePage',
+                                            title:'我的抬头',
+                                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                                            passProps:{
+                                                id,
+                                                company,
+                                                taxID,
+                                                address,
+                                                mobile,
+                                                bank,
+                                                account,
+                                            }
+                                        })
+                                            clearTimeout(this._timer);
+                                    }, 500);
                                 }else{
                                     this._AlertErrorMsg(res.msg?res.msg:'保存失败');
 
