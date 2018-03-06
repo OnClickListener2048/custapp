@@ -151,8 +151,8 @@ export default class AddInvoiceTitlePage extends BComponent {
 
                                     this.push({
                                         screen:'CheckInvoiceTitlePage',
-                                        title:'发票抬头',
-                                        backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                                        title:'我的抬头',
+                                        // backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                                         passProps:{
                                             id,
                                             company,
