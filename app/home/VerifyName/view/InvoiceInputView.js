@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     textInputWrapper: {
         minHeight: 50,
         maxHeight:50,
-        width: SCREEN_WIDTH-30,
+        width: SCREEN_WIDTH-30-90,
         backgroundColor: 'transparent',
         // position: 'relative',
         marginRight: 15,
@@ -99,14 +99,14 @@ const styles = StyleSheet.create({
 
     textInput: {
         flex: 1,
-        width: SCREEN_WIDTH-30,
+        width: SCREEN_WIDTH-30-90,
         padding: 0,
         color:'#333333',
         fontSize: 17,
     },
 
     registerNumStyle: {
-        width: SCREEN_WIDTH - 30,
+        width: SCREEN_WIDTH - 30-90,
         // flex: 1,
         height: 50,
         flexDirection: 'row',

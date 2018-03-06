@@ -465,11 +465,7 @@ export default class MessagePage extends BComponent {
         this.setState({newNotifyNum:num});
         this._resetBadgeNum();
         if(this.refs.notifyCell) {
-            console.log("到这里呢999");
-
             this.refs.notifyCell.setNewNum(num);
-            console.log("到这里呢000");
-
         }
     }
 
