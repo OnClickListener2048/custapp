@@ -18,8 +18,7 @@ import NotifyMessagePage from './message/message/NotifyMessagePage';
 
 import MinePage from './mine/mine/MinePage';
 import ServicePage from './service/service/ServicePage';
-import ProductDetailPage from './home/detail/ProductDetailPage'
-import ColumnDetailPage from './home/detail/ColumnDetailPage'
+
 
 
 import BindPhonePage from './mine/bindPhone/BindPhonePage'
@@ -103,8 +102,6 @@ export default function () {
     reg('TaxFormPage', () => TaxFormPage);
     reg('VerifyResultPage', () => VerifyResultPage);
     reg('Notification', () => Notification);
-    reg('ProductDetailPage', () => ProductDetailPage);
-    reg('ColumnDetailPage', () => ColumnDetailPage);
     reg('NoNetTipPage', () => NoNetTipPage);
     reg('WebViewPage', () => WebViewPage);
     reg('AccountAndSecurity', () => AccountAndSecurity);
