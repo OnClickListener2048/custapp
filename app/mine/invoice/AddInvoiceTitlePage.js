@@ -147,12 +147,12 @@ export default class AddInvoiceTitlePage extends BComponent {
                                     mobile = res.mobile;//手机号
                                     bank = res.bank;//开户行
                                     account = res.account;//银行账号
-                                    this.props.navigator.pop();
+                                    // this.props.navigator.pop();
 
                                     this.push({
                                         screen:'CheckInvoiceTitlePage',
                                         title:'我的抬头',
-                                        // backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                                        backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                                         passProps:{
                                             id,
                                             company,

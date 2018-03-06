@@ -52,7 +52,7 @@ export default class InvoiceTitleListPage extends BComponent {
             if (event.id == 'AddInvoiceTitle') { // this is the same id field from the static navigatorButtons definition
                 this.push({
                     screen: 'AddInvoiceTitlePage',
-                    title:'编辑',
+                    title:'添加',
                     passProps: {
                         //回调!
                         callback: this._CallBackRefresh,
