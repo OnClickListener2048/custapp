@@ -93,6 +93,9 @@ export default class InvoiceTitleListPage extends BComponent {
 
     }
 
+    componentWillUnmount() {
+        this.refreshEmitter.remove();
+    }
 
     _isLogined(){
         UserInfoStore.isLogined().then(
