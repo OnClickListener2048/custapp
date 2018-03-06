@@ -205,7 +205,7 @@ export default class HomePage extends BComponent {
                                 });
                             } else {
                                 loginJumpSingleton.doLogout(this.props.navigator);
-                                UserInfoStore.setForceLogout(true).then();
+                                UserInfoStore.setForceLogout('true').then();
                             }
                         }, e => {
                             this.props.navigator.switchToTab({
@@ -216,6 +216,7 @@ export default class HomePage extends BComponent {
                     );
                 } else {
                     this._loadBoxData();
+                    UserInfoStore.setForceLogout('true').then();// 未登录时, 设置为不需要强制退出登录
                 }
             }
         );

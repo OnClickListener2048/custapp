@@ -262,6 +262,7 @@ UserInfoStore.removeMobileLoginInfo = async function () {
  * @returns {Promise<*|Promise<void>>}
  */
 UserInfoStore.setForceLogout = async function (value: object) {
+    console.log("UserInfoStore.setForceLogout", value);
     return Preferences.set(KEY_FORCE_LOGOUT, value);
 };
 
