@@ -185,7 +185,7 @@ export default class CheckInvoiceTitlePage extends BComponent {
         return(
             <View style={{flex:1}}>
                 <ScrollView style={styles.container}>
-                    <View style={[styles.wrp,{paddingTop:20}]}>
+                    <View style={styles.wrp}>
                         <Text style={styles.text_title}>
                             名        称：
                         </Text>
@@ -285,32 +285,36 @@ export default class CheckInvoiceTitlePage extends BComponent {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#F9F9F9',
-        flex: 1,
+        backgroundColor:'#F9F9F9',
     },
     wrp:{
         backgroundColor:'#FFFFFF',
         flexDirection:'row',
         width:SCREEN_WIDTH,
-        height:50,
-        paddingLeft:20,
-        alignItems:'center'
+        alignItems:'center',
+        paddingRight:20
     },
     text_title:{
         color:'#000000',
         fontSize:16,
+        marginTop:15,
+        marginBottom:15,
+        marginLeft:20
     },
     text_context:{
         color:'#333333',
         fontSize:16,
-        marginLeft:30
+        marginLeft:30,
+        marginRight:10,
+        marginTop:10,
+        marginBottom:10
     },
     line:{
         height:1,
         width:SCREEN_WIDTH,
         borderBottomColor:'#ececec',
         borderBottomWidth:0.5 ,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
     },
 
 
