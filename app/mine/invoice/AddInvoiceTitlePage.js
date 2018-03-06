@@ -121,6 +121,10 @@ export default class AddInvoiceTitlePage extends BComponent {
                         mobile = res.mobile;//手机号
                         bank = res.bank;//开户行
                         account = res.account;//银行账号
+                        let callback = this.props.callback;
+                        if(callback) {
+                            callback();
+                        }
                         this.props.navigator.pop();
 
                     }else{
@@ -169,7 +173,8 @@ export default class AddInvoiceTitlePage extends BComponent {
                                             mobile,
                                             bank,
                                             account,
-                                        }
+                                        },
+
 
                                     })
                                 }else{
@@ -318,6 +323,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         marginTop:10,
         paddingLeft:15,
+        paddingRight:15,
         height:60,
         backgroundColor:'white',
         alignItems:'center',

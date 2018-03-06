@@ -34,24 +34,31 @@ export default class CheckInvoiceTitlePage extends BComponent {
             account:'',//银行账户
 
         };
+        this._callBackRefresh = this._callBackRefresh.bind(this);
+        this._loadData = this._loadData.bind(this);
+
     }
 
 
     componentWillMount() {
 
-        this.initNavigatorBar()
+        this.initNavigatorBar();
+        this._loadData();
+    }
+
+    _loadData(){
         apis.loadInvoiceDetialData(this.props.id).then(
             (responseData) => {
 
                 if (responseData.code === 0) {
                     this.setState({
-                        _id:responseData.data._id,
-                        company:responseData.data.company,
-                        taxID:responseData.data.taxID,
-                        address:responseData.data.address,
-                        mobile:responseData.data.mobile,
-                        bank:responseData.data.bank,
-                        account:responseData.data.account
+                            _id:responseData.data._id,
+                            company:responseData.data.company,
+                            taxID:responseData.data.taxID,
+                            address:responseData.data.address,
+                            mobile:responseData.data.mobile,
+                            bank:responseData.data.bank,
+                            account:responseData.data.account
                         }
                     )
 
@@ -100,12 +107,18 @@ export default class CheckInvoiceTitlePage extends BComponent {
         }
     }
 
+    _callBackRefresh(){
+        this._loadData();
+    }
+
     //编辑
     edit(){
         this.push({
             screen: 'AddInvoiceTitlePage',
             title:'编辑',
             passProps: {
+                //回调!
+                callback: this._callBackRefresh,
                 _id: this.state._id,
                 company:this.state.company,
                 taxID:this.state.taxID,
