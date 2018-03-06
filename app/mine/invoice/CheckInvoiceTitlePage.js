@@ -35,7 +35,7 @@ export default class CheckInvoiceTitlePage extends BComponent {
             account:'',//银行账户
 
         };
-        this._callBackRefresh = this._callBackRefresh.bind(this);
+        // this._callBackRefresh = this._callBackRefresh.bind(this);
         this._loadData = this._loadData.bind(this);
 
     }
@@ -45,6 +45,13 @@ export default class CheckInvoiceTitlePage extends BComponent {
 
         this.initNavigatorBar();
         this._loadData();
+
+    }
+
+    componentDidMount() {
+        this.refreshEmitter = DeviceEventEmitter.addListener('ReloadInvoiceTitleState', () => {
+            this._loadData()
+        });
     }
 
     _loadData(){
@@ -108,9 +115,9 @@ export default class CheckInvoiceTitlePage extends BComponent {
         }
     }
 
-    _callBackRefresh(){
-        this._loadData();
-    }
+    // _callBackRefresh(){
+    //     this._loadData();
+    // }
 
     //编辑
     edit(){
@@ -119,7 +126,7 @@ export default class CheckInvoiceTitlePage extends BComponent {
             title:'编辑',
             passProps: {
                 //回调!
-                callback: this._callBackRefresh,
+                // callback: this._callBackRefresh,
                 _id: this.state._id,
                 company:this.state.company,
                 taxID:this.state.taxID,

@@ -37,7 +37,7 @@ export default class InvoiceTitleListPage extends BComponent {
         };
         this.page =1;
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-        this._CallBackRefresh = this._CallBackRefresh.bind(this);
+        // this._CallBackRefresh = this._CallBackRefresh.bind(this);
 
     }
 
@@ -52,7 +52,7 @@ export default class InvoiceTitleListPage extends BComponent {
                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     passProps: {
                         //回调!
-                        callback: this._CallBackRefresh,
+                        // callback: this._CallBackRefresh,
                         backButtonHidden: true, // 是否隐藏返回按钮 (可选)
                     }
                 });
@@ -76,6 +76,9 @@ export default class InvoiceTitleListPage extends BComponent {
             this._isLogined();
         }
 
+        this.refreshEmitter = DeviceEventEmitter.addListener('ReloadInvoiceTitleState', () => {
+            this.loadData()
+        });
         this.refreshEmitter = DeviceEventEmitter.addListener('ReloadMessage', () => {
             //收到登录后的通知需要刷新消息页面
             this.onHeaderRefresh();
@@ -113,9 +116,9 @@ export default class InvoiceTitleListPage extends BComponent {
 
 
 
-    _CallBackRefresh(){
-        this.loadData()
-    }
+    // _CallBackRefresh(){
+    //     this.loadData()
+    // }
 
     loadData(){
 
@@ -192,7 +195,7 @@ export default class InvoiceTitleListPage extends BComponent {
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps: {
                 //回调!
-                callback: this._CallBackRefresh,
+                // callback: this._CallBackRefresh,
                 id: item._id,
             }
         });
