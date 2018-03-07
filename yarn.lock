@@ -3439,9 +3439,13 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-moment@^2.18.1, moment@^2.19.1:
+moment@^2.18.1:
   version "2.20.1"
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+
+moment@~>2.21.0:
+  version "2.21.0"
+  resolved "http://registry.npm.taobao.org/moment/download/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
 
 morgan@~1.6.1:
   version "1.6.1"
@@ -4115,13 +4119,13 @@ react-native-fs@^2.9.11:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
 
-"react-native-http@github:pilipa-cn/react-native-http#v1.1.6":
-  version "1.1.6"
-  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/26d5dbbcad27ca8768e053bf1781fd69dcc4bf33"
+"react-native-http@github:pilipa-cn/react-native-http#v1.1.7":
+  version "1.1.7"
+  resolved "https://codeload.github.com/pilipa-cn/react-native-http/tar.gz/d10188d452370f378f8089a1c95e9bcb6750c098"
   dependencies:
     debounce "^1.0.2"
     json-stringify-safe "^5.0.1"
-    moment "^2.18.1"
+    moment "~>2.21.0"
     react-native-invertible-scroll-view "^1.1.0"
 
 "react-native-image-crop-picker@github:pilipa-cn/react-native-image-crop-picker#v0.14.2":
