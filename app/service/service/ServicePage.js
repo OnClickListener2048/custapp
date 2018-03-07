@@ -596,6 +596,7 @@ export default class ServicePage extends BComponent {
                             )
                         })
                     }
+                    <View style={{height:50}}/>
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 {this._renderYearReport()}
