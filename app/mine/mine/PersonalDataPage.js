@@ -35,6 +35,7 @@ export default class HomePage extends BComponent {
 
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
+        tabBarHidden:true
     };
 
     componentWillMount() {
