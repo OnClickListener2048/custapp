@@ -35,32 +35,6 @@ const deviceWidth = Dimensions.get('window').width;
 const itemBorder = 1 / PixelRatio.get()
 
 let headerData = null;// 延迟到willmount时初始化, 解决切换域名带来得问题
-const footData = [
-    {
-        'title':'安全',
-        "logo":require('../../img/safe.png')
-    },
-    {
-        'title':'专业',
-        "logo":require('../../img/major.png')
-    },
-    {
-        'title':'价优',
-        "logo":require('../../img/money.png')
-    },
-    {
-        'title':'智能',
-        "logo":require('../../img/Intelligence.png')
-    },
-    {
-        'title':'放心',
-        "logo":require('../../img/worry.png')
-    },
-    {
-        'title':'贴心',
-        "logo":require('../../img/peace.png')
-    }
-]
 
 import * as WeChat from "react-native-wechat";
 
@@ -76,6 +50,7 @@ export default class HomePage extends BComponent {
             isLoading:true,
             bannerData:[],
             width: Dimensions.get('window').width,
+            toolArr:[]
         };
     }
     static navigatorStyle = {
@@ -96,50 +71,29 @@ export default class HomePage extends BComponent {
 
     componentWillMount() {
         this._checkWechatLogin();
-        headerData = [
-            {
-                title:'热门产品',
-                UItype:1,
-                productArr:[
-                    {
-                        title:'注册公司',
-                        logo:require('../../img/register.png'),
-                        url:H5_URL+'register?showFooterTab=true',
-                        eventId:'registerCompany'
-                    },
-                    {
-                        title:'记账报税',
-                        logo:require('../../img/Accounting.png'),
-                        url:H5_URL+'accounting?showFooterTab=true',
-                        eventId:'accountingAndTax'
-                    },
-                    {
-                        title:'企业变更',
-                        logo:require('../../img/changeConpany.png'),
-                        url:H5_URL+'change?showFooterTab=true',
-                        eventId:'enterpriseChange'
-                    },
-                ],
-            },
-            {
-                title:'实用工具',
-                UItype:2,
-                productArr:[
-                    {
-                        title:'免费核名',
-                        logo:require('../../img/check_name.png'),
-                        url:'pilipa://view.company.check',
-                        eventId:'homepage_checkname'
-                    },
-                    {
-                        title:'发票验真',
-                        logo:require('../../img/fapiao.png'),
-                        url:'',
-                        eventId:'InvoiceTruth'
-                    },
-                ],
-            },
-        ]
+        headerData = {
+            title:'热门产品',
+            productArr:[
+                {
+                    title:'注册公司',
+                    logo:require('../../img/register.png'),
+                    url:H5_URL+'register?showFooterTab=true',
+                    eventId:'registerCompany'
+                },
+                {
+                    title:'记账报税',
+                    logo:require('../../img/Accounting.png'),
+                    url:H5_URL+'accounting?showFooterTab=true',
+                    eventId:'accountingAndTax'
+                },
+                {
+                    title:'企业变更',
+                    logo:require('../../img/changeConpany.png'),
+                    url:H5_URL+'change?showFooterTab=true',
+                    eventId:'enterpriseChange'
+                },
+            ],
+        }
 
 
 
@@ -346,6 +300,18 @@ export default class HomePage extends BComponent {
             (e) => {
 
             },
+        );
+        apis.loadHomeTools().then(
+            (responseData) => {
+                if(responseData.code == 0 && responseData.list){
+                    this.setState({
+                        toolArr:responseData.list
+                    })
+                }
+            },
+            (e) => {
+
+            }
         );
     }
 
@@ -554,43 +520,25 @@ export default class HomePage extends BComponent {
             <View style={{width:DeviceInfo.width, marginTop:DeviceInfo.OS==='ios'?isIphoneX()?0:-20:0}}>
                 {this._renderBannerView()}
                 <View style={{flexDirection:'row',width:deviceWidth,flexWrap:'wrap'}}>
-                    {
-                        headerData.map((item,i)=>{
-                            return(
-                                <View key={i} style={{backgroundColor:'white',width:deviceWidth,marginTop:i?10:0}}>
-                                    <SectionHeader style={{marginTop:10}} text ={item.title} />
-                                    {item.UItype === 1 ?<View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
-                                        {
-                                            item.productArr.map((pro,i)=>{
-                                                return(
-                                                    <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,pro)}>
-                                                        <View style={{justifyContent:'center',alignItems:'center',width,marginLeft,
-                                                            height:width}}>
-                                                            <Image  source={pro.logo }/>
-                                                            <Text  style={{marginTop:15,fontSize:setSpText(16),color:'#666666',marginBottom:20}}>{pro.title}</Text>
-                                                        </View>
-                                                    </TouchableOpacity>
-                                                )
-                                            })
-                                        }
-                                    </View>:<View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',paddingBottom:20,backgroundColor:'white'}}>
-                                        {
-                                            item.productArr.map((pro, i) => {
-                                                return(
-                                                    <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,pro)}>
-                                                        <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',marginTop:10}} source={pro.logo }>
-                                                            <Text style={{backgroundColor:'transparent',fontSize:setSpText(22),color:'white',fontWeight:'bold'}}>{pro.title}</Text>
-                                                        </Image>
-                                                    </TouchableOpacity>
-                                                )
-                                            })
-                                        }
-
-                                    </View>}
-                                </View>
-                            )
-                        })
-                    }
+                    <View  style={{backgroundColor:'white',width:deviceWidth}}>
+                        <SectionHeader style={{marginTop:10}} text ={headerData.title} />
+                        <View style={{flexDirection:'row',width:deviceWidth,backgroundColor:'white',flexWrap:'wrap'}}>
+                            {
+                                headerData.productArr.map((pro,i)=>{
+                                    return(
+                                        <TouchableOpacity key={i}  onPress={()=>this._goColumnDetail(i,pro)}>
+                                            <View style={{justifyContent:'center',alignItems:'center',width,marginLeft,
+                                                height:width}}>
+                                                <Image  source={pro.logo }/>
+                                                <Text  style={{marginTop:15,fontSize:setSpText(16),color:'#666666',marginBottom:20}}>{pro.title}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    )
+                                })
+                            }
+                        </View>
+                    </View>
+                    {this._renderToolsCollectionView()}
                     <View style={{width:deviceWidth,paddingTop:10,backgroundColor:'#F1F1F1',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                         <View style={{height:DeviceInfo.onePR,backgroundColor:'#D8D8D8',width:24,marginRight:15}}/>
                         <Text style={{color:'#999999',fontSize:setSpText(18)}}>
@@ -598,6 +546,49 @@ export default class HomePage extends BComponent {
                         </Text>
                         <View style={{height:DeviceInfo.onePR,backgroundColor:'#D8D8D8',width:24,marginLeft:15}}/>
                     </View>
+                </View>
+            </View>
+
+        )
+    }
+    _renderToolsCollectionView(){
+        let col = 4
+        let itemMargin = 0
+        let itemWidth = (deviceWidth - itemMargin*(col+1))/col
+        return(
+            <View style={{width:deviceWidth,backgroundColor:'white'}}>
+                <SectionHeader  text ={'实用工具'} />
+                <View style={{flexDirection:'row',flexWrap:'wrap',backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#D7D7D7'}}>
+                    {
+                        this.state.toolArr.map((item, i) => {
+
+                            let borderStyle = {}
+                            if(i%col == (col-1)){
+                                borderStyle = {
+                                    borderBottomWidth:itemBorder,
+                                    borderBottomColor:'#D7D7D7'
+                                }
+                            }else{
+                                borderStyle = {
+                                    borderRightWidth:itemBorder,
+                                    borderRightColor:'#D7D7D7',
+                                    borderBottomWidth:itemBorder,
+                                    borderBottomColor:'#D7D7D7',
+                                }
+                            }
+                            if(parseInt(i/col) == (Math.ceil(this.state.toolArr.length/col)-1)){
+                                borderStyle.borderBottomColor = 'transparent'
+                            }
+                            return(
+                                <TouchableOpacity key={i} onPress={this._gotoToolDetail.bind(this,item)}>
+                                    <View style={[{width:itemWidth,height:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'},borderStyle]}>
+                                        <Image resizeMode="contain" style={{marginTop:10, width:28,height:28}} source={{uri:item.img}}/>
+                                        <Text style={{marginTop:15,marginBottom:10,fontSize:setSpText(14),color:'#666666'}}>{item.name}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        })
+                    }
                 </View>
             </View>
 
@@ -657,6 +648,14 @@ export default class HomePage extends BComponent {
         }
 
     }
+    _gotoToolDetail(item){
+        if(item.url){
+            pushJump(this.props.navigator, item.url,item.name,'噼里啪智能财税',item.name,'');
+
+        }else{
+            Toast.show('即将上线，敬请期待...')
+        }
+    }
     _goBannerDetail(item){
 
         UMTool.onEvent(item.eventsid)
@@ -678,16 +677,8 @@ export default class HomePage extends BComponent {
             pushJump(this.props.navigator, item.url,item.title,'噼里啪智能财税',item.title,item.eventId);
 
         }else{
-            if(item.title === '发票验真'){
-                this.props.navigator.push({
-                    title: '发票验真',
-                    screen: 'InvoiceMainPage',
-                    // screen: 'AddInvoiceTitlePage',
-                });
-            }else{
-                Toast.show('即将上线，敬请期待...')
+            Toast.show('即将上线，敬请期待...')
 
-            }
         }
     }
 

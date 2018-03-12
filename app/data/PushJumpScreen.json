@@ -48,5 +48,16 @@
     "title": "我的企业",
     "uri": "pilipa://view.company.list",
     "screen": "ChangeCompanyPage"
+  },
+  {
+    "title": "发票验真",
+    "uri": "pilipa://view.invoice.check",
+    "screen": "InvoiceMainPage"
+  },
+  {
+    "title": "更多",
+    "uri": "pilipa://view.tool.more",
+    "screen": "ToolsPage"
   }
 ]
+

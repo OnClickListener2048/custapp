@@ -32,4 +32,10 @@ export function addInvoiceInfo(params) {
     return postApi('/api/v1.01/invoice', params);
 }
 
+export function loadHomeTools() {
+    return getApi('/api/v1/tools');
+}
 
+export function loadOtherTools() {
+    return getApi('/api/v1/otherTools');
+}

@@ -68,6 +68,8 @@ import {HttpLogView}  from 'react-native-http';
 import HttpLogDetailPage from "./mine/debug/HttpLogDetailPage";
 
 import CheckInvoiceTitlePage from './mine/invoice/CheckInvoiceTitlePage'
+import ToolsPage from './home/tools/ToolsPage'
+
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -120,5 +122,5 @@ export default function () {
     reg('DebugPage', () => DebugPage);
     reg('HttpLogView', () => HttpLogView);
     reg('HttpLogDetailPage', () => HttpLogDetailPage);
-
+    reg('ToolsPage', () => ToolsPage);
 }
