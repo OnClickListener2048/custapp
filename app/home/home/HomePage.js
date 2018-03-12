@@ -556,7 +556,7 @@ export default class HomePage extends BComponent {
         let itemMargin = 0
         let itemWidth = (deviceWidth - itemMargin*(col+1))/col
         return(
-            <View style={{width:deviceWidth,backgroundColor:'white'}}>
+            <View style={{width:deviceWidth,backgroundColor:'white',marginTop:10}}>
                 <SectionHeader  text ={'实用工具'} />
                 <View style={{flexDirection:'row',flexWrap:'wrap',backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#D7D7D7'}}>
                     {
