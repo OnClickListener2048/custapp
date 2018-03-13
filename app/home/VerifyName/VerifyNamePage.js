@@ -219,6 +219,18 @@ export default class VerifyNamePage extends BComponent {
 
 
     _doVerfiyResult(){
+
+
+        if (this.state.companyNameNotEmpty === false){
+            Toast.show('请输入公司名称');
+            return;
+        }else if (this.state.phoneNumNotEmpty === false){
+            Toast.show('请输入手机号');
+            return;
+        }
+
+
+
         UMTool.onEvent('immediateCheck')
 
         if(!NetInfoSingleton.isConnected) {
