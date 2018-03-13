@@ -20,6 +20,7 @@ import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
 import Toast from 'react-native-root-toast';
 import SubmitButton from "../../view/SubmitButton";
+import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
 import RefreshListView, {RefreshState} from '../../view/RefreshListView'
 export default class InvoiceTitleListPage extends BComponent {
@@ -33,6 +34,7 @@ export default class InvoiceTitleListPage extends BComponent {
             isAppear : false,
             refreshState: RefreshState.Idle,
             jpushMessage:'',
+            isLoading:true,
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
         };
         this.page =1;
@@ -103,7 +105,6 @@ export default class InvoiceTitleListPage extends BComponent {
                 this.setState({logined:logined});
                 if (logined === true){
                     this.onHeaderRefresh();
-
                 }else {
                     this.setState({
                         initStatus:'no-data'
@@ -118,25 +119,30 @@ export default class InvoiceTitleListPage extends BComponent {
     }
 
 
-
-    // _CallBackRefresh(){
-    //     this.loadData()
-    // }
-
     loadData(){
 
         if(!NetInfoSingleton.isConnected) {
             return;
         }
+        this.setState({refreshState: RefreshState.HeaderRefreshing});
 
-        this.setState({refreshState: RefreshState.HeaderRefreshing})
-
+        let loading;
+        if (this.state.isLoading === true){
+            loading = SActivityIndicator.show(true, "载入中...");
+        }
 
         UserInfoStore.getUserInfo().then(
             (user) => {
                 if(user){
                     apis.loadInvoiceTitleListInfo(user.username).then(
                         (responseData) => {
+
+                            if (this.state.isLoading === true){
+                                SActivityIndicator.hide(loading);
+                                this.setState({
+                                    isLoading: false,
+                                });
+                            }
 
                             if(responseData.code === 0){
                                 let newList = responseData.list;
@@ -174,7 +180,12 @@ export default class InvoiceTitleListPage extends BComponent {
                                     initStatus:'error'
                                 })
                             }
-
+                            if (this.state.isLoading === true){
+                                SActivityIndicator.hide(loading);
+                                this.setState({
+                                    isLoading: false,
+                                });
+                            }
                             this.setState({refreshState: RefreshState.Failure})
                         },
                     );
@@ -186,8 +197,10 @@ export default class InvoiceTitleListPage extends BComponent {
     }
 
     _reloadPage(){
+        this.setState({
+            isLoading:true
+        });
         this._isLogined();
-
     }
 
 
@@ -208,7 +221,6 @@ export default class InvoiceTitleListPage extends BComponent {
 
     onHeaderRefresh = () => {
         this.page=1;
-
         this.loadData()
     };
 

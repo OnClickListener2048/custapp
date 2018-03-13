@@ -34,6 +34,7 @@ export default class ServiceMessagePage extends BComponent {
             isAppear : false,
             refreshState: RefreshState.Idle,
             jpushMessage:'',
+            isLoading : true,
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
         };
         this.page =1;
@@ -136,17 +137,24 @@ export default class ServiceMessagePage extends BComponent {
         if(!NetInfoSingleton.isConnected) {
             return;
         }
-
+        let loading;
         if(page===1){
             this.setState({refreshState: RefreshState.HeaderRefreshing})
-
+            if (this.state.isLoading === true){
+                loading = SActivityIndicator.show(true, "载入中...");
+            }
         }else{
             this.setState({refreshState: RefreshState.FooterRefreshing})
         }
 
         apis.loadMessageData(pageSize,page).then(
             (responseData) => {
-
+                if (this.state.isLoading === true){
+                    SActivityIndicator.hide(loading);
+                    this.setState({
+                        isLoading: false,
+                    });
+                }
                 if(responseData.code === 0){
                     let newList = responseData.list;
                     let dataList = page === 1 ? newList : [...this.state.dataList, ...newList];
@@ -183,13 +191,21 @@ export default class ServiceMessagePage extends BComponent {
                         initStatus:'error'
                     })
                 }
-
+                if (this.state.isLoading === true){
+                    SActivityIndicator.hide(loading);
+                    this.setState({
+                        isLoading: false,
+                    });
+                }
                 this.setState({refreshState: RefreshState.Failure})
             },
         );
     }
 
     _reloadPage(){
+        this.setState({
+            isLoading: true,
+        });
         this._isLogined();
 
     }
@@ -237,8 +253,6 @@ export default class ServiceMessagePage extends BComponent {
 
     onHeaderRefresh = () => {
         this.page=1;
-        console.log("嘎嘎嘎_onHeaderRefresh");
-
         this.loadData(this.page)
     };
 

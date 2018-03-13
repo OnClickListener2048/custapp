@@ -82,7 +82,7 @@ export default class ChangeCompanyPage extends BComponent {
         if(!NetInfoSingleton.isConnected) {
             this.setState({
                 initStatus:'no-net'
-            })
+            });
             return;
         }
 
@@ -186,6 +186,7 @@ export default class ChangeCompanyPage extends BComponent {
                 }
             },
             (e) => {
+                SActivityIndicator.hide(loading);
                 this.setState({
                     initStatus:'error',
                 });
@@ -357,7 +358,7 @@ export default class ChangeCompanyPage extends BComponent {
             )
         } else {
             return (
-                <DefaultView type={this.state.initStatus}/>
+                <DefaultView onPress={()=>this._loadData()} type={this.state.initStatus}/>
             )
         }
     }
