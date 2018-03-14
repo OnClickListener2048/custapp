@@ -1,7 +1,7 @@
 <manifest package="cn.pilipa.custapp"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionCode="15"
-          android:versionName="2.2.0"
+          android:versionName="2.3.0"
           xmlns:tools="http://schemas.android.com/tools">
     <!-- 切记versionCode比versionName大1, 否则可造成无更新提示 -->
 
