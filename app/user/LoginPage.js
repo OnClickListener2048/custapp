@@ -25,7 +25,7 @@ import px2dp from '../util'
 import Toast from 'react-native-root-toast';
 import * as apis from '../apis';
 import {Navigation} from 'react-native-navigation';
-import {SCREEN_WIDTH} from '../config';
+import {GUI_TEST, SCREEN_WIDTH} from '../config';
 import Alert from "react-native-alert";
 import SubmitButton from "../view/SubmitButton";
 import * as WeChat from 'react-native-wechat';
@@ -237,7 +237,7 @@ export default class LoginPage extends Component {
         }
 
         // 只针对ios处理
-        if(Platform.OS === 'ios') {
+        if(Platform.OS === 'ios' || GUI_TEST) {
             UserInfoStore.getMobileLoginInfo().then(
                 v => {
                     console.log(v);
