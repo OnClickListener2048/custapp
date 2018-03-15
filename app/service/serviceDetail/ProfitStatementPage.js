@@ -140,7 +140,7 @@ export default class ProfitStatementPage extends BComponent {
 
 
                 />
-                <SectionHeader style={{backgroundColor:'#F1F1F1'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="利润表明细"/>
+                <SectionHeader style={{backgroundColor:'#F1F1F1'}} leftViewStyle={{backgroundColor:'#C6A567'}} text="本年历史利润"/>
             </View>
         )
     }
