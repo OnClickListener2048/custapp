@@ -17,7 +17,7 @@ export default class SubmitButton extends Component {
         return this.props.isEnabled ?
             (
 
-                <TouchableOpacity onPress={this.props.onPress}>
+                <TouchableOpacity {...this.props}>
                     <Image source={require('../img/Rectangle.png')} style={styles.buttonView}>
 
                         <Text style={styles.loginText}>{this.props.text}</Text>
