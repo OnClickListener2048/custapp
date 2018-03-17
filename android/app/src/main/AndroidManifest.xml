@@ -1,6 +1,6 @@
 <manifest package="cn.pilipa.custapp"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="15"
+          android:versionCode="16"
           android:versionName="2.4.0"
           xmlns:tools="http://schemas.android.com/tools">
     <!-- !!!! 一定要记得更新versionCode!!!!
