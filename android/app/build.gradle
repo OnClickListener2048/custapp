@@ -234,7 +234,7 @@ android {
 
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + manifestParser.getVersionCode()// defaultConfig.versionCode
+                        versionCodes.get(abi) * 1048576 + System.currentTimeMillis()// manifestParser.getVersionCode()// defaultConfig.versionCode
             }
 
             //修改生成的apk名字

@@ -1,10 +1,8 @@
 <manifest package="cn.pilipa.custapp"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="16"
           android:versionName="2.4.0"
           xmlns:tools="http://schemas.android.com/tools">
-    <!-- !!!! 一定要记得更新versionCode!!!!
-     切记versionCode比versionName大1, 否则可造成无更新提示 -->
+    <!-- !!!! 无需设置更新versionCode!!!! 自动更新versionCode -->
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
