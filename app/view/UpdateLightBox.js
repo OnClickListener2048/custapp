@@ -37,13 +37,19 @@ export default class UpdateLightBox extends BComponent {
                         <Image resizeMode="contain" style={{width:contentwidth,height:contentwidth*0.5,marginTop:contentwidth*0.25}} source={require('../img/updatebox_header.png')} />
                         <Image resizeMode="contain"   style={{position:'absolute',top:0,left:(contentwidth-(contentwidth*0.5))/2,width:contentwidth*0.5,height:contentwidth*0.5}} source={require('../img/update_new.png')} />
                         <View style={{width:contentwidth,height:contentwidth*0.25,position:'absolute',left:0,top:contentwidth*0.5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{color:'white',fontSize:25,fontWeight:'bold'}}>发现<Text style={{fontSize:30}}>新</Text></Text>
+                            <Text
+                                accessibilityLabel="update_find_text" testID="update_find_text"
+                                style={{color:'white',fontSize:25,fontWeight:'bold'}}>发现<Text style={{fontSize:30}}>新</Text></Text>
                             <View style={{marginLeft:5}}>
-                                <Text style={{fontSize:17, color:'white'}}>
+                                <Text
+                                    accessibilityLabel="update_version_text" testID="update_version_text"
+                                    style={{fontSize:17, color:'white'}}>
                                     版本
                                 </Text>
                                 <View style={{backgroundColor:'white',width:40,height:14,borderRadius:8,justifyContent:'center',alignItems:'center'}}>
-                                    <Text style={{color:'rgba(252,117,28,1)',backgroundColor:'transparent',fontSize:12}}>{this.props.version}</Text>
+                                    <Text
+                                        accessibilityLabel="update_version" testID="update_version"
+                                        style={{color:'rgba(252,117,28,1)',backgroundColor:'transparent',fontSize:12}}>{this.props.version}</Text>
                                 </View>
                             </View>
                         </View>
@@ -64,7 +70,9 @@ export default class UpdateLightBox extends BComponent {
                             <View style={{width:contentwidth-80,height:40,borderRadius:20,backgroundColor:'rgba(252,117,28,1)',marginTop:25,justifyContent:'center',
                                 alignItems:
                                     'center'}}>
-                                <Text style={{color:'white',fontSize:18}}>{this.state.inProgress? '等待升级完成中...' : '立即升级'}</Text>
+                                <Text
+                                    accessibilityLabel="update" testID="update"
+                                    style={{color:'white',fontSize:18}}>{this.state.inProgress? '等待升级完成中...' : '立即升级'}</Text>
                             </View>
                         </TouchableOpacity>
 
@@ -72,7 +80,9 @@ export default class UpdateLightBox extends BComponent {
                             !this.props.isForce &&
                             <TouchableOpacity onPress={()=>{this._cancle()}}><View style={{width:contentwidth-80,height:40,borderRadius:20,backgroundColor:'white',marginTop:20,justifyContent:'center',
                                 alignItems:'center',borderWidth:1,borderColor:'rgba(153,153,153,1)'}}>
-                                <Text style={{color:'rgba(153,153,153,1)',fontSize:18}}>立即取消</Text>
+                                <Text
+                                    accessibilityLabel="update_cancel" testID="update_cancel"
+                                    style={{color:'rgba(153,153,153,1)',fontSize:18}}>立即取消</Text>
                             </View></TouchableOpacity>
                         }
 

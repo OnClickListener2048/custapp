@@ -26,7 +26,9 @@ export default class SubmitButton extends Component {
             )
             :
             (
-                <TouchableOpacity onPress={this.props.onPress}>
+                <TouchableOpacity
+                    {...this.props}
+                    onPress={this.props.onPress}>
                     <View style={[styles.buttonViewDisabled,this.props.buttonStyle]}>
                         <Text style={styles.loginTextDisabled}>{this.props.text}</Text>
                     </View>

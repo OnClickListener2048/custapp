@@ -346,6 +346,7 @@ export default class MinePage extends BComponent {
 
 
                     <CommenCell
+                        accessibilityLabel="mine_MyCompany" testID="mine_MyCompany"
                         leftIcon={require('../../img/myCorp.png')}
                         leftText="我的公司"
                         onPress = {this._goto.bind(this,'ChangeCompanyPage','我的公司')}
@@ -353,6 +354,7 @@ export default class MinePage extends BComponent {
                         style={{marginTop:9}}
                     />
                     <CommenCell
+                        accessibilityLabel="mine_MyOrders" testID="mine_MyOrders"
                         leftIcon={require('../../img/orders.png')}
                         leftText="我的订单"
                         onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}

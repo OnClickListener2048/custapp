@@ -52,7 +52,9 @@ export default class CommenCell extends Component {
         if(this.props.isClick){
             //可以点击
             return(
-                <TouchableOpacity onPress = {() => {this.props.onPress()}} >
+                <TouchableOpacity
+                    {...this.props}
+                    onPress = {() => {this.props.onPress()}} >
                     <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
                         {this._renderLeftView()}
                         {this._renderCenterView()}
@@ -178,7 +180,9 @@ export default class CommenCell extends Component {
                     {!this.props.closeRightIcon&&//控制右侧图标显示、隐藏
                     <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../img/left_button.png')} />
                     }
-                    <Text style = {[styles.rightTextStyle,this.props.rightTextStyle,{marginRight:10}]}>{this.props.rightText}</Text>
+                    <Text
+                        accessibilityLabel="right_text" testID="right_text"
+                        style = {[styles.rightTextStyle,this.props.rightTextStyle,{marginRight:10}]}>{this.props.rightText}</Text>
                     {this.props.rightView}
                 </View>
             );
