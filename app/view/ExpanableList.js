@@ -51,9 +51,12 @@ class ExpanableList extends Component {
 
     _onPress = (i) => {
         this.setState((state) => {
-            const memberOpened = new Map(state.memberOpened);
+            console.log('state.memberOpened', state.memberOpened, '\ni=', i, '\n');
+
+            let memberOpened = state.memberOpened;// 如果用 new Map(state.memberOpened), 则安卓崩溃, 出错: Incompatible receiver, Map required!
             memberOpened.set(i, !memberOpened.get(i)); // toggle
             return { memberOpened };
+
         });
         if (this.props.headerOnPress) {
             this.prop.headerOnPress(i, this.state.memberOpened.get(i) || false);
