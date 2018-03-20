@@ -66,7 +66,9 @@ export default class UpdateLightBox extends BComponent {
                                 })
                             }
                         </View>
-                        <TouchableOpacity onPress={()=>{this._upDate()}}>
+                        <TouchableOpacity
+                            accessibilityLabel="update_button" testID="update_button"
+                            onPress={()=>{this._upDate()}}>
                             <View style={{width:contentwidth-80,height:40,borderRadius:20,backgroundColor:'rgba(252,117,28,1)',marginTop:25,justifyContent:'center',
                                 alignItems:
                                     'center'}}>
@@ -78,7 +80,9 @@ export default class UpdateLightBox extends BComponent {
 
                         {
                             !this.props.isForce &&
-                            <TouchableOpacity onPress={()=>{this._cancle()}}><View style={{width:contentwidth-80,height:40,borderRadius:20,backgroundColor:'white',marginTop:20,justifyContent:'center',
+                            <TouchableOpacity
+                                accessibilityLabel="update_cancel_button" testID="update_cancel_button"
+                                onPress={()=>{this._cancle()}}><View style={{width:contentwidth-80,height:40,borderRadius:20,backgroundColor:'white',marginTop:20,justifyContent:'center',
                                 alignItems:'center',borderWidth:1,borderColor:'rgba(153,153,153,1)'}}>
                                 <Text
                                     accessibilityLabel="update_cancel" testID="update_cancel"

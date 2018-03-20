@@ -36,7 +36,10 @@ export default class CommenCell extends Component {
         underLine:true,//是否有分割线
         underLineStyle:{},//分割线样式自定义
         style:{},//最外层盒子样式自定义 设置高 背景类似属性
-        rightView:null
+        rightView:null,
+        accessibilityLabel:'',
+        testID:''
+
     };
 
     render() {
@@ -54,6 +57,8 @@ export default class CommenCell extends Component {
             return(
                 <TouchableOpacity
                     {...this.props}
+                    accessibilityLabel={this.props.accessibilityLabel}
+                    testID={this.props.testID}
                     onPress = {() => {this.props.onPress()}} >
                     <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
                         {this._renderLeftView()}
