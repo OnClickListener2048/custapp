@@ -3,11 +3,11 @@
  */
 
 import { Dimensions} from 'react-native';
-import { DEBUG, GUI_TEST } from './flags';
+import { DEBUG as DEBUG_FLAG, GUI_TEST as GUI_TEST_FLAG } from './flags';
 
 import './storage/Preferences.js';
-export const DEBUG = DEBUG ;// 开发包, 上线前请务必改为false, 在 flags.js 中修改
-export const GUI_TEST = GUI_TEST ;// 是否GUI自动化测试的开发包, 上线前请务必改为false, 在 flags.js 中修改
+export const DEBUG = DEBUG_FLAG ;// 开发包, 上线前请务必改为false, 在 flags.js 中修改
+export const GUI_TEST = GUI_TEST_FLAG ;// 是否GUI自动化测试的开发包, 上线前请务必改为false, 在 flags.js 中修改
 
 console.log('__DEV__开发模式', __DEV__);// 说明: __DEV__ 的值是自动设置的, 无需import
 // 参考: https://stackoverflow.com/questions/34315274/react-native-detect-dev-or-production-env
