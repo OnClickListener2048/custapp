@@ -267,7 +267,10 @@ dependencies {
     compile project(':react-native-picker')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-navigation')
-    compile project(':react-native-device-info')
+    compile (project(':react-native-device-info')) {
+        exclude group: "com.android.support"
+        exclude group: "com.google.android.gms"
+    }
     compile project(':react-native-vector-icons')
     compile project(':react-native-blur')
     compile fileTree(dir: "libs", include: ["*.jar"])
@@ -288,7 +291,7 @@ dependencies {
 
             // uncomment this if also com.google.android.gms:play-services-vision versions are conflicting
             // this can happen if you use react-native-firebase
-            // exclude group: "com.google.android.gms"
+            exclude group: "com.google.android.gms"
         }
 
         compile ('com.android.support:exifinterface:26.0.1') {
