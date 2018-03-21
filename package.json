@@ -70,6 +70,7 @@
     "fetch-mock": "^5.12.2",
     "istanbul": "^0.4.5",
     "jest": "*",
+    "jest-html-reporter": "^2.0.0",
     "react-addons-test-utils": "16.0.0-alpha.3",
     "react-dom": "16.0.0-alpha.12",
     "react-test-renderer": "16.0.0-alpha.12"
@@ -94,7 +95,8 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-navigation)/"
-    ]
+    ],
+    "testResultsProcessor": "./node_modules/jest-html-reporter"
   },
   "description": "噼里啪企业App",
   "main": "index.android.js",

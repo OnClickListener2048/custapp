@@ -1,0 +1,5 @@
+{
+  "pageTitle": "客户端App单元测试报告",
+  "outputPath": "test-report/index.html",
+  "includeFailureMsg": true
+}
