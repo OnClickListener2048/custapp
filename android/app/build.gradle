@@ -170,7 +170,6 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
-    googlePlayServicesVersion "11.8.0"
 
     defaultConfig {
 //        applicationId "cn.pilipa.custapp"
@@ -268,10 +267,7 @@ dependencies {
     compile project(':react-native-picker')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-navigation')
-    compile (project(':react-native-device-info')) {
-        exclude group: "com.android.support"
-        exclude group: "com.google.android.gms"
-    }
+    compile project(':react-native-device-info')
     compile project(':react-native-vector-icons')
     compile project(':react-native-blur')
     compile fileTree(dir: "libs", include: ["*.jar"])

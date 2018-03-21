@@ -2,6 +2,8 @@
 
 buildscript {
     repositories {
+        mavenLocal()
+        maven { url  'https://maven.google.com' }
         maven { url('http://maven.aliyun.com/nexus/content/groups/public/') }
                //jcenter() 使用国内镜像加速jcenter
                maven { url('https://oss.sonatype.org/content/repositories/releases/') }
@@ -13,8 +15,11 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        classpath 'com.google.android.gms:play-services-vision:+'
     }
 }
+
+def googlePlayServicesVersion = '11.8.0'
 
 allprojects {
     repositories {
@@ -34,8 +39,34 @@ allprojects {
 
         maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
         maven { url  'https://maven.google.com' }
+
+        // 强制使用指定版本的依赖库 https://github.com/facebook/react-native/issues/18479#issuecomment-374849967
+        configurations.all {
+            resolutionStrategy {
+                // react-native-admob
+                force "com.google.android.gms:play-services-ads:$googlePlayServicesVersion"
+                // react-native-maps
+                force "com.google.android.gms:play-services-base:$googlePlayServicesVersion"
+                force "com.google.android.gms:play-services-maps:$googlePlayServicesVersion"
+                // react-native-onesignal
+                force "com.google.android.gms:play-services-gcm:$googlePlayServicesVersion"
+                force "com.google.android.gms:play-services-analytics:$googlePlayServicesVersion"
+                force "com.google.android.gms:play-services-location:$googlePlayServicesVersion"
+                // react-native-google-sign-in
+                force "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
+            }
+        }
     }
 }
 
+task printBuildScriptClasspath << {
+    println "\nLoading the following classpath jars..."
+    project.buildscript.configurations.classpath.each {
+        String jarName = it.getName();
+        print jarName + ":"
 
+        println "$it.name -> $it.path"
+    }
+    println "\n"
+}
 
