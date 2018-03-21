@@ -24,6 +24,7 @@ const deviceWidth = Dimensions.get('window').width;
 import Toast from 'react-native-root-toast'
 const window = Dimensions.get('window');
 import Modal from '../view/Modalbox';
+
 import DeviceInfo from 'react-native-device-info';
 import * as WeChat from'react-native-wechat'
 import DefaultView from '../view/DefaultView'
@@ -77,6 +78,9 @@ export default class WebViewPage extends BComponent {
             message:'', //提交意见消息
             navigatorTitle:this.props.navigatorTitle,          //标题名称
             UMTrack: '',     // 原生跳转到此网页传过来的埋点信息
+            WXTitle:'',  //从网页传消息过来的分享相关的标题
+            WXDesc:'',   //从网页传消息过来的分享相关的描述
+            WXIcon:'',   //从网页传消息过来的分享相关的图片地址
 
         }
         this._handleMessage = this._handleMessage.bind(this);
@@ -204,6 +208,9 @@ export default class WebViewPage extends BComponent {
     _onLoadEnd(){
         this.setState({ progress:1 });
 
+        this.webview.postMessage("webView_load_end");
+
+
         this._canShowTabButton();
 
         let _this = this;
@@ -213,10 +220,7 @@ export default class WebViewPage extends BComponent {
             });
             clearTimeout(this._hiddenProgresssTimer);
 
-        },second)
-
-        // console.log('webview _onLoadEnd');
-        this.webview.postMessage(++this.data);
+        },second);
     }
     callPhone(){
         if (this.props.UMTrack.length > 0){
@@ -362,6 +366,7 @@ export default class WebViewPage extends BComponent {
                         onLoad = {() => {console.log('webview onLoad')}}
                         onLoadEnd = {this._onLoadEnd.bind(this)}
                         onMessage={this._handleMessage}
+                        javaScriptEnabled={true}
                         ref={webview => this.webview = webview}
                         renderError={(e) => {
                             if (e) {
@@ -498,6 +503,8 @@ export default class WebViewPage extends BComponent {
     }
     _share (type) {
 
+        // console.log("名称:" + this.state.WXTitle + ", 详情:" + this.state.WXDesc + ", 图片:" + this.state.WXIcon);
+
         let urlStr = this.makeWXURL();
 
         if(type === 'friend'){
@@ -505,11 +512,11 @@ export default class WebViewPage extends BComponent {
                 .then((isInstalled) => {
                     if (isInstalled) {
                         WeChat.shareToSession({
-                            title:this.props.shareTitle,
-                            description:this.props.shareDescription,
+                            title:this.state.WXTitle.length > 0 ? this.state.WXTitle : this.props.shareTitle,
+                            description:this.state.WXDesc.length > 0 ? this.state.WXDesc : this.props.shareDescription,
                             type: 'news',
                             webpageUrl: urlStr,
-                            thumbImage:imgUrl
+                            thumbImage:this.state.WXIcon.length > 0 ? this.state.WXIcon : imgUrl
                         })
                             .catch((error) => {
                                 // alert(error.message);
@@ -528,11 +535,11 @@ export default class WebViewPage extends BComponent {
                     if (isInstalled) {
 
                         WeChat.shareToTimeline({
-                            title:this.props.shareTitle,
-                            description:this.props.shareDescription,
+                            title:this.state.WXTitle.length > 0 ? this.state.WXTitle : this.props.shareTitle,
+                            description:this.state.WXDesc.length > 0 ? this.state.WXDesc : this.props.shareDescription,
                             type: 'news',
                             webpageUrl: urlStr,
-                            thumbImage:imgUrl
+                            thumbImage:this.state.WXIcon.length > 0 ? this.state.WXIcon : imgUrl
                         })
                             .catch((error) => {
                                 // alert(error.message);
@@ -547,7 +554,30 @@ export default class WebViewPage extends BComponent {
     }
     _handleMessage(e) {
         // console.log('网页发送的信息',e.nativeEvent.data)
-        UMTool.onEvent(e.nativeEvent.data)
+        let message = e.nativeEvent.data;
+        try {
+            if (typeof JSON.parse(e.nativeEvent.data) == "object") {
+                console.log('网页发送的信息',e.nativeEvent.data)
+
+                let webMessage = JSON.parse(e.nativeEvent.data);
+
+                if (webMessage.isUMEvent === false){
+                    //分享
+                    this.setState({
+                        WXTitle: webMessage.title,
+                        WXIcon:webMessage.thumbImage,
+                        WXDesc:webMessage.description
+                    });
+
+                }
+
+            }
+        } catch(e) {
+             console.log('网页发送的信息不是json对象',message)
+             UMTool.onEvent(message)
+
+        }
+
     }
 
 }
