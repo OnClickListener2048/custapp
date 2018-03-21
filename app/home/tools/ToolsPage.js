@@ -52,24 +52,26 @@ export default class ToolsPage extends BComponent {
         let itemMargin = 0
         let itemWidth = (deviceWidth - itemMargin*(col+1))/col
         return(
-            <ScrollView>
-                <View style={{flexDirection:'row'}}>
-                    {
-                        this.state.toolArr.map((item,i)=>{
-                            return(
-                                <TouchableOpacity key={i} onPress={this._gotoToolDetail.bind(this,item)} >
-                                    <View key={i} style={[{width:itemWidth,height:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'}]}>
-                                        <Image resizeMode="contain" style={{marginTop:10, width:28,height:28}} source={{uri:item.img}}/>
-                                        <Text style={{marginTop:15,marginBottom:10,fontSize:setSpText(14),color:'#666666'}}>{item.name}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            )
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
+                <ScrollView>
+                    <View style={{flexDirection:'row',backgroundColor:'white'}}>
+                        {
+                            this.state.toolArr.map((item,i)=>{
+                                return(
+                                    <TouchableOpacity key={i} onPress={this._gotoToolDetail.bind(this,item)} >
+                                        <View key={i} style={[{width:itemWidth,height:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center'}]}>
+                                            <Image resizeMode="contain" style={{marginTop:10, width:28,height:28}} source={{uri:item.img}}/>
+                                            <Text style={{marginTop:15,marginBottom:10,fontSize:setSpText(14),color:'#666666'}}>{item.name}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                )
 
-                        })
-                    }
-                </View>
+                            })
+                        }
+                    </View>
 
-            </ScrollView>
+                </ScrollView>
+            </View>
         )
     }
     _gotoToolDetail(item){
