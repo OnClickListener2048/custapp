@@ -186,13 +186,13 @@ export default class ServiceMessagePage extends BComponent {
                 }
             },
             (e) => {
+                SActivityIndicator.hide(loading);
                 if (this.state.dataList.length === 0){
                     this.setState({
                         initStatus:'error'
                     })
                 }
                 if (this.state.isLoading === true){
-                    SActivityIndicator.hide(loading);
                     this.setState({
                         isLoading: false,
                     });
