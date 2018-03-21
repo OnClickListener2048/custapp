@@ -34,6 +34,8 @@ import queryString from "query-string";
 let imgUrl = 'https://assets.pilipa.cn/public/logo/share.png';// 分享图片Logo地址
 export const SCREEN_HEIGHT = window.height;
 export const SCREEN_WIDTH = window.width;
+
+
 const patchPostMessageFunction = function() {
 
     var originalPostMessage = window.postMessage;
@@ -355,7 +357,8 @@ export default class WebViewPage extends BComponent {
                 {
                     this.state.netState?<WebView
                         injectedJavaScript={patchPostMessageJsCode}
-                        source={{uri:urlStr}}
+                        // source={{uri:urlStr}}
+                        source={{uri:"https://x-www.i-counting.cn/h5/tools/taxcalculator"}}
                         onLoad = {() => {console.log('webview onLoad')}}
                         onLoadEnd = {this._onLoadEnd.bind(this)}
                         onMessage={this._handleMessage}
