@@ -25,9 +25,9 @@
     "react-native-alert": "github:pilipa-cn/react-native-alert-cust#v1.0.2",
     "react-native-animatable": "^1.1.0",
     "react-native-blur": "^2.0.0",
-    "react-native-camera": "^0.13.0",
+    "react-native-camera": "1.0.2",
     "react-native-clear-cache": "1.0.0",
-    "react-native-device-info": "^0.10.2",
+    "react-native-device-info": "0.21.2",
     "react-native-device-log": "github:pilipa-cn/react-native-device-log#v1.0.2.1",
     "react-native-easy-toast": "^1.0.9",
     "react-native-fs": "^2.9.11",
@@ -37,7 +37,7 @@
     "react-native-interactable": "^0.1.7",
     "react-native-modal-datetime-picker": "github:pilipa-cn/react-native-modal-datetime-picker#v4.8.0-pilipa",
     "react-native-modalbox": "^1.4.2",
-    "react-native-navigation": "github:pilipa-cn/react-native-navigation#1.1.4",
+    "react-native-navigation": "github:pilipa-cn/react-native-navigation#1.1.8",
     "react-native-parabolic": "^1.1.1",
     "react-native-pathjs-charts": "0.0.31",
     "react-native-picker": "github:pilipa-cn/react-native-picker",
@@ -70,6 +70,7 @@
     "fetch-mock": "^5.12.2",
     "istanbul": "^0.4.5",
     "jest": "*",
+    "jest-html-reporter": "^2.0.0",
     "react-addons-test-utils": "16.0.0-alpha.3",
     "react-dom": "16.0.0-alpha.12",
     "react-test-renderer": "16.0.0-alpha.12"
@@ -94,7 +95,8 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-navigation)/"
-    ]
+    ],
+    "testResultsProcessor": "./node_modules/jest-html-reporter"
   },
   "description": "噼里啪企业App",
   "main": "index.android.js",

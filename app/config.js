@@ -3,6 +3,8 @@
  */
 
 import { Dimensions} from 'react-native';
+import { DEBUG as DEBUG_FLAG, GUI_TEST as GUI_TEST_FLAG } from './flags';
+
 import './storage/Preferences.js';
 export const DEBUG = true ;// 开发包, 上线前请务必改为false
 export const GUI_TEST = true ;// 是否GUI自动化测试的开发包, 上线前请务必改为false
@@ -73,9 +75,9 @@ export const DEFAULT_NAVIGATOR_STYLE = {
 // 底部Tab栏的颜色(react-native-navigation)
 export const tabsStyle = {
     tabBarBackgroundColor: '#FFFFFF',
-        tabBarButtonColor: '#CBCBCB',
-        tabBarTextFontSize: '8',
-        tabBarSelectedButtonColor: '#333333',
+    tabBarButtonColor: '#CBCBCB',
+    tabBarTextFontSize: '8',
+    tabBarSelectedButtonColor: '#333333',
     // navigationBarColor: '#F5F5F5',
     // navBarBackgroundColor: '#F5F5F5',
     // statusBarColor: '#002b4c',
@@ -85,18 +87,18 @@ export const tabsStyle = {
 
 // App 的默认样式(react-native-navigation)
 export const appStyle = {
-        navBarButtonColor: '#FFFFFF',// 顶部按钮颜色
-        navBarTextColor: '#FFFFFF',// 顶部导航栏文字颜色
-        navBarTextFontSize: 18, // 顶部导航栏文字大小
-        navBarTitleTextCentered: true, // Android 有效, 默认是不居中的标题栏
-        navBarBackgroundColor: PRIMARY_BLACK,
-        tabBarBackgroundColor: '#FFFFFF',
-        tabBarButtonColor: '#CBCBCB',
-        tabBarSelectedButtonColor: '#333333',
-        navigationBarColor: '#000000',// 安卓虚拟按键导航背景色
-        topBarElevationShadowEnabled: false, // default: true. Disables TopBar elevation shadow on Lolipop and above 启用顶部分割线下方阴影
+    navBarButtonColor: '#FFFFFF',// 顶部按钮颜色
+    navBarTextColor: '#FFFFFF',// 顶部导航栏文字颜色
+    navBarTextFontSize: 18, // 顶部导航栏文字大小
+    navBarTitleTextCentered: true, // Android 有效, 默认是不居中的标题栏
+    navBarBackgroundColor: PRIMARY_BLACK,
+    tabBarBackgroundColor: '#FFFFFF',
+    tabBarButtonColor: '#CBCBCB',
+    tabBarSelectedButtonColor: '#333333',
+    navigationBarColor: '#000000',// 安卓虚拟按键导航背景色
+    topBarElevationShadowEnabled: false, // default: true. Disables TopBar elevation shadow on Lolipop and above 启用顶部分割线下方阴影
     // change the background color of the bottom native navigation bar.
-        // statusBarColor: '#000000',
-        // tabFontFamily: 'BioRhyme-Bold',
+    // statusBarColor: '#000000',
+    // tabFontFamily: 'BioRhyme-Bold',
     forceTitlesDisplay: true // Android only. If true - Show all bottom tab labels. If false - only the selected tab's label is visible.
 }

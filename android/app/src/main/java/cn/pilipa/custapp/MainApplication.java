@@ -11,7 +11,7 @@ import android.text.TextUtils;
 
 import com.rnfs.RNFSPackage;
 import com.wix.interactable.Interactable;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import org.reactnative.camera.RNCameraPackage;
 import cn.pilipa.alert.PLPAlertPackage;
 import com.beefe.picker.PickerViewPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -168,7 +168,7 @@ public class MainApplication extends NavigationApplication {
                 new WeChatPackage(),
                 new Interactable(),
                 new ClearCachePackage(),
-                new RCTCameraPackage(),
+                new RNCameraPackage(),
                 new RNFSPackage()
         );
     }
