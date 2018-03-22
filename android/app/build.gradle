@@ -294,10 +294,6 @@ dependencies {
             // this can happen if you use react-native-firebase
             exclude group: "com.google.android.gms"
     }
-
-    compile ('com.android.support:exifinterface:26.0.1') {
-        force = true;
-    }
 }
 
 buildscript {

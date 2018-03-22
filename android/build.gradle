@@ -55,6 +55,7 @@ allprojects {
                 force "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
                 // react-native-camera
                 force "com.google.android.gms:play-services-vision:$googlePlayServicesVersion"
+                force "com.android.support:exifinterface:26.0.1"
             }
         }
     }
