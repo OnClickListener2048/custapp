@@ -269,6 +269,7 @@ export default class BindPhonePage extends BComponent {
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
                 <View style={{flex: 1, backgroundColor: '#F1F1F1'}}>
                     <Text
+                        accessibilityLabel="bind_phone" testID="bind_phone"
                         style={{
                             padding: 17,
                             color: '#333333',
@@ -285,7 +286,9 @@ export default class BindPhonePage extends BComponent {
                         borderBottomWidth: 0.5,
                         borderBottomColor: '#ececec'
                     }}>
-                        <TextInput style={{fontSize: 14, padding: 0}}
+                        <TextInput
+                            accessibilityLabel="bind_update_phone" testID="bind_update_phone"
+                            style={{fontSize: 14, padding: 0}}
                                    placeholder="请输入新手机号"
                                    placeholderTextColor='#c8c8c8'
                                    underlineColorAndroid='transparent'
@@ -331,7 +334,9 @@ export default class BindPhonePage extends BComponent {
                                 borderBottomWidth: 0.5,
                                 borderBottomColor: '#ececec'
                             }}>
-                                <TextInput underlineColorAndroid='transparent'
+                                <TextInput
+                                    accessibilityLabel="bind_img_code" testID="bind_img_code"
+                                    underlineColorAndroid='transparent'
                                            ref="vCodeInput"
                                            autoCorrect={false}
 
@@ -351,7 +356,9 @@ export default class BindPhonePage extends BComponent {
 
                                 />
 
-                                <TouchableWithoutFeedback onPress={() => {
+                                <TouchableWithoutFeedback
+                                    accessibilityLabel="bind_img_get_code" testID="bind_img_get_code"
+                                    onPress={() => {
                                     // this._doChangeVCode()
                                 }}>
                                     <Image style={{width: 69, marginRight: 0, height: 34, alignSelf: 'center',}}
@@ -371,6 +378,7 @@ export default class BindPhonePage extends BComponent {
                     }}>
                         <View style={{width: SCREEN_WIDTH / 2, padding: 14, paddingLeft: 30, paddingRight: 30}}>
                             <TextInput
+                                accessibilityLabel="bind_message_code" testID="bind_message_code"
                                 style={{fontSize: 14, padding: 0}}
                                 placeholder="请输入验证码"
                                 placeholderTextColor='#c8c8c8'
@@ -399,6 +407,7 @@ export default class BindPhonePage extends BComponent {
 
                         <View style={{flexDirection: 'row-reverse', alignItems: 'center', width: DeviceInfo.width / 2}}>
                             <TimerButton
+                                accessibilityLabel="bind_message_button" testID="bind_message_button"
                                 enable={this.state.newMobileValid}
                                 ref="timerButton"
                                 style={{width: 90, marginRight: 30}}
@@ -421,6 +430,7 @@ export default class BindPhonePage extends BComponent {
                     </View>
                     <View style={{height: 40}}/>
                     <SubmitButton
+                        accessibilityLabel="bind_message_submit" testID="bind_message_submit"
                         text='立即绑定'
                         onPress={() => {
                             this._doSubmit()

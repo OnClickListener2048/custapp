@@ -111,6 +111,7 @@ export default class HomePage extends BComponent {
                 </View>
 
                 <CommenCell
+                    accessibilityLabel="personal_phone" testID="personal_phone"
                     leftText='手机号'
                     rightText={this.state.phone}
                     style={{marginTop:10}}
