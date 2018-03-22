@@ -361,8 +361,8 @@ export default class WebViewPage extends BComponent {
                 {
                     this.state.netState?<WebView
                         injectedJavaScript={patchPostMessageJsCode}
-                        // source={{uri:urlStr}}
-                        source={{uri:"https://x-www.i-counting.cn/h5/tools/taxcalculator"}}
+                        source={{uri:urlStr}}
+                        // source={{uri:"https://x-www.i-counting.cn/h5/tools/taxcalculator"}}
                         onLoad = {() => {console.log('webview onLoad')}}
                         onLoadEnd = {this._onLoadEnd.bind(this)}
                         onMessage={this._handleMessage}

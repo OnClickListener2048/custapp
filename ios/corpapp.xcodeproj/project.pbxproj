@@ -390,6 +390,13 @@
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RCTCamera;
 		};
+		CC2245972063B4CC00A0BAFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E93F6B273514AAAAA80D9F5 /* RNDeviceInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E72EC1401F7ABB5A0001BC90;
+			remoteInfo = "RNDeviceInfo-tvOS";
+		};
 		CC248B4E1F79F3CA0058BB5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2867101F8064C919D043B1F /* RNSVG.xcodeproj */;
@@ -1095,6 +1102,7 @@
 			isa = PBXGroup;
 			children = (
 				E31146401EEBF6E300D56EBE /* libRNDeviceInfo.a */,
+				CC2245982063B4CC00A0BAFD /* libRNDeviceInfo-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1637,6 +1645,13 @@
 			fileType = archive.ar;
 			path = libRCTCamera.a;
 			remoteRef = 888D381B2015F15100D00905 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CC2245982063B4CC00A0BAFD /* libRNDeviceInfo-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNDeviceInfo-tvOS.a";
+			remoteRef = CC2245972063B4CC00A0BAFD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		CC248B4F1F79F3CA0058BB5F /* libRNSVG.a */ = {
