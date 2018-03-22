@@ -31,10 +31,10 @@ export let WECHAT_APP_ID = 'wx16da5000356a9497';// 微信APP ID
 export let DOMAIN_API = 'www.pilipa.cn';
 if(DEBUG) {// 测试环境变量, 上线时应删除
 
-    // SCHEME = 'https';
+    SCHEME = 'https';
     //
-    // DOMAIN_API = 'x-www.i-counting.cn';// 打补丁时的测试域名
-    // H5_URL = 'https://x-www.i-counting.cn/'
+    DOMAIN_API = 'x-www.i-counting.cn';// 打补丁时的测试域名
+    H5_URL = 'https://x-www.i-counting.cn/'
     //单
     // SCHEME = 'http';
     // DOMAIN_API = '192.168.200.150:3000';
