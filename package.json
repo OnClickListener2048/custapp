@@ -26,6 +26,7 @@
     "react-native-animatable": "^1.1.0",
     "react-native-blur": "^2.0.0",
     "react-native-camera": "0.13.0",
+    "react-native-code-push": "4.1.0-beta",
     "react-native-clear-cache": "1.0.0",
     "react-native-device-info": "0.21.2",
     "react-native-device-log": "github:pilipa-cn/react-native-device-log#v1.0.2.1",

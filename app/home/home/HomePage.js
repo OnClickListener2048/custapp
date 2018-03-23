@@ -24,6 +24,7 @@ import BComponent from '../../base';
 import {scaleSize} from  '../../util/ScreenUtil'
 import Toast from 'react-native-root-toast'
 import pushJump from '../../util/pushJump';
+import CodePush from 'react-native-code-push'
 
 import Swiper from 'react-native-swiper';
 const ImageScale = 0.42
@@ -144,6 +145,7 @@ export default class HomePage extends BComponent {
     }
 
     componentDidMount(){
+        CodePush.sync();
 
         UserInfoStore.isLogined().then(
             logined => {

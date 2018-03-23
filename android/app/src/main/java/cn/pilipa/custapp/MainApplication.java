@@ -28,7 +28,7 @@ import com.facebook.react.ReactPackage;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.example.qiepeipei.react_native_clear_cache.ClearCachePackage;
-
+import com.microsoft.codepush.react.CodePush;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -162,15 +162,21 @@ public class MainApplication extends NavigationApplication {
                 new RNDeviceInfo(),
                 new VectorIconsPackage(),
                 new UpgradePackage(),
-        new BlurViewPackage(),
+                new BlurViewPackage(),
                 new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG),
                 new UmengReactPackage(),
+                new CodePush("QSOUhO8arMoc73iImahbPhkZaV3xb9c43031-f8df-47b3-8e35-085700d8d99a", MainApplication.this, BuildConfig.DEBUG),
                 new WeChatPackage(),
                 new Interactable(),
                 new ClearCachePackage(),
                 new RCTCameraPackage(),
                 new RNFSPackage()
         );
+    }
+
+    @Override
+    public String getJSBundleFile() {
+           return CodePush.getJSBundleFile();
     }
 
 }

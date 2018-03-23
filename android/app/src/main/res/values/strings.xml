@@ -1,4 +1,5 @@
 <resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">QSOUhO8arMoc73iImahbPhkZaV3xb9c43031-f8df-47b3-8e35-085700d8d99a</string>
     <string name="app_name">噼里啪</string>
     <string name="android_auto_update_download_progress">正在下载:%1$d%%</string>
 </resources>
