@@ -85,7 +85,11 @@
     "preset": "react-native",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "verbose": true,
-    "collectCoverage": false,
+    "collectCoverage": true,
+    "coverageReporters" : [
+       "lcov"
+    ],
+    "coverageDirectory" : "test-report",
     "moduleFileExtensions": [
        "js", "jsx", "json"
     ],
