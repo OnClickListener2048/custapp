@@ -1,28 +1,16 @@
 import 'react-native';
 import React from 'react';
-import Index from '../app/launcher';
 
-jest.mock('react-native-navigation');
-// jest.mock('NetInfo', () => {
-//     return {
-//         isConnected: {
-//             fetch: () => {
-//                 return new Promise((accept, resolve) => {
-//                     accept(true);
-//                 })
-//             },
-//             addEventListener: jest.fn()
-//         }
-//     }
-// });
-// console.log(NetInfo);
-// jest.mock('react-native-device-info');
+import 'isomorphic-fetch';
+console.log('global.fetch', global.fetch);
+
+jest.autoMockOn();
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
-
+import Index from '../app/home/home/HomePage.js';
 it('renders correctly', () => {
-  // const tree = renderer.create(
-  //   <Index />
-  // );
+  const tree = renderer.create(
+    <Index />
+  );
 });
