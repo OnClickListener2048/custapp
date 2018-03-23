@@ -36,6 +36,10 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+  //设置webview userAgent
+  NSString *newAgent = @"cn.pilipa.custapp";
+  NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:newAgent, @"UserAgent", nil];
+  [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
 //  [NEHTTPEye setEnabled:YES];
 //  [DCLog setLogViewEnabled:YES];
 
