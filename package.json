@@ -79,6 +79,7 @@
   "jest": {
     "automock": false,
     "setupFiles": [
+      "./node_modules/react-native/jest/setup.js",
       "./setupJest.js"
     ],
     "preset": "react-native",
@@ -96,6 +97,10 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-navigation)/"
+    ],
+    "unmockedModulePathPatterns": [
+      "node_modules/react/",
+      "node_modules/react-native/Libraries"
     ],
     "testResultsProcessor": "./node_modules/jest-html-reporter"
   },
