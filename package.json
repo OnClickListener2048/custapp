@@ -86,7 +86,7 @@
     "verbose": true,
     "collectCoverage": false,
     "moduleFileExtensions": [
-      "js"
+       "js", "jsx", "json"
     ],
     "globals": {
       "__DEV__": true

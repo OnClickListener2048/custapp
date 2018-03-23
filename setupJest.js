@@ -22,11 +22,13 @@ jest.mock('react-native-wechat', () => {
     }
 });
 
+jest.mock('react-native-navigation');
+jest.mock('react-native-camera');
+
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-
 Enzyme.configure({ adapter: new Adapter() });
-import FormData from './__tests__/mocks/FormData';
+import FormData from './__mocks__/FormData';
 
 // 修复 FormData 找不到的问题 ReferenceError: FormData is not defined
 global.FormData = FormData;
