@@ -14,7 +14,7 @@ import SubmitButton from "../../view/SubmitButton";
 import Alert from "react-native-alert";
 import InvoiceType from "../../view/invoiceType"
 import SectionHeader from "../../view/SectionHeader";
-import * as apis from '../../apis/home';
+import * as apis from '../../apis';
 
 
 export default class AddInvoiceTitlePage extends BComponent {

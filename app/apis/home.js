@@ -12,30 +12,16 @@ export function loadHomeBanner() {
     //v1
     return getApi('/api/v1/banners');
 }
-
+//获取首页是否展示广告弹出框
 export function loadHomeTipBoxInfo() {
     return getApi('/api/v1/activity/home');
 }
-export function verifyInvoice(step = '1',params) {
-    return postApi('/api/v1/receipt/verify?step=' + step,params);
-}
 
-export function verifyInvoiceIsSave(username,company) {
-    return getApi('/api/v1.01/invoice/exist',{username,company});
-}
-
-export function updateInvoiceInfo(_id,company) {
-    return putEx('/api/v1.01/invoice/'+_id,company);
-}
-
-export function addInvoiceInfo(params) {
-    return postApi('/api/v1.01/invoice', params);
-}
-
+//获取首页实用工具接口
 export function loadHomeTools() {
     return getApi('/api/v1/tools');
 }
-
+//获取更多实用工具接口
 export function loadOtherTools() {
     return getApi('/api/v1/otherTools');
 }
