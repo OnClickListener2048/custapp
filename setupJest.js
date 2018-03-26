@@ -70,3 +70,5 @@ let _DeviceInfo =  {
 Dimensions.set(_DeviceInfo.Dimensions);
 // 修复 FormData 找不到的问题 ReferenceError: FormData is not defined
 global.FormData = FormData;
+global._JEST = true;// 是否在执行JEST场景
+jest.setTimeout(20000);

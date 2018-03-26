@@ -14,7 +14,7 @@ console.log('__DEV__开发模式', __DEV__);// 说明: __DEV__ 的值是自动�
 
 // export const IN_DEBUGGER = DEBUG && !!window.navigator.userAgent;
 console.log('DEBUG=', DEBUG);// 说明: __DEV__ 的值是自动设置的, 无需import
-export const RN_VERSION = '1.3.0';
+export const RN_VERSION = '2.5.0';
 export const PRIMARY_YELLOW = '#C6A567';
 export const PRIMARY_RED = '#C5191F';
 export const PRIMARY_BLACK = '#252525';

@@ -13,8 +13,15 @@
 
 import {Http} from 'react-native-http';
 import HttpAdapterCustApp from './HttpAdapterCustApp';
+import TestHttpAdapter from '../../__mocks__/TestHttpAdapter';
 
-Http.setAdapter(new HttpAdapterCustApp());
+if(global._JEST) {
+    console.log("JEST 测试模式, Http will use TestHttpAdapter");
+    Http.setAdapter(new TestHttpAdapter());
+} else {
+    Http.setAdapter(new HttpAdapterCustApp());
+}
+
 Http.timeout = 10*1000;// 10秒超时
 Http.setEnableLog(true, null);
 
