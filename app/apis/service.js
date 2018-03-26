@@ -50,7 +50,11 @@ export function loadYearReport(companyid) {
 
     return getApi('/api/v1/activity/entry',{id:companyid});
 }
-//获取公司账期
+/***
+ * 获取公司账期
+ * @param companyid
+ * @returns {Promise}
+ */
 export function loadPayMent(companyid) {
 
     return getApi('/api/v1.01/companies/relatedate',{id:companyid});

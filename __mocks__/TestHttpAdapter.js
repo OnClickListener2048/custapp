@@ -3,6 +3,7 @@ import {RN_VERSION} from "../app/config";
 import {Platform} from 'react-native';
 
 export default class TestHttpAdapter extends HttpAdapter {
+    static enableLogin = true;// 是否启用登录, 设置为false则不会发送授权头信息
     // 自定义头信息
     async modifyHeaders (headers) : Object {
         let finalHeaders = new Headers();
@@ -11,7 +12,7 @@ export default class TestHttpAdapter extends HttpAdapter {
         finalHeaders.append('client', Platform.OS);
         try {
             let token = '191c7e2d-b1ea-4956-801f-5cd647884904';
-            if (token !== null){
+            if (token !== null && TestHttpAdapter.enableLogin){
                 finalHeaders.append('Authorization', 'Bearer ' +  token);
             }
         } catch (error) {
