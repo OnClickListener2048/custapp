@@ -15,7 +15,13 @@ export function wechatToken( code = '') {
     return postRawApi('/api/v1/auth/token?code=' + code, {platform:'app'} , {platform:'app', 'client': Platform.OS});//app_id:WECHAT_APP_ID,
 }
 
-// 登陆
+/**
+ * 登陆
+ * @deprecated
+ * @param phone
+ * @param smsCode
+ * @returns {Promise<*>}
+ */
 export function login( phone = '', smsCode = '') {
   return postApi('/app/v0/user/login/phone', {phone, smsCode});
 }

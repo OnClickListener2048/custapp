@@ -1,5 +1,6 @@
 import {HttpAdapter} from "react-native-http";
 import {RN_VERSION} from "../app/config";
+import {Platform} from 'react-native';
 
 export default class TestHttpAdapter extends HttpAdapter {
     // 自定义头信息
@@ -7,7 +8,7 @@ export default class TestHttpAdapter extends HttpAdapter {
         let finalHeaders = new Headers();
         finalHeaders.append('userAgent', 'custapp'); // TODO 登录时的头信息, userAgent
         finalHeaders.append('platform', 'app');
-        finalHeaders.append('client', 'ios');
+        finalHeaders.append('client', Platform.OS);
         try {
             let token = '191c7e2d-b1ea-4956-801f-5cd647884904';
             if (token !== null){

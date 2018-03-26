@@ -1,5 +1,10 @@
 //setupJest.js
 // 修正 Invariant Violation: Native module cannot be null.
+import {Dimensions} from 'react-native';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import FormData from './__mocks__/FormData';
+
 jest.mock('NetInfo', () => {
     return {
         isConnected: {
@@ -10,6 +15,12 @@ jest.mock('NetInfo', () => {
             },
             addEventListener: jest.fn()
         }
+    }
+});
+
+jest.mock('Platform', () => {
+    return {
+        OS: 'ios'
     }
 });
 
@@ -36,25 +47,8 @@ jest.mock('react-native-code-push', () => {
 });
 
 
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
-import FormData from './__mocks__/FormData';
-import {
-    View,
-    Text,
-    ScrollView,
-    SectionList,
-    Dimensions,
-    TouchableOpacity,
-    Image,
-    DeviceEventEmitter,
-    StyleSheet,
-    Animated,
-    Platform,
-    PixelRatio,
-    TouchableWithoutFeedback
-} from 'react-native';
+
 
 let _DeviceInfo =  {
     Dimensions: {
