@@ -85,7 +85,9 @@ export default class CommenCell extends Component {
             //左边没图片
             return(
                 <View style = {styles.leftViewStyle}>
-                    <Text numberOfLines={1} style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                    <Text
+                        accessibilityLabel="left_text" testID="left_text"
+                        numberOfLines={1} style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
                 </View>
             );
         }else if(this.props.leftIcon !== null&&this.props.leftTextIcon === null){
@@ -101,7 +103,9 @@ export default class CommenCell extends Component {
                             <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle]} source={{uri:this.props.leftIcon}} />
 
                         }
-                        <Text style = {[styles.leftTextStyle,this.props.leftTextStyle,{marginLeft:10}]}>{this.props.leftText}</Text>
+                        <Text
+                            accessibilityLabel="left_text" testID="left_text"
+                            style = {[styles.leftTextStyle,this.props.leftTextStyle,{marginLeft:10}]}>{this.props.leftText}</Text>
                     </View>
                 );
             }else {
@@ -117,7 +121,9 @@ export default class CommenCell extends Component {
                                    source={this.props.leftIcon}/>
                         }
 
-                        <Text style={[styles.leftTextStyle, this.props.leftTextStyle, {marginLeft: 10}]}>{this.props.leftText}</Text>
+                        <Text
+                            accessibilityLabel="left_text" testID="left_text"
+                            style={[styles.leftTextStyle, this.props.leftTextStyle, {marginLeft: 10}]}>{this.props.leftText}</Text>
                     </View>
                 )
             }
@@ -126,7 +132,9 @@ export default class CommenCell extends Component {
             if(typeof (this.props.leftTextIcon) == 'string'){
                 return(
                     <View style = {styles.leftViewStyle}>
-                        <Text  style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                        <Text
+                            accessibilityLabel="left_text" testID="left_text"
+                            style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
                         <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle,{marginLeft:10}]} source={{uri:this.props.leftTextIcon}} />
 
                     </View>
@@ -134,7 +142,9 @@ export default class CommenCell extends Component {
             }else {
                 return(
                     <View style = {styles.leftViewStyle}>
-                        <Text style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                        <Text
+                            accessibilityLabel="left_text" testID="left_text"
+                            style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
                         <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle,{marginLeft:10}]} source={this.props.leftTextIcon} />
 
                     </View>
@@ -154,7 +164,9 @@ export default class CommenCell extends Component {
                         <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                                source={this.props.leftIcon}/>
                     }
-                    <Text style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                    <Text
+                        accessibilityLabel="left_text" testID="left_text"
+                        style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
                     <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle,{marginLeft:10}]} source={this.props.leftTextIcon} />
 
                 </View>
@@ -168,7 +180,9 @@ export default class CommenCell extends Component {
 
             return(
                 <View style = {styles.centerViewStyle}>
-                    <Text style = {[styles.centerTextStyle,this.props.centerTextStyle]}>{this.props.centerText}</Text>
+                    <Text
+                        accessibilityLabel="center_text" testID="center_text"
+                        style = {[styles.centerTextStyle,this.props.centerTextStyle]}>{this.props.centerText}</Text>
                 </View>
             );
 
@@ -195,7 +209,9 @@ export default class CommenCell extends Component {
             //不可以点击
             return(
                 <View style = {styles.rightViewStyle}>
-                    <Text style = {[styles.rightTextStyle,this.props.rightTextStyle]}>{this.props.rightText}</Text>
+                    <Text
+                        accessibilityLabel="right_text" testID="right_text"
+                        style = {[styles.rightTextStyle,this.props.rightTextStyle]}>{this.props.rightText}</Text>
                     {this.props.rightView}
                 </View>
             );
