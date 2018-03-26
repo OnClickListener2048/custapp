@@ -1,0 +1,104 @@
+<html><head><meta charset="utf-8"/><title>客户端App单元测试报告</title><style type="text/css">html, body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1rem;
+	margin: 0;
+	padding: 0;
+	color: #333;
+}
+body {
+	padding: 1rem;
+	font-size: 0.85rem;
+}
+header {
+	display: flex;
+	align-items: center;
+}
+#title {
+	margin: 0;
+	flex-grow: 1;
+}
+#logo {
+	height: 4rem;
+}
+#timestamp {
+	font-weight: bold;
+	color: #666;
+	margin-bottom: 0.5rem;
+}
+#summary {
+	color: #999;
+	margin-bottom: 1rem;
+}
+.suite-info {
+	padding: 1rem;
+	background-color: #eee;
+	border-bottom: 2px solid #999;
+	color: #999;
+	display: flex;
+	align-items: center;
+}
+.suite-info .suite-path {
+	font-weight: bold;
+	word-break: break-all;
+	flex-grow: 1;
+}
+.suite-info .suite-time {
+	margin-left: 0.5rem;
+	padding: 0.2rem 0.3rem;
+	font-size: 0.75rem;
+}
+.suite-info .suite-time.warn {
+	background-color: #D8000C;
+	color: #fff;
+}
+.suite-table {
+	width: 100%;
+	font-size: 0.85rem;
+	margin-bottom: 1em;
+}
+.suite-table td {
+	padding: 0.5rem;
+}
+.suite-table tr.passed {
+	background-color: #DFF2BF;
+	color: #4F8A10;
+}
+.suite-table tr.pending {
+	background-color: #FEEFB3;
+	color: #9F6000;
+}
+.suite-table tr.failed {
+	background-color: #FFBABA;
+	color: #D8000C;
+}
+.suite-table td {
+	font-size: 0.85rem;
+	border-bottom: 1px solid #aaa;
+	vertical-align: top;
+}
+.suite-table td.suite {
+	font-weight: bold;
+	width: 20%;
+}
+.suite-table td.test {
+	font-style: italic;
+	width: 60%;
+}
+.suite-table td.test .failureMsg {
+	font-size: 1rem;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+.suite-table td.result {
+	width: 20%;
+	text-align: right;
+}
+</style></head><header><h1 id="title">客户端App单元测试报告</h1></header><div id="metadata-container"><div id="timestamp">Start: 2018-03-26 17:43:30</div><div id="summary">
+				21 tests --
+				21 passed /
+				0 failed /
+				0 pending
+			</div></div><div class="suite-info"><div class="suite-path">/Users/zhuangzihao/i-counting/custapp/__tests__/apis/invoice.test.js</div><div class="suite-time">2.753s</div></div><table class="suite-table" cellspacing="0" cellpadding="0"><tr class="passed"><td class="suite">loadInvoiceTitleListInfo api</td><td class="test">without tocken should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.161s</td></tr><tr class="passed"><td class="suite">loadInvoiceTitleListInfo api</td><td class="test">success should return code === 0<div class="failureMessages"/></td><td class="result">passed in 0.079s</td></tr><tr class="passed"><td class="suite">loadInvoiceDetialData api</td><td class="test">without or error id should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.081s</td></tr><tr class="passed"><td class="suite">loadInvoiceDetialData api</td><td class="test">success should return code === 0<div class="failureMessages"/></td><td class="result">passed in 0.085s</td></tr><tr class="passed"><td class="suite">deleteInvoiceTitle api</td><td class="test">without or error id should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.089s</td></tr><tr class="passed"><td class="suite">deleteInvoiceTitle api</td><td class="test">success should return code === 0<div class="failureMessages"/></td><td class="result">passed in 0.099s</td></tr><tr class="passed"><td class="suite">verifyInvoice api</td><td class="test">without  step should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.082s</td></tr><tr class="passed"><td class="suite">verifyInvoice api</td><td class="test">without  params should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.087s</td></tr><tr class="passed"><td class="suite">verifyInvoice api</td><td class="test">step === 1 success code === 0 <div class="failureMessages"/></td><td class="result">passed in 0.082s</td></tr><tr class="passed"><td class="suite">verifyInvoice api</td><td class="test">step === 2 success code === 0 <div class="failureMessages"/></td><td class="result">passed in 0.088s</td></tr><tr class="passed"><td class="suite">verifyInvoiceIsSave api</td><td class="test">without  company should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.082s</td></tr><tr class="passed"><td class="suite">verifyInvoiceIsSave api</td><td class="test">without  username should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.078s</td></tr><tr class="passed"><td class="suite">verifyInvoiceIsSave api</td><td class="test">success should return code === 0<div class="failureMessages"/></td><td class="result">passed in 0.087s</td></tr><tr class="passed"><td class="suite">updateInvoiceInfo api</td><td class="test">without or error  _id should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.071s</td></tr><tr class="passed"><td class="suite">updateInvoiceInfo api</td><td class="test">without or error  company should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.086s</td></tr><tr class="passed"><td class="suite">updateInvoiceInfo api</td><td class="test">without or error  taxID should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.094s</td></tr><tr class="passed"><td class="suite">updateInvoiceInfo api</td><td class="test">success should return code === 0<div class="failureMessages"/></td><td class="result">passed in 0.088s</td></tr><tr class="passed"><td class="suite">addInvoiceInfo api</td><td class="test">without username should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.081s</td></tr><tr class="passed"><td class="suite">addInvoiceInfo api</td><td class="test">without company should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.095s</td></tr><tr class="passed"><td class="suite">addInvoiceInfo api</td><td class="test">without taxID should return code === 1<div class="failureMessages"/></td><td class="result">passed in 0.087s</td></tr><tr class="passed"><td class="suite">addInvoiceInfo api</td><td class="test">success should return code === 0<div class="failureMessages"/></td><td class="result">passed in 0.091s</td></tr></table></html>
