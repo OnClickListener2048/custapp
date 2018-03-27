@@ -2,7 +2,7 @@ import 'isomorphic-fetch';// 第三方fetch的真实联网实现, 解决 Failed:
 import * as apis from "../../app/apis/account";
 import TestHttpAdapter from "../../__mocks__/TestHttpAdapter";
 
-it('editPhoneBind api', async () => {
+it('绑定关联新手机号', async () => {
     TestHttpAdapter.enableLogin = true;
     try {
         let result =  await apis.editPhoneBind('13810397064', '123456');
@@ -14,9 +14,9 @@ it('editPhoneBind api', async () => {
     }
 });
 
-it('wechatToken api', async () => {
+it('微信授权token', async () => {
     TestHttpAdapter.enableLogin = false;
-    let responseData =  await apis.wechatToken("0000");
+    let responseData =  await apis.wechatToken("0");
     console.log("*************", responseData);
     let result = JSON.parse(responseData);
     expect(result.code).toEqual(1);

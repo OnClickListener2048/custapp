@@ -10,7 +10,7 @@ import {
 
 
 
-// TODO
+// 获取微信授权token
 export function wechatToken( code = '') {
     return postRawApi('/api/v1/auth/token?code=' + code, {platform:'app'} , {platform:'app', 'client': Platform.OS});//app_id:WECHAT_APP_ID,
 }
