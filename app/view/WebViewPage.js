@@ -367,7 +367,7 @@ export default class WebViewPage extends BComponent {
                         onLoadEnd = {this._onLoadEnd.bind(this)}
                         onMessage={this._handleMessage}
                         javaScriptEnabled={true}
-                        userAgent="cn.pilipa.custapp"
+                        userAgent="Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) CriOS/40.0.2214.69 Mobile/12A365 Safari/600.1.4/cn.pilipa.custapp"
                         ref={webview => this.webview = webview}
                         renderError={(e) => {
                             if (e) {

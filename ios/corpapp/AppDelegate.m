@@ -39,7 +39,7 @@ static BOOL isProduction = true;  //填写isProdurion  平时测试时为false �
 {
 
   //设置webview userAgent
-  NSString *newAgent = @"cn.pilipa.custapp";
+  NSString *newAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) CriOS/40.0.2214.69 Mobile/12A365 Safari/600.1.4/cn.pilipa.custapp";
   NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:newAgent, @"UserAgent", nil];
   [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
 //  [NEHTTPEye setEnabled:YES];
