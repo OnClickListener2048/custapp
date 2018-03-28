@@ -26,7 +26,12 @@ export default class TimeSearchBar extends Component {
     componentWillReceiveProps(nextProps){
         this._index = parseInt(nextProps['timeIndex'])
         this._timer = setTimeout(()=>{
-            this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
+            try{
+                this._scrollView && this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
+
+            }catch (e){
+                console.log(e)
+            }
             console.log('componentWillReceiveProps',this._index)
             clearTimeout(this._timer);
         },500);
@@ -36,7 +41,7 @@ export default class TimeSearchBar extends Component {
         this._index = parseInt(this.props.timeIndex)
         console.log('componentDidMount',this._index)
 
-        this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
+        this._scrollView && this._scrollView.scrollTo({x: monthWidth*(this._index), y: 0, animated: false})
     }
 
     render(){
