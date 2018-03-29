@@ -1,6 +1,6 @@
 <manifest package="cn.pilipa.custapp"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionName="2.5.0"
+          android:versionName="2.5.1"
           xmlns:tools="http://schemas.android.com/tools">
     <!-- !!!! 无需设置更新versionCode!!!! 自动更新versionCode -->
 
