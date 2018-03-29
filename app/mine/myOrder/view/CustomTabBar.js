@@ -45,7 +45,9 @@ const CustomTabBar = React.createClass({
             onPress={() => onPressHandler(page)}
         >
             <View style={[styles.tab, this.props.tabStyle, ]}>
-                <Text style={[{color: textColor, }, textStyle, ]}>
+                <Text
+                    accessibilityLabel="myOrders_tab_text" testID="myOrders_tab_text"
+                    style={[{color: textColor, }, textStyle, ]}>
                     {name}
                 </Text>
             </View>
