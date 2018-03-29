@@ -20,7 +20,9 @@ export default class SubmitButton extends Component {
                 <TouchableOpacity {...this.props}>
                     <Image  source={require('../img/Rectangle.png')} style={styles.buttonView}>
 
-                        <Text style={styles.loginText}>{this.props.text}</Text>
+                        <Text
+                            accessibilityLabel="submintButton_text" testID="submintButton_text"
+                            style={styles.loginText}>{this.props.text}</Text>
                     </Image>
                 </TouchableOpacity>
             )
@@ -28,7 +30,9 @@ export default class SubmitButton extends Component {
             (
                 <TouchableOpacity {...this.props}>
                     <View style={[styles.buttonViewDisabled,this.props.buttonStyle]}>
-                        <Text style={styles.loginTextDisabled}>{this.props.text}</Text>
+                        <Text
+                            accessibilityLabel="submintButton_text" testID="submintButton_text"
+                            style={styles.loginTextDisabled}>{this.props.text}</Text>
                     </View>
                 </TouchableOpacity>
             );

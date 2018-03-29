@@ -40,7 +40,9 @@ export default class CompanyInfoCell extends Component {
         }
 
         return(
-            <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
+            <View
+                accessibilityLabel="company_cell" testID="company_cell"
+                style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
                 {this._renderLeftView()}
                 {this._renderRightView()}
             </View>
@@ -50,7 +52,9 @@ export default class CompanyInfoCell extends Component {
     _renderLeftView(){
         return (<View style = {styles.leftViewStyle}>
             <TouchableOpacity style={[styles.leftImgStyle, this.props.leftImgStyle,{width : 36 ,height:36,alignItems:'center',justifyContent:'center' }]} onPress = {() => {this.props.leftSelectBtnOnPress()}}>
-                <Image resizeMode="center" style={[styles.leftImgStyle, this.props.leftImgStyle]}
+                <Image
+                    accessibilityLabel="company_check_img" testID="company_check_img"
+                    resizeMode="center" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                        source={this.props.leftIcon}/>
             </TouchableOpacity>
         </View>)
@@ -75,7 +79,9 @@ export default class CompanyInfoCell extends Component {
                             marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#E2D4B7',
                             justifyContent: 'center'
                         }}>
-                            <Text style={{
+                            <Text
+                                accessibilityLabel="company_state1" testID="company_state1"
+                                style={{
                                 color: '#ffffff',
                                 textAlign: 'center',
                                 fontSize: 10
@@ -87,7 +93,9 @@ export default class CompanyInfoCell extends Component {
                             marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',opacity:0.5,
                             justifyContent: 'center'
                         }}>
-                            <Text style={{
+                            <Text
+                                accessibilityLabel="company_state2" testID="company_state2"
+                                style={{
                                 color: '#ffffff',
                                 textAlign: 'center',
                                 fontSize: 10
@@ -96,7 +104,9 @@ export default class CompanyInfoCell extends Component {
                         }
                     </View>
                     }
-                    <Text numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
+                    <Text
+                        accessibilityLabel="company_left" testID="company_left"
+                        numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
                 </View>
             </TouchableOpacity>
         );

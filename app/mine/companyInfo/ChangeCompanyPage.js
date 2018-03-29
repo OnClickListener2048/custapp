@@ -338,9 +338,10 @@ export default class ChangeCompanyPage extends BComponent {
                         </ScrollView>
 
                         {this.state.isShowButton === true &&
-                        <SubmitButton onPress={this._goFee}
+                        <SubmitButton
+                            accessibilityLabel="company_fee_button" testID="company_fee_button"
+                            onPress={this._goFee}
                                       isEnabled={true}
-
                                       text="我要续费"
                         />}
                         {this.state.isShowButton === true &&
