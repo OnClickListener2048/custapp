@@ -465,8 +465,8 @@ export default class ServicePage extends BComponent {
                             tapBackgroundToDismiss:true
                         }
                     })}>
-                        <View style={{width:deviceWidth*0.55,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
+                        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                            <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white',width:deviceWidth*0.55}}>{this.state.title}&#12288;</Text>
                             <Image source={require('../../img/change_arrow_white.png')}/>
                         </View>
 
@@ -475,7 +475,7 @@ export default class ServicePage extends BComponent {
             }else{
                 //一家
                 return (
-                    <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}</Text>
+                    <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',color:'white',width:deviceWidth*0.5}}>{this.state.title}</Text>
                 )
             }
         }else{
@@ -497,8 +497,8 @@ export default class ServicePage extends BComponent {
                             },
                         }]);
                 }}>
-                    <View style={{width:deviceWidth*0.55,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white'}}>{this.state.title.length>10?this.state.title.substr(0,10)+'...':this.state.title}&#12288;</Text>
+                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <Text numberOfLines={1} style={{fontSize:setSpText(18),fontWeight:'bold',textAlign:'center',color:'white',width:deviceWidth*0.5,}}>{this.state.title}&#12288;</Text>
                         <Image   source={require('../../img/change_arrow_white.png')}/>
                     </View>
 
