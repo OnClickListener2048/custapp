@@ -468,15 +468,17 @@ export default class HomePage extends BComponent {
                 </View>
             )
         }else if(row.item.type == '2'){
-
+            let col = 2
+            let itemMargin = 23
+            let itemWidth = (deviceWidth - itemMargin*(col+1))/col
             return (
-                <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',paddingBottom:20,backgroundColor:'white'}}>
+                <View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',paddingBottom:20,backgroundColor:'white'}}>
                     {
                         row.item.data.map((item, i) => {
                             return(
                                 <TouchableOpacity key={i} onPress={this._goProductDetail.bind(this,item)}>
-                                    <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:136,height:68,marginTop:10}} source={{uri:item.icon}}>
-                                        <Text style={{backgroundColor:'transparent',fontSize:setSpText(16),color:'white',fontWeight:'bold'}}>{item.name}</Text>
+                                    <Image resizeMode="cover" style={{justifyContent:'center',alignItems:'center',width:itemWidth,height:itemWidth*0.41,marginTop:10,marginLeft:itemMargin,borderRadius:3}} source={{uri:item.icon}}>
+                                        <Text style={{backgroundColor:'transparent',fontSize:setSpText(22),color:'white',fontWeight:'bold'}}>{item.name}</Text>
                                     </Image>
                                 </TouchableOpacity>
                             )
@@ -541,12 +543,12 @@ export default class HomePage extends BComponent {
                         </View>
                     </View>
                     {this._renderToolsCollectionView()}
-                    <View style={{width:deviceWidth,paddingTop:10,backgroundColor:'#F1F1F1',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <View style={{height:DeviceInfo.onePR,backgroundColor:'#D8D8D8',width:24,marginRight:15}}/>
-                        <Text style={{color:'#999999',fontSize:setSpText(18)}}>
+                    <View style={{width:deviceWidth,paddingTop:17,paddingBottom:7,backgroundColor:'#F1F1F1',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <View style={{height:DeviceInfo.onePR,backgroundColor:'#D8D8D8',width:24,marginRight:20}}/>
+                        <Text style={{color:'#999999',fontSize:setSpText(16)}}>
                             小企业的财税管家
                         </Text>
-                        <View style={{height:DeviceInfo.onePR,backgroundColor:'#D8D8D8',width:24,marginLeft:15}}/>
+                        <View style={{height:DeviceInfo.onePR,backgroundColor:'#D8D8D8',width:24,marginLeft:20}}/>
                     </View>
                 </View>
             </View>
