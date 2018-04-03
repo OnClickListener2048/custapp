@@ -56,6 +56,7 @@ describe('--> Greet Button <--', () => {
     it('我的公司页数据检测', async() => {
 
         let driver = helper.driver;
+        //点击我的公司页面
         await driver.waitForElementByAccessibilityId('mine_MyCompany',20000).click();
 
 
