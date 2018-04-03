@@ -63,7 +63,7 @@ const serviceData =[
         arr:[
             {
                 title:'纳税表',
-                logo:require('../../img/nashuibiao.png'),
+                logo:require('../../img/taxform.png'),
                 jumpPage:'TaxFormPage'
             }
         ]
@@ -74,7 +74,7 @@ const serviceData =[
         arr:[
             {
                 title:'我的凭证',
-                logo:require('../../img/nashuibiao.png'),
+                logo:require('../../img/vouchers.png'),
                 jumpPage:'TaxFormPage'
             }
         ]
