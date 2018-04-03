@@ -137,6 +137,7 @@ export default class CommenCell extends Component {
 
         }else{
             return(
+
                 <View style = {styles.leftViewStyle}>
                     {this.props.leftIconTouch?
                         <TouchableOpacity onPress = {() => {this.props.onIconPress()}}>
@@ -147,7 +148,7 @@ export default class CommenCell extends Component {
                         <Image resizeMode="contain" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                                source={this.props.leftIcon}/>
                     }
-                    <Text style = {[styles.leftTextStyle,this.props.leftTextStyle]}>{this.props.leftText}</Text>
+                    <Text style = {[styles.leftTextStyle,this.props.leftTextStyle, {marginLeft: 10}]}>{this.props.leftText}</Text>
                     <Image resizeMode = "contain" style = {[styles.leftImgStyle,this.props.leftImgStyle,{marginLeft:10}]} source={this.props.leftTextIcon} />
 
                 </View>
