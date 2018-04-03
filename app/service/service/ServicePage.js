@@ -67,6 +67,17 @@ const serviceData =[
                 jumpPage:'TaxFormPage'
             }
         ]
+    },
+    {
+        title:'票',
+        style:'table',
+        arr:[
+            {
+                title:'我的凭证',
+                logo:require('../../img/nashuibiao.png'),
+                jumpPage:'TaxFormPage'
+            }
+        ]
     }
 ]
 import pushJump from '../../util/pushJump';
