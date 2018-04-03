@@ -75,7 +75,7 @@ const serviceData =[
             {
                 title:'我的凭证',
                 logo:require('../../img/vouchers.png'),
-                jumpPage:'TaxFormPage'
+                jumpPage:'VouchersListPage'
             }
         ]
     }

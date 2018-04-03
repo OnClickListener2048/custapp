@@ -44,6 +44,7 @@ import AccountsReceivablePage from './service/serviceDetail/AccountsReceivablePa
 import AccountsPayablePage from './service/serviceDetail/AccountsPayablePage'
 import ProfitStatementPage from './service/serviceDetail/ProfitStatementPage'
 import TaxFormPage from './service/serviceDetail/TaxFormPage'
+import VouchersListPage from './service/serviceDetail/VouchersListPage'
 
 import Notification from './view/NotificationView'
 import NoNetTipPage from './view/NoNetTipPage'
@@ -102,6 +103,7 @@ export default function () {
     reg('AccountsPayablePage', () => AccountsPayablePage);
     reg('ProfitStatementPage', () => ProfitStatementPage);
     reg('TaxFormPage', () => TaxFormPage);
+    reg('VouchersListPage', () => VouchersListPage);
     reg('VerifyResultPage', () => VerifyResultPage);
     reg('Notification', () => Notification);
     reg('NoNetTipPage', () => NoNetTipPage);
