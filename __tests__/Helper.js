@@ -5,7 +5,7 @@ export default class Helper {
             platformName: 'Android',
             deviceName: 'Android Test',
             // platformVersion: '10.2',
-            app: "/Users/liufei/Desktop/li-armeabi-v7a-release.apk"
+            app: "/Users/liufei/ReactNativeProject/work/custapp/android/app/build/outputs/apk/li-armeabi-v7a-release.apk"
         };
         this.driver = wd.promiseChainRemote('0.0.0.0', 4723);
         jest.setTimeout(600*1000);

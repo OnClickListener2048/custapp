@@ -13,8 +13,6 @@ describe('--> Greet Button <--', () => {
             .text();
         let leftTexts = await driver.elementsByAccessibilityId('left_text');
         console.log(leftTexts);
-        let rightTexts = await driver.elementsByAccessibilityId('right_text');
-        console.log(leftTexts);
 
         let text = await leftTexts[0].text();
         console.log(text);
@@ -39,6 +37,8 @@ describe('--> Greet Button <--', () => {
         console.log(text);
         expect(text).toEqual('设置');
 
+        let rightTexts = await driver.elementsByAccessibilityId('right_text');
+        console.log(leftTexts);
         text = await rightTexts[0].text();
         console.log(text);
         expect(text).toEqual('2');
