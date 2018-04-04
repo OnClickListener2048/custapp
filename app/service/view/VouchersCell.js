@@ -30,14 +30,16 @@ export default class VouchersCell extends Component {
         // },
         item:{}
     }
-
+    onPress(item){
+        this.props._goVoucherDetail(item)
+    }
     render(){
         return(
             <View>
                 {
                     this.props.item.subjectDetails.map((item, i) => {
                         return(
-                            <TouchableOpacity onPress = {() => {this.props.onPress()}} >
+                            <TouchableOpacity onPress = {() => {this.props.onPress(item)}} >
 
                             <View style = {styles.ViewStyle}>
                     <View style = {[styles.itemStyle]}>
