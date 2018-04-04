@@ -181,6 +181,7 @@ export default class ServicePage extends BComponent {
                             console.log('company', company);
                             if (company && company.id) {
                                 this.companyid = company.id
+                                this.companyName = company.name
                                 this.loadYearReportData(company.id)
                                 this.loadPaymentData(this.companyid)
 
@@ -206,6 +207,7 @@ export default class ServicePage extends BComponent {
                             }else{
                                 //没有公司
                                 this.companyid = undefined
+                                this.companyName = undefined
                                 this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
                                 this.loadYearReportData(this.companyid)
                                 this.loadPaymentData(this.companyid)
@@ -213,6 +215,7 @@ export default class ServicePage extends BComponent {
                         },
                         (e) => {
                             this.companyid = undefined
+                            this.companyName = undefined
                             this.loadYearReportData(this.companyid)
                             this.initNavigationBar(false,'噼里啪财税演示公司',true,1)
                             this.loadPaymentData(this.companyid)
@@ -221,6 +224,7 @@ export default class ServicePage extends BComponent {
                 } else {
                     //未登录
                     this.companyid = undefined
+                    this.companyName = undefined
                     this.loadYearReportData(this.companyid)
                     this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
                     this.loadPaymentData(this.companyid)
@@ -230,6 +234,7 @@ export default class ServicePage extends BComponent {
             e => {
                 //未登录
                 this.companyid = undefined
+                this.companyName = undefined
                 this.loadYearReportData(this.companyid)
                 this.initNavigationBar(false,'噼里啪财税演示公司',false,1)
                 this.loadPaymentData(this.companyid)
@@ -704,6 +709,7 @@ export default class ServicePage extends BComponent {
                 timeIndex:this.state.timeIndex,
                 callback:this._callback.bind(this),
                 companyid:this.companyid,
+                companyName:this.companyName,
                 is_demo:this.state.is_demo
             }
         })

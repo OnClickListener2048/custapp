@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
         borderRightColor:'#D1D1D1',
         width:itemWidth,
         height:setSpText(45),
-        paddingLeft:setSpText(14),
-        paddingRight:setSpText(14),
+        paddingLeft:setSpText(10),
+        paddingRight:setSpText(10),
         flexDirection:'row',
         // 侧轴居中
         alignItems:'center',

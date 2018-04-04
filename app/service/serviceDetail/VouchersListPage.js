@@ -131,6 +131,7 @@ export default class VouchersListPage extends BComponent {
     //跳转记账凭证详情
     _goVoucherDetail(item){
         // alert(JSON.stringify(item))
+        console.log("记账ID="+item.sortingId);
         this.push({
             screen: 'AccountVoucherPage',
             title:'记账凭证',
@@ -140,6 +141,7 @@ export default class VouchersListPage extends BComponent {
                 timeIndex:this.state.timeIndex,
                 companyid:this.props.companyid,
                 id:item.sortingId,
+                companyName:this.props.companyid,
             }
         })
     }
