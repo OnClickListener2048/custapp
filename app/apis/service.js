@@ -45,11 +45,19 @@ export function loadTaxForm(companyid,date='') {
 
     return getApi('/api/v1/services/tax',params);
 }
+
+//凭证列表
+export function loadVouchers(companyid,date='') {
+
+    return getApi('/api/v1.01/myfinances/vouchers?companycode='+companyid+'&relatedate='+date);
+}
+
 //获取是否展示年报
 export function loadYearReport(companyid) {
 
     return getApi('/api/v1/activity/entry',{id:companyid});
 }
+
 /***
  * 获取公司账期
  * @param companyid
