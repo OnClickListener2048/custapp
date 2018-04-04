@@ -23,38 +23,56 @@ export default class VouchersCell extends Component {
     }
 
     static defaultProps = {
-            voucherCode:'',//凭证字号
-            digest:'',//摘要
-            voucherDate:'',//日期
-            voucherAmount:'',//金额
-        onPress:function() {//点击事件
-
-        },
+        //     voucherCode:'',//凭证字号
+        //     digest:'',//摘要
+        //     voucherDate:'',//日期
+        //     voucherAmount:'',//金额
+        // onPress:function() {//点击事件
+        //
+        // },
+        item:{}
     }
 
+    // render(){
+    //     return(
+    //         <TouchableOpacity onPress = {() => {this.props.onPress()}} >
+    //
+    //             <View style = {styles.ViewStyle}>
+    //                 <View style = {[styles.itemStyle]}>
+    //                     <View style = {{flexDirection:'column-reverse',}}>
+    //                         <Text style={{fontSize:12,color:'#999999'}}>{this.props.item.voucherDate}</Text>
+    //                         <Text style={{fontSize:14,color:'#333333'}} numberOfLines={1}>{this.props.item.voucherCode}</Text>
+    //                     </View>
+    //                 </View>
+    //                 <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
+    //                     <Text style={styles.digestStyle} numberOfLines={3}>{this.props.digest}</Text>
+    //
+    //                 </View>
+    //                 <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
+    //                     <Text style={styles.digestStyle}  numberOfLines={1}>{this.props.item.voucherAmount}</Text>
+    //
+    //                 </View>
+    //                 <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
+    //
+    //             </View>
+    //         </TouchableOpacity>
+    //     )
+    // }
     render(){
+        console.log(this.props.item)
         return(
-            <TouchableOpacity onPress = {() => {this.props.onPress()}} >
-
-                <View style = {styles.ViewStyle}>
-                    <View style = {[styles.itemStyle]}>
-                        <View style = {{flexDirection:'column-reverse',}}>
-                            <Text style={{fontSize:12,color:'#999999'}}>{this.props.voucherDate}</Text>
-                            <Text style={{fontSize:14,color:'#333333'}} numberOfLines={1}>{this.props.voucherCode}</Text>
-                        </View>
-                    </View>
-                    <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
-                        <Text style={styles.digestStyle} numberOfLines={3}>{this.props.digest}</Text>
-
-                    </View>
-                    <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
-                        <Text style={styles.digestStyle}  numberOfLines={1}>{this.props.voucherAmount}</Text>
-
-                    </View>
-                    <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
-
-                </View>
-            </TouchableOpacity>
+            <View>
+                {
+                    this.props.item.subjectDetails.map((item, i) => {
+                        return(
+                            <View style={{width:DeviceInfo.width,flexDirection:'row'}}>
+                                <Text>{this.props.item.voucherWord}</Text>
+                                <Text>{item.subjectName}</Text>
+                            </View>
+                        )
+                    })
+                }
+            </View>
         )
     }
 

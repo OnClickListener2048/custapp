@@ -122,10 +122,11 @@ export default class VouchersListPage extends BComponent {
         return(
             <VouchersCell
                 onPress = {this._goVoucherDetail.bind(this,item)}
-                voucherCode={item.item.voucherWord}
-                digest='摘要'
-                voucherDate="2018.03.31"
-                voucherAmount="30,500.45"
+                // voucherCode={item.item.voucherWord}
+                // digest='摘要'
+                // voucherDate="2018.03.31"
+                // voucherAmount="30,500.45"
+                item = {item.item}
             />
 
         )
