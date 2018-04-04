@@ -54,7 +54,8 @@
     "react-native-ultimate-listview": "^3.2.2",
     "react-native-vector-icons": "^4.1.1",
     "react-native-wechat": "github:pilipa-cn/react-native-wechat#v1.0.3",
-    "uri-js": "^3.0.2"
+    "uri-js": "^3.0.2",
+    "react-native-table-component":"*"
   },
   "devDependencies": {
     "babel-jest": "*",
