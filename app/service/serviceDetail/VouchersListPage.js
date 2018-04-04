@@ -136,12 +136,12 @@ export default class VouchersListPage extends BComponent {
     //跳转记账凭证详情
     _goVoucherDetail(item){
 
-        // this.push({
-        //     screen: '',
-        //     title:'记账凭证',
-        //     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-        //
-        // })
+        this.push({
+            screen: 'AccountVoucherPage',
+            title:'记账凭证',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+
+        })
     }
 
     _listEmptyComponent(){
