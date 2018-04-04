@@ -20,7 +20,7 @@ export default class VouchersCell extends Component {
     constructor(props){
         super(props)
         this.state={
-            _id:'',
+            relateDate:'',
         }
     }
 
@@ -30,21 +30,30 @@ export default class VouchersCell extends Component {
         // },
         item:{}
     }
-    onPress(item){
-        this.props._goVoucherDetail(item)
+
+    componentWillMount() {
+        var strDate = this.props.item.relateDate.substring(0,10);
+        var dateFormat = strDate.replace(/-/g, '.');
+        this.setState({
+            relateDate:dateFormat
+        })
+    }
+
+    onPress(item,itemDate){
+        this.props._goVoucherDetail(item,itemDate)
     }
     render(){
         return(
             <View>
                 {
-                    this.props.item.subjectDetails.map((item, i) => {
+                    this.props.item.subjectDetails&&this.props.item.subjectDetails.map((item, i) => {
                         return(
-                            <TouchableOpacity onPress = {() => {this.props.onPress(item)}} >
+                            <TouchableOpacity onPress = {() => {this.props.onPress(item,this.props.item.relateDate.substring(0,10))}} >
 
                             <View style = {styles.ViewStyle}>
                     <View style = {[styles.itemStyle]}>
                         <View style = {{flexDirection:'column-reverse',}}>
-                            <Text style={{fontSize:12,color:'#999999'}} numberOfLines={1}>{this.props.item.relateDate}</Text>
+                            <Text style={{fontSize:12,color:'#999999'}} numberOfLines={1}>{this.state.relateDate}</Text>
                             <Text style={{fontSize:14,color:'#333333'}} numberOfLines={1}>{this.props.item.voucherWord}</Text>
                         </View>
                     </View>

@@ -110,7 +110,7 @@ export default class VouchersListPage extends BComponent {
 
             <View style={{width:DeviceInfo.width,justifyContent:'center',alignItems:'center',}}>
                 <Text style={{fontSize:20,color:'#FFFFFF'}}>
-                    泰安市中达文化传媒有限公司
+                    {this.props.companyName}
                 </Text>
 
             </View>
@@ -129,7 +129,7 @@ export default class VouchersListPage extends BComponent {
     }
 
     //跳转记账凭证详情
-    _goVoucherDetail(item){
+    _goVoucherDetail(item,itemDate){
         // alert(JSON.stringify(item))
         console.log("记账ID="+item.sortingId);
         this.push({
@@ -137,7 +137,7 @@ export default class VouchersListPage extends BComponent {
             title:'记账凭证',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
-                relatedate:this.state.timeDateArr[index].relateDate,
+                relatedate:itemDate,
                 companyid:this.props.companyid,
                 id:item.sortingId,
                 companyName:this.props.companyName,
