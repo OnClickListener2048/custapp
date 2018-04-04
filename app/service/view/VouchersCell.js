@@ -19,63 +19,52 @@ const itemWidth = (SCREEN_WIDTH-setSpText(33))/4
 export default class VouchersCell extends Component {
     constructor(props){
         super(props)
-
+        this.state={
+            _id:'',
+        }
     }
 
     static defaultProps = {
-        //     voucherCode:'',//凭证字号
-        //     digest:'',//摘要
-        //     voucherDate:'',//日期
-        //     voucherAmount:'',//金额
         // onPress:function() {//点击事件
         //
         // },
         item:{}
     }
 
-    // render(){
-    //     return(
-    //         <TouchableOpacity onPress = {() => {this.props.onPress()}} >
-    //
-    //             <View style = {styles.ViewStyle}>
-    //                 <View style = {[styles.itemStyle]}>
-    //                     <View style = {{flexDirection:'column-reverse',}}>
-    //                         <Text style={{fontSize:12,color:'#999999'}}>{this.props.item.voucherDate}</Text>
-    //                         <Text style={{fontSize:14,color:'#333333'}} numberOfLines={1}>{this.props.item.voucherCode}</Text>
-    //                     </View>
-    //                 </View>
-    //                 <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
-    //                     <Text style={styles.digestStyle} numberOfLines={3}>{this.props.digest}</Text>
-    //
-    //                 </View>
-    //                 <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
-    //                     <Text style={styles.digestStyle}  numberOfLines={1}>{this.props.item.voucherAmount}</Text>
-    //
-    //                 </View>
-    //                 <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
-    //
-    //             </View>
-    //         </TouchableOpacity>
-    //     )
-    // }
     render(){
-        console.log(this.props.item)
         return(
             <View>
                 {
                     this.props.item.subjectDetails.map((item, i) => {
                         return(
-                            <View style={{width:DeviceInfo.width,flexDirection:'row'}}>
-                                <Text>{this.props.item.voucherWord}</Text>
-                                <Text>{item.subjectName}</Text>
-                            </View>
+                            <TouchableOpacity onPress = {() => {this.props.onPress()}} >
+
+                            <View style = {styles.ViewStyle}>
+                    <View style = {[styles.itemStyle]}>
+                        <View style = {{flexDirection:'column-reverse',}}>
+                            <Text style={{fontSize:12,color:'#999999'}} numberOfLines={1}>{this.props.item.relateDate}</Text>
+                            <Text style={{fontSize:14,color:'#333333'}} numberOfLines={1}>{this.props.item.voucherWord}</Text>
+                        </View>
+                    </View>
+                    <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
+                        <Text style={styles.digestStyle} numberOfLines={3}>{item.subject_Abstract}</Text>
+
+                    </View>
+                    <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
+                        <Text style={styles.digestStyle}  numberOfLines={1}>{item.debitMoney}</Text>
+
+                    </View>
+                    <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
+
+                </View>
+                            </TouchableOpacity>
+
                         )
                     })
                 }
             </View>
         )
     }
-
 }
 
 const styles = StyleSheet.create({
@@ -100,8 +89,8 @@ const styles = StyleSheet.create({
         borderRightColor:'#D1D1D1',
         width:itemWidth,
         height:setSpText(45),
-        paddingLeft:setSpText(16),
-        paddingRight:setSpText(16),
+        paddingLeft:setSpText(14),
+        paddingRight:setSpText(14),
         flexDirection:'row',
         // 侧轴居中
         alignItems:'center',

@@ -122,10 +122,6 @@ export default class VouchersListPage extends BComponent {
         return(
             <VouchersCell
                 onPress = {this._goVoucherDetail.bind(this,item)}
-                // voucherCode={item.item.voucherWord}
-                // digest='摘要'
-                // voucherDate="2018.03.31"
-                // voucherAmount="30,500.45"
                 item = {item.item}
             />
 
@@ -134,12 +130,17 @@ export default class VouchersListPage extends BComponent {
 
     //跳转记账凭证详情
     _goVoucherDetail(item){
-
+        console.log("------id="+item._id);
         this.push({
             screen: 'AccountVoucherPage',
             title:'记账凭证',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-
+            passProps:{
+                timeDateArr:this.state.timeDateArr,
+                timeIndex:this.state.timeIndex,
+                companyid:this.props.companyid,
+                id:item._id,
+            }
         })
     }
 
