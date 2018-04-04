@@ -14,7 +14,7 @@ import {
 import { Pie } from 'react-native-pathjs-charts'
 import BComponent from '../../base';
 import ChooseTimerModal from '../../view/ChooseTimerModal'
-import * as apis from '../../apis';
+import * as apis from '../../apis/service';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
@@ -55,7 +55,6 @@ export default class VouchersListPage extends BComponent {
 
         if (this.props.is_demo == '1'){
             this.setState({
-                total:demoData.total,
                 data:demoData.list,
             })
             return;
@@ -70,13 +69,12 @@ export default class VouchersListPage extends BComponent {
                 isLoading:true
             })
         }
-        apis.loadTaxForm(this.props.companyid,date).then(
+        apis.loadVouchers(this.props.companyid,date).then(
             (responseData) => {
                 if(responseData.code == 0){
-
+                    console.log("凭证数据="+responseData.data);
                     this.setState({
-                        total:responseData.data.total?responseData.data.total:'- -',
-                        data:responseData.data.list?responseData.data.list:[],
+                        data:responseData.data?responseData.data:[],
                         isRefreshing:false,
                         isfirstRefresh:false,
                         isLoading:false
@@ -124,8 +122,8 @@ export default class VouchersListPage extends BComponent {
         return(
             <VouchersCell
                 onPress = {this._goVoucherDetail.bind(this,item)}
-                voucherCode="记-1"
-                digest="3-25现金服务收入（普票）,税率：3.00%"
+                voucherCode={item.item.voucherWord}
+                digest='摘要'
                 voucherDate="2018.03.31"
                 voucherAmount="30,500.45"
             />
