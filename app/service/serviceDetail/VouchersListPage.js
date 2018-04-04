@@ -140,7 +140,7 @@ export default class VouchersListPage extends BComponent {
                 relatedate:this.state.timeDateArr[index].relateDate,
                 companyid:this.props.companyid,
                 id:item.sortingId,
-                companyName:this.props.companyid,
+                companyName:this.props.companyName,
             }
         })
     }
