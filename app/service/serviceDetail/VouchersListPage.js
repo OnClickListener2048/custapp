@@ -1,5 +1,6 @@
 /**
  * Created by jiaxueting on 2018/4/3.
+ * 我的凭证列表页
  */
 import React  from 'react';
 import {
@@ -12,18 +13,16 @@ import {
 } from 'react-native';
 import { Pie } from 'react-native-pathjs-charts'
 import BComponent from '../../base';
-import CommonCell from '../../view/CommenCell'
 import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
-import HeaderView from '../view/HeaderView'
-import SectionHeader from '../../view/SectionHeader'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
 import demoData from './local/TaxFormPage.json'
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
+import VouchersCell from "../view/VouchersCell";
 
 export default class VouchersListPage extends BComponent {
 
@@ -123,9 +122,28 @@ export default class VouchersListPage extends BComponent {
 
     _renderItem(item){
         return(
-            <CommonCell style={{marginTop:DeviceInfo.onePR}} leftText={item.item.name} rightText={item.item.amount} isClick={false}/>
+            <VouchersCell
+                onPress = {this._goVoucherDetail.bind(this,item)}
+                voucherCode="记-1"
+                digest="3-25现金服务收入（普票）,税率：3.00%"
+                voucherDate="2018.03.31"
+                voucherAmount="30,500.45"
+            />
+
         )
     }
+
+    //跳转记账凭证详情
+    _goVoucherDetail(item){
+
+        // this.push({
+        //     screen: '',
+        //     title:'记账凭证',
+        //     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+        //
+        // })
+    }
+
     _listEmptyComponent(){
         let headerHeight = 48+64+DeviceInfo.width*0.42+20
         if(!this.state.isfirstRefresh){
