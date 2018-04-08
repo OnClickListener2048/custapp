@@ -51,7 +51,6 @@ export default class VouchersListPage extends BComponent {
         });
     }
     loadData(date='',isPull=false){
-
         if (this.props.is_demo == '1'){
             this.setState({
                 data:demoData.data,
@@ -129,21 +128,25 @@ export default class VouchersListPage extends BComponent {
 
     //跳转记账凭证详情
     _goVoucherDetail(item){
+        if (this.props.is_demo == '1'){
+            Toast.show('演示数据暂不支持查看凭证详情！')
+            return;
+        }
         // alert(JSON.stringify(item))
-        console.log("记账ID="+item.item.voucherId);
+        console.log("记账ID="+item.item.voucherId+",公司ID="+this.props.companyid+",时间="+item.item.relateDate.substring(0,10)+",公司名称="+this.props.companyName);
         this.push({
             screen: 'AccountVoucherPage',
             title:'记账凭证',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
-                // relatedate:item.item.relateDate.substring(0,10),
-                // companyid:this.props.companyid,
-                // id:item.item.voucherId,
-                // companyName:this.props.companyName,
-                relatedate:"2018-03-31",
-                companyid:"25113",
-                id:"4116961",
-                companyName:"测试测试",
+                relatedate:item.item.relateDate.substring(0,10),
+                companyid:this.props.companyid,
+                id:item.item.voucherId,
+                companyName:this.props.companyName,
+                // relatedate:"2018-03-31",
+                // companyid:"25113",
+                // id:"4116961",
+                // companyName:"测试测试",
 
             }
         })

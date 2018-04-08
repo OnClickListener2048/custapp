@@ -46,10 +46,9 @@ export default class VouchersCell extends Component {
                 })
             }
         })
-
         this.setState({
             relateDate:dateFormat,
-            debitMoney:debitMoneyAll,
+            debitMoney:debitMoneyAll.toFixed(2),//保留小数后两位
         })
     }
 
@@ -68,7 +67,7 @@ export default class VouchersCell extends Component {
                 </View>
             </View>
             <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
-                <Text style={styles.digestStyle} numberOfLines={3}>{this.state.subject_Abstract}</Text>
+                <Text style={styles.digestStyle} numberOfLines={2}>{this.state.subject_Abstract}</Text>
 
             </View>
             <View style = {[styles.itemStyle,{borderRightWidth:0}]}>

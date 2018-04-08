@@ -5,24 +5,16 @@
 import React, {Component} from 'react';
 import {
     View,
-    DeviceEventEmitter,
     Text,
     StyleSheet,
-    ScrollView,
-    Image,
-    TouchableOpacity,
-    Dimensions,
-    Button,
-    TouchableWithoutFeedback
+    ScrollView
 } from 'react-native';
-import px2dp from '../../util/index';
 
 import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
-import SubmitButton from "../../view/SubmitButton";
 import * as apis from '../../apis';
-import Toast from 'react-native-root-toast';
 import DefaultView from '../../view/DefaultView'
 
 import BComponent from '../../base/BComponent'
@@ -37,21 +29,18 @@ export default class AccountVoucherPage extends BComponent {
             relatedate : this.props.relatedate,
 
             tableHead: ['摘要', '会计科目', '借方金融', '贷方金额'],
-            tableData: [
-                ['1', '2', '3', '4'],
-                ['a', '测试二行数据测试二行数据测试二行数据测试二行数据测试二行数据', 'c', 'd'],
-                ['1', '2', '3', '456'],
-                ['a', '测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据', 'c', 'd']
-            ],
-
+            tableData: [],
+            voucherWord:'',
+            accountName:'',
+            auditName:'',
+            creatName:'',
+            isLoading:false,
             widthArr: [ 83.0 / (375 - 30 ) * (SCREEN_WIDTH - 30), 94.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) , 86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30), 86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30)],
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
 
         };
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-
-
 
         UserInfoStore.getCompany().then(
             (company) => {
@@ -68,20 +57,9 @@ export default class AccountVoucherPage extends BComponent {
         );
 
     }
-    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        // console.log('ApplicationCenterPage event.type', event.type);
-        //console.log('ApplicationCenterPage event.type', event.id);
-        super.onNavigatorEvent(event)
-        if (event.id === 'willAppear') {
-
-
-        }
-    }
-
     componentDidMount() {
          this._loadData()
     }
-
 
     _loadData(){
         if(!NetInfoSingleton.isConnected) {
@@ -90,33 +68,45 @@ export default class AccountVoucherPage extends BComponent {
             });
             return;
         }
-
-        let loading = SActivityIndicator.show(true, "载入中...");
-
-        //companycode,date='',id
+        this.setState({
+            isLoading:true
+        })
         apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(
             (voucherInfo) => {
-                SActivityIndicator.hide(loading);
-
                 if (voucherInfo) {
 
                     console.log("============" + voucherInfo)
+
+                    let arr = [];
+                    let subjectDetails = voucherInfo.data.subjectDetails
+                    for(let i=0;i<subjectDetails.length;i++){
+                        let dic = subjectDetails[i];
+                        arr.push([dic.subject_Abstract,dic.subjectName,dic.debitMoney,dic.creditorMoney])
+                    }
                     this.setState({
                         initStatus:'initSucess',
+                        tableData:arr,
+                        voucherWord:voucherInfo.data.voucherWord,
+                        accountName:voucherInfo.data.accountName,
+                        auditName:voucherInfo.data.auditName,
+                        creatName:voucherInfo.data.creatName,
+                        isLoading:false
+
                     });
 
                 } else {
                     this.setState({
                         initStatus:'no-data',
+                        isLoading:false
                         // initStatus:'initSucess', //接口调通后再改过来
 
                     });
                 }
             },
             (e) => {
-                SActivityIndicator.hide(loading);
                 this.setState({
                     initStatus:'error',
+                    isLoading:false
                     // initStatus:'initSucess',  //接口调通后再改过来
 
                 });
@@ -126,18 +116,11 @@ export default class AccountVoucherPage extends BComponent {
 
     }
 
-
-// {this.props.companyName}
-
-// {this.state.company ? this.state.company.name : "测试"}
-
-
     render() {
 
-        if (this.state.initStatus === 'initSucess') {
-            return (
-                <View style={{flex: 1, backgroundColor: '#fafafa',alignItems:'center'}}>
-
+        return(
+            <View style={{flex:1,backgroundColor:'#FFFFFF'}}>
+                {this.state.initStatus == 'initSucess'?<ScrollView >
 
                     <View style={[{height:46,width:SCREEN_WIDTH,justifyContent:'center',alignItems:'center',backgroundColor:"#FFFFFF"}] }>
 
@@ -157,8 +140,8 @@ export default class AccountVoucherPage extends BComponent {
 
 
                     <View style={[{width:SCREEN_WIDTH ,justifyContent:"space-between",flexDirection:"row",backgroundColor:"#FFFFFF"}]}>
-                        <Text style={[{marginLeft:23,marginTop:8,marginBottom:8}]}>{"测试1"}</Text>
-                        <Text style={[{marginRight:23,marginTop:8,marginBottom:8}]}>{"测试2"}</Text>
+                        <Text style={[{marginLeft:23,marginTop:8,marginBottom:8}]}>{this.state.voucherWord}</Text>
+                        <Text style={[{marginRight:23,marginTop:8,marginBottom:8}]}>{this.state.relatedate}</Text>
 
                     </View>
 
@@ -170,14 +153,17 @@ export default class AccountVoucherPage extends BComponent {
                         </Table>
                     </View>
 
+                    <View style={[{width:SCREEN_WIDTH ,flexDirection:"column",backgroundColor:"#FFFFFF",paddingLeft:15}]}>
+                        <Text style={{fontSize:12,color:'#333333'}} >会计主管:{this.state.accountName}</Text>
+                        <Text style={{fontSize:12,color:'#333333',marginTop:8}}  >审核人:{this.state.auditName}</Text>
+                        <Text style={{fontSize:12,color:'#333333',marginTop:8}}  >制单人:{this.state.creatName}</Text>
+                    </View>
 
-                </View>
-            )
-        } else {
-            return (
-                <DefaultView onPress={()=>this._loadData()} type={this.state.initStatus}/>
-            )
-        }
+
+                </ScrollView>:<DefaultView onPress={()=>this._loadData()} type={this.state.initStatus}/>}
+                <PLPActivityIndicator isShow={this.state.isLoading} />
+            </View>
+        )
     }
 
 }
