@@ -58,6 +58,16 @@ describe('--> Greet Button <--', () => {
         let driver = helper.driver;
         //点击我的公司页面
         await driver.waitForElementByAccessibilityId('mine_MyCompany',20000).click();
+        let company_lefts = await driver.waitForElementsByAccessibilityId('company_left',20000);
+        let text = await company_lefts[0].text();
+        console.log(text);
+        expect(text).toEqual('西藏鑫康医疗器械有限责任公司');
+        text = await company_lefts[1].text();
+        console.log(text);
+        expect(text).toEqual('徐州市全兴空调汽配有限公司');
+
+
+
 
 
 
