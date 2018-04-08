@@ -4,45 +4,61 @@
     "relateDate": "2018-02-28T00:00:00",
     "subjectDetails": [{
       "subjectNo": "1001",
-      "subject_Abstract": "现收法人李绍钦",
+      "subject_Abstract": "3-25现金服务收入（普票）,税率：3.00%",
       "debitMoney": 3500,
       "creditorMoney": 0,
       "sortingId": "0"
     }, {
       "subjectNo": "2241004",
-      "subject_Abstract": "现收法人李绍钦",
+      "subject_Abstract": "现收法人李木子",
       "debitMoney": 0,
       "creditorMoney": 3500,
       "sortingId": "0"
     }]
   }, {
-    "voucherWord": "记-1",
+    "voucherWord": "记-2",
     "relateDate": "2018-02-28T00:00:00",
     "subjectDetails": [{
       "subjectNo": "1001",
-      "subject_Abstract": "现收法人李绍钦",
+      "subject_Abstract": "现收法人李木子",
       "debitMoney": 3500,
       "creditorMoney": 0,
       "sortingId": "0"
     }, {
       "subjectNo": "2241004",
-      "subject_Abstract": "现收法人李绍钦",
+      "subject_Abstract": "现收法人李木子",
       "debitMoney": 0,
       "creditorMoney": 3500,
       "sortingId": "0"
     }]
   }, {
-    "voucherWord": "记-1",
+    "voucherWord": "记-3",
     "relateDate": "2018-02-28T00:00:00",
     "subjectDetails": [{
       "subjectNo": "1001",
-      "subject_Abstract": "现收法人李绍钦",
+      "subject_Abstract": "3-25现金服务收入（普票）,税率：3.00%",
       "debitMoney": 3500,
       "creditorMoney": 0,
       "sortingId": "0"
     }, {
       "subjectNo": "2241004",
-      "subject_Abstract": "现收法人李绍钦",
+      "subject_Abstract": "现收法人李木子",
+      "debitMoney": 0,
+      "creditorMoney": 3500,
+      "sortingId": "0"
+    }]
+  },{
+    "voucherWord": "记-4",
+    "relateDate": "2018-02-28T00:00:00",
+    "subjectDetails": [{
+      "subjectNo": "1001",
+      "subject_Abstract": "现付汽车使用费用",
+      "debitMoney": 3500,
+      "creditorMoney": 0,
+      "sortingId": "0"
+    }, {
+      "subjectNo": "2241004",
+      "subject_Abstract": "现收法人李木子",
       "debitMoney": 0,
       "creditorMoney": 3500,
       "sortingId": "0"

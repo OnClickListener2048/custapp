@@ -304,6 +304,28 @@ export default class ChangeCompanyPage extends BComponent {
             }
         });
     }
+    _authorizeButton(item){
+        //获取当前授权人的手机号
+        UserInfoStore.getLastUserPhone().then(
+            (mobile) => {
+                console.log("授权手机号" + mobile);
+                this.setState({ownerMobile: mobile});
+                console.log("公司ID,授权手机号" + item.id, mobile);
+                this.push({
+                    screen: 'AccreditPhonePage',
+                    title: '授权看账',
+                    backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                    passProps: {
+                        companyid: item.id,
+                        companyname:item.name,
+                        ownerMobile: mobile,
+                    },
+                });
+            }
+        );
+
+    }
+
 
     render() {
         if (this.state.initStatus === 'initSucess') {
@@ -323,6 +345,7 @@ export default class ChangeCompanyPage extends BComponent {
                                         <CompanyInfoCell
                                             leftSelectBtnOnPress={this._alert.bind(this, item)}
                                             rightBtnOnPress={this._pushToCompanySurveyPage.bind(this, item)}
+                                            authorizeButton={this._authorizeButton.bind(this,item)}
                                             underLine={(index === this.state.dataSource.length - 1 && this.state.dataSource.length > 0) ? false : true}
                                             isClick={false}
                                             isRightBtnClick={true}

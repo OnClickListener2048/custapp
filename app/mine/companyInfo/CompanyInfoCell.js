@@ -20,6 +20,7 @@ export default class CompanyInfoCell extends Component {
 
         onPress:function() {},//点击事件
         rightBtnOnPress:function() {},//右边按钮点击事件
+        authorizeButton:function() {},//点击授权按钮
         leftSelectBtnOnPress:function() {}, //按钮点击事件
 
         leftText:'',//左侧文字内容
@@ -72,7 +73,7 @@ export default class CompanyInfoCell extends Component {
                     {tipBtnCount > 0 &&
                     <View style={{width: 47 * tipBtnCount, flexDirection: 'row', alignItems: 'center',}}>
                         {this.props.surviveText.length > 0 && <View style={{
-                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#E2D4B7',
+                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',
                             justifyContent: 'center'
                         }}>
                             <Text style={{
@@ -82,9 +83,10 @@ export default class CompanyInfoCell extends Component {
                             }}>{this.props.surviveText}</Text>
                         </View>
                         }
-                        {this.props.ownerText.length > 0 &&
+
+                        {this.props.ownerText.length > 0 &&this.props.ownerText=='被授权'&&
                         <View style={{
-                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',opacity:0.5,
+                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',
                             justifyContent: 'center'
                         }}>
                             <Text style={{
@@ -94,6 +96,21 @@ export default class CompanyInfoCell extends Component {
                             }}>{this.props.ownerText}</Text>
                         </View>
                         }
+
+                        {this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者'&&
+                        <TouchableOpacity onPress={()=>{this.props.authorizeButton()}}
+                            style={{
+                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#E2D4B7',
+                            justifyContent: 'center'
+                        }}>
+                            <Text style={{
+                                color: '#ffffff',
+                                textAlign: 'center',
+                                fontSize: 10
+                            }}>授权</Text>
+                        </TouchableOpacity>
+                        }
+
                     </View>
                     }
                     <Text numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
