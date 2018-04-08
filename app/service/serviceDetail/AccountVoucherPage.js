@@ -42,8 +42,6 @@ export default class AccountVoucherPage extends BComponent {
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
-
-
         UserInfoStore.getCompany().then(
             (company) => {
                 if (company && company.infos && company.infos.length>0) {
@@ -59,20 +57,9 @@ export default class AccountVoucherPage extends BComponent {
         );
 
     }
-    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-        // console.log('ApplicationCenterPage event.type', event.type);
-        //console.log('ApplicationCenterPage event.type', event.id);
-        super.onNavigatorEvent(event)
-        if (event.id === 'willAppear') {
-
-
-        }
-    }
-
     componentDidMount() {
          this._loadData()
     }
-
 
     _loadData(){
         if(!NetInfoSingleton.isConnected) {
@@ -84,7 +71,6 @@ export default class AccountVoucherPage extends BComponent {
         this.setState({
             isLoading:true
         })
-        //companycode,date='',id
         apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(
             (voucherInfo) => {
                 if (voucherInfo) {
@@ -129,12 +115,6 @@ export default class AccountVoucherPage extends BComponent {
         );
 
     }
-
-
-// {this.props.companyName}
-
-// {this.state.company ? this.state.company.name : "测试"}
-
 
     render() {
 
