@@ -120,7 +120,7 @@ export default class VouchersListPage extends BComponent {
     _renderItem(item){
         return(
             <VouchersCell
-                onPress = {this._goVoucherDetail.bind(this)}
+                onPress = {this._goVoucherDetail.bind(this,item)}
                 item = {item.item}
             />
 
@@ -128,18 +128,23 @@ export default class VouchersListPage extends BComponent {
     }
 
     //跳转记账凭证详情
-    _goVoucherDetail(item,itemDate){
+    _goVoucherDetail(item){
         // alert(JSON.stringify(item))
-        console.log("记账ID="+item.sortingId);
+        console.log("记账ID="+item.item.voucherId);
         this.push({
             screen: 'AccountVoucherPage',
             title:'记账凭证',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
-                relatedate:itemDate,
-                companyid:this.props.companyid,
-                id:item.sortingId,
-                companyName:this.props.companyName,
+                // relatedate:item.item.relateDate.substring(0,10),
+                // companyid:this.props.companyid,
+                // id:item.item.voucherId,
+                // companyName:this.props.companyName,
+                relatedate:"2018-03-31",
+                companyid:"25113",
+                id:"4116961",
+                companyName:"测试测试",
+
             }
         })
     }

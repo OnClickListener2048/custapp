@@ -21,59 +21,65 @@ export default class VouchersCell extends Component {
         super(props)
         this.state={
             relateDate:'',
+            debitMoney:'',//借方总金额
+            subject_Abstract:'',//摘要
         }
     }
 
     static defaultProps = {
-        // onPress:function() {//点击事件
-        //
-        // },
+        onPress:function() {//点击事件
+
+        },
         item:{}
     }
 
     componentWillMount() {
         var strDate = this.props.item.relateDate.substring(0,10);
         var dateFormat = strDate.replace(/-/g, '.');
+        var debitMoneyAll = 0;
+        this.props.item.subjectDetails&&this.props.item.subjectDetails.map((item, i) => {
+            debitMoneyAll+=item.debitMoney;
+            console.log("打印金额之和="+item.debitMoney+",,,"+debitMoneyAll);
+            if(i===0){
+                this.setState({
+                    subject_Abstract:item.subject_Abstract,
+                })
+            }
+        })
+
         this.setState({
-            relateDate:dateFormat
+            relateDate:dateFormat,
+            debitMoney:debitMoneyAll,
         })
     }
 
-    onPress(item,itemDate){
-        this.props._goVoucherDetail(item,itemDate)
-    }
+    // onPress(item,itemDate){
+    //     this.props._goVoucherDetail(item,itemDate)
+    // }
     render(){
         return(
-            <View>
-                {
-                    this.props.item.subjectDetails&&this.props.item.subjectDetails.map((item, i) => {
-                        return(
-                            <TouchableOpacity onPress = {() => {this.props.onPress(item,this.props.item.relateDate.substring(0,10))}} >
+            <TouchableOpacity onPress = {() => {this.props.onPress()}}>
 
-                            <View style = {styles.ViewStyle}>
-                    <View style = {[styles.itemStyle]}>
-                        <View style = {{flexDirection:'column-reverse',}}>
-                            <Text style={{fontSize:12,color:'#999999'}} numberOfLines={1}>{this.state.relateDate}</Text>
-                            <Text style={{fontSize:14,color:'#333333'}} numberOfLines={1}>{this.props.item.voucherWord}</Text>
-                        </View>
-                    </View>
-                    <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
-                        <Text style={styles.digestStyle} numberOfLines={3}>{item.subject_Abstract}</Text>
-
-                    </View>
-                    <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
-                        <Text style={styles.digestStyle}  numberOfLines={1}>{item.debitMoney}</Text>
-
-                    </View>
-                    <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
-
+            <View style = {styles.ViewStyle}>
+            <View style = {[styles.itemStyle]}>
+                <View style = {{flexDirection:'column-reverse',}}>
+                    <Text style={{fontSize:12,color:'#999999'}} numberOfLines={1}>{this.state.relateDate}</Text>
+                    <Text style={{fontSize:14,color:'#333333'}} numberOfLines={1}>{this.props.item.voucherWord}</Text>
                 </View>
-                            </TouchableOpacity>
-
-                        )
-                    })
-                }
             </View>
+            <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
+                <Text style={styles.digestStyle} numberOfLines={3}>{this.state.subject_Abstract}</Text>
+
+            </View>
+            <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
+                <Text style={styles.digestStyle}  numberOfLines={1}>{this.state.debitMoney}</Text>
+
+            </View>
+            <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
+
+            </View>
+            </TouchableOpacity>
+
         )
     }
 }

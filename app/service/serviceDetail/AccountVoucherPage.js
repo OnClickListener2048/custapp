@@ -35,21 +35,18 @@ export default class AccountVoucherPage extends BComponent {
             id : this.props.id,
             companyid : this.props.companyid,
             relatedate : this.props.relatedate,
+
             tableHead: ['摘要', '会计科目', '借方金融', '贷方金额'],
             tableData: [
                 ['1', '2', '3', '4'],
-                ['a', 'b', 'c', 'd'],
+                ['a', '测试二行数据测试二行数据测试二行数据测试二行数据测试二行数据', 'c', 'd'],
                 ['1', '2', '3', '456'],
-                ['a', 'b', 'c', 'd']
+                ['a', '测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据', 'c', 'd']
             ],
 
-
-
-            dataSource:[],
-            isShowButton:false,
-            userMobile:'',
+            widthArr: [ 83.0 / (375 - 30 ) * (SCREEN_WIDTH - 30), 94.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) , 86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30), 86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30)],
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
-            selectedCompanyId:'2'
+
         };
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -82,12 +79,11 @@ export default class AccountVoucherPage extends BComponent {
     }
 
     componentDidMount() {
-        // this._loadData()
+         this._loadData()
     }
 
 
     _loadData(){
-
         if(!NetInfoSingleton.isConnected) {
             this.setState({
                 initStatus:'no-net'
@@ -95,22 +91,25 @@ export default class AccountVoucherPage extends BComponent {
             return;
         }
 
-
         let loading = SActivityIndicator.show(true, "载入中...");
 
-
-        apis.getCompany(this.state.userMobile).then(
-            (companyInfo) => {
+        //companycode,date='',id
+        apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(
+            (voucherInfo) => {
                 SActivityIndicator.hide(loading);
 
-                if (companyInfo && companyInfo.list) {
+                if (voucherInfo) {
 
-
+                    console.log("============" + voucherInfo)
+                    this.setState({
+                        initStatus:'initSucess',
+                    });
 
                 } else {
-
                     this.setState({
                         initStatus:'no-data',
+                        // initStatus:'initSucess', //接口调通后再改过来
+
                     });
                 }
             },
@@ -118,87 +117,67 @@ export default class AccountVoucherPage extends BComponent {
                 SActivityIndicator.hide(loading);
                 this.setState({
                     initStatus:'error',
+                    // initStatus:'initSucess',  //接口调通后再改过来
+
                 });
 
             },
         );
+
     }
 
 
 // {this.props.companyName}
 
+// {this.state.company ? this.state.company.name : "测试"}
+
 
     render() {
-        return (
-            <View style={{flex: 1, backgroundColor: '#fafafa',alignItems:'center'}}>
+
+        if (this.state.initStatus === 'initSucess') {
+            return (
+                <View style={{flex: 1, backgroundColor: '#fafafa',alignItems:'center'}}>
 
 
-                <View style={[{height:46,width:SCREEN_WIDTH,justifyContent:'center',alignItems:'center',backgroundColor:"#FFFFFF"}] }>
+                    <View style={[{height:46,width:SCREEN_WIDTH,justifyContent:'center',alignItems:'center',backgroundColor:"#FFFFFF"}] }>
 
-                    <Text
-                        numberOfLines={0}
+                        <Text
+                            numberOfLines={0}
 
-                        style={[{fontSize: 18,
-                            marginLeft : 10 ,color : '#333333'}] }>
-                    </Text>
+                            style={[{fontSize: 18,
+                                marginLeft : 10 ,color : '#333333'}] }>
+                            {this.props.companyName}
+                        </Text>
+                    </View>
+
+
+                    <View style={[{height:0.5,width:SCREEN_WIDTH,backgroundColor:"#D1D1D1"}]}>
+                    </View>
+
+
+
+                    <View style={[{width:SCREEN_WIDTH ,justifyContent:"space-between",flexDirection:"row",backgroundColor:"#FFFFFF"}]}>
+                        <Text style={[{marginLeft:23,marginTop:8,marginBottom:8}]}>{"测试1"}</Text>
+                        <Text style={[{marginRight:23,marginTop:8,marginBottom:8}]}>{"测试2"}</Text>
+
+                    </View>
+
+
+                    <View style={{width:SCREEN_WIDTH, backgroundColor:"#FFFFFF"}}>
+                        <Table style={styles.tableStyle} borderStyle={{ borderWidth:1,borderColor: '#D1D1D1'}}>
+                            <Row data={this.state.tableHead} widthArr={this.state.widthArr} style={styles.headStyle} textStyle={styles.headText}/>
+                            <Rows data={this.state.tableData} widthArr={this.state.widthArr} style={styles.rowStyle} textStyle={styles.text}/>
+                        </Table>
+                    </View>
+
+
                 </View>
-                <View style={[{height:0.5,width:SCREEN_WIDTH,backgroundColor:"#D1D1D1"}] }>
-                </View>
-
-                <View style={{width:SCREEN_WIDTH, backgroundColor:"#FFFFFF"}}>
-
-                    <Table style={{marginTop:20,marginBottom:20,width:SCREEN_WIDTH - 20, marginLeft:10}} borderStyle={{ borderWidth:1,borderColor: '#D1D1D1'}}>
-                        <Row data={this.state.tableHead} style={styles.headStyle} textStyle={styles.headText}/>
-                        <Rows data={this.state.tableData} style={styles.rowStyle} textStyle={styles.text}/>
-                    </Table>
-                </View>
-
-
-            </View>
-        )
-        // if (this.state.initStatus === 'initSucess') {
-        //     return (
-        //             <View style={{flex: 1, backgroundColor: '#fafafa'}}>
-        //
-        //                 <Text
-        //                     numberOfLines={0}
-        //
-        //                     style={[{fontSize: 18,lineHeight: 20,height:46,width:SCREEN_WIDTH - 20,
-        //                         marginLeft : 10 ,color : '#333333',backgroundColor:"orange"}] }>
-        //                     呵呵哒
-        //                 </Text>
-        //
-        //                 <ScrollView style={{
-        //                     width: SCREEN_WIDTH,
-        //                     height: this.state.isShowButton === true ? SCREEN_HEIGHT - 50 - 40 : SCREEN_HEIGHT,
-        //                     backgroundColor: '#fafafa'
-        //                 }}>
-        //
-        //                 </ScrollView>
-        //
-        //                 {this.state.isShowButton === true &&
-        //                 <SubmitButton onPress={this._goFee}
-        //                               isEnabled={true}
-        //
-        //                               text="我要续费"
-        //                 />}
-        //                 {this.state.isShowButton === true &&
-        //
-        //                 <View style={{
-        //                     justifyContent: 'center',
-        //                     alignItems: 'center',
-        //                     backgroundColor: '#fafafa',
-        //                     height: 20
-        //                 }}/>}
-        //
-        //
-        //             </View>
-        //     )
-        // } else {
-        //     return (
-        //         <DefaultView onPress={()=>this._loadData()} type={this.state.initStatus}/>
-        //     )
-        // }
+            )
+        } else {
+            return (
+                <DefaultView onPress={()=>this._loadData()} type={this.state.initStatus}/>
+            )
+        }
     }
 
 }
@@ -207,18 +186,17 @@ export default class AccountVoucherPage extends BComponent {
 const styles = StyleSheet.create({
     container: {
         width: SCREEN_WIDTH,
-        //height: Dimensions.get('window').height * 0.3,
         backgroundColor: '#ffffff',
         borderRadius: 5,
         paddingTop:10,
         paddingBottom:15
     },
 
+
+    tableStyle: {marginBottom:20,width:SCREEN_WIDTH - 20, marginLeft:10},
+
     headStyle: { height: 50, backgroundColor: '#E7E7E7' },
-    rowStyle: { height: 50, backgroundColor: '#FFFFFF' },
-
-
+    rowStyle: { backgroundColor: '#FFFFFF',minHeight:50 },
     headText: { fontSize:14,color:"#333333",textAlign: 'center' },
-
-    text: { fontSize:12,color:"#666666",textAlign: 'center' }
+    text: { fontSize:12,color:"#666666",textAlign: 'center',marginTop:10,marginBottom:10 }
 });
