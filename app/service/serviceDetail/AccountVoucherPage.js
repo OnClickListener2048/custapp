@@ -16,6 +16,7 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 
 import * as apis from '../../apis';
 import DefaultView from '../../view/DefaultView'
+import {formatmoney} from '../../util/FormatMoney';
 
 import BComponent from '../../base/BComponent'
 export default class AccountVoucherPage extends BComponent {
@@ -42,19 +43,6 @@ export default class AccountVoucherPage extends BComponent {
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
-        UserInfoStore.getCompany().then(
-            (company) => {
-                if (company && company.infos && company.infos.length>0) {
-                    this.setState({
-                        selectedCompanyId: company.id,
-                        company : company
-                    });
-                }
-            },
-            (e) => {
-                console.log("读取信息错误:", e);
-            },
-        );
 
     }
     componentDidMount() {
@@ -83,6 +71,36 @@ export default class AccountVoucherPage extends BComponent {
                         let dic = subjectDetails[i];
                         arr.push([dic.subject_Abstract,dic.subjectName,dic.debitMoney,dic.creditorMoney])
                     }
+
+                    let debtorCount = 0.00;  //借方
+                    let creditorCount = 0.00; //贷方
+                    for (let i = 0 ; i < arr.count ; i++){
+                        let secArr = arr[i];
+                        if (secArr.length > 3){
+                            debtorCount += secArr[2];
+                            creditorCount += secArr[3];
+                        }
+                    }
+
+                    if (arr.length > 0){
+                        let debtorCountM = formatmoney(debtorCount);
+                        let creditorCountM = formatmoney(creditorCount);
+
+                        arr.push(["合计","会计科目",debtorCountM,creditorCountM])
+                    }
+
+                    // // let arr = [["付员工工资","应付职工薪酬_职工薪资","9000","0"],["付员工工资","库存现金","0","9000"]];
+                    //
+                    // let arr = [
+                    //     ['1', '2', '3', '4'],
+                    //     ['a', '测试二行数据测试二行数据测试二行数据测试二行数据测试二行数据', 'c', 'd'],
+                    //     ['1', '2', '3', '456'],
+                    //     ['a', '测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据', 'c', 'd']
+                    // ];
+
+
+                    console.log("============arr" + arr)
+
                     this.setState({
                         initStatus:'initSucess',
                         tableData:arr,
@@ -98,7 +116,6 @@ export default class AccountVoucherPage extends BComponent {
                     this.setState({
                         initStatus:'no-data',
                         isLoading:false
-                        // initStatus:'initSucess', //接口调通后再改过来
 
                     });
                 }
@@ -107,7 +124,6 @@ export default class AccountVoucherPage extends BComponent {
                 this.setState({
                     initStatus:'error',
                     isLoading:false
-                    // initStatus:'initSucess',  //接口调通后再改过来
 
                 });
 
@@ -119,7 +135,7 @@ export default class AccountVoucherPage extends BComponent {
     render() {
 
         return(
-            <View style={{flex:1,backgroundColor:'#FFFFFF'}}>
+            <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 {this.state.initStatus == 'initSucess'?<ScrollView >
 
                     <View style={[{height:46,width:SCREEN_WIDTH,justifyContent:'center',alignItems:'center',backgroundColor:"#FFFFFF"}] }>
@@ -154,9 +170,9 @@ export default class AccountVoucherPage extends BComponent {
                     </View>
 
                     <View style={[{width:SCREEN_WIDTH ,flexDirection:"column",backgroundColor:"#FFFFFF",paddingLeft:15}]}>
-                        <Text style={{fontSize:12,color:'#333333'}} >会计主管:{this.state.accountName}</Text>
-                        <Text style={{fontSize:12,color:'#333333',marginTop:8}}  >审核人:{this.state.auditName}</Text>
-                        <Text style={{fontSize:12,color:'#333333',marginTop:8}}  >制单人:{this.state.creatName}</Text>
+                        <Text style={{fontSize:12,color:'#333333'}}>会计主管:{this.state.accountName}</Text>
+                        <Text style={{fontSize:12,color:'#333333',paddingTop:8}}>审核人:{this.state.auditName}</Text>
+                        <Text style={{fontSize:12,color:'#333333',paddingTop:8,paddingBottom:10}}>制单人:{this.state.creatName}</Text>
                     </View>
 
 
@@ -179,7 +195,7 @@ const styles = StyleSheet.create({
     },
 
 
-    tableStyle: {marginBottom:20,width:SCREEN_WIDTH - 20, marginLeft:10},
+    tableStyle: {marginBottom:10,width:SCREEN_WIDTH - 20, marginLeft:10,marginRight:10},
 
     headStyle: { height: 50, backgroundColor: '#E7E7E7' },
     rowStyle: { backgroundColor: '#FFFFFF',minHeight:50 },
