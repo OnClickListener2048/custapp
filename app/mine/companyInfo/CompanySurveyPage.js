@@ -17,7 +17,8 @@ import BComponent from '../../base/BComponent'
 import * as apis from '../../apis/index';
 import DefaultView from "../../view/DefaultView";
 import PLPActivityIndicator from "../../view/PLPActivityIndicator";
-
+import SubmitButton from "../../view/SubmitButton";
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 export default class CompanySurveyPage extends BComponent {
 
     constructor(props) {
@@ -39,46 +40,80 @@ export default class CompanySurveyPage extends BComponent {
     };
 
     //点击右按钮
-    // onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
-    //     super.onNavigatorEvent(event);
-    //     if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-    //         if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
-    //             console.log("跳转传值", this.state.companyid);
-    //             // 获取公司地址
-    //             const company = this.props.company;
-    //             // UserInfoStore.getCompany().then(
-    //             //     (company) => {
-    //                     console.log('company', company);
-    //                     if (company) {
-    //                         console.log("授权手机号" + company.id+company.name);
-    //                         this.setState({companyid: company.id});
-    //                         //获取当前授权人的手机号
-    //                         UserInfoStore.getLastUserPhone().then(
-    //                             (mobile) => {
-    //                                 console.log("授权手机号" + mobile);
-    //                                 this.setState({ownerMobile: mobile});
-    //                                 console.log("公司ID,授权手机号" + company.id, mobile);
-    //                                 this.push({
-    //                                     screen: 'AccreditPhonePage',
-    //                                     title: '授权看账',
-    //                                     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-    //                                     passProps: {
-    //                                         companyid: company.id,
-    //                                         companyname:company.name,
-    //                                         ownerMobile: mobile,
-    //                                     },
-    //                                 });
-    //                             }
-    //                         );
-    //                     }
-    //
-    //             //     }
-    //             // );
-    //
-    //         }
-    //     }
-    //
-    // }
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event);
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+            if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
+                console.log("跳转传值", this.state.companyid);
+                // 获取公司地址
+                const company = this.props.company;
+                // UserInfoStore.getCompany().then(
+                //     (company) => {
+                        console.log('company', company);
+                        if (company) {
+                            console.log("授权手机号" + company.id+company.name);
+                            this.setState({companyid: company.id});
+                            //获取当前授权人的手机号
+                            UserInfoStore.getLastUserPhone().then(
+                                (mobile) => {
+                                    console.log("授权手机号" + mobile);
+                                    this.setState({ownerMobile: mobile});
+                                    console.log("公司ID,授权手机号" + company.id, mobile);
+                                    this.push({
+                                        screen: 'AccreditPhonePage',
+                                        title: '授权看账',
+                                        backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                                        passProps: {
+                                            companyid: company.id,
+                                            companyname:company.name,
+                                            ownerMobile: mobile,
+                                        },
+                                    });
+                                }
+                            );
+                        }
+
+                //     }
+                // );
+
+            }
+        }
+
+    }
+
+    guanli(){
+            // 获取公司地址
+            const company = this.props.company;
+            // UserInfoStore.getCompany().then(
+            //     (company) => {
+            console.log('company', company);
+            if (company) {
+                console.log("授权手机号" + company.id+company.name);
+                this.setState({companyid: company.id});
+                //获取当前授权人的手机号
+                UserInfoStore.getLastUserPhone().then(
+                    (mobile) => {
+                        console.log("授权手机号" + mobile);
+                        this.setState({ownerMobile: mobile});
+                        console.log("公司ID,授权手机号" + company.id, mobile);
+                        this.push({
+                            screen: 'AccreditPhonePage',
+                            title: '授权看账',
+                            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+                            passProps: {
+                                companyid: company.id,
+                                companyname:company.name,
+                                ownerMobile: mobile,
+                            },
+                        });
+                    }
+                );
+            }
+
+            //     }
+            // );
+
+    }
 
     componentDidMount() {
         this._onLoadMessageInfo();
@@ -179,13 +214,29 @@ export default class CompanySurveyPage extends BComponent {
         return (
             <View style={{flex: 1, backgroundColor: '#F1F1F1'}}>
                 {this.state.loadState == 'success'?
+                    <View>
                     <SectionList
                     renderItem={this._renderItem.bind(this)}
                     renderSectionHeader={this._renderSectionHeader.bind(this)}
                     sections={this.state.dataSource}
                     stickySectionHeadersEnabled={false}
                 >
-                </SectionList>:<DefaultView onPress={()=>this._onLoadMessageInfo()} type ={this.state.loadState}/>
+                </SectionList>
+                    <View style={{marginTop:50}}>
+                    <SubmitButton
+                    isEnabled={true}
+                    text="授权管理"
+                    buttonStyle={{width:SCREEN_WIDTH-30,height:50}}
+                    onPress={() => {
+                    this.guanli()
+                }}
+                    />
+
+                    </View>
+                    </View>
+
+
+                    :<DefaultView onPress={()=>this._onLoadMessageInfo()} type ={this.state.loadState}/>
                 }
             </View>
 

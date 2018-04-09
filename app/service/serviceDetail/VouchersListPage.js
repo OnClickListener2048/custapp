@@ -51,7 +51,6 @@ export default class VouchersListPage extends BComponent {
         });
     }
     loadData(date='',isPull=false){
-
         if (this.props.is_demo == '1'){
             this.setState({
                 data:demoData.data,
@@ -107,9 +106,9 @@ export default class VouchersListPage extends BComponent {
             <Image style={{width:DeviceInfo.width,justifyContent:'center',alignItems:'center',marginBottom:setSpText(11)}}
                    source={require('../../img/service_receive_bg.png')}>
 
-            <View style={{width:DeviceInfo.width,justifyContent:'center',alignItems:'center',}}>
+            <View style={{width:DeviceInfo.width,justifyContent:'center',alignItems:'center',backgroundColor:'transparent'}}>
                 <Text style={{fontSize:20,color:'#FFFFFF'}}>
-                    {this.props.companyName}
+                    {this.props.companyName?this.props.companyName:'噼里啪财税演示公司'}
                 </Text>
 
             </View>
@@ -129,8 +128,11 @@ export default class VouchersListPage extends BComponent {
 
     //跳转记账凭证详情
     _goVoucherDetail(item){
-        if (this.props.is_demo == '1')
+        if (this.props.is_demo == '1'){
+            Toast.show('演示数据暂不支持查看凭证详情！')
             return;
+        }
+        // alert(JSON.stringify(item))
         console.log("记账ID="+item.item.voucherId+",公司ID="+this.props.companyid+",时间="+item.item.relateDate.substring(0,10)+",公司名称="+this.props.companyName);
         this.push({
             screen: 'AccountVoucherPage',
