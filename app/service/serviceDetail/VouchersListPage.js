@@ -106,9 +106,9 @@ export default class VouchersListPage extends BComponent {
             <Image style={{width:DeviceInfo.width,justifyContent:'center',alignItems:'center',marginBottom:setSpText(11)}}
                    source={require('../../img/service_receive_bg.png')}>
 
-            <View style={{width:DeviceInfo.width,justifyContent:'center',alignItems:'center',}}>
+            <View style={{width:DeviceInfo.width,justifyContent:'center',alignItems:'center',backgroundColor:'transparent'}}>
                 <Text style={{fontSize:20,color:'#FFFFFF'}}>
-                    {this.props.companyName}
+                    {this.props.companyName?this.props.companyName:'噼里啪财税演示公司'}
                 </Text>
 
             </View>
