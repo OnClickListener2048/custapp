@@ -135,10 +135,9 @@ export default class VouchersListPage extends BComponent {
             title:'记账凭证',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
-                companyid:this.props.companyid,
                 companyName:this.props.companyName,
                 dataDetail:item.item,
-
+                relatedate:this.state.timeDateArr[this.state.timeIndex].relateDate
             }
         })
     }
