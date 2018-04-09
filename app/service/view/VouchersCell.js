@@ -15,71 +15,72 @@ import {
     InteractionManager
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
+import {formatmoney} from '../../util/FormatMoney';
 const itemWidth = (SCREEN_WIDTH-setSpText(33))/4
 export default class VouchersCell extends Component {
     constructor(props){
         super(props)
-        this.state={
-            relateDate:'',
-            debitMoney:'',//借方总金额
-            subject_Abstract:'',//摘要
-        }
     }
 
     static defaultProps = {
         onPress:function() {//点击事件
 
         },
-        item:{}
+        item:{},
+        isclick:true,//列表可点击
     }
 
-    componentWillMount() {
+    renderItem(relateDate,debitMoney,subject_Abstract){
+        return(
+            <View style = {styles.ViewStyle}>
+                <View style = {[styles.itemStyle]}>
+                    <View style = {{flexDirection:'column-reverse',}}>
+                        <Text style={{fontSize:12,color:'#999999'}} numberOfLines={1}>{relateDate}</Text>
+                        <Text style={{fontSize:14,color:'#333333'}} numberOfLines={1}>{this.props.item.voucherWord}</Text>
+                    </View>
+                </View>
+                <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
+                    <Text style={styles.digestStyle} numberOfLines={2}>{subject_Abstract}</Text>
+
+                </View>
+                <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
+                    <Text style={styles.digestStyle}  numberOfLines={1}>{debitMoney}</Text>
+
+                </View>
+                <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
+
+            </View>
+        )
+    }
+
+    render(){
+
         var strDate = this.props.item.relateDate.substring(0,10);
         var dateFormat = strDate.replace(/-/g, '.');
         var debitMoneyAll = 0;
+        var _Abstract = "";
         this.props.item.subjectDetails&&this.props.item.subjectDetails.map((item, i) => {
             debitMoneyAll+=item.debitMoney;
             console.log("打印金额之和="+item.debitMoney+",,,"+debitMoneyAll);
             if(i===0){
-                this.setState({
-                    subject_Abstract:item.subject_Abstract,
-                })
+                _Abstract=item.subject_Abstract;
             }
         })
-        this.setState({
-            relateDate:dateFormat,
-            debitMoney:debitMoneyAll.toFixed(2),//保留小数后两位
-        })
-    }
+        if(this.props.isclick){
+            return(
+                <TouchableOpacity onPress = {() => {this.props.onPress()}}>
+                    <View>
+                        {this.renderItem(dateFormat,formatmoney(debitMoneyAll),_Abstract)}
+                    </View>
+                </TouchableOpacity>
 
-    // onPress(item,itemDate){
-    //     this.props._goVoucherDetail(item,itemDate)
-    // }
-    render(){
-        return(
-            <TouchableOpacity onPress = {() => {this.props.onPress()}}>
-
-            <View style = {styles.ViewStyle}>
-            <View style = {[styles.itemStyle]}>
-                <View style = {{flexDirection:'column-reverse',}}>
-                    <Text style={{fontSize:12,color:'#999999'}} numberOfLines={1}>{this.state.relateDate}</Text>
-                    <Text style={{fontSize:14,color:'#333333'}} numberOfLines={1}>{this.props.item.voucherWord}</Text>
-                </View>
+            )
+        }else{
+            <View>
+                {this.renderItem(dateFormat,formatmoney(debitMoneyAll),_Abstract)}
             </View>
-            <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
-                <Text style={styles.digestStyle} numberOfLines={2}>{this.state.subject_Abstract}</Text>
+        }
 
-            </View>
-            <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
-                <Text style={styles.digestStyle}  numberOfLines={1}>{this.state.debitMoney}</Text>
-
-            </View>
-            <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
-
-            </View>
-            </TouchableOpacity>
-
-        )
     }
 }
 

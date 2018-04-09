@@ -28,7 +28,6 @@ export default class VouchersListPage extends BComponent {
     constructor(props){
         super(props)
         this.state={
-            total:'- -',//本月累计
             data:[],
             isRefreshing:false,
             isfirstRefresh:true,
@@ -121,6 +120,7 @@ export default class VouchersListPage extends BComponent {
             <VouchersCell
                 onPress = {this._goVoucherDetail.bind(this,item)}
                 item = {item.item}
+                isclick = {this.props.is_demo == '1'?false:true}
             />
 
         )
