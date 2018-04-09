@@ -222,6 +222,8 @@ export default class CompanySurveyPage extends BComponent {
                     stickySectionHeadersEnabled={false}
                 >
                 </SectionList>
+
+                        {this.state.owner&&
                     <View style={{marginTop:50}}>
                     <SubmitButton
                     isEnabled={true}
@@ -233,6 +235,7 @@ export default class CompanySurveyPage extends BComponent {
                     />
 
                     </View>
+                        }
                     </View>
 
 

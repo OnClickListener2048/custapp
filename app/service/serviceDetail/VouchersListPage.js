@@ -11,9 +11,7 @@ import {
     FlatList,
     InteractionManager
 } from 'react-native';
-import { Pie } from 'react-native-pathjs-charts'
 import BComponent from '../../base';
-import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis/service';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
@@ -28,7 +26,6 @@ export default class VouchersListPage extends BComponent {
     constructor(props){
         super(props)
         this.state={
-            total:'- -',//本月累计
             data:[],
             isRefreshing:false,
             isfirstRefresh:true,
@@ -121,6 +118,7 @@ export default class VouchersListPage extends BComponent {
             <VouchersCell
                 onPress = {this._goVoucherDetail.bind(this,item)}
                 item = {item.item}
+                isclick = {this.props.is_demo == '1'?false:true}
             />
 
         )
@@ -132,22 +130,14 @@ export default class VouchersListPage extends BComponent {
             Toast.show('演示数据暂不支持查看凭证详情！')
             return;
         }
-        // alert(JSON.stringify(item))
-        console.log("记账ID="+item.item.voucherId+",公司ID="+this.props.companyid+",时间="+item.item.relateDate.substring(0,10)+",公司名称="+this.props.companyName);
         this.push({
             screen: 'AccountVoucherPage',
             title:'记账凭证',
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
-                relatedate:item.item.relateDate.substring(0,10),
-                companyid:this.props.companyid,
-                id:item.item.voucherId,
                 companyName:this.props.companyName,
-                // relatedate:"2018-03-31",
-                // companyid:"25113",
-                // id:"4116961",
-                // companyName:"测试测试",
-
+                dataDetail:item.item,
+                relatedate:this.state.timeDateArr[this.state.timeIndex].relateDate
             }
         })
     }
@@ -158,7 +148,6 @@ export default class VouchersListPage extends BComponent {
             return(
                 <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
                     <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据</Text>
-                    {/*<Text style={{fontSize:15,color:'#999999',marginTop:10}}>或者致电客服热线:400-107-0110</Text>*/}
                 </View>
             )
         }else{
@@ -185,7 +174,6 @@ export default class VouchersListPage extends BComponent {
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
-                {/*<ChooseTimerModal ref="ChooseTimerModal" disabled={this.props.is_demo == '1'?true:false} yearSelected={this.props.year} monthSelected={this.props.month} callback ={this._callback.bind(this)}/>*/}
             </View>
         )
     }
@@ -193,7 +181,6 @@ export default class VouchersListPage extends BComponent {
         this.setState({
             timeIndex:index
         })
-        // alert(this.state.timeDateArr[index].relateDate)
         this.loadData(this.state.timeDateArr[index].relateDate)
         this.props.callback && this.props.callback(index)
     }
