@@ -12,7 +12,8 @@ import {
 
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
-
+import SubmitButton from "../../view/SubmitButton";
+import px2dp from '../../util/index';
 export default class CompanyInfoCell extends Component {
     static defaultProps = {
         isClick:true,//是否可以点击，  true自带右侧箭头
@@ -58,65 +59,86 @@ export default class CompanyInfoCell extends Component {
     }
 
     _renderRightView(){
-        let tipBtnCount = 0;
-        if (this.props.surviveText.length > 0){
-            tipBtnCount++;
-        }
-        if (this.props.ownerText.length > 0){
-            tipBtnCount++;
-        }
+        // let tipBtnCount = 0;
+        // if (this.props.surviveText.length > 0){
+        //     tipBtnCount++;
+        // }
+        // if (this.props.ownerText.length > 0){
+        //     tipBtnCount++;
+        // }
 
+        // return(
+        //     <TouchableOpacity style={[styles.rightViewStyle]} onPress = {() => {this.props.rightBtnOnPress()}}>
+        //         <View style = {styles.rightViewStyle}>
+        //             <Image resizeMode = "center" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
+        //             {tipBtnCount > 0 &&
+        //             <View style={{width: 47 * tipBtnCount, flexDirection: 'row', alignItems: 'center',}}>
+        //                 {this.props.surviveText.length > 0 && <View style={{
+        //                     marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',
+        //                     justifyContent: 'center'
+        //                 }}>
+        //                     <Text style={{
+        //                         color: '#ffffff',
+        //                         textAlign: 'center',
+        //                         fontSize: 10
+        //                     }}>{this.props.surviveText}</Text>
+        //                 </View>
+        //                 }
+        //
+        //                 {this.props.ownerText.length > 0 &&this.props.ownerText=='被授权'&&
+        //                 <View style={{
+        //                     marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',
+        //                     justifyContent: 'center'
+        //                 }}>
+        //                     <Text style={{
+        //                         color: '#ffffff',
+        //                         textAlign: 'center',
+        //                         fontSize: 10
+        //                     }}>{this.props.ownerText}</Text>
+        //                 </View>
+        //                 }
+        //
+        //                 {this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者'&&
+        //                 <TouchableOpacity onPress={()=>{this.props.authorizeButton()}}
+        //                     style={{
+        //                     marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#E2D4B7',
+        //                     justifyContent: 'center'
+        //                 }}>
+        //                     <Text style={{
+        //                         color: '#ffffff',
+        //                         textAlign: 'center',
+        //                         fontSize: 10
+        //                     }}>授权</Text>
+        //                 </TouchableOpacity>
+        //                 }
+        //
+        //             </View>
+        //             }
+        //             <Text numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
+        //         </View>
+        //     </TouchableOpacity>
+        // );
         return(
             <TouchableOpacity style={[styles.rightViewStyle]} onPress = {() => {this.props.rightBtnOnPress()}}>
-                <View style = {styles.rightViewStyle}>
-                    <Image resizeMode = "center" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
-                    {tipBtnCount > 0 &&
-                    <View style={{width: 47 * tipBtnCount, flexDirection: 'row', alignItems: 'center',}}>
-                        {this.props.surviveText.length > 0 && <View style={{
-                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',
-                            justifyContent: 'center'
-                        }}>
-                            <Text style={{
-                                color: '#ffffff',
-                                textAlign: 'center',
-                                fontSize: 10
-                            }}>{this.props.surviveText}</Text>
-                        </View>
-                        }
-
-                        {this.props.ownerText.length > 0 &&this.props.ownerText=='被授权'&&
-                        <View style={{
-                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#B0B0B0',
-                            justifyContent: 'center'
-                        }}>
-                            <Text style={{
-                                color: '#ffffff',
-                                textAlign: 'center',
-                                fontSize: 10
-                            }}>{this.props.ownerText}</Text>
-                        </View>
-                        }
-
-                        {this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者'&&
-                        <TouchableOpacity onPress={()=>{this.props.authorizeButton()}}
-                            style={{
-                            marginLeft: 5, width: 42, borderRadius: 2, height: 20, backgroundColor: '#E2D4B7',
-                            justifyContent: 'center'
-                        }}>
-                            <Text style={{
-                                color: '#ffffff',
-                                textAlign: 'center',
-                                fontSize: 10
-                            }}>授权</Text>
-                        </TouchableOpacity>
-                        }
-
-                    </View>
-                    }
+                <View style = {styles.wrap1}>
                     <Text numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
+                    {this.props.surviveText.length > 0 &&
+                    <Text style = {[styles.surviveText]}>{this.props.surviveText}</Text>}
+                </View>
+                <View style = {styles.wrap1}>
+                    {this.props.ownerText.length > 0 &&
+                    <Text style = {[styles.ownerText]}>{this.props.ownerText}</Text>}
+                    {this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者'&&
+                    <TouchableOpacity onPress={()=>{this.props.authorizeButton()}}>
+                        <View style={styles.buttonViewDisabled}>
+                            <Text style={styles.shouquanText}>点击授权</Text>
+                        </View>
+                    </TouchableOpacity>
+                    }
                 </View>
             </TouchableOpacity>
         );
+
     }
 }
 
@@ -130,16 +152,18 @@ const styles = StyleSheet.create({
         // 背景颜色
         backgroundColor:'white',
         // 垂直居中
-        alignItems:'center',
+        // alignItems:'center',
         // 高度
-        height:51/375.0*SCREEN_WIDTH,
+        // height:60/375.0*SCREEN_WIDTH,
+        height:90
     },
 
     leftViewStyle:{
         // 主轴的方向
         flexDirection:'row',
         // 侧轴居中
-        alignItems:'center',
+        // alignItems:'center',
+        marginTop:5
     },
 
     centerViewStyle:{
@@ -153,9 +177,13 @@ const styles = StyleSheet.create({
 
     rightViewStyle:{
         flex:1,
-        flexDirection:'row-reverse',
         // 侧轴居中
-        alignItems:'center',
+        marginTop:10
+    },
+    wrap1:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        marginRight:20
     },
 
     leftImgStyle:{ // 左边的图片
@@ -177,6 +205,31 @@ const styles = StyleSheet.create({
     rightTextStyle:{
         fontSize:14,
         color:'#999999'
+    },
+    surviveText:{
+        fontSize:14,
+        color:'#70CBC5',
+        marginTop:5
+    },
+    ownerText:{
+        fontSize:14,
+        color:'#999999'
+    },
+    buttonViewDisabled: {
+        backgroundColor: 'transparent',
+        margin: 0,
+        borderRadius: 2,
+        borderColor: '#CEAF72',
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+        height: 26,
+        width: 80,
+        marginTop: 20,
+    },
+    shouquanText:{
+        color:'#CEAF72',
+        fontSize:14,
     }
-
 });
