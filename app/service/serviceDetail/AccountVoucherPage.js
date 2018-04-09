@@ -70,17 +70,6 @@ export default class AccountVoucherPage extends BComponent {
         }
 
 
-
-
-        // for (let i = 0 ; i < arr.length ; i++){
-        //
-        //     let secArr = arr[i];
-        //     if (secArr.length > 3){
-        //         debtorCount += parseFloat(secArr[2]);
-        //         creditorCount += parseFloat(secArr[3]);
-        //     }
-        // }
-
         if (arr.length > 0){
             let debtorCountM = formatmoney(allDebitMoney);
             let creditorCountM = formatmoney(allcreditorMoney);
@@ -88,7 +77,6 @@ export default class AccountVoucherPage extends BComponent {
             arr.push(["合计","会计科目",debtorCountM,creditorCountM])
         }
 
-        console.log("============arr" + arr)
 
         this.setState({
             tableData:arr,
@@ -166,7 +154,7 @@ const styles = StyleSheet.create({
 
     tableStyle: {marginBottom:10,width:SCREEN_WIDTH - 20, marginLeft:10,marginRight:10},
 
-    headStyle: { height: 50, backgroundColor: '#E7E7E7' },
+    headStyle: { height: 36, backgroundColor: '#E7E7E7' },
     rowStyle: { backgroundColor: '#FFFFFF',minHeight:50 },
     headText: { fontSize:14,color:"#333333",textAlign: 'center' },
     text: { fontSize:12,color:"#666666",textAlign: 'center',marginTop:10,marginBottom:10 }
