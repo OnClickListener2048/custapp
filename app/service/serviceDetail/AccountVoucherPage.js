@@ -25,8 +25,7 @@ export default class AccountVoucherPage extends BComponent {
         super(props);
         this.state = {
             companyName : this.props.companyName,
-            id : this.props.id,
-            companyid : this.props.companyid,
+            dataDetail : this.props.dataDetail,
             relatedate : this.props.relatedate,
 
             tableHead: ['摘要', '会计科目', '借方金融', '贷方金额'],
@@ -50,85 +49,55 @@ export default class AccountVoucherPage extends BComponent {
     }
 
     _loadData(){
-        if(!NetInfoSingleton.isConnected) {
-            this.setState({
-                initStatus:'no-net'
-            });
-            return;
+        let arr = [];
+        let voucherInfo = this.props.dataDetail;
+
+        let subjectDetails = voucherInfo.subjectDetails;
+
+        let allDebitMoney = 0.00;  //借方
+        let allcreditorMoney = 0.00; //贷方
+
+        for(let i=0;i<subjectDetails.length;i++){
+            let dic = subjectDetails[i];
+
+            allDebitMoney += dic.debitMoney;
+            allcreditorMoney += dic.creditorMoney;
+
+            let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
+            let creditorMoneyM = formatmoney(dic.creditorMoney + 0.0);
+
+            arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
         }
+
+
+
+
+        // for (let i = 0 ; i < arr.length ; i++){
+        //
+        //     let secArr = arr[i];
+        //     if (secArr.length > 3){
+        //         debtorCount += parseFloat(secArr[2]);
+        //         creditorCount += parseFloat(secArr[3]);
+        //     }
+        // }
+
+        if (arr.length > 0){
+            let debtorCountM = formatmoney(allDebitMoney);
+            let creditorCountM = formatmoney(allcreditorMoney);
+
+            arr.push(["合计","会计科目",debtorCountM,creditorCountM])
+        }
+
+        console.log("============arr" + arr)
+
         this.setState({
-            isLoading:true
-        })
-        apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(
-            (voucherInfo) => {
-                if (voucherInfo) {
+            tableData:arr,
+            voucherWord:voucherInfo.voucherWord,
+            accountName:voucherInfo.accountName,
+            auditName:voucherInfo.auditName,
+            creatName:voucherInfo.creatName,
 
-                    console.log("============" + voucherInfo)
-
-                    let arr = [];
-                    let subjectDetails = voucherInfo.data.subjectDetails
-                    for(let i=0;i<subjectDetails.length;i++){
-                        let dic = subjectDetails[i];
-                        arr.push([dic.subject_Abstract,dic.subjectName,dic.debitMoney,dic.creditorMoney])
-                    }
-
-                    let debtorCount = 0.00;  //借方
-                    let creditorCount = 0.00; //贷方
-                    for (let i = 0 ; i < arr.count ; i++){
-                        let secArr = arr[i];
-                        if (secArr.length > 3){
-                            debtorCount += secArr[2];
-                            creditorCount += secArr[3];
-                        }
-                    }
-
-                    if (arr.length > 0){
-                        let debtorCountM = formatmoney(debtorCount);
-                        let creditorCountM = formatmoney(creditorCount);
-
-                        arr.push(["合计","会计科目",debtorCountM,creditorCountM])
-                    }
-
-                    // // let arr = [["付员工工资","应付职工薪酬_职工薪资","9000","0"],["付员工工资","库存现金","0","9000"]];
-                    //
-                    // let arr = [
-                    //     ['1', '2', '3', '4'],
-                    //     ['a', '测试二行数据测试二行数据测试二行数据测试二行数据测试二行数据', 'c', 'd'],
-                    //     ['1', '2', '3', '456'],
-                    //     ['a', '测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据测试三行数据', 'c', 'd']
-                    // ];
-
-
-                    console.log("============arr" + arr)
-
-                    this.setState({
-                        initStatus:'initSucess',
-                        tableData:arr,
-                        voucherWord:voucherInfo.data.voucherWord,
-                        accountName:voucherInfo.data.accountName,
-                        auditName:voucherInfo.data.auditName,
-                        creatName:voucherInfo.data.creatName,
-                        isLoading:false
-
-                    });
-
-                } else {
-                    this.setState({
-                        initStatus:'no-data',
-                        isLoading:false
-
-                    });
-                }
-            },
-            (e) => {
-                this.setState({
-                    initStatus:'error',
-                    isLoading:false
-
-                });
-
-            },
-        );
+        });
 
     }
 
@@ -136,7 +105,7 @@ export default class AccountVoucherPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                {this.state.initStatus == 'initSucess'?<ScrollView >
+                <ScrollView >
 
                     <View style={[{height:46,width:SCREEN_WIDTH,justifyContent:'center',alignItems:'center',backgroundColor:"#FFFFFF"}] }>
 
@@ -176,7 +145,7 @@ export default class AccountVoucherPage extends BComponent {
                     </View>
 
 
-                </ScrollView>:<DefaultView onPress={()=>this._loadData()} type={this.state.initStatus}/>}
+                </ScrollView>
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
         )
