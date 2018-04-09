@@ -10,7 +10,8 @@ import BComponent from '../../base/BComponent'
 import DefaultView from "../../view/DefaultView";
 import Alert from "react-native-alert";
 import Toast, {DURATION} from 'react-native-easy-toast'
-
+import SubmitButton from "../../view/SubmitButton";
+import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 export default class AccreditPhonePage extends BComponent {
     static navigatorStyle = {
         tabBarHidden: true, // 隐藏默认的顶部导航栏
@@ -68,13 +69,7 @@ export default class AccreditPhonePage extends BComponent {
                             this.props.navigator.setButtons({
 
                                 rightButtons: [
-                                    {
-                                        icon: require('../../img/share.png'),
-                                        buttonColor: 'white', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
-                                        buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
-                                        buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
-                                        id: 'more'
-                                    }]
+                                   ]
                             });
                             this.setState({
                                 cancelAccredit:false,
@@ -298,11 +293,8 @@ export default class AccreditPhonePage extends BComponent {
     render(){
         console.log("页面显示",this.state.cancelAccredit,this.state.isAcceditModal)
             return(
-                <TouchableWithoutFeedback
-                    onPress={this.lostBlur.bind(this)}>
                     <View style={styles.container}>
                         <Toast ref="toast" position={'bottom'} style={{zIndex: 1,}}/>
-                        {this._isAcceditRender()}
                         {this.state.loadState == 'success'||this.state.loadState == 'no-data'?
 
                             <View style={styles.container}>
@@ -312,6 +304,7 @@ export default class AccreditPhonePage extends BComponent {
                                     renderItem={this._renderItem.bind(this)}
                                 >
                                 </FlatList>
+
                                 <View style={{alignItems:'center',
                                     position:'absolute',
                                     flex:1,
@@ -327,27 +320,57 @@ export default class AccreditPhonePage extends BComponent {
                                         {'您还没有对其他用户授权'}
                                     </Text>}
                                 </View>
+
+                                <View style={{marginTop:-30}}>
+                                    <SubmitButton
+                                        isEnabled={true}
+                                        text="添加授权"
+                                        buttonStyle={{width:SCREEN_WIDTH-30,height:50}}
+                                        onPress={() => {
+                                            this._addAccredit()
+                                        }}
+                                    />
+                                    <SubmitButton
+                                        isEnabled={false}
+                                        text="取消授权"
+                                        buttonStyle={{width:SCREEN_WIDTH-30,height:50}}
+                                        onPress={() => {
+                                            this._cancelPhone()
+                                        }}
+
+                                    />
+
+                                </View>
+                                <View style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    backgroundColor: '#fafafa',
+                                    height: 20
+                                }}/>
+
                             </View>
+
                             :
                             <DefaultView onPress={()=>this._onLoadPhone()} type ={this.state.loadState}/>
                         }
                     </View>
-                </TouchableWithoutFeedback>
+
+
             )
 
     }
 
-    static navigatorButtons = {
-        rightButtons: [
-            {
-                icon: require('../../img/share.png'),
-                buttonColor: 'white', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
-                buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
-                buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
-                id: 'more'
-            }]
-
-        }
+    // static navigatorButtons = {
+    //     rightButtons: [
+    //         {
+    //             icon: require('../../img/share.png'),
+    //             buttonColor: 'white', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
+    //             buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
+    //             buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
+    //             id: 'more'
+    //         }]
+    //
+    //     }
 
     //点击右按钮
     onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
@@ -361,13 +384,7 @@ export default class AccreditPhonePage extends BComponent {
                 console.log("右侧取消按钮");
                 this.props.navigator.setButtons({
                     rightButtons: [
-                        {
-                            icon: require('../../img/share.png'),
-                            buttonColor: 'white', // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
-                            buttonFontSize: 14, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
-                            buttonFontWeight: '600', // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
-                            id: 'more'
-                        }]
+                       ]
                 });
                 this.setState({
                     cancelAccredit:false,
