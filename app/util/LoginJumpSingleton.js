@@ -25,8 +25,8 @@ export default class LoginJumpSingleton {
 
     // 清理用户数据
     reset() {
-        UserInfoStore.removeUserToken(null);
-        UserInfoStore.removeUserInfo(null);
+        UserInfoStore.removeUserToken(null).then();
+        UserInfoStore.removeUserInfo(null).then();
     }
 
     // 跳转到登录页
@@ -107,6 +107,7 @@ export default class LoginJumpSingleton {
             UserInfoStore.removeCompanyArr().then();
             UserInfoStore.removeLastUserPhone().then();
             UserInfoStore.removeApplyPay().then();
+            UserInfoStore.removeUserToken().then();
             UserInfoStore.removeUserInfo().then(
                 v => {
                     UserInfoStore.removeCompany().then(
