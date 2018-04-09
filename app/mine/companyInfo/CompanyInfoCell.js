@@ -213,7 +213,8 @@ const styles = StyleSheet.create({
     },
     ownerText:{
         fontSize:14,
-        color:'#999999'
+        color:'#999999',
+        marginLeft:2
     },
     buttonViewDisabled: {
         backgroundColor: 'transparent',
