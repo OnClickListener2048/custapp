@@ -76,9 +76,12 @@ export default class VouchersCell extends Component {
 
             )
         }else{
-            <View>
-                {this.renderItem(dateFormat,formatmoney(debitMoneyAll),_Abstract)}
-            </View>
+            return(
+                <View>
+                    {this.renderItem(dateFormat,formatmoney(debitMoneyAll),_Abstract)}
+                </View>
+            )
+
         }
 
     }
