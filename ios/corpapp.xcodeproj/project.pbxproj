@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00739ED3822743159E0DCF0E /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05F33EB41984C048DF6E6B3 /* MaterialIcons.ttf */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -61,6 +62,7 @@
 		4CB73EDE1F429BF40018C00A /* UMNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB73EDD1F429BF40018C00A /* UMNative.m */; };
 		4CB73EE01F429D120018C00A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB73EDF1F429D120018C00A /* libsqlite3.tbd */; };
 		4CB8A6BA1F720A1A001FC1F3 /* libRCTClearCacheModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8A6B91F7209FB001FC1F3 /* libRCTClearCacheModule.a */; };
+		4CE68D9D207B36BE00E5D473 /* RNIOSTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE68D9C207B36BE00E5D473 /* RNIOSTools.m */; };
 		5D819A14183B4952A2A6FE4C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2CDC8C512D04BC8B29A902D /* Ionicons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		64CB239B6EA94162AD450575 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F00B1389467445BEBA946DA2 /* SystemConfiguration.framework */; };
@@ -570,6 +572,8 @@
 		4CB73EDD1F429BF40018C00A /* UMNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMNative.m; sourceTree = "<group>"; };
 		4CB73EDF1F429D120018C00A /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		4CB8A6B41F7209FB001FC1F3 /* RCTClearCacheModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTClearCacheModule.xcodeproj; path = "../node_modules/react-native-clear-cache/ios/RCTClearCacheModule.xcodeproj"; sourceTree = "<group>"; };
+		4CE68D9B207B36BE00E5D473 /* RNIOSTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNIOSTools.h; sourceTree = "<group>"; };
+		4CE68D9C207B36BE00E5D473 /* RNIOSTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNIOSTools.m; sourceTree = "<group>"; };
 		4D9F210402AE4EAA98824BFA /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
 		526969FF7CB441B598FA7868 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		58C7718BA07243DDB48440E4 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
@@ -799,6 +803,8 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				4CE68D9B207B36BE00E5D473 /* RNIOSTools.h */,
+				4CE68D9C207B36BE00E5D473 /* RNIOSTools.m */,
 			);
 			name = corpapp;
 			sourceTree = "<group>";
@@ -1887,6 +1893,7 @@
 				4C4EDEA51FD927E300A71EAD /* DCLog.m in Sources */,
 				4CB73EDE1F429BF40018C00A /* UMNative.m in Sources */,
 				4C5A46411FD91005008AAE26 /* NEShakeGestureManager.m in Sources */,
+				4CE68D9D207B36BE00E5D473 /* RNIOSTools.m in Sources */,
 				4C5A46401FD91005008AAE26 /* NEMapViewController.m in Sources */,
 				4C5A463F1FD91005008AAE26 /* NEKeyboardShortcutManager.m in Sources */,
 				4C5A463C1FD91005008AAE26 /* NEHTTPEyeViewController.m in Sources */,
