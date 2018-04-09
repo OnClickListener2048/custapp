@@ -15,7 +15,7 @@ import {
     Animated,
     Platform,
     PixelRatio,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
 } from 'react-native';
 import SectionHeader from '../../view/SectionHeader'
 import * as apis from '../../apis';
@@ -38,7 +38,6 @@ const itemBorder = 1 / PixelRatio.get()
 let headerData = null;// 延迟到willmount时初始化, 解决切换域名带来得问题
 
 import * as WeChat from "react-native-wechat";
-
 export default class HomePage extends BComponent {
 
     constructor(props) {
@@ -653,6 +652,7 @@ export default class HomePage extends BComponent {
 
     }
     _gotoToolDetail(item){
+
         if(item.url){
             pushJump(this.props.navigator, item.url,item.name,'噼里啪智能财税',item.name,'');
 
