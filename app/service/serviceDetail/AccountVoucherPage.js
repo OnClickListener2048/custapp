@@ -26,7 +26,7 @@ export default class AccountVoucherPage extends BComponent {
         this.state = {
             companyName : this.props.companyName,
             dataDetail : this.props.dataDetail,
-            relatedate : this.props.relatedate,
+            relatedate : '',
 
             tableHead: ['摘要', '会计科目', '借方金融', '贷方金额'],
             tableData: [],
@@ -38,8 +38,7 @@ export default class AccountVoucherPage extends BComponent {
             creatName:'',
             isLoading:false,
             widthArr: [ 83.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1, 94.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1,
-                        86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1, 86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1],
-            allCountWidthArr: [ 94.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) , 86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30), 86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30)],
+                        86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1, 86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1.5],
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
 
         };
@@ -76,13 +75,14 @@ export default class AccountVoucherPage extends BComponent {
         let allCountArr = [];
         let debtorCountM = formatmoney(allDebitMoney);
         let creditorCountM = formatmoney(allcreditorMoney);
+        allCountArr.push(["合计","",debtorCountM,creditorCountM])
 
-        allCountArr.push(["合计","会计科目",debtorCountM,creditorCountM])
-
+        let dateStr = voucherInfo.relateDate;
 
         this.setState({
             tableData:arr,
             allCountData: allCountArr,
+            relatedate: dateStr.substring(0,10),
             voucherWord:voucherInfo.voucherWord,
             accountName:voucherInfo.accountName,
             auditName:voucherInfo.auditName,
@@ -126,8 +126,17 @@ export default class AccountVoucherPage extends BComponent {
                         <Table style={styles.tableStyle} borderStyle={{ borderWidth:1,borderColor: '#D1D1D1'}}>
                             <Row data={this.state.tableHead} widthArr={this.state.widthArr} style={styles.headStyle} textStyle={styles.headText}/>
                             <Rows data={this.state.tableData} widthArr={this.state.widthArr} style={styles.rowStyle} textStyle={styles.text}/>
-                            <Rows data={this.state.allCountData} widthArr={this.state.widthArr} style={styles.allCountRowStyle} textStyle={styles.text}/>
-
+                            {
+                                this.state.allCountData.map((rowData, index) => (
+                                    <TableWrapper key={index} style={styles.allCountRowStyle}>
+                                        {
+                                            rowData.map((cellData, cellIndex) => (
+                                                <Cell key={cellIndex} data={cellData} style={{width:this.state.widthArr[cellIndex]}} textStyle={cellIndex === 0 ? styles.allCountText : styles.text}/>
+                                            ))
+                                        }
+                                    </TableWrapper>
+                                ))
+                            }
                         </Table>
                     </View>
 
@@ -157,7 +166,7 @@ const styles = StyleSheet.create({
     },
 
 
-    tableStyle: {marginBottom:10,width:SCREEN_WIDTH - 30,backgroundColor:"orange"},
+    tableStyle: {marginBottom:10,width:SCREEN_WIDTH - 30,backgroundColor:"#ffffff"},
 
     headStyle: { height: 36, backgroundColor: '#E7E7E7' },
     rowStyle: { backgroundColor: '#FFFFFF',minHeight:50 },
@@ -165,9 +174,6 @@ const styles = StyleSheet.create({
     text: { fontSize:12,color:"#666666",textAlign: 'center',marginTop:10,marginBottom:10 },
 
     allCountText: { fontSize:14,color:"#333333",textAlign: 'center' },
-    allCountRowStyle: { backgroundColor: '#FFFFFF',minHeight:36 },
+    allCountRowStyle: {backgroundColor: '#FFFFFF',minHeight:36,flexDirection:"row"},
 
-    allCountStyle: {
-        height: 36, backgroundColor: '#E7E7E7'
-    }
 });
