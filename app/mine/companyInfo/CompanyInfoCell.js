@@ -9,6 +9,7 @@ import {
     View,
     Image,
     TouchableOpacity,
+    Platform
 
 } from 'react-native';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
@@ -205,6 +206,7 @@ const styles = StyleSheet.create({
         marginRight:1,
         fontSize:16,
         color:'#333333',
+        marginTop:Platform.OS==='ios'?4:0
     },
 
     rightImgStyle:{ // 左边的图片
@@ -219,12 +221,14 @@ const styles = StyleSheet.create({
     surviveText:{
         fontSize:14,
         color:'#70CBC5',
-        marginLeft:5
+        marginLeft:5,
+        marginTop:Platform.OS==='ios'?4:0
     },
     ownerText:{
         fontSize:14,
         color:'#999999',
         marginLeft:2,
+        marginTop:Platform.OS==='ios'?4:0
     },
     buttonViewDisabled: {
         backgroundColor: 'transparent',
