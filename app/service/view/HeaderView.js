@@ -35,6 +35,14 @@ export default class HeaderView extends Component {
         rightDes:'',
         rightNum:''
     }
+    //技术支持
+    supportQu(){
+        // this.props.navigator.push({
+        //     screen: 'SupportPage',
+        //     title:'技术支持',
+        //
+        // });
+    }
 
     render(){
         const {hasTop,hasBottom,isService} = this.props
@@ -80,13 +88,27 @@ export default class HeaderView extends Component {
         const {hasTop, topDes,topNum} = this.props
         if(hasTop) {
             return (
+                <View >
                 <View style={styles.wrapper1}>
                     <Text style={styles.te2}>
                         {topNum}
                     </Text>
                     <Text style={styles.te1}>
-                        {topDes}(元)
+                        {topDes}(元分)
                     </Text>
+                </View>
+                    <TouchableOpacity onPress = {() => {this.supportQu()}}
+                        style={ {
+                        position: 'absolute',
+                        top: 20,
+                        left:DeviceInfo.width-55,
+                        width: DeviceInfo.width,
+                        height: 200,
+                        }}>
+                    <Image style={{resizeMode : "contain"}}
+                           source={require('../../img/support_questions.png')}
+                    />
+                    </TouchableOpacity>
 
                 </View>
             );
