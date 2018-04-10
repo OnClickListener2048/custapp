@@ -34,6 +34,8 @@ export default class HeaderView extends Component {
         leftNum:'',//左边数值
         rightDes:'',
         rightNum:'',
+        supporButton:false,//是否有技术支持按钮
+
         supportBtnOnPress:function() {}, //按钮点击事件
 
     }
@@ -91,18 +93,22 @@ export default class HeaderView extends Component {
                         {topDes}(元)
                     </Text>
                 </View>
-                    <TouchableOpacity onPress = {() => {this.props.supportBtnOnPress()}}
-                        style={ {
-                        position: 'absolute',
-                        top: 20,
-                        left:DeviceInfo.width-55,
-                        width: DeviceInfo.width,
-                        height: 200,
-                        }}>
-                    <Image style={{resizeMode : "contain"}}
-                           source={require('../../img/support_questions.png')}
-                    />
+                    {this.props.supporButton &&
+                    <TouchableOpacity onPress={() => {
+                        this.props.supportBtnOnPress()
+                    }}
+                                      style={{
+                                          position: 'absolute',
+                                          top: 20,
+                                          left: DeviceInfo.width - 55,
+                                          width: DeviceInfo.width,
+                                          height: 200,
+                                      }}>
+                        <Image style={{resizeMode: "contain"}}
+                               source={require('../../img/support_questions.png')}
+                        />
                     </TouchableOpacity>
+                    }
 
                 </View>
             );

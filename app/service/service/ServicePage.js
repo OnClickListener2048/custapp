@@ -560,6 +560,7 @@ export default class ServicePage extends BComponent {
                         rightDes="支出"
                         rightNum={this.state.expenditure}
                         isService = {true}
+                        supporButton={true}
                         supportBtnOnPress = {this.supportBtnClick}
 
                     />
