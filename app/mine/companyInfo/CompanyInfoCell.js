@@ -42,7 +42,7 @@ export default class CompanyInfoCell extends Component {
         }
 
         return(
-            <View style = {[styles.container,{height:(this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者')?85:55},underlineStyle,this.props.underLineStyle,this.props.style]}>
+            <View style = {[styles.container,{height:(this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者')?80:50},underlineStyle,this.props.underLineStyle,this.props.style]}>
                 {this._renderLeftView()}
                 {this._renderRightView()}
             </View>
@@ -181,12 +181,14 @@ const styles = StyleSheet.create({
     rightViewStyle:{
         flex:1,
         // 侧轴居中
-        marginTop:10
+        marginTop:10,
+        // alignItems:'center',
     },
     wrap1:{
         flexDirection:'row',
         justifyContent:'space-between',
-        marginRight:20
+        marginRight:20,
+        alignItems:'center',
     },
     wrap2:{
         flexDirection:'row-reverse',
@@ -195,7 +197,6 @@ const styles = StyleSheet.create({
     },
 
     leftImgStyle:{ // 左边的图片
-        marginTop:2
     },
 
     leftTextStyle:{
@@ -204,7 +205,6 @@ const styles = StyleSheet.create({
         marginRight:1,
         fontSize:16,
         color:'#333333',
-        marginTop:4
     },
 
     rightImgStyle:{ // 左边的图片
@@ -219,14 +219,12 @@ const styles = StyleSheet.create({
     surviveText:{
         fontSize:14,
         color:'#70CBC5',
-        marginTop:5,
         marginLeft:5
     },
     ownerText:{
         fontSize:14,
         color:'#999999',
         marginLeft:2,
-        marginTop:5
     },
     buttonViewDisabled: {
         backgroundColor: 'transparent',
