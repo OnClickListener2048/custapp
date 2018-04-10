@@ -33,15 +33,9 @@ export default class HeaderView extends Component {
         leftDes:'',//左边文字描述
         leftNum:'',//左边数值
         rightDes:'',
-        rightNum:''
-    }
-    //技术支持
-    supportQu(){
-        // this.props.navigator.push({
-        //     screen: 'SupportPage',
-        //     title:'技术支持',
-        //
-        // });
+        rightNum:'',
+        supportBtnOnPress:function() {}, //按钮点击事件
+
     }
 
     render(){
@@ -97,7 +91,7 @@ export default class HeaderView extends Component {
                         {topDes}(元分)
                     </Text>
                 </View>
-                    <TouchableOpacity onPress = {() => {this.supportQu()}}
+                    <TouchableOpacity onPress = {() => {this.props.supportBtnOnPress()}}
                         style={ {
                         position: 'absolute',
                         top: 20,
