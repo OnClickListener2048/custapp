@@ -112,12 +112,6 @@ export default class VerifyResultPage extends BComponent {
 
 
 
-    emptyView = () =>{
-        //第一次请求没数据的空页面
-        return(
-            <DefaultView type="no-data" onPress={this.refresh.bind(this)}/>
-        )
-    }
     refresh(){
         this.listView.refresh()
     }

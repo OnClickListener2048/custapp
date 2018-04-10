@@ -72,6 +72,8 @@ import HttpLogDetailPage from "./mine/debug/HttpLogDetailPage";
 import CheckInvoiceTitlePage from './mine/invoice/CheckInvoiceTitlePage'
 import ToolsPage from './home/tools/ToolsPage'
 
+import SupportPage from './service/support/SupportPage'
+
 export default function () {
     let reg = Navigation.registerComponent;
     reg('LoginPage', () => LoginPage);
@@ -127,4 +129,5 @@ export default function () {
     reg('HttpLogView', () => HttpLogView);
     reg('HttpLogDetailPage', () => HttpLogDetailPage);
     reg('ToolsPage', () => ToolsPage);
+    reg('SupportPage', () => SupportPage);
 }
