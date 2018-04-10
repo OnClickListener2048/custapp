@@ -9,6 +9,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     Linking,
+    Platform,
     ScrollView
 } from 'react-native';
 
@@ -20,14 +21,43 @@ import BComponent from '../../base/BComponent'
 export default class SupportPage extends BComponent {
     constructor(props) {
         super(props);
+        this.state = {
+            isShowQQBtn: false,
+        };
         this._onLineChat = this._onLineChat.bind(this);
         this._onTellPhone = this._onTellPhone.bind(this);
     }
 
-
     componentDidMount() {
+        this._resetisShowQQBtn()
     }
 
+    _resetisShowQQBtn(){
+        if(Platform.OS === 'ios') {
+            UserInfoStore.getMobileLoginInfo().then(
+                v => {
+                    if(v && v.open) {
+                        this.setState({
+                            isShowQQBtn:false,
+                        });
+                    } else {
+                        this.setState({
+                            isShowQQBtn:true,
+                        });
+                    }
+                }, e => {
+                    this.setState({
+                        isShowQQBtn:false,
+                    });
+                }
+            );
+        } else {
+            // Android一直显示QQ聊天入口按钮
+            this.setState({
+                isShowQQBtn:true,
+            });
+        }
+    }
 
     _onLineChat(){
         goQQChat("3589002710")
@@ -48,13 +78,13 @@ export default class SupportPage extends BComponent {
             <View style= {{flex:1,flexDirection:"column",marginLeft:14}}>
                 <Text style={{fontSize:16,color:"#333333"}}>{title}</Text>
 
-                {num !== 2 && <Text style={{fontSize:16,color:"#333333",marginTop:10,marginBottom:num === 1 ? 10 : 20}}>{subtitle}</Text>}
+                {num !== 2 && <Text style={{fontSize:16,color:"#333333",marginTop:10,marginBottom:(num === 1 && this.state.isShowQQBtn) ? 10  : 20}}>{subtitle}</Text>}
 
                 {num === 2 && <TouchableOpacity onPress={this._onTellPhone}>
                     <Text style={{fontSize:16,color:"#333333",marginTop:10}}>{subtitle}</Text>
                 </TouchableOpacity>}
 
-                {num === 1 &&  <TouchableOpacity onPress={this._onLineChat}>
+                {num === 1 && this.state.isShowQQBtn && <TouchableOpacity onPress={this._onLineChat}>
                     <View style={[styles.buttonStyle]}>
                         <Text style={styles.buttonTextStyle}>{"在线支持"}</Text>
                     </View>
