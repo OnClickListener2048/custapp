@@ -4,7 +4,7 @@
     "relateDate": "2018-02-28T00:00:00",
     "subjectDetails": [{
       "subjectNo": "1001",
-      "subject_Abstract": "3-25现金服务收入（普票）,税率：3.00%",
+      "subject_Abstract": "3-25现金服务收入（普票）,税率：3%",
       "debitMoney": 3500,
       "creditorMoney": 0,
       "sortingId": "0"
@@ -36,7 +36,7 @@
     "relateDate": "2018-02-28T00:00:00",
     "subjectDetails": [{
       "subjectNo": "1001",
-      "subject_Abstract": "3-25现金服务收入（普票）,税率：3.00%",
+      "subject_Abstract": "3-25现金服务收入（普票）,税率：3%",
       "debitMoney": 3500,
       "creditorMoney": 0,
       "sortingId": "0"
