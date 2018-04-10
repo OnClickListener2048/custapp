@@ -699,7 +699,10 @@ export default class ServicePage extends BComponent {
         this.loadCompanyProcessData(this.state.timeDateArr[index].relateDate)
     }
     _goServiceDetail(item){
+        if(item.jumpPage==='VouchersListPage'){
+            UMTool.onEvent('voucher')
 
+        }
         this.push({
             screen: item.jumpPage,
             title:item.title,

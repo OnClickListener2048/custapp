@@ -39,9 +39,9 @@ export default class VouchersListPage extends BComponent {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
-    componentWillUnmount() {
-        UMTool.onEvent('t_return')
-    }
+    // componentWillUnmount() {
+    //     UMTool.onEvent('t_return')
+    // }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
