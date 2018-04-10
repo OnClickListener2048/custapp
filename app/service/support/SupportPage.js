@@ -67,7 +67,7 @@ export default class SupportPage extends BComponent {
 
     render(){
         return (
-            <View style = {{flex:1,paddingTop:24}}>
+            <View style = {{flex:1,paddingTop:24,backgroundColor:"#FFFFFF"}}>
                 {this._renderSubView(0,"步骤1","请联系您的销售确认噼里啪管理系统中登记的客户手机号是否和当前绑定手机号一致，如果不一致，请销售帮忙修改后退出并重新登录。")}
                 {this._renderSubView(1,"步骤2","问题依然未解决？\n技术支持在线时间为工作日10:00到18:00，您随时可以留下您的问题等待我们的处理并告知您处理结果。")}
                 {this._renderSubView(2,"步骤3","如果以上都不能解决您的问题，您也可以立即拨打电话联系客服 400-107-0110。")}
