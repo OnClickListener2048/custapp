@@ -8,22 +8,20 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
+    Linking,
     ScrollView
 } from 'react-native';
 
-import {SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
+import {SCREEN_WIDTH} from '../../config';
 
-import SubmitButton from "../../view/SubmitButton";
+import goQQChat from "../../util/goQQChat";
 
 import BComponent from '../../base/BComponent'
 export default class SupportPage extends BComponent {
     constructor(props) {
         super(props);
-
-
         this._onLineChat = this._onLineChat.bind(this);
-
-
+        this._onTellPhone = this._onTellPhone.bind(this);
     }
 
 
@@ -32,20 +30,30 @@ export default class SupportPage extends BComponent {
 
 
     _onLineChat(){
+        goQQChat("3589002710")
+    }
 
+    _onTellPhone(){
+        Linking.openURL('tel:400-107-0110')
     }
 
     _renderSubView(num,title,subtitle){
         return (
         <View style = {{flexDirection:"row",paddingLeft:25,paddingRight:50}}>
             <View style = {{width: 18 ,flexDirection:"column",alignItems:"center"}}>
-                <View style = {{width:0.5,height:2,backgroundColor:num === 0 ? "#FFFFFF" : "#D1D1D1"}}></View>
-                <Image source={require('../../img/supportTip.png')}></Image>
-                <View style = {{width:0.5,flex:1,backgroundColor:"#D1D1D1"}}></View>
+                <View style = {{width:0.5,height:2,backgroundColor:num === 0 ? "#FFFFFF" : "#D1D1D1"}}/>
+                <Image source={require('../../img/supportTip.png')}/>
+                <View style = {{width:0.5,flex:1,backgroundColor:"#D1D1D1"}}/>
             </View>
             <View style= {{flex:1,flexDirection:"column",marginLeft:14}}>
                 <Text style={{fontSize:16,color:"#333333"}}>{title}</Text>
-                <Text style={{fontSize:16,color:"#333333",marginTop:10,marginBottom:num === 1 ? 10 : 20}}>{subtitle}</Text>
+
+                {num !== 2 && <Text style={{fontSize:16,color:"#333333",marginTop:10,marginBottom:num === 1 ? 10 : 20}}>{subtitle}</Text>}
+
+                {num === 2 && <TouchableOpacity onPress={this._onTellPhone}>
+                    <Text style={{fontSize:16,color:"#333333",marginTop:10,marginBottom:num === 1 ? 10 : 20}}>{subtitle}</Text>
+                </TouchableOpacity>}
+
                 {num === 1 &&  <TouchableOpacity onPress={this._onLineChat}>
                     <View style={[styles.buttonStyle]}>
                         <Text style={styles.buttonTextStyle}>{"在线支持"}</Text>
