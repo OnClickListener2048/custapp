@@ -51,7 +51,7 @@ export default class SupportPage extends BComponent {
                 {num !== 2 && <Text style={{fontSize:16,color:"#333333",marginTop:10,marginBottom:num === 1 ? 10 : 20}}>{subtitle}</Text>}
 
                 {num === 2 && <TouchableOpacity onPress={this._onTellPhone}>
-                    <Text style={{fontSize:16,color:"#333333",marginTop:10,marginBottom:num === 1 ? 10 : 20}}>{subtitle}</Text>
+                    <Text style={{fontSize:16,color:"#333333",marginTop:10}}>{subtitle}</Text>
                 </TouchableOpacity>}
 
                 {num === 1 &&  <TouchableOpacity onPress={this._onLineChat}>
