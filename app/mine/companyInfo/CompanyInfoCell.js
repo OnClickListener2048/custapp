@@ -42,7 +42,7 @@ export default class CompanyInfoCell extends Component {
         }
 
         return(
-            <View style = {[styles.container,underlineStyle,this.props.underLineStyle,this.props.style]}>
+            <View style = {[styles.container,{height:(this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者')?85:55},underlineStyle,this.props.underLineStyle,this.props.style]}>
                 {this._renderLeftView()}
                 {this._renderRightView()}
             </View>
@@ -122,12 +122,15 @@ export default class CompanyInfoCell extends Component {
             <TouchableOpacity style={[styles.rightViewStyle]} onPress = {() => {this.props.rightBtnOnPress()}}>
                 <View style = {styles.wrap1}>
                     <Text numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
-                    {this.props.surviveText.length > 0 &&
-                    <Text style = {[styles.surviveText]}>{this.props.surviveText}</Text>}
-                </View>
-                <View style = {styles.wrap1}>
+                   <View style={styles.heng}>
                     {this.props.ownerText.length > 0 &&
                     <Text style = {[styles.ownerText]}>{this.props.ownerText}</Text>}
+                    {this.props.surviveText.length > 0 &&
+                    <Text style = {[styles.surviveText]}>{this.props.surviveText}</Text>}
+                   </View>
+                </View>
+                <View style = {styles.wrap2}>
+
                     {this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者'&&
                     <TouchableOpacity onPress={()=>{this.props.authorizeButton()}}>
                         <View style={styles.buttonViewDisabled}>
@@ -155,7 +158,7 @@ const styles = StyleSheet.create({
         // alignItems:'center',
         // 高度
         // height:60/375.0*SCREEN_WIDTH,
-        height:90
+
     },
 
     leftViewStyle:{
@@ -185,6 +188,11 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         marginRight:20
     },
+    wrap2:{
+        flexDirection:'row-reverse',
+        justifyContent:'space-between',
+        marginRight:20
+    },
 
     leftImgStyle:{ // 左边的图片
     },
@@ -194,7 +202,8 @@ const styles = StyleSheet.create({
         marginLeft:2,
         marginRight:1,
         fontSize:16,
-        color:'#333333'
+        color:'#333333',
+        marginTop:2
     },
 
     rightImgStyle:{ // 左边的图片
@@ -209,12 +218,14 @@ const styles = StyleSheet.create({
     surviveText:{
         fontSize:14,
         color:'#70CBC5',
-        marginTop:5
+        marginTop:3,
+        marginLeft:5
     },
     ownerText:{
         fontSize:14,
         color:'#999999',
-        marginLeft:2
+        marginLeft:2,
+        marginTop:3
     },
     buttonViewDisabled: {
         backgroundColor: 'transparent',
@@ -227,10 +238,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 26,
         width: 80,
-        marginTop: 20,
+        marginTop: 10,
+        marginRight:20
     },
     shouquanText:{
         color:'#CEAF72',
         fontSize:14,
+    },
+    heng:{
+        flexDirection:'row'
     }
 });
