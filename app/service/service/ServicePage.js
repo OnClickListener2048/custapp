@@ -139,6 +139,7 @@ export default class ServicePage extends BComponent {
         // this._renderBody=this._renderBody.bind(this);
         this._renderDemo=this._renderDemo.bind(this);
         this.toClose=this.toClose.bind(this);
+        this.supportBtnClick=this.supportBtnClick.bind(this);
 
         this._deltaX = new Animated.Value(0);
         this._deltaY = new Animated.Value(0);
@@ -523,6 +524,14 @@ export default class ServicePage extends BComponent {
         }
     }
 
+    //技术支持
+    supportBtnClick(){
+        this.props.navigator.push({
+            screen: 'SupportPage',
+            title:'技术支持',
+
+        });
+    }
 
 
     render(){
@@ -551,6 +560,7 @@ export default class ServicePage extends BComponent {
                         rightDes="支出"
                         rightNum={this.state.expenditure}
                         isService = {true}
+                        supportBtnOnPress = {this.supportBtnClick}
 
                     />
                     <CompanyProcessView ref="companyProcessView_Ref" currentNum={-1}/>
