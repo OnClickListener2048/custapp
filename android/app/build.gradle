@@ -250,14 +250,17 @@ android {
 
             def manifestParser = new DefaultManifestParser(android.sourceSets.main.manifest.srcFile);
 
+/*
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + System.currentTimeMillis()
+                        println('abi != null output.versionCodeOverride = ' + output.versionCodeOverride);
 // manifestParser.getVersionCode()// defaultConfig.versionCode
             } else {// no split here
                 output.versionCodeOverride = 1 * 1048576 + System.currentTimeMillis();
+                println('no split here output.versionCodeOverride = ' + output.versionCodeOverride);
             }
-
+*/
             //修改生成的apk名字
             def oldFile = output.outputFile
 
