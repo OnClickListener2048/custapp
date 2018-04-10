@@ -94,7 +94,7 @@ export default class HeaderView extends Component {
                         {topNum}
                     </Text>
                     <Text style={styles.te1}>
-                        {topDes}(元分)
+                        {topDes}(元)
                     </Text>
                 </View>
                     <TouchableOpacity onPress = {() => {this.supportQu()}}
