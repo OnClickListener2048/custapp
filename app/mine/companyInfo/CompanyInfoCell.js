@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
     },
 
     leftImgStyle:{ // 左边的图片
+        marginTop:2
     },
 
     leftTextStyle:{
@@ -203,7 +204,7 @@ const styles = StyleSheet.create({
         marginRight:1,
         fontSize:16,
         color:'#333333',
-        marginTop:2
+        marginTop:4
     },
 
     rightImgStyle:{ // 左边的图片
@@ -218,14 +219,14 @@ const styles = StyleSheet.create({
     surviveText:{
         fontSize:14,
         color:'#70CBC5',
-        marginTop:3,
+        marginTop:5,
         marginLeft:5
     },
     ownerText:{
         fontSize:14,
         color:'#999999',
         marginLeft:2,
-        marginTop:3
+        marginTop:5
     },
     buttonViewDisabled: {
         backgroundColor: 'transparent',
