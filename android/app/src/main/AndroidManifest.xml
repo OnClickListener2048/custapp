@@ -1,8 +1,9 @@
 <manifest package="cn.pilipa.custapp"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionName="x.x.x"
+          android:versionCode="2000000000"
           xmlns:tools="http://schemas.android.com/tools">
-    <!-- !!!! 无需设置更新versionCode!!!! 自动更新versionCode -->
+    <!-- !!!! 必须更新versionCode!!!! -->
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
