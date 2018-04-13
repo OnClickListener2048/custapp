@@ -52,6 +52,12 @@ export function loadVouchers(companyid,date='') {
     return getApi('/api/v1.01/myfinances/vouchers?companycode='+companyid+'&relatedate='+date);
 }
 
+//总账列表
+export function loadGeneralLedgerData(companyid,date='') {
+
+    return getApi('/api/v1.01/myfinances/generalledger?companycode='+companyid+'&fromdate='+date+'&todate='+date);
+}
+
 //记账凭证详情
 export function loadVoucherDetail(companycode,date='',id) {
     return getApi('/api/v1.01/myfinances/voucher/detail?companycode=' + companycode + '&relatedate=' + date + '&id=' + id);
