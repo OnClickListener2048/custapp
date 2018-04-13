@@ -9,102 +9,83 @@ import {
     StyleSheet,
     ScrollView,
     RefreshControl,
-    InteractionManager,
     Image,
     Platform,
     TouchableOpacity,
     DeviceEventEmitter,
     Animated,
-    Dimensions,
+    PixelRatio,
     Linking
 } from 'react-native';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import PLPCustomNavBar from '../../view/PLPCustomNavBar'
-import {isIphoneX} from '../../util/iphoneX-helper'
+
 import Toast from 'react-native-root-toast'
 import Alert from "react-native-alert";
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
-import TimeSearchBar from '../view/TimeSearchBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
-import SectionHeader from '../../view/SectionHeader'
 import CompanyProcessView from '../view/CompanyProcessView'
-
-const serviceData =[
+const serviceData = [
     {
-        title:'财',
-        style:'collection',
-        arr:[
-            {
-                title:'现金流',
-                logo:require('../../img/xianjinliu.png'),
-                jumpPage:'CashFlowPage'
-            },
-            {
-                title:'利润表',
-                logo:require('../../img/lirunbiao.png'),
-                jumpPage:'ProfitStatementPage'
-            },
-            {
-                title:'应收账款',
-                logo:require('../../img/yingshou.png'),
-                jumpPage:'AccountsReceivablePage'
-            },
-            {
-                title:'应付账款',
-                logo:require('../../img/yingfu.png'),
-                jumpPage:'AccountsPayablePage'
-            }
-        ]
+        title:'现金流',
+        logo:require('../../img/xianjinliu.png'),
+        jumpPage:'CashFlowPage'
     },
     {
-        title:'税',
-        style:'table',
-        arr:[
-            {
-                title:'纳税表',
-                logo:require('../../img/taxform.png'),
-                jumpPage:'TaxFormPage'
-            }
-        ]
+        title:'利润表',
+        logo:require('../../img/lirunbiao.png'),
+        jumpPage:'ProfitStatementPage'
     },
     {
-        title:'票',
-        style:'table',
-        arr:[
-            {
-                title:'我的凭证',
-                logo:require('../../img/vouchers.png'),
-                jumpPage:'VouchersListPage'
-            }
-        ]
+        title:'应付账款',
+        logo:require('../../img/yingfu.png'),
+        jumpPage:'AccountsPayablePage'
+    },
+    {
+        title:'应收账款',
+        logo:require('../../img/yingshou.png'),
+        jumpPage:'AccountsReceivablePage'
+    },
+    {
+        title:'纳税表',
+        logo:require('../../img/taxform.png'),
+        jumpPage:'TaxFormPage'
+    },
+    {
+        title:'我的凭证',
+        logo:require('../../img/vouchers.png'),
+        jumpPage:'VouchersListPage'
+    },
+    {
+        title:'总账',
+        logo:require('../../img/service_account.png'),
+        jumpPage:''
+    },
+    {
+        title:'明细账',
+        logo:require('../../img/detail_account.png'),
+        jumpPage:''
     }
 ]
-import pushJump from '../../util/pushJump';
-import CommenCell from '../../view/CommenCell'
 
-const col = 3
-const marg = 0
-const itemWidth = (deviceWidth - marg*(col+1))/ col
+import pushJump from '../../util/pushJump';
+
+
 import {
     Header,
-    CustomHeader,
-    AccountingTreatment ,
-    ClearCard,
-    CopyTaxes,
-    PayTaxes,
-    SendBill
+
 } from './view'
 import BComponent from '../../base';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import HeaderView from '../view/HeaderView'
-import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import demoData from '../serviceDetail/local/ProfitStatementPage.json'
 import {deviceHeight, deviceWidth} from "../../util/ScreenUtil";
 
 
-
+const itemBorder = 1 / PixelRatio.get()
+const col = 3
+const itemMargin = 0
+const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 
 import Interactable from 'react-native-interactable';
 
@@ -565,65 +546,41 @@ export default class ServicePage extends BComponent {
 
                     />
                     <CompanyProcessView ref="companyProcessView_Ref" currentNum={-1}/>
-                    {
-                        serviceData.map((item,index)=>{
-                            return(
-                                <View key = {index} style={{width:deviceWidth}}>
-                                    <SectionHeader style={{backgroundColor:'transparent'}} text ={item.title} />
-                                    {
-                                        item.style=='collection'?<View style={{width:deviceWidth,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white'}}>
-                                            {
-                                                item.arr.map((item,index)=>{
+                    <View style={{width:DeviceInfo.width,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white'}}>
+                        {
 
-                                                    let borderBottomStyle = {}
-                                                    let borderRightStyle = {}
-                                                    if(index<2){
-                                                        borderBottomStyle = {
-                                                            borderBottomColor:'#D7D7D7',
-                                                            borderBottomWidth:DeviceInfo.onePR
-                                                        }
-                                                    }
-                                                    if(index == 0 || index == 2){
-                                                        borderRightStyle = {
-                                                            borderRightColor:'#D7D7D7',
-                                                            borderRightWidth:DeviceInfo.onePR
-                                                        }
-                                                    }
+                            serviceData.map((item,i)=>{
 
-                                                    return(
-                                                        <TouchableOpacity key={index} onPress = {this._goServiceDetail.bind(this,item)}>
-                                                            <View style={[{width:deviceWidth/2, height:68,flexDirection:'row',alignItems:'center'},borderBottomStyle,borderRightStyle]}>
-                                                                <Image resizeMode="contain" style={{marginLeft:41}} source={item.logo} />
-                                                                <Text style={{color:'#666666',fontSize:setSpText(16),marginLeft:9}}>{item.title}</Text>
-                                                            </View>
-                                                        </TouchableOpacity>
 
-                                                    )
-                                                })
-                                            }
-                                        </View>:<View>
-                                            {
-                                                item.arr.map((item,index)=>{
-                                                    return(
-                                                        <CommenCell
-                                                            style={{height:68}}
-                                                            leftTextStyle={{color:'#666666'}}
-                                                            leftIcon={item.logo}
-                                                            leftText={item.title}
-                                                            underLine={false}
-                                                            onPress = {this._goServiceDetail.bind(this,item)}
-                                                        />
-                                                    )
-                                                })
-                                            }
-
-                                        </View>
+                                let borderStyle = {}
+                                if(i%col == (col-1)){
+                                    borderStyle = {
+                                        borderBottomWidth:itemBorder,
+                                        borderBottomColor:'#D7D7D7'
                                     }
-                                </View>
-                            )
-                        })
-                    }
-                    <View style={{height:50}}/>
+                                }else{
+                                    borderStyle = {
+                                        borderRightWidth:itemBorder,
+                                        borderRightColor:'#D7D7D7',
+                                        borderBottomWidth:itemBorder,
+                                        borderBottomColor:'#D7D7D7',
+                                    }
+                                }
+                                if(parseInt(i/col) == (Math.ceil(serviceData.length/col)-1)){
+                                    borderStyle.borderBottomColor = 'transparent'
+                                }
+                                return(
+                                    <TouchableOpacity key={i} onPress={this._goServiceDetail.bind(this,item)}>
+                                        <View style={[{width:itemWidth,height:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center',backgroundColor:'white'},borderStyle]}>
+                                            <Image resizeMode="contain" style={{width:34, height:34}}  source={item.logo}/>
+                                            <Text style={{color:'#666666',fontSize:14,marginTop:8}}>{item.title}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
+                    </View>
+                    <View style={{height:50,backgroundColor:'white',borderTopColor:'#D7D7D7',borderTopWidth:itemBorder,marginBottom:10}}/>
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 {this._renderYearReport()}
