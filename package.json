@@ -26,8 +26,8 @@
     "react-native-animatable": "^1.1.0",
     "react-native-blur": "^2.0.0",
     "react-native-camera": "0.13.0",
-    "react-native-code-push": "4.1.0-beta",
     "react-native-clear-cache": "1.0.0",
+    "react-native-code-push": "4.1.0-beta",
     "react-native-device-info": "0.21.2",
     "react-native-device-log": "github:pilipa-cn/react-native-device-log#v1.0.2.1",
     "react-native-easy-toast": "^1.0.9",
@@ -43,6 +43,7 @@
     "react-native-pathjs-charts": "0.0.31",
     "react-native-picker": "github:pilipa-cn/react-native-picker",
     "react-native-progress": "^3.4.0",
+    "react-native-prompt": "^1.0.0",
     "react-native-pull": "^2.0.2",
     "react-native-root-toast": "github:pilipa-cn/react-native-root-toast#2.2.0-pi",
     "react-native-scrollable-tab-view": "github:pilipa-cn/react-native-scrollable-tab-view#v0.7.4-pilipa-2",
@@ -51,11 +52,11 @@
     "react-native-swiper": "github:pilipa-cn/react-native-swiper#1.5.13-pilipa",
     "react-native-sww-activity-indicator": "^1.0.4",
     "react-native-tab-navigator": "^0.3.3",
+    "react-native-table-component": "*",
     "react-native-ultimate-listview": "^3.2.2",
     "react-native-vector-icons": "^4.1.1",
     "react-native-wechat": "github:pilipa-cn/react-native-wechat#v1.0.3",
-    "uri-js": "^3.0.2",
-    "react-native-table-component":"*"
+    "uri-js": "^3.0.2"
   },
   "devDependencies": {
     "babel-jest": "*",
@@ -87,12 +88,14 @@
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "verbose": true,
     "collectCoverage": true,
-    "coverageReporters" : [
-       "lcov"
+    "coverageReporters": [
+      "lcov"
     ],
-    "coverageDirectory" : "test-report",
+    "coverageDirectory": "test-report",
     "moduleFileExtensions": [
-       "js", "jsx", "json"
+      "js",
+      "jsx",
+      "json"
     ],
     "globals": {
       "__DEV__": true

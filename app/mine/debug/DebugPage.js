@@ -8,7 +8,8 @@ import {
     Text,
     StyleSheet,
     ScrollView,Platform,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Linking
 } from 'react-native';
 import CommentCell from '../../view/CommenCell'
 import SubmitButton from '../../view/SubmitButton'
@@ -21,6 +22,9 @@ import {DEBUG,API_BASE_URL} from '../../config'
 import JPushModule from 'jpush-react-native';
 import ActionSheet from 'react-native-actionsheet';
 import SectionHeader from "../../view/SectionHeader";
+import Prompt from 'react-native-prompt';
+import goQQChat from "../../util/goQQChat";
+import * as apis from "../../apis";
 
 const CANCEL_INDEX = 0;
 const DESTRUCTIVE_INDEX = 4;
@@ -48,6 +52,8 @@ export default class DebugPage extends BComponent {
             unit: "",
             logined: false,// 是否已登陆
             updateIcon:this.props.updateIcon,
+            phoneNum: '', // 调试手机号
+            promptVisible: false // 文本输入框可见
         };
 
         this.props.navigator.setButtons({
@@ -119,17 +125,51 @@ export default class DebugPage extends BComponent {
                         onPress={this.handleActionSheetPress}
                     />
 
+                    {/*<SectionHeader style={{backgroundColor:'#E8E2D6'}} text ={'当前手机号'} textStyle={{color:'#AE915A'}} />*/}
+
+                    <CommentCell
+                        leftText={'诊断给定手机号的公司接口'}
+                        style={{marginTop: 10}}
+                        rightText='必须首先微信登陆'
+                        onPress={ () => {
+                            this.setState({ promptVisible: true} );
+                        }}
+                    />
+
                     <CommentCell
                         leftText='查看HTTP接口请求日志'
                         style={{marginTop: 10}}
                         onPress={this._httpLogView.bind(this)}
                     />
 
+                    <Prompt
+                        title="请输入要查看数据的手机号"
+                        placeholder="手机号"
+                        defaultValue={this.state.phoneNum}
+                        visible={this.state.promptVisible}
+                        onCancel={() => this.setState({ promptVisible: false, message: "取消输入" })}
+                        onSubmit={(value) => {
+                            this.setState({ promptVisible: false, phoneNum: value });
+                            this._viewCompanies(value);
+                        }
+                        } />
+
                 </ScrollView>
             </View>
 
         )
     }
+
+    _viewCompanies = (mobilePhone) => {
+        apis.getCompany(mobilePhone).then(
+            (companyInfo) => {
+                console.log("公司信息读取返回", companyInfo);
+                Alert.alert(`公司信息读取返回 "${mobilePhone}"`, JSON.stringify(companyInfo));
+            },
+            (e) => {
+                Alert.alert(`公司信息读取返回 "${mobilePhone}"`, '读取失败');
+            });
+    };
 
     _clear() {
         clearManager.runClearCache(() => {
