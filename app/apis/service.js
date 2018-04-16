@@ -67,6 +67,11 @@ export function loadVoucherDetail(companycode,date='',id) {
     return getApi('/api/v1.01/myfinances/voucher/detail?companycode=' + companycode + '&relatedate=' + date + '&id=' + id);
 }
 
+//明细账详情
+export function loadDetialAccountData(companyid,date='',subjectno) {
+
+    return getApi('/api/v1.01/myfinances/detailledger?companycode='+companyid+'&fromdate='+date+'&todate='+date+'&subjectno='+subjectno);
+}
 
 //获取是否展示年报
 export function loadYearReport(companyid) {

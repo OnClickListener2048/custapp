@@ -58,7 +58,7 @@ const serviceData = [
     {
         title:'总账',
         logo:require('../../img/service_account.png'),
-        jumpPage:''
+        jumpPage:'GeneralLedgerPage'
     },
     {
         title:'明细账',

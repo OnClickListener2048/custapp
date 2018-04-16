@@ -21,20 +21,8 @@ export default class GeneralLedgerCell extends Component {
         secArr: PropTypes.array
 
     };
+// ,{backgroundColor:"orange"}
 
-// <View style={{flexDirection:'row',flexWrap:'wrap',backgroundColor:'white',borderTopWidth:itemBorder,borderTopColor:'#D7D7D7'}}>
-// {
-//     secArr.map((item, i) => {
-//
-//
-//         return(
-//             <View style={[styles.timeRowStyle,{backgroundColor:"orange"}]}>
-//
-//             </View>
-//         )
-//     })
-// }
-// </View>
 
     render() {
         // const { style} = this.props
@@ -67,7 +55,25 @@ export default class GeneralLedgerCell extends Component {
                     <Text style={[{fontSize: 12 ,flex:1.1, color : '#999999',textAlign:"right"}] }>{"余额"}</Text>
                 </View>
 
+                <View style={{flexDirection:'column',width:SCREEN_WIDTH - 28,
+                    marginLeft:14,backgroundColor:'white',borderTopWidth:0.5,borderTopColor:'#D1D1D1'}}>
+                    {
+                        secArr.map((item, i) => {
 
+
+                            return(
+                                <View style={[styles.itemViewStyle]}>
+                                    <Text style={[{fontSize: 12 ,marginLeft:0,width:51, color : '#999999',textAlign:"right"}] }>{item.abstract}</Text>
+                                    <View style={{width:0.5,marginLeft:1,height:36,backgroundColor:"#D1D1D1"}}/>
+                                    <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.debit == 0 ? "-" : item.debit}</Text>
+                                    <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.credit == 0 ? "-" : item.credit}</Text>
+                                    <Text style={[{fontSize: 12 ,width:14, color : '#CEAF72',textAlign:"center"}] }>{item.direct}</Text>
+                                    <Text style={[{fontSize: 12 ,flex:1.1, color : '#333333',textAlign:"right"}] }>{item.balance == 0 ? "-" : item.balance}</Text>
+                                </View>
+                            )
+                        })
+                    }
+                </View>
 
             </View>
         )
@@ -134,5 +140,13 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#666666',
         textAlign: 'center'
+    },
+
+    itemViewStyle: {
+        backgroundColor: '#FFFFFF',
+        flexDirection: 'row',
+        alignItems:'center',
+
+        height:36
     },
 });
