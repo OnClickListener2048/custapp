@@ -35,7 +35,8 @@ export default class GeneralLedgerPage extends BComponent {
             isfirstRefresh:true,
             isLoading:false,
             timeDateArr:props.timeDateArr,
-            timeIndex:props.timeIndex
+            timeIndex:props.timeIndex,
+            isHideInvalidData : true
         }
         this._showInvalidData = this._showInvalidData.bind(this);
         this._hideInvalidData = this._hideInvalidData.bind(this);
@@ -54,6 +55,16 @@ export default class GeneralLedgerPage extends BComponent {
             this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
         });
     }
+
+    _deepCopy(arr) {
+
+        var newObj = arr.concat();
+
+        return newObj;
+    }
+
+
+
     loadData(date='',isPull=false){
         if (this.props.is_demo == '1'){
             this.setState({
@@ -75,9 +86,15 @@ export default class GeneralLedgerPage extends BComponent {
             (responseData) => {
                 if(responseData.code == 0){
 
+                    //深拷贝
+                    let allDataArr = JSON.parse(JSON.stringify(responseData.data.generalLedgerDetail));
+
+                    let detail = JSON.parse(JSON.stringify(responseData.data.generalLedgerDetail));
+
+
                     //数据处理 将整行与整块全是0的去掉
                     let tmpArr = [];
-                    let detail = responseData.data.generalLedgerDetail;
+
                     for (let i = 0; i < detail.length; i++ ){
                         let cellData = detail[i];
                         let values = cellData.values;
@@ -110,13 +127,10 @@ export default class GeneralLedgerPage extends BComponent {
 
 
 
-
                     this.setState({
-                        // data:responseData.data.generalLedgerDetail?responseData.data.generalLedgerDetail:[],
-                        alldata:responseData.data.generalLedgerDetail,
+                        alldata:allDataArr,
                         validData:tmpArr,
-                        data:tmpArr,
-
+                        data:this.state.isHideInvalidData ? tmpArr : allDataArr,
                         isRefreshing:false,
                         isfirstRefresh:false,
                         isLoading:false
@@ -166,6 +180,7 @@ export default class GeneralLedgerPage extends BComponent {
             <GeneralLedgerCell
                 messageTitle={info.subjectNo + info.subjectName}
                 messageTime={timeStr}
+                secArr={secArr}
             />
 
         )
@@ -205,11 +220,13 @@ export default class GeneralLedgerPage extends BComponent {
     _showInvalidData(){
         this.setState({
             data:this.state.alldata,
+            isHideInvalidData:false
         })
     }
     _hideInvalidData(){
         this.setState({
             data:this.state.validData,
+            isHideInvalidData:true
         })
     }
 
