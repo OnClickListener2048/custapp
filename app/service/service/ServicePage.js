@@ -63,7 +63,7 @@ const serviceData = [
     {
         title:'明细账',
         logo:require('../../img/detail_account.png'),
-        jumpPage:''
+        jumpPage:'DetailAccountListPage'
     }
 ]
 

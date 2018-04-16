@@ -144,7 +144,7 @@ export default class MyOrderPage extends BComponent {
                         style={styles.container}
                         tabBarUnderlineStyle={styles.lineStyle}//选中时线的样式
                         tabBarActiveTextColor='#C6A567'//选中时字体的颜色
-                        tabBarBackgroundColor='#ececec'//整个tab的背景色
+                        tabBarBackgroundColor='#FFFFFF'//整个tab的背景色
                         tabBarInactiveTextColor='#999999'//未选中时字的颜色
                         tabBarTextStyle={styles.textStyle}//tab字体的样式
                         ref={(scrollTabView) => {
@@ -194,7 +194,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor:'#F1F1F1',
-        paddingTop:10
 
     },
 

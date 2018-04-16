@@ -58,6 +58,10 @@ export function loadGeneralLedgerData(companyid,date='') {
     return getApi('/api/v1.01/myfinances/generalledger?companycode='+companyid+'&fromdate='+date+'&todate='+date);
 }
 
+//获取科目列表，即明细表
+export function loadAccountCategoryList(companycode) {
+    return getApi('/api/v1.01/myfinances/subjects?companycode=' + companycode);
+}
 //记账凭证详情
 export function loadVoucherDetail(companycode,date='',id) {
     return getApi('/api/v1.01/myfinances/voucher/detail?companycode=' + companycode + '&relatedate=' + date + '&id=' + id);

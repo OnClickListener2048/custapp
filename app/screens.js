@@ -46,6 +46,8 @@ import ProfitStatementPage from './service/serviceDetail/ProfitStatementPage'
 import TaxFormPage from './service/serviceDetail/TaxFormPage'
 import VouchersListPage from './service/serviceDetail/VouchersListPage'
 import AccountVoucherPage from './service/serviceDetail/AccountVoucherPage'
+import DetailAccountListPage from './service/serviceDetail/DetailAccountListPage'
+import DetailAccountCategoryPage from './service/serviceDetail/DetailAccountCategoryPage'
 import GeneralLedgerPage from './service/serviceDetail/GeneralLedgerPage'
 
 import Notification from './view/NotificationView'
@@ -132,4 +134,6 @@ export default function () {
     reg('HttpLogDetailPage', () => HttpLogDetailPage);
     reg('ToolsPage', () => ToolsPage);
     reg('SupportPage', () => SupportPage);
+    reg('DetailAccountListPage', () => DetailAccountListPage);
+    reg('DetailAccountCategoryPage', () => DetailAccountCategoryPage);
 }
