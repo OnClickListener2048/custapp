@@ -45,6 +45,7 @@ import AccountsPayablePage from './service/serviceDetail/AccountsPayablePage'
 import ProfitStatementPage from './service/serviceDetail/ProfitStatementPage'
 import TaxFormPage from './service/serviceDetail/TaxFormPage'
 import VouchersListPage from './service/serviceDetail/VouchersListPage'
+import DetailAccountPage from './service/serviceDetail/DetailAccountPage'
 import AccountVoucherPage from './service/serviceDetail/AccountVoucherPage'
 import GeneralLedgerPage from './service/serviceDetail/GeneralLedgerPage'
 
@@ -108,6 +109,7 @@ export default function () {
     reg('ProfitStatementPage', () => ProfitStatementPage);
     reg('TaxFormPage', () => TaxFormPage);
     reg('VouchersListPage', () => VouchersListPage);
+    reg('DetailAccountPage', () => DetailAccountPage);
     reg('AccountVoucherPage', () => AccountVoucherPage);
     reg('GeneralLedgerPage', () => GeneralLedgerPage);
     reg('VerifyResultPage', () => VerifyResultPage);
