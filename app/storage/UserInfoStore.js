@@ -25,6 +25,7 @@ const KEY_NOTIFY_MESSAGE_NEWNUM = "KEY_NOTIFY_MESSAGE_NEWNUM";// 通知助手最
 const KEY_SERVICE_MESSAGE_NEWNUM = "KEY_SERVICE_MESSAGE_NEWNUM";// 服务消息最新消息数量
 
 const KEY_FORCE_LOGOUT = "KEY_FORCE_LOGOUT";// 强制退出登录
+const KEY_DETAIL_ACCOUNT_LIST="KEY_DETAIL_ACCOUNT_LIST";//明细列表 最近 选项卡
 
 // 返回是否已登陆
 UserInfoStore.isLogined = async function (): boolean {
@@ -204,6 +205,24 @@ UserInfoStore.getNotifyMessageArr = async function () {
     }
     return value;
 };
+
+UserInfoStore.setAccountDetailArr = async function (value: object) {
+    return Preferences.set(KEY_DETAIL_ACCOUNT_LIST, JSON.stringify(value));
+};
+
+UserInfoStore.removeAccountDetailArr = async function () {
+    return Preferences.remove(KEY_DETAIL_ACCOUNT_LIST);
+};
+
+UserInfoStore.getAccountDetailArr = async function () {
+    let value = await Preferences.get(KEY_DETAIL_ACCOUNT_LIST);
+    if (value !== null) {
+        return JSON.parse(value);
+    }
+    return value;
+};
+
+
 
 UserInfoStore.setNotifyMessageNewNum = async function (value: object) {
     return Preferences.set(KEY_NOTIFY_MESSAGE_NEWNUM, JSON.stringify(value));

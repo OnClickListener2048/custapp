@@ -51,11 +51,11 @@ export default class DetailAccountListPage extends BComponent {
 
     loadData(){
         //测试用
-        // this.companyid='2369'
+        this.companyid='2369'
         // this.companytype=1
 
                     var loading = SActivityIndicator.show(true, "加载中...");
-                    apis.loadAccountCategoryList(this.props.companyid).then(
+                    apis.loadAccountCategoryList(this.companyid).then(
                         (responseData) => {
                             SActivityIndicator.hide(loading);
                             if (responseData.code == 0) {

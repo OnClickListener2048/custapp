@@ -23,6 +23,15 @@ export default class DetailAccountCateoryCell extends Component {
                 categoryItem:categoryItem,
             }
         });
+
+        UserInfoStore.setAccountDetailArr(categoryItem).then(
+            (list)=>{
+                console.log('保存的数据列表是'+list);
+            },
+            (e)=>{
+
+             }
+        );
     }
 
     render() {
