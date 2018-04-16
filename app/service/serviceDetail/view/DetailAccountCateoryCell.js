@@ -3,7 +3,7 @@
  */
 
 import React, {PropTypes,Component} from 'react';
-import {View, Text,Platform,Image,Dimensions,StyleSheet} from 'react-native';
+import {View, Text,Platform,Image,Dimensions,StyleSheet,TouchableOpacity} from 'react-native';
 const window = Dimensions.get('window');
 
 export const SCREEN_WIDTH = window.width;
@@ -15,11 +15,21 @@ export default class DetailAccountCateoryCell extends Component {
 
     }
 
+    toAccountDetail(categoryItem){
+        this.props.navigator.push({
+            screen: 'DetailAccountPage',
+            title:categoryItem.subjectNo+' '+categoryItem.subjectName,
+            passProps: {
+                categoryItem:categoryItem,
+            }
+        });
+    }
+
     render() {
         const {categoryItem} = this.props
 
         return (
-            <View>
+            <TouchableOpacity onPress={()=>{this.toAccountDetail(categoryItem)}}>
             <View style={styles.rowStyle}>
                 <View style={styles.rowWrp}>
                     <Text style={styles.textStyle}>
@@ -37,7 +47,7 @@ export default class DetailAccountCateoryCell extends Component {
                 />
             </View>
                 <View style={[styles.line,{marginLeft:16}]}/>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
