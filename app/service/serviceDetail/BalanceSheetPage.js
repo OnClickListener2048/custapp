@@ -21,13 +21,12 @@ import demoData from './local/VouchersListPage.json'
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
-import GeneralLedgerCell from "./view/GeneralLedgerCell";
-import {formatmoney} from '../../util/FormatMoney';
+import BalanceSheetCell from "./view/BalanceSheetCell";
 
-export default class GeneralLedgerPage extends BComponent {
+export default class BalanceSheetPage extends BComponent {
 
     constructor(props){
-        super(props)
+        super(props);
         this.state={
             data:[],
             alldata:[],  //全部数据
@@ -38,9 +37,10 @@ export default class GeneralLedgerPage extends BComponent {
             timeDateArr:props.timeDateArr,
             timeIndex:props.timeIndex,
             isHideInvalidData : true
-        }
+        };
         this._showInvalidData = this._showInvalidData.bind(this);
         this._hideInvalidData = this._hideInvalidData.bind(this);
+
 
 
     }
@@ -72,48 +72,83 @@ export default class GeneralLedgerPage extends BComponent {
                 isLoading:true
             })
         }
-        apis.loadGeneralLedgerData(this.props.companyid,date).then(
+        apis.loadBalancesheet(this.props.companyid,date).then(
             (responseData) => {
                 if(responseData.code == 0){
 
                     //深拷贝
-                    let allDataArr = JSON.parse(JSON.stringify(responseData.data.generalLedgerDetail));
+                    let allDataArr = JSON.parse(JSON.stringify(responseData.data));
 
-                    let detail = JSON.parse(JSON.stringify(responseData.data.generalLedgerDetail));
+                    //对全部数据做二次处理,将cell数据包括cell名称改为数组
+                    for (let i = 0 ; i < allDataArr.length ; i++){
+                        let cellInfo = allDataArr[i];
+                        let secArr = [];
+                        let preData = {"abstract" : "期初",
+                                    "sumDebit" : cellInfo.accountBalance.preSumDebit,
+                                    "sumCredit" : cellInfo.accountBalance.preSumCredit,
+                        };
 
+                        let midData = {"abstract" : "本期",
+                            "sumDebit" : cellInfo.accountBalance.midSumDebit,
+                            "sumCredit" : cellInfo.accountBalance.midSumCredit,
+                        };
+
+                        let yearData = {"abstract" : "本年",
+                            "sumDebit" : cellInfo.accountBalance.yearSumDebit,
+                            "sumCredit" : cellInfo.accountBalance.yearSumCredit,
+                        };
+
+                        secArr.push(preData,midData,yearData);
+                        cellInfo.detailArr = secArr
+                    }
+
+
+                    //深拷贝有效数据
+                    let validArr = JSON.parse(JSON.stringify(responseData.data));
 
                     //数据处理 将整行与整块全是0的去掉
                     let tmpArr = [];
 
-                    for (let i = 0; i < detail.length; i++ ){
-                        let cellData = detail[i];
-                        let values = cellData.values;
+                    //对有效数据做二次处理,将cell数据包括cell名称改为数组
+                    for (let i = 0 ; i < allDataArr.length ; i++){
+                        let cellInfo = allDataArr[i];
+                        let secArr = [];
 
-                        let allEmpty = true;
-
-                        for(var key in values){
-                            console.log("allKeys=========" + key + values[key])
-
-                            let secArr = values[key];
-                            let secTmpArr = [];
-                            for (let j = 0; j < secArr.length; j++ ) {
-                                let secInfo = secArr[j];
-                                if (!(secInfo.debit == 0 && secInfo.credit == 0 && secInfo.balance == 0)){
-                                    secTmpArr.push(secInfo)
-                                }
-                            }
-
-                            values[key] = secTmpArr;  //给values里面数组重新赋值
-                            if (secTmpArr.length > 0){
-                                allEmpty = false;
-                            }
+                        if (!(cellInfo.accountBalance.preSumDebit == 0 && cellInfo.accountBalance.preSumCredit == 0)){
+                            let preData = {"abstract" : "期初",
+                                "sumDebit" : cellInfo.accountBalance.preSumDebit,
+                                "sumCredit" : cellInfo.accountBalance.preSumCredit,
+                            };
+                            secArr.push(preData)
                         }
 
-                        if (allEmpty === false){
-                            tmpArr.push(detail[i])
+
+                        if (!(cellInfo.accountBalance.midSumDebit == 0 && cellInfo.accountBalance.midSumCredit == 0)){
+                            let midData = {"abstract" : "本期",
+                                "sumDebit" : cellInfo.accountBalance.midSumDebit,
+                                "sumCredit" : cellInfo.accountBalance.midSumCredit,
+                            };
+                            secArr.push(midData)
+                        }
+
+
+                        if (!(cellInfo.accountBalance.midSumDebit == 0 && cellInfo.accountBalance.midSumCredit == 0)){
+                            let yearData = {"abstract" : "本年",
+                                "sumDebit" : cellInfo.accountBalance.yearSumDebit,
+                                "sumCredit" : cellInfo.accountBalance.yearSumCredit,
+                            };
+                            secArr.push(yearData)
+                        }
+
+
+
+                        if (secArr.length > 0){
+                            cellInfo.detailArr = secArr
+                            tmpArr.push(cellInfo)
                         }
 
                     }
+
 
 
 
@@ -151,39 +186,7 @@ export default class GeneralLedgerPage extends BComponent {
     }
 
 
-    _renderItem(item){
-        let  info = item.item;
-        let timeStr = "";
-        let secArr = [];
-        let values = info.values;
-
-        for(var key in values){
-            timeStr = key;
-            secArr = values[key];
-        }
-
-        return(
-            <GeneralLedgerCell
-                messageTitle={info.subjectNo + info.subjectName}
-                messageTime={timeStr}
-                secArr={secArr}
-            />
-
-        )
-    }
-
-    _listEmptyComponent(){
-        let headerHeight = 48+64+DeviceInfo.width*0.42+20
-        if(!this.state.isfirstRefresh){
-            return(
-                <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
-                    <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据</Text>
-                </View>
-            )
-        }else{
-            return <View />
-        }
-    }
+    //click
 
     _showInvalidData(){
         this.setState({
@@ -198,9 +201,38 @@ export default class GeneralLedgerPage extends BComponent {
         })
     }
 
+
+    //render
+
+    _listEmptyComponent(){
+        let headerHeight = 48+64+DeviceInfo.width*0.42+20
+        if(!this.state.isfirstRefresh){
+            return(
+                <View style={{width:DeviceInfo.width,alignItems:'center',height:DeviceInfo.height-headerHeight,justifyContent:'center'}}>
+                    <Text style={{fontSize:15,color:'#999999'}}>暂时没有查到相关数据</Text>
+                </View>
+            )
+        }else{
+            return <View />
+        }
+    }
+
     _separateView(){
         return(
             <View style={{width:DeviceInfo.width,height:12,backgroundColor:'transparent'}}/>
+        )
+
+    }
+
+    _renderItem(item){
+        let  info = item.item;
+        let secArr = info.detailArr;
+
+        return(
+            <BalanceSheetCell
+                messageTitle={info.subjectNo + info.subjectName}
+                secArr={secArr}
+            />
         )
     }
 
@@ -208,7 +240,7 @@ export default class GeneralLedgerPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="总账" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="科目余额表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
@@ -243,7 +275,7 @@ export default class GeneralLedgerPage extends BComponent {
     _callback(index){
         this.setState({
             timeIndex:index
-        });
+        })
         this.loadData(this.state.timeDateArr[index].relateDate)
         this.props.callback && this.props.callback(index)
     }

@@ -50,6 +50,9 @@ import AccountVoucherPage from './service/serviceDetail/AccountVoucherPage'
 import DetailAccountListPage from './service/serviceDetail/DetailAccountListPage'
 import DetailAccountCategoryPage from './service/serviceDetail/DetailAccountCategoryPage'
 import GeneralLedgerPage from './service/serviceDetail/GeneralLedgerPage'
+import BalanceSheetPage from './service/serviceDetail/BalanceSheetPage'
+
+
 
 import Notification from './view/NotificationView'
 import NoNetTipPage from './view/NoNetTipPage'
@@ -114,6 +117,7 @@ export default function () {
     reg('DetailAccountPage', () => DetailAccountPage);
     reg('AccountVoucherPage', () => AccountVoucherPage);
     reg('GeneralLedgerPage', () => GeneralLedgerPage);
+    reg('BalanceSheetPage', () => BalanceSheetPage);
     reg('VerifyResultPage', () => VerifyResultPage);
     reg('Notification', () => Notification);
     reg('NoNetTipPage', () => NoNetTipPage);

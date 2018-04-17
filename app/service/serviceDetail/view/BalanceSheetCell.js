@@ -1,14 +1,14 @@
 /**
- * Created by jinglan on 2018/4/13.
+ * Created by jinglan on 2018/4/17.
  */
+
 import React, {PropTypes,Component} from 'react';
 import {View, Text,Platform,Image,Dimensions,StyleSheet} from 'react-native';
 const window = Dimensions.get('window');
 
 export const SCREEN_WIDTH = window.width;
-import {formatmoney} from '../../../util/FormatMoney';
 
-export default class GeneralLedgerCell extends Component {
+export default class BalanceSheetCell extends Component {
 
     constructor(props) {
         super(props)
@@ -17,52 +17,48 @@ export default class GeneralLedgerCell extends Component {
 
     static propTypes = {
         messageTitle: PropTypes.string,
-        messageTime: PropTypes.string,
         secArr: PropTypes.array
 
     };
+// ,{backgroundColor:"orange"}
 
-    // let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
 
     render() {
-        const {messageTitle,messageTime,secArr} = this.props
+        const {messageTitle,secArr} = this.props
+
         return (
             <View style={styles.rowStyle}>
+
                 <View style={[styles.timeRowStyle]}>
+
                     <Text
                         textAlign='center'
                         numberOfLines={1}
-                        style={[{fontSize: 14,marginLeft:14,width :SCREEN_WIDTH - 140 , color : '#333333'}] }>{messageTitle}</Text>
+                        style={[{fontSize: 14,marginLeft:14,marginRight :24 , color : '#333333'}] }>{messageTitle}</Text>
 
-                    <View style={{height:25,width:100,marginRight :14,flexDirection: 'row-reverse', alignItems:'center'}}>
                         <Image
                             source={require('../../../img/left_button.png')}
-                            style={[{width: 10,height:15}]}/>
-                        <Text style={[{fontSize: 14,marginRight :6 , color : '#999999'}] }>{messageTime}</Text>
-                    </View>
+                            style={[{width: 10,height:15,marginRight:14}]}/>
+
                 </View>
 
+
                 <View style={styles.topRowStyle}>
-                    <Text style={[{fontSize: 12 ,flex:1, marginLeft:60, color : '#999999',textAlign:"right"}] }>{"借方"}</Text>
-                    <Text style={[{fontSize: 12 ,flex:1, marginLeft:10, color : '#999999',textAlign:"right"}] }>{"贷方"}</Text>
-                    <Text style={[{fontSize: 12 ,flex:1.2, marginLeft:10, color : '#999999',textAlign:"right"}] }>{"余额"}</Text>
+                    <Text style={[{marginLeft:52,fontSize: 12 ,flex:1, color : '#999999',textAlign:"right"}] }>{"借方"}</Text>
+                    <Text style={[{marginLeft:10,fontSize: 12 ,flex:1, color : '#999999',textAlign:"right"}] }>{"贷方"}</Text>
                 </View>
 
                 <View style={{flexDirection:'column',width:SCREEN_WIDTH - 28,
                     marginLeft:14,backgroundColor:'white'}}>
                     {
                         secArr.map((item, i) => {
+
+
                             return(
                                 <View style={[styles.itemViewStyle]}>
-                                    <Text style={[{fontSize: 12 ,marginLeft:0,width:60, color : '#999999'}] }>{item.abstract}</Text>
-                                    <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.debit == 0 ? "-" : formatmoney(item.debit + 0.0)}</Text>
-                                    <Text style={[{fontSize: 12 ,flex:1, marginLeft:10, color : '#333333',textAlign:"right"}] }>{item.credit == 0 ? "-" : formatmoney(item.credit + 0.0)}</Text>
-
-                                    <View style={{height:36,flex:1.2, marginRight :14,flexDirection: 'row-reverse', alignItems:'center'}}>
-                                        <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.balance == 0 ? "-" : formatmoney(item.balance + 0.0)}</Text>
-
-                                        <Text style={[{fontSize: 12 ,flex:0.2,width:14, marginLeft:10 , color : '#CEAF72',textAlign:"center"}] }>{item.direct}</Text>
-                                    </View>
+                                    <Text style={[{fontSize: 12 ,marginLeft:0,width:52, color : '#999999'}] }>{item.abstract}</Text>
+                                    <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.sumDebit == 0 ? "-" : item.sumDebit}</Text>
+                                    <Text style={[{marginLeft:10,fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.sumCredit == 0 ? "-" : item.sumCredit}</Text>
                                 </View>
                             )
                         })
@@ -99,6 +95,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
         alignItems:'center',
+        justifyContent:"space-between",
         width:SCREEN_WIDTH,
         height:40,
         borderBottomColor:"#D1D1D1",
