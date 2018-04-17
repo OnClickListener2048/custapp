@@ -7,12 +7,15 @@ import {
     View,
     Text,
     StyleSheet,
-    ScrollView
+    ScrollView,
+    TouchableOpacity,
+    Image
 } from 'react-native';
 
 import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../../config';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
+import ImageLoad from "../../view/ImageLoad";
 
 import * as apis from '../../apis';
 import DefaultView from '../../view/DefaultView'
@@ -25,13 +28,12 @@ export default class AccountVoucherPage extends BComponent {
         super(props);
         this.state = {
             companyName : this.props.companyName,
-            dataDetail : this.props.dataDetail,
             relatedate : '',
 
             tableHead: ['摘要', '会计科目', '借方金融', '贷方金额'],
             tableData: [],
             allCountData: [], //合计
-
+            imageArr:[],
             voucherWord:'',
             accountName:'',
             auditName:'',
@@ -50,107 +52,191 @@ export default class AccountVoucherPage extends BComponent {
     componentDidMount() {
          this._loadData()
     }
-
     _loadData(){
-        let arr = [];
-        let voucherInfo = this.props.dataDetail;
-
-        let subjectDetails = voucherInfo.subjectDetails;
-
-        let allDebitMoney = 0.00;  //借方
-        let allcreditorMoney = 0.00; //贷方
-
-        for(let i=0;i<subjectDetails.length;i++){
-            let dic = subjectDetails[i];
-
-            allDebitMoney += dic.debitMoney;
-            allcreditorMoney += dic.creditorMoney;
-
-            let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
-            let creditorMoneyM = formatmoney(dic.creditorMoney + 0.0);
-
-            arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
+        if(!NetInfoSingleton.isConnected) {
+            this.setState({
+                initStatus:'no-net'
+            });
+            return;
         }
-
-        let allCountArr = [];
-        let debtorCountM = formatmoney(allDebitMoney);
-        let creditorCountM = formatmoney(allcreditorMoney);
-        allCountArr.push(["合计","",debtorCountM,creditorCountM])
-
-        let dateStr = voucherInfo.relateDate;
-
         this.setState({
-            tableData:arr,
-            allCountData: allCountArr,
-            relatedate: dateStr.substring(0,10),
-            voucherWord:voucherInfo.voucherWord,
-            accountName:voucherInfo.accountName,
-            auditName:voucherInfo.auditName,
-            creatName:voucherInfo.creatName,
+            isLoading:true
+        })
+        apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(
+            (voucherInfo) => {
+                if (voucherInfo) {
 
-        });
+                    let arr = [];
+                    let imageArr = [];
+                    let subjectDetails = voucherInfo.data.subjectDetails
+                    for(let i=0;i<subjectDetails.length;i++){
+                        let dic = subjectDetails[i];
+                        arr.push([dic.subject_Abstract,dic.subjectName,dic.debitMoney,dic.creditorMoney])
+
+                        for(let j=0;j<dic.receiptDetails.length;j++){
+                            let imgObj = dic.receiptDetails[j]
+                            imageArr.push(imgObj)
+                        }
+                    }
+
+                    let debtorCount = 0.00;  //借方
+                    let creditorCount = 0.00; //贷方
+                    for (let i = 0 ; i < arr.count ; i++){
+                        let secArr = arr[i];
+                        if (secArr.length > 3){
+                            debtorCount += secArr[2];
+                            creditorCount += secArr[3];
+                        }
+                    }
+
+                    if (arr.length > 0){
+                        let debtorCountM = formatmoney(debtorCount);
+                        let creditorCountM = formatmoney(creditorCount);
+
+                        arr.push(["合计","会计科目",debtorCountM,creditorCountM])
+                    }
+                    this.setState({
+                        initStatus:'initSucess',
+                        tableData:arr,
+                        voucherWord:voucherInfo.data.voucherWord,
+                        accountName:voucherInfo.data.accountName,
+                        auditName:voucherInfo.data.auditName,
+                        creatName:voucherInfo.data.creatName,
+                        isLoading:false,
+                        imageArr:imageArr
+
+                    });
+
+                } else {
+                    this.setState({
+                        initStatus:'no-data',
+                        isLoading:false
+
+                    });
+                }
+            },
+            (e) => {
+                this.setState({
+                    initStatus:'error',
+                    isLoading:false
+
+                });
+
+            },
+        );
 
     }
+
 
     render() {
 
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ScrollView >
+                {
+                    this.state.initStatus == ''?<ScrollView >
 
-                    <View style={[{height:46,width:SCREEN_WIDTH,justifyContent:'center',alignItems:'center',backgroundColor:"#FFFFFF"}] }>
+                        <View style={[{height:46,width:SCREEN_WIDTH,justifyContent:'center',alignItems:'center',backgroundColor:"#FFFFFF"}] }>
 
-                        <Text
-                            numberOfLines={0}
+                            <Text
+                                numberOfLines={0}
 
-                            style={[{fontSize: 18,
-                                marginLeft : 10 ,color : '#333333'}] }>
-                            {this.props.companyName}
-                        </Text>
-                    </View>
-
-
-                    <View style={[{height:0.5,width:SCREEN_WIDTH,backgroundColor:"#D1D1D1"}]}>
-                    </View>
+                                style={[{fontSize: 18,
+                                    marginLeft : 10 ,color : '#333333'}] }>
+                                {this.props.companyName}
+                            </Text>
+                        </View>
 
 
-
-                    <View style={[{width:SCREEN_WIDTH ,justifyContent:"space-between",flexDirection:"row",backgroundColor:"#FFFFFF"}]}>
-                        <Text style={[{marginLeft:23,marginTop:8,marginBottom:8}]}>{this.state.voucherWord}</Text>
-                        <Text style={[{marginRight:23,marginTop:8,marginBottom:8}]}>{this.state.relatedate}</Text>
-
-                    </View>
+                        <View style={[{height:0.5,width:SCREEN_WIDTH,backgroundColor:"#D1D1D1"}]}>
+                        </View>
 
 
-                    <View style={{width:SCREEN_WIDTH, backgroundColor:"#FFFFFF",alignItems:'center'}}>
-                        <Table style={styles.tableStyle} borderStyle={{ borderWidth:1,borderColor: '#D1D1D1'}}>
-                            <Row data={this.state.tableHead} widthArr={this.state.widthArr} style={styles.headStyle} textStyle={styles.headText}/>
-                            <Rows data={this.state.tableData} widthArr={this.state.widthArr} style={styles.rowStyle} textStyle={styles.text}/>
+
+                        <View style={[{width:SCREEN_WIDTH ,justifyContent:"space-between",flexDirection:"row",backgroundColor:"#FFFFFF"}]}>
+                            <Text style={[{marginLeft:23,marginTop:8,marginBottom:8}]}>{this.state.voucherWord}</Text>
+                            <Text style={[{marginRight:23,marginTop:8,marginBottom:8}]}>{this.state.relatedate}</Text>
+
+                        </View>
+
+
+                        <View style={{width:SCREEN_WIDTH, backgroundColor:"#FFFFFF",alignItems:'center'}}>
+                            <Table style={styles.tableStyle} borderStyle={{ borderWidth:1,borderColor: '#D1D1D1'}}>
+                                <Row data={this.state.tableHead} widthArr={this.state.widthArr} style={styles.headStyle} textStyle={styles.headText}/>
+                                <Rows data={this.state.tableData} widthArr={this.state.widthArr} style={styles.rowStyle} textStyle={styles.text}/>
+                                {
+                                    this.state.allCountData.map((rowData, index) => (
+                                        <TableWrapper key={index} style={styles.allCountRowStyle}>
+                                            {
+                                                rowData.map((cellData, cellIndex) => (
+                                                    <Cell key={cellIndex} data={cellData} style={{width:this.state.widthArr[cellIndex]}} textStyle={cellIndex === 0 ? styles.allCountText : styles.text}/>
+                                                ))
+                                            }
+                                        </TableWrapper>
+                                    ))
+                                }
+                            </Table>
+                        </View>
+
+                        <View style={[{width:SCREEN_WIDTH ,flexDirection:"column",backgroundColor:"#FFFFFF",paddingLeft:15}]}>
+                            <View style={styles.tableCellStyle}>
+                                <Text style={{fontSize:12,color:'#333333'}}>会计主管:{this.state.accountName}</Text>
+                            </View>
+                            <View style={styles.tableCellStyle}>
+                                <Text style={styles.tableCellTextStyle}>审核人:{this.state.auditName}</Text>
+                            </View>
+                            <View style={styles.tableCellStyle}>
+                                <Text style={styles.tableCellTextStyle}>制单人:{this.state.creatName}</Text>
+                            </View>
                             {
-                                this.state.allCountData.map((rowData, index) => (
-                                    <TableWrapper key={index} style={styles.allCountRowStyle}>
-                                        {
-                                            rowData.map((cellData, cellIndex) => (
-                                                <Cell key={cellIndex} data={cellData} style={{width:this.state.widthArr[cellIndex]}} textStyle={cellIndex === 0 ? styles.allCountText : styles.text}/>
-                                            ))
-                                        }
-                                    </TableWrapper>
-                                ))
+                                this.state.imageArr.length>0?<View style={styles.tableCellStyle}>
+                                    <Text style={styles.tableCellTextStyle}>票据:{this.state.imageArr.length}张</Text>
+                                </View>:null
                             }
-                        </Table>
-                    </View>
+                        </View>
+                        <View style={{width:SCREEN_WIDTH,flexDirection:'row',flexWrap:'wrap',backgroundColor:"#FFFFFF",paddingBottom:15}}>
+                            {
+                                this.state.imageArr.map((item,index)=>{
+                                    let width =(SCREEN_WIDTH-45)/2;
+                                    let height = width * 0.6;
+                                    if(item.rotate / 90 %2 == 1){
+                                        //90 270
+                                        height = (SCREEN_WIDTH-45)/2
+                                        width = height*0.6
 
-                    <View style={[{width:SCREEN_WIDTH ,flexDirection:"column",backgroundColor:"#FFFFFF",paddingLeft:15}]}>
-                        <Text style={{fontSize:12,color:'#333333'}}>会计主管:{this.state.accountName}</Text>
-                        <Text style={{fontSize:12,color:'#333333',paddingTop:8}}>审核人:{this.state.auditName}</Text>
-                        <Text style={{fontSize:12,color:'#333333',paddingTop:8,paddingBottom:10}}>制单人:{this.state.creatName}</Text>
-                    </View>
+                                    }
+                                    let rotate = item.rotate+'deg'
+                                    return(
+                                        <TouchableOpacity key = {index} onPress = {this._showPhotoModel.bind(this,item,index)}>
+                                            <View style={{width:(SCREEN_WIDTH-45)/2,height:(SCREEN_WIDTH-45)*0.6/2,marginLeft:15,marginTop:15,justifyContent:'center',alignItems:'center'}}>
+                                                <ImageLoad
+                                                    style={{width:width,height:height,transform:[{rotate:rotate}]}}                                                resizeMode="contain"
+                                                    loadingStyle={{size: 'small', color: 'black'}}
+                                                    source={{uri:item.receiptPath}}
+                                                />
+                                            </View>
+                                        </TouchableOpacity>
 
+                                    )
+                                })
+                            }
+                        </View>
+                    </ScrollView>:<DefaultView onPress={()=>this._loadData()} type={this.state.initStatus}/>}
 
-                </ScrollView>
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
         )
+    }
+    _showPhotoModel(item,index){
+
+        this.props.navigator.push({
+            screen: 'ShowPhotoPage',
+            title:'查看图片',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+            passProps: {
+                imageArr:this.state.imageArr,
+                index:index
+            }
+        });
     }
 
 }
@@ -165,6 +251,9 @@ const styles = StyleSheet.create({
         paddingBottom:15
     },
 
+    tableCellStyle:{paddingTop:12,paddingBottom:12,borderBottomWidth:0.5,borderBottomColor:'#D1D1D1'},
+
+    tableCellTextStyle:{fontSize:12,color:'#333333'},
 
     tableStyle: {marginBottom:10,width:SCREEN_WIDTH - 30,backgroundColor:"#ffffff"},
 

@@ -50,6 +50,9 @@ import AccountVoucherPage from './service/serviceDetail/AccountVoucherPage'
 import DetailAccountListPage from './service/serviceDetail/DetailAccountListPage'
 import DetailAccountCategoryPage from './service/serviceDetail/DetailAccountCategoryPage'
 import GeneralLedgerPage from './service/serviceDetail/GeneralLedgerPage'
+import BalanceSheetPage from './service/serviceDetail/BalanceSheetPage'
+
+
 
 import Notification from './view/NotificationView'
 import NoNetTipPage from './view/NoNetTipPage'
@@ -77,6 +80,8 @@ import CheckInvoiceTitlePage from './mine/invoice/CheckInvoiceTitlePage'
 import ToolsPage from './home/tools/ToolsPage'
 
 import SupportPage from './service/support/SupportPage'
+import ShowPhotoPage from './view/ShowPhotoPage'
+
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -114,6 +119,7 @@ export default function () {
     reg('DetailAccountPage', () => DetailAccountPage);
     reg('AccountVoucherPage', () => AccountVoucherPage);
     reg('GeneralLedgerPage', () => GeneralLedgerPage);
+    reg('BalanceSheetPage', () => BalanceSheetPage);
     reg('VerifyResultPage', () => VerifyResultPage);
     reg('Notification', () => Notification);
     reg('NoNetTipPage', () => NoNetTipPage);
@@ -138,4 +144,6 @@ export default function () {
     reg('SupportPage', () => SupportPage);
     reg('DetailAccountListPage', () => DetailAccountListPage);
     reg('DetailAccountCategoryPage', () => DetailAccountCategoryPage);
+    reg('ShowPhotoPage', () => ShowPhotoPage);
+
 }
