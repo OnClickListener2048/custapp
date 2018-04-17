@@ -64,6 +64,11 @@ const serviceData = [
         title:'明细账',
         logo:require('../../img/detail_account.png'),
         jumpPage:'DetailAccountListPage'
+    },
+    {
+        title:'科目余额',
+        logo:require('../../img/balance_sheet_tip.png'),
+        jumpPage:'BalanceSheetPage'
     }
 ]
 

@@ -22,7 +22,6 @@ export default class GeneralLedgerCell extends Component {
 
     };
 
-    // let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
 
     render() {
         const {messageTitle,messageTime,secArr} = this.props
