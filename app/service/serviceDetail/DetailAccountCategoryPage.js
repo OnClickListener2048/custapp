@@ -36,6 +36,9 @@ export default class DetailAccountCategoryPage extends Component {
         return(
             <DetailAccountCateoryCell
                 categoryItem={item.item}
+                timeDateArr={this.props.timeDateArr}
+                timeIndex={this.props.timeIndex}
+                companyid={this.props.companyid}
 
                 {...this.props}
             />

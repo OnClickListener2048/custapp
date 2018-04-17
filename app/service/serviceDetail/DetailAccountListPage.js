@@ -55,7 +55,7 @@ export default class DetailAccountListPage extends BComponent {
         // this.companytype=1
 
                     var loading = SActivityIndicator.show(true, "加载中...");
-                    apis.loadAccountCategoryList(this.companyid).then(
+                    apis.loadAccountCategoryList(this.props.companyid).then(
                         (responseData) => {
                             SActivityIndicator.hide(loading);
                             if (responseData.code == 0) {

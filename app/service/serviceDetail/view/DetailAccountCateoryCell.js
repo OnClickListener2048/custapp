@@ -16,11 +16,16 @@ export default class DetailAccountCateoryCell extends Component {
     }
 
     toAccountDetail(categoryItem){
+        console.log('打印传递的数据'+this.props.timeDateArr+'-----'+this.props.timeIndex+'----'+this.props.companyid);
+
         this.props.navigator.push({
             screen: 'DetailAccountPage',
             title:categoryItem.subjectNo+' '+categoryItem.subjectName,
             passProps: {
                 categoryItem:categoryItem,
+                timeDateArr:this.props.timeDateArr,
+                timeIndex:this.props.timeIndex,
+                companyid:this.props.companyid,
             }
         });
 
