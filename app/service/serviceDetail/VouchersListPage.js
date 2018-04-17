@@ -139,6 +139,7 @@ export default class VouchersListPage extends BComponent {
                 relatedate:item.item.relateDate.substring(0,10),
                 companyid:this.props.companyid,
                 id:item.item.voucherId,
+                dataDetail:item.item
             }
         })
     }
