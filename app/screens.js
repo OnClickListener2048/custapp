@@ -77,6 +77,8 @@ import CheckInvoiceTitlePage from './mine/invoice/CheckInvoiceTitlePage'
 import ToolsPage from './home/tools/ToolsPage'
 
 import SupportPage from './service/support/SupportPage'
+import ShowPhotoPage from './view/ShowPhotoPage'
+
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -138,4 +140,6 @@ export default function () {
     reg('SupportPage', () => SupportPage);
     reg('DetailAccountListPage', () => DetailAccountListPage);
     reg('DetailAccountCategoryPage', () => DetailAccountCategoryPage);
+    reg('ShowPhotoPage', () => ShowPhotoPage);
+
 }

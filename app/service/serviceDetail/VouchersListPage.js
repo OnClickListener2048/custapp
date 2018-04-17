@@ -136,8 +136,9 @@ export default class VouchersListPage extends BComponent {
             backButtonHidden: true, // 是否隐藏返回按钮 (可选)
             passProps:{
                 companyName:this.props.companyName,
-                dataDetail:item.item,
-                relatedate:this.state.timeDateArr[this.state.timeIndex].relateDate
+                relatedate:item.item.relateDate.substring(0,10),
+                companyid:this.props.companyid,
+                id:item.item.voucherId,
             }
         })
     }
