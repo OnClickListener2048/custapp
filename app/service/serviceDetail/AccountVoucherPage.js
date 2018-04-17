@@ -53,15 +53,44 @@ export default class AccountVoucherPage extends BComponent {
          this._loadData()
     }
     _loadData(){
-        if(!NetInfoSingleton.isConnected) {
-            this.setState({
-                initStatus:'no-net'
-            });
-            return;
+
+        let arr = [];
+        let voucherInfo = this.props.dataDetail;
+
+        let subjectDetails = voucherInfo.subjectDetails;
+
+        let allDebitMoney = 0.00;  //借方
+        let allcreditorMoney = 0.00; //贷方
+
+        for(let i=0;i<subjectDetails.length;i++){
+            let dic = subjectDetails[i];
+
+            allDebitMoney += dic.debitMoney;
+            allcreditorMoney += dic.creditorMoney;
+
+            let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
+            let creditorMoneyM = formatmoney(dic.creditorMoney + 0.0);
+
+            arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
         }
+
+        let allCountArr = [];
+        let debtorCountM = formatmoney(allDebitMoney);
+        let creditorCountM = formatmoney(allcreditorMoney);
+
+        allCountArr.push(["合计","会计科目",debtorCountM,creditorCountM])
+
+
         this.setState({
+            tableData:arr,
+            allCountData: allCountArr,
+            voucherWord:voucherInfo.voucherWord,
+            accountName:voucherInfo.accountName,
+            auditName:voucherInfo.auditName,
+            creatName:voucherInfo.creatName,
             isLoading:true
-        })
+
+        });
         apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(
             (voucherInfo) => {
                 if (voucherInfo) {
@@ -96,32 +125,26 @@ export default class AccountVoucherPage extends BComponent {
                         arr.push(["合计","会计科目",debtorCountM,creditorCountM])
                     }
                     this.setState({
-                        initStatus:'initSucess',
                         tableData:arr,
                         voucherWord:voucherInfo.data.voucherWord,
                         accountName:voucherInfo.data.accountName,
                         auditName:voucherInfo.data.auditName,
                         creatName:voucherInfo.data.creatName,
-                        isLoading:false,
-                        imageArr:imageArr
-
-                    });
-
-                } else {
-                    this.setState({
-                        initStatus:'no-data',
+                        imageArr:imageArr,
                         isLoading:false
 
                     });
+
+                }else{
+                    this.setState({
+                        isLoading:false
+                    })
                 }
             },
             (e) => {
                 this.setState({
-                    initStatus:'error',
                     isLoading:false
-
-                });
-
+                })
             },
         );
 
@@ -132,8 +155,7 @@ export default class AccountVoucherPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                {
-                    this.state.initStatus == ''?<ScrollView >
+               <ScrollView >
 
                         <View style={[{height:46,width:SCREEN_WIDTH,justifyContent:'center',alignItems:'center',backgroundColor:"#FFFFFF"}] }>
 
@@ -220,7 +242,7 @@ export default class AccountVoucherPage extends BComponent {
                                 })
                             }
                         </View>
-                    </ScrollView>:<DefaultView onPress={()=>this._loadData()} type={this.state.initStatus}/>}
+               </ScrollView>
 
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>

@@ -17,6 +17,7 @@ import {
 import Swiper from 'react-native-swiper';
 
 import {SCREEN_HEIGHT,SCREEN_WIDTH,PRIMARY_YELLOW} from '../config';
+import * as WeChat from'react-native-wechat'
 
 import BComponent from '../base/BComponent'
 import ImageLoad from "../view/ImageLoad";
@@ -28,13 +29,59 @@ export default class ShowPhotoPage extends BComponent{
     };
     constructor(props){
         super(props)
-
+        this.index = props.index
 
     }
     static defaultProps = {
         index:0,//
         imageArr:[]
     };
+    componentWillMount() {
+
+        this.initNavigator()
+
+    }
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event)
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+            if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
+                let img =this.props.imageArr[this.index]['receiptPath']
+                WeChat.shareToSession({
+                    type: 'imageUrl',
+                    imageUrl:img
+                }).catch((error) => {
+                    // alert(error.message);
+                });
+            }
+        }
+    }
+    initNavigator(){
+        if(Platform.OS === 'ios') {
+            UserInfoStore.getMobileLoginInfo().then(
+                v => {
+                    if(v && v.open) {
+                        this.props.navigator.setButtons({
+                            rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                        });
+                    } else {
+                        this.props.navigator.setButtons({
+                            rightButtons: [{icon: require('../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+                        });
+                    }
+                }, e => {
+                    this.props.navigator.setButtons({
+                        rightButtons: [{icon: require('../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+                    });
+                }
+            );
+        } else {
+            // Android一直打开微信登录
+            this.props.navigator.setButtons({
+                rightButtons: [{icon: require('../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+            });
+        }
+
+    }
     render(){
 
         return (
@@ -44,7 +91,7 @@ export default class ShowPhotoPage extends BComponent{
                 style={styles.wrapper}
                 dotColor = 'gray'
                 activeDotColor = 'white'
-                onIndexChanged = {(index)=>{alert(index)}}
+                onIndexChanged = {(index)=>{this.index = index}}
 
             >
                 {
@@ -59,7 +106,7 @@ export default class ShowPhotoPage extends BComponent{
                         }
                         let rotate = item.rotate+'deg'
                         return(
-                            <View style={styles.slide}>
+                            <View key = {index} style={styles.slide}>
                                 <ImageLoad
                                     style={{width:width,height:height,transform:[{rotate:rotate}]}}
                                     resizeMode="contain"

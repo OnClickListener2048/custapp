@@ -7,6 +7,7 @@ import {View, Text,Platform,Image,Dimensions,StyleSheet} from 'react-native';
 const window = Dimensions.get('window');
 
 export const SCREEN_WIDTH = window.width;
+import {formatmoney} from '../../../util/FormatMoney';
 
 export default class BalanceSheetCell extends Component {
 
@@ -57,8 +58,8 @@ export default class BalanceSheetCell extends Component {
                             return(
                                 <View style={[styles.itemViewStyle]}>
                                     <Text style={[{fontSize: 12 ,marginLeft:0,width:52, color : '#999999'}] }>{item.abstract}</Text>
-                                    <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.sumDebit == 0 ? "-" : item.sumDebit}</Text>
-                                    <Text style={[{marginLeft:10,fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.sumCredit == 0 ? "-" : item.sumCredit}</Text>
+                                    <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.sumDebit == 0 ? "-" : formatmoney(item.sumDebit + 0.0)}</Text>
+                                    <Text style={[{marginLeft:10,fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.sumCredit == 0 ? "-" : formatmoney(item.sumCredit + 0.0)}</Text>
                                 </View>
                             )
                         })

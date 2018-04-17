@@ -22,7 +22,6 @@ import demoData from './local/VouchersListPage.json'
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import GeneralLedgerCell from "./view/GeneralLedgerCell";
-import {formatmoney} from '../../util/FormatMoney';
 
 export default class GeneralLedgerPage extends BComponent {
 
