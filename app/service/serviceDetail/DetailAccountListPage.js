@@ -49,19 +49,24 @@ export default class DetailAccountListPage extends BComponent {
         this.loadData()
     }
 
+
+
     loadData(){
         //测试用
-        this.companyid='2369'
+        // this.companyid='2369'
         // this.companytype=1
 
-                    var loading = SActivityIndicator.show(true, "加载中...");
-                    apis.loadAccountCategoryList(this.companyid).then(
+
+                        var loading = SActivityIndicator.show(true, "加载中...");
+
+                    apis.loadAccountCategoryList(this.props.companyid).then(
                         (responseData) => {
                             SActivityIndicator.hide(loading);
+
                             if (responseData.code == 0) {
                                 var data = responseData.data;
                                 if (data != null && data != []) {
-                                    var late = [];
+
                                     var asset = [];
                                     var debt = [];
                                     var rights = [];
@@ -79,32 +84,27 @@ export default class DetailAccountListPage extends BComponent {
                                         } else if (data[i].subjectNo == 2000 || data[i].subjectNo > 2000 && data[i].subjectNo<3000) {
                                             debt.push(data[i]);
                                             for(var key in data[i].childSubject) {
-                                                console.log("全部的key" + key + '====='+data[i].childSubject[key].subjectNo)
                                                 debt.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
                                             }
                                         } else if (data[i].subjectNo == 3000 || data[i].subjectNo > 3000 && data[i].subjectNo<4000) {
                                             rights.push(data[i]);
                                             for(var key in data[i].childSubject) {
-                                                console.log("全部的key" + key + '====='+data[i].childSubject[key].subjectNo)
                                                 rights.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
                                             }
                                         }else if (data[i].subjectNo == 4000 || data[i].subjectNo > 4000 && data[i].subjectNo<5000) {
                                             cost.push(data[i]);
                                             for(var key in data[i].childSubject) {
-                                                console.log("全部的key" + key + '====='+data[i].childSubject[key].subjectNo)
                                                 cost.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
                                             }
                                         }else if (data[i].subjectNo == 5000 || data[i].subjectNo > 5000 && data[i].subjectNo<6000) {
                                             profit.push(data[i]);
                                             for(var key in data[i].childSubject) {
-                                                console.log("全部的key" + key + '====='+data[i].childSubject[key].subjectNo)
                                                 profit.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
                                             }
                                         }
                                     }
                                     this.setState({
                                             data: data,
-                                            late: late,
                                             asset: asset,
                                             debt: debt,
                                             rights: rights,
@@ -116,7 +116,6 @@ export default class DetailAccountListPage extends BComponent {
                                 } else {
                                     this.setState({
                                         data: [],
-                                        late: [],
                                         asset: [],
                                         debt: [],
                                         rights: [],
@@ -177,7 +176,7 @@ export default class DetailAccountListPage extends BComponent {
                         }}
                     >
                         <DetailAccountCategoryPage tabLabel='最近'
-                                          sourceData={this.state.late}
+                                          isLate={true}
                                           lockSlide={this._lockSlide.bind(this)} //解决ScrollableTabView和listView的滑动冲突
                                           openSlide={this._openSlide.bind(this)}
                                           {...this.props}//把所有属性都传给子页面

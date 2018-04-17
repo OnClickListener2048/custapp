@@ -13,25 +13,69 @@ export default class DetailAccountCateoryCell extends Component {
     constructor(props) {
         super(props)
 
+        this.arr=[]
+        this.state = {
+            isPushing: false,// 是否跳转中
+        };
+
     }
 
     toAccountDetail(categoryItem){
+        console.log('打印传递的数据'+this.props.timeDateArr+'-----'+this.props.timeIndex+'----'+this.props.companyid);
+
+        // if (this.state.isPushing === true) {
+        //     console.log("休息一下吧, 您的手速太快了");
+        //     return;
+        // }
+
         this.props.navigator.push({
             screen: 'DetailAccountPage',
             title:categoryItem.subjectNo+' '+categoryItem.subjectName,
             passProps: {
                 categoryItem:categoryItem,
+                timeDateArr:this.props.timeDateArr,
+                timeIndex:this.props.timeIndex,
+                companyid:this.props.companyid,
             }
         });
 
-        UserInfoStore.setAccountDetailArr(categoryItem).then(
-            (list)=>{
-                console.log('保存的数据列表是'+list);
-            },
-            (e)=>{
+        UserInfoStore.getAccountDetailArr().then(
+            (list) => {
+                this.arr=list;
 
-             }
+                // this.arr.push(categoryItem)
+                if(this.arr.indexOf(categoryItem)){
+                    this.arr.remove(this.arr.indexOf(categoryItem))
+                }
+                this.arr.splice(0,0,categoryItem)
+                console.log('s222保存的数据长度是',list.length)
+
+                UserInfoStore.setAccountDetailArr(this.arr).then(
+                    (list)=>{
+                        console.log('保存的是啥'+this.arr);
+
+                        // this.state.isPushing = true;
+                        //
+                        // this._timer = setTimeout(()=>{
+                        //     this.setState({isPushing:false})//0.5秒后可点击
+                        //     clearTimeout(this._timer);
+                        // },500);
+                    },
+                    (e)=>{
+
+                    }
+                );
+            },
+            (e) => {
+
+            }
         );
+
+
+
+
+
+
     }
 
     render() {
@@ -87,7 +131,7 @@ const styles = StyleSheet.create({
         marginRight:15
     },
     line:{
-        height:0.5,
+        height:0.6,
         width:SCREEN_WIDTH,
         borderLeftColor:'#ececec',
         borderLeftWidth:1 ,
