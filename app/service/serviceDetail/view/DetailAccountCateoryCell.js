@@ -3,7 +3,7 @@
  */
 
 import React, {PropTypes,Component} from 'react';
-import {View, Text,Platform,Image,Dimensions,StyleSheet,TouchableOpacity} from 'react-native';
+import {View, Text,Platform,Image,Dimensions,StyleSheet,TouchableOpacity,DeviceEventEmitter} from 'react-native';
 const window = Dimensions.get('window');
 
 export const SCREEN_WIDTH = window.width;
@@ -44,8 +44,10 @@ export default class DetailAccountCateoryCell extends Component {
                 this.arr=list;
 
                 // this.arr.push(categoryItem)
+                console.log('要删除的角标'+this.arr.indexOf(categoryItem));
                 if(this.arr.indexOf(categoryItem)){
                     // this.arr.remove(this.arr.indexOf(categoryItem))
+
                 }
                 this.arr.splice(0,0,categoryItem)
                 console.log('s222保存的数据长度是',list.length)
@@ -53,6 +55,9 @@ export default class DetailAccountCateoryCell extends Component {
                 UserInfoStore.setAccountDetailArr(this.arr).then(
                     (list)=>{
                         console.log('保存成功'+this.arr);
+
+                        //发送消息通知本地存储的最近列表数据有更改
+                        DeviceEventEmitter.emit('changeLateList');
 
                         this.state.isPushing = true;
 

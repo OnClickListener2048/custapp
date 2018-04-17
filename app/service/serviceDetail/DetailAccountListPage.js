@@ -46,6 +46,23 @@ export default class DetailAccountListPage extends BComponent {
 
     componentDidMount() {
         this.loadData()
+        //实时刷新 最近 列表
+        DeviceEventEmitter.addListener('changeLateList', (data)=>{
+            UserInfoStore.getAccountDetailArr().then(
+                (list) => {
+                    this.setState({
+                            late: list,
+                        }
+                    );
+                },
+                (e) => {
+                    this.setState({
+                            late: [],
+                        }
+                    );
+                }
+            );
+        });
     }
 
 
@@ -122,6 +139,7 @@ export default class DetailAccountListPage extends BComponent {
                                     );
                                 }
 
+                                //取本地已存最近列表数据
                                 UserInfoStore.getAccountDetailArr().then(
                                             (list) => {
                                                 this.setState({
