@@ -29,7 +29,6 @@ export default class DetailAccountListPage extends BComponent {
     constructor(props) {
         super(props);
         this.state = {
-            data:[],//全部
             late:[],//最近
             asset:[],//资产
             debt:[],//负债
@@ -61,7 +60,6 @@ export default class DetailAccountListPage extends BComponent {
 
                     apis.loadAccountCategoryList(this.props.companyid).then(
                         (responseData) => {
-                            SActivityIndicator.hide(loading);
 
                             if (responseData.code == 0) {
                                 var data = responseData.data;
@@ -104,7 +102,6 @@ export default class DetailAccountListPage extends BComponent {
                                         }
                                     }
                                     this.setState({
-                                            data: data,
                                             asset: asset,
                                             debt: debt,
                                             rights: rights,
@@ -115,7 +112,6 @@ export default class DetailAccountListPage extends BComponent {
                                     );
                                 } else {
                                     this.setState({
-                                        data: [],
                                         asset: [],
                                         debt: [],
                                         rights: [],
@@ -126,12 +122,28 @@ export default class DetailAccountListPage extends BComponent {
                                     );
                                 }
 
+                                UserInfoStore.getAccountDetailArr().then(
+                                            (list) => {
+                                                this.setState({
+                                                        late: list,
+                                                    }
+                                                );
+                                            },
+                                            (e) => {
+                                                this.setState({
+                                                        late: [],
+                                                    }
+                                                );
+                                            }
+                                        );
+                                SActivityIndicator.hide(loading);
 
                             } else {
                                 this.setState({
                                         loadState: 'error'
                                     }
                                 );
+                                SActivityIndicator.hide(loading);
                             }
                         },
                         (e) => {
@@ -176,6 +188,7 @@ export default class DetailAccountListPage extends BComponent {
                         }}
                     >
                         <DetailAccountCategoryPage tabLabel='最近'
+                                          sourceData={this.state.late}
                                           isLate={true}
                                           lockSlide={this._lockSlide.bind(this)} //解决ScrollableTabView和listView的滑动冲突
                                           openSlide={this._openSlide.bind(this)}

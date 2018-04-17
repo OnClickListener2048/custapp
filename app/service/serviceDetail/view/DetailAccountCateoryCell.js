@@ -23,10 +23,10 @@ export default class DetailAccountCateoryCell extends Component {
     toAccountDetail(categoryItem){
         console.log('打印传递的数据'+this.props.timeDateArr+'-----'+this.props.timeIndex+'----'+this.props.companyid);
 
-        // if (this.state.isPushing === true) {
-        //     console.log("休息一下吧, 您的手速太快了");
-        //     return;
-        // }
+        if (this.state.isPushing === true) {
+            console.log("休息一下吧, 您的手速太快了");
+            return;
+        }
 
         this.props.navigator.push({
             screen: 'DetailAccountPage',
@@ -45,21 +45,21 @@ export default class DetailAccountCateoryCell extends Component {
 
                 // this.arr.push(categoryItem)
                 if(this.arr.indexOf(categoryItem)){
-                    this.arr.remove(this.arr.indexOf(categoryItem))
+                    // this.arr.remove(this.arr.indexOf(categoryItem))
                 }
                 this.arr.splice(0,0,categoryItem)
                 console.log('s222保存的数据长度是',list.length)
 
                 UserInfoStore.setAccountDetailArr(this.arr).then(
                     (list)=>{
-                        console.log('保存的是啥'+this.arr);
+                        console.log('保存成功'+this.arr);
 
-                        // this.state.isPushing = true;
-                        //
-                        // this._timer = setTimeout(()=>{
-                        //     this.setState({isPushing:false})//0.5秒后可点击
-                        //     clearTimeout(this._timer);
-                        // },500);
+                        this.state.isPushing = true;
+
+                        this._timer = setTimeout(()=>{
+                            this.setState({isPushing:false})//0.5秒后可点击
+                            clearTimeout(this._timer);
+                        },500);
                     },
                     (e)=>{
 

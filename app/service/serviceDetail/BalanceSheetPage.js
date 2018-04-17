@@ -40,6 +40,9 @@ export default class BalanceSheetPage extends BComponent {
         };
         this._showInvalidData = this._showInvalidData.bind(this);
         this._hideInvalidData = this._hideInvalidData.bind(this);
+        this._changeData = this._changeData.bind(this);
+        this._getAllData = this._getAllData.bind(this);
+        this._getValidData = this._getValidData.bind(this);
 
 
 
@@ -76,86 +79,14 @@ export default class BalanceSheetPage extends BComponent {
             (responseData) => {
                 if(responseData.code == 0){
 
-                    //深拷贝
-                    let allDataArr = JSON.parse(JSON.stringify(responseData.data));
-
-                    //对全部数据做二次处理,将cell数据包括cell名称改为数组
-                    for (let i = 0 ; i < allDataArr.length ; i++){
-                        let cellInfo = allDataArr[i];
-                        let secArr = [];
-                        let preData = {"abstract" : "期初",
-                                    "sumDebit" : cellInfo.accountBalance.preSumDebit,
-                                    "sumCredit" : cellInfo.accountBalance.preSumCredit,
-                        };
-
-                        let midData = {"abstract" : "本期",
-                            "sumDebit" : cellInfo.accountBalance.midSumDebit,
-                            "sumCredit" : cellInfo.accountBalance.midSumCredit,
-                        };
-
-                        let yearData = {"abstract" : "本年",
-                            "sumDebit" : cellInfo.accountBalance.yearSumDebit,
-                            "sumCredit" : cellInfo.accountBalance.yearSumCredit,
-                        };
-
-                        secArr.push(preData,midData,yearData);
-                        cellInfo.detailArr = secArr
-                    }
-
-
-                    //深拷贝有效数据
-                    let validArr = JSON.parse(JSON.stringify(responseData.data));
-
-                    //数据处理 将整行与整块全是0的去掉
-                    let tmpArr = [];
-
-                    //对有效数据做二次处理,将cell数据包括cell名称改为数组
-                    for (let i = 0 ; i < allDataArr.length ; i++){
-                        let cellInfo = allDataArr[i];
-                        let secArr = [];
-
-                        if (!(cellInfo.accountBalance.preSumDebit == 0 && cellInfo.accountBalance.preSumCredit == 0)){
-                            let preData = {"abstract" : "期初",
-                                "sumDebit" : cellInfo.accountBalance.preSumDebit,
-                                "sumCredit" : cellInfo.accountBalance.preSumCredit,
-                            };
-                            secArr.push(preData)
-                        }
-
-
-                        if (!(cellInfo.accountBalance.midSumDebit == 0 && cellInfo.accountBalance.midSumCredit == 0)){
-                            let midData = {"abstract" : "本期",
-                                "sumDebit" : cellInfo.accountBalance.midSumDebit,
-                                "sumCredit" : cellInfo.accountBalance.midSumCredit,
-                            };
-                            secArr.push(midData)
-                        }
-
-
-                        if (!(cellInfo.accountBalance.midSumDebit == 0 && cellInfo.accountBalance.midSumCredit == 0)){
-                            let yearData = {"abstract" : "本年",
-                                "sumDebit" : cellInfo.accountBalance.yearSumDebit,
-                                "sumCredit" : cellInfo.accountBalance.yearSumCredit,
-                            };
-                            secArr.push(yearData)
-                        }
-
-
-
-                        if (secArr.length > 0){
-                            cellInfo.detailArr = secArr
-                            tmpArr.push(cellInfo)
-                        }
-
-                    }
-
-
-
+                    let responseTmpArr = this._changeData(responseData.data);
+                    let allDataArr = this._getAllData(responseTmpArr);
+                    let validArr = this._getValidData(responseTmpArr);
 
                     this.setState({
                         alldata:allDataArr,
-                        validData:tmpArr,
-                        data:this.state.isHideInvalidData ? tmpArr : allDataArr,
+                        validData:validArr,
+                        data:this.state.isHideInvalidData ? validArr : allDataArr,
                         isRefreshing:false,
                         isfirstRefresh:false,
                         isLoading:false
@@ -178,11 +109,105 @@ export default class BalanceSheetPage extends BComponent {
             },
         );
     }
-    _onRefresh(){
-        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
+
+    //数据处理
+    _changeData(data){
+        let responseArr = JSON.parse(JSON.stringify(data));
+
+        let responseTmpArr = [];
+        for (let i = 0 ; i < responseArr.length ; i++){
+            let cellInfo = responseArr[i];
+
+            responseTmpArr.push(cellInfo)
+
+            let childSubjectinfo = cellInfo.childSubject;
+
+            for(var key in childSubjectinfo){
+                let secCellInfo = {};
+                // console.log("allKeys=========" + key + childSubjectinfo[key])
+                let childInfo = childSubjectinfo[key];
+                secCellInfo.subjectNo = childInfo.subjectNo;
+                secCellInfo.subjectName = childInfo.subjectName;
+                secCellInfo.accountBalance = childInfo.accountBalance;
+                responseTmpArr.push(secCellInfo)
+            }
+        }
+        return responseTmpArr;
     }
-    _showTimer(){
-        this.refs.ChooseTimerModal._showTimer()
+
+    _getAllData(data){
+        //深拷贝
+        let allDataArr = JSON.parse(JSON.stringify(data));
+
+        //对全部数据做二次处理,将cell数据包括cell名称改为数组
+        for (let i = 0 ; i < allDataArr.length ; i++){
+            let cellInfo = allDataArr[i];
+            let secArr = [];
+            let preData = {"abstract" : "期初",
+                "sumDebit" : cellInfo.accountBalance.preSumDebit,
+                "sumCredit" : cellInfo.accountBalance.preSumCredit,
+            };
+
+            let midData = {"abstract" : "本期",
+                "sumDebit" : cellInfo.accountBalance.midSumDebit,
+                "sumCredit" : cellInfo.accountBalance.midSumCredit,
+            };
+
+            let yearData = {"abstract" : "本年",
+                "sumDebit" : cellInfo.accountBalance.yearSumDebit,
+                "sumCredit" : cellInfo.accountBalance.yearSumCredit,
+            };
+
+            secArr.push(preData,midData,yearData);
+            cellInfo.detailArr = secArr
+        }
+        return allDataArr;
+    }
+
+    _getValidData(data){
+
+        //深拷贝有效数据
+        let validArr = JSON.parse(JSON.stringify(data));
+
+        //数据处理 将整行与整块全是0的去掉
+        let validTmpArr = [];
+
+        //对有效数据做二次处理,将cell数据包括cell名称改为数组
+        for (let i = 0 ; i < validArr.length ; i++){
+            let cellInfo = validArr[i];
+            let secArr = [];
+
+            if (!(cellInfo.accountBalance.preSumDebit == 0 && cellInfo.accountBalance.preSumCredit == 0)){
+                let preData = {"abstract" : "期初",
+                    "sumDebit" : cellInfo.accountBalance.preSumDebit,
+                    "sumCredit" : cellInfo.accountBalance.preSumCredit,
+                };
+                secArr.push(preData)
+            }
+
+            if (!(cellInfo.accountBalance.midSumDebit == 0 && cellInfo.accountBalance.midSumCredit == 0)){
+                let midData = {"abstract" : "本期",
+                    "sumDebit" : cellInfo.accountBalance.midSumDebit,
+                    "sumCredit" : cellInfo.accountBalance.midSumCredit,
+                };
+                secArr.push(midData)
+            }
+
+            if (!(cellInfo.accountBalance.yearSumDebit == 0 && cellInfo.accountBalance.yearSumCredit == 0)){
+                let yearData = {"abstract" : "本年",
+                    "sumDebit" : cellInfo.accountBalance.yearSumDebit,
+                    "sumCredit" : cellInfo.accountBalance.yearSumCredit,
+                };
+                secArr.push(yearData)
+            }
+
+            if (secArr.length > 0){
+                cellInfo.detailArr = secArr
+                validTmpArr.push(cellInfo)
+            }
+        }
+
+        return validTmpArr;
     }
 
 
@@ -201,9 +226,15 @@ export default class BalanceSheetPage extends BComponent {
         })
     }
 
+    _onRefresh(){
+        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
+    }
+
+    _showTimer(){
+        this.refs.ChooseTimerModal._showTimer()
+    }
 
     //render
-
     _listEmptyComponent(){
         let headerHeight = 48+64+DeviceInfo.width*0.42+20
         if(!this.state.isfirstRefresh){
