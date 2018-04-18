@@ -15,8 +15,6 @@ import BComponent from '../../base';
 import * as apis from '../../apis/service';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-import demoData from './local/VouchersListPage.json'
-
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import DetialAccountCell from "../view/DetialAccountCell";
@@ -52,9 +50,6 @@ export default class DetailAccountPage extends BComponent {
     }
     loadData(date='',isPull=false){
         if (this.props.is_demo == '1'){
-            this.setState({
-                data:demoData.data,
-            })
             return;
         }
 
