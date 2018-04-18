@@ -38,6 +38,12 @@ export default class DetailAccountCateoryCell extends Component {
                 companyid:this.props.companyid,
             }
         });
+        this.state.isPushing = true;
+
+        this._timer = setTimeout(()=>{
+            this.setState({isPushing:false})//0.5秒后可点击
+            clearTimeout(this._timer);
+        },500);
 
         UserInfoStore.getAccountDetailArr().then(
             (list) => {
@@ -59,18 +65,12 @@ export default class DetailAccountCateoryCell extends Component {
 
                         //发送消息通知本地存储的最近列表数据有更改
                         DeviceEventEmitter.emit('changeLateList');
-
-                        this.state.isPushing = true;
-
-                        this._timer = setTimeout(()=>{
-                            this.setState({isPushing:false})//0.5秒后可点击
-                            clearTimeout(this._timer);
-                        },500);
                     },
                     (e)=>{
 
                     }
                 );
+
             },
             (e) => {
 
