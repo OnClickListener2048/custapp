@@ -40,7 +40,6 @@ export default class DetailAccountListPage extends BComponent {
         };
         this.loadData=this.loadData.bind(this);
         this.handleData=this.handleData.bind(this);
-        // this.loading=SActivityIndicator;
 
     }
 
@@ -77,8 +76,6 @@ export default class DetailAccountListPage extends BComponent {
         // this.companyid='2369'
         // this.companytype=1
 
-
-        // this.loading.show(true, "加载中...");
                     //加载演示数据
                     if(this.props.is_demo==1){
                         //进行数据处理
@@ -97,11 +94,9 @@ export default class DetailAccountListPage extends BComponent {
                                             loadState: 'error'
                                         }
                                     );
-                                    // SActivityIndicator.hide(this.loading);
                                 }
                             },
                             (e) => {
-                                // SActivityIndicator.hide(this.loading);
                                 this.setState({
                                     loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
                                 })
@@ -114,7 +109,7 @@ export default class DetailAccountListPage extends BComponent {
 
     //对数据进行处理
     handleData(data){
-
+        var loading=SActivityIndicator.show(true, "加载中...");
 
         if (data != null && data != []) {
 
@@ -163,7 +158,7 @@ export default class DetailAccountListPage extends BComponent {
                     loadState: 'success'
                 }
             );
-            // SActivityIndicator.hide(this.loading);
+            SActivityIndicator.hide(loading);
         } else {
             this.setState({
                     asset: [],
@@ -174,7 +169,7 @@ export default class DetailAccountListPage extends BComponent {
                     loadState: 'success'
                 }
             );
-            // SActivityIndicator.hide(this.loading);
+            SActivityIndicator.hide(loading);
         }
 
         //取本地已存最近列表数据
@@ -184,14 +179,14 @@ export default class DetailAccountListPage extends BComponent {
                         late: list,
                     }
                 );
-                // SActivityIndicator.hide(this.loading);
+                SActivityIndicator.hide(loading);
             },
             (e) => {
                 this.setState({
                         late: [],
                     }
                 );
-                // SActivityIndicator.hide(this.loading);
+                SActivityIndicator.hide(loading);
             }
         );
     }
