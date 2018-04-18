@@ -52,7 +52,7 @@ export default class DetailAccountCategoryPage extends Component {
         var {sourceData} = this.props
         console.log('sourceData========',sourceData)
 
-        if(sourceData.length!=0) {
+        if(sourceData!=null && sourceData.length>0) {
             return (
                 <View style={styles.container}>
                     <FlatList

@@ -9,6 +9,7 @@ const dismissKeyboard = require('dismissKeyboard');
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CustomTabBar from '../../mine/myOrder/view/CustomTabBar'
+import demoData from './local/DetailAccountListPage.json'
 import {
     View,
     StyleSheet,
@@ -38,7 +39,11 @@ export default class DetailAccountListPage extends BComponent {
             loadState:'success',
         };
         this.loadData=this.loadData.bind(this);
+        this.handleData=this.handleData.bind(this);
+        // this.loading=SActivityIndicator;
+
     }
+
     static navigatorStyle = {
         navBarHidden: false, // 隐藏默认的顶部导航栏
         tabBarHidden: true,
@@ -73,106 +78,122 @@ export default class DetailAccountListPage extends BComponent {
         // this.companytype=1
 
 
-                        var loading = SActivityIndicator.show(true, "加载中...");
+        // this.loading.show(true, "加载中...");
+                    //加载演示数据
+                    if(this.props.is_demo==1){
+                        //进行数据处理
+                        this.handleData(demoData.data);
+                    }else {
 
-                    apis.loadAccountCategoryList(this.props.companyid).then(
-                        (responseData) => {
+                        apis.loadAccountCategoryList(this.props.companyid).then(
+                            (responseData) => {
 
-                            if (responseData.code == 0) {
-                                var data = responseData.data;
-                                if (data != null && data != []) {
+                                if (responseData.code == 0) {
+                                    var data = responseData.data;
+                                    this.handleData(data);
 
-                                    var asset = [];
-                                    var debt = [];
-                                    var rights = [];
-                                    var cost = [];
-                                    var profit = [];
-                                    for (let i = 0; i < data.length; i++) {
-                                        if (data[i].subjectNo==1000 || data[i].subjectNo>1000 && data[i].subjectNo<2000) {
-                                            asset.push(data[i]);
-                                            for(var key in data[i].childSubject) {
-                                                console.log("全部的key" + key + '====='+data[i].childSubject[key].subjectNo)
-                                                asset.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
-                                            }
-
-                                            console.log('是啥呢嫩',data[i])
-                                        } else if (data[i].subjectNo == 2000 || data[i].subjectNo > 2000 && data[i].subjectNo<3000) {
-                                            debt.push(data[i]);
-                                            for(var key in data[i].childSubject) {
-                                                debt.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
-                                            }
-                                        } else if (data[i].subjectNo == 3000 || data[i].subjectNo > 3000 && data[i].subjectNo<4000) {
-                                            rights.push(data[i]);
-                                            for(var key in data[i].childSubject) {
-                                                rights.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
-                                            }
-                                        }else if (data[i].subjectNo == 4000 || data[i].subjectNo > 4000 && data[i].subjectNo<5000) {
-                                            cost.push(data[i]);
-                                            for(var key in data[i].childSubject) {
-                                                cost.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
-                                            }
-                                        }else if (data[i].subjectNo == 5000 || data[i].subjectNo > 5000 && data[i].subjectNo<6000) {
-                                            profit.push(data[i]);
-                                            for(var key in data[i].childSubject) {
-                                                profit.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
-                                            }
-                                        }
-                                    }
-                                    this.setState({
-                                            asset: asset,
-                                            debt: debt,
-                                            rights: rights,
-                                            cost: cost,
-                                            profit: profit,
-                                            loadState: 'success'
-                                        }
-                                    );
                                 } else {
                                     this.setState({
-                                        asset: [],
-                                        debt: [],
-                                        rights: [],
-                                        cost: [],
-                                        profit: [],
-                                        loadState: 'success'
+                                            loadState: 'error'
                                         }
                                     );
+                                    // SActivityIndicator.hide(this.loading);
                                 }
-
-                                //取本地已存最近列表数据
-                                UserInfoStore.getAccountDetailArr().then(
-                                            (list) => {
-                                                this.setState({
-                                                        late: list,
-                                                    }
-                                                );
-                                            },
-                                            (e) => {
-                                                this.setState({
-                                                        late: [],
-                                                    }
-                                                );
-                                            }
-                                        );
-                                SActivityIndicator.hide(loading);
-
-                            } else {
+                            },
+                            (e) => {
+                                // SActivityIndicator.hide(this.loading);
                                 this.setState({
-                                        loadState: 'error'
-                                    }
-                                );
-                                SActivityIndicator.hide(loading);
-                            }
-                        },
-                        (e) => {
-                            SActivityIndicator.hide(loading);
-                            this.setState({
-                                loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
-                            })
-                            console.log('error', e)
+                                    loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
+                                })
+                                console.log('error', e)
 
-                        },
-                    );
+                            },
+                        );
+                    }
+    }
+
+    //对数据进行处理
+    handleData(data){
+
+
+        if (data != null && data != []) {
+
+            var asset = [];
+            var debt = [];
+            var rights = [];
+            var cost = [];
+            var profit = [];
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].subjectNo==1000 || data[i].subjectNo>1000 && data[i].subjectNo<2000) {
+                    asset.push(data[i]);
+                    for(var key in data[i].childSubject) {
+                        console.log("全部的key" + key + '====='+data[i].childSubject[key].subjectNo)
+                        asset.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
+                    }
+
+                    console.log('是啥呢嫩',data[i])
+                } else if (data[i].subjectNo == 2000 || data[i].subjectNo > 2000 && data[i].subjectNo<3000) {
+                    debt.push(data[i]);
+                    for(var key in data[i].childSubject) {
+                        debt.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
+                    }
+                } else if (data[i].subjectNo == 3000 || data[i].subjectNo > 3000 && data[i].subjectNo<4000) {
+                    rights.push(data[i]);
+                    for(var key in data[i].childSubject) {
+                        rights.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
+                    }
+                }else if (data[i].subjectNo == 4000 || data[i].subjectNo > 4000 && data[i].subjectNo<5000) {
+                    cost.push(data[i]);
+                    for(var key in data[i].childSubject) {
+                        cost.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
+                    }
+                }else if (data[i].subjectNo == 5000 || data[i].subjectNo > 5000 && data[i].subjectNo<6000) {
+                    profit.push(data[i]);
+                    for(var key in data[i].childSubject) {
+                        profit.push(data[i].childSubject[key]);//把子集提到最外层和外层数据进行合并
+                    }
+                }
+            }
+            this.setState({
+                    asset: asset,
+                    debt: debt,
+                    rights: rights,
+                    cost: cost,
+                    profit: profit,
+                    loadState: 'success'
+                }
+            );
+            // SActivityIndicator.hide(this.loading);
+        } else {
+            this.setState({
+                    asset: [],
+                    debt: [],
+                    rights: [],
+                    cost: [],
+                    profit: [],
+                    loadState: 'success'
+                }
+            );
+            // SActivityIndicator.hide(this.loading);
+        }
+
+        //取本地已存最近列表数据
+        UserInfoStore.getAccountDetailArr().then(
+            (list) => {
+                this.setState({
+                        late: list,
+                    }
+                );
+                // SActivityIndicator.hide(this.loading);
+            },
+            (e) => {
+                this.setState({
+                        late: [],
+                    }
+                );
+                // SActivityIndicator.hide(this.loading);
+            }
+        );
     }
 
 
