@@ -68,18 +68,21 @@ export default class DetailAccountCateoryCell extends Component {
         UserInfoStore.getAccountDetailArr().then(
             (list) => {
                 this.arr=list;
-                console.log('this.arr======'+this.arr+'====='+categoryItem);
                 if(this.arr!=null&&this.arr) {
-                    // var index = this.arr.findIndex((v) => {
-                    //     return v.subjectNo == categoryItem.subjectNo;
-                    // });
-                    // console.log('index======'+index);
-                    // this.arr.remove(index);
-
+                    var index = this.arr.findIndex((v) => {
+                        return v.subjectNo == categoryItem.subjectNo;
+                    });
+                    console.log('index======'+index);
+                    //删除指定角标的元素
+                    if(index!==-1) {
+                        this.arr.splice(index, 1);
+                    }
                     //倒序添加元素
                     this.arr.splice(0, 0, categoryItem)
-
+                }else{
+                    this.arr=[];
                 }
+
 
                 UserInfoStore.setAccountDetailArr(this.arr).then(
                     (list)=>{
