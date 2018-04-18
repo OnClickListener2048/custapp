@@ -1,0 +1,182 @@
+{
+  "data": {
+    "companyCode": "11111111",
+    "companyName": "总账演示数据",
+    "generalLedgerDetail": [
+      {
+        "subjectNo": "1001",
+        "subjectName": "库存现金",
+        "values": {
+          "2017-11-30": [
+            {
+              "abstract": "期初余额",
+              "debit": 162400,
+              "credit": 0,
+              "direct": "借",
+              "balance": 162400
+            },
+            {
+              "abstract": "本期合计",
+              "debit": 0,
+              "credit": 9000,
+              "direct": "借",
+              "balance": 153400
+            },
+            {
+              "abstract": "本年累计",
+              "debit": 0,
+              "credit": 21000,
+              "direct": "借",
+              "balance": 153400
+            }
+          ]
+        }
+      },
+      {
+        "subjectNo": "1012",
+        "subjectName": "其他货币资金",
+        "values": {
+          "2017-11-30": [
+            {
+              "abstract": "期初余额",
+              "debit": 19370,
+              "credit": 0,
+              "direct": "借",
+              "balance": 19370
+            },
+            {
+              "abstract": "本期合计",
+              "debit": 0,
+              "credit": 9000,
+              "direct": "借",
+              "balance": 12838
+            },
+            {
+              "abstract": "本年累计",
+              "debit": 28947,
+              "credit": 28354,
+              "direct": "借",
+              "balance": 6530
+            }
+          ]
+        }
+      },
+      {
+        "subjectNo": "1101",
+        "subjectName": "短期投资",
+        "values": {
+          "2017-11-30": [
+            {
+              "abstract": "期初余额",
+              "debit": 12000,
+              "credit": 0,
+              "direct": "贷",
+              "balance": -12000
+            },
+            {
+              "abstract": "本期合计",
+              "debit": 9000,
+              "credit": 0,
+              "direct": "贷",
+              "balance": -21000
+            },
+            {
+              "abstract": "本年累计",
+              "debit": 21000,
+              "credit": 0,
+              "direct": "贷",
+              "balance": -21000
+            }
+          ]
+        }
+      },
+      {
+        "subjectNo": "1121",
+        "subjectName": "应收票据",
+        "values": {
+          "2017-11-30": [
+            {
+              "abstract": "期初余额",
+              "debit": 25600,
+              "credit": 0,
+              "direct": "贷",
+              "balance": -25600
+            },
+            {
+              "abstract": "本期合计",
+              "debit": 0,
+              "credit": 0,
+              "direct": "贷",
+              "balance": -25600
+            },
+            {
+              "abstract": "本年累计",
+              "debit": 0,
+              "credit": 0,
+              "direct": "贷",
+              "balance": -25600
+            }
+          ]
+        }
+      },
+      {
+        "subjectNo": "1122",
+        "subjectName": "应收账款",
+        "values": {
+          "2017-11-30": [
+            {
+              "abstract": "期初余额",
+              "debit": 0,
+              "credit": 0,
+              "direct": "借",
+              "balance": 0
+            },
+            {
+              "abstract": "本期合计",
+              "debit": 0,
+              "credit": 0,
+              "direct": "借",
+              "balance": 0
+            },
+            {
+              "abstract": "本年累计",
+              "debit": 0,
+              "credit": 0,
+              "direct": "借",
+              "balance": 0
+            }
+          ]
+        }
+      },
+      {
+        "subjectNo": "1123",
+        "subjectName": "预付账款",
+        "values": {
+          "2017-11-30": [
+            {
+              "abstract": "期初余额",
+              "debit": 27340,
+              "credit": 0,
+              "direct": "借",
+              "balance": -27340
+            },
+            {
+              "abstract": "本期合计",
+              "debit": 10000,
+              "credit": 0,
+              "direct": "贷",
+              "balance": -23000
+            },
+            {
+              "abstract": "本期合计",
+              "debit": 12900,
+              "credit": 10000,
+              "direct": "贷",
+              "balance": -28800
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

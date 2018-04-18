@@ -17,7 +17,7 @@ import BComponent from '../../base';
 import * as apis from '../../apis/service';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-import demoData from './local/VouchersListPage.json'
+import demoData from './local/BalanceSheetPage.json'
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
@@ -58,11 +58,15 @@ export default class BalanceSheetPage extends BComponent {
         });
     }
 
+
     loadData(date='',isPull=false){
+
+
         if (this.props.is_demo == '1'){
-            this.setState({
-                data:demoData.data,
-            });
+
+
+            this._updateData(demoData.data);
+
             return;
         }
 
@@ -79,14 +83,11 @@ export default class BalanceSheetPage extends BComponent {
             (responseData) => {
                 if(responseData.code == 0){
 
-                    let responseTmpArr = this._changeData(responseData.data);
-                    let allDataArr = this._getAllData(responseTmpArr);
-                    let validArr = this._getValidData(responseTmpArr);
+                    this._updateData(responseData.data);
+
 
                     this.setState({
-                        alldata:allDataArr,
-                        validData:validArr,
-                        data:this.state.isHideInvalidData ? validArr : allDataArr,
+
                         isRefreshing:false,
                         isfirstRefresh:false,
                         isLoading:false
@@ -108,6 +109,18 @@ export default class BalanceSheetPage extends BComponent {
                 Toast.show('加载失败！')
             },
         );
+    }
+
+    _updateData(data){
+        let responseTmpArr = this._changeData(data);
+        let allDataArr = this._getAllData(responseTmpArr);
+        let validArr = this._getValidData(responseTmpArr);
+
+        this.setState({
+            alldata:allDataArr,
+            validData:validArr,
+            data:this.state.isHideInvalidData ? validArr : allDataArr,
+        })
     }
 
     //数据处理
@@ -286,7 +299,10 @@ export default class BalanceSheetPage extends BComponent {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this._showInvalidData}>
                         <View style={[styles.buttonStyle]}>
-                            <Text style={styles.buttonTextStyle}>{"√无效数据"}</Text>
+                            <Image
+                                source={require('../../img/invalid_btn_tip.png')}/>
+
+                            <Text style={styles.buttonTextStyle}>{"无效数据"}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -298,6 +314,7 @@ export default class BalanceSheetPage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                     ItemSeparatorComponent={this._separateView.bind(this)}
+                    ListFooterComponent={this._separateView.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
@@ -317,6 +334,7 @@ const styles = StyleSheet.create({
 
 
     buttonStyle: {
+        flexDirection:"row",
         backgroundColor: 'transparent',
         marginLeft: 14,
         borderRadius: 2,
@@ -325,10 +343,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 28,
-        width: 76,
+        width: 80,
     },
 
     buttonTextStyle: {
+        marginLeft:4,
         fontSize: 12,
         color: '#CEAF72',
         textAlign: 'center'
@@ -340,7 +359,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 28,
-        width: 76,
+        width: 80,
     },
     grayBtnTextStyle: {
         fontSize: 12,

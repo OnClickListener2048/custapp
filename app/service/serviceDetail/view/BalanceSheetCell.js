@@ -21,7 +21,6 @@ export default class BalanceSheetCell extends Component {
         secArr: PropTypes.array
 
     };
-// ,{backgroundColor:"orange"}
 
 
     render() {
@@ -31,7 +30,6 @@ export default class BalanceSheetCell extends Component {
             <View style={styles.rowStyle}>
 
                 <View style={[styles.timeRowStyle]}>
-
                     <Text
                         textAlign='center'
                         numberOfLines={1}
@@ -40,7 +38,6 @@ export default class BalanceSheetCell extends Component {
                         <Image
                             source={require('../../../img/left_button.png')}
                             style={[{width: 10,height:15,marginRight:14}]}/>
-
                 </View>
 
 
@@ -49,6 +46,7 @@ export default class BalanceSheetCell extends Component {
                     <Text style={[{marginLeft:10,fontSize: 12 ,flex:1, color : '#999999',textAlign:"right"}] }>{"贷方"}</Text>
                 </View>
 
+                {secArr != null &&
                 <View style={{flexDirection:'column',width:SCREEN_WIDTH - 28,
                     marginLeft:14,backgroundColor:'white'}}>
                     {
@@ -65,6 +63,7 @@ export default class BalanceSheetCell extends Component {
                         })
                     }
                 </View>
+                }
 
             </View>
         )

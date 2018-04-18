@@ -1,0 +1,268 @@
+{
+
+  "data":[
+    {
+      "subjectNo":"1001",
+      "subjectName":"库存现金",
+      "operDirect":1,
+      "childSubject":{
+
+      },
+      "currency":null,
+      "subjectCategory":0,
+      "discription":null,
+      "tag":null,
+      "accountBalance":{
+        "preSumDebit": 162400,
+        "preSumCredit": 0,
+        "midSumDebit": 0,
+        "midSumCredit": 9000,
+        "yearSumDebit": 0,
+        "yearSumCredit": 21000,
+        "endSumCredit": 0,
+        "endSumDebit": 153400,
+        "yearBeginDebit": 0,
+        "yearBeginCredit": 0
+      }
+    },
+    {
+      "subjectNo":"1122",
+      "subjectName":"应收账款",
+      "operDirect":1,
+      "childSubject":{
+
+      },
+      "currency":null,
+      "subjectCategory":0,
+      "discription":null,
+      "tag":null,
+      "accountBalance":{
+        "preSumDebit": 180000,
+        "preSumCredit": 200000,
+        "midSumDebit": 12000,
+        "midSumCredit": 90000,
+        "yearSumDebit": 10000,
+        "yearSumCredit": 210000,
+        "endSumCredit": 0,
+        "endSumDebit": 153400,
+        "yearBeginDebit": 0,
+        "yearBeginCredit": 0
+      }
+    },
+    {
+      "subjectNo":"1123",
+      "subjectName":"预付账款",
+      "operDirect":1,
+      "childSubject":{
+        "1123001":{
+          "subjectNo":"1123001",
+          "subjectName":"待摊费用",
+          "operDirect":1,
+          "childSubject":{
+
+          },
+          "currency":null,
+          "subjectCategory":0,
+          "discription":null,
+          "tag":null,
+          "accountBalance":{
+            "preSumDebit": 160000,
+            "preSumCredit": 300000,
+            "midSumDebit": 12000,
+            "midSumCredit": 19000,
+            "yearSumDebit": 120000,
+            "yearSumCredit": 250000,
+            "endSumCredit": 0,
+            "endSumDebit": 153400,
+            "yearBeginDebit": 0,
+            "yearBeginCredit": 0
+          }
+        }
+      },
+      "currency":null,
+      "subjectCategory":0,
+      "discription":null,
+      "tag":null,
+      "accountBalance":{
+        "preSumDebit":102830,
+        "preSumCredit":264846,
+        "midSumDebit":284649,
+        "midSumCredit":253749,
+        "yearSumDebit":725485,
+        "yearSumCredit":925384,
+        "endSumCredit":0,
+        "endSumDebit":0,
+        "yearBeginDebit":0,
+        "yearBeginCredit":0
+      }
+    },
+    {
+      "subjectNo":"1402",
+      "subjectName":"在途物资",
+      "operDirect":1,
+      "childSubject":{
+
+      },
+      "currency":null,
+      "subjectCategory":0,
+      "discription":null,
+      "tag":null,
+      "accountBalance":{
+        "preSumDebit":0,
+        "preSumCredit":0,
+        "midSumDebit":0,
+        "midSumCredit":0,
+        "yearSumDebit":0,
+        "yearSumCredit":0,
+        "endSumCredit":0,
+        "endSumDebit":0,
+        "yearBeginDebit":0,
+        "yearBeginCredit":0
+      }
+    },
+    {
+      "subjectNo":"1403",
+      "subjectName":"原材料",
+      "operDirect":1,
+      "childSubject":{
+
+      },
+      "currency":null,
+      "subjectCategory":0,
+      "discription":null,
+      "tag":null,
+      "accountBalance":{
+        "preSumDebit": 180000,
+        "preSumCredit": 120000,
+        "midSumDebit": 13000,
+        "midSumCredit": 17900,
+        "yearSumDebit": 108600,
+        "yearSumCredit": 240000,
+        "endSumCredit": 0,
+        "endSumDebit": 153400,
+        "yearBeginDebit": 0,
+        "yearBeginCredit": 0
+      }
+    },
+    {
+      "subjectNo":"5301",
+      "subjectName":"营业外收入",
+      "operDirect":2,
+      "childSubject":{
+        "5301001":{
+          "subjectNo":"5301001",
+          "subjectName":"固定资产盘盈",
+          "operDirect":2,
+          "childSubject":{
+
+          },
+          "currency":null,
+          "subjectCategory":0,
+          "discription":null,
+          "tag":null,
+          "accountBalance":{
+            "preSumDebit":0,
+            "preSumCredit":0,
+            "midSumDebit":0,
+            "midSumCredit":0,
+            "yearSumDebit":0,
+            "yearSumCredit":0,
+            "endSumCredit":0,
+            "endSumDebit":0,
+            "yearBeginDebit":0,
+            "yearBeginCredit":0
+          }
+        },
+        "5301002":{
+          "subjectNo":"5301002",
+          "subjectName":"处置固定资产净收益",
+          "operDirect":2,
+          "childSubject":{
+
+          },
+          "currency":null,
+          "subjectCategory":0,
+          "discription":null,
+          "tag":null,
+          "accountBalance":{
+            "preSumDebit": 28364,
+            "preSumCredit": 36245,
+            "midSumDebit": 17354,
+            "midSumCredit": 17939,
+            "yearSumDebit": 7365489,
+            "yearSumCredit": 8634529,
+            "endSumCredit": 0,
+            "endSumDebit": 153400,
+            "yearBeginDebit": 0,
+            "yearBeginCredit": 0
+          }
+        },
+        "5301003":{
+          "subjectNo":"5301003",
+          "subjectName":"出售无形资产收益",
+          "operDirect":2,
+          "childSubject":{
+
+          },
+          "currency":null,
+          "subjectCategory":0,
+          "discription":null,
+          "tag":null,
+          "accountBalance":{
+            "preSumDebit":100000,
+            "preSumCredit":200000,
+            "midSumDebit":183634,
+            "midSumCredit":353734,
+            "yearSumDebit":890263,
+            "yearSumCredit":902437,
+            "endSumCredit":0,
+            "endSumDebit":0,
+            "yearBeginDebit":0,
+            "yearBeginCredit":0
+          }
+        },
+        "5301004":{
+          "subjectNo":"5301004",
+          "subjectName":"罚款净收入",
+          "operDirect":2,
+          "childSubject":{
+
+          },
+          "currency":null,
+          "subjectCategory":0,
+          "discription":null,
+          "tag":null,
+          "accountBalance":{
+            "preSumDebit":0,
+            "preSumCredit":0,
+            "midSumDebit":0,
+            "midSumCredit":0,
+            "yearSumDebit":0,
+            "yearSumCredit":0,
+            "endSumCredit":0,
+            "endSumDebit":0,
+            "yearBeginDebit":0,
+            "yearBeginCredit":0
+          }
+        }
+      },
+      "currency":null,
+      "subjectCategory":0,
+      "discription":null,
+      "tag":null,
+      "accountBalance":{
+        "preSumDebit":0,
+        "preSumCredit":0,
+        "midSumDebit":0,
+        "midSumCredit":0,
+        "yearSumDebit":0,
+        "yearSumCredit":0,
+        "endSumCredit":0,
+        "endSumDebit":0,
+        "yearBeginDebit":0,
+        "yearBeginCredit":0
+      }
+    }
+  ]
+}
+

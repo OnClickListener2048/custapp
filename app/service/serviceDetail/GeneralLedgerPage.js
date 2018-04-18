@@ -17,7 +17,7 @@ import BComponent from '../../base';
 import * as apis from '../../apis/service';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-import demoData from './local/VouchersListPage.json'
+import demoData from './local/GeneralLedgerPage.json'
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
@@ -40,6 +40,8 @@ export default class GeneralLedgerPage extends BComponent {
         };
         this._showInvalidData = this._showInvalidData.bind(this);
         this._hideInvalidData = this._hideInvalidData.bind(this);
+        this._changeData = this._changeData.bind(this);
+        this._getValidData = this._getValidData.bind(this);
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -54,9 +56,8 @@ export default class GeneralLedgerPage extends BComponent {
 
     loadData(date='',isPull=false){
         if (this.props.is_demo == '1'){
-            this.setState({
-                data:demoData.data,
-            });
+            this._changeData(demoData.data.generalLedgerDetail);
+
             return;
         }
 
@@ -73,51 +74,8 @@ export default class GeneralLedgerPage extends BComponent {
             (responseData) => {
                 if(responseData.code == 0){
 
-                    //深拷贝
-                    let allDataArr = JSON.parse(JSON.stringify(responseData.data.generalLedgerDetail));
-
-                    let detail = JSON.parse(JSON.stringify(responseData.data.generalLedgerDetail));
-
-
-                    //数据处理 将整行与整块全是0的去掉
-                    let tmpArr = [];
-
-                    for (let i = 0; i < detail.length; i++ ){
-                        let cellData = detail[i];
-                        let values = cellData.values;
-
-                        let allEmpty = true;
-
-                        for(var key in values){
-                            console.log("allKeys=========" + key + values[key])
-
-                            let secArr = values[key];
-                            let secTmpArr = [];
-                            for (let j = 0; j < secArr.length; j++ ) {
-                                let secInfo = secArr[j];
-                                if (!(secInfo.debit == 0 && secInfo.credit == 0 && secInfo.balance == 0)){
-                                    secTmpArr.push(secInfo)
-                                }
-                            }
-
-                            values[key] = secTmpArr;  //给values里面数组重新赋值
-                            if (secTmpArr.length > 0){
-                                allEmpty = false;
-                            }
-                        }
-
-                        if (allEmpty === false){
-                            tmpArr.push(detail[i])
-                        }
-
-                    }
-
-
-
+                    this._changeData(responseData.data.generalLedgerDetail);
                     this.setState({
-                        alldata:allDataArr,
-                        validData:tmpArr,
-                        data:this.state.isHideInvalidData ? tmpArr : allDataArr,
                         isRefreshing:false,
                         isfirstRefresh:false,
                         isLoading:false
@@ -139,6 +97,57 @@ export default class GeneralLedgerPage extends BComponent {
                 Toast.show('加载失败！')
             },
         );
+    }
+    _changeData(data){
+        //深拷贝
+        let allDataArr = JSON.parse(JSON.stringify(data));
+
+        let validDataArr = this._getValidData(data)
+
+        this.setState({
+            alldata:allDataArr,
+            validData:validDataArr,
+            data:this.state.isHideInvalidData ? validDataArr : allDataArr,
+        })
+    }
+
+
+    _getValidData(data) {
+        //数据处理 将整行与整块全是0的去掉
+        let tmpArr = [];
+        let detail = JSON.parse(JSON.stringify(data));
+
+        for (let i = 0; i < detail.length; i++ ){
+            let cellData = detail[i];
+            let values = cellData.values;
+
+            let allEmpty = true;
+
+            for(var key in values){
+                console.log("allKeys=========" + key + values[key])
+
+                let secArr = values[key];
+                let secTmpArr = [];
+                for (let j = 0; j < secArr.length; j++ ) {
+                    let secInfo = secArr[j];
+                    if (!(secInfo.debit == 0 && secInfo.credit == 0 && secInfo.balance == 0)){
+                        secTmpArr.push(secInfo)
+                    }
+                }
+
+                values[key] = secTmpArr;  //给values里面数组重新赋值
+                if (secTmpArr.length > 0){
+                    allEmpty = false;
+                }
+            }
+
+            if (allEmpty === false){
+                tmpArr.push(detail[i])
+            }
+
+        }
+
+        return tmpArr;
     }
 
     _showInvalidData(){
@@ -223,7 +232,9 @@ export default class GeneralLedgerPage extends BComponent {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this._showInvalidData}>
                         <View style={[styles.buttonStyle]}>
-                            <Text style={styles.buttonTextStyle}>{"√无效数据"}</Text>
+                            <Image
+                                source={require('../../img/invalid_btn_tip.png')}/>
+                            <Text style={styles.buttonTextStyle}>{"无效数据"}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -236,13 +247,8 @@ export default class GeneralLedgerPage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                     ItemSeparatorComponent={this._separateView.bind(this)}
-
+                    ListFooterComponent={this._separateView.bind(this)}
                 />
-
-
-
-
-
 
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
@@ -262,6 +268,7 @@ const styles = StyleSheet.create({
 
 
     buttonStyle: {
+        flexDirection:"row",
         backgroundColor: 'transparent',
         marginLeft: 14,
         borderRadius: 2,
@@ -270,10 +277,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 28,
-        width: 76,
+        width: 80,
     },
 
     buttonTextStyle: {
+        marginLeft:4,
         fontSize: 12,
         color: '#CEAF72',
         textAlign: 'center'
@@ -285,7 +293,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 28,
-        width: 76,
+        width: 80,
     },
     grayBtnTextStyle: {
         fontSize: 12,
