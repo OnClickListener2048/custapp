@@ -59,11 +59,11 @@ export default class GeneralLedgerCell extends Component {
                                     return(
                                         <View style={[styles.itemViewStyle]}>
                                             <Text style={[{fontSize: 12 ,marginLeft:0,width:60, color : '#999999'}] }>{item.abstract}</Text>
-                                            <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.debit == 0 ? "-" : formatmoney(item.debit + 0.0)}</Text>
-                                            <Text style={[{fontSize: 12 ,flex:1, marginLeft:10, color : '#333333',textAlign:"right"}] }>{item.credit == 0 ? "-" : formatmoney(item.credit + 0.0)}</Text>
+                                            <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{formatmoney(item.debit + 0.0)}</Text>
+                                            <Text style={[{fontSize: 12 ,flex:1, marginLeft:10, color : '#333333',textAlign:"right"}] }>{formatmoney(item.credit + 0.0)}</Text>
 
                                             <View style={{height:36,flex:1.2, marginRight :14,flexDirection: 'row-reverse', alignItems:'center'}}>
-                                                <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{item.balance == 0 ? "-" : formatmoney(item.balance + 0.0)}</Text>
+                                                <Text style={[{fontSize: 12 ,flex:1, color : '#333333',textAlign:"right"}] }>{formatmoney(item.balance + 0.0)}</Text>
 
                                                 <Text style={[{fontSize: 12 ,flex:0.2,width:14, marginLeft:10 , color : '#CEAF72',textAlign:"center"}] }>{item.direct}</Text>
                                             </View>
