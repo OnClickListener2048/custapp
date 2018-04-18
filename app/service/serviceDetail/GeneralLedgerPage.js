@@ -85,7 +85,7 @@ export default class GeneralLedgerPage extends BComponent {
                         isRefreshing:false,
                         isLoading:false
 
-                    })
+                    });
                     Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
@@ -93,7 +93,7 @@ export default class GeneralLedgerPage extends BComponent {
                 this.setState({
                     isRefreshing:false,
                     isLoading:false
-                })
+                });
                 Toast.show('加载失败！')
             },
         );
@@ -114,7 +114,7 @@ export default class GeneralLedgerPage extends BComponent {
 
     _getValidData(data) {
         //数据处理 将整行与整块全是0的去掉
-        let tmpArr = [];
+        let validArr = [];
         let detail = JSON.parse(JSON.stringify(data));
 
         for (let i = 0; i < detail.length; i++ ){
@@ -124,8 +124,6 @@ export default class GeneralLedgerPage extends BComponent {
             let allEmpty = true;
 
             for(var key in values){
-                console.log("allKeys=========" + key + values[key])
-
                 let secArr = values[key];
                 let secTmpArr = [];
                 for (let j = 0; j < secArr.length; j++ ) {
@@ -142,12 +140,10 @@ export default class GeneralLedgerPage extends BComponent {
             }
 
             if (allEmpty === false){
-                tmpArr.push(detail[i])
+                validArr.push(detail[i])
             }
-
         }
-
-        return tmpArr;
+        return validArr;
     }
 
     _showInvalidData(){
@@ -156,6 +152,7 @@ export default class GeneralLedgerPage extends BComponent {
             isHideInvalidData:false
         })
     }
+
     _hideInvalidData(){
         this.setState({
             data:this.state.validData,
@@ -163,14 +160,13 @@ export default class GeneralLedgerPage extends BComponent {
         })
     }
 
-
     _onRefresh(){
         this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
     }
+
     _showTimer(){
         this.refs.ChooseTimerModal._showTimer()
     }
-
 
     //render
     _separateView(){
@@ -184,7 +180,6 @@ export default class GeneralLedgerPage extends BComponent {
         let timeStr = "";
         let secArr = [];
         let values = info.values;
-
         for(var key in values){
             timeStr = key;
             secArr = values[key];
@@ -196,7 +191,6 @@ export default class GeneralLedgerPage extends BComponent {
                 messageTime={timeStr}
                 secArr={secArr}
             />
-
         )
     }
 
@@ -214,7 +208,6 @@ export default class GeneralLedgerPage extends BComponent {
     }
 
     render(){
-
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="总账" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
@@ -249,11 +242,11 @@ export default class GeneralLedgerPage extends BComponent {
                     ItemSeparatorComponent={this._separateView.bind(this)}
                     ListFooterComponent={this._separateView.bind(this)}
                 />
-
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
         )
     }
+
     _callback(index){
         this.setState({
             timeIndex:index
@@ -261,11 +254,10 @@ export default class GeneralLedgerPage extends BComponent {
         this.loadData(this.state.timeDateArr[index].relateDate)
         this.props.callback && this.props.callback(index)
     }
-
 }
 
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
 
     buttonStyle: {
         flexDirection:"row",
@@ -286,6 +278,7 @@ const styles = StyleSheet.create({
         color: '#CEAF72',
         textAlign: 'center'
     },
+
     grayBtnStyle: {
         backgroundColor: '#D8D8D8',
         marginLeft: 12,
@@ -295,6 +288,7 @@ const styles = StyleSheet.create({
         height: 28,
         width: 80,
     },
+    
     grayBtnTextStyle: {
         fontSize: 12,
         color: '#666666',

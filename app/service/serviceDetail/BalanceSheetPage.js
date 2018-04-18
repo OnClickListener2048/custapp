@@ -61,12 +61,8 @@ export default class BalanceSheetPage extends BComponent {
 
     loadData(date='',isPull=false){
 
-
         if (this.props.is_demo == '1'){
-
-
             this._updateData(demoData.data);
-
             return;
         }
 
@@ -82,12 +78,8 @@ export default class BalanceSheetPage extends BComponent {
         apis.loadBalancesheet(this.props.companyid,date).then(
             (responseData) => {
                 if(responseData.code == 0){
-
                     this._updateData(responseData.data);
-
-
                     this.setState({
-
                         isRefreshing:false,
                         isfirstRefresh:false,
                         isLoading:false
@@ -96,8 +88,7 @@ export default class BalanceSheetPage extends BComponent {
                     this.setState({
                         isRefreshing:false,
                         isLoading:false
-
-                    })
+                    });
                     Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
@@ -105,7 +96,7 @@ export default class BalanceSheetPage extends BComponent {
                 this.setState({
                     isRefreshing:false,
                     isLoading:false
-                })
+                });
                 Toast.show('加载失败！')
             },
         );
@@ -125,6 +116,7 @@ export default class BalanceSheetPage extends BComponent {
 
     //数据处理
     _changeData(data){
+        //将二维数组处理成一维数组
         let responseArr = JSON.parse(JSON.stringify(data));
 
         let responseTmpArr = [];
@@ -225,7 +217,6 @@ export default class BalanceSheetPage extends BComponent {
 
 
     //click
-
     _showInvalidData(){
         this.setState({
             data:this.state.alldata,
@@ -265,13 +256,11 @@ export default class BalanceSheetPage extends BComponent {
         return(
             <View style={{width:DeviceInfo.width,height:12,backgroundColor:'transparent'}}/>
         )
-
     }
 
     _renderItem(item){
         let  info = item.item;
         let secArr = info.detailArr;
-
         return(
             <BalanceSheetCell
                 messageTitle={info.subjectNo + info.subjectName}
@@ -281,7 +270,6 @@ export default class BalanceSheetPage extends BComponent {
     }
 
     render(){
-
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="科目余额表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
@@ -320,18 +308,18 @@ export default class BalanceSheetPage extends BComponent {
             </View>
         )
     }
+
     _callback(index){
         this.setState({
             timeIndex:index
-        })
+        });
         this.loadData(this.state.timeDateArr[index].relateDate)
         this.props.callback && this.props.callback(index)
     }
-
 }
 
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
 
     buttonStyle: {
         flexDirection:"row",
@@ -352,6 +340,7 @@ const styles = StyleSheet.create({
         color: '#CEAF72',
         textAlign: 'center'
     },
+
     grayBtnStyle: {
         backgroundColor: '#D8D8D8',
         marginLeft: 12,
@@ -361,6 +350,7 @@ const styles = StyleSheet.create({
         height: 28,
         width: 80,
     },
+
     grayBtnTextStyle: {
         fontSize: 12,
         color: '#666666',
