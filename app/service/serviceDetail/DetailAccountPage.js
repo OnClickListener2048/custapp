@@ -131,7 +131,7 @@ export default class DetailAccountPage extends BComponent {
                 companyName:this.props.companyName,
                 relatedate:item.item.relateDate.substring(0,10),
                 companyid:this.props.companyid,
-                id:item.item.voucherId,
+                id:item.item.voucher_Id,
             }
         })
     }
@@ -182,7 +182,7 @@ export default class DetailAccountPage extends BComponent {
             timeIndex:index
         })
         this.loadData(this.state.timeDateArr[index].relateDate)
-        this.props.callback && this.props.callback(index)
+        // this.props.callback && this.props.callback(index)
     }
 
 }
