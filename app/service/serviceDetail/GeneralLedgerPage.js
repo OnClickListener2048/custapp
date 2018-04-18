@@ -118,23 +118,25 @@ export default class GeneralLedgerPage extends BComponent {
             let cellData = detail[i];
             let values = cellData.values;
             let allEmpty = true;
+
             for(var key in values){
                 let secArr = values[key];
                 let secTmpArr = [];
                 for (let j = 0; j < secArr.length; j++ ) {
                     let secInfo = secArr[j];
+                    secTmpArr.push(secInfo)
+
                     if (!(secInfo.debit == 0 && secInfo.credit == 0 && secInfo.balance == 0)){
-                        secTmpArr.push(secInfo)
+                        allEmpty = false;
                     }
                 }
                 values[key] = secTmpArr;  //给values里面数组重新赋值
-                if (secTmpArr.length > 0){
-                    allEmpty = false;
-                }
+
             }
             if (allEmpty === false){
                 validArr.push(detail[i])
             }
+
         }
         return validArr;
     }

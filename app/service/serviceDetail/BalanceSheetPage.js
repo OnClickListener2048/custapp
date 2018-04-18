@@ -182,29 +182,27 @@ export default class BalanceSheetPage extends BComponent {
             let cellInfo = validArr[i];
             let secArr = [];
 
-            if (!(cellInfo.accountBalance.preSumDebit == 0 && cellInfo.accountBalance.preSumCredit == 0)){
+            if (!(cellInfo.accountBalance.preSumDebit == 0 && cellInfo.accountBalance.preSumCredit == 0 && cellInfo.accountBalance.midSumDebit == 0 && cellInfo.accountBalance.midSumCredit == 0
+                && cellInfo.accountBalance.yearSumDebit == 0 && cellInfo.accountBalance.yearSumCredit == 0)){
                 let preData = {"abstract" : "期初",
                     "sumDebit" : cellInfo.accountBalance.preSumDebit,
                     "sumCredit" : cellInfo.accountBalance.preSumCredit,
                 };
                 secArr.push(preData)
-            }
 
-            if (!(cellInfo.accountBalance.midSumDebit == 0 && cellInfo.accountBalance.midSumCredit == 0)){
                 let midData = {"abstract" : "本期",
                     "sumDebit" : cellInfo.accountBalance.midSumDebit,
                     "sumCredit" : cellInfo.accountBalance.midSumCredit,
                 };
                 secArr.push(midData)
-            }
 
-            if (!(cellInfo.accountBalance.yearSumDebit == 0 && cellInfo.accountBalance.yearSumCredit == 0)){
                 let yearData = {"abstract" : "本年",
                     "sumDebit" : cellInfo.accountBalance.yearSumDebit,
                     "sumCredit" : cellInfo.accountBalance.yearSumCredit,
                 };
                 secArr.push(yearData)
             }
+
 
             if (secArr.length > 0){
                 cellInfo.detailArr = secArr
