@@ -57,7 +57,6 @@ export default class GeneralLedgerPage extends BComponent {
     loadData(date='',isPull=false){
         if (this.props.is_demo == '1'){
             this._changeData(demoData.data.generalLedgerDetail);
-
             return;
         }
 
@@ -70,10 +69,10 @@ export default class GeneralLedgerPage extends BComponent {
                 isLoading:true
             })
         }
+
         apis.loadGeneralLedgerData(this.props.companyid,date).then(
             (responseData) => {
                 if(responseData.code == 0){
-
                     this._changeData(responseData.data.generalLedgerDetail);
                     this.setState({
                         isRefreshing:false,
@@ -84,7 +83,6 @@ export default class GeneralLedgerPage extends BComponent {
                     this.setState({
                         isRefreshing:false,
                         isLoading:false
-
                     });
                     Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
@@ -98,12 +96,11 @@ export default class GeneralLedgerPage extends BComponent {
             },
         );
     }
+
     _changeData(data){
         //深拷贝
         let allDataArr = JSON.parse(JSON.stringify(data));
-
         let validDataArr = this._getValidData(data)
-
         this.setState({
             alldata:allDataArr,
             validData:validDataArr,
@@ -120,9 +117,7 @@ export default class GeneralLedgerPage extends BComponent {
         for (let i = 0; i < detail.length; i++ ){
             let cellData = detail[i];
             let values = cellData.values;
-
             let allEmpty = true;
-
             for(var key in values){
                 let secArr = values[key];
                 let secTmpArr = [];
@@ -132,13 +127,11 @@ export default class GeneralLedgerPage extends BComponent {
                         secTmpArr.push(secInfo)
                     }
                 }
-
                 values[key] = secTmpArr;  //给values里面数组重新赋值
                 if (secTmpArr.length > 0){
                     allEmpty = false;
                 }
             }
-
             if (allEmpty === false){
                 validArr.push(detail[i])
             }
@@ -184,7 +177,6 @@ export default class GeneralLedgerPage extends BComponent {
             timeStr = key;
             secArr = values[key];
         }
-
         return(
             <GeneralLedgerCell
                 messageTitle={info.subjectNo + info.subjectName}
@@ -288,7 +280,7 @@ const styles = StyleSheet.create({
         height: 28,
         width: 80,
     },
-    
+
     grayBtnTextStyle: {
         fontSize: 12,
         color: '#666666',
