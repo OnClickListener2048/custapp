@@ -92,6 +92,11 @@ export default class AccountVoucherPage extends BComponent {
                 isLoading:true
 
             });
+        }else{
+            this.setState({
+                isLoading:true
+
+            })
         }
 
         apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(

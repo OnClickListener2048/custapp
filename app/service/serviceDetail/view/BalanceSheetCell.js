@@ -13,15 +13,12 @@ export default class BalanceSheetCell extends Component {
 
     constructor(props) {
         super(props)
-
     }
 
     static propTypes = {
         messageTitle: PropTypes.string,
         secArr: PropTypes.array
-
     };
-// ,{backgroundColor:"orange"}
 
 
     render() {
@@ -31,30 +28,23 @@ export default class BalanceSheetCell extends Component {
             <View style={styles.rowStyle}>
 
                 <View style={[styles.timeRowStyle]}>
-
                     <Text
                         textAlign='center'
                         numberOfLines={1}
                         style={[{fontSize: 14,marginLeft:14,marginRight :24 , color : '#333333'}] }>{messageTitle}</Text>
-
-                        <Image
-                            source={require('../../../img/left_button.png')}
-                            style={[{width: 10,height:15,marginRight:14}]}/>
-
+                        <Image source={require('../../../img/left_button.png')} style={[{width: 10,height:15,marginRight:14}]}/>
                 </View>
-
 
                 <View style={styles.topRowStyle}>
                     <Text style={[{marginLeft:52,fontSize: 12 ,flex:1, color : '#999999',textAlign:"right"}] }>{"借方"}</Text>
                     <Text style={[{marginLeft:10,fontSize: 12 ,flex:1, color : '#999999',textAlign:"right"}] }>{"贷方"}</Text>
                 </View>
 
+                {secArr != null &&
                 <View style={{flexDirection:'column',width:SCREEN_WIDTH - 28,
                     marginLeft:14,backgroundColor:'white'}}>
                     {
                         secArr.map((item, i) => {
-
-
                             return(
                                 <View style={[styles.itemViewStyle]}>
                                     <Text style={[{fontSize: 12 ,marginLeft:0,width:52, color : '#999999'}] }>{item.abstract}</Text>
@@ -65,6 +55,7 @@ export default class BalanceSheetCell extends Component {
                         })
                     }
                 </View>
+                }
 
             </View>
         )
@@ -78,8 +69,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         flexDirection: 'column',
         width: SCREEN_WIDTH,
-
-
     },
 
     topRowStyle: {
@@ -89,7 +78,6 @@ const styles = StyleSheet.create({
         // backgroundColor:"orange",
         height:40,
         marginLeft:14
-
     },
 
     timeRowStyle: {
@@ -120,6 +108,7 @@ const styles = StyleSheet.create({
         color: '#CEAF72',
         textAlign: 'center'
     },
+
     grayBtnStyle: {
         backgroundColor: '#D8D8D8',
         marginLeft: 12,
@@ -129,6 +118,7 @@ const styles = StyleSheet.create({
         height: 28,
         width: 76,
     },
+
     grayBtnTextStyle: {
         fontSize: 12,
         color: '#666666',
@@ -139,7 +129,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
         alignItems:'center',
-
         height:36
     },
 });

@@ -17,7 +17,7 @@ import BComponent from '../../base';
 import * as apis from '../../apis/service';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-import demoData from './local/VouchersListPage.json'
+import demoData from './local/BalanceSheetPage.json'
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
@@ -58,11 +58,11 @@ export default class BalanceSheetPage extends BComponent {
         });
     }
 
+
     loadData(date='',isPull=false){
+
         if (this.props.is_demo == '1'){
-            this.setState({
-                data:demoData.data,
-            });
+            this._updateData(demoData.data);
             return;
         }
 
@@ -78,15 +78,8 @@ export default class BalanceSheetPage extends BComponent {
         apis.loadBalancesheet(this.props.companyid,date).then(
             (responseData) => {
                 if(responseData.code == 0){
-
-                    let responseTmpArr = this._changeData(responseData.data);
-                    let allDataArr = this._getAllData(responseTmpArr);
-                    let validArr = this._getValidData(responseTmpArr);
-
+                    this._updateData(responseData.data);
                     this.setState({
-                        alldata:allDataArr,
-                        validData:validArr,
-                        data:this.state.isHideInvalidData ? validArr : allDataArr,
                         isRefreshing:false,
                         isfirstRefresh:false,
                         isLoading:false
@@ -95,8 +88,7 @@ export default class BalanceSheetPage extends BComponent {
                     this.setState({
                         isRefreshing:false,
                         isLoading:false
-
-                    })
+                    });
                     Toast.show(responseData.msg?responseData.msg:'加载失败！')
                 }
             },
@@ -104,14 +96,27 @@ export default class BalanceSheetPage extends BComponent {
                 this.setState({
                     isRefreshing:false,
                     isLoading:false
-                })
+                });
                 Toast.show('加载失败！')
             },
         );
     }
 
+    _updateData(data){
+        let responseTmpArr = this._changeData(data);
+        let allDataArr = this._getAllData(responseTmpArr);
+        let validArr = this._getValidData(responseTmpArr);
+
+        this.setState({
+            alldata:allDataArr,
+            validData:validArr,
+            data:this.state.isHideInvalidData ? validArr : allDataArr,
+        })
+    }
+
     //数据处理
     _changeData(data){
+        //将二维数组处理成一维数组
         let responseArr = JSON.parse(JSON.stringify(data));
 
         let responseTmpArr = [];
@@ -212,7 +217,6 @@ export default class BalanceSheetPage extends BComponent {
 
 
     //click
-
     _showInvalidData(){
         this.setState({
             data:this.state.alldata,
@@ -252,13 +256,11 @@ export default class BalanceSheetPage extends BComponent {
         return(
             <View style={{width:DeviceInfo.width,height:12,backgroundColor:'transparent'}}/>
         )
-
     }
 
     _renderItem(item){
         let  info = item.item;
         let secArr = info.detailArr;
-
         return(
             <BalanceSheetCell
                 messageTitle={info.subjectNo + info.subjectName}
@@ -268,7 +270,6 @@ export default class BalanceSheetPage extends BComponent {
     }
 
     render(){
-
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
                 <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="科目余额表" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
@@ -286,7 +287,10 @@ export default class BalanceSheetPage extends BComponent {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this._showInvalidData}>
                         <View style={[styles.buttonStyle]}>
-                            <Text style={styles.buttonTextStyle}>{"√无效数据"}</Text>
+                            <Image
+                                source={require('../../img/invalid_btn_tip.png')}/>
+
+                            <Text style={styles.buttonTextStyle}>{"无效数据"}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -298,25 +302,27 @@ export default class BalanceSheetPage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                     ItemSeparatorComponent={this._separateView.bind(this)}
+                    ListFooterComponent={this._separateView.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
         )
     }
+
     _callback(index){
         this.setState({
             timeIndex:index
-        })
+        });
         this.loadData(this.state.timeDateArr[index].relateDate)
         this.props.callback && this.props.callback(index)
     }
-
 }
+
 
 const styles = StyleSheet.create({
 
-
     buttonStyle: {
+        flexDirection:"row",
         backgroundColor: 'transparent',
         marginLeft: 14,
         borderRadius: 2,
@@ -325,14 +331,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 28,
-        width: 76,
+        width: 80,
     },
 
     buttonTextStyle: {
+        marginLeft:4,
         fontSize: 12,
         color: '#CEAF72',
         textAlign: 'center'
     },
+
     grayBtnStyle: {
         backgroundColor: '#D8D8D8',
         marginLeft: 12,
@@ -340,8 +348,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 28,
-        width: 76,
+        width: 80,
     },
+
     grayBtnTextStyle: {
         fontSize: 12,
         color: '#666666',
