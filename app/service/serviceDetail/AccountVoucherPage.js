@@ -54,43 +54,46 @@ export default class AccountVoucherPage extends BComponent {
     }
     _loadData(){
 
-        let arr = [];
-        let voucherInfo = this.props.dataDetail;
+        if(this.props.dataDetail){
+            let arr = [];
+            let voucherInfo = this.props.dataDetail;
 
-        let subjectDetails = voucherInfo.subjectDetails;
+            let subjectDetails = voucherInfo.subjectDetails;
 
-        let allDebitMoney = 0.00;  //借方
-        let allcreditorMoney = 0.00; //贷方
+            let allDebitMoney = 0.00;  //借方
+            let allcreditorMoney = 0.00; //贷方
 
-        for(let i=0;i<subjectDetails.length;i++){
-            let dic = subjectDetails[i];
+            for(let i=0;i<subjectDetails.length;i++){
+                let dic = subjectDetails[i];
 
-            allDebitMoney += dic.debitMoney;
-            allcreditorMoney += dic.creditorMoney;
+                allDebitMoney += dic.debitMoney;
+                allcreditorMoney += dic.creditorMoney;
 
-            let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
-            let creditorMoneyM = formatmoney(dic.creditorMoney + 0.0);
+                let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
+                let creditorMoneyM = formatmoney(dic.creditorMoney + 0.0);
 
-            arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
+                arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
+            }
+
+            let allCountArr = [];
+            let debtorCountM = formatmoney(allDebitMoney);
+            let creditorCountM = formatmoney(allcreditorMoney);
+
+            allCountArr.push(["合计","会计科目",debtorCountM,creditorCountM])
+
+
+            this.setState({
+                tableData:arr,
+                allCountData: allCountArr,
+                voucherWord:voucherInfo.voucherWord,
+                accountName:voucherInfo.accountName,
+                auditName:voucherInfo.auditName,
+                creatName:voucherInfo.creatName,
+                isLoading:true
+
+            });
         }
 
-        let allCountArr = [];
-        let debtorCountM = formatmoney(allDebitMoney);
-        let creditorCountM = formatmoney(allcreditorMoney);
-
-        allCountArr.push(["合计","会计科目",debtorCountM,creditorCountM])
-
-
-        this.setState({
-            tableData:arr,
-            allCountData: allCountArr,
-            voucherWord:voucherInfo.voucherWord,
-            accountName:voucherInfo.accountName,
-            auditName:voucherInfo.auditName,
-            creatName:voucherInfo.creatName,
-            isLoading:true
-
-        });
         apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(
             (voucherInfo) => {
                 if (voucherInfo) {
