@@ -106,7 +106,7 @@ export default class ShowPhotoPage extends BComponent{
                         }
                         let rotate = item.rotate+'deg'
                         return(
-                            <View key = {index} style={styles.slide}>
+                            <View key = {} style={styles.slide}>
                                 <ImageLoad
                                     style={{width:width,height:height,transform:[{rotate:rotate}]}}
                                     resizeMode="contain"
