@@ -9,6 +9,7 @@ const dismissKeyboard = require('dismissKeyboard');
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import {SCREEN_HEIGHT,SCREEN_WIDTH} from '../../config';
 import CustomTabBar from '../../mine/myOrder/view/CustomTabBar'
+import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import demoData from './local/DetailAccountListPage.json'
 import {
     View,
@@ -37,6 +38,7 @@ export default class DetailAccountListPage extends BComponent {
             cost:[],//成本
             profit:[],//损益
             loadState:'success',
+            isLoading:false
         };
         this.loadData=this.loadData.bind(this);
         this.handleData=this.handleData.bind(this);
@@ -82,18 +84,26 @@ export default class DetailAccountListPage extends BComponent {
                         this.handleData(demoData.data);
                     }else {
 
+                        this.setState({
+                            isLoading: true,
+                        })
                         apis.loadAccountCategoryList(this.props.companyid).then(
                             (responseData) => {
 
                                 if (responseData.code == 0) {
                                     var data = responseData.data;
                                     this.handleData(data);
-
+                                    this.setState({
+                                        isLoading: false,
+                                    })
                                 } else {
                                     this.setState({
                                             loadState: 'error'
                                         }
                                     );
+                                    this.setState({
+                                        isLoading: false,
+                                    })
                                 }
                             },
                             (e) => {
@@ -101,7 +111,9 @@ export default class DetailAccountListPage extends BComponent {
                                     loadState: NetInfoSingleton.isConnected ? 'error' : 'no-net',
                                 })
                                 console.log('error', e)
-
+                                this.setState({
+                                    isLoading: false,
+                                })
                             },
                         );
                     }
@@ -109,7 +121,7 @@ export default class DetailAccountListPage extends BComponent {
 
     //对数据进行处理
     handleData(data){
-        var loading=SActivityIndicator.show(true, "加载中...");
+
 
         if (data != null && data != []) {
 
@@ -158,7 +170,7 @@ export default class DetailAccountListPage extends BComponent {
                     loadState: 'success'
                 }
             );
-            SActivityIndicator.hide(loading);
+
         } else {
             this.setState({
                     asset: [],
@@ -169,7 +181,6 @@ export default class DetailAccountListPage extends BComponent {
                     loadState: 'success'
                 }
             );
-            SActivityIndicator.hide(loading);
         }
 
         //取本地已存最近列表数据
@@ -179,14 +190,12 @@ export default class DetailAccountListPage extends BComponent {
                         late: list,
                     }
                 );
-                SActivityIndicator.hide(loading);
             },
             (e) => {
                 this.setState({
                         late: [],
                     }
                 );
-                SActivityIndicator.hide(loading);
             }
         );
     }
@@ -260,6 +269,7 @@ export default class DetailAccountListPage extends BComponent {
                                                    {...this.props}
                         />
                     </ScrollableTabView>
+                    <PLPActivityIndicator isShow={this.state.isLoading} />
                 </View>
 
             )

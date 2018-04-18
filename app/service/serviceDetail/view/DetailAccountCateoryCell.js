@@ -44,11 +44,12 @@ export default class DetailAccountCateoryCell extends Component {
                 this.arr=list;
 
                 // this.arr.push(categoryItem)
-                console.log('要删除的角标'+this.arr.indexOf(categoryItem));
+                // console.log('要删除的角标'+this.arr.indexOf(categoryItem));
                 if(this.arr.indexOf(categoryItem)){
                     // this.arr.remove(this.arr.indexOf(categoryItem))
 
                 }
+
                 this.arr.splice(0,0,categoryItem)
                 console.log('s222保存的数据长度是',list.length)
 
