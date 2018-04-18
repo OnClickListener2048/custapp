@@ -36,6 +36,7 @@ export default class DetailAccountCateoryCell extends Component {
                 timeDateArr:this.props.timeDateArr,
                 timeIndex:this.props.timeIndex,
                 companyid:this.props.companyid,
+                companyName:this.props.companyName,
             }
         });
         this.state.isPushing = true;

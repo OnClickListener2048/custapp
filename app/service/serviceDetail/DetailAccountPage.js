@@ -123,16 +123,17 @@ export default class DetailAccountPage extends BComponent {
             Toast.show('演示数据暂不支持查看凭证详情！')
             return;
         }
-        // this.push({
-        //     screen: 'AccountVoucherPage',
-        //     title:'记账凭证',
-        //     backButtonHidden: true, // 是否隐藏返回按钮 (可选)
-        //     passProps:{
-        //         companyName:this.props.companyName,
-        //         dataDetail:item.item,
-        //         relatedate:this.state.timeDateArr[this.state.timeIndex].relateDate
-        //     }
-        // })
+        this.push({
+            screen: 'AccountVoucherPage',
+            title:'记账凭证',
+            backButtonHidden: true, // 是否隐藏返回按钮 (可选)
+            passProps:{
+                companyName:this.props.companyName,
+                relatedate:item.item.relateDate.substring(0,10),
+                companyid:this.props.companyid,
+                id:item.item.voucher_Id,
+            }
+        })
     }
 
     _listEmptyComponent(){
@@ -181,7 +182,7 @@ export default class DetailAccountPage extends BComponent {
             timeIndex:index
         })
         this.loadData(this.state.timeDateArr[index].relateDate)
-        this.props.callback && this.props.callback(index)
+        // this.props.callback && this.props.callback(index)
     }
 
 }
