@@ -37,11 +37,9 @@ export default class GeneralLedgerPage extends BComponent {
             timeDateArr:props.timeDateArr,
             timeIndex:props.timeIndex,
             isHideInvalidData : true
-        }
+        };
         this._showInvalidData = this._showInvalidData.bind(this);
         this._hideInvalidData = this._hideInvalidData.bind(this);
-
-
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -142,6 +140,21 @@ export default class GeneralLedgerPage extends BComponent {
             },
         );
     }
+
+    _showInvalidData(){
+        this.setState({
+            data:this.state.alldata,
+            isHideInvalidData:false
+        })
+    }
+    _hideInvalidData(){
+        this.setState({
+            data:this.state.validData,
+            isHideInvalidData:true
+        })
+    }
+
+
     _onRefresh(){
         this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
     }
@@ -149,6 +162,13 @@ export default class GeneralLedgerPage extends BComponent {
         this.refs.ChooseTimerModal._showTimer()
     }
 
+
+    //render
+    _separateView(){
+        return(
+            <View style={{width:DeviceInfo.width,height:12,backgroundColor:'transparent'}}/>
+        )
+    }
 
     _renderItem(item){
         let  info = item.item;
@@ -184,25 +204,6 @@ export default class GeneralLedgerPage extends BComponent {
         }
     }
 
-    _showInvalidData(){
-        this.setState({
-            data:this.state.alldata,
-            isHideInvalidData:false
-        })
-    }
-    _hideInvalidData(){
-        this.setState({
-            data:this.state.validData,
-            isHideInvalidData:true
-        })
-    }
-
-    _separateView(){
-        return(
-            <View style={{width:DeviceInfo.width,height:12,backgroundColor:'transparent'}}/>
-        )
-    }
-
     render(){
 
         return(
@@ -226,6 +227,7 @@ export default class GeneralLedgerPage extends BComponent {
                         </View>
                     </TouchableOpacity>
                 </View>
+
                 <FlatList
                     renderItem={this._renderItem.bind(this)}
                     data={this.state.data}
@@ -234,7 +236,14 @@ export default class GeneralLedgerPage extends BComponent {
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
                     ItemSeparatorComponent={this._separateView.bind(this)}
+
                 />
+
+
+
+
+
+
                 <PLPActivityIndicator isShow={this.state.isLoading} />
             </View>
         )
