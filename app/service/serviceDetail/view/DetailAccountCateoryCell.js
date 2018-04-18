@@ -80,7 +80,7 @@ export default class DetailAccountCateoryCell extends Component {
                     //倒序添加元素
                     this.arr.splice(0, 0, categoryItem)
                 }else{
-                    this.arr=[];
+                    this.arr=[categoryItem];
                 }
 
 
