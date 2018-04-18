@@ -124,13 +124,14 @@ export default class AccountVoucherPage extends BComponent {
 
                         arr.push(["合计","会计科目",debtorCountM,creditorCountM])
                     }
+                    
                     this.setState({
                         tableData:arr,
                         voucherWord:voucherInfo.data.voucherWord,
                         accountName:voucherInfo.data.accountName,
                         auditName:voucherInfo.data.auditName,
                         creatName:voucherInfo.data.creatName,
-                        imageArr:imageArr,
+                        imageArr:this._unique(imageArr),
                         isLoading:false
 
                     });
@@ -149,6 +150,19 @@ export default class AccountVoucherPage extends BComponent {
         );
 
     }
+    _unique(imgs){
+        let result = {};
+        let finalResult=[];
+        for(let i=0;i<imgs.length;i++){
+            result[imgs[i].receiptId]=imgs[i];
+        }
+
+        for(item in result){
+            finalResult.push(result[item]);
+        }
+        return finalResult;
+    }
+
 
 
     render() {
