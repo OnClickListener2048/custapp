@@ -57,9 +57,9 @@ export default class DetialAccountCell extends Component {
                     <Text style={[styles.digestStyle,{color:'#CEAF72',paddingBottom:0}]}>余额</Text>
                 </View>
                 <View style = {[styles.itemStyle,{alignItems:'flex-end'}]}>
-                    <Text style={styles.digestStyle} numberOfLines={1}>{this.props.item.deb==0?'-':formatmoney(this.props.item.deb)}</Text>
-                    <Text style={styles.digestStyle} numberOfLines={1}>{this.props.item.cre==0?'-':formatmoney(this.props.item.cre)}</Text>
-                    <Text style={[styles.digestStyle,{color:'#CEAF72',paddingBottom:0}]} numberOfLines={1}>{this.props.item.balance==0?'-':formatmoney(this.props.item.balance)}</Text>
+                    <Text style={styles.digestStyle} numberOfLines={1}>{formatmoney(this.props.item.deb)}</Text>
+                    <Text style={styles.digestStyle} numberOfLines={1}>{formatmoney(this.props.item.cre)}</Text>
+                    <Text style={[styles.digestStyle,{color:'#CEAF72',paddingBottom:0}]} numberOfLines={1}>{formatmoney(this.props.item.balance)}</Text>
                 </View>
             </View>
         )
