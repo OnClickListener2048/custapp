@@ -20,9 +20,28 @@ export default class DetailAccountCateoryCell extends Component {
 
     }
 
+    //去重方法
+     unique(songs){
+        let result = {};
+        let finalResult=[];
+        if(songs!=null&&songs) {
+            for (let i = 0; i < songs.length; i++) {
+                result[songs[i].subjectNo] = songs[i];
+                //因为songs[i].name不能重复,达到去重效果,且这里必须知晓"name"或是其他键名
+            }
+            //现在result内部都是不重复的对象了，只需要将其键值取出来转为数组即可
+            for (item in result) {
+                finalResult.push(result[item]);
+            }
+        }
+        return finalResult;
+    }
+
     toAccountDetail(categoryItem){
         console.log('打印传递的数据'+this.props.timeDateArr+'-----'+this.props.timeIndex+'----'+this.props.companyid);
-
+    UserInfoStore.isLogined().then(
+        (logined) => {
+                if(logined) {
         if (this.state.isPushing === true) {
             console.log("休息一下吧, 您的手速太快了");
             return;
@@ -49,8 +68,18 @@ export default class DetailAccountCateoryCell extends Component {
         UserInfoStore.getAccountDetailArr().then(
             (list) => {
                 this.arr=list;
+                console.log('this.arr======'+this.arr+'====='+categoryItem);
+                if(this.arr!=null&&this.arr) {
+                    // var index = this.arr.findIndex((v) => {
+                    //     return v.subjectNo == categoryItem.subjectNo;
+                    // });
+                    // console.log('index======'+index);
+                    // this.arr.remove(index);
 
-                this.arr.splice(0,0,categoryItem)
+                    //倒序添加元素
+                    this.arr.splice(0, 0, categoryItem)
+
+                }
 
                 UserInfoStore.setAccountDetailArr(this.arr).then(
                     (list)=>{
@@ -66,12 +95,17 @@ export default class DetailAccountCateoryCell extends Component {
 
             },
             (e) => {
-
+                console.log('this.arr失败了吗=='+this.arr);
             }
         );
-
-
-
+                } else {
+                    return;
+                }
+            },
+        (e) => {
+                    return;
+            }
+        );
 
 
 
