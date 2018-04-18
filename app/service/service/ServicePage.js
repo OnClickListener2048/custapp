@@ -665,11 +665,18 @@ export default class ServicePage extends BComponent {
     }
     _callback(index){
 
-        this.setState({
-            timeIndex:index
-        })
-        this.loadServiceData(this.state.timeDateArr[index].relateDate)
-        this.loadCompanyProcessData(this.state.timeDateArr[index].relateDate)
+
+        try {
+            this.setState({
+                timeIndex:index
+            })
+            this.loadServiceData(this.state.timeDateArr[index].relateDate)
+            this.loadCompanyProcessData(this.state.timeDateArr[index].relateDate)
+        }catch (e){
+            console.log(e)
+        }
+
+
     }
     _goServiceDetail(item){
         if(item.jumpPage==='VouchersListPage'){
