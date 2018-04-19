@@ -72,3 +72,15 @@ task printBuildScriptClasspath << {
     println "\n"
 }
 
+task testDate << {
+    Calendar today = Calendar.getInstance();
+    println today.get(Calendar.YEAR)
+    println today.get(Calendar.DAY_OF_YEAR)
+
+    int lastVer = 2000000000;
+    int version = lastVer + today.get(Calendar.YEAR) - 2018 + today.get(Calendar.DAY_OF_YEAR)
+
+    println version
+    println (lastVer + 2018 - 2018 + 109)
+}
+

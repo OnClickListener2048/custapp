@@ -249,18 +249,12 @@ android {
             println('abi = ' + abi);
 
             def manifestParser = new DefaultManifestParser(android.sourceSets.main.manifest.srcFile);
+            Calendar today = Calendar.getInstance();
 
-/*
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + System.currentTimeMillis()
-                        println('abi != null output.versionCodeOverride = ' + output.versionCodeOverride);
-// manifestParser.getVersionCode()// defaultConfig.versionCode
-            } else {// no split here
-                output.versionCodeOverride = 1 * 1048576 + System.currentTimeMillis();
-                println('no split here output.versionCodeOverride = ' + output.versionCodeOverride);
-            }
-*/
+            int lastVer = 2000000000;
+            int version = lastVer + today.get(Calendar.YEAR) - 2018 + today.get(Calendar.DAY_OF_YEAR)// 每天打的包版本号都不一样, 基数 + 年 - 2018 + 天数
+            output.versionCodeOverride = version;
+
             //修改生成的apk名字
             def oldFile = output.outputFile
 
