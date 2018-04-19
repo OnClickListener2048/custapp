@@ -43,10 +43,11 @@ export default class BalanceSheetPage extends BComponent {
         this._changeData = this._changeData.bind(this);
         this._getAllData = this._getAllData.bind(this);
         this._getValidData = this._getValidData.bind(this);
-
+        this._cellClick = this._cellClick.bind(this);
 
 
     }
+
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
@@ -163,7 +164,12 @@ export default class BalanceSheetPage extends BComponent {
                 "sumCredit" : cellInfo.accountBalance.yearSumCredit,
             };
 
-            secArr.push(preData,midData,yearData);
+            let endData = {"abstract" : "期末",
+                "sumDebit" : cellInfo.accountBalance.endSumDebit,
+                "sumCredit" : cellInfo.accountBalance.endSumCredit,
+            };
+
+            secArr.push(preData,midData,yearData,endData);
             cellInfo.detailArr = secArr
         }
         return allDataArr;
@@ -182,8 +188,13 @@ export default class BalanceSheetPage extends BComponent {
             let cellInfo = validArr[i];
             let secArr = [];
 
+
+
+
+
             if (!(cellInfo.accountBalance.preSumDebit == 0 && cellInfo.accountBalance.preSumCredit == 0 && cellInfo.accountBalance.midSumDebit == 0 && cellInfo.accountBalance.midSumCredit == 0
-                && cellInfo.accountBalance.yearSumDebit == 0 && cellInfo.accountBalance.yearSumCredit == 0)){
+                && cellInfo.accountBalance.yearSumDebit == 0 && cellInfo.accountBalance.yearSumCredit == 0 && cellInfo.accountBalance.endSumDebit == 0
+                && cellInfo.accountBalance.endSumCredit == 0)){
                 let preData = {"abstract" : "期初",
                     "sumDebit" : cellInfo.accountBalance.preSumDebit,
                     "sumCredit" : cellInfo.accountBalance.preSumCredit,
@@ -201,6 +212,13 @@ export default class BalanceSheetPage extends BComponent {
                     "sumCredit" : cellInfo.accountBalance.yearSumCredit,
                 };
                 secArr.push(yearData)
+
+                let endData = {"abstract" : "期末",
+                    "sumDebit" : cellInfo.accountBalance.endSumDebit,
+                    "sumCredit" : cellInfo.accountBalance.endSumCredit,
+                };
+                secArr.push(endData)
+
             }
 
 
@@ -262,9 +280,25 @@ export default class BalanceSheetPage extends BComponent {
         return(
             <BalanceSheetCell
                 messageTitle={info.subjectNo + info.subjectName}
+                subjectNO={info.subjectNo}
                 secArr={secArr}
+                banceCellPress={this._cellClick}
             />
         )
+    }
+
+    _cellClick(subjectNo,subjectTitle){
+        this.props.navigator.push({
+            screen: 'DetailAccountPage',
+            title:subjectTitle,
+            passProps: {
+                subjectNo:subjectNo,
+                timeDateArr:this.state.timeDateArr,
+                timeIndex:this.state.timeIndex,
+                companyid:this.props.companyid,
+                companyName:this.props.companyName,
+            }
+        });
     }
 
     render(){
@@ -278,19 +312,19 @@ export default class BalanceSheetPage extends BComponent {
                 />
                 <View style={{height:59,backgroundColor:"#F1F1F1",flexDirection:"row",alignItems:"center"}}>
 
-                    <TouchableOpacity onPress={this._hideInvalidData}>
+                    {this.state.isHideInvalidData === true && <TouchableOpacity onPress={this._showInvalidData}>
                         <View style={[styles.grayBtnStyle]}>
                             <Text style={styles.grayBtnTextStyle}>{"无效数据"}</Text>
                         </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this._showInvalidData}>
+                    </TouchableOpacity>}
+                    {this.state.isHideInvalidData === false && <TouchableOpacity onPress={this._hideInvalidData}>
                         <View style={[styles.buttonStyle]}>
                             <Image
                                 source={require('../../img/invalid_btn_tip.png')}/>
 
                             <Text style={styles.buttonTextStyle}>{"无效数据"}</Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </View>
                 <FlatList
                     renderItem={this._renderItem.bind(this)}
