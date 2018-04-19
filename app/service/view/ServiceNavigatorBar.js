@@ -79,15 +79,15 @@ export default class ServiceNavigatorBar extends Component {
         return (
             <View style={styles.container}>
                 {/* 左边 */}
-                <View>
+                <View  style={styles.viewtabstyle}>
                     {this.renderLeftItem()}
                 </View>
                 {/* 中间 */}
-                <View style={{width:width/5*3,flexDirection:'row',justifyContent:'center',alignItems:'center',}}>
+                <View style={[styles.viewtabstyle,{width:width/5*3}]}>
                     {this.renderTitleItem()}
                 </View>
                 {/* 右边 */}
-                <View>
+                <View  style={styles.viewtabstyle}>
                     {this.renderRightItem()}
                 </View>
             </View>
@@ -106,4 +106,10 @@ const styles = StyleSheet.create({
         paddingTop:Platform.OS === 'ios' ?isIphoneX()?35: 20 : 0,
         zIndex:9999,
     },
+    viewtabstyle:{
+        width:width/5,
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+    }
 });
