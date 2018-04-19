@@ -279,7 +279,7 @@ export default class BalanceSheetPage extends BComponent {
         let secArr = info.detailArr;
         return(
             <BalanceSheetCell
-                messageTitle={info.subjectNo + info.subjectName}
+                messageTitle={info.subjectNo + " " + info.subjectName}
                 subjectNO={info.subjectNo}
                 secArr={secArr}
                 banceCellPress={this._cellClick}
@@ -304,7 +304,6 @@ export default class BalanceSheetPage extends BComponent {
                 }
             });
         }
-
 
     }
 
