@@ -3,7 +3,7 @@
  */
 
 import React, {PropTypes,Component} from 'react';
-import {View, Text,Platform,Image,Dimensions,StyleSheet} from 'react-native';
+import {View, Text,Platform,Image,Dimensions,StyleSheet,TouchableOpacity} from 'react-native';
 const window = Dimensions.get('window');
 
 export const SCREEN_WIDTH = window.width;
@@ -16,24 +16,37 @@ export default class BalanceSheetCell extends Component {
     }
 
     static propTypes = {
+        subjectNO: PropTypes.string,
         messageTitle: PropTypes.string,
-        secArr: PropTypes.array
+        secArr: PropTypes.array,
+        banceCellPress:function(){}, //按钮点击事件
+
     };
 
 
-    render() {
+        render() {
         const {messageTitle,secArr} = this.props
 
         return (
             <View style={styles.rowStyle}>
-
-                <View style={[styles.timeRowStyle]}>
-                    <Text
-                        textAlign='center'
-                        numberOfLines={1}
-                        style={[{fontSize: 14,marginLeft:14,marginRight :24 , color : '#333333'}] }>{messageTitle}</Text>
+                {!isNaN(this.props.subjectNO) &&  <TouchableOpacity onPress={() => {this.props.banceCellPress(this.props.subjectNO,this.props.messageTitle)}}>
+                    <View style={[styles.timeRowStyle]}>
+                        <Text
+                            textAlign='center'
+                            numberOfLines={1}
+                            style={[{fontSize: 14,marginLeft:14,marginRight :24 , color : '#333333'}] }>{messageTitle}</Text>
                         <Image source={require('../../../img/left_button.png')} style={[{width: 10,height:15,marginRight:14}]}/>
-                </View>
+                    </View>
+                </TouchableOpacity>}
+
+                {isNaN(this.props.subjectNO) &&
+                    <View style={[styles.timeRowStyle]}>
+                        <Text
+                            textAlign='center'
+                            numberOfLines={1}
+                            style={[{fontSize: 14,marginLeft:14,marginRight :24 , color : '#333333'}] }>{messageTitle}</Text>
+                    </View>
+                }
 
                 <View style={styles.topRowStyle}>
                     <Text style={[{marginLeft:52,fontSize: 12 ,flex:1, color : '#999999',textAlign:"right"}] }>{"借方"}</Text>

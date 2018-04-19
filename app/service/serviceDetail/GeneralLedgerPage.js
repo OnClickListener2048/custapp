@@ -42,6 +42,7 @@ export default class GeneralLedgerPage extends BComponent {
         this._hideInvalidData = this._hideInvalidData.bind(this);
         this._changeData = this._changeData.bind(this);
         this._getValidData = this._getValidData.bind(this);
+        this._cellClick = this._cellClick.bind(this);
     }
     static navigatorStyle = {
         navBarHidden: true, // 隐藏默认的顶部导航栏
@@ -155,6 +156,20 @@ export default class GeneralLedgerPage extends BComponent {
         })
     }
 
+    _cellClick(subjectNo,subjectTitle){
+        this.props.navigator.push({
+            screen: 'DetailAccountPage',
+            title:subjectTitle,
+            passProps: {
+                subjectNo:subjectNo,
+                timeDateArr:this.state.timeDateArr,
+                timeIndex:this.state.timeIndex,
+                companyid:this.props.companyid,
+                companyName:this.props.companyName,
+            }
+        });
+    }
+
     _onRefresh(){
         this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
     }
@@ -181,9 +196,11 @@ export default class GeneralLedgerPage extends BComponent {
         }
         return(
             <GeneralLedgerCell
+                subjectNO={info.subjectNo}
                 messageTitle={info.subjectNo + info.subjectName}
                 messageTime={timeStr}
                 secArr={secArr}
+                generaLedgerCellPress={this._cellClick}
             />
         )
     }
@@ -212,18 +229,19 @@ export default class GeneralLedgerPage extends BComponent {
                 />
                 <View style={{height:59,backgroundColor:"#F1F1F1",flexDirection:"row",alignItems:"center"}}>
 
-                    <TouchableOpacity onPress={this._hideInvalidData}>
+                    {this.state.isHideInvalidData === true && <TouchableOpacity onPress={this._showInvalidData}>
                         <View style={[styles.grayBtnStyle]}>
                             <Text style={styles.grayBtnTextStyle}>{"无效数据"}</Text>
                         </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this._showInvalidData}>
+                    </TouchableOpacity>}
+                    {this.state.isHideInvalidData === false &&
+                    <TouchableOpacity onPress={this._hideInvalidData}>
                         <View style={[styles.buttonStyle]}>
                             <Image
                                 source={require('../../img/invalid_btn_tip.png')}/>
                             <Text style={styles.buttonTextStyle}>{"无效数据"}</Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </View>
 
                 <FlatList
