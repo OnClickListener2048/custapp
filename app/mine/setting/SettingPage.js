@@ -151,6 +151,18 @@ export default class SettingPage extends BComponent {
     // 登出
     _doLogout() {
         loginJumpSingleton.goToLogout(this.props.navigator);
+        //清空 最近列表缓存数据
+        UserInfoStore.setAccountDetailArr([]).then(
+            (list)=>{
+                console.log('保存成功');
+
+                //发送消息通知本地存储的最近列表数据有更改
+                DeviceEventEmitter.emit('changeLateList');
+            },
+            (e)=>{
+
+            }
+        );
     }
 
 }
