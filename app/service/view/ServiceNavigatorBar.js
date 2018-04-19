@@ -53,8 +53,9 @@ export default class ServiceNavigatorBar extends Component {
     // 中间
     renderTitleItem() {
         if(this.props.isSecondLevel){
+
             return (
-                <Text style={{fontSize:setSpText(18),fontWeight:'bold',color:'white'}}>{this.props.title}</Text>
+                <Text style={{fontSize:setSpText(18),color:'white'}}>{this.props.title}</Text>
             )
         }else{
             if (this.props.titleItem === undefined)return;
@@ -76,18 +77,19 @@ export default class ServiceNavigatorBar extends Component {
     }
 
     render() {
+
         return (
             <View style={styles.container}>
                 {/* 左边 */}
-                <View  style={styles.viewtabstyle}>
+                <View  >
                     {this.renderLeftItem()}
                 </View>
                 {/* 中间 */}
-                <View style={[styles.viewtabstyle,{width:width/5*3}]}>
+                <View >
                     {this.renderTitleItem()}
                 </View>
                 {/* 右边 */}
-                <View  style={styles.viewtabstyle}>
+                <View  >
                     {this.renderRightItem()}
                 </View>
             </View>

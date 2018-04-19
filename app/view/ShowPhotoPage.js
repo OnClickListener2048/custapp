@@ -79,10 +79,11 @@ export default class ShowPhotoPage extends BComponent{
                         imageUrl:'file://' + savePath
                     }).catch((error) => {
                         // alert(error.message);
+                        console.log('share error',error)
                     });
 
                 }).catch(err => {
-                    console.log('err', err);
+                    console.log('download err', err);
                 });
 
 
