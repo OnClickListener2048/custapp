@@ -118,7 +118,7 @@ export default class VouchersListPage extends BComponent {
             <VouchersCell
                 onPress = {this._goVoucherDetail.bind(this,item)}
                 item = {item.item}
-                isclick = {this.props.is_demo == '1'?false:true}
+                isclick = {true}
             />
 
         )
