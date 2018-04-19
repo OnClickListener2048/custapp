@@ -45,7 +45,7 @@ export default class DetailAccountPage extends BComponent {
     // }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
+            this.loadData(this.state.timeIndex?this.state.timeDateArr[this.state.timeIndex].relateDate:this.props.relatedate)
         });
     }
     loadData(date='',isPull=false){
@@ -62,7 +62,7 @@ export default class DetailAccountPage extends BComponent {
                 isLoading:true
             })
         }
-        apis.loadDetialAccountData(this.props.companyid,date,this.props.categoryItem.subjectNo).then(
+        apis.loadDetialAccountData(this.props.companyid,date,this.props.subjectNo).then(
             (responseData) => {
                 if(responseData.code == 0){
                     this.setState({
@@ -93,7 +93,7 @@ export default class DetailAccountPage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,true)
+        this.loadData(this.state.timeIndex?this.state.timeDateArr[this.state.timeIndex].relateDate:this.props.relateDate,true)
     }
     _showTimer(){
         this.refs.ChooseTimerModal._showTimer()
