@@ -2,7 +2,7 @@
  * Created by jinglan on 2018/4/13.
  */
 import React, {PropTypes,Component} from 'react';
-import {View, Text,Platform,Image,Dimensions,StyleSheet,ScrollView} from 'react-native';
+import {View, Text,Platform,Image,Dimensions,StyleSheet,ScrollView,TouchableOpacity} from 'react-native';
 const window = Dimensions.get('window');
 
 export const SCREEN_WIDTH = window.width;
@@ -18,10 +18,11 @@ export default class GeneralLedgerCell extends Component {
     }
 
     static propTypes = {
+        subjectNO: PropTypes.string,
         messageTitle: PropTypes.string,
         messageTime: PropTypes.string,
-        secArr: PropTypes.array
-
+        secArr: PropTypes.array,
+        generaLedgerCellPress:function(){}, //按钮点击事件
     };
 
 
@@ -30,19 +31,40 @@ export default class GeneralLedgerCell extends Component {
         return (
                 <View style={styles.rowStyle}>
 
-                <View style={[styles.timeRowStyle]}>
-                    <Text
-                        textAlign='center'
-                        numberOfLines={1}
-                        style={[{fontSize: 14,marginLeft:14,width :SCREEN_WIDTH - 140 , color : '#333333'}] }>{messageTitle}</Text>
 
-                    <View style={{height:25,width:100,marginRight :14,flexDirection: 'row-reverse', alignItems:'center'}}>
-                        <Image
-                            source={require('../../../img/left_button.png')}
-                            style={[{width: 10,height:15}]}/>
-                        <Text style={[{fontSize: 14,marginRight :6 , color : '#999999'}] }>{messageTime}</Text>
+                    {!isNaN(this.props.subjectNO) &&
+                    <TouchableOpacity onPress={() => {this.props.generaLedgerCellPress(this.props.subjectNO,this.props.messageTitle)}}>
+
+                        <View style={[styles.timeRowStyle]}>
+                            <Text
+                                textAlign='center'
+                                numberOfLines={1}
+                                style={[{fontSize: 14,marginLeft:14,width :SCREEN_WIDTH - 140 , color : '#333333'}] }>{messageTitle}</Text>
+
+                            <View style={{height:25,width:100,marginRight :14,flexDirection: 'row-reverse', alignItems:'center'}}>
+                                <Image
+                                    source={require('../../../img/left_button.png')}
+                                    style={[{width: 10,height:15}]}/>
+                                <Text style={[{fontSize: 14,marginRight :6 , color : '#999999'}] }>{messageTime}</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>}
+
+                    {isNaN(this.props.subjectNO) &&
+                    <View style={[styles.timeRowStyle,{justifyContent:"space-between"}]}>
+                        <Text
+                            textAlign='left'
+                            numberOfLines={1}
+                            style={[{fontSize: 14,marginLeft:14 , color : '#333333'}] }>{messageTitle}</Text>
+                        <Text style={[{fontSize: 14,marginRight :14 , color : '#999999'}] }>{messageTime}</Text>
+
                     </View>
-                </View>
+                    }
+
+
+
+
+
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         <View style={styles.scrollViewStyle}>
 
@@ -113,7 +135,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
         alignItems:'center',
-        width:cellWidth,
+        width:SCREEN_WIDTH,
         height:40,
         borderBottomColor:"#D1D1D1",
         borderBottomWidth:0.5

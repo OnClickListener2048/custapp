@@ -51,7 +51,7 @@ export default class DetailAccountCateoryCell extends Component {
             screen: 'DetailAccountPage',
             title:categoryItem.subjectNo+' '+categoryItem.subjectName,
             passProps: {
-                categoryItem:categoryItem,
+                subjectNo:categoryItem.subjectNo,
                 timeDateArr:this.props.timeDateArr,
                 timeIndex:this.props.timeIndex,
                 companyid:this.props.companyid,
