@@ -92,7 +92,8 @@ export default class ShowPhotoPage extends BComponent{
                             messageAction: undefined,
                             messageExt: undefined,
                             filePath:savePath,
-                            fileExtension: '.jpg'
+                            fileExtension: '.jpg',
+                            thumbImage:img
                         });
                     }
 
