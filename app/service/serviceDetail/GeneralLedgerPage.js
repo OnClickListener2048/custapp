@@ -209,7 +209,7 @@ export default class GeneralLedgerPage extends BComponent {
         return(
             <GeneralLedgerCell
                 subjectNO={info.subjectNo}
-                messageTitle={info.subjectNo + info.subjectName}
+                messageTitle={info.subjectNo + " " + info.subjectName}
                 messageTime={timeStr}
                 secArr={secArr}
                 generaLedgerCellPress={this._cellClick}
