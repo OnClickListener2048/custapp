@@ -47,6 +47,8 @@ export default class ShowPhotoPage extends BComponent{
         if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
             if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
                 let img =this.props.imageArr[this.index]['receiptPath']
+                img = encodeURI(img)
+                console.log(img)
                 let rootPath = fs.DocumentDirectoryPath;
                 let savePath = rootPath + '/voucher-photo.png';
                 console.log(savePath);
