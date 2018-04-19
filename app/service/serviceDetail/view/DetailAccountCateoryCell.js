@@ -4,6 +4,7 @@
 
 import React, {PropTypes,Component} from 'react';
 import {View, Text,Platform,Image,Dimensions,StyleSheet,TouchableOpacity,DeviceEventEmitter} from 'react-native';
+import Toast from 'react-native-root-toast'
 const window = Dimensions.get('window');
 
 export const SCREEN_WIDTH = window.width;
@@ -39,6 +40,11 @@ export default class DetailAccountCateoryCell extends Component {
 
     toAccountDetail(categoryItem){
         console.log('打印传递的数据'+this.props.timeDateArr+'-----'+this.props.timeIndex+'----'+this.props.companyid);
+
+   if(this.props.is_demo==1){
+       Toast.show('演示数据暂不支持查看明细账详情')
+       return;
+   }
     UserInfoStore.isLogined().then(
         (logined) => {
                 if(logined) {
@@ -104,6 +110,7 @@ export default class DetailAccountCateoryCell extends Component {
             }
         );
                 } else {
+                    Toast.show('演示数据暂不支持查看明细账详情')
                     return;
                 }
             },
