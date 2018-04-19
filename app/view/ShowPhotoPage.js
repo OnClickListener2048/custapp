@@ -21,6 +21,7 @@ import * as WeChat from'react-native-wechat'
 
 import BComponent from '../base/BComponent'
 import ImageLoad from "../view/ImageLoad";
+import fs from 'react-native-fs';
 
 export default class ShowPhotoPage extends BComponent{
     static navigatorStyle = {
@@ -46,15 +47,50 @@ export default class ShowPhotoPage extends BComponent{
         if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
             if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
                 let img =this.props.imageArr[this.index]['receiptPath']
-                WeChat.shareToSession({
-                    type: 'imageUrl',
-                    imageUrl: img
-                }).catch((error) => {
-                    // alert(error.message);
+                let rootPath = fs.DocumentDirectoryPath;
+                let savePath = rootPath + '/voucher-photo.png';
+                console.log(savePath);
+                const options = {
+                    fromUrl: img,
+                    toFile: savePath,
+                    background: true,
+                    begin: (res) => {
+                        console.log('begin', res);
+                        console.log('contentLength:', res.contentLength / 1024 / 1024, 'M');
+                    },
+                    progress: (res) => {
+
+                        let pro = res.bytesWritten / res.contentLength;
+
+                        console.log(pro)
+                    }
+
+                };
+                const ret = fs.downloadFile(options);
+                ret.promise.then(res => {
+                    console.log('success', res);
+
+                    console.log('file://' + savePath)
+
+                    WeChat.shareToSession({
+                        type: 'imageFile',
+                        imageUrl:'file://' + savePath
+                    }).catch((error) => {
+                        // alert(error.message);
+                    });
+
+                }).catch(err => {
+                    console.log('err', err);
                 });
+
+
+
             }
         }
     }
+
+
+
     initNavigator(){
         if(Platform.OS === 'ios') {
             UserInfoStore.getMobileLoginInfo().then(
@@ -106,7 +142,7 @@ export default class ShowPhotoPage extends BComponent{
                         }
                         let rotate = item.rotate+'deg'
                         return(
-                            <View style={styles.slide}>
+                            <View key = {index} style={styles.slide}>
                                 <ImageLoad
                                     style={{width:width,height:height,transform:[{rotate:rotate}]}}
                                     resizeMode="contain"
