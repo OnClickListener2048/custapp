@@ -151,7 +151,7 @@ export default class DetailAccountPage extends BComponent {
                     isSecondLevel = {true}
                     isDemo = {this.props.is_demo}
                     navigator={this.props.navigator}
-                    title={this.state.subjectNo+this.state.subjectName}
+                    title={this.state.subjectNo+" "+this.state.subjectName}
                     year={this.state.year}
                     month={this.state.month}
                     callback = {this._callback.bind(this)}/>
