@@ -49,7 +49,8 @@ export default class ShowPhotoPage extends BComponent{
                 let img =this.props.imageArr[this.index]['receiptPath']
                 img = encodeURI(img)
                 console.log(img)
-                let rootPath = fs.DocumentDirectoryPath;
+                console.log(fs.ExternalDirectoryPath)
+                let rootPath = Platform.OS === 'ios'? fs.DocumentDirectoryPath: fs.ExternalDirectoryPath;
                 let savePath = rootPath + '/voucher-photo.png';
                 console.log(savePath);
                 const options = {
@@ -57,7 +58,7 @@ export default class ShowPhotoPage extends BComponent{
                     toFile: savePath,
                     background: true,
                     begin: (res) => {
-                        console.log('begin', res);
+                        console.log('***11begin', res);
                         console.log('contentLength:', res.contentLength / 1024 / 1024, 'M');
                     },
                     progress: (res) => {
@@ -74,19 +75,32 @@ export default class ShowPhotoPage extends BComponent{
 
                     console.log('file://' + savePath)
 
-                    WeChat.shareToSession({
-                        type: 'imageFile',
-                        imageUrl:'file://' + savePath
-                    }).catch((error) => {
-                        // alert(error.message);
-                        console.log('share error',error)
-                    });
+                    if(Platform.OS === 'ios'){
+                        WeChat.shareToSession({
+                            type: 'imageFile',
+                            imageUrl:'file://' + savePath
+                        }).catch((error) => {
+                            // alert(error.message);
+                            console.log('share error',error)
+                        });
+                    }else{
+                        WeChat.shareToSession({
+                            type: 'file',
+                            title: '记账凭证', // WeChat app treat title as file name
+                            description: '记账凭证',
+                            mediaTagName: 'photo',
+                            messageAction: undefined,
+                            messageExt: undefined,
+                            filePath:savePath,
+                            fileExtension: '.jpg',
+                            thumbImage:img
+                        });
+                    }
+
 
                 }).catch(err => {
                     console.log('download err', err);
                 });
-
-
 
             }
         }
