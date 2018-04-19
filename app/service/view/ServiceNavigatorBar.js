@@ -66,7 +66,7 @@ export default class ServiceNavigatorBar extends Component {
     renderRightItem() {
         if(this.props.isSecondLevel) {
             return(
-                <View style={{width:64,height:44,}}/>
+                <View style={{width:width/5,height:44,}}/>
             )
         }else{
             if (this.props.rightItem === undefined) return;
@@ -83,7 +83,7 @@ export default class ServiceNavigatorBar extends Component {
                     {this.renderLeftItem()}
                 </View>
                 {/* 中间 */}
-                <View>
+                <View style={{width:width/5*3,flexDirection:'row',justifyContent:'center',alignItems:'center',}}>
                     {this.renderTitleItem()}
                 </View>
                 {/* 右边 */}
