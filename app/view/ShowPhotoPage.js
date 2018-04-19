@@ -48,7 +48,7 @@ export default class ShowPhotoPage extends BComponent{
                 let img =this.props.imageArr[this.index]['receiptPath']
                 WeChat.shareToSession({
                     type: 'imageUrl',
-                    imageUrl:img
+                    imageUrl: img
                 }).catch((error) => {
                     // alert(error.message);
                 });
@@ -106,7 +106,7 @@ export default class ShowPhotoPage extends BComponent{
                         }
                         let rotate = item.rotate+'deg'
                         return(
-                            <View key = {index} style={styles.slide}>
+                            <View style={styles.slide}>
                                 <ImageLoad
                                     style={{width:width,height:height,transform:[{rotate:rotate}]}}
                                     resizeMode="contain"

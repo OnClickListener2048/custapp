@@ -69,6 +69,7 @@ export default class DetailAccountCateoryCell extends Component {
             (list) => {
                 this.arr=list;
                 if(this.arr!=null&&this.arr) {
+                    //查找对象数组中已存在的元素
                     var index = this.arr.findIndex((v) => {
                         return v.subjectNo == categoryItem.subjectNo;
                     });
@@ -80,7 +81,8 @@ export default class DetailAccountCateoryCell extends Component {
                     //倒序添加元素
                     this.arr.splice(0, 0, categoryItem)
                 }else{
-                    this.arr=[];
+                    //首次保存
+                    this.arr=[categoryItem];
                 }
 
 

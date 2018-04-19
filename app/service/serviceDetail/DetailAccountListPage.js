@@ -50,12 +50,12 @@ export default class DetailAccountListPage extends BComponent {
         tabBarHidden: true,
     };
 
-    componentDidMount() {
-        this.loadData()
+    componentWillMount() {
         //实时刷新 最近 列表
         DeviceEventEmitter.addListener('changeLateList', (data)=>{
             UserInfoStore.getAccountDetailArr().then(
                 (list) => {
+                    console.log('刷新了妈妈'+list);
                     this.setState({
                             late: list,
                         }
@@ -69,6 +69,11 @@ export default class DetailAccountListPage extends BComponent {
                 }
             );
         });
+    }
+
+    componentDidMount() {
+        this.loadData()
+
     }
 
 

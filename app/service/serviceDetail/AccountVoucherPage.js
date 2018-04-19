@@ -105,10 +105,17 @@ export default class AccountVoucherPage extends BComponent {
 
                     let arr = [];
                     let imageArr = [];
+                    let allDebitMoney = 0.00;  //借方
+                    let allcreditorMoney = 0.00; //贷方
                     let subjectDetails = voucherInfo.data.subjectDetails
                     for(let i=0;i<subjectDetails.length;i++){
                         let dic = subjectDetails[i];
-                        arr.push([dic.subject_Abstract,dic.subjectName,dic.debitMoney,dic.creditorMoney])
+                        allDebitMoney += dic.debitMoney;
+                        allcreditorMoney += dic.creditorMoney;
+
+                        let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
+                        let creditorMoneyM = formatmoney(dic.creditorMoney + 0.0);
+                        arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
 
                         for(let j=0;j<dic.receiptDetails.length;j++){
                             let imgObj = dic.receiptDetails[j]
