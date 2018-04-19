@@ -58,6 +58,9 @@ export default class GeneralLedgerPage extends BComponent {
     loadData(date='',isPull=false){
         if (this.props.is_demo == '1'){
             this._changeData(demoData.data.generalLedgerDetail);
+            if (!isPull){
+                Toast.show("向左滑动即可查看余额数据!")
+            }
             return;
         }
 
@@ -80,6 +83,10 @@ export default class GeneralLedgerPage extends BComponent {
                         isfirstRefresh:false,
                         isLoading:false
                     })
+                    if (!isPull){
+                        Toast.show("向左滑动即可查看余额数据!")
+                    }
+
                 }else{
                     this.setState({
                         isRefreshing:false,
@@ -157,17 +164,22 @@ export default class GeneralLedgerPage extends BComponent {
     }
 
     _cellClick(subjectNo,subjectTitle){
-        this.props.navigator.push({
-            screen: 'DetailAccountPage',
-            title:subjectTitle,
-            passProps: {
-                subjectNo:subjectNo,
-                timeDateArr:this.state.timeDateArr,
-                timeIndex:this.state.timeIndex,
-                companyid:this.props.companyid,
-                companyName:this.props.companyName,
-            }
-        });
+
+        if (this.props.is_demo == '1'){
+            Toast.show("演示数据暂不支持查看明细账详情！")
+        }else {
+            this.props.navigator.push({
+                screen: 'DetailAccountPage',
+                title:subjectTitle,
+                passProps: {
+                    subjectNo:subjectNo,
+                    timeDateArr:this.state.timeDateArr,
+                    timeIndex:this.state.timeIndex,
+                    companyid:this.props.companyid,
+                    companyName:this.props.companyName,
+                }
+            });
+        }
     }
 
     _onRefresh(){
