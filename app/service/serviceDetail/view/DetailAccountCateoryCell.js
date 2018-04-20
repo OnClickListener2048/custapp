@@ -41,13 +41,13 @@ export default class DetailAccountCateoryCell extends Component {
     toAccountDetail(categoryItem){
         console.log('打印传递的数据'+this.props.timeDateArr+'-----'+this.props.timeIndex+'----'+this.props.companyid);
 
-   if(this.props.is_demo==1){
-       Toast.show('演示数据暂不支持查看明细账详情')
-       return;
-   }
-    UserInfoStore.isLogined().then(
-        (logined) => {
-                if(logined) {
+   // if(this.props.is_demo==1){
+   //     Toast.show('演示数据暂不支持查看明细账详情')
+   //     return;
+   // }
+   //  UserInfoStore.isLogined().then(
+   //      (logined) => {
+   //              if(logined) {
         if (this.state.isPushing === true) {
             console.log("休息一下吧, 您的手速太快了");
             return;
@@ -62,6 +62,7 @@ export default class DetailAccountCateoryCell extends Component {
                 timeIndex:this.props.timeIndex,
                 companyid:this.props.companyid,
                 companyName:this.props.companyName,
+                is_demo:this.props.is_demo
             }
         });
         this.state.isPushing = true;
@@ -109,15 +110,15 @@ export default class DetailAccountCateoryCell extends Component {
                 console.log('this.arr失败了吗=='+this.arr);
             }
         );
-                } else {
-                    Toast.show('演示数据暂不支持查看明细账详情')
-                    return;
-                }
-            },
-        (e) => {
-                    return;
-            }
-        );
+        //         } else {
+        //             Toast.show('演示数据暂不支持查看明细账详情')
+        //             return;
+        //         }
+        //     },
+        // (e) => {
+        //             return;
+        //     }
+        // );
 
 
 
