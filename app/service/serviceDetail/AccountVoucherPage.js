@@ -177,8 +177,7 @@ export default class AccountVoucherPage extends BComponent {
         }
         return finalResult;
     }
-
-
+    
 
     render() {
 
@@ -213,18 +212,33 @@ export default class AccountVoucherPage extends BComponent {
                         <View style={{width:SCREEN_WIDTH, backgroundColor:"#FFFFFF",alignItems:'center'}}>
                             <Table style={styles.tableStyle} borderStyle={{ borderWidth:1,borderColor: '#D1D1D1'}}>
                                 <Row data={this.state.tableHead} widthArr={this.state.widthArr} style={styles.headStyle} textStyle={styles.headText}/>
-                                <Rows data={this.state.tableData} widthArr={this.state.widthArr} style={styles.rowStyle} textStyle={styles.text}/>
+
+
                                 {
-                                    this.state.allCountData.map((rowData, index) => (
+                                    this.state.tableData.map((rowData, index) => (
                                         <TableWrapper key={index} style={styles.allCountRowStyle}>
                                             {
                                                 rowData.map((cellData, cellIndex) => (
-                                                    <Cell key={cellIndex} data={cellData} style={{width:this.state.widthArr[cellIndex]}} textStyle={cellIndex === 0 ? styles.allCountText : styles.text}/>
+                                                    <Cell key={cellIndex} data={cellData} style={{width:this.state.widthArr[cellIndex]}} textStyle={cellIndex < 2 ? styles.cellLeftRowText : styles.cellRowText}/>
                                                 ))
                                             }
                                         </TableWrapper>
                                     ))
                                 }
+
+
+                                {
+                                    this.state.allCountData.map((rowData, index) => (
+                                        <TableWrapper key={index} style={styles.allCountRowStyle}>
+                                            {
+                                                rowData.map((cellData, cellIndex) => (
+                                                    <Cell key={cellIndex} data={cellData} style={{width:this.state.widthArr[cellIndex]}} textStyle={cellIndex === 0 ? styles.allCountText : cellIndex === 1 ? styles.cellLeftRowText : styles.cellRowText}/>
+                                                ))
+                                            }
+                                        </TableWrapper>
+                                    ))
+                                }
+
                             </Table>
                         </View>
 
@@ -309,11 +323,12 @@ const styles = StyleSheet.create({
     tableStyle: {marginBottom:10,width:SCREEN_WIDTH - 30,backgroundColor:"#ffffff"},
 
     headStyle: { height: 36, backgroundColor: '#E7E7E7' },
-    rowStyle: { backgroundColor: '#FFFFFF',minHeight:50 },
+    rowStyle: { backgroundColor: '#FFFFFF',minHeight:50},
     headText: { fontSize:14,color:"#333333",textAlign: 'center' },
-    text: { fontSize:12,color:"#666666",textAlign: 'center',marginTop:10,marginBottom:10 },
+    cellRowText: { fontSize:12,color:"#666666",textAlign: 'right',marginTop:10,marginBottom:10 ,marginRight:6 },
+    cellLeftRowText: { fontSize:12,color:"#666666",textAlign: 'left',marginTop:10,marginBottom:10 ,marginLeft:6 },
 
-    allCountText: { fontSize:14,color:"#333333",textAlign: 'center' },
+    allCountText: { fontSize:14,color:"#333333",textAlign: 'left' ,marginLeft:6},
     allCountRowStyle: {backgroundColor: '#FFFFFF',minHeight:36,flexDirection:"row"},
 
 });
