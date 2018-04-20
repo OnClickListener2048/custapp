@@ -288,23 +288,18 @@ export default class BalanceSheetPage extends BComponent {
     }
 
     _cellClick(subjectNo,subjectTitle){
-
-        if (this.props.is_demo == '1'){
-            Toast.show("演示数据暂不支持查看明细账详情！")
-        }else {
-            this.props.navigator.push({
-                screen: 'DetailAccountPage',
-                title:subjectTitle,
-                passProps: {
-                    subjectNo:subjectNo,
-                    timeDateArr:this.state.timeDateArr,
-                    timeIndex:this.state.timeIndex,
-                    companyid:this.props.companyid,
-                    companyName:this.props.companyName,
-                }
-            });
-        }
-
+        this.props.navigator.push({
+            screen: 'DetailAccountPage',
+            title:subjectTitle,
+            passProps: {
+                subjectNo:subjectNo,
+                timeDateArr:this.state.timeDateArr,
+                timeIndex:this.state.timeIndex,
+                companyid:this.props.companyid,
+                companyName:this.props.companyName,
+                is_demo:this.props.is_demo
+            }
+        });
     }
 
     render(){

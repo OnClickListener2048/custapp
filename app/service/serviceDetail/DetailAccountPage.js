@@ -30,6 +30,7 @@ export default class DetailAccountPage extends BComponent {
             isLoading:false,
             timeDateArr:props.timeDateArr,
             timeIndex:props.timeIndex,
+            is_demo:props.is_demo,
             detailsSubject:'',//方向：借、贷
             subjectNo:'',
             subjectName:''
