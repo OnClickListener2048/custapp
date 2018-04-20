@@ -68,7 +68,7 @@ export default class DetialAccountCell extends Component {
     render(){
         console.log("item数据="+this.props.item.voucher)
 
-        if(this.props.isclick&&this.props.item.voucher){
+        if(this.props.item.voucher){
             return(
                 <TouchableOpacity onPress = {() => {this.props.onPress()}}>
                     <View style = {styles.viewcontainer}>

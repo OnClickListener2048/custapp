@@ -1,0 +1,52 @@
+{
+  "code": 0,
+  "msg": "明细账查询成功",
+  "data": [{
+    "ledgerList": [{
+      "relateDate": "2018-03-31",
+      "voucher": "",
+      "abstract": "期初余额",
+      "deb": 0,
+      "cre": 0,
+      "balance": 36000,
+      "voucher_Id": 0
+    }, {
+      "relateDate": "2018-03-31",
+      "voucher": "记-1",
+      "abstract": "现付3月份差旅费",
+      "deb": 0,
+      "cre": 20,
+      "balance": 35980,
+      "voucher_Id": 4366940
+    }, {
+      "relateDate": "2018-03-31",
+      "voucher": "记-1",
+      "abstract": "现付3月份差旅费",
+      "deb": 0,
+      "cre": 105,
+      "balance": 35875,
+      "voucher_Id": 4366940
+    }, {
+      "relateDate": "2018-03-31",
+      "voucher": "记-1",
+      "abstract": "现付3月份差旅费",
+      "deb": 0,
+      "cre": 20,
+      "balance": 35855,
+      "voucher_Id": 4366940
+    }, {
+      "relateDate": "2018-03-31",
+      "voucher": "",
+      "abstract": "本年累计",
+      "deb": 0,
+      "cre": 8888,
+      "balance": 33333,
+      "voucher_Id": 0
+    }],
+    "subjectNo": "1001",
+    "subjectName": "库存现金",
+    "detailsSubject": {
+      "dir": 1
+    }
+  }]
+}

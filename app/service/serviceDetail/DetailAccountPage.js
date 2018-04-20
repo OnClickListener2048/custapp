@@ -18,6 +18,7 @@ import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import DetialAccountCell from "../view/DetialAccountCell";
+import detailData from "./local/DetailAccountPage.json";
 
 export default class DetailAccountPage extends BComponent {
 
@@ -51,6 +52,12 @@ export default class DetailAccountPage extends BComponent {
     }
     loadData(date='',isPull=false){
         if (this.props.is_demo == '1'){
+            this.setState({
+                data : detailData.data[0].ledgerList,
+                detailsSubject:detailData.data[0].detailsSubject.dir===1?'借':'贷',
+                subjectNo:detailData.data[0].subjectNo,
+                subjectName:detailData.data[0].subjectName,
+            })
             return;
         }
 
@@ -106,7 +113,6 @@ export default class DetailAccountPage extends BComponent {
             <DetialAccountCell
                 onPress = {this._goVoucherDetail.bind(this,item)}
                 item = {item.item}
-                isclick = {this.props.is_demo == '1'?false:true}
                 detailsSubject ={this.state.detailsSubject}
             />
 
