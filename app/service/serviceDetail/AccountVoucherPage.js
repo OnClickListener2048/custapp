@@ -54,102 +54,57 @@ export default class AccountVoucherPage extends BComponent {
     }
     _loadData(){
 
-        if(this.props.dataDetail){
-            let arr = [];
-            let voucherInfo = this.props.dataDetail;
+        
+        this.setState({
+            isLoading:true
 
-            let subjectDetails = voucherInfo.subjectDetails;
-
-            let allDebitMoney = 0.00;  //借方
-            let allcreditorMoney = 0.00; //贷方
-
-            for(let i=0;i<subjectDetails.length;i++){
-                let dic = subjectDetails[i];
-
-                allDebitMoney += dic.debitMoney;
-                allcreditorMoney += dic.creditorMoney;
-
-                let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
-                let creditorMoneyM = formatmoney(dic.creditorMoney + 0.0);
-
-                arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
-            }
-
-            let allCountArr = [];
-            let debtorCountM = formatmoney(allDebitMoney);
-            let creditorCountM = formatmoney(allcreditorMoney);
-
-            allCountArr.push(["合计","会计科目",debtorCountM,creditorCountM])
-
-
-            this.setState({
-                tableData:arr,
-                allCountData: allCountArr,
-                voucherWord:voucherInfo.voucherWord,
-                accountName:voucherInfo.accountName,
-                auditName:voucherInfo.auditName,
-                creatName:voucherInfo.creatName,
-                isLoading:true
-
-            });
-        }else{
-            this.setState({
-                isLoading:true
-
-            })
-        }
-
+        })
         apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(
             (voucherInfo) => {
                 if (voucherInfo) {
-
                     let arr = [];
                     let imageArr = [];
+
+                    let subjectDetails =  voucherInfo.data.subjectDetails;
+
                     let allDebitMoney = 0.00;  //借方
                     let allcreditorMoney = 0.00; //贷方
-                    let subjectDetails = voucherInfo.data.subjectDetails
+
                     for(let i=0;i<subjectDetails.length;i++){
                         let dic = subjectDetails[i];
+
                         allDebitMoney += dic.debitMoney;
                         allcreditorMoney += dic.creditorMoney;
 
                         let debitMoneyM = formatmoney(dic.debitMoney + 0.0);
                         let creditorMoneyM = formatmoney(dic.creditorMoney + 0.0);
-                        arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
 
+                        arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
                         for(let j=0;j<dic.receiptDetails.length;j++){
                             let imgObj = dic.receiptDetails[j]
                             imageArr.push(imgObj)
                         }
                     }
 
-                    let debtorCount = 0.00;  //借方
-                    let creditorCount = 0.00; //贷方
-                    for (let i = 0 ; i < arr.count ; i++){
-                        let secArr = arr[i];
-                        if (secArr.length > 3){
-                            debtorCount += secArr[2];
-                            creditorCount += secArr[3];
-                        }
-                    }
+                    let allCountArr = [];
+                    let debtorCountM = formatmoney(allDebitMoney);
+                    let creditorCountM = formatmoney(allcreditorMoney);
 
-                    if (arr.length > 0){
-                        let debtorCountM = formatmoney(debtorCount);
-                        let creditorCountM = formatmoney(creditorCount);
+                    allCountArr.push(["合计","会计科目",debtorCountM,creditorCountM])
 
-                        arr.push(["合计","会计科目",debtorCountM,creditorCountM])
-                    }
-                    
+
                     this.setState({
                         tableData:arr,
+                        allCountData: allCountArr,
                         voucherWord:voucherInfo.data.voucherWord,
                         accountName:voucherInfo.data.accountName,
                         auditName:voucherInfo.data.auditName,
                         creatName:voucherInfo.data.creatName,
+                        isLoading:false,
                         imageArr:this._unique(imageArr),
-                        isLoading:false
 
                     });
+
 
                 }else{
                     this.setState({
