@@ -67,6 +67,16 @@
                ReferencedContainer = "container:corpapp.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E320EB84205A72EE00CD9053"
+               BuildableName = "LiUITests.xctest"
+               BlueprintName = "LiUITests"
+               ReferencedContainer = "container:corpapp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

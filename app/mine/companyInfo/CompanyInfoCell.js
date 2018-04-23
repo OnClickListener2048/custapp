@@ -43,7 +43,9 @@ export default class CompanyInfoCell extends Component {
         }
 
         return(
-            <View style = {[styles.container,{height:(this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者')?80:50},underlineStyle,this.props.underLineStyle,this.props.style]}>
+            <View
+                accessibilityLabel="company_cell" testID="company_cell"
+                style = {[styles.container,{height:(this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者')?80:50},underlineStyle,this.props.underLineStyle,this.props.style]}>
                 {this._renderLeftView()}
                 {this._renderRightView()}
             </View>
@@ -53,7 +55,9 @@ export default class CompanyInfoCell extends Component {
     _renderLeftView(){
         return (<View style = {styles.leftViewStyle}>
             <TouchableOpacity style={[styles.leftImgStyle, this.props.leftImgStyle,{width : 36 ,height:36,alignItems:'center',justifyContent:'center' }]} onPress = {() => {this.props.leftSelectBtnOnPress()}}>
-                <Image resizeMode="center" style={[styles.leftImgStyle, this.props.leftImgStyle]}
+                <Image
+                    accessibilityLabel="company_check_img" testID="company_check_img"
+                    resizeMode="center" style={[styles.leftImgStyle, this.props.leftImgStyle]}
                        source={this.props.leftIcon}/>
             </TouchableOpacity>
         </View>)
@@ -122,12 +126,15 @@ export default class CompanyInfoCell extends Component {
         return(
             <TouchableOpacity style={[styles.rightViewStyle]} onPress = {() => {this.props.rightBtnOnPress()}}>
                 <View style = {styles.wrap1}>
-                    <Text numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
+                    <Text accessibilityLabel="company_left" testID="company_left"
+                          numberOfLines={2} style = {[styles.leftTextStyle]}>{this.props.leftText}</Text>
                    <View style={styles.heng}>
                     {this.props.ownerText.length > 0 &&
-                    <Text style = {[styles.ownerText]}>{this.props.ownerText}</Text>}
+                    <Text accessibilityLabel="company_state2" testID="company_state2"
+                          style = {[styles.ownerText]}>{this.props.ownerText}</Text>}
                     {this.props.surviveText.length > 0 &&
-                    <Text style = {[styles.surviveText]}>{this.props.surviveText}</Text>}
+                    <Text accessibilityLabel="company_state1" testID="company_state1"
+                          style = {[styles.surviveText]}>{this.props.surviveText}</Text>}
                    </View>
                 </View>
                 <View style = {styles.wrap2}>

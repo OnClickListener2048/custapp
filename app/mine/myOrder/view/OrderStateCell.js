@@ -52,15 +52,21 @@ export default class OrderStateCell extends Component {
         return(
         <View style={styles.container} >
             <View style={styles.wrapper1}>
-                <Text style={styles.orderstateTe}>
+                <Text
+                    accessibilityLabel="myOrders_state_text" testID="myOrders_state_text"
+                    style={styles.orderstateTe}>
                     订单状态
                 </Text>
-                <Text style={styles.orderstate}>
+                <Text
+                    accessibilityLabel="myOrders_state" testID="myOrders_state"
+                    style={styles.orderstate}>
                     {this.props.orderItem.status_desc}
                 </Text>
             </View>
             <View style={[styles.wrapper1,{marginTop:15}]}>
-                <Text style={styles.orderstateTe}>
+                <Text
+                    accessibilityLabel="myOrders_orderno" testID="myOrders_orderno"
+                    style={styles.orderstateTe}>
                     订单号:{this.props.orderItem.order_no}
                 </Text>
                 <Text style={styles.orderstate}>
@@ -68,7 +74,9 @@ export default class OrderStateCell extends Component {
                 </Text>
             </View>
             <View style={[styles.wrapper1,{marginTop:15}]}>
-                <Text style={styles.time}>
+                <Text
+                    accessibilityLabel="myOrders_time" testID="myOrders_time"
+                    style={styles.time}>
                     {this.props.orderItem.order_time}
                 </Text>
                 {this._typeView(orderItem)}

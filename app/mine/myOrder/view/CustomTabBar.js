@@ -39,12 +39,15 @@ const CustomTabBar = React.createClass({
         const fontWeight = isTabActive ? 'bold' : 'normal';
 
         return <TouchableOpacity
+            accessibilityLabel="myOrders_tab" testID="myOrders_tab"
             style={styles.flexOne}
             key={name}
             onPress={() => onPressHandler(page)}
         >
             <View style={[styles.tab, this.props.tabStyle, ]}>
-                <Text style={[{color: textColor, }, textStyle, ]}>
+                <Text
+                    accessibilityLabel="myOrders_tab_text" testID="myOrders_tab_text"
+                    style={[{color: textColor, }, textStyle, ]}>
                     {name}
                 </Text>
             </View>

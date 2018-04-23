@@ -47,7 +47,9 @@ export default class DefaultView extends Component {
             return(
                 <TouchableOpacity style={styles.box} onPress={()=>this.props.onPress()}>
                     <Image source={require('../img/no_message.png')}/>
-                    <Text style={{fontSize:15,color:'#999999',marginTop:50}}>您还没有任何相关数据</Text>
+                    <Text
+                        accessibilityLabel="no_data" testID="no_data"
+                        style={{fontSize:15,color:'#999999',marginTop:50}}>您还没有任何相关数据</Text>
                 </TouchableOpacity>
             )
         }else if (this.props.type == 'no-MessageData'){

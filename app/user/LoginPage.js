@@ -25,7 +25,7 @@ import px2dp from '../util'
 import Toast from 'react-native-root-toast';
 import * as apis from '../apis';
 import {Navigation} from 'react-native-navigation';
-import {SCREEN_WIDTH} from '../config';
+import {GUI_TEST, SCREEN_WIDTH} from '../config';
 import Alert from "react-native-alert";
 import SubmitButton from "../view/SubmitButton";
 import * as WeChat from 'react-native-wechat';
@@ -237,7 +237,7 @@ export default class LoginPage extends Component {
         }
 
         // 只针对ios处理
-        if(Platform.OS === 'ios') {
+        if(Platform.OS === 'ios' || GUI_TEST) {
             UserInfoStore.getMobileLoginInfo().then(
                 v => {
                     console.log(v);
@@ -525,6 +525,7 @@ export default class LoginPage extends Component {
                             <TextInput underlineColorAndroid='transparent' maxLength={11}
                                        keyboardType='numeric' value={this.state.mobile}
                                        placeholderTextColor='#BABABA'
+                                       accessibilityLabel="mobile" testID="mobile"
                                        style={styles.textInput} placeholder='手机号码' returnKeyType='next'
                                        onChangeText={
                                            (mobile) => {
@@ -544,6 +545,7 @@ export default class LoginPage extends Component {
                                        keyboardType='default' value={this.state.password}
                                        secureTextEntry={true}
                                        placeholderTextColor='#BABABA'
+                                       accessibilityLabel="password" testID="password"
                                        style={styles.textInput} placeholder='密码' returnKeyType='next'
                                        onChangeText={
                                            (password) => {
@@ -602,6 +604,7 @@ export default class LoginPage extends Component {
                     </View>
 
                     <SubmitButton onPress={this._doPhoneLogin}
+                                  accessibilityLabel="phoneLoginSubmit" testID="phoneLoginSubmit"
                                   isEnabled={(this.state.mobileValid && this.state.passwordValid)}
                                   text="登录"
                     />
@@ -648,7 +651,7 @@ export default class LoginPage extends Component {
                         <Image style={[styles.wechart_icon, {justifyContent: 'center'}]}
                                source={require('../img/cloud.png')}/>
 
-                        <SubmitButtonWithIcon onPress={this._goWechat}
+                        <SubmitButtonWithIcon accessibilityLabel="SubmitButton" testID="SubmitButton" onPress={this._goWechat}
                                               buttonStyle={{marginTop: this.state.submitButtonMarginTop}}
                                               isEnabled={!this.state.isInWechatLoading}
                                               text={this.state.isInWechatLoading ? "登录中..." : "微信登录"}

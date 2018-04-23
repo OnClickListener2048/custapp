@@ -325,7 +325,9 @@ export default class MinePage extends BComponent {
                 <ScrollView
                     contentContainerStyle={{backgroundColor:'#F1F1F1'}}>
                         <Image style={styles.login_wrapper} source={require('../../img/Rectangle.png')}>
-                            <TouchableOpacity  onPress={this.login.bind(this)}>
+                            <TouchableOpacity
+                                accessibilityLabel="mine_PersonalDataPage" testID="mine_PersonalDataPage"
+                                onPress={this.login.bind(this)}>
 
                         <View style={{flexDirection:'row'}}>
                             <Image style={styles.head_img} source={this.state.avatar}/>
@@ -346,6 +348,7 @@ export default class MinePage extends BComponent {
 
 
                     <CommenCell
+                        accessibilityLabel="mine_MyCompany" testID="mine_MyCompany"
                         leftIcon={require('../../img/myCorp.png')}
                         leftText="公司与授权"
                         onPress = {this._goto.bind(this,'ChangeCompanyPage','我的公司')}
@@ -353,6 +356,7 @@ export default class MinePage extends BComponent {
                         style={{marginTop:9}}
                     />
                     <CommenCell
+                        accessibilityLabel="mine_MyOrders" testID="mine_MyOrders"
                         leftIcon={require('../../img/orders.png')}
                         leftText="我的订单"
                         onPress = {this._goto.bind(this,'MyOrderPage','我的订单')}
@@ -361,6 +365,7 @@ export default class MinePage extends BComponent {
                     />
 
                     <CommenCell
+                        accessibilityLabel="mine_myInvoice" testID="mine_myInvoice"
                         leftIcon={require('../../img/myInvoice.png')}
                         leftText="我的抬头"
                         onPress = {this._goto.bind(this,'InvoiceTitleListPage','公司抬头')}
@@ -376,6 +381,7 @@ export default class MinePage extends BComponent {
                     {/*/>*/}
 
                     <CommenCell
+                        accessibilityLabel="mine_customerService" testID="mine_customerService"
                         leftIcon={require('../../img/customerService.png')}
                         leftText="联系客服"
                         // style={{marginTop:9}}
@@ -383,6 +389,7 @@ export default class MinePage extends BComponent {
                     />
 
                     <CommenCell
+                        accessibilityLabel="mine_bizPartner" testID="mine_bizPartner"
                         leftIcon={require('../../img/bizPartner.png')}
                         leftText="加盟合作"
                         onPress={this._goColumnDetail.bind(this)}
@@ -400,6 +407,7 @@ export default class MinePage extends BComponent {
 
                         />:
                         <CommenCell
+                            accessibilityLabel="mine_settings" testID="mine_settings"
                             leftIcon={require('../../img/settings.png')}
                             leftText="设置"
                             underLine={false}

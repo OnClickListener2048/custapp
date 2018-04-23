@@ -17,18 +17,22 @@ export default class SubmitButton extends Component {
         return this.props.isEnabled ?
             (
 
-                <TouchableOpacity onPress={this.props.onPress}>
-                    <Image source={require('../img/Rectangle.png')} style={styles.buttonView}>
+                <TouchableOpacity {...this.props}>
+                    <Image  source={require('../img/Rectangle.png')} style={styles.buttonView}>
 
-                        <Text style={styles.loginText}>{this.props.text}</Text>
+                        <Text
+                            accessibilityLabel="submintButton_text" testID="submintButton_text"
+                            style={styles.loginText}>{this.props.text}</Text>
                     </Image>
                 </TouchableOpacity>
             )
             :
             (
-                <TouchableOpacity onPress={this.props.onPress}>
+                <TouchableOpacity {...this.props}>
                     <View style={[styles.buttonViewDisabled,this.props.buttonStyle]}>
-                        <Text style={styles.loginTextDisabled}>{this.props.text}</Text>
+                        <Text
+                            accessibilityLabel="submintButton_text" testID="submintButton_text"
+                            style={styles.loginTextDisabled}>{this.props.text}</Text>
                     </View>
                 </TouchableOpacity>
             );

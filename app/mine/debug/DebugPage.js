@@ -138,6 +138,7 @@ export default class DebugPage extends BComponent {
 
                     <CommentCell
                         leftText='查看HTTP接口请求日志'
+                        accessibilityLabel="goHttpLog" testID="goHttpLog"
                         style={{marginTop: 10}}
                         onPress={this._httpLogView.bind(this)}
                     />
