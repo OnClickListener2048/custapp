@@ -117,7 +117,8 @@ export default class LiabilityPage extends BComponent {
                     callback = {this._callback.bind(this)}
                 />
                 <ScrollableTabView
-                    renderTabBar={() => <CustomTabBar/>}
+                    renderTabBar={() => <CustomTabBar
+                    />}
                     style={styles.container}
                     tabBarUnderlineStyle={styles.lineStyle}//选中时线的样式
                     tabBarActiveTextColor='#C6A567'//选中时字体的颜色
@@ -152,6 +153,8 @@ const styles = StyleSheet.create({
 
     lineStyle: {
         backgroundColor: '#E13238',
+        paddingLeft:0,
+        paddingRight:0
     },
 
     textStyle:{
