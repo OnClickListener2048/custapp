@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         paddingLeft:setSpText(14),
         paddingRight:setSpText(14),
         borderBottomColor:'#D1D1D1',
-        borderBottomWidth:setSpText(1)
+        borderBottomWidth:setSpText(0.5)
     },
     centerCellStyle:{
         flexDirection:'row',
