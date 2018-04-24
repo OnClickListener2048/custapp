@@ -64,6 +64,13 @@ export function loadBalancesheet(companyid,date='') {
     return getApi('/api/v1.01/myfinances/balancesheet?companycode='+companyid+'&fromdate='+date+'&todate='+date);
 }
 
+//利润表
+export function loadProfitPageData(companyid,date='') {
+
+    return getApi('/api/v1.01/myfinances/profit?companycode='+companyid+'&fromdate='+date+'&todate='+date);
+}
+
+
 //获取科目列表，即明细表
 export function loadAccountCategoryList(companycode) {
     return getApi('/api/v1.01/myfinances/subjects?companycode=' + companycode);
