@@ -82,8 +82,8 @@ const serviceData = [
     },
     {
         title:'现金流量表',
-        logo:require('../../img/xianjinliuliang.png'),
-        jumpPage:''
+        logo:require('../../img/cash_flow_size_icon.png'),
+        jumpPage:'CashFlowSizePage'
     }
 ]
 
