@@ -161,7 +161,6 @@ export default class ProfitPage extends BComponent {
                     onRefresh={this._onRefresh.bind(this)}
                     refreshing={this.state.isRefreshing}
                     ListEmptyComponent={this._listEmptyComponent.bind(this)}
-                    ItemSeparatorComponent={this._separateView.bind(this)}
                     ListFooterComponent={this._separateView.bind(this)}
                 />
                 <PLPActivityIndicator isShow={this.state.isLoading} />
