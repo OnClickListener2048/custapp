@@ -52,6 +52,7 @@ import DetailAccountCategoryPage from './service/serviceDetail/DetailAccountCate
 import GeneralLedgerPage from './service/serviceDetail/GeneralLedgerPage'
 import BalanceSheetPage from './service/serviceDetail/BalanceSheetPage'
 import ProfitPage from './service/serviceDetail/ProfitPage'
+import CashFlowSizePage from './service/serviceDetail/CashFlowSizePage'
 
 
 
@@ -122,6 +123,7 @@ export default function () {
     reg('GeneralLedgerPage', () => GeneralLedgerPage);
     reg('BalanceSheetPage', () => BalanceSheetPage);
     reg('ProfitPage', () => ProfitPage);
+    reg('CashFlowSizePage', () => CashFlowSizePage);
     reg('VerifyResultPage', () => VerifyResultPage);
     reg('Notification', () => Notification);
     reg('NoNetTipPage', () => NoNetTipPage);
