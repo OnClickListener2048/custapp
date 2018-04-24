@@ -31,7 +31,7 @@ const serviceData = [
         jumpPage:'CashFlowPage'
     },
     {
-        title:'利润表',
+        title:'净利润',
         logo:require('../../img/lirunbiao.png'),
         jumpPage:'ProfitStatementPage'
     },
@@ -66,9 +66,24 @@ const serviceData = [
         jumpPage:'DetailAccountListPage'
     },
     {
-        title:'科目余额表',
+        title:'科目余额',
         logo:require('../../img/balance_sheet_tip.png'),
         jumpPage:'BalanceSheetPage'
+    },
+    {
+        title:'资产负债表',
+        logo:require('../../img/zichanfuzhai.png'),
+        jumpPage:''
+    },
+    {
+        title:'利润表',
+        logo:require('../../img/profit_icon.png'),
+        jumpPage:'ProfitPage'
+    },
+    {
+        title:'现金流量表',
+        logo:require('../../img/xianjinliuliang.png'),
+        jumpPage:''
     }
 ]
 
@@ -88,7 +103,7 @@ import {deviceHeight, deviceWidth} from "../../util/ScreenUtil";
 
 
 const itemBorder = 1 / PixelRatio.get()
-const col = 3
+const col = 4
 const itemMargin = 0
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 
