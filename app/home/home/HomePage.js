@@ -101,6 +101,7 @@ export default class HomePage extends BComponent {
 
     // 初始化苹果审核微信登录开关信息
     _checkWechatLogin = () => {
+        console.log('GUI_TEST==', GUI_TEST);
         if(GUI_TEST) {
             let mobileLoginInfo = {code: 0, open: true, mobile: "18777777777", passwd: "123456", token: "191c7e2d-b1ea-4956-801f-5cd647884904"};
             UserInfoStore.setMobileLoginInfo(mobileLoginInfo).then();
