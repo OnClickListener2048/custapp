@@ -70,6 +70,12 @@ export function loadProfitPageData(companyid,date='') {
     return getApi('/api/v1.01/myfinances/profit?companycode='+companyid+'&fromdate='+date+'&todate='+date);
 }
 
+//现金流量表
+export function loadCashFlowSizePageData(companyid,date='') {
+
+    return getApi('/api/v1.01/myfinances/cashflow?companycode='+companyid+'&fromdate='+date+'&todate='+date);
+}
+
 
 //获取科目列表，即明细表
 export function loadAccountCategoryList(companycode) {
