@@ -72,8 +72,8 @@ const serviceData = [
     },
     {
         title:'资产负债表',
-        logo:require('../../img/zichanfuzhai.png'),
-        jumpPage:''
+        logo:require('../../img/liability_icon.png'),
+        jumpPage:'LiabilityPage'
     },
     {
         title:'利润表',
