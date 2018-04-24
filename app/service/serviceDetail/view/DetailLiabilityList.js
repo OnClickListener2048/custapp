@@ -22,6 +22,7 @@ export default class DetailLiabilityList extends Component {
         console.log(this.props.list)
         return(
             <FlatList
+                contentContainerStyle={{marginTop:15}}
                 renderItem={this._renderItem.bind(this)}
                 data={this.props.list}
                 keyExtractor = {(item, index) => index}
