@@ -37,9 +37,6 @@ export default class ProfitPage extends BComponent {
             isHideInvalidData : true
         };
 
-        this._cellClick = this._cellClick.bind(this);
-
-
     }
 
     static navigatorStyle = {
@@ -141,25 +138,12 @@ export default class ProfitPage extends BComponent {
                 endYearSum={info.endYearSum}
                 endMonth={"本月金额"}
                 endYear={"本年累计金额"}
-                onPress={this._cellClick}
+                isclick={false}
             />
         )
     }
 
-    _cellClick(subjectNo,subjectTitle){
-        this.props.navigator.push({
-            screen: 'DetailAccountPage',
-            title:subjectTitle,
-            passProps: {
-                subjectNo:subjectNo,
-                timeDateArr:this.state.timeDateArr,
-                timeIndex:this.state.timeIndex,
-                companyid:this.props.companyid,
-                companyName:this.props.companyName,
-                is_demo:this.props.is_demo
-            }
-        });
-    }
+
 
     render(){
         return(
