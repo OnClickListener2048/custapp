@@ -10,7 +10,7 @@ import {
     View,
     Text
 } from 'react-native';
-
+import ServiceCommonCell from './ServiceCommonCell'
 
 export default class DetailLiabilityList extends Component {
 
@@ -30,9 +30,15 @@ export default class DetailLiabilityList extends Component {
     }
     _renderItem(item){
         return(
-            <View>
-                <Text>{item.item.projectName}</Text>
-            </View>
+            <ServiceCommonCell
+                projectName = {item.item.projectName}
+                isclick = {false}
+                endMonth = {'期末数'}
+                endYear = {'年初数'}
+                endMonthSum = {item.item.endSum}
+                endYearSum = {item.item.preSum}
+            />
+
         )
     }
 

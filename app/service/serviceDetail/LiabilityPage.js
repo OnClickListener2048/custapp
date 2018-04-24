@@ -19,6 +19,8 @@ import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import CustomTabBar from '../../mine/myOrder/view/CustomTabBar'
 import ScrollableTabView,{DefaultTabBar} from 'react-native-scrollable-tab-view';
 import DetailLiabilityList from './view/DetailLiabilityList'
+import demoData from './local/Liability.json'
+
 export default class LiabilityPage extends BComponent {
 
     constructor(props){
@@ -44,6 +46,15 @@ export default class LiabilityPage extends BComponent {
         });
     }
     loadData(date=''){
+
+
+        if (this.props.is_demo=='1'){
+
+            this.setState({...this._dealData(demoData.data),isLoading:false})
+
+            return;
+        }
+
         this.setState({
             isLoading:true
         })
@@ -52,39 +63,46 @@ export default class LiabilityPage extends BComponent {
             (responseData) => {
 
                 if(responseData.code == 0){
-                    let data = responseData.data;
-                    let assets = data.slice(0,46);
-                    let liabilities = data.slice(47,data.length)
-                    let placeholdArr = Array.apply(null, Array(liabilities.length-assets.length-1)).map(function(item, i) {
-                        return {
-                            "endSum": 0,
-                            "preSum": 0,
-                            "projectId": null,
-                            "projectName": "-",
-                            "sequenceId": "-",
-                            "calcOrder": "-",
-                            "showOrder": "-"
-                        };
-                    });
-                    assets = [...assets,...placeholdArr,data[46]];
-                    this.setState({
-                        isLoading:false,
-                        assets:assets,
-                        liabilities:liabilities
-                    })
+
+                    this.setState({...this._dealData(responseData.data),isLoading:false})
+
 
                 }else{
                     this.setState({
                         isLoading:false
                     })
+                    Toast.show(responseData.msg?responseData.msg:'加载失败')
+
                 }
             },
             (e) => {
                 this.setState({
                     isLoading:false
                 })
+                Toast.show('加载失败')
             },
         );
+    }
+    _dealData(arr){
+        let assets = arr.slice(0,46);
+        let liabilities = arr.slice(47,arr.length)
+        let placeholdArr = Array.apply(null, Array(liabilities.length-assets.length-1)).map(function(item, i) {
+            return {
+                "endSum": 0,
+                "preSum": 0,
+                "projectId": null,
+                "projectName": "-",
+                "sequenceId": "-",
+                "calcOrder": "-",
+                "showOrder": "-"
+            };
+        });
+        assets = [...assets,...placeholdArr,arr[46]];
+
+        return {
+            assets,
+            liabilities
+        }
     }
     render(){
 
