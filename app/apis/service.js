@@ -94,3 +94,8 @@ export function loadPayMent(companyid) {
 
     return getApi('/api/v1.01/companies/relatedate',{id:companyid});
 }
+//资产负债表
+export function loadLiabilityDate(companyid,date='') {
+    return getApi(`/api/v1.01/myfinances/liability?companycode=${companyid}&relatedate=${date}`);
+
+}
