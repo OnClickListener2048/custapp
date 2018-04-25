@@ -17,12 +17,12 @@ import BComponent from '../../base';
 import * as apis from '../../apis/service';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-import demoData from './local/ProfitPage.json'
+import demoData from './local/CashFlowSize.json'
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import ServiceCommonCell from "./view/ServiceCommonCell";
-
+//现金流量表
 export default class CashFlowSizePage extends BComponent {
 
     constructor(props){
@@ -34,7 +34,6 @@ export default class CashFlowSizePage extends BComponent {
             isLoading:false,
             timeDateArr:props.timeDateArr,
             timeIndex:props.timeIndex,
-            isHideInvalidData : true
         };
 
     }
