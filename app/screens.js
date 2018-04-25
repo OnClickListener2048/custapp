@@ -84,6 +84,7 @@ import ToolsPage from './home/tools/ToolsPage'
 import SupportPage from './service/support/SupportPage'
 import ShowPhotoPage from './view/ShowPhotoPage'
 
+import LiabilityPage from './service/serviceDetail/LiabilityPage'
 
 export default function () {
     let reg = Navigation.registerComponent;
@@ -149,5 +150,5 @@ export default function () {
     reg('DetailAccountListPage', () => DetailAccountListPage);
     reg('DetailAccountCategoryPage', () => DetailAccountCategoryPage);
     reg('ShowPhotoPage', () => ShowPhotoPage);
-
+    reg('LiabilityPage', () => LiabilityPage);
 }

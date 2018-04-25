@@ -104,7 +104,7 @@ import {deviceHeight, deviceWidth} from "../../util/ScreenUtil";
 
 const itemBorder = 1 / PixelRatio.get()
 const col = 4
-const itemMargin = 0
+const itemMargin = 1 / PixelRatio.get()
 const itemWidth = (deviceWidth - itemMargin*(col+1))/col
 
 import Interactable from 'react-native-interactable';
@@ -566,41 +566,34 @@ export default class ServicePage extends BComponent {
 
                     />
                     <CompanyProcessView ref="companyProcessView_Ref" currentNum={-1}/>
+                    <View style={{height:38,backgroundColor:'white',marginTop:-30,zIndex:-1}}/>
+
                     <View style={{width:DeviceInfo.width,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white'}}>
                         {
 
                             serviceData.map((item,i)=>{
 
+                                let borderStyle = {
+                                    borderTopWidth:itemBorder,
+                                    borderTopColor:'#D7D7D7'
+                                }
 
-                                let borderStyle = {}
-                                if(i%col == (col-1)){
-                                    borderStyle = {
-                                        borderBottomWidth:itemBorder,
-                                        borderBottomColor:'#D7D7D7'
-                                    }
-                                }else{
-                                    borderStyle = {
-                                        borderRightWidth:itemBorder,
-                                        borderRightColor:'#D7D7D7',
-                                        borderBottomWidth:itemBorder,
-                                        borderBottomColor:'#D7D7D7',
-                                    }
+                                if( i%col != (col-1)){
+                                    borderStyle = {...borderStyle, borderRightColor:'#D7D7D7', borderRightWidth:itemBorder}
                                 }
-                                if(parseInt(i/col) == (Math.ceil(serviceData.length/col)-1)){
-                                    borderStyle.borderBottomColor = 'transparent'
-                                }
+
                                 return(
                                     <TouchableOpacity key={i} onPress={this._goServiceDetail.bind(this,item)}>
-                                        <View style={[{width:itemWidth,height:itemWidth,marginLeft:itemMargin,justifyContent:'center',alignItems:'center',backgroundColor:'white'},borderStyle]}>
-                                            <Image resizeMode="contain" style={{width:34, height:34}}  source={item.logo}/>
-                                            <Text style={{color:'#666666',fontSize:14,marginTop:8}}>{item.title}</Text>
+                                        <View style={[{width:itemWidth,height:itemWidth,justifyContent:'center',alignItems:'center',backgroundColor:'white'},borderStyle]}>
+                                            <Image resizeMode="contain"   source={item.logo}/>
+                                            <Text style={{color:'#666666',fontSize:14,marginTop:10}}>{item.title}</Text>
                                         </View>
                                     </TouchableOpacity>
                                 )
                             })
                         }
                     </View>
-                    <View style={{height:50,backgroundColor:'white',borderTopColor:'#D7D7D7',borderTopWidth:itemBorder,marginBottom:10}}/>
+                    <View style={{height:90,backgroundColor:'white',borderTopColor:'#D7D7D7',borderTopWidth:itemBorder,marginBottom:10}}/>
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 {this._renderYearReport()}
