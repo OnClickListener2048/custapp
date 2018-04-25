@@ -120,7 +120,7 @@ export default class LoginPage extends Component {
 
         WeChat.sendAuthRequest(scope, state).then(
             res => {
-                if(global._inWechatCallback) {
+                if (global._inWechatCallback) {
                     console.log("已经在微信回调中");
                     return;
                 }
@@ -147,7 +147,7 @@ export default class LoginPage extends Component {
                                 v => {
                                     this.readUserInfo();// TODO 获取用户信息
                                 },
-                                e =>  {
+                                e => {
                                     console.log(e.message)
                                     this.setState({isInWechatLoading: false});
                                     Toast.show("对不起, 操作已取消");
@@ -201,8 +201,6 @@ export default class LoginPage extends Component {
     }
 
 
-
-
     back() {
         Navigation.dismissModal({
             animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
@@ -237,12 +235,12 @@ export default class LoginPage extends Component {
         }
 
         // 只针对ios处理
-        if(Platform.OS === 'ios' || GUI_TEST) {
+        if (Platform.OS === 'ios' || GUI_TEST) {
             UserInfoStore.getMobileLoginInfo().then(
                 v => {
                     console.log(v);
                     // v.open = !v.open;// 调试开关反转
-                    if(v) {
+                    if (v) {
                         this.setState({openMobileLogin: v.open});
                         this.setState({openMobileInfo: v});
                     } else {
@@ -310,15 +308,14 @@ export default class LoginPage extends Component {
     }
 
 
-
     // 读取用户信息
     readUserInfo() {
         let _this = this;
         loadUserInfo({
-            type:'login',
-            callback: function(res){
+            type: 'login',
+            callback: function (res) {
                 _this.setState({loading: false});
-                if(res.code === 0 && res.userType === 0){
+                if (res.code === 0 && res.userType === 0) {
                     _this.props.navigator.push({
                         screen: 'FirstBindPhonePage',
                         title: '',
@@ -326,7 +323,7 @@ export default class LoginPage extends Component {
                             callback: _this.props.callback
                         }
                     });
-                }else{
+                } else {
                     _this.pop();
                 }
             },
@@ -651,11 +648,29 @@ export default class LoginPage extends Component {
                         <Image style={[styles.wechart_icon, {justifyContent: 'center'}]}
                                source={require('../img/cloud.png')}/>
 
-                        <SubmitButtonWithIcon accessibilityLabel="SubmitButton" testID="SubmitButton" onPress={this._goWechat}
+                        <SubmitButtonWithIcon accessibilityLabel="SubmitButton" testID="SubmitButton"
+                                              onPress={this._goWechat}
                                               buttonStyle={{marginTop: this.state.submitButtonMarginTop}}
                                               isEnabled={!this.state.isInWechatLoading}
                                               text={this.state.isInWechatLoading ? "登录中..." : "微信登录"}
                         />
+
+
+                        <TouchableOpacity onPress={() => {
+                            this.props.navigator.push({
+                                screen: 'SupportPage',
+                                title: '技术支持',
+                            });
+                        }}
+                                          style={{
+                                              marginTop: 20,
+                                              marginRight: 30,
+                                          }}>
+
+                            <Text style={{color:'#999999',
+                                fontSize: 14, alignSelf: 'flex-end'}}>登录遇到问题?</Text>
+                        </TouchableOpacity>
+
 
                     </KeyboardAvoidingView>
                     }
