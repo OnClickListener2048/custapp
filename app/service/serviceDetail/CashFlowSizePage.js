@@ -135,8 +135,8 @@ export default class CashFlowSizePage extends BComponent {
                 projectName={info.projectName}
                 endMonthSum={info.endMonthSum}
                 endYearSum={info.endYearSum}
-                endMonth={"本月金额"}
-                endYear={"本年累计金额"}
+                endMonth={"本月"}
+                endYear={"本年累计"}
                 isclick={false}
             />
         )
