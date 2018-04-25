@@ -1,0 +1,366 @@
+{
+  "code": 0,
+  "msg": "现金流量表查询成功",
+  "data": [
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 86,
+      "projectName": "一、经营活动产生的现金流量：",
+      "sequenceId": "1",
+      "calcOrder": 1,
+      "showOrder": 1
+    },
+    {
+      "endYearSum": 36684,
+      "endMonthSum": 29976,
+      "projectId": 87,
+      "projectName": "销售商品、提供劳务收到的现金",
+      "sequenceId": "2",
+      "calcOrder": 2,
+      "showOrder": 2
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 88,
+      "projectName": " 收到的税费返还",
+      "sequenceId": "3",
+      "calcOrder": 3,
+      "showOrder": 3
+    },
+    {
+      "endYearSum": 6304277.48,
+      "endMonthSum": 22282.96,
+      "projectId": 89,
+      "projectName": " 收到的其他与经营活动有关的现金",
+      "sequenceId": "4",
+      "calcOrder": 31,
+      "showOrder": 4
+    },
+    {
+      "endYearSum": 6340961.48,
+      "endMonthSum": 52258.96,
+      "projectId": 90,
+      "projectName": "经营活动现金流入小计",
+      "sequenceId": "5",
+      "calcOrder": 30,
+      "showOrder": 5
+    },
+    {
+      "endYearSum": 373323,
+      "endMonthSum": 106383,
+      "projectId": 91,
+      "projectName": "购买商品、接受劳务支付的现金",
+      "sequenceId": "6",
+      "calcOrder": 4,
+      "showOrder": 6
+    },
+    {
+      "endYearSum": 1543220.28,
+      "endMonthSum": 454421.31,
+      "projectId": 92,
+      "projectName": "支付给职工以及为职工支付的现金",
+      "sequenceId": "7",
+      "calcOrder": 5,
+      "showOrder": 7
+    },
+    {
+      "endYearSum": 108920.28,
+      "endMonthSum": 55997.39,
+      "projectId": 93,
+      "projectName": "支付的各项税费",
+      "sequenceId": "8",
+      "calcOrder": 6,
+      "showOrder": 8
+    },
+    {
+      "endYearSum": 1768100.6,
+      "endMonthSum": 550343.16,
+      "projectId": 94,
+      "projectName": "支付的其他与经营活动有关的现金",
+      "sequenceId": "9",
+      "calcOrder": 35,
+      "showOrder": 9
+    },
+    {
+      "endYearSum": 3793564.16,
+      "endMonthSum": 1167144.86,
+      "projectId": 95,
+      "projectName": "经营活动现金流出小计",
+      "sequenceId": "10",
+      "calcOrder": 34,
+      "showOrder": 10
+    },
+    {
+      "endYearSum": 2547397.32,
+      "endMonthSum": -1114885.9,
+      "projectId": 96,
+      "projectName": "经营活动产生的现金流量净额",
+      "sequenceId": "11",
+      "calcOrder": 36,
+      "showOrder": 11
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 97,
+      "projectName": "二、投资活动产生的现金流量：",
+      "sequenceId": "12",
+      "calcOrder": 7,
+      "showOrder": 12
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 98,
+      "projectName": "收回投资所收到的现金",
+      "sequenceId": "13",
+      "calcOrder": 8,
+      "showOrder": 13
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 99,
+      "projectName": "取得投资收益所收到的现金",
+      "sequenceId": "14",
+      "calcOrder": 9,
+      "showOrder": 14
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 100,
+      "projectName": "处置固定资产、无形资产和其他长期资产所收回的现金净额",
+      "sequenceId": "15",
+      "calcOrder": 10,
+      "showOrder": 15
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 337,
+      "projectName": "处置子公司及其他经营单位收回的现金净额",
+      "sequenceId": "16",
+      "calcOrder": 11,
+      "showOrder": 16
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 101,
+      "projectName": "收到的其他与投资活动有关的现金",
+      "sequenceId": "17",
+      "calcOrder": 12,
+      "showOrder": 17
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 102,
+      "projectName": "投资活动现金流入小计",
+      "sequenceId": "18",
+      "calcOrder": 28,
+      "showOrder": 18
+    },
+    {
+      "endYearSum": 91761,
+      "endMonthSum": 29488,
+      "projectId": 103,
+      "projectName": "购建固定资产、无形资产和其他长期资产所支付的现金",
+      "sequenceId": "19",
+      "calcOrder": 13,
+      "showOrder": 19
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 104,
+      "projectName": "投资所支付的现金",
+      "sequenceId": "20",
+      "calcOrder": 14,
+      "showOrder": 20
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 338,
+      "projectName": "取得子公司及其他经营单位支出的现金净额",
+      "sequenceId": "21",
+      "calcOrder": 15,
+      "showOrder": 21
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 105,
+      "projectName": "支付的其他与投资活动有关的现金",
+      "sequenceId": "22",
+      "calcOrder": 16,
+      "showOrder": 22
+    },
+    {
+      "endYearSum": 91761,
+      "endMonthSum": 29488,
+      "projectId": 106,
+      "projectName": "投资活动现金流出小计",
+      "sequenceId": "23",
+      "calcOrder": 32,
+      "showOrder": 23
+    },
+    {
+      "endYearSum": -91761,
+      "endMonthSum": -29488,
+      "projectId": 107,
+      "projectName": "投资活动产生的现金流量净额",
+      "sequenceId": "24",
+      "calcOrder": 37,
+      "showOrder": 24
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 108,
+      "projectName": "三、筹资活动产生的现金流量：",
+      "sequenceId": "25",
+      "calcOrder": 17,
+      "showOrder": 25
+    },
+    {
+      "endYearSum": 310000,
+      "endMonthSum": 0,
+      "projectId": 109,
+      "projectName": "吸收投资所收到的现金",
+      "sequenceId": "26",
+      "calcOrder": 18,
+      "showOrder": 26
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 339,
+      "projectName": "其中：子公司吸收少数股东投资收到的现金",
+      "sequenceId": "27",
+      "calcOrder": 19,
+      "showOrder": 27
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 110,
+      "projectName": "借款所收到的现金",
+      "sequenceId": "28",
+      "calcOrder": 20,
+      "showOrder": 28
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 111,
+      "projectName": "收到的其他与筹资活动有关的现金",
+      "sequenceId": "29",
+      "calcOrder": 21,
+      "showOrder": 29
+    },
+    {
+      "endYearSum": 310000,
+      "endMonthSum": 0,
+      "projectId": 112,
+      "projectName": "筹资活动现金流入小计",
+      "sequenceId": "30",
+      "calcOrder": 29,
+      "showOrder": 30
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 113,
+      "projectName": "偿还债务所支付的现金",
+      "sequenceId": "31",
+      "calcOrder": 22,
+      "showOrder": 31
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 114,
+      "projectName": "分配股利、利润或偿付利息所支付的现金",
+      "sequenceId": "32",
+      "calcOrder": 23,
+      "showOrder": 32
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 340,
+      "projectName": "其中：子公司支付给少数股东的股利、利润",
+      "sequenceId": "33",
+      "calcOrder": 24,
+      "showOrder": 33
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 115,
+      "projectName": "支付的其他与筹资活动有关的现金",
+      "sequenceId": "34",
+      "calcOrder": 25,
+      "showOrder": 34
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 116,
+      "projectName": "筹资活动现金流出小计",
+      "sequenceId": "35",
+      "calcOrder": 33,
+      "showOrder": 35
+    },
+    {
+      "endYearSum": 310000,
+      "endMonthSum": 0,
+      "projectId": 117,
+      "projectName": "筹资活动产生的现金流量净额",
+      "sequenceId": "36",
+      "calcOrder": 38,
+      "showOrder": 36
+    },
+    {
+      "endYearSum": 0,
+      "endMonthSum": 0,
+      "projectId": 118,
+      "projectName": "四、汇率变动对现金及现金等价物的影响",
+      "sequenceId": "37",
+      "calcOrder": 26,
+      "showOrder": 37
+    },
+    {
+      "endYearSum": 2765636.32,
+      "endMonthSum": -1144373.9,
+      "projectId": 119,
+      "projectName": "五、现金及现金等价物净增加额",
+      "sequenceId": "38",
+      "calcOrder": 39,
+      "showOrder": 38
+    },
+    {
+      "endYearSum": 85716.42,
+      "endMonthSum": 3995726.64,
+      "projectId": 120,
+      "projectName": "加：期初现金及现金等价物余额",
+      "sequenceId": "39",
+      "calcOrder": 27,
+      "showOrder": 39
+    },
+    {
+      "endYearSum": 2851352.74,
+      "endMonthSum": 2851352.74,
+      "projectId": 341,
+      "projectName": "六、期末现金及现金等价物余额",
+      "sequenceId": "40",
+      "calcOrder": 40,
+      "showOrder": 40
+    }
+  ]
+}
