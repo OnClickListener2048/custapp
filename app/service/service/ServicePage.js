@@ -76,7 +76,7 @@ const serviceData = [
         jumpPage:'LiabilityPage'
     },
     {
-        title:'利润表',
+        title:'净利润',
         logo:require('../../img/profit_icon.png'),
         jumpPage:'ProfitPage'
     },
