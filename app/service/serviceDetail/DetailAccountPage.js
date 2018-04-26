@@ -29,7 +29,7 @@ export default class DetailAccountPage extends BComponent {
             isRefreshing:false,
             isfirstRefresh:true,
             isLoading:false,
-            timeDateArr:props.timeDateArr,
+            timeDateArr:this.props.timeDateArr,
             timeIndex:props.timeIndex,
             is_demo:props.is_demo,
             detailsSubject:'',//方向：借、贷
@@ -47,7 +47,7 @@ export default class DetailAccountPage extends BComponent {
     // }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.loadData(this.state.timeIndex?this.state.timeDateArr[this.state.timeIndex].relateDate:this.props.relatedate)
+            this.loadData(this.state.timeDateArr?this.state.timeDateArr[this.state.timeIndex].relateDate:this.props.relatedate)
         });
     }
     loadData(date='',isPull=false){
@@ -101,7 +101,7 @@ export default class DetailAccountPage extends BComponent {
         );
     }
     _onRefresh(){
-        this.loadData(this.state.timeIndex?this.state.timeDateArr[this.state.timeIndex].relateDate:this.props.relateDate,true)
+        this.loadData(this.state.timeDateArr?this.state.timeDateArr[this.state.timeIndex].relateDate:this.props.relateDate,true)
     }
     _showTimer(){
         this.refs.ChooseTimerModal._showTimer()

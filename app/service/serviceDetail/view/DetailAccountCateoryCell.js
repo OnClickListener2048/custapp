@@ -39,7 +39,7 @@ export default class DetailAccountCateoryCell extends Component {
     }
 
     toAccountDetail(categoryItem){
-        console.log('打印传递的数据'+this.props.timeDateArr+'-----'+this.props.timeIndex+'----'+this.props.companyid);
+        console.log('打印传递的数据'+this.props.timeDateArr+'-----'+this.props.timeIndex+'----'+this.props.companyid+",,,"+this.props.is_demo);
 
    // if(this.props.is_demo==1){
    //     Toast.show('演示数据暂不支持查看明细账详情')
@@ -52,7 +52,6 @@ export default class DetailAccountCateoryCell extends Component {
             console.log("休息一下吧, 您的手速太快了");
             return;
         }
-
         this.props.navigator.push({
             screen: 'DetailAccountPage',
             title:categoryItem.subjectNo+' '+categoryItem.subjectName,
