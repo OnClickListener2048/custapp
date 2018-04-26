@@ -66,7 +66,7 @@ const serviceData = [
         jumpPage:'DetailAccountListPage'
     },
     {
-        title:'科目余额',
+        title:'科目余额表',
         logo:require('../../img/balance_sheet_tip.png'),
         jumpPage:'BalanceSheetPage'
     },
