@@ -40,11 +40,11 @@ export default class VouchersCell extends Component {
                     </View>
                 </View>
                 <View style = {[styles.itemStyle,{width:itemWidth*2}]}>
-                    <Text style={styles.digestStyle} numberOfLines={2}>{subject_Abstract}</Text>
+                    <Text style={styles.digestStyle} numberOfLines={2}>{subject_Abstract+'...'}</Text>
 
                 </View>
                 <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
-                    <Text style={styles.digestStyle}  numberOfLines={1}>{debitMoney}</Text>
+                    <Text style={styles.digestStyle}  numberOfLines={1}>{'查看明细'}</Text>
 
                 </View>
                 <Image resizeMode = "contain" style = {styles.rightImgStyle} source={require('../../img/left_button.png')} />
