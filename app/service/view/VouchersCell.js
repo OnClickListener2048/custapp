@@ -43,7 +43,7 @@ export default class VouchersCell extends Component {
                     <Text style={styles.digestStyle} numberOfLines={2}>{subject_Abstract+'...'}</Text>
 
                 </View>
-                <View style = {[styles.itemStyle,{borderRightWidth:0}]}>
+                <View style = {[styles.itemStyle,{borderRightWidth:0,justifyContent:'flex-end',}]}>
                     <Text style={styles.digestStyle}  numberOfLines={1}>{'查看明细'}</Text>
 
                 </View>
