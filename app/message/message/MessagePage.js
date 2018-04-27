@@ -222,7 +222,7 @@ export default class MessagePage extends BComponent {
                     }
                     let obj = JSON.parse(message.extras);
                     //判断是否刷新公司信息
-                    this._changeCompanyInfo(message.extras);
+                    this._changeCompanyInfo(obj);
                     this._resetNotifyMessageArr(obj);
 
                 });
