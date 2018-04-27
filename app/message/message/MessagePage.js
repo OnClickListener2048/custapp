@@ -21,6 +21,7 @@ import BComponent from '../../base';
 import DefaultView from '../../view/DefaultView'
 import MessageTipCell from './MessageTipCell';
 import RefreshListView, {RefreshState} from '../../view/RefreshListView'
+import Toast from 'react-native-root-toast'
 
 export default class MessagePage extends BComponent {
 
@@ -146,7 +147,8 @@ export default class MessagePage extends BComponent {
                 }else {
                     this._loadUnreadedNum();
                 }
-
+                //判断是否刷新公司信息
+                this._changeCompanyInfo(message);
                 //两种cell新消息数字 加入缓存数据
                 this._resetNotifyMessageArr(message);
             });
@@ -161,6 +163,8 @@ export default class MessagePage extends BComponent {
                 }else {
                     this._loadUnreadedNum();
                 }
+                //判断是否刷新公司信息
+                this._changeCompanyInfo(message);
                 this._resetNotifyMessageArr(message);
 
             });
@@ -170,6 +174,7 @@ export default class MessagePage extends BComponent {
                 this.setState({
                     jpushMessage : message
                 });
+                this._changeCompanyInfo(message);
                 this.props.navigator.switchToTab({
                     //因为应用杀死的情况下直接点开不会走viewwillAppear,所以强制跳转到本页面走viewwillAppear然后在viewwillAppear执行相关操作
                     tabIndex: 2
@@ -179,6 +184,7 @@ export default class MessagePage extends BComponent {
             //应用未杀死 点击通知栏
             this.clickiOSjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                 console.log("点击击通知自测通知自测 " + JSON.stringify(message));
+                this._changeCompanyInfo(message);
                 if(NavigatorSelected){
                     pushJump(NavigatorSelected, message.url,message.title?message.title:'噼里啪智能财税',message.title?message.title:'噼里啪智能财税',message.content);
 
@@ -204,7 +210,7 @@ export default class MessagePage extends BComponent {
                 //     this._resetNotifyMessageArr(obj);
                 //
                 // });
-                //收到通知
+                //收到通知 安卓机自定义消息与通知是一样的 所以注掉上面的自定义消息了
                 this.recieveAndroidJPushEvent = JPushModule.addReceiveNotificationListener((message) => {
                     console.log("receive notification: " + JSON.stringify(message));
                     if (this.state.isAppear === true){
@@ -214,8 +220,9 @@ export default class MessagePage extends BComponent {
                     }else {
                         this._loadUnreadedNum();
                     }
-                    let obj = JSON.parse(message.extras)
-
+                    let obj = JSON.parse(message.extras);
+                    //判断是否刷新公司信息
+                    this._changeCompanyInfo(obj);
                     this._resetNotifyMessageArr(obj);
 
                 });
@@ -224,7 +231,7 @@ export default class MessagePage extends BComponent {
                 this.clickAndroidjpushEvent = JPushModule.addReceiveOpenNotificationListener((message) => {
                     console.log("点击击通知自测通知自测 " + JSON.stringify(message));
 
-                    let obj = JSON.parse(message.extras)
+                    let obj = JSON.parse(message.extras);
                     this._timer = setTimeout(() => {
 
                         if(NavigatorSelected){
@@ -240,11 +247,7 @@ export default class MessagePage extends BComponent {
     }
 
     _resetBadgeNum(){
-
-
         if (this.state.isAppear === false){
-
-
             this.props.navigator.setTabBadge({
                 badge: this.state.newServiceNum + this.state.newNotifyNum <= 0 ? null : this.state.newServiceNum + this.state.newNotifyNum, // 数字气泡提示, 设置为null会删除
             });
@@ -253,7 +256,6 @@ export default class MessagePage extends BComponent {
                 badge: null // 数字气泡提示, 设置为null会删除
             });
         }
-
     }
 
     _resetNotifyNum(){
@@ -316,11 +318,15 @@ export default class MessagePage extends BComponent {
         );
     }
 
+    _changeCompanyInfo(message){
+
+        if (message.url === "pilipa://view.company.list"){
+            DeviceEventEmitter.emit('Notify_ChangeCompany');
+        }
+    }
+
+
     _resetNotifyMessageArr(item){
-
-
-
-
         //服务类的
         if(item.isGroup === false) {
             this._resetServiceNum();
