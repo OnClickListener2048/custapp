@@ -230,8 +230,8 @@ export default class ServicePage extends BComponent {
                         },
                         (e) => {
 
-
-
+                            this.initData()
+                            
                         },
                     );
 
