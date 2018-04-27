@@ -8,7 +8,7 @@ describe('--> Greet Button <--', () => {
     it('我的页面数据检测', async() => {
         let driver = helper.driver;
 
-        await driver.waitForElementByAccessibilityId('mine_MyOrders', 20000)// 等待我的订
+        await driver.waitForElementByAccessibilityId('mine_MyOrders', 20000)// 等待我的订单
             .elementByAccessibilityId('left_text')// 获取我的订单左侧文案;
             .text();
         let leftTexts = await driver.elementsByAccessibilityId('left_text');
@@ -41,7 +41,7 @@ describe('--> Greet Button <--', () => {
         console.log(leftTexts);
         text = await rightTexts[0].text();
         console.log(text);
-        expect(text).toEqual('2');
+        expect(text).toEqual('3');
 
         text = await rightTexts[1].text();
         console.log(text);
@@ -65,6 +65,7 @@ describe('--> Greet Button <--', () => {
         text = await company_lefts[1].text();
         console.log(text);
         expect(text).toEqual('徐州市全兴空调汽配有限公司');
+
 
 
 
@@ -161,4 +162,27 @@ describe('--> Greet Button <--', () => {
     });
 
 
+    it('我的抬头页数据检测', async() => {
+
+        let driver = helper.driver;
+        //点击我的公司页面
+        await driver.waitForElementByAccessibilityId('mine_myInvoice',20000).click();
+        let InvoiceTitleCell_titles = await driver.waitForElementsByAccessibilityId('InvoiceTitleCell_title',20000);
+        let text = await InvoiceTitleCell_titles[0].text();
+        console.log(text);
+        expect(text).toEqual('噼里啪2');
+        text = await InvoiceTitleCell_titles[1].text();
+        console.log(text);
+        expect(text).toEqual('噼里啪');
+
+        let InvoiceTitleCell_subTitles = await driver.waitForElementsByAccessibilityId('InvoiceTitleCell_subTitle',20000);
+        let text = await InvoiceTitleCell_subTitles[0].text();
+        console.log(text);
+        expect(text).toEqual('税号:  222222222222222');
+        text = await InvoiceTitleCell_subTitles[1].text();
+        console.log(text);
+        expect(text).toEqual('税号:  111111111111111');
+
+
+    });
 });

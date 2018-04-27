@@ -30,10 +30,12 @@ export default class InvoiceTitleCell extends Component {
                 <View
                     style={styles.textRowStyle}>
                     <Text
+                        accessibilityLabel="InvoiceTitleCell_title" testID="InvoiceTitleCell_title"
                         textAlign='left'
                         numberOfLines={1}
                         style={[{fontSize: 17,marginTop:14, marginLeft : 16 ,marginRight : 0,color : '#333333'}] }>{invoiceTitle}</Text>
                     <Text
+                        accessibilityLabel="InvoiceTitleCell_subTitle" testID="InvoiceTitleCell_subTitle"
                         textAlign='left'
                         numberOfLines={2}
                         style={[{fontSize: 17, marginLeft : 16 , marginRight : 0 ,marginTop:8,marginBottom:14, color : '#333333'}] }>{'税号:  ' + invoiceSubTitle}</Text>

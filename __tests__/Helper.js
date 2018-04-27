@@ -5,7 +5,7 @@ export default class Helper {
             platformName: 'Android',
             deviceName: 'Android Test',
             // platformVersion: '10.2',
-            app: "/Users/liufei/ReactNativeProject/work/custapp/android/app/build/outputs/apk/li-armeabi-v7a-release.apk"
+            app: "/Users/liufei/ReactNativeProject/work/custapp/android/app/build/outputs/apk/li-armeabi-v7a-debug.apk"
         };
         this.driver = wd.promiseChainRemote('0.0.0.0', 4723);
         jest.setTimeout(600*1000);
@@ -15,11 +15,11 @@ export default class Helper {
 
     async login (){
         let driver = this.driver;
-        try {
-            await driver.waitForElementByAccessibilityId('update_cancel_button', 10000).click().sleep(2000);
-        } catch (e) {
-            console.log("未找到升级提示框");
-        }
+        // try {
+        //     await driver.waitForElementByAccessibilityId('update_cancel_button', 10000).click().sleep(2000);
+        // } catch (e) {
+        //     console.log("未找到升级提示框");
+        // }
         // 点击第三个Tab
         let tab = await driver.waitForElementsById("cn.pilipa.custapp:id/bottom_navigation_container", 15000);
         tab[3].click();
