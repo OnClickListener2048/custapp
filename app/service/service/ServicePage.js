@@ -167,11 +167,85 @@ export default class ServicePage extends BComponent {
         this.refreshEmitter = DeviceEventEmitter.addListener('ChangeCompany', () => {
             this.initData()
         });
+        this.notify_refreshEmitter = DeviceEventEmitter.addListener('Notify_ChangeCompany', () => {
+            this.loadCompanyData()
+        });
 
     }
+    //授权通知需要重新加载公司数据
+    loadCompanyData(){
 
+        UserInfoStore.getUserInfo().then(
+            (user) => {
+
+                if (user && user.mobilePhone.length>0) {
+                    apis.getCompany(user.mobilePhone).then(
+                        (companyInfo) => {
+                            if (companyInfo && companyInfo.list && companyInfo.list.length >0) {
+
+                                console.log("公司信息读取成功返回:", JSON.stringify(companyInfo));
+
+                                let tmpCompaniesArr = companyInfo.list;
+
+                                if (companyInfo.applypay) {
+                                    UserInfoStore.setApplyPay(JSON.stringify(companyInfo.applypay)).then();
+                                }
+
+                                UserInfoStore.setCompanyArr(tmpCompaniesArr).then();
+                                let index = -1;
+                                for(let i=0;i<tmpCompaniesArr.length;i++){
+                                    let dic = tmpCompaniesArr[i]
+                                    if(dic.default){
+                                        index = i;
+                                        break;
+                                    }
+                                }
+
+                                // 如果服务端没有返回默认公司, 就在这里设置为第0个, 然后发回服务端进行更新
+                                if(index === -1) {
+                                    index = 0;
+                                    if(tmpCompaniesArr && tmpCompaniesArr[index]) {
+                                        apis.changeCompany(tmpCompaniesArr[index].id).then(
+                                            (responseData) => {
+                                                console.log('自动设置默认公司成功', responseData);
+                                            },
+                                            (e) => {
+                                                console.log('自动设置默认公司失败');
+                                            },
+                                        );
+                                    }
+                                }
+
+                                UserInfoStore.setCompany(tmpCompaniesArr[index]).then();
+
+
+                            } else {
+                                UserInfoStore.removeCompany().then();
+                                UserInfoStore.removeCompanyArr().then();
+                                UserInfoStore.removeApplyPay().then();
+
+                            }
+                            this.initData()
+
+                        },
+                        (e) => {
+
+
+
+                        },
+                    );
+
+                }
+            },
+            (e) => {
+                console.log("读取信息错误:", e);
+            },
+        );
+    }
     componentWillUnmount() {
         this.refreshEmitter.remove();
+        this.notify_refreshEmitter.remove();
+
     }
     initData(){
         UserInfoStore.isLogined().then(
