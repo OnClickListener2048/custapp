@@ -667,7 +667,7 @@ export default class ServicePage extends BComponent {
                             })
                         }
                     </View>
-                    <View style={{height:90,backgroundColor:'white',borderTopColor:'#D7D7D7',borderTopWidth:itemBorder,marginBottom:10}}/>
+                    <View style={{height:90,backgroundColor:'white',borderTopColor:'#D7D7D7',borderTopWidth:0,marginBottom:10}}/>
                 </ScrollView>
                 {this._renderDemo(this.state.is_demo)}
                 {this._renderYearReport()}
