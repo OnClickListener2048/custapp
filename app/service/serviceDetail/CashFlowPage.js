@@ -14,15 +14,14 @@ import ExpanableList from '../../view/ExpanableList'
 import BComponent from '../../base';
 import SectionHeader from '../../view/SectionHeader'
 import ServiceCell from './view/ServiceCell'
-import ChooseTimerModal from '../../view/ChooseTimerModal'
 import HeaderView from '../view/HeaderView'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import dataDemo from './local/CashFlow.json'
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
-import TimeSearchBar from '../view/TimeSearchBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
+import {exportFile} from '../../util/XlsxTool'
 
 export default class CashFlowPage extends BComponent {
 
@@ -36,9 +35,9 @@ export default class CashFlowPage extends BComponent {
             isRefreshing:false,
             isfirstRefresh:true,
             isLoading:false,
-
             timeDateArr:props.timeDateArr,
-            timeIndex:props.timeIndex
+            timeIndex:props.timeIndex,
+            xslxData:[]
 
         };
         this.openOptions=[];
@@ -54,6 +53,9 @@ export default class CashFlowPage extends BComponent {
         InteractionManager.runAfterInteractions(() => {
             this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
         });
+    }
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'现金流',[{wpx: DeviceInfo.width/3}, {wpx: DeviceInfo.width/3}, {wpx: DeviceInfo.width/3}])
     }
     loadData(date='',isPull=false){
 
@@ -83,6 +85,12 @@ export default class CashFlowPage extends BComponent {
 
                 if(responseData.code == 0){
 
+                    let xslxData = [['项目','期初','期末']]
+                    for(let i = 0 ;i<responseData.data.list.length; i++){
+                        let dic = responseData.data.list[i];
+                        xslxData.push([dic.name,dic.start,dic.end])
+                    }
+
                     this.setState({
                         balance:responseData.data.balance?responseData.data.balance:'- -',
                         balance_start:responseData.data.balance_start?responseData.data.balance_start:'- -',
@@ -90,7 +98,8 @@ export default class CashFlowPage extends BComponent {
                         dataSource:responseData.data.list?responseData.data.list:[],
                         isRefreshing:false,
                         isfirstRefresh:false,
-                        isLoading:false
+                        isLoading:false,
+                        xslxData:xslxData
                     })
 
                     if(responseData.data.list){
@@ -165,10 +174,11 @@ export default class CashFlowPage extends BComponent {
             return <View />
         }
     }
+
     render() {
         return (
             <View style={{backgroundColor:'#F1F1F1',flex:1}}>
-                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="现金流" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="现金流" shareToWeXin = {this._shareToWeXin.bind(this)} />
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}

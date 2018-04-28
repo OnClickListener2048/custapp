@@ -18,7 +18,6 @@ import {
     Linking
 } from 'react-native';
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
-
 import Toast from 'react-native-root-toast'
 import Alert from "react-native-alert";
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
@@ -761,6 +760,7 @@ export default class ServicePage extends BComponent {
 
     }
     _goServiceDetail(item){
+
         if(item.jumpPage==='VouchersListPage'){
             UMTool.onEvent('voucher')
 
