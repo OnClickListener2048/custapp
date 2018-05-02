@@ -12,12 +12,12 @@ import {
 import SectionHeader from '../../view/SectionHeader'
 import BComponent from '../../base';
 import HeaderView from '../view/HeaderView'
-import ChooseTimerModal from '../../view/ChooseTimerModal'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
+import {exportFile} from '../../util/XlsxTool'
 
 import demoData from './local/ProfitStatementPage.json'
 export default class ProfitStatementPage extends BComponent {
@@ -31,7 +31,7 @@ export default class ProfitStatementPage extends BComponent {
             isRefreshing:false,
             isfirstRefresh:true,
             isLoading:false,
-
+            xslxData:[],
             timeDateArr:props.timeDateArr,
             timeIndex:props.timeIndex,
 
@@ -51,7 +51,10 @@ export default class ProfitStatementPage extends BComponent {
             this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
         });
     }
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'净利润',[{wpx: DeviceInfo.width/4}, {wpx: DeviceInfo.width/4}, {wpx: DeviceInfo.width/4}, {wpx: DeviceInfo.width/4}])
 
+    }
     loadData(date='',isPull=false){
 
         if(this.props.is_demo=='1'){
@@ -86,6 +89,11 @@ export default class ProfitStatementPage extends BComponent {
         apis.loadProfit(this.props.companyid,date).then(
             (responseData) => {
                 if(responseData.code == 0){
+                    let xslxData = [['月份','利润','收入','支出']]
+                    for(let i = 0 ;i<responseData.list.length; i++){
+                        let dic = responseData.list[i];
+                        xslxData.push([dic.date,dic.profit,dic.income,dic.expenditure])
+                    }
 
                     this.setState({
                         profit:responseData.profit?responseData.profit:'- -',
@@ -94,7 +102,8 @@ export default class ProfitStatementPage extends BComponent {
                         dataSource:responseData.list?responseData.list:[],
                         isRefreshing:false,
                         isfirstRefresh:false,
-                        isLoading:false
+                        isLoading:false,
+                        xslxData:xslxData
                     })
 
                 }else{
@@ -165,7 +174,7 @@ export default class ProfitStatementPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="净利润" />
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="净利润" shareToWeXin = {this._shareToWeXin.bind(this)}/>
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}

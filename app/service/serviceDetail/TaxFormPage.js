@@ -9,10 +9,9 @@ import {
     FlatList,
     InteractionManager
 } from 'react-native';
-import { Pie } from 'react-native-pathjs-charts'
 import BComponent from '../../base';
 import CommonCell from '../../view/CommenCell'
-import ChooseTimerModal from '../../view/ChooseTimerModal'
+import {exportFile} from '../../util/XlsxTool'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import HeaderView from '../view/HeaderView'
@@ -35,7 +34,9 @@ export default class TaxFormPage extends BComponent {
             isfirstRefresh:true,
             isLoading:false,
             timeDateArr:props.timeDateArr,
-            timeIndex:props.timeIndex
+            timeIndex:props.timeIndex,
+            xslxData:[],
+
         }
 
     }
@@ -43,6 +44,10 @@ export default class TaxFormPage extends BComponent {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'纳税表',[{wpx: 100}, {wpx: 100}])
+
+    }
     componentWillUnmount() {
         UMTool.onEvent('t_return')
     }
@@ -73,13 +78,18 @@ export default class TaxFormPage extends BComponent {
         apis.loadTaxForm(this.props.companyid,date).then(
             (responseData) => {
                 if(responseData.code == 0){
-
+                    let xslxData = [['税种','金额']]
+                    for(let i = 0 ;i<responseData.data.list.length; i++){
+                        let dic = responseData.data.list[i];
+                        xslxData.push([dic.name,dic.amount])
+                    }
                     this.setState({
                         total:responseData.data.total?responseData.data.total:'- -',
                         data:responseData.data.list?responseData.data.list:[],
                         isRefreshing:false,
                         isfirstRefresh:false,
-                        isLoading:false
+                        isLoading:false,
+                        xslxData:xslxData
                     })
                 }else{
                     this.setState({
@@ -146,7 +156,7 @@ export default class TaxFormPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="纳税表"  />
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="纳税表" shareToWeXin = {this._shareToWeXin.bind(this)}  />
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}

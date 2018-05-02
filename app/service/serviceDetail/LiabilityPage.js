@@ -20,6 +20,7 @@ import CustomTabBar from '../../mine/myOrder/view/CustomTabBar'
 import ScrollableTabView,{DefaultTabBar} from 'react-native-scrollable-tab-view';
 import DetailLiabilityList from './view/DetailLiabilityList'
 import demoData from './local/Liability.json'
+import {exportFile} from '../../util/XlsxTool'
 
 export default class LiabilityPage extends BComponent {
 
@@ -31,7 +32,9 @@ export default class LiabilityPage extends BComponent {
             timeDateArr:props.timeDateArr,
             timeIndex:props.timeIndex,
             assets:[],
-            liabilities:[]
+            liabilities:[],
+            xslxData:[],
+
         }
 
     }
@@ -44,6 +47,10 @@ export default class LiabilityPage extends BComponent {
         InteractionManager.runAfterInteractions(() => {
             this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
         });
+    }
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'资产负债表',[{wpx: 150}, {wpx: 50},{wps:100},{wps:100},{wpx: 150}, {wpx: 50},{wps:100},{wps:100}])
+
     }
     loadData(date=''){
 
@@ -84,6 +91,7 @@ export default class LiabilityPage extends BComponent {
         );
     }
     _dealData(arr){
+        let xslxData = [['资产','行次','期末数','年初数','负债和所有者(或股东)','行次','期末数','年初数']];
         let assets = arr.slice(0,46);
         let liabilities = arr.slice(47,arr.length)
         let placeholdArr = Array.apply(null, Array(liabilities.length-assets.length-1)).map(function(item, i) {
@@ -99,18 +107,25 @@ export default class LiabilityPage extends BComponent {
         });
         assets = [...assets,...placeholdArr,arr[46]];
 
+        for(let i = 0;i<assets.length;i++){
+            let assetsDic = assets[i];
+            let liabilitiesDic = liabilities[i];
+            xslxData.push([assetsDic.projectName,i+1,assetsDic.endSum,assetsDic.preSum,liabilitiesDic.projectName,i+47,liabilitiesDic.endSum,liabilitiesDic.preSum])
+
+        }
+
         return {
             assets,
-            liabilities
+            liabilities,
+            xslxData
         }
     }
     render(){
 
-        console.log('LiabilityPage')
-        console.log(this.state.assets);
+
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="资产负债表"  />
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="资产负债表" shareToWeXin = {this._shareToWeXin.bind(this)}  />
 
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}

@@ -13,7 +13,7 @@ import BComponent from '../../base';
 import SectionHeader from '../../view/SectionHeader'
 import ServiceCell from './view/ServiceCell'
 import HeaderView from '../view/HeaderView'
-import ChooseTimerModal from '../../view/ChooseTimerModal'
+import {exportFile} from '../../util/XlsxTool'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
@@ -31,7 +31,7 @@ export default class AccountsPayablePage extends BComponent {
             isRefreshing:false,
             isfirstRefresh:true,
             isLoading:false,
-
+            xslxData:[],
             timeDateArr:props.timeDateArr,
             timeIndex:props.timeIndex
 
@@ -43,7 +43,10 @@ export default class AccountsPayablePage extends BComponent {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'应付账款',[{wpx: DeviceInfo.width/3}, {wpx: DeviceInfo.width/3}, {wpx: DeviceInfo.width/3}])
 
+    }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,'2')
@@ -77,15 +80,25 @@ export default class AccountsPayablePage extends BComponent {
         apis.loadAccounts(this.props.companyid,date,type).then(
             (responseData) => {
                 if(responseData.code == 0){
-
+                    let xslxData = [['科目名称','期初余额','期末余额']]
+                    for(let i = 0 ;i<responseData.list.length; i++){
+                        let dic = responseData.list[i];
+                        xslxData.push([dic.name,dic.start,dic.end])
+                        if(dic.others && dic.others.length>0){
+                            for(let j = 0;j<dic.others.length;j++){
+                                let dicOther = dic.others[j]
+                                xslxData.push([dicOther.name,dicOther.start,dicOther.end])
+                            }
+                        }
+                    }
                     this.setState({
                         dataSource:responseData.list?responseData.list:[],
                         start_account:responseData.start_account?responseData.start_account:'- -',
                         end_account:responseData.end_account?responseData.end_account:'- -',
                         isRefreshing:false,
                         isfirstRefresh:false,
-                        isLoading:false
-
+                        isLoading:false,
+                        xslxData:xslxData
                     })
                     if(responseData.list){
                         this.openOptions = Array.apply(null, Array(responseData.list.length)).map(function(item, i) {
@@ -163,7 +176,7 @@ export default class AccountsPayablePage extends BComponent {
     render() {
         return (
             <View style={{backgroundColor:'#F1F1F1',flex:1}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="应付账款"  />
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="应付账款"  shareToWeXin = {this._shareToWeXin.bind(this)}/>
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
