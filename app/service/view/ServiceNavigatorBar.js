@@ -15,8 +15,7 @@ import {
 import {isIphoneX} from '../../util/iphoneX-helper'
 import Picker from 'react-native-picker';
 const {width, height} = Dimensions.get('window');
-import Alert from "react-native-alert";
-import Toast from 'react-native-root-toast'
+
 
 /**
  * 顶部导航栏, 带左右按钮和中间定制.
@@ -63,12 +62,26 @@ export default class ServiceNavigatorBar extends Component {
         }
     }
 
+
     // 右边
     renderRightItem() {
         if(this.props.isSecondLevel) {
-            return(
-                <View style={{width:width/5,height:44,}}/>
-            )
+            if(this.props.isDemo == 1){
+                return(
+                    <View style={{width:width/5,height:44,}}/>
+                )
+            }else{
+
+                return(
+                    <TouchableWithoutFeedback onPress={()=>this.props.shareToWeXin && this.props.shareToWeXin()}>
+                        <View style={{width:64,height:44, alignItems:'center',flexDirection:'row-reverse'}}>
+                            <Image style={{marginRight:10}} source={require('../../img/share.png')} />
+                        </View>
+                    </TouchableWithoutFeedback>
+                )
+            }
+
+
         }else{
             if (this.props.rightItem === undefined) return;
             return this.props.rightItem();

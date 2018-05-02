@@ -163,7 +163,7 @@ export default class AccountsPayablePage extends BComponent {
     render() {
         return (
             <View style={{backgroundColor:'#F1F1F1',flex:1}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="应付账款" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="应付账款"  />
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}

@@ -159,9 +159,7 @@ export default class DetailAccountPage extends BComponent {
                     isDemo = {this.props.is_demo}
                     navigator={this.props.navigator}
                     title={this.state.subjectNo+" "+this.state.subjectName}
-                    year={this.state.year}
-                    month={this.state.month}
-                    callback = {this._callback.bind(this)}/>
+                    />
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}

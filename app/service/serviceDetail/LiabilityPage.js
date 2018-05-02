@@ -110,7 +110,8 @@ export default class LiabilityPage extends BComponent {
         console.log(this.state.assets);
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {true} title="资产负债表" navigator={this.props.navigator} />
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="资产负债表"  />
+
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}

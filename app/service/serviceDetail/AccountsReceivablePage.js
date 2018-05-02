@@ -164,7 +164,7 @@ export default class AccountsReceivablePage extends BComponent {
     render() {
         return (
             <View style={{backgroundColor:'#F1F1F1',flex:1}}>
-                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="应收账款" year={this.state.year} month={this.state.month} callback = {this._callback.bind(this)}/>
+                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="应收账款"  />
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
