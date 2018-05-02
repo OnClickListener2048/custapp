@@ -19,6 +19,9 @@ import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import DetialAccountCell from "../view/DetialAccountCell";
 import detailData from "./local/DetailAccountPage.json";
+import {exportFile} from '../../util/XlsxTool';
+import {formatmoney} from '../../util/FormatMoney';
+
 
 export default class DetailAccountPage extends BComponent {
 
@@ -34,7 +37,8 @@ export default class DetailAccountPage extends BComponent {
             is_demo:props.is_demo,
             detailsSubject:'',//方向：借、贷
             subjectNo:'',
-            subjectName:''
+            subjectName:'',
+            xslxData:[],//表格数据
         }
 
     }
@@ -42,9 +46,6 @@ export default class DetailAccountPage extends BComponent {
         navBarHidden: true, // 隐藏默认的顶部导航栏
         tabBarHidden: true, // 默认隐藏底部标签栏
     };
-    // componentWillUnmount() {
-    //     UMTool.onEvent('t_return')
-    // }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.loadData(this.state.timeDateArr?this.state.timeDateArr[this.state.timeIndex].relateDate:this.props.relatedate)
@@ -73,6 +74,12 @@ export default class DetailAccountPage extends BComponent {
         apis.loadDetialAccountData(this.props.companyid,date,this.props.subjectNo).then(
             (responseData) => {
                 if(responseData.code == 0){
+                    let xslxData = [['日期','凭证字号','摘要','借方','贷方','方向','余额']]
+                    for(let i = 0 ;i<responseData.data[0].ledgerList.length; i++){
+                        let dic = responseData.data[0].ledgerList[i];
+                        xslxData.push([dic.relateDate,dic.voucher,dic.abstract,formatmoney(dic.deb),formatmoney(dic.cre),responseData.data[0].detailsSubject.dir===1?'借':'贷',formatmoney(dic.balance)])
+                        console.log('===='+xslxData[i+1]);
+                    }
                     this.setState({
                         data:responseData.data[0].ledgerList?responseData.data[0].ledgerList:[],
                         detailsSubject:responseData.data[0].detailsSubject.dir===1?'借':'贷',
@@ -80,8 +87,12 @@ export default class DetailAccountPage extends BComponent {
                         subjectName:responseData.data[0].subjectName,
                         isRefreshing:false,
                         isfirstRefresh:false,
-                        isLoading:false
+                        isLoading:false,
+                        xslxData:xslxData
                     })
+
+
+
                 }else{
                     this.setState({
                         isRefreshing:false,
@@ -100,6 +111,12 @@ export default class DetailAccountPage extends BComponent {
             },
         );
     }
+
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'明细账',[{wpx: DeviceInfo.width/7}, {wpx: DeviceInfo.width/7}, {wpx: DeviceInfo.width/7*2.5},{wpx: DeviceInfo.width/7}, {wpx: DeviceInfo.width/7}, {wpx: DeviceInfo.width/14},{wpx: DeviceInfo.width/7}])
+
+    }
+
     _onRefresh(){
         this.loadData(this.state.timeDateArr?this.state.timeDateArr[this.state.timeIndex].relateDate:this.props.relateDate,true)
     }
@@ -159,7 +176,7 @@ export default class DetailAccountPage extends BComponent {
                     isDemo = {this.props.is_demo}
                     navigator={this.props.navigator}
                     title={this.state.subjectNo+" "+this.state.subjectName}
-                    />
+                    shareToWeXin = {this._shareToWeXin.bind(this)}/>
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
