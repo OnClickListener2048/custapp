@@ -85,7 +85,7 @@ export default class CashFlowPage extends BComponent {
 
                 if(responseData.code == 0){
 
-                    let xslxData = [['项目','期初','期末']]
+                    let xslxData = [['科目名称','期初','期末']]
                     for(let i = 0 ;i<responseData.data.list.length; i++){
                         let dic = responseData.data.list[i];
                         xslxData.push([dic.name,dic.start,dic.end])

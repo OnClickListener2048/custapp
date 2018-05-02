@@ -13,7 +13,7 @@ import BComponent from '../../base';
 import SectionHeader from '../../view/SectionHeader'
 import ServiceCell from './view/ServiceCell'
 import HeaderView from '../view/HeaderView'
-import ChooseTimerModal from '../../view/ChooseTimerModal'
+import {exportFile} from '../../util/XlsxTool'
 import * as apis from '../../apis';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
@@ -32,7 +32,7 @@ export default class AccountsReceivablePage extends BComponent {
             isRefreshing:false,
             isfirstRefresh:true,
             isLoading:false,
-
+            xslxData:[],
             timeDateArr:props.timeDateArr,
             timeIndex:props.timeIndex
         };
@@ -47,7 +47,10 @@ export default class AccountsReceivablePage extends BComponent {
     componentWillUnmount() {
         UMTool.onEvent('r_return')
     }
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'应收账款',[{wpx: 200}, {wpx: 50}, {wpx: 50}])
 
+    }
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate,'1')
@@ -78,14 +81,25 @@ export default class AccountsReceivablePage extends BComponent {
             (responseData) => {
 
                 if(responseData.code == 0){
-
+                    let xslxData = [['科目名称','期初余额','期末余额']]
+                    for(let i = 0 ;i<responseData.list.length; i++){
+                        let dic = responseData.list[i];
+                        xslxData.push([dic.name,dic.start,dic.end])
+                        if(dic.others && dic.others.length>0){
+                            for(let j = 0;j<dic.others.length;j++){
+                                let dicOther = dic.others[j]
+                                xslxData.push([dicOther.name,dicOther.start,dicOther.end])
+                            }
+                        }
+                    }
                     this.setState({
                         dataSource:responseData.list?responseData.list:[],
                         start_account:responseData.start_account?responseData.start_account:'- -',
                         end_account:responseData.end_account?responseData.end_account:'- -',
                         isRefreshing:false,
                         isfirstRefresh:false,
-                        isLoading:false
+                        isLoading:false,
+                        xslxData:xslxData
                     })
 
                     if(responseData.list){
@@ -164,7 +178,7 @@ export default class AccountsReceivablePage extends BComponent {
     render() {
         return (
             <View style={{backgroundColor:'#F1F1F1',flex:1}}>
-                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="应收账款"  />
+                <ServiceNavigatorBar isSecondLevel = {true}  navigator={this.props.navigator} isDemo = {this.props.is_demo} title="应收账款" shareToWeXin = {this._shareToWeXin.bind(this)} />
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
