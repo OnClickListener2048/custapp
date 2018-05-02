@@ -19,6 +19,7 @@ import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import demoData from './local/GeneralLedgerPage.json'
 import {exportFile} from '../../util/XlsxTool'
+import {formatmoney} from '../../util/FormatMoney';
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
@@ -146,7 +147,14 @@ export default class GeneralLedgerPage extends BComponent {
                     // directsArr.push(secInfo.direct)
                     // balancesArr.push(secInfo.balance)
 
-                    xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,secInfo.debit,secInfo.credit,secInfo.direct,secInfo.balance])
+                    // xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,secInfo.debit,secInfo.credit,secInfo.direct,secInfo.balance])
+
+
+                    xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,formatmoney(secInfo.debit + 0.0),
+                        formatmoney(secInfo.credit + 0.0), secInfo.direct,formatmoney(secInfo.balance + 0.0)])
+
+
+
 
                     // if (j === secArr.length - 1){
                     //     xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,secInfo.debit,secInfo.credit,secInfo.direct,secInfo.balance])
