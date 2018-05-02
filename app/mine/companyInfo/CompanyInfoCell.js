@@ -136,6 +136,9 @@ export default class CompanyInfoCell extends Component {
                     <Text accessibilityLabel="company_state1" testID="company_state1"
                           style = {[styles.surviveText]}>{this.props.surviveText}</Text>}
                    </View>
+
+
+
                 </View>
                 <View style = {styles.wrap2}>
 
