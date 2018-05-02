@@ -22,6 +22,7 @@ import demoData from './local/CashFlowSize.json'
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import ServiceCommonCell from "./view/ServiceCommonCell";
+import {exportFile} from '../../util/XlsxTool'
 //现金流量表
 export default class CashFlowSizePage extends BComponent {
 
@@ -34,6 +35,7 @@ export default class CashFlowSizePage extends BComponent {
             isLoading:false,
             timeDateArr:props.timeDateArr,
             timeIndex:props.timeIndex,
+            xslxData:[]
         };
 
     }
@@ -48,7 +50,9 @@ export default class CashFlowSizePage extends BComponent {
             this.loadData(this.state.timeDateArr[this.state.timeIndex].relateDate)
         });
     }
-
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'现金流量表',[{wpx: DeviceInfo.width*3/5}, {wpx: DeviceInfo.width/5}, {wpx: DeviceInfo.width/5}])
+    }
 
     loadData(date='',isPull=false){
 
@@ -71,11 +75,18 @@ export default class CashFlowSizePage extends BComponent {
         apis.loadCashFlowSizePageData(this.props.companyid,date).then(
             (responseData) => {
                 if(responseData.code == 0){
+                    let xslxData = [['项目','本月金额','本年累计金额']]
+                    for(let i = 0 ;i<responseData.data.length; i++){
+                        let dic = responseData.data[i];
+                        xslxData.push([dic.projectName,dic.endMonthSum,dic.endYearSum])
+                    }
+
                     this.setState({
                         data:responseData.data,
                         isRefreshing:false,
                         isfirstRefresh:false,
-                        isLoading:false
+                        isLoading:false,
+                        xslxData:xslxData
                     })
                 }else{
                     this.setState({
@@ -147,7 +158,7 @@ export default class CashFlowSizePage extends BComponent {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="现金流量表"  />
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="现金流量表" shareToWeXin = {this._shareToWeXin.bind(this)} />
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}
