@@ -45,7 +45,7 @@ export default class CompanyInfoCell extends Component {
         return(
             <View
                 accessibilityLabel="company_cell" testID="company_cell"
-                style = {[styles.container,{height:(this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者')?80:65},underlineStyle,this.props.underLineStyle,this.props.style]}>
+                style = {[styles.container,{height:(this.props.ownerText.length > 0 &&this.props.ownerText=='拥有者')?83:68},underlineStyle,this.props.underLineStyle,this.props.style]}>
                 {this._renderLeftView()}
                 {this._renderRightView()}
             </View>
