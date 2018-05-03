@@ -12,11 +12,16 @@ const DDP = (Platform.OS === 'ios'? DocumentDirectoryPath: ExternalDirectoryPath
 const output = str => str;
 import * as WeChat from'react-native-wechat'
 
-export  function  exportFile(data,title = "",cellWidth) {
+export  function  exportFile(data,title = "",cols,merges) {
     /* convert AOA back to worksheet */
     const ws = XLSX.utils.aoa_to_sheet(data);
-    if(cellWidth){
-        ws['!cols'] = cellWidth
+
+    if(merges){
+        ws["!merges"] = merges
+    }
+
+    if(cols){
+        ws['!cols'] = cols
     }
     /* build new workbook */
     const wb = XLSX.utils.book_new();

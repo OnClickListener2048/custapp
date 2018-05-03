@@ -19,6 +19,7 @@ import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import demoData from './local/GeneralLedgerPage.json'
 import {exportFile} from '../../util/XlsxTool'
+import {formatmoney} from '../../util/FormatMoney';
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
@@ -131,33 +132,11 @@ export default class GeneralLedgerPage extends BComponent {
             for(var key in values){
                 timeStr = key;
                 secArr = values[key];
-                // let abstractsArr = [];
-                // let debitsArr = [];
-                // let creditsArr = [];
-                // let directsArr = [];
-                // let balancesArr = [];
-
                 for (let j = 0 ; j < secArr.length ; j++){
                     let secInfo = secArr[j];
-
-                    // abstractsArr.push(secInfo.abstract)
-                    // debitsArr.push(secInfo.debit)
-                    // creditsArr.push(secInfo.credit)
-                    // directsArr.push(secInfo.direct)
-                    // balancesArr.push(secInfo.balance)
-
-                    xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,secInfo.debit,secInfo.credit,secInfo.direct,secInfo.balance])
-
-                    // if (j === secArr.length - 1){
-                    //     xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,secInfo.debit,secInfo.credit,secInfo.direct,secInfo.balance])
-                    // }else {
-                    //     xslxData.push(['','','',secInfo.abstract,secInfo.debit,secInfo.credit,secInfo.direct,secInfo.balance])
-                    // }
+                    xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,formatmoney(secInfo.debit + 0.0),
+                        formatmoney(secInfo.credit + 0.0), secInfo.direct,formatmoney(secInfo.balance + 0.0)])
                 }
-
-                // xslxData.push([subjectNo,subjectName,timeStr,abstractsArr,debitsArr,creditsArr,directsArr,balancesArr])
-
-
             }
         }
 
@@ -203,7 +182,26 @@ export default class GeneralLedgerPage extends BComponent {
     }
 
     _shareToWeXin(){
-        exportFile(this.state.xslxData,'总账',[{wpx: 80}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 60}, {wpx: 100}])
+
+        let mergesInfo = [];
+        for(let i = 0 ; i < this.state.xslxData.length ; i++){
+
+            for (let j = 0 ; j < 3 ; j++){
+                let subMerge = {
+                    s: {//s为开始
+                        c: j,//开始列
+                        r: 1 + i * 3//开始取值范围
+                    },
+                    e: {//e结束
+                        c: j,//结束列
+                        r: 3 + i * 3//结束范围
+                    }
+                };
+                mergesInfo.push(subMerge)
+            }
+        }
+
+        exportFile(this.state.xslxData,'总账',[{wpx: 80}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 60}, {wpx: 100}],mergesInfo)
 
     }
 
