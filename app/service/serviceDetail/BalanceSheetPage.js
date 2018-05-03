@@ -256,7 +256,7 @@ export default class BalanceSheetPage extends BComponent {
                 {s:{c:6,r:0},e:{c:7,r:0}},
                 {s:{c:8,r:0},e:{c:9,r:0}}
             ]
-        exportFile(this.state.xslxData,'科目余额表',[{wpx: 80}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}],merge)
+        exportFile(this.state.xslxData,'科目余额表',[{wpx: 80}, {wpx: 150}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}],merge)
 
     }
     //click
