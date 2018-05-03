@@ -112,7 +112,8 @@ export default class BalanceSheetPage extends BComponent {
         let validArr = this._getValidData(responseTmpArr);
 
         //设置导出数据格式
-        let xslxData = [['科目编码','科目名称','期初余额借方','期初余额贷方','本期发生额借方','本期发生额贷方','本年累计额借方','本年累计额贷方','期末余额借方','期末余额贷方']];
+        let xslxData = [['科目编码','科目名称','期初余额','期初余额','本期发生额','本期发生额','本年累计额','本年累计额','期末余额','期末余额'],['科目编码','科目名称','借方','贷方','借方','贷方','借方','贷方','借方','贷方']];
+
         for(let i = 0 ;i<validArr.length; i++){
             let info = validArr[i];
             let subjectNo = info.subjectNo;
@@ -247,7 +248,15 @@ export default class BalanceSheetPage extends BComponent {
     }
 
     _shareToWeXin(){
-        exportFile(this.state.xslxData,'科目余额表',[{wpx: 80}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}])
+        let merge = [
+                {s:{c:0,r:0},e:{c:0,r:1}},
+                {s:{c:1,r:0},e:{c:1,r:1}},
+                {s:{c:2,r:0},e:{c:3,r:0}},
+                {s:{c:4,r:0},e:{c:5,r:0}},
+                {s:{c:6,r:0},e:{c:7,r:0}},
+                {s:{c:8,r:0},e:{c:9,r:0}}
+            ]
+        exportFile(this.state.xslxData,'科目余额表',[{wpx: 80}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}],merge)
 
     }
     //click
