@@ -18,6 +18,8 @@ import * as apis from '../../apis/service';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import demoData from './local/GeneralLedgerPage.json'
+import {exportFile} from '../../util/XlsxTool'
+import {formatmoney} from '../../util/FormatMoney';
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
@@ -31,6 +33,7 @@ export default class GeneralLedgerPage extends BComponent {
             data:[],
             alldata:[],  //全部数据
             validData:[], //有效数据
+            xslxData:[],  //导出表格数据
             isRefreshing:false,
             isfirstRefresh:true,
             isLoading:false,
@@ -109,10 +112,68 @@ export default class GeneralLedgerPage extends BComponent {
         //深拷贝
         let allDataArr = JSON.parse(JSON.stringify(data));
         let validDataArr = this._getValidData(data)
+
+        //设置导出数据格式
+        let xslxData = [['科目编码','科目名称','期间','摘要','借方','贷方','方向','余额']];
+
+
+
+
+        for(let i = 0 ;i<validDataArr.length; i++){
+            let info = validDataArr[i];
+
+            let subjectNo = info.subjectNo;
+            let subjectName = info.subjectName;
+
+
+            let timeStr = "";
+            let secArr = [];
+            let values = info.values;
+            for(var key in values){
+                timeStr = key;
+                secArr = values[key];
+                // let abstractsArr = [];
+                // let debitsArr = [];
+                // let creditsArr = [];
+                // let directsArr = [];
+                // let balancesArr = [];
+
+                for (let j = 0 ; j < secArr.length ; j++){
+                    let secInfo = secArr[j];
+
+                    // abstractsArr.push(secInfo.abstract)
+                    // debitsArr.push(secInfo.debit)
+                    // creditsArr.push(secInfo.credit)
+                    // directsArr.push(secInfo.direct)
+                    // balancesArr.push(secInfo.balance)
+
+                    // xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,secInfo.debit,secInfo.credit,secInfo.direct,secInfo.balance])
+
+
+                    xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,formatmoney(secInfo.debit + 0.0),
+                        formatmoney(secInfo.credit + 0.0), secInfo.direct,formatmoney(secInfo.balance + 0.0)])
+
+
+
+
+                    // if (j === secArr.length - 1){
+                    //     xslxData.push([subjectNo,subjectName,timeStr,secInfo.abstract,secInfo.debit,secInfo.credit,secInfo.direct,secInfo.balance])
+                    // }else {
+                    //     xslxData.push(['','','',secInfo.abstract,secInfo.debit,secInfo.credit,secInfo.direct,secInfo.balance])
+                    // }
+                }
+
+                // xslxData.push([subjectNo,subjectName,timeStr,abstractsArr,debitsArr,creditsArr,directsArr,balancesArr])
+
+
+            }
+        }
+
         this.setState({
             alldata:allDataArr,
             validData:validDataArr,
             data:this.state.isHideInvalidData ? validDataArr : allDataArr,
+            xslxData:xslxData,
         })
     }
 
@@ -148,6 +209,12 @@ export default class GeneralLedgerPage extends BComponent {
         }
         return validArr;
     }
+
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'总账',[{wpx: 80}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 60}, {wpx: 100}])
+
+    }
+
 
     _showInvalidData(){
         this.setState({
@@ -229,7 +296,7 @@ export default class GeneralLedgerPage extends BComponent {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="总账"  />
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="总账"  shareToWeXin = {this._shareToWeXin.bind(this)}/>
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}

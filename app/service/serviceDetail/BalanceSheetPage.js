@@ -18,10 +18,12 @@ import * as apis from '../../apis/service';
 import Toast from 'react-native-root-toast'
 import PLPActivityIndicator from '../../view/PLPActivityIndicator';
 import demoData from './local/BalanceSheetPage.json'
+import {exportFile} from '../../util/XlsxTool'
 
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import BalanceSheetCell from "./view/BalanceSheetCell";
+import {formatmoney} from '../../util/FormatMoney';
 
 export default class BalanceSheetPage extends BComponent {
 
@@ -31,6 +33,7 @@ export default class BalanceSheetPage extends BComponent {
             data:[],
             alldata:[],  //全部数据
             validData:[], //有效数据
+            xslxData:[],  //导出表格数据
             isRefreshing:false,
             isfirstRefresh:true,
             isLoading:false,
@@ -108,10 +111,22 @@ export default class BalanceSheetPage extends BComponent {
         let allDataArr = this._getAllData(responseTmpArr);
         let validArr = this._getValidData(responseTmpArr);
 
+        //设置导出数据格式
+        let xslxData = [['科目编码','科目名称','期初余额借方','期初余额贷方','本期发生额借方','本期发生额贷方','本年累计额借方','本年累计额贷方','期末余额借方','期末余额贷方']];
+        for(let i = 0 ;i<validArr.length; i++){
+            let info = validArr[i];
+            let subjectNo = info.subjectNo;
+            let subjectName = info.subjectName;
+            let accountBalanceInfo = info.accountBalance;
+            xslxData.push([subjectNo,subjectName,formatmoney(accountBalanceInfo.preSumDebit),formatmoney(accountBalanceInfo.preSumCredit),formatmoney(accountBalanceInfo.midSumDebit),formatmoney(accountBalanceInfo.midSumCredit),
+                formatmoney(accountBalanceInfo.yearSumDebit),formatmoney(accountBalanceInfo.yearSumCredit),formatmoney(accountBalanceInfo.endSumDebit),formatmoney(accountBalanceInfo.endSumCredit)]);
+        }
+
         this.setState({
             alldata:allDataArr,
             validData:validArr,
             data:this.state.isHideInvalidData ? validArr : allDataArr,
+            xslxData:xslxData,
         })
     }
 
@@ -231,7 +246,10 @@ export default class BalanceSheetPage extends BComponent {
         return validTmpArr;
     }
 
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'科目余额表',[{wpx: 80}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}, {wpx: 100}])
 
+    }
     //click
     _showInvalidData(){
         this.setState({
@@ -305,7 +323,7 @@ export default class BalanceSheetPage extends BComponent {
     render(){
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="科目余额表"  />
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="科目余额表" shareToWeXin = {this._shareToWeXin.bind(this)}/>
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}

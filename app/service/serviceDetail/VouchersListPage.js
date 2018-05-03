@@ -20,6 +20,8 @@ import demoData from './local/VouchersListPage.json'
 import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import VouchersCell from "../view/VouchersCell";
+import {exportFile} from '../../util/XlsxTool';
+import {formatmoney} from '../../util/FormatMoney';
 
 export default class VouchersListPage extends BComponent {
 
@@ -31,7 +33,8 @@ export default class VouchersListPage extends BComponent {
             isfirstRefresh:true,
             isLoading:false,
             timeDateArr:props.timeDateArr,
-            timeIndex:props.timeIndex
+            timeIndex:props.timeIndex,
+            xslxData:[],//表格数据
         }
 
     }
@@ -67,12 +70,26 @@ export default class VouchersListPage extends BComponent {
         apis.loadVouchers(this.props.companyid,date).then(
             (responseData) => {
                 if(responseData.code == 0){
+                    let xslxData = [['日期','凭证字号','摘要','会计科目','借方金额','贷方金额']]
+
                     console.log("凭证数据="+responseData.data);
+
+                    for(let i = 0 ;i<responseData.data.length; i++){
+                        let dic = responseData.data[i];
+                        for(let j = 0 ;j<dic.subjectDetails.length; j++){
+                            let detail = dic.subjectDetails[j];
+                            xslxData.push([dic.relateDate.substring(0,10),dic.voucherWord,detail.subject_Abstract,detail.subjectName,formatmoney(detail.debitMoney),formatmoney(detail.creditorMoney)])
+                            console.log('==[]=='+xslxData[i+1]);
+                        }
+
+                    }
+
                     this.setState({
                         data:responseData.data?responseData.data:[],
                         isRefreshing:false,
                         isfirstRefresh:false,
-                        isLoading:false
+                        isLoading:false,
+                        xslxData:xslxData,
                     })
                 }else{
                     this.setState({
@@ -111,6 +128,11 @@ export default class VouchersListPage extends BComponent {
             </View>
             </Image>
         )
+    }
+
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,'我的凭证',[{wpx: DeviceInfo.width/7}, {wpx: DeviceInfo.width/7}, {wpx: DeviceInfo.width/7*2.5},{wpx: DeviceInfo.width/7*2.5}, {wpx: DeviceInfo.width/7}, {wpx: DeviceInfo.width/7}])
+
     }
 
     _renderItem(item){
@@ -160,7 +182,8 @@ export default class VouchersListPage extends BComponent {
 
         return(
             <View style={{flex:1,backgroundColor:'#F1F1F1'}}>
-                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="我的凭证"  />
+                <ServiceNavigatorBar isSecondLevel = {true} isDemo = {this.props.is_demo} navigator={this.props.navigator} title="我的凭证"
+                                     shareToWeXin = {this._shareToWeXin.bind(this)}/>
                 <TimeSearchBarTest
                     timeDateArr = {this.state.timeDateArr}
                     timeIndex = {this.state.timeIndex}

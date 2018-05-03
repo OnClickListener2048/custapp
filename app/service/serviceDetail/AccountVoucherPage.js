@@ -9,6 +9,7 @@ import {
     StyleSheet,
     ScrollView,
     TouchableOpacity,
+    Platform,
     Image
 } from 'react-native';
 
@@ -21,7 +22,10 @@ import * as apis from '../../apis';
 import DefaultView from '../../view/DefaultView'
 import {formatmoney} from '../../util/FormatMoney';
 
-import BComponent from '../../base/BComponent'
+import BComponent from '../../base/BComponent';
+import {exportFile} from '../../util/XlsxTool';
+import Modal from '../../view/Modalbox';
+
 export default class AccountVoucherPage extends BComponent {
 
     constructor(props) {
@@ -42,7 +46,7 @@ export default class AccountVoucherPage extends BComponent {
             widthArr: [ 83.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1, 94.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1,
                         86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1, 86.0 / (375 - 30 ) * (SCREEN_WIDTH - 30) - 1.5],
             initStatus:'', //loading 加载中;  no-net 无网; error 初始化失败; no-data 初始请求数据成功但列表数据为空 ;initSucess 初始化成功并且有数据
-
+            xslxData:[],//分享的表格数据
         };
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -62,6 +66,7 @@ export default class AccountVoucherPage extends BComponent {
         apis.loadVoucherDetail(this.props.companyid,this.props.relatedate,this.props.id).then(
             (voucherInfo) => {
                 if (voucherInfo) {
+                    let xslxData = [this.state.tableHead];
                     let arr = [];
                     let imageArr = [];
 
@@ -80,6 +85,7 @@ export default class AccountVoucherPage extends BComponent {
                         let creditorMoneyM = formatmoney(dic.creditorMoney + 0.0);
 
                         arr.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
+                        xslxData.push([dic.subject_Abstract,dic.subjectName,debitMoneyM,creditorMoneyM])
                         for(let j=0;j<dic.receiptDetails.length;j++){
                             let imgObj = dic.receiptDetails[j]
                             imageArr.push(imgObj)
@@ -91,7 +97,7 @@ export default class AccountVoucherPage extends BComponent {
                     let creditorCountM = formatmoney(allcreditorMoney);
 
                     allCountArr.push(["合计","会计科目",debtorCountM,creditorCountM])
-
+                    xslxData.push(["合计","会计科目",debtorCountM,creditorCountM])
 
                     this.setState({
                         tableData:arr,
@@ -102,7 +108,7 @@ export default class AccountVoucherPage extends BComponent {
                         creatName:voucherInfo.data.creatName,
                         isLoading:false,
                         imageArr:this._unique(imageArr),
-
+                        xslxData:xslxData
                     });
 
 
@@ -132,7 +138,53 @@ export default class AccountVoucherPage extends BComponent {
         }
         return finalResult;
     }
-    
+
+    componentWillMount() {
+
+        this.initNavigatorBar();
+
+    }
+
+    initNavigatorBar(){
+        if(Platform.OS === 'ios') {
+            UserInfoStore.getMobileLoginInfo().then(
+                v => {
+                    if(v && v.open) {
+                        this.props.navigator.setButtons({
+                            rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                        });
+                    } else {
+                        this.props.navigator.setButtons({
+                            rightButtons: [{icon: require('../../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+                        });
+                    }
+                }, e => {
+                    this.props.navigator.setButtons({
+                        rightButtons: [{icon: require('../../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+                    });
+                }
+            );
+        } else {
+            // Android一直打开微信登录
+            this.props.navigator.setButtons({
+                rightButtons: [{icon: require('../../img/share.png'),id:'share'}], // see "Adding buttons to the navigator" below for format (optional)
+            });
+        }
+    }
+
+    onNavigatorEvent(event) { // this is the onPress handler for the two buttons together
+        super.onNavigatorEvent(event)
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+            if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
+                this.refs.shareModel.open()
+            }
+        }
+    }
+
+    _shareToWeXin(){
+        exportFile(this.state.xslxData,this.state.companyName,[{wpx: DeviceInfo.width/7*3},{wpx: DeviceInfo.width/7*3}, {wpx: DeviceInfo.width/7}, {wpx: DeviceInfo.width/7}])
+
+    }
 
     render() {
 
@@ -243,6 +295,17 @@ export default class AccountVoucherPage extends BComponent {
                </ScrollView>
 
                 <PLPActivityIndicator isShow={this.state.isLoading} />
+                <Modal style={{height:187,backgroundColor:'#EDEDED'}} position={"bottom"} ref={"shareModel"}>
+                    <Text style={{fontSize:18,padding:16,textAlign:'center',color:'#666666'}}>分享</Text>
+                    <View style={{paddingLeft:70,paddingRight:70,flex:1,justifyContent:'space-around', alignItems:'center',flexDirection:'row',borderTopWidth:1,borderTopColor:'#E1E1E1'}}>
+                        <TouchableOpacity onPress={()=>{this._shareToWeXin()}}>
+                            <View style={{alignItems:'center'}}>
+                                <Image source={require('../../img/share_friend.png')}/>
+                                <Text style={{fontSize:12,marginTop:8,color:'#666666'}}>微信好友</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
             </View>
         )
     }
