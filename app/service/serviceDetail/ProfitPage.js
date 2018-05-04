@@ -23,7 +23,7 @@ import ServiceNavigatorBar from '../view/ServiceNavigatorBar'
 import TimeSearchBarTest from '../view/TimeSearchBarTest'
 import ServiceCommonCell from "./view/ServiceCommonCell";
 import {exportFile} from '../../util/XlsxTool'
-
+import {formatmoney} from '../../util/FormatMoney';
 export default class ProfitPage extends BComponent {
 
     constructor(props){
@@ -79,7 +79,7 @@ export default class ProfitPage extends BComponent {
                     let xslxData = [['项目','本月金额','本年累计金额']]
                     for(let i = 0 ;i<responseData.data.length; i++){
                         let dic = responseData.data[i];
-                        xslxData.push([dic.projectName,dic.endMonthSum,dic.endYearSum])
+                        xslxData.push([dic.projectName,formatmoney(dic.endMonthSum+0.0),formatmoney(dic.endYearSum+0.0)])
                     }
 
                     this.setState({
